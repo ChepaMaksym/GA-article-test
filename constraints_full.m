@@ -1,56 +1,66 @@
 function [c, ceq] = constraints_full(x)
 
 params = local_params();
-[S, Q, H] = unpack_variables(x, params);
+[B, S, Q] = unpack_variables(x, params);
+
+B = min(max(round(B), 0), 1);
+S = S .* B;
 
 PH = params.AP * Q.^2 + params.BP * Q .* S + params.CP * S.^2;
 PL = params.CL * Q.^2;
 
+H = nodal_heads(PH, PL, params);
+
 c = [];
 ceq = [];
 
-% Article-style mass conservation for the 5-segment dendritic network.
-ceq = [ceq; reshape(Q(1,:) - Q(2,:), [], 1)];
-ceq = [ceq; reshape(Q(2,:) - Q(3,:) - Q(4,:), [], 1)];
-ceq = [ceq; reshape(Q(4,:) - Q(5,:), [], 1)];
+% GA handles relaxed inequalities much more reliably than many exact
+% nonlinear equalities, so we enforce the hydraulic balances with small
+% tolerances instead of strict ceq terms.
+c = [c; reshape(abs(Q(1,:) - Q(2,:)) - params.massTol, [], 1)];
+c = [c; reshape(abs(Q(2,:) - Q(3,:) - Q(4,:)) - params.massTol, [], 1)];
+c = [c; reshape(abs(Q(4,:) - Q(5,:)) - params.massTol, [], 1)];
 
-% Momentum balance using nodal heads and the pump head curve.
-upstream = [1 2 3 3 5];
-downstream = [2 3 4 5 6];
+c(end+1,1) = abs(sum(Q(3,:)) - params.Con) - params.deliveryTol;
+c(end+1,1) = abs(sum(Q(5,:)) - params.Con) - params.deliveryTol;
 
-for j = 1:params.J
-    for t = 1:params.T
-        ceq(end+1,1) = H(downstream(j),t) - H(upstream(j),t) ...
-            - PH(j,t) + PL(j,t); %#ok<AGROW>
-    end
-end
+% Explicit article-style coupling between binary pump status, speed, and flow.
+c = [c; reshape(S - params.Smax .* B, [], 1)];
+c = [c; reshape(params.Smin .* B - S, [], 1)];
+c = [c; reshape(Q - params.Qmax .* B, [], 1)];
 
-% Delivery contracts on the two delivery branches.
-ceq(end+1,1) = sum(Q(3,:)) - params.Con;
-ceq(end+1,1) = sum(Q(5,:)) - params.Con;
-
-% Force speed to be either zero or above the minimum admissible ratio.
-c = [c; reshape(S .* (params.Smin - S), [], 1)];
-
-% No flow is allowed through a pump that is effectively off.
-c = [c; reshape(Q .* (params.Smin - S), [], 1)];
+% Pressure heads must remain inside the admissible operating window.
+c = [c; reshape(params.Hmin - H(2:end,:), [], 1)];
+c = [c; reshape(H(2:end,:) - params.Hmax, [], 1)];
 
 end
 
-function [S, Q, H] = unpack_variables(x, params)
+function [B, S, Q] = unpack_variables(x, params)
 
 idx = 1;
+nBS = params.J * params.T;
 nJS = params.J * params.T;
 nQS = params.J * params.T;
-nHS = params.N * params.T;
+
+B = reshape(x(idx:idx+nBS-1), [params.J, params.T]);
+idx = idx + nBS;
 
 S = reshape(x(idx:idx+nJS-1), [params.J, params.T]);
 idx = idx + nJS;
 
 Q = reshape(x(idx:idx+nQS-1), [params.J, params.T]);
-idx = idx + nQS;
 
-H = reshape(x(idx:idx+nHS-1), [params.N, params.T]);
+end
+
+function H = nodal_heads(PH, PL, params)
+
+H = zeros(params.N, params.T);
+H(1,:) = params.Hsource;
+H(2,:) = H(1,:) + PH(1,:) - PL(1,:);
+H(3,:) = H(2,:) + PH(2,:) - PL(2,:);
+H(4,:) = H(3,:) + PH(3,:) - PL(3,:);
+H(5,:) = H(3,:) + PH(4,:) - PL(4,:);
+H(6,:) = H(5,:) + PH(5,:) - PL(5,:);
 
 end
 
@@ -61,7 +71,15 @@ params.J = 5;
 params.N = 6;
 
 params.Smin = 0.2;
+params.Smax = 2.5;
+params.Qmax = 100;
 params.Con = 60;
+params.Hsource = 300;
+params.Hmin = 300;
+params.Hmax = 1000;
+
+params.massTol = 1e-4;
+params.deliveryTol = 1e-4;
 
 params.CL = 0.3;
 params.AP = 2.3e-6;

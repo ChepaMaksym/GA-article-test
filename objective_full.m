@@ -1,7 +1,11 @@
 function f = objective_full(x)
 
 params = local_params();
-[S, Q] = unpack_variables(x, params);
+[B, S, Q] = unpack_variables(x, params);
+
+B = min(max(round(B), 0), 1);
+S = S .* B;
+Q = Q .* B;
 
 P = params.a * Q.^3 + ...
     params.b * (Q.^2) .* S + ...
@@ -13,20 +17,21 @@ P(S < params.Smin) = 0;
 
 energy = params.dt * sum(sum(P .* params.tariffMatrix));
 
-% Pump on/off state is derived from speed, which avoids the relaxed binary
-% switch variable that was producing unrealistic trade-offs.
-B = double(S >= params.Smin);
 switching = sum(sum(abs(diff(B, 1, 2))));
 
 f = [energy, switching];
 
 end
 
-function [S, Q] = unpack_variables(x, params)
+function [B, S, Q] = unpack_variables(x, params)
 
 idx = 1;
+nBS = params.J * params.T;
 nJS = params.J * params.T;
 nQS = params.J * params.T;
+
+B = reshape(x(idx:idx+nBS-1), [params.J, params.T]);
+idx = idx + nBS;
 
 S = reshape(x(idx:idx+nJS-1), [params.J, params.T]);
 idx = idx + nJS;
