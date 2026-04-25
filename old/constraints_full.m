@@ -3,9 +3,6 @@ function [c, ceq] = constraints_full(x)
 params = local_params();
 [B, S, Q] = unpack_variables(x, params);
 
-B = min(max(round(B), 0), 1);
-S = S .* B;
-
 PH = params.AP * Q.^2 + params.BP * Q .* S + params.CP * S.^2;
 PL = params.CL * Q.^2;
 

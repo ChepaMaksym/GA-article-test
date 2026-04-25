@@ -16,6 +16,14 @@ P = max(P, 0);
 P(S < params.Smin) = 0;
 
 energy = params.dt * sum(sum(P .* params.tariffMatrix));
+deliveryPenalty = abs(sum(Q(3,:)) - params.Con) + ...
+    abs(sum(Q(5,:)) - params.Con);
+
+energy = energy + params.lambdaDelivery * deliveryPenalty;
+
+if sum(Q(:)) < params.zeroFlowThreshold
+    energy = max(energy, params.degeneratePenalty);
+end
 
 switching = sum(sum(abs(diff(B, 1, 2))));
 
@@ -47,6 +55,11 @@ params.J = 5;
 
 params.Smin = 0.2;
 params.dt = 8;
+params.Con = 60;
+
+params.lambdaDelivery = 1e3;
+params.zeroFlowThreshold = 1e-3;
+params.degeneratePenalty = 1e6;
 
 params.a = 7.4e-3;
 params.b = 1.66;

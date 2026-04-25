@@ -7,7 +7,10 @@ J = 5;
 
 Smax = 2.5;
 Qmax = 100;
+Con = 60;
 nRuns = 50;
+
+check_basic_feasibility(T, J, Qmax, Con, Smax);
 
 lbB = zeros(J,T);
 ubB = ones(J,T);
@@ -24,10 +27,10 @@ nVar = numel(lb);
 intcon = 1:(J*T);
 
 options = optimoptions('gamultiobj', ...
-    'PopulationSize', 315, ...
+    'PopulationSize', 1200, ...
     'MaxGenerations', 100, ...
     'CrossoverFraction', 0.8, ...
-    'MutationFcn', @mutationadaptfeasible, ...
+    'MutationFcn', {@mutationgaussian, 0.4, 0.2}, ...
     'ConstraintTolerance', 1e-4, ...
     'Display', 'iter');
 
@@ -81,9 +84,8 @@ fprintf('\nPareto solutions\n');
 fprintf('----------------\n');
 
 for i = 1:size(results,1)
-    B = reshape(round(solutions(i,1:J*T)), [J,T]);
+    B = reshape(solutions(i,1:J*T), [J,T]);
     S = reshape(solutions(i,J*T+1:2*J*T), [J,T]);
-    S = S .* B;
 
     fprintf('Solution %d | Cost = %.2f $ | Switching = %.0f\n', ...
         i, results(i,1), results(i,2));
@@ -92,5 +94,33 @@ for i = 1:size(results,1)
     disp('Pump states:');
     disp(B);
 end
+
+end
+
+function check_basic_feasibility(T, J, Qmax, Con, Smax)
+
+if J ~= 5
+    warning('The quick feasibility screen assumes the 5-pump reference topology.');
+end
+
+branchCapacity = T * Qmax;
+upstreamCapacity = T * Qmax;
+
+if branchCapacity < Con
+    error(['Delivery target is impossible from variable bounds alone: ', ...
+        'T*Qmax = %.2f < Con = %.2f.'], branchCapacity, Con);
+end
+
+if upstreamCapacity < 2 * Con
+    error(['The upstream line cannot supply both sinks within bounds: ', ...
+        'T*Qmax = %.2f < 2*Con = %.2f.'], upstreamCapacity, 2 * Con);
+end
+
+if Smax <= 0
+    error('Smax must be positive.');
+end
+
+fprintf(['Basic feasibility screen passed | branch capacity per sink = %.2f ', ...
+    '| required delivery per sink = %.2f\n'], branchCapacity, Con);
 
 end
