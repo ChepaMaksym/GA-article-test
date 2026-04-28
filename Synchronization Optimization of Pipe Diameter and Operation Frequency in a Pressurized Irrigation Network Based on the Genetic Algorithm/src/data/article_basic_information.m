@@ -1,0 +1,27 @@
+function data = article_basic_information()
+data = struct();
+data.location = 'Jiangsu Province, China';
+data.coordinates_text = '33 deg 04 min 53.0 sec N, 119 deg 52 min 55.8 sec W';
+data.irrigation_area_ha = 30;
+data.terrain = 'flat';
+data.crops = {'rice', 'wheat'};
+data.annual_irrigation_amount_mm = 950;
+data.main_pipe_diameter_mm = 400;
+data.branch_pipe_count = 10;
+data.pipe_material = 'U-PVC';
+data.friction_coefficient = 94800;
+data.discharge_coefficient = 1.77;
+data.pipe_diameter_coefficient = 4.77;
+data.hydrant_interval_m = 40;
+data.energy_consumption_correction_coefficient = 1.05;
+data.ga_iterations = 30;
+data.ga_stable_after_iterations = 50;
+data.crossover_probability = 0.4;
+data.mutation_probability = 0.2;
+data.lambda1 = 100;
+data.lambda2 = 100;
+data.lambda3 = 10000;
+data.depreciation_period_year = 50;
+data.annual_interest_rate_pct = 8;
+data.annual_maintenance_rate_pct = 3;
+end
