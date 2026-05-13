@@ -20,6 +20,7 @@ observation.stability = caseData.stability;
 observation.weight = caseData.weight;
 observation.bounds.lb = [-80, -40, 5000, 0.5];
 observation.bounds.ub = [40, 70, 25000, 8.0];
+observation.objective_mode = 'normalized_mse';
 observation.note = 'Synthetic observation; not original article monitoring data.';
 end
 

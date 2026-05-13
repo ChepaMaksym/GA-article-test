@@ -1,18 +1,26 @@
 function result = run_evolutionary_optimizer(observation, options, maxGenerations)
+if isfield(options, 'ObjectiveMode')
+    observation.objective_mode = options.ObjectiveMode;
+end
 lb = observation.bounds.lb;
 ub = observation.bounds.ub;
 rng(options.Seed, 'twister');
+runTimer = tic;
 
 population = initialize_population(options.PopulationSize, lb, ub, observation);
 fitness = evaluate_population(population, observation);
 [bestObjective, bestIdx] = min(fitness);
 bestX = population(bestIdx, :);
 initialBestObjective = bestObjective;
+generationToBest = 0;
+stagnationCount = 0;
 
 history.bestObjective = zeros(maxGenerations, 1);
 history.meanObjective = zeros(maxGenerations, 1);
 history.crossoverRate = zeros(maxGenerations, 1);
 history.mutationRate = zeros(maxGenerations, 1);
+history.populationDiversity = zeros(maxGenerations, 1);
+history.stagnationCount = zeros(maxGenerations, 1);
 
 for generation = 1:maxGenerations
     [fitness, order] = sort(fitness);
@@ -20,6 +28,8 @@ for generation = 1:maxGenerations
     if fitness(1) < bestObjective
         bestObjective = fitness(1);
         bestX = population(1, :);
+        generationToBest = generation - 1;
+        stagnationCount = 0;
     end
 
     if strcmpi(options.Method, 'NMGA')
@@ -37,13 +47,23 @@ for generation = 1:maxGenerations
     if generationBest < bestObjective
         [bestObjective, bestIdx] = min(fitness);
         bestX = population(bestIdx, :);
+        generationToBest = generation;
+        stagnationCount = 0;
+    else
+        stagnationCount = stagnationCount + 1;
     end
 
     history.bestObjective(generation) = bestObjective;
     history.meanObjective(generation) = mean(fitness);
     history.crossoverRate(generation) = crossoverRate;
     history.mutationRate(generation) = mutationRate;
+    history.populationDiversity(generation) = population_diversity(population, lb, ub);
+    history.stagnationCount(generation) = stagnationCount;
 end
+
+runtimeSeconds = toc(runTimer);
+history.generationToBest = generationToBest;
+history.runtimeSeconds = runtimeSeconds;
 
 [~, details] = source_objective(bestX, observation);
 result = struct();
@@ -53,6 +73,8 @@ result.generations = maxGenerations;
 result.best_x = bestX;
 result.best_objective = bestObjective;
 result.initial_best_objective = initialBestObjective;
+result.generation_to_best = generationToBest;
+result.runtime_seconds = runtimeSeconds;
 result.history = history;
 result.details = details;
 result.metrics = source_estimation_metrics(observation.true_source, bestX);
@@ -109,10 +131,8 @@ end
 
 function nextPopulation = breed_nmga(population, fitness, lb, ub, options, crossoverRate, mutationRate, generation, maxGenerations)
 populationSize = size(population, 1);
-agpCount = max(2, round(options.Beta * populationSize));
-agp = population(1:agpCount, :);
-agpFitness = fitness(1:agpCount);
-egp = population(agpCount + 1:end, :);
+[agp, agpFitness, egp, ~, agpCount] = article_gene_pool_split(population, fitness, options.Beta);
+articleExact = isfield(options, 'OperatorMode') && strcmpi(options.OperatorMode, 'article_exact');
 
 nextPopulation = zeros(size(population));
 nextPopulation(1, :) = population(1, :);
@@ -120,23 +140,41 @@ row = 2;
 
 while row <= populationSize
     parent1 = tournament_parent(agp, agpFitness, min(options.TournamentSize, agpCount));
-    if ~isempty(egp) && rand < options.Gamma
-        parent2 = egp(randi(size(egp, 1)), :);
-    else
-        parent2 = tournament_parent(agp, agpFitness, min(options.TournamentSize, agpCount));
-    end
+    parent2 = tournament_parent(agp, agpFitness, min(options.TournamentSize, agpCount));
 
     if rand < crossoverRate
-        blend = rand(size(parent1));
-        child1 = blend .* parent1 + (1 - blend) .* parent2;
-        child2 = blend .* parent2 + (1 - blend) .* parent1;
+        if articleExact
+            child1 = options.Beta .* parent1 + (1 - options.Beta) .* parent2;
+            child2 = options.Beta .* parent2 + (1 - options.Beta) .* parent1;
+        else
+            blend = rand(size(parent1));
+            child1 = blend .* parent1 + (1 - blend) .* parent2;
+            child2 = blend .* parent2 + (1 - blend) .* parent1;
+        end
+    elseif articleExact && generation < options.SetMax && ~isempty(egp)
+        egpParent1 = egp(randi(size(egp, 1)), :);
+        egpParent2 = egp(randi(size(egp, 1)), :);
+        child1 = article_egp_crossover(parent1, egpParent1, options.EGPInheritanceRate);
+        child2 = article_egp_crossover(parent2, egpParent2, options.EGPInheritanceRate);
+    elseif articleExact
+        if rand < options.Gamma
+            best = population(1, :);
+            child1 = best + options.Gamma .* (parent1 - best);
+            child2 = best + options.Gamma .* (parent2 - best);
+        else
+            child1 = active_search_child(population(1, :), lb, ub);
+            child2 = active_search_child(population(1, :), lb, ub);
+        end
     else
+        if ~isempty(egp) && rand < options.Gamma
+            parent2 = egp(randi(size(egp, 1)), :);
+        end
         child1 = parent1;
         child2 = parent2;
     end
 
-    child1 = mutate_nonuniform(child1, lb, ub, mutationRate, generation, maxGenerations);
-    child2 = mutate_nonuniform(child2, lb, ub, mutationRate, generation, maxGenerations);
+    child1 = mutate_nonuniform(child1, lb, ub, mutationRate, generation, maxGenerations, options.NMGAScheduleExponent);
+    child2 = mutate_nonuniform(child2, lb, ub, mutationRate, generation, maxGenerations, options.NMGAScheduleExponent);
     nextPopulation(row, :) = child1;
     if row + 1 <= populationSize
         nextPopulation(row + 1, :) = child2;
@@ -150,6 +188,11 @@ if mod(generation, options.SetMax) == 0
 end
 end
 
+function child = active_search_child(best, lb, ub)
+step = 0.02 .* (ub - lb) .* (rand(size(best)) - 0.5);
+child = min(max(best + step, lb), ub);
+end
+
 function child = mutate_uniform(child, lb, ub, mutationRate, stepScale)
 for j = 1:numel(child)
     if rand < mutationRate
@@ -159,9 +202,10 @@ end
 child = min(max(child, lb), ub);
 end
 
-function child = mutate_nonuniform(child, lb, ub, mutationRate, generation, maxGenerations)
-progress = min(max(generation ./ max(maxGenerations, 1), 0), 1);
-scale = (1 - progress) .^ 1.6;
+function child = mutate_nonuniform(child, lb, ub, mutationRate, generation, maxGenerations, exponent)
+if nargin < 7 || isempty(exponent)
+    exponent = 2;
+end
 for j = 1:numel(child)
     if rand < mutationRate
         direction = sign(rand - 0.5);
@@ -170,7 +214,7 @@ for j = 1:numel(child)
         else
             distance = child(j) - lb(j);
         end
-        child(j) = child(j) + direction .* distance .* (1 - rand .^ scale);
+        child(j) = child(j) + direction .* article_nonuniform_delta(distance, generation, maxGenerations, exponent, rand);
     end
 end
 child = min(max(child, lb), ub);
@@ -180,6 +224,16 @@ function fitness = evaluate_population(population, observation)
 fitness = zeros(size(population, 1), 1);
 for i = 1:size(population, 1)
     fitness(i) = source_objective(population(i, :), observation);
+end
+end
+
+function diversity = population_diversity(population, lb, ub)
+span = max(ub - lb, eps);
+centered = population - mean(population, 1);
+normalized = centered ./ span;
+diversity = mean(sqrt(sum(normalized .^ 2, 2)));
+if ~isfinite(diversity)
+    diversity = 0;
 end
 end
 

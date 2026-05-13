@@ -24,7 +24,8 @@ The article improves inverse calculation of hazardous light-gas leakage sources.
 - Atmospheric stability: `E`.
 - Source target near `x = -25 m`, `y = 16 m`.
 - MGA fixed parameters include crossover `Pc = 0.6`, maternal inheritance ratio `beta = 0.7`, following rate `gamma = 0.5`, and `SetMax = 20`.
-- NMGA uses dynamic crossover and mutation rates with `beta = 0.7`, `gamma = 0.5`, and `SetMax = 20`.
+- NMGA uses dynamic rates `Pc = P1 * (1 - gen / maxgen)^b` and `Pm = P2 * (1 + gen / maxgen)^b`, with `P1 = 0.6`, `P2 = 0.01`, and `b = 2`.
+- NMGA also keeps the article constants `beta = 0.7`, `gamma = 0.5`, and `SetMax = 20` for crossover/elimination-pool behavior.
 
 ## Reported Table 1 Context
 The article reports 100 independent calculations:

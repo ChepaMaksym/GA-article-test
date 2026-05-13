@@ -7,16 +7,16 @@ This sandbox stress-checks NMGA source inversion under synthetic deviations: con
 
 ## Summary
 - Cases: `7`
-- Mean position error: `2.086 m`
-- Worst position error: `3.326 m` in `noisy_concentrations`
+- Mean position error: `2.084 m`
+- Worst position error: `4.840 m` in `baseline`
 
 ## Cases
 | Case | Layout | Noise | True x | True y | Est x | Est y | Position err m | Q rel err % | H rel err % |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| baseline | figure_eight | 0.000 | -25.00 | 16.00 | -26.90 | 16.02 | 1.904 | 3.282 | 6.180 |
-| noisy_concentrations | figure_eight | 0.060 | -25.00 | 16.00 | -28.33 | 15.93 | 3.326 | 1.944 | 33.205 |
-| few_sensors | few_sensors | 0.020 | -25.00 | 16.00 | -26.85 | 16.25 | 1.867 | 0.692 | 18.279 |
-| biased_wind_speed | figure_eight | 0.030 | -25.00 | 16.00 | -27.94 | 15.96 | 2.937 | 19.222 | 9.211 |
-| shifted_source | figure_eight | 0.020 | -8.00 | 31.00 | -9.37 | 30.87 | 1.372 | 2.533 | 15.993 |
-| high_source_intensity | figure_eight | 0.040 | -25.00 | 16.00 | -25.07 | 15.94 | 0.094 | 1.794 | 1.404 |
-| low_source_intensity | figure_eight | 0.040 | -25.00 | 16.00 | -28.10 | 15.89 | 3.102 | 6.004 | 10.250 |
+| baseline | figure_eight | 0.000 | -25.00 | 16.00 | -29.84 | 16.05 | 4.840 | 16.929 | 13.256 |
+| noisy_concentrations | figure_eight | 0.060 | -25.00 | 16.00 | -26.30 | 15.62 | 1.358 | 4.252 | 40.171 |
+| few_sensors | few_sensors | 0.020 | -25.00 | 16.00 | -25.92 | 16.47 | 1.034 | 1.996 | 8.902 |
+| biased_wind_speed | figure_eight | 0.030 | -25.00 | 16.00 | -26.54 | 15.94 | 1.539 | 17.299 | 2.847 |
+| shifted_source | figure_eight | 0.020 | -8.00 | 31.00 | -7.29 | 31.12 | 0.724 | 3.351 | 7.465 |
+| high_source_intensity | figure_eight | 0.040 | -25.00 | 16.00 | -26.19 | 15.92 | 1.189 | 5.469 | 41.786 |
+| low_source_intensity | figure_eight | 0.040 | -25.00 | 16.00 | -28.90 | 16.05 | 3.902 | 11.055 | 10.373 |

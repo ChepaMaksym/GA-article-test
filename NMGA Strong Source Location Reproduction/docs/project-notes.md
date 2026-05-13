@@ -7,7 +7,8 @@ This project keeps the main article structure:
 - Figure-eight style synthetic sensor layout.
 - Real-coded genetic search vector `[x, y, Q, H]`.
 - MGA and NMGA comparison.
-- Article GA settings such as `beta = 0.7`, `gamma = 0.5`, `SetMax = 20`, population `100`, and reported generation counts.
+- NMGA adaptive audit that logs scheduled `Pc`/`Pm`, diversity, stagnation, runtime, and generation-to-best.
+- Article GA settings such as dynamic-rate parameters `P1 = 0.6`, `P2 = 0.01`, `b = 2`, `beta = 0.7`, `gamma = 0.5`, `SetMax = 20`, population `100`, and reported generation counts.
 - Article Table 1 values stored as `article_reported`.
 
 ## What Is Synthetic
@@ -27,3 +28,7 @@ Randomness is controlled:
 - reproduction repeats use deterministic seed sequences;
 - reports store profile and repeat count;
 - sandbox scenarios are fixed tables rather than open-ended Monte Carlo.
+- adaptive audit scenarios are deterministic practical benchmarks, not original article raw-data scenarios.
+
+## Adaptive Control Interpretation
+The implemented NMGA follows the article-style generation schedule: crossover probability follows `P1 * (1 - generation / maxGenerations)^b`, and mutation probability follows `P2 * (1 + generation / maxGenerations)^b`. The audit logs population diversity and stagnation to inspect behavior, but the current `nmga_adaptive_rates` function does not use diversity or stagnation as feedback signals. Therefore, reports should describe the current method as scheduled-adaptive control, not feedback-adaptive control.

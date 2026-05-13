@@ -10,6 +10,7 @@ if nargin < 3 || isempty(seed)
 end
 
 article = article_reported();
+spec = article_exact_spec();
 options = struct();
 options.Method = upper(method);
 options.Profile = lower(profile);
@@ -20,13 +21,29 @@ options.Gamma = article.algorithm.gamma;
 options.SetMax = article.algorithm.SetMax;
 options.TournamentSize = 3;
 options.MGACrossoverRate = article.algorithm.mga_crossover_rate;
-options.MGAMutationRate = 0.04;
-options.NMGACrossoverMax = 0.85;
-options.NMGACrossoverMin = 0.25;
-options.NMGAMutationMin = 0.01;
-options.NMGAMutationMax = 0.18;
+options.MGAMutationRate = article.algorithm.mga_mutation_rate;
+options.NMGACrossoverInitial = article.algorithm.nmga_initial_crossover_rate;
+options.NMGAMutationInitial = article.algorithm.nmga_initial_mutation_rate;
+options.NMGAScheduleExponent = article.algorithm.nmga_schedule_exponent;
+options.NMGACrossoverMax = options.NMGACrossoverInitial;
+options.NMGACrossoverMin = 0;
+options.NMGAMutationMin = options.NMGAMutationInitial;
+options.NMGAMutationMax = options.NMGAMutationInitial * 4;
+options.EGPInheritanceRate = 0.3;
+options.ObjectiveMode = 'normalized_mse';
+options.OperatorMode = 'synthetic_workflow';
+options.ArticleExact = false;
+options.Bounds = spec.bounds;
 
 switch lower(profile)
+    case 'article_exact'
+        options.RepeatCount = 100;
+        options.MGAGenerations = article.algorithm.mga_generations;
+        options.NMGA1000Generations = article.algorithm.nmga_generations(1);
+        options.NMGA500Generations = article.algorithm.nmga_generations(2);
+        options.ObjectiveMode = spec.objective.mode;
+        options.OperatorMode = 'article_exact';
+        options.ArticleExact = true;
     case 'full'
         options.RepeatCount = 100;
         options.MGAGenerations = article.algorithm.mga_generations;
