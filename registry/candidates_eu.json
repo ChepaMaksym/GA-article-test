@@ -1,0 +1,1170 @@
+[
+  {
+    "candidate_id": "EU-001",
+    "full_title": "Adaptive Gene Level Mutation",
+    "authors": [
+      "Jalal Al-Afandi",
+      "András Horváth"
+    ],
+    "year": 2021,
+    "publication_date": "2021-01-09",
+    "publication_type": "journal article",
+    "venue": "Algorithms, 14(1), article 16",
+    "doi": "10.3390/a14010016",
+    "official_url": "https://www.mdpi.com/1999-4893/14/1/16",
+    "legal_open_access_url": "https://www.mdpi.com/1999-4893/14/1/16/pdf",
+    "country": "Hungary",
+    "author_institutions": [
+      "[Факт зі статті] Faculty of Information Technology and Bionics, Pázmány Péter Catholic University, 1083 Budapest, Hungary. Official article, author block, lines/HTML section before Abstract: https://www.mdpi.com/1999-4893/14/1/16"
+    ],
+    "region_category": "EU",
+    "decision_variable_count": "[Факт зі статті] N variables per chromosome. Eligible experiments use N=32, 64, 128, and 256 for N-Queens and N=32, 64, 124, and 254 for random TSP; therefore every principal reported experiment has at least 32 variables. Article §§3–5, Figures 1, 2, 5, and 7: https://www.mdpi.com/1999-4893/14/1/16",
+    "decision_variables": [
+      "[Факт зі статті] N-Queens: complete indexed set q_1, q_2, ..., q_N, where q_j is the row of the queen in column j; N∈{32,64,128,256} in Figure 5 (§3 and §5.1).",
+      "[Факт зі статті] TSP: complete indexed permutation π_1, π_2, ..., π_N of city labels, where index j is route position; N∈{32,64,124,254} in §5.2/Figure 7, plus a 48-city test in §4."
+    ],
+    "decision_variable_types": [
+      "integer (N-Queens row indices)",
+      "integer permutation / categorical city identifiers (TSP)"
+    ],
+    "ga_hyperparameter_count": "Не вказано (стаття не подає одного вичерпного зведеного переліку; нижче наведені встановлені параметри).",
+    "ga_hyperparameters": [
+      "[Факт зі статті] population size",
+      "[Факт зі статті] generation limit",
+      "[Факт зі статті] elite/selection fraction",
+      "[Факт зі статті] crossover method and crossover fraction",
+      "[Факт зі статті] global mutation factor/rate; tested values 0.01, 0.1, 0.6, 0.3, 0.9 (§5.1, Figure 5)",
+      "[Факт зі статті] gene-level mutation-selection probabilities",
+      "[Факт зі статті] minimum nonzero gene probability (§3)",
+      "[Факт зі статті] partial-fitness power parameter (§5.4)",
+      "[Факт зі статті] stopping criterion / generation count"
+    ],
+    "adaptive_parameters": [
+      "[Факт зі статті] Per-gene mutation-selection probability p_j, recomputed from gene partial fitness relative to the other genes; worse genes receive larger probability and every gene retains a nonzero probability (§3, Equation 6, Algorithm 2)."
+    ],
+    "adaptive_parameter_count": "1 parameter family with N gene-local values",
+    "adaptation_category": "A + E: single-mechanism, feedback-based gene/locus-level adaptive mutation",
+    "adaptation_timing": "[Факт зі статті] Gene probabilities are customized within each chromosome before locus mutation; the adaptive values are not a once-per-run schedule. Algorithm 2, §3.",
+    "adaptation_level": "gene/locus level within each chromosome",
+    "adaptation_formulas": [
+      "[Факт зі статті] Equation (6): p_{t,i,j} is a function of the partial fitness of the selected gene; the article explains that probabilities are proportional to the genes' relative partial losses and include a nonzero floor. Exact equation artwork is retained in the official PDF and is not re-transcribed here to avoid inventing omitted symbols.",
+      "[Факт зі статті] N-Queens partial loss for q_j is the number of queens attacked by that queen; the worked vector is [1,2,2,1,0,0,1,1] (§3, Figure 1).",
+      "[Факт зі статті] TSP normalized comparative loss is Equation (7), comparing the current route edge with that city's nearest and farthest possible edges (§4).",
+      "[Факт зі статті] §5.4 raises partial fitness to a power; power=0 recovers uniform mutation and larger power increasingly concentrates mutation on the worst loci."
+    ],
+    "adaptive_initial_values": "[Факт зі статті] The global mutation factor is set to 1 in the locus-isolation experiments (§3, Algorithm 2 discussion). Gene-local probabilities are derived from each chromosome's current partial-fitness vector, so no single scalar initial p_j is specified.",
+    "adaptive_min_values": "[Факт зі статті] A nonzero floor is required; §5.4 illustrates adding 0.001 to every gene. The paper does not state that 0.001 is a universal bound for every experiment.",
+    "adaptive_max_values": "Не вказано as a fixed scalar; probabilities are normalized relative weights determined by the current chromosome.",
+    "update_frequency": "[Факт зі статті] At each locus-mutation application after partial fitness has been calculated; Algorithm 2, §3.",
+    "update_order": "[Факт зі статті] Initialize/evaluate population → select elite/parents → crossover → compute partial gene fitness → probabilistically select/mutate loci → evaluate next generation; Algorithm 2, §3.",
+    "adaptation_input_metrics": [
+      "gene partial fitness",
+      "relative partial fitness of the other loci in the same chromosome",
+      "problem-specific partial loss (queen conflicts or normalized comparative route-edge loss)"
+    ],
+    "parameter_interdependence": "[Факт зі статті] All p_j values are mutually coupled through relative normalization within the chromosome; the optional power reshapes the same partial-fitness distribution. The paper states locus mutation can also be combined with population- or individual-level adaptation, but those combinations are not the main experiments (§3).",
+    "formula_pages_and_numbers": [
+      "Official article §3, Equations (1)–(6), Algorithm 2, Figure 1",
+      "Official article §4, Equation (7), Figures 2–4",
+      "Official article §5.4, Figures 11–12",
+      "https://www.mdpi.com/1999-4893/14/1/16"
+    ],
+    "pseudocode_available": "[Факт зі статті] Yes: Algorithm 1 (baseline GA) and Algorithm 2 (locus mutation), §§2–3.",
+    "baseline_ga_available": "[Факт зі статті] Yes: traditional uniform-mutation GA with matched initial population/settings; §§4–5, Figures 4–10.",
+    "ablation_study_available": "[Висновок] Partial rather than formally named ablation: power=0 provides the uniform limit, §5.4 varies the power, and locus mutation is compared with traditional and individual-level adaptive mutation (Figure 6).",
+    "optimization_problem_type": "Discrete combinatorial optimization: N-Queens constraint satisfaction and symmetric travelling-salesman routing.",
+    "fitness_function": [
+      "[Факт зі статті] N-Queens loss: number of attacking queen pairs; optimum is 0 (§3, Figure 1).",
+      "[Факт зі статті] TSP loss: total route length; gene partial fitness uses normalized comparative loss, Equation (7), §4."
+    ],
+    "constraint_handling": [
+      "[Факт зі статті] N-Queens representation fixes one queen per column and encodes the row as an integer.",
+      "[Факт зі статті] TSP uses a valid permutation representation and problem-specific crossover/mutation so each city occurs once."
+    ],
+    "penalty_function": "Не вказано; the reported benchmark losses directly measure infeasibility/route length rather than a separate penalty term.",
+    "dataset_or_benchmark": [
+      "N-Queens at N=32,64,128,256",
+      "Random-coordinate TSP at N=32,64,124,254",
+      "48-city matched-population TSP test",
+      "16 TSPLIB instances with fewer than 101 cities"
+    ],
+    "data_url": "[Інформація з репозитарію] Experiment scripts and generated instances are in https://github.com/Al-Afandi/Adaptive-Gene-Level-Mutation ; article §5.2/Table 3 identifies the TSPLIB instances. No separate immutable raw-data archive is cited.",
+    "data_license": "[Інформація з репозитарію] Repository content is covered by MIT according to its LICENSE. Licensing of externally sourced TSPLIB instance files is not separately stated in the paper.",
+    "code_url": "https://github.com/Al-Afandi/Adaptive-Gene-Level-Mutation",
+    "original_code_language": "[Інформація з репозитарію] Python 100%; repository lists adaptive_mutation.py, queens.py, tsp.py, queens_power.py, tsp_power.py, tsp_timing.py, SimulatedAnnealing.py, and VNS.py.",
+    "code_license": "[Інформація з репозитарію] MIT License; reuse, modification, and redistribution are permitted with preservation of copyright/license notice; compatible with an independently maintained MIT implementation.",
+    "license_url": "https://github.com/Al-Afandi/Adaptive-Gene-Level-Mutation/blob/master/LICENSE",
+    "complete_parameter_set_available": "[Висновок] Largely yes through the official paper plus repository scripts, but random seeds and a single canonical all-experiments parameter manifest are absent.",
+    "random_seeds_available": "Не вказано; no fixed seed list was found in the article or repository overview.",
+    "independent_run_count": "[Факт зі статті/репозитарію] N-Queens: 50 repetitions (§5.1/Figure 5); random TSP: 100 repetitions (repository README and §5.2); TSPLIB comparison: 10 repetitions (Table 3); individual-adaptive comparison: 10 experiments (§5.1/Figure 6).",
+    "published_metrics": [
+      "mean final loss and standard deviation bands",
+      "minimum number of queen conflicts (Table 1)",
+      "TSP final route loss (Tables 2–3)",
+      "Wilcoxon matched-pairs result (§4)",
+      "runtime and same-wall-time convergence comparisons (Figures 9–10)"
+    ],
+    "intermediate_results_available": "[Факт зі статті] Yes: generation-wise curves with expected value and standard deviation, distributions, timing curves, and parameter-power response (Figures 4–12).",
+    "convergence_curve_available": "[Факт зі статті] Yes: Figures 5–10.",
+    "raw_data_available": "[Висновок] Partially. Executable scripts are public, but run-level seeds and archived raw numeric outputs behind every figure are not identified.",
+    "reproducibility_level": "High",
+    "main_risks": [
+      "No reported deterministic seed list.",
+      "Equation artwork must be checked against the official PDF/code during implementation because HTML text omits some symbols.",
+      "TSPLIB data licensing/provenance should be checked per instance.",
+      "Repository has no tagged environment lockfile in the inspected overview."
+    ],
+    "eligibility_status": "hard_pass",
+    "inclusion_or_exclusion_reason": "[Висновок] Included: 2021 legal OA article, qualifying Hungarian EU affiliation, 32–256 decision variables, explicit gene-level adaptive operator, equations/pseudocode/update order, reconstructible benchmarks, repeated experiments, and official MIT-licensed Python code.",
+    "final_score": 79,
+    "score_breakdown": {
+      "mathematical_description": {
+        "score": 12,
+        "max": 15,
+        "evidence": "Equations (1)–(7), Algorithms 1–2, and worked examples specify the method, but the paper/code floor and some TSP semantics are not fully uniform."
+      },
+      "experimental_parameter_description": {
+        "score": 8,
+        "max": 10,
+        "evidence": "Sizes, rate grid, populations, generations, and repetitions are reported, but Table 1 does not map its single cells to the two stated populations and the TSP generation count differs from code."
+      },
+      "legal_data_availability": {
+        "score": 10,
+        "max": 10,
+        "evidence": "The selected N-Queens reproduction is deterministic and needs no external dataset; bundled TSPLIB files are excluded unless separately licensed."
+      },
+      "seeds_and_run_count": {
+        "score": 5,
+        "max": 10,
+        "evidence": "Run counts of 10, 50, or 100 are reported, but neither the paper nor released scripts provide a seed ledger."
+      },
+      "open_code": {
+        "score": 5,
+        "max": 10,
+        "evidence": "Official scripts are public, but the mutation-rate setter is applied after each labeled sweep cell, auxiliary scripts contain undefined names, and no locked environment/raw-run export is supplied."
+      },
+      "code_license_quality": {
+        "score": 10,
+        "max": 10,
+        "evidence": "MIT LICENSE at audited revision 7e13ea43861203637b50320226a19e24689a20ff permits an attributed MATLAB port."
+      },
+      "intermediate_result_verifiability": {
+        "score": 7,
+        "max": 10,
+        "evidence": "Tables and convergence/timing/power figures provide intermediate targets, but per-run numeric arrays, seeds, and machine-readable curve data are absent."
+      },
+      "adaptive_parameter_completeness": {
+        "score": 8,
+        "max": 10,
+        "evidence": "The locus distribution and power behavior are recoverable, but the global MutationRate and Pow remain fixed within a run and the documented floor is configuration-dependent."
+      },
+      "update_order_clarity": {
+        "score": 4,
+        "max": 5,
+        "evidence": "The operator order is recoverable from Algorithm 2 and code, with a material code-only geometric while-loop mutation semantic that must be declared."
+      },
+      "baseline_ga": {
+        "score": 5,
+        "max": 5,
+        "evidence": "Matched traditional uniform-mutation baseline throughout Figures 4–10."
+      },
+      "ablation_study": {
+        "score": 5,
+        "max": 5,
+        "evidence": "Power=0 supplies the uniform limit, §5.4 sweeps Pow, and Figure 6 compares traditional, individual-adaptive, and locus mutation."
+      }
+    }
+  },
+  {
+    "candidate_id": "EU-002",
+    "full_title": "An Efficient Hybrid Evolutionary Optimization Method Coupling Cultural Algorithm with Genetic Algorithms and Its Application to Aerodynamic Shape Design",
+    "authors": [
+      "Xin Zhao",
+      "Zhili Tang",
+      "Fan Cao",
+      "Caicheng Zhu",
+      "Jacques Periaux"
+    ],
+    "year": 2022,
+    "publication_date": "2022-03-29",
+    "publication_type": "journal article",
+    "venue": "Applied Sciences, 12(7), article 3482",
+    "doi": "10.3390/app12073482",
+    "official_url": "https://www.mdpi.com/2076-3417/12/7/3482",
+    "legal_open_access_url": "https://upcommons.upc.edu/entities/publication/b8895eec-97a4-432d-9ecd-2fa03624d1b2",
+    "country": "Spain (qualifying EU affiliation; other authors also have Chinese affiliations)",
+    "author_institutions": [
+      "[Факт зі статті] Jacques Periaux: International Center for Numerical Methods in Engineering (CIMNE), Universitat Politècnica de Catalunya, Barcelona, Spain. Author block: https://www.mdpi.com/2076-3417/12/7/3482",
+      "[Факт зі статті] The official article lists the remaining author affiliations in China; they are not needed for the EU qualification."
+    ],
+    "region_category": "EU",
+    "decision_variable_count": "[audit 2026-07-30] The dimensional threshold passes: the paper claims 72 continuous wing variables (eight sections × nine CST parameters), and analytic benchmarks include D=12,30,32,100. Exact wing reconstruction fails because Table 8 gives only eight parameter bounds and omits b'_3/c.",
+    "decision_variables": [
+      "[audit 2026-07-30] For each section s∈{1,...,8}, Equations (20)–(21) require R_le^(s), β^(s), β'^(s), b_1^(s), b_2^(s), b_3^(s), b'_1^(s), b'_2^(s), and b'_3^(s). Table 8 contains no bound for b'_3/c, and the initial 72-vector and section stations are absent."
+    ],
+    "decision_variable_types": [
+      "continuous"
+    ],
+    "ga_hyperparameter_count": "[audit 2026-07-30] Table 6 lists nine numeric HCGA controls plus the population-size rule, but β is internally contradictory: 0.3 in Table 6 versus 0.7 in the Equation (16) prose.",
+    "ga_hyperparameters": [
+      "population size: 2D for F1–F7, 5D for F8–F10, and 150 for wing optimization",
+      "Pc=0.95",
+      "Pm=0.1",
+      "Tmax=5000 for numerical benchmarks",
+      "α=0.1",
+      "β=0.3 in Table 6, but β=0.7 in the Equation (16) prose; no authoritative resolution",
+      "γ=0.3",
+      "μ=0.1",
+      "K=5",
+      "accepted-population base percentage p=20%"
+    ],
+    "adaptive_parameters": [
+      "[Факт зі статті] Student-t mutation degrees of freedom n, controlled by population variance and entropy (Equations 10–14, §3.3).",
+      "[Факт зі статті] Number/fraction of individuals accepted into the belief space nAccept, scheduled with iteration T (Equation 15, §3.4.1).",
+      "[audit 2026-07-30] Knowledge-source influence proportions P_k(T), updated from prior success counts in Equation (16); their β setting is contradictory and zero-denominator handling is absent."
+    ],
+    "adaptive_parameter_count": 3,
+    "adaptation_category": "E + F + G: diversity-feedback Student-t adaptation, deterministic acceptance scheduling, and success-feedback knowledge-source allocation in a cultural-algorithm/GA hybrid",
+    "adaptation_timing": "[audit 2026-07-30] The broad order is GA evolution/evaluation → compute D_T, S_T, and n → when T mod K=0 accept individuals and update belief knowledge → apply influence functions → increment T. Component operator semantics and several edge cases are not recoverable.",
+    "adaptation_level": "population/operator level within the cultural-algorithm framework",
+    "adaptation_formulas": [
+      "[audit 2026-07-30] Equation (10) prints D_T=(1/(N·l))(Σ_iΣ_j x_i^j−x̄^j), with x̄^j outside the sums. It has an unbound j or becomes an identically zero sum of deviations if repaired by placement; no square/absolute value appears.",
+      "[audit 2026-07-30] Equations (12)–(13) define S_T=−Σ_i^L p_i log p_i after dividing the solution space into L equal spaces, but L, multidimensional bin construction, boundaries, and empty-bin handling are absent.",
+      "[audit 2026-07-30] Equation (14) prints n=[1−ln((D_T+S_T)/(D_max+S_max))]. The brackets are called a 'least integer function'; floor versus ceiling is not defined, D_max/S_max are not constructed, and log(0) handling is absent.",
+      "[audit 2026-07-30] Equation (15) prints nAccept=(p%+p%/T)N with p=20%, but gives no rounding rule. Acceptance is invoked only when T mod K=0.",
+      "[audit 2026-07-30] Equation (16) prints P_k(T)=α+β·v_k(T−1)/v(T−1) at T mod K=0 and requires β+αN_k=1 for N_k=3. Prose gives β=0.7; Table 6 gives β=0.3."
+    ],
+    "adaptive_initial_values": [
+      "[audit 2026-07-30] The prose asserts n=1 in the first generation, but this cannot be derived from Equation (14) because D_max, S_max, and the integer convention are undefined.",
+      "[audit 2026-07-30] T starts at 1 and p=20%, but acceptance first executes at T=5 because K=5, yielding 24% of N before unspecified rounding rather than a 40% operative initial acceptance.",
+      "[Факт зі статті] P_k(1)=1/N_k=1/3 for the three knowledge sources; α=0.1, while β is 0.7 in prose and 0.3 in Table 6."
+    ],
+    "adaptive_min_values": [
+      "[paper claim, not executable] n is said to begin at 1; its actual lower-bound behavior is not verifiable without valid D_T, D_max, S_max, and an integer convention.",
+      "[Equation 15] nAccept approaches 20% of N as T grows, but integer rounding is unspecified.",
+      "[Equation 16] The prose describes α=0.1 as a lower bound for P_k, but the conflicting β settings and v=0 case prevent a complete bound."
+    ],
+    "adaptive_max_values": [
+      "[Факт зі статті] No finite universal maximum n is stated; zero normalized diversity makes Equation (14) singular.",
+      "[audit 2026-07-30] Equation (15) algebraically gives 40% at T=1, but the first operative acceptance is at T=5 (24%) and rounding is missing.",
+      "[Equation 16] No valid maximum can be guaranteed when v(T−1)=0 or when Table 6's β=0.3 is used without renormalization."
+    ],
+    "update_frequency": "[audit 2026-07-30] D_T, S_T, and n are recomputed by generation; acceptance/belief update and P_k refresh occur when T mod K=0 (K=5); influence is then applied. Exact individual allocation and t-draw frequency are unspecified.",
+    "update_order": "[audit 2026-07-30] Stepwise text gives initialization → GA evolution/evaluation → diversity/n calculation → every-K acceptance and belief update → influence → increment. Selection, crossover, ordinary mutation, replacement, repair, and minimization semantics are missing, so this is not an executable order.",
+    "adaptation_input_metrics": [
+      "population variance D_T",
+      "population entropy S_T",
+      "reference maxima D_max and S_max",
+      "iteration T",
+      "population size N",
+      "entropy partition count/construction L (not supplied)",
+      "knowledge-source success counts v_k and total v, with no v=0 rule"
+    ],
+    "parameter_interdependence": "[audit 2026-07-30] n depends on invalid/underspecified D_T, S_T, D_max, and S_max; nAccept depends on T,p,N; P_k depends on v_k/v and α,β. Equation (16) requires β+3α=1, satisfied by prose β=0.7 but contradicted by Table 6 β=0.3.",
+    "formula_pages_and_numbers": [
+      "Official article §3.3, Equations (10)–(14)",
+      "Official article §3.4.1, Equation (15), Figure 3",
+      "Official article §3.4.2, Equation (16), and Table 6 (contradictory β values)",
+      "Official article Tables 1 and 7 (benchmark definitions and 30-run targets)",
+      "Official article §5.1, Equations (20)–(21), Table 8",
+      "Official article §5.2, Equations (22)–(23), Table 9",
+      "https://www.mdpi.com/2076-3417/12/7/3482"
+    ],
+    "pseudocode_available": "[audit 2026-07-30] Only a broad framework and stepwise narrative are available. They do not specify the base GA selection, crossover, mutation, replacement, repair, minimization mapping, or adaptive edge cases needed for execution.",
+    "baseline_ga_available": "[Факт зі статті] Yes: comparisons include standard GA, cultural algorithm, and differential evolution; Tables 4 and 7.",
+    "ablation_study_available": "[Висновок] Partial. Parameter-design and component comparisons are reported, but a complete factorial ablation isolating every adaptive mechanism was not identified.",
+    "optimization_problem_type": "Continuous single-objective numerical optimization and constrained 72-variable aerodynamic wing-shape optimization.",
+    "fitness_function": [
+      "[audit 2026-07-30] Table 1 supplies analytic objectives, but F3 omits the conventional square, F7 has an unbound i/no cosine sum, and F4 indexes x_(4i) while summing i=1..n without stating n=D/4.",
+      "[Факт зі статті] Wing objective maximizes cruise factor Ma·L/D, Equation (22), §5.2."
+    ],
+    "constraint_handling": "[audit 2026-07-30] Equation (23) states t_i≥t_initial and C_L≥C_L0, but no penalty, feasibility ranking, rejection, repair, or solver-coupling procedure is supplied.",
+    "penalty_function": "[audit 2026-07-30] No fully parameterized penalty or alternative constraint-handling rule is given.",
+    "dataset_or_benchmark": [
+      "Ten printed analytic functions F1–F10; F1–F7 have high-dimensional settings, but F3/F7 are malformed and F4's n-to-D relationship is omitted",
+      "Eight-section, claimed 72-variable aerodynamic wing design at Mach 0.785, angle of attack 1.92°, Reynolds number 2×10^7; b'_3/c bound and executable inputs are missing"
+    ],
+    "data_url": "[audit 2026-07-30] The article Data Availability Statement says data are public 'in the repository' but gives no repository name, URL, DOI, accession, or reference. The UPC record contains only the article PDF: https://upcommons.upc.edu/entities/publication/b8895eec-97a4-432d-9ecd-2fa03624d1b2",
+    "data_license": "[audit 2026-07-30] The article/PDF is CC BY 4.0. No separate raw benchmark, CFD mesh, geometry, solver-input, or output archive—and therefore no artifact-specific license—was identified.",
+    "code_url": "[audit 2026-07-30] No official author source-code repository or immutable code archive was identified.",
+    "original_code_language": "[audit 2026-07-30] Not reported; no source code or dependency environment is available.",
+    "code_license": "[audit 2026-07-30] None available because no author code artifact was identified; the CC BY article license does not license absent code.",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/ (article only; no code/data-artifact license)",
+    "complete_parameter_set_available": "[audit 2026-07-30] No. Equation (10), entropy partition/normalizers, integer and zero-denominator rules, β, base GA operators, memory capacity, t-draw/repair semantics, the ninth CST bound, and all executable CFD inputs are incomplete or contradictory.",
+    "random_seeds_available": "[audit 2026-07-30] No seeds, RNG family/version, implementation language, or seed ledger are reported.",
+    "independent_run_count": "[audit 2026-07-30] Table 7 explicitly reports 30 independent runs for every benchmark. Orthogonal parameter sets also use 30 trials. No repeat count is stated for the wing optimization.",
+    "published_metrics": [
+      "Table 7 F4 D=12 HCGA: Opt=8.38×10^−7, Mean=2.31×10^−6, Std=4.89×10^−7 over 30 independent runs",
+      "convergence comparisons",
+      "wing cruise factor 21.863→26.938 (+23.21%)",
+      "wing drag coefficient 0.01605→0.01302 (−18.88%)"
+    ],
+    "intermediate_results_available": "[audit 2026-07-30] Aggregated tables, plotted convergence curves, pressure distributions, and before/after figures are published; no numeric convergence arrays, per-run values, vectors, mesh, or solver outputs are archived.",
+    "convergence_curve_available": "[audit 2026-07-30] Figures are present only as plotted images; no machine-readable curve data or seeds are available.",
+    "raw_data_available": "[audit 2026-07-30] No actionable repository or run-level/raw CFD archive was identified despite the paper's repository claim.",
+    "reproducibility_level": "Hard fail: neither the adaptive algorithm nor a ≤5% quantitative target is exactly reproducible.",
+    "main_risks": [
+      "Equation (10)'s printed diversity statistic is ill-formed or identically zero under the natural placement repair; entropy partition L and D_max/S_max are undefined.",
+      "Equation (16) prose uses β=0.7 while Table 6 uses β=0.3; rounding, v=0, memory-capacity, t-draw, repair, and base GA operator rules are missing.",
+      "Table 8 omits the required b'_3/c bound; the initial 72-vector, section stations, geometry, solver, mesh, and CFD configuration are absent.",
+      "No code, implementation language, dependencies, random seeds, raw run values, or machine-readable convergence arrays are available.",
+      "Table 7 F4 D=12's 5% half-band is only 1.29 reported standard errors; under a normal approximation a fresh 30-run mean has about an 80% pass probability even if the published mean is treated as truth."
+    ],
+    "eligibility_status": "[audit 2026-07-30] hard_fail",
+    "inclusion_or_exclusion_reason": "[audit 2026-07-30] hard_fail: publication date, EU affiliation, lawful article, and ≥11-dimensional cases pass, but the central adaptive formula is invalid/underspecified, β conflicts, core GA semantics and wing inputs are missing, and no published target supports exact reproduction within ≤5%. See registry/re_audits/EU-002_no_go.md.",
+    "final_score": null,
+    "score_breakdown": {
+      "mathematical_description": {
+        "score": null,
+        "max": 15,
+        "evidence": "[score withdrawn after hard fail] Equation (10) is ill-formed/degenerate; entropy, normalizers, integer convention, zero cases, and several benchmark formulas are incomplete."
+      },
+      "experimental_parameter_description": {
+        "score": null,
+        "max": 10,
+        "evidence": "[score withdrawn after hard fail] Table 6 conflicts with the Equation (16) prose on β, and Table 8 omits b'_3/c."
+      },
+      "legal_data_availability": {
+        "score": null,
+        "max": 10,
+        "evidence": "[score withdrawn after hard fail] The CC BY article is lawful, but its repository claim has no locator and no raw benchmark/CFD artifact or separate artifact license is available."
+      },
+      "seeds_and_run_count": {
+        "score": null,
+        "max": 10,
+        "evidence": "[score withdrawn after hard fail] Table 7 has 30 independent runs per benchmark, but no seeds, RNG, raw run values, or wing repeat count."
+      },
+      "open_code": {
+        "score": null,
+        "max": 10,
+        "evidence": "[score withdrawn after hard fail] No official source-code repository or immutable release was identified."
+      },
+      "code_license_quality": {
+        "score": null,
+        "max": 10,
+        "evidence": "[score withdrawn after hard fail] There is no code artifact or code license; CC BY applies to the article."
+      },
+      "intermediate_result_verifiability": {
+        "score": null,
+        "max": 10,
+        "evidence": "[score withdrawn after hard fail] Only aggregate tables and plotted figures are available; no raw runs, numeric curves, vectors, or CFD outputs."
+      },
+      "adaptive_parameter_completeness": {
+        "score": null,
+        "max": 10,
+        "evidence": "[score withdrawn after hard fail] The diversity equation is unusable, entropy and normalizers are missing, and β/rounding/zero-denominator/t-draw rules are unresolved."
+      },
+      "update_order_clarity": {
+        "score": null,
+        "max": 5,
+        "evidence": "[score withdrawn after hard fail] Broad stage order is shown, but selection, crossover, ordinary mutation, replacement, repair, and minimization semantics are absent."
+      },
+      "baseline_ga": {
+        "score": null,
+        "max": 5,
+        "evidence": "[score withdrawn after hard fail] GA, CA, and DE aggregate comparisons exist, but the candidate is noneligible."
+      },
+      "ablation_study": {
+        "score": null,
+        "max": 5,
+        "evidence": "[score withdrawn after hard fail] Parameter studies exist, but no complete, executable adaptation-off ablation supports exact reproduction."
+      }
+    }
+  },
+  {
+    "candidate_id": "EU-003",
+    "full_title": "A decision support tool for optimising groundwater-level monitoring networks using an adaptive genetic algorithm",
+    "authors": [
+      "Antonios Parasyris",
+      "Katerina Spanoudaki",
+      "Emmanouil A. Varouchakis",
+      "Nikolaos A. Kampanis"
+    ],
+    "year": 2021,
+    "publication_date": "2021-07-28",
+    "publication_type": "journal article",
+    "venue": "Journal of Hydroinformatics, 23(5), 1066–1082",
+    "doi": "10.2166/hydro.2021.045",
+    "official_url": "https://iwaponline.com/jh/article/23/5/1066/83242/A-decision-support-tool-for-optimising-groundwater",
+    "legal_open_access_url": "https://dias.library.tuc.gr/view/manf/93757",
+    "country": "Greece",
+    "author_institutions": [
+      "[audit 2026-07-30] Foundation for Research and Technology–Hellas, Institute of Applied and Computational Mathematics (FORTH/IACM), Heraklion, Crete, Greece.",
+      "[audit 2026-07-30] School of Environmental Engineering, Technical University of Crete, Chania, Greece. Official version of record: https://iwaponline.com/jh/article-pdf/23/5/1066/938912/jh0231066.pdf"
+    ],
+    "region_category": "EU",
+    "decision_variable_count": "[audit 2026-07-30] The dimensional threshold passes: each chromosome contains k=30, 40, or 50 unique borehole identifiers selected for removal from 70 locations. Equivalently, the task has 70 binary decisions with one cardinality constraint, so every reported case has at least 30 true loci.",
+    "decision_variables": [
+      "[audit 2026-07-30] Complete chromosome x_1,...,x_k with k∈{30,40,50}; each x_i is a unique integer index of a removed borehole. Equivalent fixed representation: y_i∈{0,1}, i=1,...,70, with Σy_i=k."
+    ],
+    "decision_variable_types": [
+      "integer",
+      "categorical borehole identifiers with all-different constraint"
+    ],
+    "ga_hyperparameter_count": "[audit 2026-07-30] No exact canonical count is recoverable because the paper alternates among crossover/mutation probabilities, rates, and population fractions without establishing whether they are two or four state quantities.",
+    "ga_hyperparameters": [
+      "population size ∈{50,100,200,400}",
+      "stall limit ∈{20,40,60}",
+      "within-uniform-crossover probability initially 50%, described separately from the population fraction",
+      "crossover/mutation/elitism fractions: 80%/15%/5% in the method but 85%/10%/5% in Table 8",
+      "adaptation trigger: every 5 stalled generations in one passage but stall=10 in another",
+      "rate/fraction step described only as 10%, with relative-percent versus percentage-point semantics undefined",
+      "an unnamed fraction threshold of 80%, with cap/overshoot behavior undefined",
+      "stopping criterion based on stall/generation behavior"
+    ],
+    "adaptive_parameters": [
+      "[audit 2026-07-30] mutation probability/rate and mutation population fraction, whose relationship is not defined",
+      "[audit 2026-07-30] crossover probability/rate and crossover population fraction, whose relationship is not defined"
+    ],
+    "adaptive_parameter_count": 2,
+    "adaptation_category": "B + E: multi-parameter, stagnation-feedback adaptive GA",
+    "adaptation_timing": "[audit 2026-07-30] Internally contradictory: one passage changes rates/fractions every five stalled generations, another first changes them when stall reaches 10, and Table 8 again says every five. Before/after-offspring timing and the improvement tolerance are absent.",
+    "adaptation_level": "population/generation level",
+    "adaptation_formulas": [
+      "[audit 2026-07-30] Text only: after stagnation, increase mutation and reduce crossover by 10%; however, the first trigger is stated as both every 5 stalls and stall=10, 10% may mean relative percent or percentage points, the governed 80% threshold is unnamed, and cap/overshoot logic is absent.",
+      "[audit 2026-07-30] Uniform-crossover gene probability starts at 50%, while population fractions start at either 80%/15%/5% or 85%/10%/5%; the paper supplies no separate state equations for probabilities versus fractions.",
+      "[Факт зі статті] Objective RMSE is Equation (3); Akaike and RMSD comparisons are Equations (4)–(5). These objective equations do not resolve the unavailable inputs or adaptive state machine."
+    ],
+    "adaptive_initial_values": "[audit 2026-07-30] Conflicting: method crossover/mutation/elitism fractions are 80%/15%/5%; Table 8 uses 85%/10%/5%; uniform-crossover gene probability is separately initialized at 50%. The reset target is therefore ambiguous.",
+    "adaptive_min_values": "[audit 2026-07-30] Exact minima for crossover and mutation probabilities/fractions are not stated. Elitism is reported as 5%.",
+    "adaptive_max_values": "[audit 2026-07-30] The prose mentions a fraction threshold of 80% but does not unambiguously identify the fraction or define clipping. No complete upper bounds are supplied.",
+    "update_frequency": "[audit 2026-07-30] Conflicting: every five stalled generations versus first update at stall=10. Exact trigger comparison, improvement tolerance, and reset timing are absent.",
+    "update_order": "[audit 2026-07-30] Only a broad evaluate/sort → split among elite/crossover/mutation → create next population loop is described. Whether adaptation occurs before or after the triggering offspring, and exact selection/replacement/duplicate-repair semantics, are not recoverable.",
+    "adaptation_input_metrics": [
+      "mean-fitness change in the introductory description",
+      "best-candidate improvement in the method description",
+      "stall-generation counter with conflicting trigger values"
+    ],
+    "parameter_interdependence": "[audit 2026-07-30] Crossover is intended to decrease as mutation increases while elitism remains 5%, but the paper does not distinguish gene probabilities from population fractions or give an executable normalization/cap rule. Reset values conflict.",
+    "formula_pages_and_numbers": [
+      "Version-of-record pp. 1069–1070, Equations (1)–(5)",
+      "Version-of-record pp. 1071–1072, adaptive prose and custom-operator claim",
+      "Version-of-record Tables 3 and 5–8",
+      "https://iwaponline.com/jh/article-pdf/23/5/1066/938912/jh0231066.pdf"
+    ],
+    "pseudocode_available": "[audit 2026-07-30] No executable pseudocode is available. The prose omits or contradicts triggers, step semantics, bounds, update order, selection, replacement, and customized uniqueness-preserving operators.",
+    "baseline_ga_available": "[audit 2026-07-30] Table 8 prints one apparent result each for standard, semi-adaptive, and fully adaptive configurations, but supplies no seeds, repetitions, uncertainty, or raw outputs.",
+    "ablation_study_available": "[audit 2026-07-30] No reproducibility-grade ablation. Table 8 is not a controlled factorial isolation of crossover and mutation adaptation and uses an initial configuration conflicting with the method text.",
+    "optimization_problem_type": "Discrete subset-selection/network-design optimization for groundwater monitoring.",
+    "fitness_function": "[Факт зі статті] Cross-validation/interpolation RMSE of groundwater-level estimates, Equation (3), p. 1070; lower is better.",
+    "constraint_handling": "[audit 2026-07-30] The authors say custom MATLAB creation, crossover, and mutation functions preserve unique integer borehole IDs, but publish no source, formulas, duplicate-repair rule, or exact operator semantics.",
+    "penalty_function": "[audit 2026-07-30] No penalty is reported; exact validity preservation depends on unavailable customized operators.",
+    "dataset_or_benchmark": "[audit 2026-07-30] Seventy Mires-basin boreholes with wet-period hydraulic heads from hydrological year 2002–2003; removal scenarios k=30,40,50; 100×100 interpolation grid within the convex hull.",
+    "data_url": "[audit 2026-07-30] No public data URL. The article states that data cannot be made publicly available and directs readers to the corresponding author. The lawful article record is not a machine-readable borehole dataset: https://dias.library.tuc.gr/view/manf/93757",
+    "data_license": "[audit 2026-07-30] No public dataset artifact and no standalone data license. CC BY 4.0 applies to the article, not the withheld 70-borehole inputs.",
+    "code_url": "[audit 2026-07-30] No official source-code repository, supplement, or immutable code archive was identified.",
+    "original_code_language": "[Факт зі статті] MATLAB R2019a",
+    "code_license": "[audit 2026-07-30] None available because no code artifact was identified; article CC BY does not license absent MATLAB source.",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/ (article only; no public data/code-artifact license)",
+    "complete_parameter_set_available": "[audit 2026-07-30] No. Exact borehole/grid/geostatistical inputs, probability-versus-fraction semantics, initial values, triggers, 10% step meaning, caps, improvement test, update order, and custom operators are missing or contradictory.",
+    "random_seeds_available": "[audit 2026-07-30] No seeds, RNG family/version, seed ledger, or state is reported.",
+    "independent_run_count": "[audit 2026-07-30] No independent stochastic repetition count is reported. Tables 3 and 5–8 provide aggregate/apparent single-run values without SD, CI, or raw runs.",
+    "published_metrics": [
+      "Table 3 optimized RMSD for 30/40/50 removals: 0.5671/0.8250/1.3542",
+      "Table 3 optimized RMSE for 30/40/50 removals: 6.8550/14.2811/17.9336",
+      "Table 3 Akaike criterion for 30/40/50 removals: −158.3399/−165.3199/−192.8193",
+      "Table 8, 30 removals, population 50/stall 20: adaptive 118 generations/5950 evaluations/RMSE 8.042; semi-adaptive 103/5200/9.004; standard 94/4750/10.27"
+    ],
+    "intermediate_results_available": "[audit 2026-07-30] PDF/HTML aggregate tables expose scalar errors, generations, and evaluations, but no selected-well vectors, residuals, per-run rows, or generation histories are archived.",
+    "convergence_curve_available": "[audit 2026-07-30] Plotted results are present, but no machine-readable per-generation convergence array is archived.",
+    "raw_data_available": "[audit 2026-07-30] Explicitly unavailable publicly: no machine-readable borehole inputs, selected networks, run-level outputs, or numeric curves.",
+    "reproducibility_level": "Hard fail: neither the inputs nor the adaptive algorithm nor a CI/SD or ≤5% target is exactly reproducible.",
+    "main_risks": [
+      "The article explicitly says the 70-borehole data cannot be made publicly available; maps cannot reconstruct exact coordinates and heads without fabrication.",
+      "80/15/5 conflicts with 85/10/5, every-five-stalls conflicts with stall=10, and 50% gene crossover probability is not reconciled with population fractions.",
+      "The 10% step, 80% threshold, bounds, clipping, improvement test, reset target, update order, and custom duplicate-safe operators are not executable.",
+      "No code, code license, seeds, RNG, run count, raw runs, selected networks, SD, or CI exists.",
+      "A nominal 5% band around Table 8 adaptive RMSE 8.042 is 7.6399–8.4441, but no uncertainty evidence makes that a valid acceptance gate."
+    ],
+    "eligibility_status": "[audit 2026-07-30] hard_fail",
+    "inclusion_or_exclusion_reason": "[audit 2026-07-30] hard_fail: date, Greek EU affiliations, lawful CC BY article, and ≥11 decision variables pass, but the input data are explicitly unavailable, the adaptive state machine and custom operators are contradictory/incomplete, and no seeds/raw runs/uncertainty support a CI/SD or ≤5% target. See registry/re_audits/EU-003_no_go.md.",
+    "final_score": null,
+    "score_breakdown": {
+      "mathematical_description": {
+        "score": null,
+        "max": 15,
+        "evidence": "[score withdrawn after hard fail] Objective equations are printed, but the adaptive probability/fraction state machine, triggers, bounds, caps, custom operators, and exact inputs are not executable."
+      },
+      "experimental_parameter_description": {
+        "score": null,
+        "max": 10,
+        "evidence": "[score withdrawn after hard fail] Population/stall grids exist, but initial fractions, trigger interval, step semantics, probability/fraction identities, and stopping details conflict or are absent."
+      },
+      "legal_data_availability": {
+        "score": null,
+        "max": 10,
+        "evidence": "[score withdrawn after hard fail] The CC BY article is lawful, but its Data Availability Statement explicitly withholds the 70-borehole inputs; no separately licensed data artifact exists."
+      },
+      "seeds_and_run_count": {
+        "score": null,
+        "max": 10,
+        "evidence": "[score withdrawn after hard fail] No seed, RNG, independent-run count, raw run vector, SD, or CI is reported."
+      },
+      "open_code": {
+        "score": null,
+        "max": 10,
+        "evidence": "[score withdrawn after hard fail] No official source repository, supplement, release, commit, or immutable code archive was identified."
+      },
+      "code_license_quality": {
+        "score": null,
+        "max": 10,
+        "evidence": "[score withdrawn after hard fail] No code artifact or code license exists; CC BY applies only to the article."
+      },
+      "intermediate_result_verifiability": {
+        "score": null,
+        "max": 10,
+        "evidence": "[score withdrawn after hard fail] Aggregate tables contain checkpoints but no well vectors, residuals, raw runs, generation histories, or numeric curves."
+      },
+      "adaptive_parameter_completeness": {
+        "score": null,
+        "max": 10,
+        "evidence": "[score withdrawn after hard fail] 50% crossover probability, 80/15/5 versus 85/10/5 fractions, every-5 versus stall-10 triggers, 10% semantics, and the 80% cap are unresolved."
+      },
+      "update_order_clarity": {
+        "score": null,
+        "max": 5,
+        "evidence": "[score withdrawn after hard fail] Broad stage order exists, but trigger comparison, before/after timing, improvement metric, reset state, selection, replacement, and duplicate repair are absent."
+      },
+      "baseline_ga": {
+        "score": null,
+        "max": 5,
+        "evidence": "[score withdrawn after hard fail] Table 8 prints standard/semi/adaptive aggregates, but the candidate is noneligible and no repeated-run provenance supports comparison."
+      },
+      "ablation_study": {
+        "score": null,
+        "max": 5,
+        "evidence": "[score withdrawn after hard fail] Table 8 is not a controlled mutation-only/crossover-only ablation and provides no seeds, repetition count, uncertainty, or raw results."
+      }
+    }
+  },
+  {
+    "candidate_id": "EU-004",
+    "full_title": "The development of a novel adaptive genetic algorithm for the optimization of fuel cycle length",
+    "authors": [
+      "Wojciech Kubiński",
+      "Piotr Darnowski",
+      "Kamil Chęć"
+    ],
+    "year": 2021,
+    "publication_date": "2021-06-01",
+    "publication_type": "journal article",
+    "venue": "Annals of Nuclear Energy, 155, article 108153",
+    "doi": "10.1016/j.anucene.2021.108153",
+    "official_url": "https://www.sciencedirect.com/science/article/pii/S0306454921000293",
+    "legal_open_access_url": "Не вказано; the official publisher page provides an article preview/purchase route, not an unambiguous legal full-text download. A related official Warsaw thesis is not a substitute for the journal article: https://www.bip.pw.edu.pl/content/download/68743/661170/file/WKubinski_rozprawa_final%20%281%29.pdf",
+    "country": "Poland",
+    "author_institutions": [
+      "[Факт зі статті/publisher metadata] Warsaw University of Technology, Faculty of Physics and Institute of Heat Engineering, Warsaw, Poland. Official record: https://www.sciencedirect.com/science/article/pii/S0306454921000293"
+    ],
+    "region_category": "EU",
+    "decision_variable_count": "[Факт зі статті] The quarter-core solution is encoded on an 8×8 assembly grid with more than 11 active fuel-position cells; Case 4 optimizes a full-core loading pattern. Exact active-cell count is not tabulated in the accessible official preview and is therefore not asserted.",
+    "decision_variables": [
+      "[Факт зі статті + indexed notation] Fuel-assembly type a_(r,c) for every active cell (r,c) of the 8×8 quarter-core mask; each active value is one of assembly types 1–9. The exact active-cell mask must be read from the full paper figures.",
+      "[Факт зі статті] Full-core Case 4 uses assembly-placement variables across the active core without symmetry; no unverified exact count is supplied here."
+    ],
+    "decision_variable_types": [
+      "integer",
+      "categorical assembly-type identifiers"
+    ],
+    "ga_hyperparameter_count": "Не вказано (no complete official full text was legally accessible in this screening record).",
+    "ga_hyperparameters": [
+      "[Факт зі статті metadata/available method text] population size, generally 100",
+      "generation/evaluation budget",
+      "selection method",
+      "crossover and mutation settings",
+      "elitism",
+      "variance-control exponent β_VC",
+      "lower relative-standard-deviation target σ_min"
+    ],
+    "adaptive_parameters": [
+      "[Факт зі статті] Fitness exponent/selection-pressure parameter β_VC."
+    ],
+    "adaptive_parameter_count": 1,
+    "adaptation_category": "A + E: feedback-based adaptive selection pressure",
+    "adaptation_timing": "[Факт зі статті] β_VC is updated after collecting the current generation's PARCS fitness results and calculating relative standard deviation.",
+    "adaptation_level": "population/selection level",
+    "adaptation_formulas": [
+      "[Факт зі статті] General fitness FF=(d/α)^β, Equation (1); cycle length d is defined by Equation (2).",
+      "[Факт зі статті] Variance-controlled fitness FF_VC=FF^(β_VC), Equation (4).",
+      "[Факт зі статті] If σ_t<σ_min, Equation (5): β_(VC,t+1)=β_(VC,t)·(1+(σ_min−σ_t)/σ_min). Relative standard deviation σ_t is Equation (6)."
+    ],
+    "adaptive_initial_values": "Не вказано in the legally accessible official preview.",
+    "adaptive_min_values": "Не вказано in the legally accessible official preview.",
+    "adaptive_max_values": "Не вказано in the legally accessible official preview.",
+    "update_frequency": "[Факт зі статті] Once per generation during selection-pressure control after generation fitness values are available.",
+    "update_order": "[Факт зі статті] Run PARCS for population → collect fitness/cycle length → calculate σ_t → update β_VC if below σ_min → apply variance-controlled selection for the next generation.",
+    "adaptation_input_metrics": [
+      "population relative standard deviation σ_t",
+      "threshold σ_min",
+      "current β_VC"
+    ],
+    "parameter_interdependence": "[Факт зі статті] Single adaptive β_VC depends on σ_t and σ_min; no simultaneous second adaptive GA parameter is established.",
+    "formula_pages_and_numbers": [
+      "Journal article Equations (1)–(6); exact pages require the legal full article",
+      "Official publisher record: https://www.sciencedirect.com/science/article/pii/S0306454921000293"
+    ],
+    "pseudocode_available": "Не вказано from a legally accessible official full text.",
+    "baseline_ga_available": "Не вказано with sufficient confidence from the official preview.",
+    "ablation_study_available": "Не вказано",
+    "optimization_problem_type": "Discrete constrained nuclear fuel-loading-pattern optimization.",
+    "fitness_function": "[Факт зі статті] Fuel-cycle-length objective transformed by the power fitness FF=(d/α)^β and variance-control exponent; Equations (1)–(6).",
+    "constraint_handling": "[Факт зі статті] Cases impose reactor-physics constraints such as multiplication-factor limit, fissile-mass limit, and fixed assembly counts; PARCS/SCALE evaluates loading patterns.",
+    "penalty_function": "Не вказано from the legally accessible official preview.",
+    "dataset_or_benchmark": "[Факт зі статті] BEAVRS pressurized-water-reactor core; nine fuel-assembly types; SCALE 6.1.2 and PARCS 3.2.",
+    "data_url": "[Факт зі статті] BEAVRS is the named benchmark, but no candidate-specific complete input archive was identified in an official repository.",
+    "data_license": "Не вказано",
+    "code_url": "Не вказано",
+    "original_code_language": "[Факт зі статті] Python 3.8.2 orchestration coupled to SCALE/PARCS.",
+    "code_license": "Не вказано",
+    "license_url": "Не вказано",
+    "complete_parameter_set_available": "No; legal article full text, author code, exact initial β_VC/bounds, and complete simulation inputs were not established.",
+    "random_seeds_available": "Не вказано",
+    "independent_run_count": "Не вказано; population-size tests use a total of 10,000 simulations, which is not equivalent to an explicit independent-run count.",
+    "published_metrics": [
+      "[Факт зі статті] Reported fuel-cycle extensions of approximately +210, +150, and +41 days across cases.",
+      "[Факт зі статті] Case 1 verification discrepancy reported within approximately 0.34 day / 0.06%."
+    ],
+    "intermediate_results_available": "[Висновок] Some population/fitness histories are described in the article, but legal full-text and raw values are unavailable in this record.",
+    "convergence_curve_available": "Не вказано from a legally accessible official full text.",
+    "raw_data_available": "Не вказано",
+    "reproducibility_level": "Low",
+    "main_risks": [
+      "Critical hard-selection failure: no unambiguous legal full-text article URL.",
+      "No public code, seeds, or complete parameter manifest.",
+      "SCALE/PARCS dependencies and licensing complicate reproduction.",
+      "Exact active-core decision mask and adaptive bounds need the full article."
+    ],
+    "eligibility_status": "hard_fail",
+    "inclusion_or_exclusion_reason": "[Висновок] Excluded at hard selection because the official ScienceDirect record is not an unambiguous legal full-text source. The official Warsaw thesis is related evidence, not the journal version required for exact reproduction.",
+    "final_score": null,
+    "score_breakdown": {
+      "mathematical_description": {
+        "score": null,
+        "max": 15,
+        "evidence": "Не оцінюється: hard fail on legal full-text availability."
+      },
+      "experimental_parameter_description": {
+        "score": null,
+        "max": 10,
+        "evidence": "Не оцінюється: hard fail."
+      },
+      "legal_data_availability": {
+        "score": null,
+        "max": 10,
+        "evidence": "Official publisher preview only: https://www.sciencedirect.com/science/article/pii/S0306454921000293"
+      },
+      "seeds_and_run_count": {
+        "score": null,
+        "max": 10,
+        "evidence": "Не оцінюється: hard fail."
+      },
+      "open_code": {
+        "score": null,
+        "max": 10,
+        "evidence": "Не оцінюється: hard fail."
+      },
+      "code_license_quality": {
+        "score": null,
+        "max": 10,
+        "evidence": "Не оцінюється: hard fail."
+      },
+      "intermediate_result_verifiability": {
+        "score": null,
+        "max": 10,
+        "evidence": "Не оцінюється: hard fail."
+      },
+      "adaptive_parameter_completeness": {
+        "score": null,
+        "max": 10,
+        "evidence": "Не оцінюється: hard fail."
+      },
+      "update_order_clarity": {
+        "score": null,
+        "max": 5,
+        "evidence": "Не оцінюється: hard fail."
+      },
+      "baseline_ga": {
+        "score": null,
+        "max": 5,
+        "evidence": "Не оцінюється: hard fail."
+      },
+      "ablation_study": {
+        "score": null,
+        "max": 5,
+        "evidence": "Не оцінюється: hard fail."
+      }
+    }
+  },
+  {
+    "candidate_id": "EU-005",
+    "full_title": "Adaptive crossover operator based multi-objective binary genetic algorithm for feature selection in classification",
+    "authors": [
+      "Yu Xue",
+      "Haokai Zhu",
+      "Jiayu Liang",
+      "Adam Słowik"
+    ],
+    "year": 2021,
+    "publication_date": "2021-06-11",
+    "publication_type": "journal article",
+    "venue": "Knowledge-Based Systems, 227, article 107218",
+    "doi": "10.1016/j.knosys.2021.107218",
+    "official_url": "https://www.sciencedirect.com/science/article/pii/S0950705121004809",
+    "legal_open_access_url": "Не вказано; the official Koszalin University record indicates the publication but a durable direct legal PDF was not resolved during screening: https://sdr.tu.koszalin.pl/info/article/KUTf36e461debba46ee9280fb9be6a39709/",
+    "country": "Poland (qualifying EU author affiliation)",
+    "author_institutions": [
+      "[Факт з official institutional record] Adam Słowik: Faculty of Electronics and Computer Science / Department of Computer Engineering, Koszalin University of Technology, Poland: https://sdr.tu.koszalin.pl/info/article/KUTf36e461debba46ee9280fb9be6a39709/"
+    ],
+    "region_category": "EU",
+    "decision_variable_count": "[Факт зі статті metadata/method] D binary variables, one per original feature. Exact D for each of the ten datasets was not verified from a legal full text in this screening record; therefore the ≥11 threshold is not treated as conclusively documented here.",
+    "decision_variables": [
+      "[Факт зі статті] Complete indexed set x_1, x_2, ..., x_D, where x_j=1 selects original feature j and x_j=0 excludes it."
+    ],
+    "decision_variable_types": [
+      "binary"
+    ],
+    "ga_hyperparameter_count": "Не вказано without a resolved legal full text.",
+    "ga_hyperparameters": [
+      "population size",
+      "generation/evaluation limit",
+      "five crossover operators",
+      "five operator-selection probabilities",
+      "learning period LP",
+      "reward/penalty credit parameters",
+      "uniform mutation probability",
+      "NSGA-II selection/replacement settings"
+    ],
+    "adaptive_parameters": [
+      "[Факт зі статті] Operator-selection probabilities OSP_1,...,OSP_5 for five crossover operators."
+    ],
+    "adaptive_parameter_count": "5 coupled probabilities (one probability-vector mechanism)",
+    "adaptation_category": "E: feedback-based adaptive operator selection in a multi-objective binary GA",
+    "adaptation_timing": "[Факт зі статті] Crossover operators are selected by roulette from current OSP; success receives reward/penalty credit; probabilities are updated after each learning period LP.",
+    "adaptation_level": "operator/population level",
+    "adaptation_formulas": [
+      "[Факт зі статті] Initial OSP_i=1/Q with Q=5, hence 0.2 each.",
+      "[Факт зі статті] Equations (4)–(5) update operator-selection probabilities from accumulated reward/penalty credit after LP generations. Exact symbols are not re-transcribed because a legal official full text was not resolved."
+    ],
+    "adaptive_initial_values": "[Факт зі статті] OSP_i=1/5=0.2 for i=1,...,5.",
+    "adaptive_min_values": "Не вказано from a legally accessible official full text.",
+    "adaptive_max_values": "Не вказано from a legally accessible official full text; probabilities must sum to 1.",
+    "update_frequency": "[Факт зі статті] Every learning period LP generations.",
+    "update_order": "[Факт зі статті] Select crossover operator by OSP roulette → create offspring → apply uniform mutation/evaluate → assign reward or penalty to the selected operator → at LP boundary update and normalize OSP.",
+    "adaptation_input_metrics": [
+      "operator offspring success/reward",
+      "operator penalty",
+      "learning-period accumulated credit"
+    ],
+    "parameter_interdependence": "[Факт зі статті] Five OSP values are coupled by probability normalization; increasing one operator's share changes the shares available to the others.",
+    "formula_pages_and_numbers": [
+      "Article Equations (4)–(5) and Algorithm 1; exact pages require resolved legal full text",
+      "Official publisher record: https://www.sciencedirect.com/science/article/pii/S0950705121004809"
+    ],
+    "pseudocode_available": "[Факт зі статті metadata/available method extraction] Yes: Algorithm 1.",
+    "baseline_ga_available": "[Факт зі статті] Yes: comparative feature-selection algorithms and non-adaptive operator configurations are reported.",
+    "ablation_study_available": "Не вказано with sufficient confidence.",
+    "optimization_problem_type": "Multi-objective binary feature selection: minimize selected-feature count and classification error / maximize classification performance.",
+    "fitness_function": "[Факт зі статті] Multi-objective classification performance and number of selected features; exact classifier/protocol details require full-text verification.",
+    "constraint_handling": "[Факт зі статті] Binary encoding directly enforces inclusion/exclusion; empty or invalid feature subsets require the paper's implementation rule, which was not verified.",
+    "penalty_function": "Не вказано",
+    "dataset_or_benchmark": "[Факт зі статті] Ten UCI classification datasets.",
+    "data_url": "https://archive.ics.uci.edu/",
+    "data_license": "Не вказано globally; UCI licensing must be checked separately for each named dataset.",
+    "code_url": "Не вказано; publisher metadata mentions Code Ocean reproducibility, but a durable official capsule URL was not identified.",
+    "original_code_language": "Не вказано",
+    "code_license": "Не вказано",
+    "license_url": "Не вказано",
+    "complete_parameter_set_available": "No; direct legal full text, exact dataset dimensions/settings, code capsule, and license remain unresolved.",
+    "random_seeds_available": "Не вказано",
+    "independent_run_count": "[Факт зі статті/publisher metadata] 30 independent runs; seed values are not reported in the inspected official metadata.",
+    "published_metrics": [
+      "classification performance",
+      "number of selected features",
+      "multi-objective comparison statistics"
+    ],
+    "intermediate_results_available": "[Висновок] Publisher metadata indicates convergence/comparison results, but raw intermediate values were not resolved.",
+    "convergence_curve_available": "[Факт зі статті metadata] Reported, but no machine-readable series was identified.",
+    "raw_data_available": "Не вказано",
+    "reproducibility_level": "Low pending source resolution",
+    "main_risks": [
+      "No durable legal full-text PDF identified.",
+      "Exact D per dataset not verified from an official full text.",
+      "Code Ocean capsule URL/license unresolved.",
+      "Seeds not reported."
+    ],
+    "eligibility_status": "hard_fail",
+    "inclusion_or_exclusion_reason": "[Висновок] Excluded at hard selection until both a legal full-text source and exact ≥11-dimensional dataset evidence are resolved. The adaptive operator-selection concept is plausible but cannot override those hard requirements.",
+    "final_score": null,
+    "score_breakdown": {
+      "mathematical_description": {
+        "score": null,
+        "max": 15,
+        "evidence": "Не оцінюється: hard fail on legal full-text and dimension evidence."
+      },
+      "experimental_parameter_description": {
+        "score": null,
+        "max": 10,
+        "evidence": "Не оцінюється: hard fail."
+      },
+      "legal_data_availability": {
+        "score": null,
+        "max": 10,
+        "evidence": "Publisher: https://www.sciencedirect.com/science/article/pii/S0950705121004809 ; institutional record: https://sdr.tu.koszalin.pl/info/article/KUTf36e461debba46ee9280fb9be6a39709/ ; direct PDF unresolved."
+      },
+      "seeds_and_run_count": {
+        "score": null,
+        "max": 10,
+        "evidence": "Не оцінюється: hard fail."
+      },
+      "open_code": {
+        "score": null,
+        "max": 10,
+        "evidence": "Не оцінюється: hard fail; durable capsule not identified."
+      },
+      "code_license_quality": {
+        "score": null,
+        "max": 10,
+        "evidence": "Не оцінюється: hard fail."
+      },
+      "intermediate_result_verifiability": {
+        "score": null,
+        "max": 10,
+        "evidence": "Не оцінюється: hard fail."
+      },
+      "adaptive_parameter_completeness": {
+        "score": null,
+        "max": 10,
+        "evidence": "Не оцінюється: hard fail."
+      },
+      "update_order_clarity": {
+        "score": null,
+        "max": 5,
+        "evidence": "Не оцінюється: hard fail."
+      },
+      "baseline_ga": {
+        "score": null,
+        "max": 5,
+        "evidence": "Не оцінюється: hard fail."
+      },
+      "ablation_study": {
+        "score": null,
+        "max": 5,
+        "evidence": "Не оцінюється: hard fail."
+      }
+    }
+  },
+  {
+    "candidate_id": "EU-006",
+    "full_title": "Feature selection using a classification error impurity algorithm and an adaptive genetic algorithm improved with an external repository",
+    "authors": [
+      "Hossein Nematzadeh",
+      "José García-Nieto",
+      "Ismael Navas-Delgado",
+      "José F. Aldana-Montes"
+    ],
+    "year": 2024,
+    "publication_date": "2024-08-08",
+    "publication_type": "journal article",
+    "venue": "Knowledge-Based Systems, 301, article 112345",
+    "doi": "10.1016/j.knosys.2024.112345",
+    "official_url": "https://www.sciencedirect.com/science/article/pii/S0950705124009791",
+    "legal_open_access_url": "https://riuma.uma.es/xmlui/bitstream/handle/10630/32475/1-s2.0-S0950705124009791-main.pdf?isAllowed=y&sequence=1",
+    "country": "Spain",
+    "author_institutions": [
+      "[Факт зі статті] Universidad de Málaga / ITIS / IBIMA, Málaga, Spain. Author block in the CC BY institutional PDF: https://riuma.uma.es/xmlui/bitstream/handle/10630/32475/1-s2.0-S0950705124009791-main.pdf?isAllowed=y&sequence=1"
+    ],
+    "region_category": "EU",
+    "decision_variable_count": "[Глибокий аудит, Table 7] The standard constrained binary formulation has M∈{121,...,145} feature-inclusion variables, depending on dataset. The released sparse representation initializes subsets of length 1–10 and the paper's search-space expression permits length up to 18; this is a representation caveat, not a <11-dimensional source problem.",
+    "decision_variables": [
+      "[Глибокий аудит] Complete symbolic set z_1,z_2,...,z_M with z_m∈{0,1}, where z_m indicates inclusion of candidate feature m and 1≤sum(z_m)≤18; the Python code stores the equivalent selected-index set S={m:z_m=1}."
+    ],
+    "decision_variable_types": [
+      "binary feature-inclusion indicators",
+      "equivalent sparse variable-length list of integer feature identifiers"
+    ],
+    "ga_hyperparameter_count": "Не вказано as a single complete count in the screening record.",
+    "ga_hyperparameters": [
+      "population size",
+      "generation/stopping limit",
+      "crossover probability",
+      "mutation probability",
+      "external-repository capacity/selection settings",
+      "initial solution-length bounds 1–10 and evaluated subset-size cap 18",
+      "classification/cross-validation settings"
+    ],
+    "adaptive_parameters": [
+      "[Факт зі статті/repository] crossover rate",
+      "[Факт зі статті/repository] mutation rate"
+    ],
+    "adaptive_parameter_count": 2,
+    "adaptation_category": "B + E + G: multi-parameter adaptive GA with an external diversity repository",
+    "adaptation_timing": "[Глибокий аудит, Algorithm 5] After survivor merge/sort/truncation and best-fitness evaluation, both rates update together whenever five consecutive generations have no improvement; any improvement resets both.",
+    "adaptation_level": "population/operator level",
+    "adaptation_formulas": "[Глибокий аудит, paper §4.2/Algorithm 5] After five non-improving generations: Pc←max(0,Pc−0.3) and Pm←min(1,Pm+0.2). On improvement: (Pc,Pm)←(0.9,0.4).",
+    "adaptive_initial_values": "[Факт зі статті] Pc=0.9 and Pm=0.4.",
+    "adaptive_min_values": "[Факт зі статті] Pc is clamped at 0; Pm starts at 0.4 and is clamped within the generic probability bound [0,1].",
+    "adaptive_max_values": "[Факт зі статті] Pc starts at 0.9; Pm is clamped at 1.",
+    "update_frequency": "[Факт зі статті] Best fitness is checked every generation; the rates change after each block of five consecutive non-improving generations and reset immediately after improvement.",
+    "update_order": "[Глибокий аудит, Algorithm 5] Evaluate population → generate crossover/mutation offspring and an external-repository candidate → merge, sort, and truncate to nPop=10 → recompute selection probabilities/best → update or reset Pc and Pm → check stopping.",
+    "adaptation_input_metrics": [
+      "best-fitness improvement",
+      "consecutive generations without improvement"
+    ],
+    "parameter_interdependence": "[Глибокий аудит] Pc and Pm share the same stagnation counter and reset event but each updates from its own old value; neither formula reads the newly updated other parameter.",
+    "formula_pages_and_numbers": [
+      "Official institutional PDF Algorithms 1–5 and Equations (9)–(13), pp. 4–8; Tables 4–9 and Figures 5–8, pp. 8–13",
+      "Repository README/code line guide: https://github.com/KhaosResearch/CMF-AGAwER"
+    ],
+    "pseudocode_available": "[Факт зі статті/repository] Yes: Algorithms 1–5 plus an MIT Python implementation are available.",
+    "baseline_ga_available": "[Глибокий аудит] Partial: before/after classifier results and GA/repository comparisons exist, but no perfectly matched adaptation-off fixed-parameter GA is reported.",
+    "ablation_study_available": "[Факт зі статті] Yes: Figure 6 isolates the external repository and Figure 7 studies adaptive crossover/mutation settings.",
+    "optimization_problem_type": "Hybrid filter-wrapper classification feature selection.",
+    "fitness_function": "[Факт зі статті] Classification-error/accuracy-based wrapper objective combined with feature-subset construction; evaluation uses five-fold stratified cross-validation according to repository README.",
+    "constraint_handling": "[Глибокий аудит] The sparse representation enforces unique selected feature IDs; initialization uses 1–10 IDs and the reported search space caps evaluated subsets at 18.",
+    "penalty_function": "Не вказано",
+    "dataset_or_benchmark": "[Факт зі статті/repository] Nine classification datasets; repository includes dataset folders and precomputed top-50 feature files.",
+    "data_url": "https://github.com/KhaosResearch/CMF-AGAwER/tree/main/Datasets",
+    "data_license": "[Інформація з репозитарію] Repository is MIT-licensed; upstream dataset-specific licensing must still be checked before redistribution.",
+    "code_url": "https://github.com/KhaosResearch/CMF-AGAwER",
+    "original_code_language": "[Інформація з репозитарію] Python 100%; principal file CMF-AGAwER.py.",
+    "code_license": "[Інформація з репозитарію] MIT License.",
+    "license_url": "https://github.com/KhaosResearch/CMF-AGAwER/blob/main/LICENSE",
+    "complete_parameter_set_available": "[Глибокий аудит] The paper and code expose the principal controls, but paper/code offspring rounding and update-timing discrepancies require explicit paper-faithful and code-faithful variants.",
+    "random_seeds_available": "Не вказано",
+    "independent_run_count": "[Факт зі статті] Table 5/Figure 5 use 10 runs; Tables 8–9 use 3 runs. No general seed ledger is supplied.",
+    "published_metrics": [
+      "classification accuracy",
+      "feature-subset size",
+      "mean results across 10 runs for Table 5 and three runs for Tables 8–9",
+      "comparisons on nine datasets"
+    ],
+    "intermediate_results_available": "[Інформація з репозитарію] Code includes feature rankings, generated figures, and main AGAwER implementation; archived per-generation raw logs were not established.",
+    "convergence_curve_available": "[Факт зі статті] Reported graphical results are present; machine-readable curve data are not separately identified.",
+    "raw_data_available": "[Інформація з репозитарію] Dataset and precomputed feature files are present; run-level stochastic logs are not identified.",
+    "reproducibility_level": "Technically moderate; conditional noneligible until lawful dataset reuse is established.",
+    "main_risks": [
+      "Upstream license/provenance is not established separately for each bundled biomedical dataset.",
+      "The principal Python file is not end-to-end runnable without manual path, dataset, and feature-array edits.",
+      "Paper ceil offspring counts differ from code round semantics; stale-index and update-timing defects are present.",
+      "Seeds are not identified.",
+      "Exact scikit-learn decision-tree and KMeans behavior is difficult to match in MATLAB."
+    ],
+    "eligibility_status": "conditional_noneligible",
+    "inclusion_or_exclusion_reason": "[Глибокий аудит] Noneligible until the upstream license/provenance of a selected biomedical dataset is verified. The audit's 73/100 is provisional comparative information only, is not rankable, and does not populate final_score.",
+    "final_score": null,
+    "score_breakdown": {
+      "mathematical_description": {
+        "score": null,
+        "max": 15,
+        "evidence": "Not rankable while dataset legality is unresolved; see provisional 73/100 in top_candidate_audit.md."
+      },
+      "experimental_parameter_description": {
+        "score": null,
+        "max": 10,
+        "evidence": "Not rankable while dataset legality is unresolved."
+      },
+      "legal_data_availability": {
+        "score": null,
+        "max": 10,
+        "evidence": "The paper/code are legally available, but upstream dataset-specific rights are unresolved; no rankable score is assigned."
+      },
+      "seeds_and_run_count": {
+        "score": null,
+        "max": 10,
+        "evidence": "Not rankable while dataset legality is unresolved."
+      },
+      "open_code": {
+        "score": null,
+        "max": 10,
+        "evidence": "Official code exists, but no rankable score is assigned while dataset legality is unresolved."
+      },
+      "code_license_quality": {
+        "score": null,
+        "max": 10,
+        "evidence": "MIT code license verified; dataset rights remain separate, so no rankable score is assigned."
+      },
+      "intermediate_result_verifiability": {
+        "score": null,
+        "max": 10,
+        "evidence": "Not rankable while dataset legality is unresolved."
+      },
+      "adaptive_parameter_completeness": {
+        "score": null,
+        "max": 10,
+        "evidence": "Not rankable while dataset legality is unresolved."
+      },
+      "update_order_clarity": {
+        "score": null,
+        "max": 5,
+        "evidence": "Not rankable while dataset legality is unresolved."
+      },
+      "baseline_ga": {
+        "score": null,
+        "max": 5,
+        "evidence": "Not rankable while dataset legality is unresolved."
+      },
+      "ablation_study": {
+        "score": null,
+        "max": 5,
+        "evidence": "Not rankable while dataset legality is unresolved."
+      }
+    }
+  },
+  {
+    "candidate_id": "EU-007",
+    "full_title": "An Output Power Interval Control Strategy Based on Pseudo-Tip-Speed Ratio and Adaptive Genetic Algorithm for Variable-Pitch Tidal Stream Turbine",
+    "authors": [
+      "Youming Cai",
+      "Mingzhu Li",
+      "Tianzhen Wang",
+      "Xiaohang Wang",
+      "Hubert Razik"
+    ],
+    "year": 2022,
+    "publication_date": "2022-09-01",
+    "publication_type": "journal article",
+    "venue": "Journal of Marine Science and Engineering, 10(9), article 1197",
+    "doi": "10.3390/jmse10091197",
+    "official_url": "https://www.mdpi.com/2077-1312/10/9/1197",
+    "legal_open_access_url": "https://www.mdpi.com/2077-1312/10/9/1197/pdf",
+    "country": "France (qualifying EU author affiliation; other authors also have Chinese affiliations)",
+    "author_institutions": [
+      "[Факт зі статті] Hubert Razik: Université de Lyon, France. Official author block: https://www.mdpi.com/2077-1312/10/9/1197"
+    ],
+    "region_category": "EU",
+    "decision_variable_count": "[Факт зі статті] 2 optimized PI-controller gains.",
+    "decision_variables": [
+      "[Факт зі статті] k_AGA-p: proportional gain",
+      "[Факт зі статті] k_AGA-i: integral gain"
+    ],
+    "decision_variable_types": [
+      "continuous"
+    ],
+    "ga_hyperparameter_count": "[Факт зі статті] At least 6 principal settings are stated; no single exhaustive count is claimed.",
+    "ga_hyperparameters": [
+      "population size N=40",
+      "generation limit G=200",
+      "crossover probability p_c",
+      "mutation probability p_m",
+      "selection/crossover/mutation operators",
+      "constant c_0=17.7 used in the adaptive formulation",
+      "mutation-probability interval [0.01,0.1]"
+    ],
+    "adaptive_parameters": [
+      "[Факт зі статті] crossover probability p_c",
+      "[Факт зі статті] mutation probability p_m"
+    ],
+    "adaptive_parameter_count": 2,
+    "adaptation_category": "B + E + F: generation-scheduled crossover plus fitness/rank-feedback mutation",
+    "adaptation_timing": "[Факт зі статті] p_c varies with generation; p_m varies according to individual fitness/rank. Both are used during each generation's reproduction.",
+    "adaptation_level": "generation level for crossover and individual level for mutation",
+    "adaptation_formulas": "[Факт зі статті] Equations (26)–(28), pp. 8–10, define generation-dependent p_c and fitness/rank-dependent p_m. Exact equation symbols are not re-transcribed because this candidate already fails the hard decision-dimension threshold.",
+    "adaptive_initial_values": "[Факт зі статті] Population N=40, G=200, c_0=17.7; exact p_c initial scalar is not transcribed in this screening record.",
+    "adaptive_min_values": "[Факт зі статті] p_m minimum 0.01.",
+    "adaptive_max_values": "[Факт зі статті] p_m maximum 0.1; p_c maximum not transcribed in this screening record.",
+    "update_frequency": "[Факт зі статті] Every generation/individual reproduction according to Equations (26)–(28).",
+    "update_order": "[Факт зі статті] Evaluate controller fitness → compute generation-dependent crossover setting and fitness/rank-dependent mutation setting → selection/crossover/mutation → next generation; algorithm description around Equations (26)–(28).",
+    "adaptation_input_metrics": [
+      "generation index",
+      "maximum generation G",
+      "individual fitness/rank",
+      "population fitness statistics used by the stated formula"
+    ],
+    "parameter_interdependence": "[Висновок] p_c and p_m are adapted in the same reproduction cycle but use different input signals; no direct algebraic dependency between their newly updated values is established in this screening record.",
+    "formula_pages_and_numbers": [
+      "Official PDF pp. 8–10, Equations (26)–(28)",
+      "https://www.mdpi.com/2077-1312/10/9/1197"
+    ],
+    "pseudocode_available": "[Факт зі статті] The AGA workflow and formulas are provided; no need to resolve further after hard dimension failure.",
+    "baseline_ga_available": "[Факт зі статті] Controller/optimization comparisons are reported, including non-adaptive or conventionally tuned alternatives.",
+    "ablation_study_available": "Не вказано",
+    "optimization_problem_type": "Continuous PI-controller tuning for variable-pitch tidal-stream-turbine output-power interval control.",
+    "fitness_function": "[Факт зі статті] Control-performance objective used to tune the two PI gains; exact full scalar expression is given in the AGA/controller section and should be transcribed from the official PDF if ever reconsidered.",
+    "constraint_handling": "[Факт зі статті] Gain bounds and turbine/control simulation constrain candidate evaluation; exact bound table is not transcribed here.",
+    "penalty_function": "Не вказано",
+    "dataset_or_benchmark": "MATLAB/Simulink tidal-stream-turbine simulation scenarios.",
+    "data_url": "[Факт зі статті] Simulation model/settings are described in the OA article; no separate raw dataset repository was identified: https://www.mdpi.com/2077-1312/10/9/1197",
+    "data_license": "Не вказано for separate model data; article is open access.",
+    "code_url": "Не вказано",
+    "original_code_language": "[Факт зі статті] MATLAB/Simulink R2016b",
+    "code_license": "Не вказано",
+    "license_url": "Не вказано",
+    "complete_parameter_set_available": "[Висновок] Not assessed to implementation depth because the study has only two decision variables.",
+    "random_seeds_available": "Не вказано",
+    "independent_run_count": "Не вказано",
+    "published_metrics": [
+      "controller tracking/output-power behavior",
+      "simulation response curves",
+      "optimized PI gains"
+    ],
+    "intermediate_results_available": "[Факт зі статті] Simulation time-series figures are available; GA run-level intermediate logs are not identified.",
+    "convergence_curve_available": "[Факт зі статті] Optimization/controller figures are present, but raw convergence series are not archived.",
+    "raw_data_available": "Не вказано",
+    "reproducibility_level": "Low and ineligible",
+    "main_risks": [
+      "Mandatory hard failure: only two decision variables.",
+      "No public code, seeds, run count, or raw model archive.",
+      "MATLAB/Simulink version/toolbox dependencies."
+    ],
+    "eligibility_status": "hard_fail",
+    "inclusion_or_exclusion_reason": "[Висновок] Excluded because only k_AGA-p and k_AGA-i are optimized. GA population, probabilities, and generation count are hyperparameters and cannot be counted toward the required 11 decision variables.",
+    "final_score": null,
+    "score_breakdown": {
+      "mathematical_description": {
+        "score": null,
+        "max": 15,
+        "evidence": "Не оцінюється: hard fail on decision-variable count."
+      },
+      "experimental_parameter_description": {
+        "score": null,
+        "max": 10,
+        "evidence": "Не оцінюється: hard fail."
+      },
+      "legal_data_availability": {
+        "score": null,
+        "max": 10,
+        "evidence": "Official OA article exists, but score is not assigned after hard failure: https://www.mdpi.com/2077-1312/10/9/1197"
+      },
+      "seeds_and_run_count": {
+        "score": null,
+        "max": 10,
+        "evidence": "Не оцінюється: hard fail."
+      },
+      "open_code": {
+        "score": null,
+        "max": 10,
+        "evidence": "Не оцінюється: hard fail."
+      },
+      "code_license_quality": {
+        "score": null,
+        "max": 10,
+        "evidence": "Не оцінюється: hard fail."
+      },
+      "intermediate_result_verifiability": {
+        "score": null,
+        "max": 10,
+        "evidence": "Не оцінюється: hard fail."
+      },
+      "adaptive_parameter_completeness": {
+        "score": null,
+        "max": 10,
+        "evidence": "Не оцінюється: hard fail."
+      },
+      "update_order_clarity": {
+        "score": null,
+        "max": 5,
+        "evidence": "Не оцінюється: hard fail."
+      },
+      "baseline_ga": {
+        "score": null,
+        "max": 5,
+        "evidence": "Не оцінюється: hard fail."
+      },
+      "ablation_study": {
+        "score": null,
+        "max": 5,
+        "evidence": "Не оцінюється: hard fail."
+      }
+    }
+  }
+]

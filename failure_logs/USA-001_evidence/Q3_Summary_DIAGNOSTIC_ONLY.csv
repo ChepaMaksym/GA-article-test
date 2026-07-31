@@ -1,0 +1,2 @@
+DiagnosticProfile,Variant,DiagnosticOnly,DiagnosticLabel,RunCount,PerfectCount,MeanReportedIteration,MeanFinalPaperObjective,MeanFinalNormalizedObjective,MeanRecoveryRMSE,P1Pass,P2Pass,P3Pass,P4Pass,AllFourDiagnosticPass,PrimaryFailureSHA256
+Q3_RELEASED_DRIVER,Diagnostic_Q3_ReleasedDriver,1,DIAGNOSTIC ONLY - Q3 combined released-code compatibility,10,9,10900,0.00500589166342626,5.00589166342626e-05,0.135384551339175,1,0,1,0,0,02f05a4b38a7b8a4b084722530f65443c1862e3d7a89a9f23b8d66d8f282a867

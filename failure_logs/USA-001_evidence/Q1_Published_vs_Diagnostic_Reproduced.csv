@@ -1,0 +1,5 @@
+DiagnosticProfile,DiagnosticOnly,ConclusionScope,MetricID,Metric,Published,Reproduced,AbsoluteError,RelativeError,LowerBound,UpperBound,Criterion,Required,Pass
+Q1_STRICT_HORIZONS,1,failure-diagnostic; does not alter primary result,P1,Perfect proportion by 1000,0.9,0.9,0,0,0.855,0.945,relative error <= 5% (author raw endpoint),1,1
+Q1_STRICT_HORIZONS,1,failure-diagnostic; does not alter primary result,P2,Perfect proportion by 2000,1,0.9,0.1,0.1,0.95,1.05,relative error <= 5% (author raw endpoint),1,0
+Q1_STRICT_HORIZONS,1,failure-diagnostic; does not alter primary result,P3,Median reported iteration,1000,1000,0,0,950,1050,relative error <= 5% (author raw endpoint),1,1
+Q1_STRICT_HORIZONS,1,failure-diagnostic; does not alter primary result,P4,Mean final paper objective,0,0.00554888537341592,0.00554888537341592,NaN,-1e-12,1e-12,absolute error <= numerical zero tolerance,1,0

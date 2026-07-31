@@ -12,3 +12,6 @@
 *.jpg binary
 *.jpeg binary
 *.pdf binary
+
+# Retained evidence hashes cover the exact CSV bytes, including line endings.
+failure_logs/USA-001_evidence/*.csv -text

@@ -1,0 +1,2 @@
+DiagnosticProfile,Variant,DiagnosticOnly,DiagnosticLabel,RunCount,PerfectCount,MeanReportedIteration,MeanFinalPaperObjective,MeanFinalNormalizedObjective,MeanRecoveryRMSE,P1Pass,P2Pass,P3Pass,P4Pass,AllFourDiagnosticPass,PrimaryFailureSHA256
+Q2_RELEASED_OPERATORS,Diagnostic_Q2_ReleasedOperators,1,DIAGNOSTIC ONLY - Q2 released structural operators,10,9,10900,0.00500823612629955,5.00823612629955e-05,0.132874920666047,1,0,1,0,0,02f05a4b38a7b8a4b084722530f65443c1862e3d7a89a9f23b8d66d8f282a867
