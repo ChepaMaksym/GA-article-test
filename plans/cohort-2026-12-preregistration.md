@@ -1,12 +1,13 @@
 # Preregistration: новий cohort adaptive GA (12 досліджень)
 
-Статус: frozen search-and-reproduction protocol
+Статус: frozen search-and-reproduction protocol, amended to v1.1
 Дата заморожування: 2026-08-06
+Дата amendment v1.1: 2026-08-06, до freeze рейтингу і до reproduction runs
 Гілка: `research/cohort-2026-12`
 
 ## 1. Мета
 
-Знайти 12 нових, не присутніх у попередньому 15-кандидатному cohort, досліджень adaptive/self-adaptive GA, виконати однаковий eligibility audit, ранжувати лише `hard_pass`, а потім послідовно відтворювати їх до першого `PASS_FULL` або вичерпання всіх preregistered eligible candidates.
+Знайти 12 нових, не присутніх у попередньому 15-кандидатному cohort, досліджень adaptive/self-adaptive GA для прямих optimization tasks, виконати однаковий eligibility audit, ранжувати лише `hard_pass`, а потім послідовно відтворювати їх до першого `PASS_FULL` або вичерпання всіх preregistered eligible candidates.
 
 Негативні результати EU-001 і USA-001, архів `old/` та immutable evidence не змінюються.
 
@@ -19,7 +20,10 @@
 - EU означає державу-члена ЄС на дату публікації; UK не зараховується без окремої EU-афіліації;
 - DOI, exact title і source revision використовуються для дедуплікації;
 - усі 15 попередніх кандидатів та їхні дублікати виключаються;
-- інверсні й прямі optimization tasks допускаються однаково; інверсність не є перевагою.
+- допускаються лише прямі optimization tasks;
+- inverse problems, inversion, system identification, source reconstruction, hidden-state reconstruction і parameter estimation із observed data через forward model виключаються;
+- benchmark function optimization, scheduling, routing, design optimization, controller tuning, feature selection і classification допускаються, якщо GA безпосередньо оптимізує явно заданий objective та виконує всі інші hard criteria;
+- виключений через інверсність запис не може бути замінений послабленням критеріїв: пошук продовжується до заповнення квоти 6 USA + 6 EU неінверсними дослідженнями.
 
 ## 3. Hard inclusion criteria
 
@@ -27,14 +31,15 @@
 
 1. Є законно доступний повний текст саме потрібної версії публікації.
 2. Оптимізований solution vector має щонайменше 11 реальних decision variables. Population size, generations, crossover/mutation probabilities, tournament size й elitism не рахуються як decision variables.
-3. Під час виконання змінюється щонайменше один GA hyperparameter або GA operator: mutation, crossover, selection/tournament, elitism, replacement або operator-selection probability. Одночасна адаптація кількох операторів дозволена.
-4. Адаптація surrogate/fitness/forward model без зміни GA parameter/operator не відповідає вимозі.
-5. Відомі формула або повністю виконуваний алгоритм адаптації, initial/min/max values, update frequency, update order, trigger/feedback metric і boundary behavior.
-6. Відомі fitness/objective function, representation, constraints, initialization, selection, crossover, mutation, replacement/elitism і termination.
-7. Є законні inputs або повністю визначений synthetic-data generator; немає залежності від недоступного CFD/FEM, закритого hardware experiment чи платного зовнішнього solver.
-8. Є числовий published-result target, який можна перевірити без зчитування значень лише з нечіткого графіка.
-9. Відомі або відтворювані run count, stochastic protocol і достатній provenance для чесного порівняння.
-10. Clean-room MATLAB implementation є технічно реальною; source-native run має бути можливим, якщо авторський код заявлено як reproduction artifact.
+3. Задача є прямою оптимізацією, а не інверсією: objective обчислюється без відновлення прихованих фізичних параметрів, джерел або станів із вимірювань через forward model.
+4. Під час виконання змінюється щонайменше один GA hyperparameter або GA operator: mutation, crossover, selection/tournament, elitism, replacement або operator-selection probability. Одночасна адаптація кількох операторів дозволена.
+5. Адаптація surrogate/fitness/forward model без зміни GA parameter/operator не відповідає вимозі.
+6. Відомі формула або повністю виконуваний алгоритм адаптації, initial/min/max values, update frequency, update order, trigger/feedback metric і boundary behavior.
+7. Відомі fitness/objective function, representation, constraints, initialization, selection, crossover, mutation, replacement/elitism і termination.
+8. Є законні inputs або повністю визначений synthetic-data generator; немає залежності від недоступного CFD/FEM, закритого hardware experiment чи платного зовнішнього solver.
+9. Є числовий published-result target, який можна перевірити без зчитування значень лише з нечіткого графіка.
+10. Відомі або відтворювані run count, stochastic protocol і достатній provenance для чесного порівняння.
+11. Clean-room MATLAB implementation є технічно реальною; source-native run має бути можливим, якщо авторський код заявлено як reproduction artifact.
 
 Якщо хоча б один hard criterion не доведений, статус - `conditional_noneligible` або `hard_fail`; score не обчислюється.
 
