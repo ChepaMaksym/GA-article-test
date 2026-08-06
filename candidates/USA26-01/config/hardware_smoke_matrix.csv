@@ -1,0 +1,7 @@
+suite,function,dimension,initial_std,generations,seed_start,seed_end
+correctness,sphere,30,1.0,300,0,39
+throughput,ackley,100,10.0,1000,0,7
+throughput,griewank,100,10.0,1000,0,7
+throughput,rastrigin,100,10.0,1000,0,7
+throughput,rosenbrock,100,10.0,1000,0,7
+throughput,sphere,100,10.0,1000,0,7
