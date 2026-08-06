@@ -1,4 +1,5 @@
 name: Cohort 2026 hardware portability
+run-name: Hardware portability @ ${{ github.sha }}
 
 on:
   workflow_dispatch:
