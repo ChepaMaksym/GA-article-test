@@ -20,8 +20,8 @@
 ## Поточний результат
 
 - `hard_pass`: 0;
-- `conditional_noneligible`: 10;
-- `hard_fail`: 2;
+- `conditional_noneligible`: 9;
+- `hard_fail`: 3;
 - `ranking.csv`: навмисно порожній, крім заголовка;
 - published-result reproduction runs: не запускаються, бо немає eligible candidate.
 

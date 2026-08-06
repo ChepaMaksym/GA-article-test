@@ -237,10 +237,10 @@
     "run_count": 30,
     "published_targets": ["Table 6: A-NTGA average IGD is 0.380 +/- 0.127 in units of 10^-2 on 200_40_130_9_D4 over 30 runs", "A-NTGA obtains the best average IGD on 8/15 MS-RCPSP, 15/15 TTP, and 14/16 MSRA instances (37/46 total)", "Average IGD reductions versus B-NTGA are 34.57%, 47.17%, and 35.39%"],
     "matlab_clean_room_feasible": true,
-    "eligibility_status": "conditional_noneligible",
+    "eligibility_status": "hard_fail",
     "final_score": null,
-    "critical_blocker": "The paper claims a complete source artifact, but the publication-era repository has no LICENSE, exact paper configurations, seed ledger, or raw 30-run outputs; the inspected factory also maps CreditRoulette names to a different selector.",
-    "audit_note": "The paper fully specifies the local credit update for a clean-room implementation, but source-native published-result replay is not established."
+    "critical_blocker": "The paper claims a complete source artifact, but the publication-era configurations select UniformMultiOperator and the factory maps CreditRoulette names to a different selector; source-native execution of the claimed algorithm is therefore impossible without patching.",
+    "audit_note": "The paper fully specifies the local credit update for a clean-room implementation, but the frozen author artifact decisively fails criterion 10; it also lacks a LICENSE, published seed ledger, and raw 30-run outputs."
   },
   {
     "candidate_id": "EU26-04",
