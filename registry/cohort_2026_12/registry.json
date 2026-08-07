@@ -276,10 +276,10 @@
     "doi": "10.1007/978-3-031-29573-7_1",
     "year": 2023,
     "affiliation_evidence": "The paper lists NOVA IMS, Portugal, and University of Trieste, Italy.",
-    "full_text_url": "https://run.unl.pt/bitstreams/b3d773ed-291d-47f4-8f5d-1b8d0168bdff/download",
+    "full_text_url": "https://arts.units.it/handle/11368/3046333",
     "code_url": null,
     "data_url": null,
-    "source_revision": "Legal full method in the author's NOVA thesis; exact chapter VOR not confirmed open",
+    "source_revision": "Exact-title ArTS author postprint component 3 (2921299 bytes; SHA-256 unresolved) plus byte-pinned NOVA thesis fd0a947833b703d1729f5d44c4bee082b7e1999ba57ba2b8adccbc83d15e13ba",
     "code_license": null,
     "optimization_task": "Direct CEC-2017 real-valued benchmark optimization",
     "selected_decision_dimension": 30,
@@ -293,8 +293,8 @@
     "matlab_clean_room_feasible": true,
     "eligibility_status": "conditional_noneligible",
     "final_score": null,
-    "critical_blocker": "The legal detailed source is a thesis rather than the exact chapter VOR, and no official code, raw runs, or seed ledger was located.",
-    "audit_note": "The formulas are clean-room feasible, but plots/win counts do not define a sufficiently discriminating exact gate."
+    "critical_blocker": "Exact postprint bytes are not SHA-256 frozen; tau indexing, minimization selection, zero denominators, decode and replacement are incomplete; CEC license/revision, author code, raw runs and seeds are absent.",
+    "audit_note": "Authorized only for FORMULA_AND_TRANSITION_VALIDATION_ONLY. The literal d=30 endpoint is 27/30, but it is descriptive and cannot be executed as a published-result gate under the available provenance."
   },
   {
     "candidate_id": "EU26-06",
