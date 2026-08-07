@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0.0",
+  "protocol_id": "EU26-02-HW-PORTABILITY-v1",
+  "verification_scope": "ARCHIVE_AND_FORMULA_HARDWARE_VALIDATION_ONLY",
+  "branch_git_sha": "cc6b4834d59c86511c363343fa68f03169c20e2b",
+  "github_actions_merge_git_sha": "d4abe4c88dab37e6b0141bd6046568e3ddc162c8",
+  "common_tree_sha": "188967341ca7df73b8756a6fe90b45bb70f93154",
+  "github_actions": {
+    "workflow_run_id": 31159417576,
+    "job_id": 92806219302,
+    "artifact_id": 8986510693,
+    "artifact_name": "eu26-02-github-4core-validation",
+    "artifact_zip_bytes": 93900,
+    "artifact_zip_sha256": "fdb77334283a754e9caec6fd9a44c761b7aa1418ff0f7666f2dd72a4e522fbd6"
+  },
+  "profiles": {
+    "work_4core": {
+      "status": "PASS_PROFILE",
+      "git_sha": "cc6b4834d59c86511c363343fa68f03169c20e2b",
+      "workers": 4,
+      "logical_cpus": 4,
+      "median_batch_seconds": 5.405412171000535,
+      "report_bytes": 905795,
+      "report_sha256": "fb2c34fce68596403c07522d6b94792c3106f1a79d94f63ce57fd505ba2be3df"
+    },
+    "work_8core": {
+      "status": "PASS_PROFILE",
+      "git_sha": "cc6b4834d59c86511c363343fa68f03169c20e2b",
+      "workers": 8,
+      "logical_cpus": 8,
+      "median_batch_seconds": 3.518480030000319,
+      "report_bytes": 911612,
+      "report_sha256": "c89755c6ef24b95f353f963cf17ffb7b90710e116ccb87168ed6adaed501c9aa"
+    },
+    "github_actions_4core": {
+      "status": "PASS_PROFILE",
+      "git_sha": "d4abe4c88dab37e6b0141bd6046568e3ddc162c8",
+      "workers": 4,
+      "logical_cpus": 4,
+      "median_batch_seconds": 18.278143056999994,
+      "report_bytes": 905784,
+      "report_sha256": "5278fa28a8993a06cc63cc0cb3ec07aa5c16231800cdc5f20f20458130f62a88"
+    }
+  },
+  "common_evidence": {
+    "source_file_count": 46,
+    "formula_case_count": 64,
+    "archive_case_count": 31,
+    "formula_aggregate_sha256": "5e0f1346a7eb931a7c5bda08f2df082c2a0027c9b359f37c78b1be5ef5f3d61a",
+    "archive_case_aggregate_sha256": "9b0b90fca330fd89c259b907a215f9336add73f6ad599a4a94c9946d632183c9",
+    "case_hashes_tsv_sha256": "51222aab345b410695b50f4b52a4a22d7804af08337cebd49aa0094fb850f99a"
+  },
+  "pairwise_correctness": {
+    "work_4core_vs_work_8core": "PASS_BITWISE",
+    "work_4core_vs_github_actions_4core": "PASS_BITWISE",
+    "work_8core_vs_github_actions_4core": "PASS_BITWISE",
+    "formula_mismatches": 0,
+    "archive_mismatches": 0
+  },
+  "H5_cross_profile": "PASS_BITWISE",
+  "portability_status": "PASS_PORTABILITY",
+  "comparator_report_bytes": 2705,
+  "comparator_report_sha256": "2284711a2fe61542308a362a33083ad6e0672c21ab05cc2dc6a27623ec7ff58a",
+  "ghz_effect_status": "NOT_IDENTIFIABLE_FROM_UNCONTROLLED_VM_METADATA",
+  "paper_level_status": "BLOCKED_MULTIPLE_SOURCE_CONFLICTS"
+}

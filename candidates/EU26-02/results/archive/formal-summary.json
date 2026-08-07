@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "candidate_id": "EU26-02",
-  "formal_git_sha": "79eb3b6e01e581fb364c9f17b4db985544eb0130",
+  "formal_git_sha": "cc6b4834d59c86511c363343fa68f03169c20e2b",
   "source_state": "TRACKED_CLEAN_UNCHANGED",
   "archive": {
     "bytes": 64960102,

@@ -1,6 +1,6 @@
 # EU26-02 formal archive validation — 2026-08-07
 
-Formal Git SHA: `79eb3b6e01e581fb364c9f17b4db985544eb0130`.
+Formal Git SHA: `cc6b4834d59c86511c363343fa68f03169c20e2b`.
 
 The run began and ended with every hashed source tracked and byte-identical to
 that HEAD. The original 64,960,102-byte archive matched SHA-256
