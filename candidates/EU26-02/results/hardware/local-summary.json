@@ -1,9 +1,52 @@
 {
   "schema_version": "1.0.0",
   "protocol_id": "EU26-02-HW-PORTABILITY-v1",
-  "status": "SUPERSEDED_TOCTOU_RERUN_REQUIRED",
-  "superseded_git_sha": "cc6b4834d59c86511c363343fa68f03169c20e2b",
-  "required_profiles": ["work_4core", "work_8core"],
-  "H5_cross_profile": "NOT_EVALUATED_SUPERSEDED_INPUTS",
+  "formal_local_git_sha": "4a37d5fb829540a63694fd641600de7d30c5173f",
+  "remote_source_git_sha": "71c84c657f98466d3446855dd65491fef32a910a",
+  "profiles": {
+    "work_4core": {
+      "status": "PASS_PROFILE",
+      "workers": 4,
+      "H0_H4": "PASS",
+      "median_batch_seconds": 5.981151154999679,
+      "mad_over_median": 0.08764513024577014,
+      "report_bytes": 907380,
+      "report_sha256": "1cca01ff7dfe6025b91ece5b18d1538072492e5e2574c10e84fc457aa2450006"
+    },
+    "work_8core": {
+      "status": "PASS_PROFILE",
+      "workers": 8,
+      "H0_H4": "PASS",
+      "median_batch_seconds": 3.82180833700113,
+      "mad_over_median": 0.019193467471401583,
+      "report_bytes": 913198,
+      "report_sha256": "4df84b6cf33df396944d083f7ea3489c2148df63de0a47017e92875f52919595"
+    }
+  },
+  "common_evidence": {
+    "source_file_count": 48,
+    "formula_case_count": 64,
+    "archive_case_count": 31,
+    "archive_member_count": 1143,
+    "archive_payload_bytes": 104406336,
+    "archive_payload_manifest_sha256": "d50f4be5378357a45fc65047849f2ad1e99d01a8a005da42538f2d27fd585a36",
+    "formula_aggregate_sha256": "5e0f1346a7eb931a7c5bda08f2df082c2a0027c9b359f37c78b1be5ef5f3d61a",
+    "archive_case_aggregate_sha256": "9b0b90fca330fd89c259b907a215f9336add73f6ad599a4a94c9946d632183c9",
+    "combined_endpoint_sha256": "3fe3d29b882589784d4cc136dc1aced17400e86e12fd0fd0371076a865819962",
+    "archive_result_digest": "23ad21210e61dddd10f4fbb72a50dcc882f006ebc7d5d0e7395b0d78b77d9de6",
+    "case_hashes_tsv_bytes": 8924,
+    "case_hashes_tsv_sha256": "51222aab345b410695b50f4b52a4a22d7804af08337cebd49aa0094fb850f99a"
+  },
+  "work_4_vs_work_8": {
+    "status": "PASS_BITWISE",
+    "formula_mismatches": 0,
+    "archive_mismatches": 0,
+    "source_hashes_match": true,
+    "archive_hashes_match": true,
+    "payload_manifests_match": true,
+    "archive_aggregates_match": true
+  },
+  "H5_cross_profile": "PASS_BITWISE",
+  "cross_profile_summary": "cross-profile-summary.json",
   "paper_level_status": "BLOCKED_MULTIPLE_SOURCE_CONFLICTS"
 }

@@ -1,14 +1,51 @@
 {
   "schema_version": "1.0.0",
   "candidate_id": "EU26-02",
-  "status": "SUPERSEDED_TOCTOU_RERUN_REQUIRED",
-  "superseded_git_sha": "cc6b4834d59c86511c363343fa68f03169c20e2b",
-  "reason": "hash-close-reopen archive access did not bind parsing to authenticated bytes",
-  "governing_amendment": "preregistration/amendment-004-authenticated-snapshots.md",
-  "required_reruns": [
-    "artifact_actual_10800",
-    "paper_claimed_3600_diagnostic",
-    "selected_r250.5_seed15_witness"
-  ],
+  "formal_local_git_sha": "4a37d5fb829540a63694fd641600de7d30c5173f",
+  "remote_source_git_sha": "71c84c657f98466d3446855dd65491fef32a910a",
+  "common_source_tree_sha": "932d16a490a502daa62ed4af54714b33e0d27ab6",
+  "source_state": "TRACKED_CLEAN_UNCHANGED",
+  "archive": {
+    "bytes": 64960102,
+    "sha256": "1b7e8cf1ef637005bd994104f6e1ee520256ed387994b126bbe875a137632e41",
+    "authenticated_tar_bytes": 276705280,
+    "authenticated_tar_sha256": "a3c5893a1a7de480a05b26cbef24a2e07d161f8ed5923354444d6ea2d2fb5cf8"
+  },
+  "artifact_actual_10800": {
+    "status": "PASS_ARCHIVE_EXACT",
+    "aggregate_status": "PASS_AGGREGATE_EXACT",
+    "complete_31_instance_set": true,
+    "all_published_cells_match": true,
+    "attempt_files": 1143,
+    "retained_runs": 620,
+    "files_with_restart": 298,
+    "restart_lines": 7450,
+    "canonical_result_digest": "23ad21210e61dddd10f4fbb72a50dcc882f006ebc7d5d0e7395b0d78b77d9de6"
+  },
+  "paper_claimed_3600_diagnostic": {
+    "status": "DIAGNOSTIC_ONLY",
+    "attempt_files": 1143,
+    "retained_runs": 617,
+    "missing_seeds": {
+      "C2000.9": [3, 8],
+      "r1000.5": [5]
+    },
+    "canonical_result_digest": "9452b0fdd3ce8852eb757dff671faeb6b8e1d2f891c572f9f24a7c25824e2576"
+  },
+  "selected_witness": {
+    "status": "PASS_SELECTED_WITNESS",
+    "legal": true,
+    "conflicts": 0,
+    "used_colors": 66,
+    "vertices": 235,
+    "edges": 13968,
+    "removed_operator_at_turn_30": 1,
+    "report_digest": "fc508510dccf2c51c1c716a3a7ea3016ffe2410bae6424d4fd9b0cdd87ecdbb8"
+  },
+  "full_report": {
+    "bytes": 433553,
+    "file_sha256": "137e9a89763565ae98aaf90ec9796381d9b066e82c26e899429f90713096ec47",
+    "report_digest": "ebe802cf61a2580d23d7e6331a846e57ca11831e04b2d8a0dbc3c0f0701e2160"
+  },
   "paper_level_status": "BLOCKED_MULTIPLE_SOURCE_CONFLICTS"
 }

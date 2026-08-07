@@ -1,9 +1,55 @@
 {
-  "schema_version": "1.0.0",
+  "archive_bytes": 64960102,
+  "archive_sha256": "1b7e8cf1ef637005bd994104f6e1ee520256ed387994b126bbe875a137632e41",
   "candidate_id": "EU26-02",
-  "status": "SUPERSEDED_TOCTOU_RERUN_REQUIRED",
-  "superseded_git_sha": "cc6b4834d59c86511c363343fa68f03169c20e2b",
-  "reason": "archive and graph parsing were not yet bound to retained authenticated inputs",
-  "governing_amendment": "preregistration/amendment-004-authenticated-snapshots.md",
-  "paper_level_status": "BLOCKED_MULTIPLE_SOURCE_CONFLICTS"
+  "claim": "selected archived artifact legality and source-formula transition only",
+  "final_turn": 33,
+  "first_legal": {
+    "nb_colors": 66,
+    "time_seconds": 33,
+    "turn": 32
+  },
+  "graph": {
+    "edges": 13968,
+    "sha256": "1589cfc27c761c6014e3e6ff108270b49392ea300e9395015e28d535def57b39",
+    "source_path": "reduced_gcp/r250.5.col",
+    "vertices": 235
+  },
+  "legal_coloring": {
+    "conflicts": 0,
+    "declared_colors": 66,
+    "edge_count_checked": 13968,
+    "legal": true,
+    "solution_length": 235,
+    "solution_sha256": "55f4a6af54c474c57abd913024a30ce68979d988512e279cdb698ec09390abef",
+    "used_colors": 66
+  },
+  "members": {
+    "main": {
+      "bytes": 5124,
+      "path": "gcp_hard_ahead_1h_deleter/deleter/r250.5_15.csv",
+      "sha256": "8baa38bc27940fcbb7e470b2cfb13cc46a7de7950552c11dfa565323f412e787"
+    },
+    "tbt": {
+      "bytes": 3304,
+      "path": "gcp_hard_ahead_1h_deleter/deleter/tbt/r250.5_15.csv",
+      "sha256": "8119fe034a1f8c8a9dbc99542ebd829c66a1e6e7178a1894c3987c52532da16b"
+    }
+  },
+  "paper_level_status": "BLOCKED_MULTIPLE_SOURCE_CONFLICTS",
+  "report_digest": "fc508510dccf2c51c1c716a3a7ea3016ffe2410bae6424d4fd9b0cdd87ecdbb8",
+  "schema_version": "1.0.0",
+  "status": "PASS_SELECTED_WITNESS",
+  "temporary_uncompressed_tar_bytes": 276705280,
+  "temporary_uncompressed_tar_sha256": "a3c5893a1a7de480a05b26cbef24a2e07d161f8ed5923354444d6ea2d2fb5cf8",
+  "turn_30_transition": {
+    "post_counts": [16, 9, 10, 10, 11, 6],
+    "post_means": [2.0625, 2.888888888888889, 2.4, 1.9, 2.5454545454545454, 2.1666666666666665],
+    "post_sums": [33, 26, 24, 19, 28, 13],
+    "pre_counts": [15, 9, 10, 10, 11, 5],
+    "pre_sums": [31, 26, 24, 19, 28, 11],
+    "removed_operator": 1,
+    "scores": [2, 2],
+    "selected": [0, 5]
+  }
 }
