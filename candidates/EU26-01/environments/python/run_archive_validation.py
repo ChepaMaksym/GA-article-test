@@ -18,8 +18,8 @@ sys.path.insert(0, str(SCRIPT.parent))
 from tworateverify.archive import ArchiveSpec, ArchiveValidationError, validate_archive
 
 
-def _outside_repository(path: Path) -> Path:
-    resolved = path.resolve()
+def _outside_repository(value: str) -> Path:
+    resolved = Path(value).resolve()
     try:
         resolved.relative_to(REPOSITORY.resolve())
     except ValueError:
