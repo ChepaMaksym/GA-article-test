@@ -1,0 +1,78 @@
+{
+  "distinct_observed_cpu_models": [
+    "AMD EPYC 9V74 80-Core Processor"
+  ],
+  "execution_contexts": {
+    "work-4core": {
+      "github_actions": false,
+      "github_run_attempt": null,
+      "github_run_id": null,
+      "runner_environment": null,
+      "runner_name": null
+    },
+    "work-8core": {
+      "github_actions": false,
+      "github_run_attempt": null,
+      "github_run_id": null,
+      "runner_environment": null,
+      "runner_name": null
+    }
+  },
+  "ghz_effect_status": "NOT_IDENTIFIABLE_FROM_UNCONTROLLED_VM_METADATA",
+  "overall_status": "INCONCLUSIVE",
+  "pairwise_correctness": [
+    {
+      "bitwise_mismatch_count": 0,
+      "bitwise_mismatches": [],
+      "case_ids_match": true,
+      "left": "work-4core",
+      "numeric_mismatch_count": 0,
+      "numeric_mismatches": [],
+      "right": "work-8core",
+      "source_hashes_match": true,
+      "status": "PASS_BITWISE"
+    }
+  ],
+  "profile_failures": [],
+  "profiles": [
+    "work-4core",
+    "work-8core"
+  ],
+  "protocol_id": "GESMR-HW-PORTABILITY-v1",
+  "required_cpu_counts_present": true,
+  "required_execution_contexts_present": false,
+  "required_profile_roles": {
+    "github_actions_4core": false,
+    "work_4core": true,
+    "work_8core": true
+  },
+  "tested_logical_cpu_counts": [
+    4,
+    8
+  ],
+  "throughput": {
+    "work-4core": {
+      "logical_cpus": 4,
+      "median_batch_seconds": 3.9321314570006507,
+      "median_jobs_per_second": 10.17259988314612,
+      "observed_mhz": {
+        "maximum": 2596.13,
+        "median": 2596.13,
+        "minimum": 2596.13
+      },
+      "workers": 4
+    },
+    "work-8core": {
+      "logical_cpus": 8,
+      "median_batch_seconds": 2.06659978299831,
+      "median_jobs_per_second": 19.355465111859402,
+      "observed_mhz": {
+        "maximum": 2596.13,
+        "median": 2596.13,
+        "minimum": 2596.13
+      },
+      "workers": 8
+    }
+  },
+  "verification_scope": "FORMULA_HARDWARE_PORTABILITY_NOT_PUBLISHED_REPRODUCTION"
+}

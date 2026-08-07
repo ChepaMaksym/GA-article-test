@@ -1,0 +1,27 @@
+{
+  "candidate_id": "USA26-01",
+  "algorithm": "GESMR",
+  "task_class": "direct_analytic_minimization",
+  "experiment_scope": "five-function subset requested for the clean-room scaffold; the paper's unbounded Linear function is omitted",
+  "non_elite_size_N": 100,
+  "full_population_size_N_plus_1": 101,
+  "n_groups_K": 10,
+  "solution_selection_rate_eta_x": 0.5,
+  "mr_selection_rate_eta_sigma": 0.5,
+  "meta_mutation_rate_tau": 2.0,
+  "initial_mutation_rates": {
+    "spacing": "log10",
+    "minimum": 0.001,
+    "maximum": 1000.0,
+    "count": 10
+  },
+  "solution_mutation": "isotropic Gaussian x_prime = x + sigma * epsilon",
+  "mr_mutation": "log-uniform sigma_prime = sigma * tau^epsilon",
+  "crossover": "none",
+  "replacement": "truncation selection with one unchanged elite",
+  "boundary_handling": "none",
+  "seed_contract": "integer seed IDs 0..39 for every experiment_matrix.csv row",
+  "python_rng": "NumPy PCG64",
+  "matlab_rng": "MATLAB/Octave twister",
+  "cross_environment_rng_equivalence": "fixed random tape only"
+}

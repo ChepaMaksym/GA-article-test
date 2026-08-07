@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0.0",
+  "gate_statuses": ["pass", "unresolved", "fail"],
+  "scope_gate": {
+    "id": "direct_only",
+    "rule": "The GA must optimize a direct objective and must not reconstruct hidden parameters, sources, or states from observations through a forward model."
+  },
+  "criteria_1_2": {
+    "c1_full_text": "A lawful full text of the required publication version is available.",
+    "c2_dimension": "The selected experimental cell has at least 11 genuine decision variables."
+  },
+  "adaptive_hard_gates": {
+    "g3": {
+      "name": "runtime_ga_control_change",
+      "rule": "At least one mutation, crossover, selection/tournament, elitism, replacement, or operator-selection control actually changes within the published run.",
+      "required_fields": ["target_kinds", "within_run_change", "publication_configuration", "change_witness"]
+    },
+    "g4": {
+      "name": "not_surrogate_only",
+      "rule": "Changing only a surrogate, fitness, or forward model does not qualify; the change must control a GA operator or GA policy.",
+      "required_fields": ["adapted_component", "ga_control_link"]
+    },
+    "g5": {
+      "name": "complete_adaptation_semantics",
+      "rule": "The adaptation rule and its initial/min/max values, update frequency, order, feedback trigger, and boundary behavior are executable without invention.",
+      "required_fields": ["rule_or_algorithm", "initial_value", "minimum", "maximum", "update_frequency", "update_order", "trigger_or_feedback", "boundary_behavior"]
+    },
+    "g6": {
+      "name": "complete_ga_pipeline",
+      "rule": "Objective, representation, constraints, initialization, selection, crossover, mutation, replacement/elitism, and termination are known. Explicitly absent operators must be justified.",
+      "required_fields": ["objective", "representation", "constraints", "initialization", "selection", "crossover", "mutation", "replacement_or_elitism", "termination"]
+    },
+    "g7": {
+      "name": "lawful_reproducible_inputs",
+      "rule": "Inputs are lawful and complete or the synthetic generator is fully defined; no required unavailable CFD/FEM, closed hardware experiment, or paid solver is allowed.",
+      "required_fields": ["input_mode", "required_closed_dependency", "input_or_generator_evidence"]
+    },
+    "g8": {
+      "name": "literal_numeric_published_target",
+      "rule": "At least one literal numeric published result has an unambiguous protocol cell and can be checked without reading a fuzzy graph.",
+      "required_fields": ["numeric_targets", "protocol_mapping", "precision_or_rounding"]
+    },
+    "g9": {
+      "name": "stochastic_protocol_and_provenance",
+      "rule": "Run count, seed/RNG rule, independence unit, budget/stopping, aggregation/analysis, and provenance are sufficient for an honest comparison.",
+      "required_fields": ["run_count", "seed_or_rng_protocol", "independence_unit", "budget_or_stopping", "aggregation_or_analysis", "provenance"]
+    },
+    "g10": {
+      "name": "cross_environment_feasibility",
+      "rule": "A clean-room MATLAB implementation is technically feasible; if author code is claimed as a reproduction artifact, a source-native run must also be possible.",
+      "required_fields": ["matlab_clean_room_feasible", "source_native_artifact_claimed", "source_native_replay_possible", "environment_evidence"]
+    }
+  },
+  "derivation": {
+    "hard_pass": "direct_only, c1, c2, and every g3-g10 status are pass",
+    "conditional_noneligible": "no immutable scope exclusion, but at least one gate is unresolved or externally adjudicable",
+    "hard_fail": "at least one decisive gate failure under the frozen scope",
+    "score_rule": "final_score is numeric only for hard_pass; otherwise it is null",
+    "reproduction_rule": "eligibility and formula validation never imply PASS_FULL"
+  }
+}
