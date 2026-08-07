@@ -108,7 +108,6 @@ result.verification_scope = 'FORMULA_AND_AMBIGUITY_VALIDATION_ONLY';
 result.paper_level_status = 'BLOCKED_G5_G9';
 result.published_result_status = 'INCONCLUSIVE_PUBLISHED_RESULT';
 result.state_provenance = provenance;
-result.implementation = 'matlab_octave_clean_room';
 result.base_weights = base_weights;
 result.branch = branch;
 result.argmax_tile = argmax_tile;

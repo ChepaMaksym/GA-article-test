@@ -34,6 +34,8 @@ jobs:
     steps:
       - name: Check out the candidate branch
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -50,6 +52,8 @@ jobs:
     steps:
       - name: Check out the candidate branch
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -64,6 +68,8 @@ jobs:
     steps:
       - name: Check out the candidate branch
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Install GNU Octave
         run: |
           sudo apt-get update
@@ -81,6 +87,8 @@ jobs:
     steps:
       - name: Check out the candidate branch
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -104,31 +112,31 @@ jobs:
               )
           print({"os_cpu_count": os.cpu_count(), "affinity": affinity})
           PY
-      - name: Create an independent Octave fixed-tape report
-        run: |
-          mkdir -p hardware-artifacts
-          octave --quiet --eval \
-            "addpath('candidates/USA26-04/environments/matlab'); \
-             write_fixed_tape_report('hardware-artifacts/matlab-fixed-tape.json')"
       - name: Run the frozen profile with five retained timings
         run: |
+          mkdir -p "$RUNNER_TEMP/usa26-04-hardware-artifacts"
           python candidates/USA26-04/tests/hardware/run_portability_suite.py \
             --label github-actions-4core \
             --workers 4 \
             --logical-cpus 4 \
             --timing-repeats 5 \
-            --matlab-report hardware-artifacts/matlab-fixed-tape.json \
+            --matlab-engine octave \
             --require-matlab-report \
             --require-exact-visible-cpus \
-            --output hardware-artifacts/github-4core.json \
-            --hashes hardware-artifacts/github-4core-hashes.tsv
+            --output "$RUNNER_TEMP/usa26-04-hardware-artifacts/github-4core.json" \
+            --hashes "$RUNNER_TEMP/usa26-04-hardware-artifacts/github-4core-hashes.tsv"
       - name: Assert formula pass without paper-result promotion
         run: |
           python - <<'PY'
           import json
+          import os
           from pathlib import Path
           report = json.loads(
-              Path("hardware-artifacts/github-4core.json").read_text()
+              (
+                  Path(os.environ["RUNNER_TEMP"])
+                  / "usa26-04-hardware-artifacts"
+                  / "github-4core.json"
+              ).read_text()
           )
           if report.get("profile_status") != "PASS_PROFILE_H0_H4":
               raise SystemExit(f"unexpected profile status: {report.get('profile_status')}")
@@ -151,6 +159,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: usa26-04-github-4core-formula-profile
-          path: hardware-artifacts/
+          path: ${{ runner.temp }}/usa26-04-hardware-artifacts/
           if-no-files-found: error
           retention-days: 30

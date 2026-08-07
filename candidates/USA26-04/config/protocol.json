@@ -9,6 +9,15 @@
   "pass_full_forbidden": true,
   "table1_execution_forbidden": true,
   "full_ga_forbidden": true,
+  "preregistration_binding": {
+    "freeze_commit": "a8322b17dcd8e6f722b6d70390f24262f5bcbff2",
+    "sources_csv_git_blob": "4a223488cbc08f4f5bbb0ee3bc4f469164a6af9d",
+    "sources_csv_sha256": "023b7b309617b221fcd9687b7c31adc02e989ef5d2b6802e6cafcc28f4b05949",
+    "protocol_json_git_blob": "4ef5afcf68a8ec6dd984e457d2d49db852a635a1",
+    "protocol_json_frozen_sha256": "1cdb56c4280a2363e3b0c36eb25fea5901c751cc6bcd58f0faf4652a4cefa492",
+    "table1_csv_git_blob": "67333e19a7e440e6aa4e9837d238d3463d326e61",
+    "table1_csv_sha256": "727bbbaa4d5e475178067c8af329f2d1e4330aab95682582cf0d034b36e483cb"
+  },
   "primary_descriptive_cell": {
     "method": "Bandit",
     "function": "rastrigin",

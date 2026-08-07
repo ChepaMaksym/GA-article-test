@@ -30,6 +30,15 @@ class CanonicalTests(unittest.TestCase):
             with self.subTest(value=value), self.assertRaises((TypeError, ValueError)):
                 canonical_json(value)
 
+    def test_missing_or_duplicate_case_ids_fail_closed(self) -> None:
+        for records in (
+            [{"value": 1}],
+            [{"case_id": "a"}, {"case_id": "a"}],
+            [{"case_id": ""}],
+        ):
+            with self.subTest(records=records), self.assertRaises(ValueError):
+                formula_digest(records)
+
 
 if __name__ == "__main__":
     unittest.main()

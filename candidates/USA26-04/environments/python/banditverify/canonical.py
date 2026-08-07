@@ -44,6 +44,11 @@ def canonical_json(value: Any) -> bytes:
 
 
 def formula_digest(records: list[dict[str, Any]]) -> str:
+    case_ids = [record.get("case_id") for record in records]
+    if any(not isinstance(case_id, str) or not case_id for case_id in case_ids):
+        raise ValueError("every canonical formula record requires a nonempty case_id")
+    if len(case_ids) != len(set(case_ids)):
+        raise ValueError("canonical formula records cannot contain duplicate case IDs")
     ordered = sorted(records, key=lambda record: record["case_id"])
     digest = hashlib.sha256(HASH_DOMAIN)
     for record in ordered:
@@ -51,6 +56,10 @@ def formula_digest(records: list[dict[str, Any]]) -> str:
         digest.update(len(payload).to_bytes(8, "little"))
         digest.update(payload)
     return digest.hexdigest()
+
+
+def record_digest(record: dict[str, Any]) -> str:
+    return hashlib.sha256(canonical_json(record)).hexdigest()
 
 
 def sha256_file(path: Path) -> str:

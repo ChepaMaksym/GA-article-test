@@ -18,6 +18,7 @@ test_rewards(oracles, tolerance);
 test_update(oracles, tolerance);
 test_ambiguities();
 test_fixed_tape(fixture, tolerance);
+test_provenance_report();
 test_adversarial_rejection();
 fprintf(['USA26-04 MATLAB/Octave formula tests: PASS; ' ...
     'paper status remains BLOCKED_G5_G9 / INCONCLUSIVE_PUBLISHED_RESULT\n']);
@@ -121,6 +122,41 @@ fprintf(['USA26-04 MATLAB/Octave formula tests: PASS; ' ...
         assert_throws(@() bandit_reward('P4', [1], [0]));
         assert_throws(@() bandit_tile_index(0, -1, 0, 0));
         assert_throws(@() bandit_nesterov_update(0, 0, 1, 0, 0.9));
+    end
+
+    function test_provenance_report()
+        report_path = [tempname '.json'];
+        report_cleanup = onCleanup(@() delete_if_present(report_path)); %#ok<NASGU>
+        write_fixed_tape_report(report_path);
+        report = jsondecode(fileread(report_path));
+        assert(strcmp(report.schema_version, ...
+            'USA26-04-MATLAB-H2-REPORT-v1'));
+        assert(strcmp(report.protocol_id, ...
+            'USA26-04-FORMULA-PORTABILITY-v1'));
+        assert(~isempty(regexp(report.git_sha, '^[0-9a-f]{40}$', 'once')));
+        assert(any(strcmp(report.engine.name, {'GNU Octave', 'MATLAB'})));
+        assert(~isempty(report.engine.version));
+        assert(numel(report.matlab_sources) == 8);
+        source_paths = {report.matlab_sources.path};
+        assert(numel(unique(source_paths)) == 8);
+        for source_index = 1:numel(report.matlab_sources)
+            assert(~isempty(regexp(report.matlab_sources(source_index).sha256, ...
+                '^[0-9a-f]{64}$', 'once')));
+        end
+        assert(strcmp(report.fixture_path, ...
+            'fixtures/fixed_controller_tape.json'));
+        assert(~isempty(regexp(report.fixture_sha256, ...
+            '^[0-9a-f]{64}$', 'once')));
+        assert(~isempty(regexp(report.canonical_payload_sha256, ...
+            '^[0-9a-f]{64}$', 'once')));
+        assert(strcmp(report.payload.state_provenance, ...
+            'synthetic_fixture_not_article_state'));
+    end
+
+    function delete_if_present(path)
+        if exist(path, 'file') ~= 0
+            delete(path);
+        end
     end
 
     function assert_throws(action)

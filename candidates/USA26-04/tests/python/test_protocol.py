@@ -41,7 +41,7 @@ class ProtocolTests(unittest.TestCase):
             protocol = json.loads(path.read_text())
             protocol["required_absences"]["seed_ledger"] = True
             path.write_text(json.dumps(protocol), encoding="utf-8")
-            with self.assertRaisesRegex(AssertionError, "silently promoted"):
+            with self.assertRaisesRegex(AssertionError, "absence manifest"):
                 validate_protocol(clone)
 
     def test_descriptive_target_cannot_become_executable(self) -> None:
@@ -57,7 +57,65 @@ class ProtocolTests(unittest.TestCase):
                 writer = csv.DictWriter(handle, fieldnames=fields)
                 writer.writeheader()
                 writer.writerows(rows)
-            with self.assertRaisesRegex(AssertionError, "became executable"):
+            with self.assertRaisesRegex(AssertionError, "frozen byte identity"):
+                validate_protocol(clone)
+
+    def test_nested_protocol_fields_and_boolean_types_are_exact(self) -> None:
+        mutations = (
+            ("frozen_date", "2026-08-08"),
+            ("pass_full_forbidden", 1),
+            ("controller_constants_reported", {}),
+            ("hardware", {"timing_repeats": 5}),
+        )
+        for key, value in mutations:
+            with self.subTest(key=key), tempfile.TemporaryDirectory() as directory:
+                clone = Path(directory) / "candidate"
+                shutil.copytree(CANDIDATE, clone)
+                path = clone / "config" / "protocol.json"
+                protocol = json.loads(path.read_text())
+                protocol[key] = value
+                path.write_text(json.dumps(protocol), encoding="utf-8")
+                with self.assertRaises(AssertionError):
+                    validate_protocol(clone)
+
+    def test_every_source_identity_field_is_byte_pinned(self) -> None:
+        for field, value in (
+            ("url", "https://example.invalid/forged"),
+            ("revision_or_path", "commit forged"),
+            ("bytes", "1"),
+            ("sha256", "0" * 64),
+            ("license_status", "MIT"),
+        ):
+            with self.subTest(field=field), tempfile.TemporaryDirectory() as directory:
+                clone = Path(directory) / "candidate"
+                shutil.copytree(CANDIDATE, clone)
+                path = clone / "source_manifest" / "sources.csv"
+                with path.open(encoding="utf-8", newline="") as handle:
+                    rows = list(csv.DictReader(handle))
+                    fields = list(rows[0])
+                rows[0][field] = value
+                with path.open("w", encoding="utf-8", newline="") as handle:
+                    writer = csv.DictWriter(handle, fieldnames=fields)
+                    writer.writeheader()
+                    writer.writerows(rows)
+                with self.assertRaisesRegex(AssertionError, "frozen byte identity"):
+                    validate_protocol(clone)
+
+    def test_source_duplicate_and_table_value_mutation_are_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            clone = Path(directory) / "candidate"
+            shutil.copytree(CANDIDATE, clone)
+            source = clone / "source_manifest" / "sources.csv"
+            source.write_text(source.read_text() + source.read_text().splitlines()[1] + "\n")
+            with self.assertRaises(AssertionError):
+                validate_protocol(clone)
+
+        with tempfile.TemporaryDirectory() as directory:
+            clone = Path(directory) / "candidate"
+            shutil.copytree(CANDIDATE, clone)
+            table = clone / "fixtures" / "published_table1_descriptive.csv"
+            table.write_text(table.read_text().replace(",3686,", ",3687,"))
+            with self.assertRaisesRegex(AssertionError, "frozen byte identity"):
                 validate_protocol(clone)
 
     def test_candidate_contains_no_full_ga_entrypoint(self) -> None:
