@@ -123,7 +123,14 @@ REQUIRED_ABSENCES = {
     "environment_lock": False,
 }
 EXPECTED_BINDING = {
-    "freeze_commit": "a8322b17dcd8e6f722b6d70390f24262f5bcbff2",
+    "freeze_commit": "c76c7ebf26777c52f2ff9a78482d894534dfb94b",
+    "publication_remap": {
+        "prepublication_local_commit": "a8322b17dcd8e6f722b6d70390f24262f5bcbff2",
+        "published_remote_commit": "c76c7ebf26777c52f2ff9a78482d894534dfb94b",
+        "shared_tree": "f836090953f8b70374495c78f57dc009e455316a",
+        "shared_parent": "eeac926e15107503377cbe09cdc8e830a6607fa5",
+        "mapping_scope": "PROVENANCE_ONLY_NO_SCOPE_OR_TARGET_CHANGES",
+    },
     "sources_csv_git_blob": "4a223488cbc08f4f5bbb0ee3bc4f469164a6af9d",
     "sources_csv_sha256": "023b7b309617b221fcd9687b7c31adc02e989ef5d2b6802e6cafcc28f4b05949",
     "protocol_json_git_blob": "4ef5afcf68a8ec6dd984e457d2d49db852a635a1",
@@ -180,7 +187,11 @@ def _typed_equal(actual: Any, expected: Any, context: str) -> None:
 
 def _validate_git_binding() -> None:
     repository = repository_root(CANDIDATE)
-    freeze = EXPECTED_BINDING["freeze_commit"]
+    remap = EXPECTED_BINDING["publication_remap"]
+    freeze_twins = (
+        remap["prepublication_local_commit"],
+        remap["published_remote_commit"],
+    )
     bindings = (
         (
             "candidates/USA26-04/source_manifest/sources.csv",
@@ -198,23 +209,35 @@ def _validate_git_binding() -> None:
             EXPECTED_BINDING["table1_csv_sha256"],
         ),
     )
-    try:
-        resolved = subprocess.check_output(
-            ["git", "rev-parse", f"{freeze}^{{commit}}"],
+    resolved_twins: list[str] = []
+    ancestor_twins: list[str] = []
+    for freeze in freeze_twins:
+        try:
+            resolved = subprocess.check_output(
+                ["git", "rev-parse", f"{freeze}^{{commit}}"],
+                cwd=repository,
+                text=True,
+                stderr=subprocess.DEVNULL,
+            ).strip()
+        except subprocess.CalledProcessError:
+            continue
+        if resolved != freeze:
+            raise AssertionError("a preregistration freeze twin did not resolve exactly")
+        resolved_twins.append(freeze)
+
+        tree = subprocess.check_output(
+            ["git", "show", "-s", "--format=%T", freeze],
             cwd=repository,
             text=True,
         ).strip()
-        if resolved != freeze:
-            raise AssertionError("frozen preregistration commit did not resolve exactly")
-        ancestry = subprocess.run(
-            ["git", "merge-base", "--is-ancestor", freeze, "HEAD"],
+        parent = subprocess.check_output(
+            ["git", "show", "-s", "--format=%P", freeze],
             cwd=repository,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            check=False,
-        )
-        if ancestry.returncode != 0:
-            raise AssertionError("frozen preregistration commit is not an ancestor of HEAD")
+            text=True,
+        ).strip()
+        if tree != remap["shared_tree"] or parent != remap["shared_parent"]:
+            raise AssertionError("publication-remap freeze twins are not exact tree/parent twins")
+
         for path, expected_blob, expected_sha in bindings:
             blob = subprocess.check_output(
                 ["git", "rev-parse", f"{freeze}:{path}"],
@@ -226,8 +249,27 @@ def _validate_git_binding() -> None:
             )
             if blob != expected_blob or hashlib.sha256(content).hexdigest() != expected_sha:
                 raise AssertionError(f"frozen Git object binding changed for {path}")
-    except subprocess.CalledProcessError as exc:
-        raise AssertionError("frozen preregistration Git objects are unavailable") from exc
+
+        ancestry = subprocess.run(
+            ["git", "merge-base", "--is-ancestor", freeze, "HEAD"],
+            cwd=repository,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            check=False,
+        )
+        if ancestry.returncode == 0:
+            ancestor_twins.append(freeze)
+        elif ancestry.returncode != 1:
+            raise AssertionError("could not establish preregistration freeze ancestry")
+
+    if not resolved_twins:
+        raise AssertionError("both preregistration freeze twins are unavailable")
+    if len(ancestor_twins) != 1:
+        raise AssertionError(
+            "exactly one publication-remap freeze twin must be an ancestor of HEAD"
+        )
+    if ancestor_twins[0] != EXPECTED_BINDING["freeze_commit"]:
+        raise AssertionError("published remote preregistration freeze is not the HEAD ancestor")
 
 
 def validate_protocol(candidate: Path = CANDIDATE) -> dict[str, Any]:

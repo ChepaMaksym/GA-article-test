@@ -49,7 +49,67 @@ class ProtocolTests(unittest.TestCase):
             "run",
             side_effect=reject_only_ancestry,
         ):
-            with self.assertRaisesRegex(AssertionError, "not an ancestor"):
+            with self.assertRaisesRegex(AssertionError, "exactly one"):
+                protocol_module._validate_git_binding()
+
+    def test_published_remote_freeze_resolves_and_is_the_unique_twin_ancestor(self) -> None:
+        remap = protocol_module.EXPECTED_BINDING["publication_remap"]
+        remote = remap["published_remote_commit"]
+        repository = protocol_module.repository_root(CANDIDATE)
+        resolved = protocol_module.subprocess.check_output(
+            ["git", "rev-parse", f"{remote}^{{commit}}"],
+            cwd=repository,
+            text=True,
+        ).strip()
+        self.assertEqual(resolved, remote)
+        self.assertEqual(
+            protocol_module.subprocess.run(
+                ["git", "merge-base", "--is-ancestor", remote, "HEAD"],
+                cwd=repository,
+                check=False,
+            ).returncode,
+            0,
+        )
+        protocol_module._validate_git_binding()
+
+    def test_publication_remap_is_exact_and_cannot_mutate(self) -> None:
+        expected = protocol_module.EXPECTED_BINDING["publication_remap"]
+        self.assertEqual(
+            expected,
+            {
+                "prepublication_local_commit": "a8322b17dcd8e6f722b6d70390f24262f5bcbff2",
+                "published_remote_commit": "c76c7ebf26777c52f2ff9a78482d894534dfb94b",
+                "shared_tree": "f836090953f8b70374495c78f57dc009e455316a",
+                "shared_parent": "eeac926e15107503377cbe09cdc8e830a6607fa5",
+                "mapping_scope": "PROVENANCE_ONLY_NO_SCOPE_OR_TARGET_CHANGES",
+            },
+        )
+        for field in expected:
+            with self.subTest(field=field), tempfile.TemporaryDirectory() as directory:
+                clone = Path(directory) / "candidate"
+                shutil.copytree(CANDIDATE, clone)
+                path = clone / "config" / "protocol.json"
+                protocol = json.loads(path.read_text())
+                protocol["preregistration_binding"]["publication_remap"][field] = "forged"
+                path.write_text(json.dumps(protocol), encoding="utf-8")
+                with self.assertRaisesRegex(AssertionError, "preregistration binding"):
+                    validate_protocol(clone)
+
+    def test_both_freeze_twins_as_ancestors_fail_closed(self) -> None:
+        original_run = protocol_module.subprocess.run
+
+        def accept_all_twin_ancestry(*args, **kwargs):
+            command = args[0] if args else kwargs.get("args", [])
+            if command[:3] == ["git", "merge-base", "--is-ancestor"]:
+                return protocol_module.subprocess.CompletedProcess(command, 0)
+            return original_run(*args, **kwargs)
+
+        with mock.patch.object(
+            protocol_module.subprocess,
+            "run",
+            side_effect=accept_all_twin_ancestry,
+        ):
+            with self.assertRaisesRegex(AssertionError, "exactly one"):
                 protocol_module._validate_git_binding()
 
     def test_absence_cannot_be_silently_promoted(self) -> None:
