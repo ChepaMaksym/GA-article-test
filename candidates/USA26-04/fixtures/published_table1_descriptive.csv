@@ -1,0 +1,7 @@
+problem,dimension,initial_sd,generations,reported_runs,bandit_text,gesmr_text,samr_text,lamr100_text,role,executable_target
+Ackley,100,10,1000,50,10.1,15.8,14.8,2.0,descriptive_only,false
+Griewank,100,1000,1000,50,4.69e-3,4.95e-3,5.24e-3,1.02e4,descriptive_only,false
+Rastrigin,100,10,1000,50,3686,4505,4772,815,primary_descriptive_only,false
+Rosenbrock,100,1,1000,50,105,102,102,98,descriptive_only,false
+Sphere,100,10,1000,50,5.56e-8,6.86e-11,4.52e-10,2.74e-4,descriptive_only,false
+Linear,100,1,100,50,-2.91e46,-1.12e17,-2.10e21,-1949,descriptive_only,false

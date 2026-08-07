@@ -1,0 +1,85 @@
+{
+  "candidate_id": "USA26-04",
+  "frozen_date": "2026-08-07",
+  "protocol_id": "USA26-04-FORMULA-PORTABILITY-v1",
+  "scope": "FORMULA_AND_AMBIGUITY_VALIDATION_ONLY",
+  "overall_status": "BLOCKED_G5_G9",
+  "published_result_status": "INCONCLUSIVE_PUBLISHED_RESULT",
+  "registry_status": "conditional_noneligible",
+  "pass_full_forbidden": true,
+  "table1_execution_forbidden": true,
+  "full_ga_forbidden": true,
+  "preregistration_binding": {
+    "freeze_commit": "c76c7ebf26777c52f2ff9a78482d894534dfb94b",
+    "publication_remap": {
+      "prepublication_local_commit": "a8322b17dcd8e6f722b6d70390f24262f5bcbff2",
+      "published_remote_commit": "c76c7ebf26777c52f2ff9a78482d894534dfb94b",
+      "shared_tree": "f836090953f8b70374495c78f57dc009e455316a",
+      "shared_parent": "eeac926e15107503377cbe09cdc8e830a6607fa5",
+      "mapping_scope": "PROVENANCE_ONLY_NO_SCOPE_OR_TARGET_CHANGES"
+    },
+    "sources_csv_git_blob": "4a223488cbc08f4f5bbb0ee3bc4f469164a6af9d",
+    "sources_csv_sha256": "023b7b309617b221fcd9687b7c31adc02e989ef5d2b6802e6cafcc28f4b05949",
+    "protocol_json_git_blob": "4ef5afcf68a8ec6dd984e457d2d49db852a635a1",
+    "protocol_json_frozen_sha256": "1cdb56c4280a2363e3b0c36eb25fea5901c751cc6bcd58f0faf4652a4cefa492",
+    "table1_csv_git_blob": "67333e19a7e440e6aa4e9837d238d3463d326e61",
+    "table1_csv_sha256": "727bbbaa4d5e475178067c8af329f2d1e4330aab95682582cf0d034b36e483cb"
+  },
+  "primary_descriptive_cell": {
+    "method": "Bandit",
+    "function": "rastrigin",
+    "dimension": 100,
+    "initial_sd": 10.0,
+    "non_elite_population": 100,
+    "elite_population": 1,
+    "selection": "truncation",
+    "truncation_size": 10,
+    "generations": 1000,
+    "reported_runs": 50,
+    "reported_mean_text": "3686",
+    "rounding_interval_descriptive_only": [3685.5, 3686.5],
+    "executable_target": false
+  },
+  "reward_semantics": {
+    "P1": "mean(parent_error - child_error)",
+    "P2": "mean(log1p(parent_error) - log1p(child_error))",
+    "P3": "mean(log1p(child_error) - log1p(parent_error))"
+  },
+  "controller_constants_reported": {
+    "ensemble_bandits": 5,
+    "tile_codings_per_bandit": 20,
+    "history_length": 100,
+    "learning_rate_log10_uniform": [-4.0, -3.0],
+    "momentum": 0.9,
+    "epsilon_start": 1.0,
+    "epsilon_end": 0.01,
+    "epsilon_anneal_generations": 5,
+    "function_min_sampling_noise_tiles": 7,
+    "log_sigma_range": [-100.0, 100.0],
+    "base_tile_width": 0.03,
+    "tile_widths": [0.18, 0.21, 0.24, 0.27, 0.30, 0.33, 0.36, 0.39],
+    "tile_offsets": [0.0, 0.03, 0.06, 0.09, 0.12, 0.15]
+  },
+  "required_absences": {
+    "paper_specific_controller_code": false,
+    "paper_pinned_code_revision": false,
+    "continuous_mutation_transition": false,
+    "controller_initial_values": false,
+    "controller_initial_momenta": false,
+    "controller_initial_histories": false,
+    "empty_or_partial_history_rule": false,
+    "argmax_tie_break": false,
+    "upper_boundary_rule": false,
+    "rng_family": false,
+    "rng_stream_partition": false,
+    "seed_ledger": false,
+    "raw_per_run_results": false,
+    "numeric_confidence_intervals": false,
+    "environment_lock": false
+  },
+  "hardware": {
+    "timing_repeats": 5,
+    "required_roles": ["work_4core", "work_8core", "github_actions_4core"],
+    "thread_limit": 1
+  }
+}

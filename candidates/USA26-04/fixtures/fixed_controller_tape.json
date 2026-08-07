@@ -1,0 +1,69 @@
+{
+  "description": "Synthetic interior controller transition with every initial state and random choice supplied by this fixture; it is not article state.",
+  "reward_semantics": "P1",
+  "parent_error": [9.0],
+  "child_error": [3.0],
+  "search": {
+    "left": -1.0,
+    "right": 1.0,
+    "resolution": 0.5,
+    "epsilon": 0.2,
+    "sampling_noise": 1.0,
+    "history_length": 3
+  },
+  "tape": {
+    "epsilon_uniform": 0.7,
+    "exploration_tile": 0,
+    "noise_floor": -1,
+    "within_tile_uniform": 0.25
+  },
+  "codings": [
+    {
+      "offset": 0.0,
+      "width": 1.0,
+      "learning_rate": 0.001,
+      "momentum_factor": 0.9,
+      "values_by_paper_index": [null, 0.2, 0.8],
+      "momenta_by_paper_index": [null, -0.1, 0.0],
+      "histories_by_paper_index": [null, [-2.0, 4.0], []]
+    },
+    {
+      "offset": 0.0,
+      "width": 0.5,
+      "learning_rate": 0.0005,
+      "momentum_factor": 0.9,
+      "values_by_paper_index": [null, 0.1, 0.3, 0.9, 0.4],
+      "momenta_by_paper_index": [null, 0.0, 0.2, 0.0, 0.0],
+      "histories_by_paper_index": [null, [], [1.0], [], []]
+    }
+  ],
+  "expected": {
+    "base_weights": [0.15000000000000002, 0.25, 0.8500000000000001, 0.6000000000000001],
+    "branch": "exploit",
+    "argmax_tile": 2,
+    "selected_tile": 1,
+    "log_rate": -0.375,
+    "rate": 0.68728927879097224,
+    "immediate_reward": 6.0,
+    "updates": [
+      {
+        "coding": 0,
+        "paper_index": 1,
+        "history": [-2.0, 4.0, 6.0],
+        "max_reward": 6.0,
+        "gradient": -11.6,
+        "momentum": -11.69,
+        "value": 0.222121
+      },
+      {
+        "coding": 1,
+        "paper_index": 2,
+        "history": [1.0, 6.0],
+        "max_reward": 6.0,
+        "gradient": -11.4,
+        "momentum": -11.22,
+        "value": 0.310749
+      }
+    ]
+  }
+}
