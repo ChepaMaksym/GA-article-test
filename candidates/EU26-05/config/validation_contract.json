@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0.0",
+  "protocol_id": "EU26-05-FORMULA-TRANSITION-v1",
+  "evidence_boundary_amendment": "preregistration/amendment-001-offline-evidence-boundary.md",
+  "scope": "FORMULA_AND_TRANSITION_VALIDATION_ONLY",
+  "paper_level_status": "BLOCKED_SOURCE_BYTE_FREEZE_AND_STOCHASTIC_PROVENANCE",
+  "source_byte_status": "PASS_METADATA_ONLY",
+  "postprint": {
+    "handle": "11368/3046333",
+    "component": 3,
+    "bytes": 2921299,
+    "sha256": "SHA256_UNRESOLVED",
+    "freeze_status": "BLOCKED_SOURCE_BYTE_FREEZE"
+  },
+  "thesis": {
+    "bytes": 1950181,
+    "sha256": "fd0a947833b703d1729f5d44c4bee082b7e1999ba57ba2b8adccbc83d15e13ba"
+  },
+  "publication_facts": {
+    "decision_dimension": 30,
+    "chromosome_bits": 600,
+    "bits_per_coordinate": 20,
+    "lower_bound": -100,
+    "upper_bound": 100,
+    "population": 400,
+    "tournament_size": 3,
+    "preference_labels": [0, 1, 2, 3],
+    "initial_probabilities": [0.25, 0.25, 0.25, 0.25],
+    "probability_floor": 0.1,
+    "competitive_probability_mass": 0.6,
+    "generations": 200,
+    "evaluations": 80000,
+    "independent_runs": 30,
+    "crossover_probability": 1.0,
+    "mutation_probability": 0.0,
+    "descriptive_endpoint": {
+      "improved_functions": 27,
+      "total_functions": 30,
+      "execution_authorized": false
+    }
+  },
+  "authorized_profiles": {
+    "probability_update": "complete_positive_denominators_only",
+    "one_point": "explicit_interior_cut_only",
+    "extension_ray": "thesis_maximum_binary_profile",
+    "decode": "explicit_convention_interface_anchor",
+    "objective": "injected_toy_function_interface_anchor"
+  },
+  "forbidden_claims": [
+    "PASS_FULL",
+    "CEC2017_REPRODUCED",
+    "PUBLISHED_27_OF_30_REPRODUCED",
+    "AUTHOR_CODE_REPLAYED"
+  ],
+  "required_labels": {
+    "strongest_allowed": "PASS_FORMULA_AND_TRANSITION_PORTABILITY",
+    "published_result": "BLOCKED_MISSING_AUTHOR_CODE_RAW_SEEDS_AND_COMPLETE_SEMANTICS"
+  },
+  "micro_oracle_digests": {
+    "shared_fixture_report_sha256": "6f560ccd36492e9fb1c4057d67ea2e54fffa032e72ddd02557bad077aacaf502",
+    "five_repeat_scientific_payload_sha256": "6c55a35ccf72f0c86aa926c59b2382f5526bbcfcbeeec4fd782743ea5af89dd3"
+  }
+}

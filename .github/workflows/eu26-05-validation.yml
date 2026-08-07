@@ -1,0 +1,151 @@
+name: EU26-05 formula and transition validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/EU26-05-adaptive-crossover-verification
+    paths:
+      - "candidates/EU26-05/**"
+      - "registry/cohort_2026_12/**"
+      - ".github/workflows/eu26-05-validation.yml"
+  pull_request:
+    paths:
+      - "candidates/EU26-05/**"
+      - "registry/cohort_2026_12/**"
+      - ".github/workflows/eu26-05-validation.yml"
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+  OMP_NUM_THREADS: "1"
+  OPENBLAS_NUM_THREADS: "1"
+  MKL_NUM_THREADS: "1"
+  NUMEXPR_NUM_THREADS: "1"
+  VECLIB_MAXIMUM_THREADS: "1"
+
+jobs:
+  registry-gates:
+    name: Registry consistency and conditional-status gates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python registry/cohort_2026_12/validate_registry.py
+      - run: python registry/cohort_2026_12/tests/run_registry_tests.py
+
+  python-formula:
+    name: Python formula, property and adversarial gates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python candidates/EU26-05/tests/run_python_tests.py
+
+  octave-formula:
+    name: Independent Octave and cross-language fixed-tape gates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends octave
+      - name: Run MATLAB-compatible unit/property/adversarial tests
+        run: >-
+          octave --quiet --eval
+          "addpath('candidates/EU26-05/tests/matlab'); run_matlab_tests"
+      - name: Emit independent shared-fixture reports
+        run: |
+          python candidates/EU26-05/environments/python/run_formula_report.py \
+            --output "${RUNNER_TEMP}/eu26-05-python.json"
+          octave --quiet --eval \
+            "addpath('candidates/EU26-05/environments/matlab'); run_shared_fixture_report('${RUNNER_TEMP}/eu26-05-octave.json')"
+      - name: Require exact cross-language payload equivalence without runtime authentication
+        run: |
+          python candidates/EU26-05/tests/compare_fixture_reports.py \
+            "${RUNNER_TEMP}/eu26-05-python.json" \
+            "${RUNNER_TEMP}/eu26-05-octave.json" \
+            --output "${RUNNER_TEMP}/eu26-05-cross-language.json"
+      - name: Upload non-authorizing cross-language payload evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: eu26-05-cross-language-payload-equivalence
+          path: |
+            ${{ runner.temp }}/eu26-05-python.json
+            ${{ runner.temp }}/eu26-05-octave.json
+            ${{ runner.temp }}/eu26-05-cross-language.json
+          if-no-files-found: error
+          retention-days: 30
+
+  github-four-core:
+    name: GitHub4 five-repeat formula portability profile
+    needs: [registry-gates, python-formula, octave-formula]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Require exactly four affinity-visible logical CPUs
+        run: |
+          lscpu
+          python - <<'PY'
+          import os
+          visible = sorted(os.sched_getaffinity(0))
+          if len(visible) != 4:
+              raise SystemExit(f"expected 4 affinity-visible CPUs, found {visible}")
+          print({"os_cpu_count": os.cpu_count(), "affinity": visible})
+          PY
+      - name: Run clean GitHub4 profile outside the source tree
+        run: |
+          mkdir -p "${RUNNER_TEMP}/eu26-05-artifacts"
+          python candidates/EU26-05/tests/hardware/run_portability_suite.py \
+            --label github-4 --workers 4 --logical-cpus 4 --timing-repeats 5 \
+            --require-clean --require-exact-visible-cpus \
+            --output "${RUNNER_TEMP}/eu26-05-artifacts/github-4.json" \
+            --hashes "${RUNNER_TEMP}/eu26-05-artifacts/github-4-hashes.tsv"
+      - name: Assert formula-only pass and every source/result blocker
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          report = json.loads(
+              (Path(os.environ["RUNNER_TEMP"]) / "eu26-05-artifacts" / "github-4.json")
+              .read_text(encoding="utf-8")
+          )
+          assert report["profile_status"] == "PASS_PROFILE_FORMULA"
+          assert report["h0_source_status"] == "PASS_METADATA_ONLY / BLOCKED_SOURCE_BYTE_FREEZE"
+          assert report["source_byte_status"] == "PASS_METADATA_ONLY"
+          assert report["source_freeze_status"] == "BLOCKED_SOURCE_BYTE_FREEZE"
+          assert report["gates"]["H5_cross_profile"]["status"] == "NOT_EVALUATED_SINGLE_PROFILE"
+          assert len(report["worker_execution_repeats"]) == 5
+          for repeat in report["worker_execution_repeats"]:
+              assert len(repeat) == 4
+              assert len({row["pid"] for row in repeat}) == 4
+              assert all(row["affinity_visible_cpus"] == report["hardware"]["affinity_visible_cpus"] for row in repeat)
+          assert report["published_27_of_30_evaluated"] is False
+          assert report["cec2017_reproduced"] is False
+          assert report["pass_full_claimed"] is False
+          PY
+      - name: Upload the real GitHub4 report for later three-profile comparison
+        uses: actions/upload-artifact@v4
+        with:
+          name: eu26-05-github-4-formula-portability
+          path: ${{ runner.temp }}/eu26-05-artifacts/
+          if-no-files-found: error
+          retention-days: 30

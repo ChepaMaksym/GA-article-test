@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.0.0",
+  "protocol_id": "EU26-05-FORMULA-TRANSITION-v1",
+  "probability_cases": [
+    {
+      "id": "all-zero-reset",
+      "successes": [0, 0, 0, 0],
+      "crossovers": [10, 20, 30, 40],
+      "expected": ["0.250000000000", "0.250000000000", "0.250000000000", "0.250000000000"]
+    },
+    {
+      "id": "equal-rates",
+      "successes": [1, 2, 3, 4],
+      "crossovers": [1, 2, 3, 4],
+      "expected": ["0.250000000000", "0.250000000000", "0.250000000000", "0.250000000000"]
+    },
+    {
+      "id": "single-dominant",
+      "successes": [3, 0, 0, 0],
+      "crossovers": [3, 4, 5, 6],
+      "expected": ["0.700000000000", "0.100000000000", "0.100000000000", "0.100000000000"]
+    },
+    {
+      "id": "unequal-finite-decimals",
+      "successes": [1, 2, 1, 0],
+      "crossovers": [2, 4, 4, 8],
+      "expected": ["0.340000000000", "0.340000000000", "0.220000000000", "0.100000000000"]
+    },
+    {
+      "id": "ordered-rates",
+      "successes": [1, 1, 2, 1],
+      "crossovers": [3, 2, 3, 1],
+      "expected": ["0.180000000000", "0.220000000000", "0.260000000000", "0.340000000000"]
+    }
+  ],
+  "decode_cases": [
+    {
+      "id": "four-bit-lower",
+      "bits": "0000",
+      "lower": -100.0,
+      "upper": 100.0,
+      "bit_order": "msb_first",
+      "endpoint_convention": "closed_linear",
+      "expected": "-100.000000000000"
+    },
+    {
+      "id": "four-bit-upper",
+      "bits": "1111",
+      "lower": -100.0,
+      "upper": 100.0,
+      "bit_order": "msb_first",
+      "endpoint_convention": "closed_linear",
+      "expected": "100.000000000000"
+    },
+    {
+      "id": "four-bit-msb-eight",
+      "bits": "1000",
+      "lower": -100.0,
+      "upper": 100.0,
+      "bit_order": "msb_first",
+      "endpoint_convention": "closed_linear",
+      "expected": "6.666666666667"
+    },
+    {
+      "id": "four-bit-lsb-one",
+      "bits": "1000",
+      "lower": -100.0,
+      "upper": 100.0,
+      "bit_order": "lsb_first",
+      "endpoint_convention": "closed_linear",
+      "expected": "-86.666666666667"
+    }
+  ],
+  "transition_cases": [
+    {
+      "id": "one-point-middle",
+      "parent_a": "00001111",
+      "parent_b": "11110000",
+      "preference": 0,
+      "cut": 4,
+      "operator": "one_point_explicit_cut",
+      "expected_children": ["00000000", "11111111"]
+    },
+    {
+      "id": "one-point-pref-two",
+      "parent_a": "01010101",
+      "parent_b": "00111100",
+      "preference": 2,
+      "cut": 3,
+      "operator": "one_point_explicit_cut",
+      "expected_children": ["01011100", "00110101"]
+    },
+    {
+      "id": "extension-two-directions",
+      "parent_a": "001101",
+      "parent_b": "011001",
+      "preference": 3,
+      "cut": null,
+      "operator": "thesis_maximum_extension_complement_origin",
+      "expected_children": ["110010", "100110"]
+    },
+    {
+      "id": "extension-identical-parents",
+      "parent_a": "0000",
+      "parent_b": "0000",
+      "preference": 3,
+      "cut": null,
+      "operator": "thesis_maximum_extension_complement_origin",
+      "expected_children": ["1111", "1111"]
+    }
+  ]
+}
