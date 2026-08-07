@@ -152,12 +152,13 @@ fallback target.
 | F2 hypervolume | Independent HV matches hand-computed, permutation and adversarial cases. |
 | F3 transition | Low/high decisions, first-max ties, `q=s` and both clamps match the fixture. |
 | F4 protocol | 5/5 rate assignment, pre-generation parents and sequential insertion match the fixture. |
-| F5 cross-language | Python and MATLAB/Octave canonical fixture results are byte-identical. |
+| F5 cross-language | Python and MATLAB/Octave independently match the same frozen fixture and invalid-input expectations. |
 | F6 fail closed | Malformed dimensions, probabilities, fronts, tapes, CSVs and ZIPs are rejected. |
 | H0-H5 portability | The separately frozen portability contract passes for archive/formula workloads only. |
 
 Permitted positive labels are `PASS_ARCHIVE_EXACT`, `PASS_FORMULA` and
-`PASS_PORTABILITY`, each limited to its named gate. The mandatory overall
+`PASS_REQUIRED_LOCAL_PAIR`, each limited to its named gate. The offline
+comparator cannot authorize H5 portability. The mandatory overall
 paper-level label remains `BLOCKED_SOURCE_NATIVE_REPLAY`, and registry
 eligibility remains `conditional_noneligible`.
 

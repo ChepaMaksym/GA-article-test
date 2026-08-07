@@ -100,7 +100,13 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--output", required=True, type=_outside_repository)
     parser.add_argument("--hashes", required=True, type=_outside_repository)
-    return parser.parse_args()
+    arguments = parser.parse_args()
+    if arguments.output == arguments.hashes:
+        parser.error("--output and --hashes must resolve to distinct paths")
+    for destination in (arguments.output, arguments.hashes):
+        if destination.exists() or destination.is_symlink():
+            parser.error(f"formal output already exists: {destination}")
+    return arguments
 
 
 def _read_json(path: Path) -> dict[str, Any]:

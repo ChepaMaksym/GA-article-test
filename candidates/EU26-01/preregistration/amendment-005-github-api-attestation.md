@@ -1,5 +1,8 @@
 # Amendment 005 — separate GitHub API attestation
 
+Status: superseded by Amendment 006 after adversarial review demonstrated that
+an offline caller could fabricate the record without contacting GitHub.
+
 Recorded: 2026-08-07, before the implementation/source commit and before any
 formal Work4, Work8 or GitHub4 execution.
 

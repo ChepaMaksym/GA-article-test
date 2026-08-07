@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import copy
 import json
+import math
 import os
 from pathlib import Path
 import sys
@@ -20,7 +21,6 @@ sys.path.insert(0, str(PYTHON_ENV))
 
 from tworateverify.canonical import (  # noqa: E402
     canonical_sha256,
-    sha256_file,
     strict_json_load,
 )
 
@@ -35,10 +35,6 @@ LOCAL_ROLES = {"work4", "work8"}
 ALL_ROLES = set(ROLE_WORKERS)
 GITHUB_REPOSITORY = "ChepaMaksym/GA-article-test"
 GITHUB_WORKFLOW_PATH = ".github/workflows/eu26-01-validation.yml"
-GITHUB_ARTIFACT_NAME = "eu26-01-github4-validation"
-GITHUB_REPORT_MEMBER = "github4.json"
-GITHUB_ATTESTATION_TYPE = "GITHUB_ACTIONS_ARTIFACT_API_v1"
-GITHUB_ATTESTATION_DOMAIN = "EU26-01-GITHUB-API-ATTESTATION-V1"
 
 
 def _outside_repository(value: str) -> Path:
@@ -53,9 +49,13 @@ def _outside_repository(value: str) -> Path:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("reports", nargs="+", type=_outside_repository)
-    parser.add_argument("--github-attestation", type=_outside_repository)
     parser.add_argument("--output", required=True, type=_outside_repository)
-    return parser.parse_args()
+    arguments = parser.parse_args()
+    if arguments.output in arguments.reports:
+        parser.error("comparison output must differ from every input report")
+    if arguments.output.exists() or arguments.output.is_symlink():
+        parser.error(f"comparison output already exists: {arguments.output}")
+    return arguments
 
 
 def _read_object(path: Path) -> dict[str, Any]:
@@ -68,29 +68,8 @@ def _read_object(path: Path) -> dict[str, Any]:
     return document
 
 
-def _is_lower_hex(value: Any, length: int) -> bool:
-    return (
-        isinstance(value, str)
-        and len(value) == length
-        and all(character in "0123456789abcdef" for character in value)
-    )
-
-
-def _is_positive_integer(value: Any) -> bool:
-    return isinstance(value, int) and not isinstance(value, bool) and value > 0
-
-
 def _positive_decimal(value: Any) -> bool:
     return isinstance(value, str) and value.isascii() and value.isdecimal() and int(value) > 0
-
-
-def _require_exact_keys(value: Any, expected: set[str], label: str) -> None:
-    if not isinstance(value, dict) or set(value) != expected:
-        observed = set(value) if isinstance(value, dict) else set()
-        raise ValueError(
-            f"{label}: non-exact schema; missing={sorted(expected - observed)}, "
-            f"extra={sorted(observed - expected)}"
-        )
 
 
 def _validate_profile(profile: dict[str, Any], bindings: dict[str, Any]) -> str:
@@ -112,8 +91,11 @@ def _validate_profile(profile: dict[str, Any], bindings: dict[str, Any]) -> str:
     if profile.get("algorithm2_conflict") != ALGORITHM2_CONFLICT:
         raise ValueError(f"{role}: Algorithm 2 4/6-vs-5/5 conflict is absent")
     if (
-        profile.get("requested_workers") != ROLE_WORKERS[role]
+        type(profile.get("requested_workers")) is not int
+        or profile.get("requested_workers") != ROLE_WORKERS[role]
+        or type(profile.get("requested_logical_cpus")) is not int
         or profile.get("requested_logical_cpus") != ROLE_WORKERS[role]
+        or type(profile.get("timing_repeats")) is not int
         or profile.get("timing_repeats") != 5
     ):
         raise ValueError(f"{role}: worker/CPU/timing profile mismatch")
@@ -157,19 +139,53 @@ def _validate_profile(profile: dict[str, Any], bindings: dict[str, Any]) -> str:
 
     pool = profile.get("worker_pool", {})
     pids = pool.get("unique_worker_pids")
+    worker_states = pool.get("worker_states")
+    expected_threads = {
+        name: "1"
+        for name in (
+            "OMP_NUM_THREADS",
+            "OPENBLAS_NUM_THREADS",
+            "MKL_NUM_THREADS",
+            "NUMEXPR_NUM_THREADS",
+            "VECLIB_MAXIMUM_THREADS",
+        )
+    }
     if (
         pool.get("unique_worker_pid_count") != ROLE_WORKERS[role]
         or not isinstance(pids, list)
         or len(pids) != ROLE_WORKERS[role]
+        or any(type(pid) is not int or pid <= 0 for pid in pids)
         or len(set(pids)) != ROLE_WORKERS[role]
+        or pids != sorted(pids)
+        or not isinstance(worker_states, dict)
+        or set(worker_states) != {str(pid) for pid in pids}
         or pool.get("affinity_failure_pids") != []
         or pool.get("thread_limit_failure_pids") != []
         or pool.get("inconsistencies") != []
     ):
         raise ValueError(f"{role}: worker-pool evidence is incomplete")
     hardware = profile.get("hardware", {})
-    if hardware.get("cpu_allocation_valid") is not True:
+    selected_cpus = hardware.get("affinity_after")
+    if (
+        hardware.get("cpu_allocation_valid") is not True
+        or not isinstance(selected_cpus, list)
+        or len(selected_cpus) != ROLE_WORKERS[role]
+        or any(type(cpu) is not int or cpu < 0 for cpu in selected_cpus)
+        or selected_cpus != sorted(set(selected_cpus))
+        or type(hardware.get("os_cpu_count")) is not int
+        or hardware.get("os_cpu_count") <= 0
+    ):
         raise ValueError(f"{role}: CPU allocation evidence is invalid")
+    for pid in pids:
+        state = worker_states[str(pid)]
+        if (
+            not isinstance(state, dict)
+            or set(state) != {"pid", "affinity", "thread_environment"}
+            or state.get("pid") != pid
+            or state.get("affinity") != selected_cpus
+            or state.get("thread_environment") != expected_threads
+        ):
+            raise ValueError(f"{role}: worker state is not bound to CPU/thread evidence")
     if role == "github4":
         workflow_ref = hardware.get("github_workflow_ref")
         if (
@@ -267,7 +283,10 @@ def _validate_profile(profile: dict[str, Any], bindings: dict[str, Any]) -> str:
         or not isinstance(retained_seconds, list)
         or len(retained_seconds) != 5
         or any(
-            isinstance(value, bool) or not isinstance(value, (int, float)) or value < 0
+            isinstance(value, bool)
+            or not isinstance(value, (int, float))
+            or not math.isfinite(value)
+            or value < 0
             for value in retained_seconds
         )
         or timing.get("threshold_applied") is not False
@@ -276,96 +295,9 @@ def _validate_profile(profile: dict[str, Any], bindings: dict[str, Any]) -> str:
     return role
 
 
-def validate_github_attestation(
-    attestation: dict[str, Any],
-    *,
-    github_profile: dict[str, Any],
-    github_report_file_sha256: str,
-) -> None:
-    """Bind a separately acquired authenticated GitHub API record to GitHub4.
-
-    Environment variables inside ``github4.json`` are only self-asserted
-    context. They never authorize H5 without this distinct record, which must
-    be acquired from the authenticated workflow-run and artifact API objects.
-    """
-
-    expected_keys = {
-        "schema_version",
-        "attestation_type",
-        "retrieval_method",
-        "repository",
-        "workflow_path",
-        "head_sha",
-        "run_id",
-        "run_attempt",
-        "artifact_id",
-        "artifact_name",
-        "artifact_expired",
-        "report_member",
-        "report_sha256",
-        "profile_report_sha256",
-        "workflow_run_api_url",
-        "artifact_api_url",
-        "workflow_run_api_sha256",
-        "artifact_api_sha256",
-        "attestation_sha256",
-    }
-    _require_exact_keys(attestation, expected_keys, "GitHub API attestation")
-    claimed_attestation_sha256 = attestation.get("attestation_sha256")
-    unsigned = copy.deepcopy(attestation)
-    unsigned.pop("attestation_sha256", None)
-    if claimed_attestation_sha256 != canonical_sha256(
-        unsigned, domain=GITHUB_ATTESTATION_DOMAIN
-    ):
-        raise ValueError("GitHub API attestation canonical digest mismatch")
-
-    hardware = github_profile["hardware"]
-    scalar_expectations = {
-        "schema_version": "1.0.0",
-        "attestation_type": GITHUB_ATTESTATION_TYPE,
-        "retrieval_method": "authenticated_github_api",
-        "repository": GITHUB_REPOSITORY,
-        "workflow_path": GITHUB_WORKFLOW_PATH,
-        "head_sha": github_profile["git_sha_start"],
-        "run_id": int(hardware["github_run_id"]),
-        "run_attempt": int(hardware["github_run_attempt"]),
-        "artifact_name": GITHUB_ARTIFACT_NAME,
-        "artifact_expired": False,
-        "report_member": GITHUB_REPORT_MEMBER,
-        "report_sha256": github_report_file_sha256,
-        "profile_report_sha256": github_profile["report_sha256"],
-    }
-    for key, expected in scalar_expectations.items():
-        if attestation.get(key) != expected:
-            raise ValueError(f"GitHub API attestation field differs: {key}")
-    if not _is_lower_hex(github_report_file_sha256, 64):
-        raise ValueError("GitHub4 report file SHA-256 is malformed")
-    if not _is_positive_integer(attestation.get("artifact_id")):
-        raise ValueError("GitHub API artifact ID must be a positive integer")
-    for key in ("workflow_run_api_sha256", "artifact_api_sha256"):
-        if not _is_lower_hex(attestation.get(key), 64):
-            raise ValueError(f"GitHub API attestation field is malformed: {key}")
-    run_id = attestation["run_id"]
-    artifact_id = attestation["artifact_id"]
-    expected_run_url = (
-        f"https://api.github.com/repos/{GITHUB_REPOSITORY}/actions/runs/{run_id}"
-    )
-    expected_artifact_url = (
-        f"https://api.github.com/repos/{GITHUB_REPOSITORY}/actions/artifacts/"
-        f"{artifact_id}"
-    )
-    if attestation.get("workflow_run_api_url") != expected_run_url:
-        raise ValueError("GitHub workflow-run API URL is not exact")
-    if attestation.get("artifact_api_url") != expected_artifact_url:
-        raise ValueError("GitHub artifact API URL is not exact")
-
-
 def compare_profiles(
     profiles: list[dict[str, Any]],
     bindings: dict[str, Any],
-    *,
-    github_attestation: dict[str, Any] | None = None,
-    report_file_sha256_by_role: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     if len(profiles) not in (2, 3):
         raise ValueError("H5 comparator requires exactly two or three profiles")
@@ -377,9 +309,6 @@ def compare_profiles(
         raise ValueError("two-profile comparison is reserved for work4/work8")
     if len(profiles) == 3 and role_set != ALL_ROLES:
         raise ValueError("three-profile H5 requires work4/work8/github4")
-    if github_attestation is not None and role_set != ALL_ROLES:
-        raise ValueError("GitHub API attestation is only valid for the three-profile H5")
-
     by_role = {profile["profile_role"]: profile for profile in profiles}
     comparable_paths = (
         ("git_sha", lambda value: value["git_sha_start"]),
@@ -417,39 +346,13 @@ def compare_profiles(
     full_h5_profiles_match = role_set == ALL_ROLES and not mismatches
     local_pair = role_set == LOCAL_ROLES and not mismatches
     github_authentication = "NOT_EVALUATED_CROSS_PROFILE_FAILURE"
-    attestation_summary: dict[str, Any] | None = None
     if mismatches:
         comparison_status = "FAIL_CROSS_PROFILE"
         h5_status = "FAIL"
-    elif full_h5_profiles_match and github_attestation is None:
-        comparison_status = "NOT_EVALUATED_UNAUTHENTICATED_GITHUB4"
-        h5_status = "NOT_EVALUATED_UNAUTHENTICATED_GITHUB4"
-        github_authentication = "UNAUTHENTICATED_SELF_ASSERTED_PROFILE"
     elif full_h5_profiles_match:
-        if report_file_sha256_by_role is None or "github4" not in report_file_sha256_by_role:
-            raise ValueError("GitHub API attestation requires the actual github4 file digest")
-        validate_github_attestation(
-            github_attestation,
-            github_profile=by_role["github4"],
-            github_report_file_sha256=report_file_sha256_by_role["github4"],
-        )
-        comparison_status = "PASS_PORTABILITY"
-        h5_status = "PASS"
-        github_authentication = "PASS_SEPARATE_GITHUB_API_ATTESTATION"
-        attestation_summary = {
-            key: github_attestation[key]
-            for key in (
-                "repository",
-                "workflow_path",
-                "head_sha",
-                "run_id",
-                "run_attempt",
-                "artifact_id",
-                "artifact_name",
-                "report_sha256",
-                "attestation_sha256",
-            )
-        }
+        comparison_status = "CONTENT_MATCH_EXTERNAL_AUTH_REQUIRED"
+        h5_status = "NOT_EVALUATED_EXTERNAL_GITHUB_AUTH_REQUIRED"
+        github_authentication = "REQUIRES_TRUSTED_VERIFIER_API_FETCH"
     elif local_pair:
         comparison_status = "PASS_REQUIRED_LOCAL_PAIR"
         h5_status = "NOT_EVALUATED_MISSING_GITHUB4"
@@ -464,7 +367,7 @@ def compare_profiles(
         "comparison_status": comparison_status,
         "H5_cross_profile": {"status": h5_status, "failures": sorted(mismatches)},
         "github_role_authentication": github_authentication,
-        "github_api_attestation": attestation_summary,
+        "github_api_attestation": None,
         "paper_level_status": PAPER_STATUS,
         "eligibility_status": "conditional_noneligible",
         "pass_full_allowed": False,
@@ -494,24 +397,7 @@ def main() -> int:
     arguments = parse_args()
     bindings = _read_object(CANDIDATE / "config" / "hardware_expected_digests.json")
     profiles = [_read_object(path) for path in arguments.reports]
-    report_file_sha256_by_role: dict[str, str] = {}
-    for path, profile in zip(arguments.reports, profiles):
-        role = profile.get("profile_role")
-        if isinstance(role, str):
-            if role in report_file_sha256_by_role:
-                raise ValueError("profile roles must be unique")
-            report_file_sha256_by_role[role] = sha256_file(path)
-    attestation = (
-        _read_object(arguments.github_attestation)
-        if arguments.github_attestation is not None
-        else None
-    )
-    result = compare_profiles(
-        profiles,
-        bindings,
-        github_attestation=attestation,
-        report_file_sha256_by_role=report_file_sha256_by_role,
-    )
+    result = compare_profiles(profiles, bindings)
     result["report_sha256"] = canonical_sha256(
         result, domain="EU26-01-PORTABILITY-COMPARISON-V1"
     )
@@ -524,7 +410,7 @@ def main() -> int:
     }, sort_keys=True))
     return 1 if result["comparison_status"] in {
         "FAIL_CROSS_PROFILE",
-        "NOT_EVALUATED_UNAUTHENTICATED_GITHUB4",
+        "CONTENT_MATCH_EXTERNAL_AUTH_REQUIRED",
     } else 0
 
 

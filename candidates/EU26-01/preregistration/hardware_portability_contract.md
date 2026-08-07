@@ -37,7 +37,7 @@ has no threshold or causal hardware-performance interpretation.
 | H2 archive identity | Serial and parallel completion vectors, exact statistics and canonical digests are byte-identical and equal the frozen authenticated-output bindings. |
 | H3 formula invariants | Every replay matches the fixed fixture; OneMinMax/HV/transition invariants and all frozen invalid-input probes pass; formula digests equal the frozen bindings. |
 | H4 repeatability | Warm-up and all five retained batches have the same canonical endpoint digest. |
-| H5 cross-profile | Git/source/config/archive/member hashes, exact completion vector/statistics, formula result and endpoint digests match pairwise across `work4`, `work8` and `github4`; the GitHub4 bytes are additionally bound to a separately acquired authenticated GitHub workflow-run/artifact API record. |
+| H5 cross-profile | Git/source/config/archive/member hashes, exact completion vector/statistics, formula result and endpoint digests match pairwise across `work4`, `work8` and `github4`; a trusted reviewer separately authenticates the completed GitHub run, downloaded artifact bytes and exact report member. |
 
 `cpu.max` is primary Work-profile quota evidence. If unavailable, the runner
 accepts only a fallback in which `os.cpu_count()`, initial affinity and the
@@ -56,16 +56,17 @@ or an enlarged acceptance tolerance.
 
 A two-profile `work4`/`work8` comparator may report
 `PASS_REQUIRED_LOCAL_PAIR`, but H5 remains
-`NOT_EVALUATED_MISSING_GITHUB4`. Only all three required roles may report
-`PASS_PORTABILITY`, and only when a separate strict API-attestation record
-binds repository, workflow path, head SHA, run ID, run attempt, artifact ID
-and name, raw `github4.json` SHA-256 and its internal canonical report digest.
-The GitHub environment fields inside `github4.json` are self-asserted context,
-not authentication. Three matching profile JSON files without the separate
-record remain `NOT_EVALUATED_UNAUTHENTICATED_GITHUB4`.
+`NOT_EVALUATED_MISSING_GITHUB4`. Three matching roles may establish only
+`CONTENT_MATCH_EXTERNAL_AUTH_REQUIRED`; the offline comparator must retain H5
+as `NOT_EVALUATED_EXTERNAL_GITHUB_AUTH_REQUIRED`. GitHub environment fields,
+caller-supplied API JSON and unkeyed digests are self-asserted and cannot
+authenticate a run or artifact. H5 can be adjudicated only by a trusted
+reviewer that independently fetches the completed run, downloads and hashes
+the artifact, validates its exact member inventory and binds the report bytes.
 
-All profile and attestation JSON is parsed fail-closed: duplicate object keys
-and non-finite `NaN`/`Infinity` constants are forbidden.
+All profile JSON is parsed fail-closed: duplicate object keys, non-finite
+`NaN`/`Infinity` constants and finite-overflow numbers such as `1e9999` are
+forbidden. Formal output paths are distinct, new and outside the repository.
 
 Every profile and comparison must retain:
 

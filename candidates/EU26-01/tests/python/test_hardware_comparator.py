@@ -3,6 +3,8 @@ from __future__ import annotations
 import copy
 import importlib.util
 from pathlib import Path
+import subprocess
+import sys
 import tempfile
 import unittest
 
@@ -100,12 +102,28 @@ def make_profile(role: str, bindings: dict[str, object]) -> dict[str, object]:
         "worker_pool": {
             "unique_worker_pids": list(range(100, 100 + workers)),
             "unique_worker_pid_count": workers,
+            "worker_states": {
+                str(pid): {
+                    "pid": pid,
+                    "affinity": list(range(workers)),
+                    "thread_environment": {
+                        "OMP_NUM_THREADS": "1",
+                        "OPENBLAS_NUM_THREADS": "1",
+                        "MKL_NUM_THREADS": "1",
+                        "NUMEXPR_NUM_THREADS": "1",
+                        "VECLIB_MAXIMUM_THREADS": "1",
+                    },
+                }
+                for pid in range(100, 100 + workers)
+            },
             "affinity_failure_pids": [],
             "thread_limit_failure_pids": [],
             "inconsistencies": [],
         },
         "hardware": {
             "cpu_allocation_valid": True,
+            "affinity_after": list(range(workers)),
+            "os_cpu_count": workers,
             "exact_visible_cpu_set": role == "github4",
             "github_actions": role == "github4",
             "github_run_id": "123456" if role == "github4" else None,
@@ -148,42 +166,6 @@ def make_profile(role: str, bindings: dict[str, object]) -> dict[str, object]:
     return report
 
 
-def make_attestation(
-    github_profile: dict[str, object], report_file_sha256: str
-) -> dict[str, object]:
-    artifact_id = 987654
-    record: dict[str, object] = {
-        "schema_version": "1.0.0",
-        "attestation_type": comparator.GITHUB_ATTESTATION_TYPE,
-        "retrieval_method": "authenticated_github_api",
-        "repository": comparator.GITHUB_REPOSITORY,
-        "workflow_path": comparator.GITHUB_WORKFLOW_PATH,
-        "head_sha": github_profile["git_sha_start"],
-        "run_id": 123456,
-        "run_attempt": 2,
-        "artifact_id": artifact_id,
-        "artifact_name": comparator.GITHUB_ARTIFACT_NAME,
-        "artifact_expired": False,
-        "report_member": comparator.GITHUB_REPORT_MEMBER,
-        "report_sha256": report_file_sha256,
-        "profile_report_sha256": github_profile["report_sha256"],
-        "workflow_run_api_url": (
-            f"https://api.github.com/repos/{comparator.GITHUB_REPOSITORY}/"
-            "actions/runs/123456"
-        ),
-        "artifact_api_url": (
-            f"https://api.github.com/repos/{comparator.GITHUB_REPOSITORY}/"
-            f"actions/artifacts/{artifact_id}"
-        ),
-        "workflow_run_api_sha256": "a" * 64,
-        "artifact_api_sha256": "b" * 64,
-    }
-    record["attestation_sha256"] = canonical_sha256(
-        record, domain=comparator.GITHUB_ATTESTATION_DOMAIN
-    )
-    return record
-
-
 class ComparatorTests(unittest.TestCase):
     def setUp(self):
         self.bindings = synthetic_bindings()
@@ -203,33 +185,20 @@ class ComparatorTests(unittest.TestCase):
         )
         self.assertFalse(result["pass_full_allowed"])
 
-    def test_three_self_asserted_roles_do_not_evaluate_h5(self):
+    def test_three_matching_roles_only_establish_content_match(self):
         profiles = [make_profile(role, self.bindings) for role in ("work4", "work8", "github4")]
         result = comparator.compare_profiles(profiles, self.bindings)
         self.assertEqual(
             result["comparison_status"],
-            "NOT_EVALUATED_UNAUTHENTICATED_GITHUB4",
+            "CONTENT_MATCH_EXTERNAL_AUTH_REQUIRED",
         )
         self.assertEqual(
             result["H5_cross_profile"]["status"],
-            "NOT_EVALUATED_UNAUTHENTICATED_GITHUB4",
+            "NOT_EVALUATED_EXTERNAL_GITHUB_AUTH_REQUIRED",
         )
-
-    def test_three_required_roles_pass_h5_with_api_attestation(self):
-        profiles = [make_profile(role, self.bindings) for role in ("work4", "work8", "github4")]
-        report_file_sha256 = "9" * 64
-        attestation = make_attestation(profiles[2], report_file_sha256)
-        result = comparator.compare_profiles(
-            profiles,
-            self.bindings,
-            github_attestation=attestation,
-            report_file_sha256_by_role={"github4": report_file_sha256},
-        )
-        self.assertEqual(result["comparison_status"], "PASS_PORTABILITY")
-        self.assertEqual(result["H5_cross_profile"]["status"], "PASS")
         self.assertEqual(
             result["github_role_authentication"],
-            "PASS_SEPARATE_GITHUB_API_ATTESTATION",
+            "REQUIRES_TRUSTED_VERIFIER_API_FETCH",
         )
 
     def test_minimal_or_forged_github_profile_fails_closed(self):
@@ -251,37 +220,54 @@ class ComparatorTests(unittest.TestCase):
                 self.bindings,
             )
 
-    def test_minimal_api_attestation_fails_closed(self):
-        profiles = [make_profile(role, self.bindings) for role in ("work4", "work8", "github4")]
-        with self.assertRaisesRegex(ValueError, "non-exact schema"):
-            comparator.compare_profiles(
-                profiles,
-                self.bindings,
-                github_attestation={"artifact_id": 1},
-                report_file_sha256_by_role={"github4": "9" * 64},
-            )
-
-    def test_attestation_cannot_bind_different_report_bytes(self):
-        profiles = [make_profile(role, self.bindings) for role in ("work4", "work8", "github4")]
-        attestation = make_attestation(profiles[2], "9" * 64)
-        with self.assertRaisesRegex(ValueError, "report_sha256"):
-            comparator.compare_profiles(
-                profiles,
-                self.bindings,
-                github_attestation=attestation,
-                report_file_sha256_by_role={"github4": "8" * 64},
-            )
-
     def test_strict_json_rejects_duplicate_and_nonfinite_values(self):
         with tempfile.TemporaryDirectory() as directory:
             duplicate = Path(directory) / "duplicate.json"
             duplicate.write_text('{"profile_role":"work4","profile_role":"github4"}')
             nonfinite = Path(directory) / "nonfinite.json"
             nonfinite.write_text('{"timing":NaN}')
-            for path in (duplicate, nonfinite):
+            overflow = Path(directory) / "overflow.json"
+            overflow.write_text('{"timing":1e9999}')
+            for path in (duplicate, nonfinite, overflow):
                 with self.subTest(path=path.name):
                     with self.assertRaisesRegex(ValueError, "strict JSON"):
                         comparator._read_object(path)
+
+    def test_bool_cpu_fails_closed(self):
+        profile = make_profile("work4", self.bindings)
+        profile["hardware"]["affinity_after"] = [False, 1, 2, 3]
+        profile["report_sha256"] = canonical_sha256(
+            {key: value for key, value in profile.items() if key != "report_sha256"},
+            domain="EU26-01-PORTABILITY-PROFILE-V1",
+        )
+        with self.assertRaisesRegex(ValueError, "CPU allocation"):
+            comparator.compare_profiles(
+                [profile, make_profile("work8", self.bindings)], self.bindings
+            )
+
+    def test_runner_rejects_colliding_output_paths_before_archive_access(self):
+        runner = CANDIDATE / "tests" / "hardware" / "run_portability_suite.py"
+        with tempfile.TemporaryDirectory() as directory:
+            collision = Path(directory) / "same-output"
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    str(runner),
+                    "--profile-role", "work4",
+                    "--label", "collision-test",
+                    "--workers", "4",
+                    "--logical-cpus", "4",
+                    "--archive", str(Path(directory) / "missing.zip"),
+                    "--output", str(collision),
+                    "--hashes", str(collision),
+                ],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+        self.assertEqual(completed.returncode, 2)
+        self.assertIn("must resolve to distinct paths", completed.stderr)
+        self.assertFalse(collision.exists())
 
     def test_cleared_paper_block_fails_closed(self):
         profile = make_profile("work4", self.bindings)

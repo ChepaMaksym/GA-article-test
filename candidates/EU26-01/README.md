@@ -121,22 +121,22 @@ python candidates/EU26-01/tests/hardware/compare_portability_reports.py \
 
 The local pair can report `PASS_REQUIRED_LOCAL_PAIR`; H5 remains
 `NOT_EVALUATED_MISSING_GITHUB4`. A third, matching `github4.json` is still only
-self-asserted context and yields `NOT_EVALUATED_UNAUTHENTICATED_GITHUB4`.
-Full H5 additionally requires the workflow's separately uploaded authenticated
-GitHub API-attestation record:
+self-asserted context. It can establish a pairwise content match, but yields
+`CONTENT_MATCH_EXTERNAL_AUTH_REQUIRED` with H5
+`NOT_EVALUATED_EXTERNAL_GITHUB_AUTH_REQUIRED`:
 
 ```bash
 python candidates/EU26-01/tests/hardware/compare_portability_reports.py \
   /tmp/eu26-01-work4.json /tmp/eu26-01-work8.json /tmp/github4.json \
-  --github-attestation /tmp/eu26-01-github-api-attestation.json \
   --output /tmp/eu26-01-all-profiles.json
 ```
 
-The record binds the expected repository/workflow, head SHA, run and attempt,
-validation artifact ID/name, raw report SHA-256 and internal report digest.
-Only a matching record acquired separately from authenticated GitHub API
-metadata can authorize `PASS_PORTABILITY`. Duplicate JSON keys and non-finite
-constants fail closed.
+No caller-supplied JSON, digest or in-workflow environment field can authorize
+H5. A trusted reviewer must fetch the completed run and artifact through an
+authenticated GitHub API client, authenticate the downloaded artifact bytes,
+and bind the exact `github4.json` member. That external adjudication is not
+implemented by this offline comparator. Duplicate JSON keys, explicit
+non-finite constants and overflow such as `1e9999` fail closed.
 
 No formal result or timing report is committed by these commands. Evidence
 must be reviewed separately before any later evidence commit.

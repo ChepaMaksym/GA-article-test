@@ -26,14 +26,22 @@ def _reject_constant(value: str) -> Any:
     raise StrictJSONError(f"non-finite JSON constant is forbidden: {value}")
 
 
+def _finite_float(value: str) -> float:
+    parsed = float(value)
+    if not math.isfinite(parsed):
+        raise StrictJSONError(f"non-finite JSON number is forbidden: {value}")
+    return parsed
+
+
 def strict_json_loads(payload: str) -> Any:
-    """Parse JSON while rejecting duplicate keys and NaN/Infinity tokens."""
+    """Parse JSON while rejecting duplicate keys and every non-finite value."""
 
     try:
         return json.loads(
             payload,
             object_pairs_hook=_unique_object,
             parse_constant=_reject_constant,
+            parse_float=_finite_float,
         )
     except json.JSONDecodeError as error:
         raise StrictJSONError(str(error)) from error
