@@ -40,7 +40,13 @@ if size(unique(population_points, 'rows'), 1) ~= size(population_points, 1)
 end
 
 children_tape = case_data.children;
-if ~isstruct(children_tape) || numel(children_tape) ~= lambda
+children_are_cells = iscell(children_tape);
+if children_are_cells
+    if numel(children_tape) ~= lambda || ...
+            any(~cellfun(@(value) isstruct(value) && isscalar(value), children_tape))
+        error('EU26:Tape', 'children tape length must equal lambda');
+    end
+elseif ~isstruct(children_tape) || numel(children_tape) ~= lambda
     error('EU26:Tape', 'children tape length must equal lambda');
 end
 r = eu26_fraction(case_data.r);
@@ -55,7 +61,11 @@ parent_indices = zeros(1, lambda);
 counts = zeros(1, lambda);
 child_points = zeros(lambda, 2);
 for i = 1:lambda
-    tape = children_tape(i);
+    if children_are_cells
+        tape = children_tape{i};
+    else
+        tape = children_tape(i);
+    end
     parent_index = double(tape.parent_index);
     if ~isscalar(parent_index) || parent_index ~= fix(parent_index) || ...
             parent_index < 0 || parent_index >= numel(population_bits)

@@ -65,7 +65,8 @@ for i = 1:numel(invalid_cases)
     end
     assert(~accepted, ['invalid fixture accepted: ' entry.case_id]);
     assert(~isempty(strfind(message, entry.expected_error)), ...
-        ['unexpected invalid-fixture error: ' entry.case_id]); %#ok<STREMP>
+        ['unexpected invalid-fixture error: ' entry.case_id ...
+         '; expected substring: ' entry.expected_error '; actual: ' message]); %#ok<STREMP>
 end
 
 rejected = false;
