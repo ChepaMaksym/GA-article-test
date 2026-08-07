@@ -42,6 +42,37 @@ class FrozenProtocolTests(unittest.TestCase):
             profiles["archive_sha256"],
             "1b7e8cf1ef637005bd994104f6e1ee520256ed387994b126bbe875a137632e41",
         )
+        self.assertEqual(profiles["archive_bytes"], 64_960_102)
+        self.assertEqual(profiles["uncompressed_tar_bytes"], 276_705_280)
+        self.assertEqual(
+            profiles["uncompressed_tar_sha256"],
+            "a3c5893a1a7de480a05b26cbef24a2e07d161f8ed5923354444d6ea2d2fb5cf8",
+        )
+        self.assertEqual(
+            profiles["root_payload_manifest"],
+            {
+                "instance_count": 31,
+                "member_count": 1_143,
+                "payload_bytes": 104_406_336,
+                "sha256": (
+                    "d50f4be5378357a45fc65047849f2ad1e99d01a8a005da42538f2d27fd585a36"
+                ),
+            },
+        )
+        self.assertEqual(
+            profiles["hardware_expected_digests"],
+            {
+                "formula_correctness": (
+                    "5e0f1346a7eb931a7c5bda08f2df082c2a0027c9b359f37c78b1be5ef5f3d61a"
+                ),
+                "archive_correctness": (
+                    "9b0b90fca330fd89c259b907a215f9336add73f6ad599a4a94c9946d632183c9"
+                ),
+                "combined_timing_endpoint": (
+                    "3fe3d29b882589784d4cc136dc1aced17400e86e12fd0fd0371076a865819962"
+                ),
+            },
+        )
         self.assertEqual(
             profiles["profiles"]["artifact_actual_10800"][
                 "required_header_time_limit_seconds"
@@ -88,9 +119,21 @@ class FrozenProtocolTests(unittest.TestCase):
             rows["R250_REDUCED_INPUT"]["sha256"],
             "1589cfc27c761c6014e3e6ff108270b49392ea300e9395015e28d535def57b39",
         )
-        amendment = CANDIDATE / "preregistration" / "amendment-001-source-audit.md"
-        self.assertTrue(amendment.is_file())
-        self.assertIn("PASS_FULL", amendment.read_text(encoding="utf-8"))
+        amendment_001 = (
+            CANDIDATE / "preregistration" / "amendment-001-source-audit.md"
+        )
+        amendment_004 = (
+            CANDIDATE
+            / "preregistration"
+            / "amendment-004-authenticated-snapshots.md"
+        )
+        self.assertTrue(amendment_001.is_file())
+        self.assertIn("PASS_FULL", amendment_001.read_text(encoding="utf-8"))
+        self.assertTrue(amendment_004.is_file())
+        authenticated_contract = amendment_004.read_text(encoding="utf-8")
+        self.assertIn("superseded", authenticated_contract)
+        self.assertIn("immutable member", authenticated_contract)
+        self.assertIn("PASS_FULL", authenticated_contract)
 
     def test_transition_fixture_is_hashable_and_finite(self):
         fixture = CANDIDATE / "fixtures" / "deleter_transition_cases.json"

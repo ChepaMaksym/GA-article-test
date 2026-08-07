@@ -27,8 +27,11 @@ absolute archive path. This changes report portability only, not any target,
 seed, statistic, tolerance, time profile, or allowed paper-level claim.
 
 The same review corrected the registry's G6 wording: `insertion_head`
-replaces the two-parent population with the two children, periodic elite
-reinsertion may then replace a current worst solution, and termination can be
-caused by the time limit, iteration limit, or a legal target solution. The G6
-status remains `pass`; the mandatory paper-level status remains
-`BLOCKED_MULTIPLE_SOURCE_CONFLICTS`.
+replaces the two-parent population with the two children and sorts them by
+penalty. At the elite cadence, the code samples replacement index 0 or 1
+uniformly, switches to the other index when the sampled child's distance to
+the current elite exceeds `floor(0.99 * nb_vertices)`, and replaces the
+resulting child. Elite reinsertion can therefore replace either the current
+best or worst child. Termination can be caused by the time limit, iteration
+limit, or a legal target solution. The G6 status remains `pass`; the mandatory
+paper-level status remains `BLOCKED_MULTIPLE_SOURCE_CONFLICTS`.

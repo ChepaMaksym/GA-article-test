@@ -18,7 +18,7 @@
 | USA26-05 | USA | crossover + mutation rates | P | P | U | P | U | P | U | P | conditional |
 | USA26-06 | USA | crossover + mutation rates | U | P | F | F | F | P | F | F | hard fail |
 | EU26-01 | EU | mutation strength/operator policy | P | P | U | P | P | P | P | U | conditional |
-| EU26-02 | EU | crossover/local-search action policy | P | P | P | P | P | U | U | P | conditional |
+| EU26-02 | EU | crossover/local-search action policy | P | P | U | P | P | U | U | U | conditional |
 | EU26-03 | EU | local mutation-operator probabilities | P | P | P | P | U | P | U | F | hard fail |
 | EU26-04 | EU | mutation/restart/selection parameters | P | P | U | U | P | U | U | U | conditional |
 | EU26-05 | EU | crossover operator probabilities | P | P | P | P | U | U | U | P | conditional |

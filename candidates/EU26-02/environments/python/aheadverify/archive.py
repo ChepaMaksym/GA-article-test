@@ -8,14 +8,16 @@ import hashlib
 import io
 import json
 import math
-import shutil
+import os
 import statistics
+import stat
 import tarfile
 import tempfile
+from dataclasses import dataclass
 from fractions import Fraction
 from functools import lru_cache
 from pathlib import Path, PurePosixPath
-from typing import Any, Iterable
+from typing import Any, BinaryIO, Iterable, Mapping, Sequence
 
 from .canonical import canonical_sha256
 
@@ -34,6 +36,21 @@ METADATA_HEADER = (
     "time_limit,max_iterations,parameters"
 )
 DATA_HEADER = ["turn", "time", "nb_uncolored", "penalty", "nb_colors", "solution"]
+ARCHIVE_BYTES = 64_960_102
+
+
+@dataclass(frozen=True)
+class AuthenticatedArchiveIdentity:
+    """Identity of one gzip object and the tar bytes derived from its snapshot."""
+
+    archive_sha256: str
+    archive_bytes: int
+    uncompressed_tar_sha256: str
+    uncompressed_tar_bytes: int
+
+
+MemberPayload = tuple[str, bytes]
+InstancePayloads = tuple[MemberPayload, ...]
 
 
 @lru_cache(maxsize=1)
@@ -100,12 +117,196 @@ def _profile(name: str) -> tuple[dict[str, Any], dict[str, Any]]:
     return profiles, selected
 
 
-def _sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        while chunk := handle.read(1024 * 1024):
-            digest.update(chunk)
-    return digest.hexdigest()
+def materialize_authenticated_archive(
+    archive_path: str | Path,
+    tar_output: BinaryIO,
+    expected_sha256: str,
+    expected_bytes: int | None = ARCHIVE_BYTES,
+) -> AuthenticatedArchiveIdentity:
+    """Authenticate one opened gzip snapshot, then derive its tar bytes.
+
+    The source path is opened exactly once.  Those bytes are copied into an
+    anonymous seekable snapshot while their SHA-256 is calculated.  Only an
+    authenticated snapshot is decompressed, so replacing ``archive_path``
+    after the read cannot change the container that is parsed.
+    """
+
+    path = Path(archive_path).resolve()
+    if not _is_sha256(expected_sha256):
+        raise ArchiveValidationError("expected archive SHA-256 is invalid")
+    if expected_bytes is not None and (
+        isinstance(expected_bytes, bool)
+        or not isinstance(expected_bytes, int)
+        or expected_bytes < 1
+    ):
+        raise ArchiveValidationError("expected archive byte count is invalid")
+    try:
+        if not tar_output.seekable() or not tar_output.writable():
+            raise ArchiveValidationError("tar snapshot output must be seekable and writable")
+        tar_output.seek(0, os.SEEK_END)
+        if tar_output.tell() != 0:
+            raise ArchiveValidationError("tar snapshot output must initially be empty")
+        tar_output.seek(0)
+
+        compressed_digest = hashlib.sha256()
+        archive_bytes = 0
+        with path.open("rb") as source, tempfile.TemporaryFile(mode="w+b") as snapshot:
+            source_stat_start = os.fstat(source.fileno())
+            if not stat.S_ISREG(source_stat_start.st_mode):
+                raise ArchiveValidationError("archive input must be a regular file")
+            while block := source.read(1024 * 1024):
+                compressed_digest.update(block)
+                if snapshot.write(block) != len(block):
+                    raise ArchiveValidationError("short write to compressed snapshot")
+                archive_bytes += len(block)
+
+            actual_sha256 = compressed_digest.hexdigest()
+            if actual_sha256 != expected_sha256:
+                raise ArchiveValidationError(
+                    f"archive SHA-256 mismatch: {actual_sha256} != {expected_sha256}"
+                )
+            if expected_bytes is not None and archive_bytes != expected_bytes:
+                raise ArchiveValidationError(
+                    f"archive byte-count mismatch: {archive_bytes} != {expected_bytes}"
+                )
+
+            snapshot.flush()
+            snapshot.seek(0)
+            tar_digest = hashlib.sha256()
+            tar_bytes = 0
+            with gzip.GzipFile(fileobj=snapshot, mode="rb") as decoded:
+                while block := decoded.read(1024 * 1024):
+                    tar_digest.update(block)
+                    if tar_output.write(block) != len(block):
+                        raise ArchiveValidationError("short write to tar snapshot")
+                    tar_bytes += len(block)
+
+            # Both provenance inputs remain open until the derived bytes are
+            # complete.  Rehashing the retained descriptors detects in-place
+            # mutation; the path identity check detects persistent atomic
+            # replacement.  A transient swap-back is harmless because parsing
+            # can only consume the already authenticated private snapshot.
+            snapshot_sha_end, snapshot_bytes_end = _sha256_open_file(snapshot)
+            source_sha_end, source_bytes_end = _sha256_open_file(source)
+            source_stat_end = os.fstat(source.fileno())
+            current_path_stat = path.stat()
+            if (
+                snapshot_sha_end != actual_sha256
+                or snapshot_bytes_end != archive_bytes
+                or source_sha_end != actual_sha256
+                or source_bytes_end != archive_bytes
+            ):
+                raise ArchiveValidationError(
+                    "archive source or compressed snapshot changed during authentication"
+                )
+            stable_stat_fields = ("st_dev", "st_ino", "st_size", "st_mtime_ns", "st_ctime_ns")
+            if any(
+                getattr(source_stat_start, name) != getattr(source_stat_end, name)
+                for name in stable_stat_fields
+            ):
+                raise ArchiveValidationError("opened archive changed during authentication")
+            if (
+                current_path_stat.st_dev != source_stat_end.st_dev
+                or current_path_stat.st_ino != source_stat_end.st_ino
+            ):
+                raise ArchiveValidationError(
+                    "archive path no longer identifies the authenticated file"
+                )
+        tar_output.flush()
+        tar_sha_end, tar_bytes_end = _sha256_open_file(tar_output)
+    except ArchiveValidationError:
+        raise
+    except (OSError, EOFError, gzip.BadGzipFile) as error:
+        raise ArchiveValidationError(
+            "cannot materialize the authenticated gzip archive"
+        ) from error
+
+    if tar_bytes < 1:
+        raise ArchiveValidationError("authenticated gzip archive is empty")
+    if tar_sha_end != tar_digest.hexdigest() or tar_bytes_end != tar_bytes:
+        raise ArchiveValidationError("tar snapshot changed during materialization")
+    tar_output.seek(0)
+    return AuthenticatedArchiveIdentity(
+        archive_sha256=actual_sha256,
+        archive_bytes=archive_bytes,
+        uncompressed_tar_sha256=tar_digest.hexdigest(),
+        uncompressed_tar_bytes=tar_bytes,
+    )
+
+
+def _sha256_open_file(handle: BinaryIO) -> tuple[str, int]:
+    """Hash one retained binary file object without changing its position."""
+
+    try:
+        position = handle.tell()
+        handle.flush()
+        handle.seek(0)
+        digest = hashlib.sha256()
+        byte_count = 0
+        while block := handle.read(1024 * 1024):
+            digest.update(block)
+            byte_count += len(block)
+        handle.seek(position)
+    except (AttributeError, OSError, ValueError) as error:
+        raise ArchiveValidationError("cannot rehash authenticated snapshot") from error
+    return digest.hexdigest(), byte_count
+
+
+def verify_authenticated_tar_snapshot(
+    tar_snapshot: BinaryIO, identity: AuthenticatedArchiveIdentity
+) -> None:
+    """Fail if the exact tar file object changed after parsing/extraction."""
+
+    digest, byte_count = _sha256_open_file(tar_snapshot)
+    if (
+        digest != identity.uncompressed_tar_sha256
+        or byte_count != identity.uncompressed_tar_bytes
+    ):
+        raise ArchiveValidationError("authenticated tar snapshot changed during parsing")
+
+
+def verify_frozen_archive_identity(identity: AuthenticatedArchiveIdentity) -> None:
+    """Require both compressed and derived identities from the frozen config."""
+
+    profiles = _load_profiles()
+    if (
+        identity.archive_sha256 != profiles.get("archive_sha256")
+        or identity.archive_bytes != profiles.get("archive_bytes")
+        or identity.uncompressed_tar_sha256
+        != profiles.get("uncompressed_tar_sha256")
+        or identity.uncompressed_tar_bytes != profiles.get("uncompressed_tar_bytes")
+    ):
+        raise ArchiveValidationError("authenticated archive identity is not frozen v1")
+
+
+def archive_payload_manifest(
+    payloads: Mapping[str, Sequence[MemberPayload]],
+) -> dict[str, Any]:
+    """Hash every immutable root payload using the frozen canonical schema."""
+
+    entries = sorted(
+        (
+            instance,
+            member_name,
+            len(raw),
+            hashlib.sha256(raw).hexdigest(),
+        )
+        for instance, members in payloads.items()
+        for member_name, raw in members
+    )
+    encoded = json.dumps(
+        entries,
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=False,
+        allow_nan=False,
+    ).encode("utf-8")
+    return {
+        "sha256": hashlib.sha256(encoded).hexdigest(),
+        "instance_count": len(payloads),
+        "member_count": len(entries),
+        "payload_bytes": sum(entry[2] for entry in entries),
+    }
 
 
 def _is_sha256(value: Any) -> bool:
@@ -309,43 +510,47 @@ def _read_member(archive: tarfile.TarFile, member: tarfile.TarInfo) -> bytes:
     return handle.read()
 
 
-def _validate_open_instance(
-    archive: tarfile.TarFile,
-    members: list[tarfile.TarInfo],
+def _validate_instance_payloads(
+    payloads: Sequence[MemberPayload],
     instance: str,
     profile: str,
     profiles: dict[str, Any],
     profile_config: dict[str, Any],
     targets: dict[str, dict[str, Any]],
 ) -> dict[str, Any]:
-    """Parse one member group while reusing an already indexed tar file."""
+    """Parse one instance from immutable member-name/member-byte pairs."""
 
     expected_seeds = list(profiles["expected_seeds"])
     cutoff = profile_config["row_time_cutoff_seconds"]
     required_time_limit = profile_config["required_header_time_limit_seconds"]
     attempts: list[dict[str, Any]] = []
-    for member in members:
-        attempt = _parse_attempt(_read_member(archive, member), member.name, cutoff)
+    seen_names: set[str] = set()
+    for member_name, raw in payloads:
+        _safe_member_name(member_name)
+        if member_name in seen_names:
+            raise ArchiveValidationError(f"duplicate archive member name: {member_name}")
+        seen_names.add(member_name)
+        attempt = _parse_attempt(raw, member_name, cutoff)
         metadata = attempt["metadata"]
         if metadata["instance"] != instance:
             raise ArchiveValidationError(
-                f"{member.name}: path instance and metadata instance disagree"
+                f"{member_name}: path instance and metadata instance disagree"
             )
         if metadata["seed"] not in expected_seeds:
-            raise ArchiveValidationError(f"{member.name}: seed is outside 0..19")
-        filename = PurePosixPath(member.name).stem
+            raise ArchiveValidationError(f"{member_name}: seed is outside 0..19")
+        filename = PurePosixPath(member_name).stem
         suffix_parts = filename[len(instance) + 1 :].split("_")
         if suffix_parts[0] != str(metadata["seed"]):
             raise ArchiveValidationError(
-                f"{member.name}: filename seed and metadata seed disagree"
+                f"{member_name}: filename seed and metadata seed disagree"
             )
         if len(suffix_parts) > 1 and suffix_parts[1] != str(metadata["target_colors"]):
             raise ArchiveValidationError(
-                f"{member.name}: filename target and metadata target disagree"
+                f"{member_name}: filename target and metadata target disagree"
             )
         if metadata["time_limit_seconds"] != required_time_limit:
             raise ArchiveValidationError(
-                f"{member.name}: expected header time_limit={required_time_limit}"
+                f"{member_name}: expected header time_limit={required_time_limit}"
             )
         attempts.append(attempt)
 
@@ -440,6 +645,71 @@ def _validate_open_instance(
     return result
 
 
+def _validate_open_instance(
+    archive: tarfile.TarFile,
+    members: list[tarfile.TarInfo],
+    instance: str,
+    profile: str,
+    profiles: dict[str, Any],
+    profile_config: dict[str, Any],
+    targets: dict[str, dict[str, Any]],
+) -> dict[str, Any]:
+    """Extract one group once, then parse the resulting immutable bytes."""
+
+    payloads = tuple((member.name, _read_member(archive, member)) for member in members)
+    return _validate_instance_payloads(
+        payloads,
+        instance,
+        profile,
+        profiles,
+        profile_config,
+        targets,
+    )
+
+
+def validate_instance_payloads(
+    payloads: Sequence[MemberPayload],
+    instance: str,
+    profile: str = "artifact_actual_10800",
+) -> dict[str, Any]:
+    """Validate one instance from already authenticated immutable bytes.
+
+    This API deliberately carries no archive-identity claim.  Its caller must
+    bind ``payloads`` to an authenticated container, as the hardware runner
+    does with :func:`load_authenticated_member_payloads`.
+    """
+
+    if isinstance(payloads, (str, bytes, bytearray)):
+        raise ArchiveValidationError("member payloads must be a sequence of pairs")
+    normalized: list[MemberPayload] = []
+    for item in payloads:
+        if (
+            not isinstance(item, (tuple, list))
+            or len(item) != 2
+            or not isinstance(item[0], str)
+            or not isinstance(item[1], bytes)
+        ):
+            raise ArchiveValidationError(
+                "each member payload must be a (name, immutable bytes) pair"
+            )
+        normalized.append((item[0], item[1]))
+    if not normalized:
+        raise ArchiveValidationError("member payload sequence is empty")
+
+    profiles, profile_config = _profile(profile)
+    targets = _target_map()
+    if instance not in targets:
+        raise ArchiveValidationError(f"instance is not in the frozen Table 2 set: {instance}")
+    return _validate_instance_payloads(
+        tuple(normalized),
+        instance,
+        profile,
+        profiles,
+        profile_config,
+        targets,
+    )
+
+
 def validate_instance(
     archive_path: str | Path,
     instance: str,
@@ -469,6 +739,54 @@ def validate_instance(
             profile_config,
             targets,
         )
+
+
+def load_authenticated_member_payloads(
+    archive_path: str | Path,
+    expected_sha256: str,
+    expected_bytes: int,
+) -> tuple[dict[str, InstancePayloads], AuthenticatedArchiveIdentity]:
+    """Authenticate the pinned gzip once and extract all root CSV bytes.
+
+    Returned values are immutable ``bytes`` grouped by the frozen instance
+    order.  Downstream worker processes can independently parse those bytes
+    without reopening either the caller path or a named temporary tar.
+    """
+
+    profiles = _load_profiles()
+    if (
+        expected_sha256 != profiles.get("archive_sha256")
+        or expected_bytes != ARCHIVE_BYTES
+    ):
+        raise ArchiveValidationError(
+            "payload extraction requires the frozen archive identity"
+        )
+    expected_instances = list(_target_map())
+    with tempfile.TemporaryFile(mode="w+b") as parse_snapshot:
+        identity = materialize_authenticated_archive(
+            archive_path,
+            parse_snapshot,
+            expected_sha256,
+            expected_bytes,
+        )
+        with tarfile.open(fileobj=parse_snapshot, mode="r:") as archive:
+            groups = _group_members(
+                _root_csv_members(archive), expected_instances
+            )
+            payloads: dict[str, InstancePayloads] = {
+                instance: tuple(
+                    (member.name, _read_member(archive, member))
+                    for member in groups[instance]
+                )
+                for instance in expected_instances
+            }
+        verify_authenticated_tar_snapshot(parse_snapshot, identity)
+        verify_frozen_archive_identity(identity)
+        if archive_payload_manifest(payloads) != profiles.get("root_payload_manifest"):
+            raise ArchiveValidationError(
+                "authenticated root payload manifest is not frozen v1"
+            )
+    return payloads, identity
 
 
 def _verify_instance_result(
@@ -675,29 +993,19 @@ def validate_archive(
 
     profiles, profile_config = _profile(profile)
     path = Path(archive_path).resolve()
-    if not path.is_file():
-        raise ArchiveValidationError(f"archive does not exist: {path}")
-    actual_sha256 = _sha256_file(path)
-    if actual_sha256 != profiles["archive_sha256"]:
-        raise ArchiveValidationError(
-            f"archive SHA-256 mismatch: {actual_sha256} != {profiles['archive_sha256']}"
-        )
     targets = _target_map()
     available = list(targets)
     selected = available if instances is None else list(instances)
     if len(selected) != len(set(selected)) or any(name not in available for name in selected):
         raise ArchiveValidationError("instances must be a unique subset of the frozen set")
-    with tempfile.TemporaryDirectory(prefix="eu26-02-archive-") as directory:
-        parse_path = Path(directory) / "deleter.tar"
-        try:
-            with gzip.open(path, "rb") as source, parse_path.open("wb") as target:
-                shutil.copyfileobj(source, target, length=1024 * 1024)
-        except (OSError, EOFError) as error:
-            raise ArchiveValidationError(
-                "cannot materialize the authenticated gzip archive"
-            ) from error
-        parse_sha256 = _sha256_file(parse_path)
-        with tarfile.open(parse_path, "r:") as archive:
+    with tempfile.TemporaryFile(mode="w+b") as parse_snapshot:
+        identity = materialize_authenticated_archive(
+            path,
+            parse_snapshot,
+            profiles["archive_sha256"],
+            ARCHIVE_BYTES,
+        )
+        with tarfile.open(fileobj=parse_snapshot, mode="r:") as archive:
             groups = _group_members(_root_csv_members(archive), available)
             rows = [
                 _validate_open_instance(
@@ -711,6 +1019,8 @@ def validate_archive(
                 )
                 for name in selected
             ]
+        verify_authenticated_tar_snapshot(parse_snapshot, identity)
+        verify_frozen_archive_identity(identity)
     result = aggregate_results(rows, profile)
     aggregate_status = result["status"]
     if profile == "artifact_actual_10800":
@@ -723,9 +1033,10 @@ def validate_archive(
     result.update(
         {
             "archive_source_id": "outputs/gcp_hard_ahead_1h_deleter.tgz",
-            "archive_bytes": path.stat().st_size,
-            "archive_sha256": actual_sha256,
-            "temporary_uncompressed_tar_sha256": parse_sha256,
+            "archive_bytes": identity.archive_bytes,
+            "archive_sha256": identity.archive_sha256,
+            "temporary_uncompressed_tar_bytes": identity.uncompressed_tar_bytes,
+            "temporary_uncompressed_tar_sha256": identity.uncompressed_tar_sha256,
         }
     )
     return result

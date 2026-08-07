@@ -10,20 +10,47 @@ import itertools
 import json
 import math
 from pathlib import Path
+import sys
 from typing import Any
 
 
 PROTOCOL_ID = "EU26-02-HW-PORTABILITY-v1"
 PAPER_LEVEL_STATUS = "BLOCKED_MULTIPLE_SOURCE_CONFLICTS"
 ARCHIVE_SHA256 = "1b7e8cf1ef637005bd994104f6e1ee520256ed387994b126bbe875a137632e41"
+ARCHIVE_BYTES = 64_960_102
+EXPECTED_ARCHIVE_MEMBERS = 1_143
+UNCOMPRESSED_TAR_BYTES = 276_705_280
+UNCOMPRESSED_TAR_SHA256 = "a3c5893a1a7de480a05b26cbef24a2e07d161f8ed5923354444d6ea2d2fb5cf8"
+EXPECTED_PAYLOAD_BYTES = 104_406_336
+EXPECTED_PAYLOAD_MANIFEST_SHA256 = (
+    "d50f4be5378357a45fc65047849f2ad1e99d01a8a005da42538f2d27fd585a36"
+)
+EXPECTED_FORMULA_AGGREGATE_SHA256 = (
+    "5e0f1346a7eb931a7c5bda08f2df082c2a0027c9b359f37c78b1be5ef5f3d61a"
+)
+EXPECTED_ARCHIVE_AGGREGATE_SHA256 = (
+    "9b0b90fca330fd89c259b907a215f9336add73f6ad599a4a94c9946d632183c9"
+)
+EXPECTED_COMBINED_ENDPOINT_SHA256 = (
+    "3fe3d29b882589784d4cc136dc1aced17400e86e12fd0fd0371076a865819962"
+)
 CANDIDATE = Path(__file__).resolve().parents[2]
 REPOSITORY = CANDIDATE.parents[1]
+PYTHON_ENV = CANDIDATE / "environments" / "python"
+sys.path.insert(0, str(PYTHON_ENV))
+
+from aheadverify.archive import (  # noqa: E402
+    ArchiveValidationError,
+    aggregate_results,
+)
+from aheadverify.deleter import simulate_deleter  # noqa: E402
 EXPECTED_FORMULA_IDS = {
     f"deleter-small-seed{2602000 + index}" for index in range(64)
 }
 REQUIRED_SOURCE_PATHS = {
     ".github/workflows/eu26-02-validation.yml",
     "candidates/EU26-02/config/ahead_deleter_optimizer_config.json",
+    "candidates/EU26-02/config/protocol_profiles.json",
     "candidates/EU26-02/environments/matlab/ahead_deleter_initial_state.m",
     "candidates/EU26-02/environments/matlab/ahead_deleter_transition.m",
     "candidates/EU26-02/environments/python/aheadverify/__init__.py",
@@ -33,8 +60,10 @@ REQUIRED_SOURCE_PATHS = {
     "candidates/EU26-02/environments/python/aheadverify/witness.py",
     "candidates/EU26-02/environments/python/run_archive_validation.py",
     "candidates/EU26-02/environments/python/run_selected_witness.py",
+    "candidates/EU26-02/preregistration/amendment-004-authenticated-snapshots.md",
     "candidates/EU26-02/tests/hardware/compare_portability_reports.py",
     "candidates/EU26-02/tests/hardware/run_portability_suite.py",
+    "candidates/EU26-02/tests/python/test_authenticated_access.py",
     "registry/cohort_2026_12/hard_gate_assessments.json",
     "registry/cohort_2026_12/registry.json",
     "registry/cohort_2026_12/tests/run_registry_tests.py",
@@ -66,6 +95,97 @@ def _sha256_value(value: Any) -> str:
         allow_nan=False,
     ).encode("utf-8")
     return hashlib.sha256(payload).hexdigest()
+
+
+def _current_source_hashes() -> dict[str, str]:
+    """Recreate the runner's H0 source set from the current checked-out tree."""
+
+    script = Path(__file__).resolve()
+    paths: set[Path] = {
+        script,
+        script.with_name("run_portability_suite.py"),
+        CANDIDATE / "README.md",
+        CANDIDATE / "tests" / "run_python_tests.py",
+        REPOSITORY / ".github" / "workflows" / "eu26-02-validation.yml",
+    }
+    for directory in (
+        PYTHON_ENV,
+        CANDIDATE / "environments" / "matlab",
+        CANDIDATE / "config",
+        CANDIDATE / "fixtures",
+        CANDIDATE / "preregistration",
+        CANDIDATE / "source_manifest",
+        CANDIDATE / "tests" / "python",
+        CANDIDATE / "tests" / "matlab",
+        REPOSITORY / "registry" / "cohort_2026_12",
+    ):
+        if directory.is_dir():
+            paths.update(
+                path
+                for path in directory.rglob("*")
+                if path.is_file()
+                and "__pycache__" not in path.parts
+                and path.suffix not in {".pyc", ".pyo"}
+            )
+    result: dict[str, str] = {}
+    for path in sorted(paths):
+        relative = path.resolve().relative_to(REPOSITORY.resolve()).as_posix()
+        result[relative] = hashlib.sha256(path.read_bytes()).hexdigest()
+    return result
+
+
+def _validate_formula_cases(rows: list[dict[str, Any]]) -> None:
+    """Recompute every retained correctness formula object from its seed."""
+
+    prefix = "deleter-small-seed"
+    for row in rows:
+        case_id = row["case_id"]
+        try:
+            seed = int(case_id.removeprefix(prefix))
+        except ValueError as error:
+            raise ValueError(f"formula case has malformed seed: {case_id}") from error
+        if (
+            not case_id.startswith(prefix)
+            or row.get("seed") != seed
+            or row.get("turns") != 80
+            or row.get("invariant_pass") is not True
+            or row.get("deletion_pass") is not True
+        ):
+            raise ValueError(f"formula case metadata is invalid: {case_id}")
+        expected = simulate_deleter(seed=seed, turns=80)
+        if row.get("canonical_result") != expected:
+            raise ValueError(f"formula case differs from recomputation: {case_id}")
+        declared = row.get("contract_invariants")
+        if (
+            not isinstance(declared, dict)
+            or len(declared) != 10
+            or not all(value is True for value in declared.values())
+            or not all(value is True for value in expected.get("invariants", {}).values())
+            or not expected.get("deletion_events")
+        ):
+            raise ValueError(f"formula case invariants are invalid: {case_id}")
+
+
+def _recompute_archive_aggregate(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    """Revalidate every exported instance object before trusting its aggregate."""
+
+    canonical_rows: list[dict[str, Any]] = []
+    for row in rows:
+        canonical = row.get("canonical_result")
+        if not isinstance(canonical, dict) or canonical.get("instance") != row["instance"]:
+            raise ValueError("archive wrapper and canonical instance disagree")
+        canonical_rows.append(canonical)
+    try:
+        result = aggregate_results(canonical_rows, "artifact_actual_10800")
+    except ArchiveValidationError as error:
+        raise ValueError(f"archive case recomputation failed: {error}") from error
+    if (
+        result.get("status") != "PASS_AGGREGATE_EXACT"
+        or result.get("complete_31_instance_set") is not True
+        or result.get("all_published_cells_match") is not True
+    ):
+        raise ValueError("recomputed archive aggregate is not exact")
+    return result
 
 
 def _expected_archive_ids() -> set[str]:
@@ -152,6 +272,8 @@ def _validate_profile(profile: dict[str, Any]) -> str:
         for path, digest in source_hashes.items()
     ):
         raise ValueError("source hash map contains an invalid path or SHA-256")
+    if source_hashes != _current_source_hashes():
+        raise ValueError("profile source hashes differ from the current verifier tree")
     if provenance.get("source_sha256_end") != source_hashes:
         raise ValueError("source hashes changed during execution")
 
@@ -160,16 +282,44 @@ def _validate_profile(profile: dict[str, Any]) -> str:
         archive.get("provided") is not True
         or archive.get("required") is not True
         or archive.get("expected_sha256") != ARCHIVE_SHA256
+        or archive.get("expected_bytes") != ARCHIVE_BYTES
+        or archive.get("bytes") != ARCHIVE_BYTES
         or archive.get("sha256") != ARCHIVE_SHA256
         or archive.get("sha256_end") != ARCHIVE_SHA256
         or archive.get("instance_count") != 31
     ):
         raise ValueError("pinned archive identity/count evidence is incomplete")
     temporary_sha = archive.get("temporary_uncompressed_tar_sha256")
-    if not _is_hex(temporary_sha, 64) or (
+    if temporary_sha != UNCOMPRESSED_TAR_SHA256 or (
         archive.get("temporary_uncompressed_tar_sha256_end") != temporary_sha
     ):
         raise ValueError("temporary parser archive identity changed or is invalid")
+    if (
+        archive.get("temporary_uncompressed_tar_bytes") != archive.get(
+            "authenticated_tar_snapshot_bytes"
+        )
+        or not isinstance(archive.get("authenticated_tar_snapshot_bytes"), int)
+        or archive["authenticated_tar_snapshot_bytes"] != UNCOMPRESSED_TAR_BYTES
+        or archive.get("authenticated_tar_snapshot_sha256_start") != temporary_sha
+        or archive.get("authenticated_tar_snapshot_sha256_end") != temporary_sha
+    ):
+        raise ValueError("authenticated tar snapshot evidence is incomplete")
+    payload_manifest = archive.get("payload_manifest")
+    if (
+        not isinstance(payload_manifest, dict)
+        or archive.get("payload_manifest_end") != payload_manifest
+        or payload_manifest.get("sha256") != EXPECTED_PAYLOAD_MANIFEST_SHA256
+        or archive.get("payload_manifest_sha256_start")
+        != payload_manifest.get("sha256")
+        or archive.get("payload_manifest_sha256_end")
+        != payload_manifest.get("sha256")
+        or payload_manifest.get("instance_count") != 31
+        or payload_manifest.get("member_count") != EXPECTED_ARCHIVE_MEMBERS
+        or isinstance(payload_manifest.get("payload_bytes"), bool)
+        or not isinstance(payload_manifest.get("payload_bytes"), int)
+        or payload_manifest["payload_bytes"] != EXPECTED_PAYLOAD_BYTES
+    ):
+        raise ValueError("immutable archive payload-manifest evidence is incomplete")
 
     gates = profile.get("gates", {})
     for gate in (
@@ -214,7 +364,12 @@ def _validate_profile(profile: dict[str, Any]) -> str:
         or formula.get("invalid_input_gate", {}).get("passed") is not True
     ):
         raise ValueError("formula correctness evidence is incomplete")
-    _require_case_rows(formula, "case_id", EXPECTED_FORMULA_IDS, "formula")
+    formula_rows = _require_case_rows(
+        formula, "case_id", EXPECTED_FORMULA_IDS, "formula"
+    )
+    if formula.get("aggregate_sha256") != EXPECTED_FORMULA_AGGREGATE_SHA256:
+        raise ValueError("formula aggregate differs from the frozen endpoint")
+    _validate_formula_cases(formula_rows)
 
     archive_section = profile.get("archive_correctness", {})
     if (
@@ -226,11 +381,21 @@ def _validate_profile(profile: dict[str, Any]) -> str:
         != archive_section.get("parallel_aggregate")
         or archive_section.get("parallel_aggregate", {}).get("status")
         != "PASS_AGGREGATE_EXACT"
+        or archive_section.get("parallel_aggregate", {}).get("total_attempt_files")
+        != payload_manifest["member_count"]
     ):
         raise ValueError("archive correctness evidence is incomplete")
-    _require_case_rows(
+    archive_rows = _require_case_rows(
         archive_section, "instance", _expected_archive_ids(), "archive"
     )
+    if archive_section.get("aggregate_sha256") != EXPECTED_ARCHIVE_AGGREGATE_SHA256:
+        raise ValueError("archive aggregate differs from the frozen endpoint")
+    recomputed_archive = _recompute_archive_aggregate(archive_rows)
+    if (
+        archive_section.get("serial_aggregate") != recomputed_archive
+        or archive_section.get("parallel_aggregate") != recomputed_archive
+    ):
+        raise ValueError("reported archive aggregates differ from recomputation")
 
     timing = profile.get("timing", {})
     retained_seconds = timing.get("retained_batch_seconds")
@@ -250,6 +415,7 @@ def _validate_profile(profile: dict[str, Any]) -> str:
         or len(retained_digests) != 5
         or not _is_hex(warm_digest, 64)
         or any(digest != warm_digest for digest in retained_digests)
+        or warm_digest != EXPECTED_COMBINED_ENDPOINT_SHA256
         or timing.get("repeatable_endpoints") is not True
         or timing.get("formula_case_count") != 1024
         or timing.get("archive_case_count") != 31
@@ -302,6 +468,11 @@ def _compare_pair(left: dict[str, Any], right: dict[str, Any]) -> dict[str, Any]
             left.get("archive", {}).get("temporary_uncompressed_tar_sha256")
         )
     )
+    payload_manifests_match = (
+        left.get("archive", {}).get("payload_manifest")
+        == right.get("archive", {}).get("payload_manifest")
+        and bool(left.get("archive", {}).get("payload_manifest"))
+    )
     archive_aggregates_match = (
         left.get("archive_correctness", {}).get("parallel_aggregate")
         == right.get("archive_correctness", {}).get("parallel_aggregate")
@@ -309,6 +480,7 @@ def _compare_pair(left: dict[str, Any], right: dict[str, Any]) -> dict[str, Any]
     passed = (
         source_hashes_match
         and archive_hashes_match
+        and payload_manifests_match
         and archive_aggregates_match
         and formula_ids_match
         and archive_ids_match
@@ -321,6 +493,7 @@ def _compare_pair(left: dict[str, Any], right: dict[str, Any]) -> dict[str, Any]
         "status": "PASS_BITWISE" if passed else "INCONCLUSIVE",
         "source_hashes_match": source_hashes_match,
         "archive_hashes_match": archive_hashes_match,
+        "payload_manifests_match": payload_manifests_match,
         "archive_aggregates_match": archive_aggregates_match,
         "formula_case_ids_match": formula_ids_match,
         "archive_instance_ids_match": archive_ids_match,

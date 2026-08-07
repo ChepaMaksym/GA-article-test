@@ -164,6 +164,14 @@ jobs:
           report = json.loads(
               Path("hardware-artifacts/github-4core.json").read_text(encoding="utf-8")
           )
+          archive_report = json.loads(
+              Path("hardware-artifacts/archive-validation.json").read_text(
+                  encoding="utf-8"
+              )
+          )
+          if archive_report.get("paper_level_status") \
+                  != "BLOCKED_MULTIPLE_SOURCE_CONFLICTS":
+              raise SystemExit("archive replay incorrectly cleared the paper-level block")
           if report.get("profile_status") != "PASS_PROFILE":
               raise SystemExit(f"unexpected profile status: {report.get('profile_status')}")
           if report.get("paper_level_status") != "BLOCKED_MULTIPLE_SOURCE_CONFLICTS":

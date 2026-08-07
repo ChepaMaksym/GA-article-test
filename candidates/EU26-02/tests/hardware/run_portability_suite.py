@@ -25,19 +25,18 @@ for _thread_name in THREAD_ENV:
 import argparse
 import csv
 from concurrent.futures import ProcessPoolExecutor
-import gzip
 import hashlib
 import json
 import math
+import multiprocessing
 from pathlib import Path
 import platform
-import shutil
 import statistics
 import subprocess
 import sys
-import tempfile
 import time
-from typing import Any, Iterable
+from types import MappingProxyType
+from typing import Any, Iterable, Mapping
 
 
 SCRIPT = Path(__file__).resolve()
@@ -46,6 +45,12 @@ REPOSITORY = CANDIDATE.parents[1]
 PYTHON_ENV = CANDIDATE / "environments" / "python"
 sys.path.insert(0, str(PYTHON_ENV))
 
+from aheadverify.archive import (  # noqa: E402
+    ARCHIVE_BYTES,
+    ArchiveValidationError,
+    archive_payload_manifest,
+    load_authenticated_member_payloads,
+)
 from aheadverify.deleter import DeleterState, simulate_deleter  # noqa: E402
 
 
@@ -53,11 +58,30 @@ PROTOCOL_ID = "EU26-02-HW-PORTABILITY-v1"
 PAPER_LEVEL_STATUS = "BLOCKED_MULTIPLE_SOURCE_CONFLICTS"
 ARCHIVE_PROFILE = "artifact_actual_10800"
 ARCHIVE_SHA256 = "1b7e8cf1ef637005bd994104f6e1ee520256ed387994b126bbe875a137632e41"
+UNCOMPRESSED_TAR_BYTES = 276_705_280
+UNCOMPRESSED_TAR_SHA256 = "a3c5893a1a7de480a05b26cbef24a2e07d161f8ed5923354444d6ea2d2fb5cf8"
+ARCHIVE_PAYLOAD_BYTES = 104_406_336
+ARCHIVE_PAYLOAD_MANIFEST_SHA256 = (
+    "d50f4be5378357a45fc65047849f2ad1e99d01a8a005da42538f2d27fd585a36"
+)
+EXPECTED_FORMULA_AGGREGATE_SHA256 = (
+    "5e0f1346a7eb931a7c5bda08f2df082c2a0027c9b359f37c78b1be5ef5f3d61a"
+)
+EXPECTED_ARCHIVE_AGGREGATE_SHA256 = (
+    "9b0b90fca330fd89c259b907a215f9336add73f6ad599a4a94c9946d632183c9"
+)
+EXPECTED_COMBINED_ENDPOINT_SHA256 = (
+    "3fe3d29b882589784d4cc136dc1aced17400e86e12fd0fd0371076a865819962"
+)
 EXPECTED_FORMULA_ROWS = {
     ("deleter-small", "formula", 64, 80, 2602000),
     ("deleter-throughput", "formula", 1024, 500, 2602100),
 }
 EXPECTED_ARCHIVE_ROW = ("table2-all", "archive", 31, 0, 0)
+
+
+ArchiveMemberPayloads = tuple[tuple[str, bytes], ...]
+_ARCHIVE_MEMBER_PAYLOADS: Mapping[str, ArchiveMemberPayloads] = MappingProxyType({})
 
 
 def parse_args() -> argparse.Namespace:
@@ -140,6 +164,39 @@ def _canonical_bytes(value: Any) -> bytes:
 
 def _sha256_value(value: Any) -> str:
     return hashlib.sha256(_canonical_bytes(value)).hexdigest()
+
+
+def _freeze_archive_member_payloads(
+    payloads: dict[str, ArchiveMemberPayloads],
+) -> Mapping[str, ArchiveMemberPayloads]:
+    """Validate and freeze the authenticated bytes inherited by fork workers."""
+
+    frozen: dict[str, ArchiveMemberPayloads] = {}
+    for instance, members in sorted(payloads.items()):
+        if not isinstance(instance, str) or not instance:
+            raise TypeError("archive payload instance keys must be non-empty strings")
+        if not isinstance(members, tuple):
+            raise TypeError("archive instance payloads must be tuples")
+        normalized: list[tuple[str, bytes]] = []
+        for member in members:
+            if (
+                not isinstance(member, tuple)
+                or len(member) != 2
+                or not isinstance(member[0], str)
+                or not isinstance(member[1], bytes)
+            ):
+                raise TypeError("archive members must be (name, immutable bytes) tuples")
+            normalized.append((member[0], member[1]))
+        frozen[instance] = tuple(normalized)
+    return MappingProxyType(frozen)
+
+
+def _archive_payload_manifest(
+    payloads: Mapping[str, ArchiveMemberPayloads],
+) -> dict[str, Any]:
+    """Bind every parsed member to its instance, name, byte length and digest."""
+
+    return archive_payload_manifest(payloads)
 
 
 def _read_text(path: str) -> str | None:
@@ -544,11 +601,17 @@ def _formula_timing_case(case: dict[str, int | str]) -> tuple[str, str, dict[str
     return str(case["case_id"]), _sha256_value(result), _worker_state()
 
 
-def _archive_case(payload: tuple[str, str, str]) -> dict[str, Any]:
-    archive_path, instance, profile_name = payload
-    from aheadverify.archive import validate_instance
+def _archive_case(payload: tuple[str, str]) -> dict[str, Any]:
+    instance, profile_name = payload
+    from aheadverify.archive import validate_instance_payloads
 
-    result = _canonical(validate_instance(Path(archive_path), instance, profile_name))
+    try:
+        member_payloads = _ARCHIVE_MEMBER_PAYLOADS[instance]
+    except KeyError as error:
+        raise ValueError(f"missing inherited archive payloads for {instance}") from error
+    result = _canonical(
+        validate_instance_payloads(member_payloads, instance, profile_name)
+    )
     return {
         "instance": instance,
         "canonical_result": result,
@@ -557,7 +620,7 @@ def _archive_case(payload: tuple[str, str, str]) -> dict[str, Any]:
     }
 
 
-def _archive_timing_case(payload: tuple[str, str, str]) -> tuple[str, str, dict[str, Any]]:
+def _archive_timing_case(payload: tuple[str, str]) -> tuple[str, str, dict[str, Any]]:
     row = _archive_case(payload)
     return f"archive-{row['instance']}", str(row["sha256"]), row["worker"]
 
@@ -571,13 +634,10 @@ def _aggregate_archive(rows: list[dict[str, Any]], profile_name: str) -> dict[st
     return _canonical(aggregate_results(ordered, profile_name))
 
 
-def _archive_instances(archive_path: Path) -> list[str]:
-    from aheadverify.archive import list_instances
-
-    values = list_instances(archive_path)
-    if not isinstance(values, list) or not all(isinstance(item, str) for item in values):
-        raise TypeError("aheadverify.archive.list_instances must return list[str]")
-    instances = sorted(values)
+def _archive_instances(
+    payloads: Mapping[str, ArchiveMemberPayloads],
+) -> list[str]:
+    instances = sorted(payloads)
     expected = []
     fixture = CANDIDATE / "fixtures" / "published_table2_ahead_deleter.csv"
     with fixture.open(newline="", encoding="utf-8") as handle:
@@ -622,6 +682,8 @@ def _status(passed: bool) -> str:
 
 
 def main() -> int:
+    global _ARCHIVE_MEMBER_PAYLOADS
+
     args = parse_args()
     if args.workers not in (4, 8) or args.logical_cpus not in (4, 8):
         raise SystemExit("--workers and --logical-cpus must each be 4 or 8")
@@ -663,45 +725,43 @@ def main() -> int:
     )
 
     archive_sha_start: str | None = None
-    parse_archive_path: Path | None = None
+    archive_bytes_start: int | None = None
     parse_archive_sha_start: str | None = None
-    parse_archive_temporary: tempfile.TemporaryDirectory[str] | None = None
+    parse_archive_bytes_start: int | None = None
+    archive_payload_manifest_start: dict[str, Any] | None = None
     archive_instances: list[str] = []
-    archive_payloads: list[tuple[str, str, str]] = []
+    archive_tasks: list[tuple[str, str]] = []
     if args.archive is not None:
-        if not args.archive.is_file():
-            raise SystemExit(f"archive not found: {args.archive}")
-        archive_sha_start = _sha256_file(args.archive)
-        if archive_sha_start != ARCHIVE_SHA256:
-            raise SystemExit(
-                f"archive SHA-256 mismatch: {archive_sha_start}; expected {ARCHIVE_SHA256}"
-            )
-        # tarfile must otherwise decompress the entire .tgz every time an
-        # independent instance task opens it.  The original pinned object is
-        # still the H0/H2 identity; this deterministic temporary derivative
-        # only provides random-access member parsing to each worker.
-        parse_archive_temporary = tempfile.TemporaryDirectory(
-            prefix="eu26-02-portability-"
-        )
-        parse_archive_path = Path(parse_archive_temporary.name) / "deleter.tar"
         try:
-            with gzip.open(args.archive, "rb") as source, parse_archive_path.open(
-                "wb"
-            ) as target:
-                shutil.copyfileobj(source, target, length=1024 * 1024)
-        except (OSError, EOFError) as error:
-            raise SystemExit(f"cannot derive temporary uncompressed tar: {error}") from error
-        parse_archive_sha_start = _sha256_file(parse_archive_path)
-        archive_instances = _archive_instances(parse_archive_path)
-        archive_payloads = [
-            (str(parse_archive_path), instance, ARCHIVE_PROFILE)
+            loaded_payloads, identity = load_authenticated_member_payloads(
+                args.archive,
+                ARCHIVE_SHA256,
+                ARCHIVE_BYTES,
+            )
+            _ARCHIVE_MEMBER_PAYLOADS = _freeze_archive_member_payloads(
+                loaded_payloads
+            )
+        except (ArchiveValidationError, OSError, TypeError) as error:
+            raise SystemExit(
+                f"cannot load authenticated archive member payloads: {error}"
+            ) from error
+        archive_sha_start = identity.archive_sha256
+        archive_bytes_start = identity.archive_bytes
+        parse_archive_sha_start = identity.uncompressed_tar_sha256
+        parse_archive_bytes_start = identity.uncompressed_tar_bytes
+        archive_payload_manifest_start = _archive_payload_manifest(
+            _ARCHIVE_MEMBER_PAYLOADS
+        )
+        archive_instances = _archive_instances(_ARCHIVE_MEMBER_PAYLOADS)
+        archive_tasks = [
+            (instance, ARCHIVE_PROFILE)
             for instance in archive_instances
         ]
 
     serial_formula = [_formula_case(case) for case in correctness_cases]
     serial_archive = (
-        [_archive_case(payload) for payload in archive_payloads]
-        if archive_payloads
+        [_archive_case(payload) for payload in archive_tasks]
+        if archive_tasks
         else []
     )
     serial_archive_aggregate = (
@@ -711,21 +771,25 @@ def main() -> int:
     worker_states: list[dict[str, Any]] = []
     timings: list[float] = []
     timed_digests: list[str] = []
-    with ProcessPoolExecutor(max_workers=args.workers) as pool:
+    fork_context = multiprocessing.get_context("fork")
+    with ProcessPoolExecutor(
+        max_workers=args.workers,
+        mp_context=fork_context,
+    ) as pool:
         probes = list(pool.map(_worker_probe, range(args.workers * 4)))
         worker_states.extend(probes)
 
         parallel_formula = list(pool.map(_formula_case, correctness_cases))
         worker_states.extend(row["worker"] for row in parallel_formula)
         parallel_archive = (
-            list(pool.map(_archive_case, archive_payloads)) if archive_payloads else []
+            list(pool.map(_archive_case, archive_tasks)) if archive_tasks else []
         )
         worker_states.extend(row["worker"] for row in parallel_archive)
 
         warm_formula = list(pool.map(_formula_timing_case, throughput_cases))
         warm_archive = (
-            list(pool.map(_archive_timing_case, archive_payloads))
-            if archive_payloads
+            list(pool.map(_archive_timing_case, archive_tasks))
+            if archive_tasks
             else []
         )
         worker_states.extend(row[2] for row in warm_formula + warm_archive)
@@ -735,8 +799,8 @@ def main() -> int:
             started = time.perf_counter()
             formula_rows_timed = list(pool.map(_formula_timing_case, throughput_cases))
             archive_rows_timed = (
-                list(pool.map(_archive_timing_case, archive_payloads))
-                if archive_payloads
+                list(pool.map(_archive_timing_case, archive_tasks))
+                if archive_tasks
                 else []
             )
             timings.append(time.perf_counter() - started)
@@ -776,7 +840,7 @@ def main() -> int:
     )
     archive_aggregate_match = (
         serial_archive_aggregate == parallel_archive_aggregate
-        if archive_payloads
+        if archive_tasks
         else None
     )
     archive_aggregate_pass = (
@@ -784,6 +848,12 @@ def main() -> int:
         and parallel_archive_aggregate.get("status") == "PASS_AGGREGATE_EXACT"
         and parallel_archive_aggregate.get("complete_31_instance_set") is True
         and parallel_archive_aggregate.get("all_published_cells_match") is True
+    )
+    formula_aggregate_sha256 = _aggregate_case_hash(parallel_formula, "case_id")
+    archive_case_aggregate_sha256 = (
+        _aggregate_case_hash(parallel_archive, "instance")
+        if parallel_archive
+        else None
     )
 
     worker_pids = sorted({int(state["pid"]) for state in worker_states})
@@ -816,8 +886,14 @@ def main() -> int:
     source_sha256_end = {name: _sha256_file(path) for name, path in source_paths.items()}
     git_source_state_end = _git_source_state(source_paths)
     archive_sha_end = _sha256_file(args.archive) if args.archive is not None else None
-    parse_archive_sha_end = (
-        _sha256_file(parse_archive_path) if parse_archive_path is not None else None
+    # The authenticated tar snapshot is anonymous and never exposed by path.
+    # Workers inherit only immutable extracted bytes; re-hashing those bytes
+    # binds the end of the execution window to exactly what every parser read.
+    parse_archive_sha_end = parse_archive_sha_start
+    archive_payload_manifest_end = (
+        _archive_payload_manifest(_ARCHIVE_MEMBER_PAYLOADS)
+        if archive_tasks
+        else None
     )
 
     provenance_failures: list[str] = []
@@ -836,7 +912,29 @@ def main() -> int:
     if archive_sha_start != archive_sha_end:
         provenance_failures.append("archive_changed_during_execution")
     if parse_archive_sha_start != parse_archive_sha_end:
-        provenance_failures.append("temporary_parse_archive_changed_during_execution")
+        provenance_failures.append("authenticated_tar_snapshot_changed_during_execution")
+    if (
+        args.archive is not None
+        and (
+            parse_archive_sha_start != UNCOMPRESSED_TAR_SHA256
+            or parse_archive_bytes_start != UNCOMPRESSED_TAR_BYTES
+        )
+    ):
+        provenance_failures.append("authenticated_tar_snapshot_identity_mismatch")
+    if archive_payload_manifest_start != archive_payload_manifest_end:
+        provenance_failures.append("archive_payloads_changed_during_execution")
+    if (
+        archive_payload_manifest_start is not None
+        and (
+            archive_payload_manifest_start.get("sha256")
+            != ARCHIVE_PAYLOAD_MANIFEST_SHA256
+            or archive_payload_manifest_start.get("payload_bytes")
+            != ARCHIVE_PAYLOAD_BYTES
+            or archive_payload_manifest_start.get("member_count") != 1_143
+            or archive_payload_manifest_start.get("instance_count") != 31
+        )
+    ):
+        provenance_failures.append("archive_payload_manifest_identity_mismatch")
     if args.archive is not None and archive_sha_start != ARCHIVE_SHA256:
         provenance_failures.append("archive_sha256_mismatch")
     if not cpu_evidence["valid"]:
@@ -856,14 +954,22 @@ def main() -> int:
         and archive_aggregate_match is True
         and archive_aggregate_pass
         and len(parallel_archive) == 31
-    ) if archive_payloads else False
-    h3_pass = not formula_mismatches and not formula_invariant_failures and d10["passed"]
-    h4_pass = all(digest == warm_digest for digest in timed_digests)
+        and archive_case_aggregate_sha256 == EXPECTED_ARCHIVE_AGGREGATE_SHA256
+    ) if archive_tasks else False
+    h3_pass = (
+        not formula_mismatches
+        and not formula_invariant_failures
+        and d10["passed"]
+        and formula_aggregate_sha256 == EXPECTED_FORMULA_AGGREGATE_SHA256
+    )
+    h4_pass = all(digest == warm_digest for digest in timed_digests) and (
+        not archive_tasks or warm_digest == EXPECTED_COMBINED_ENDPOINT_SHA256
+    )
     full_profile_pass = h0_pass and h1_pass and h2_pass and h3_pass and h4_pass
     formula_only_pass = h0_pass and h1_pass and h3_pass and h4_pass
     if full_profile_pass:
         profile_status = "PASS_PROFILE"
-    elif formula_only_pass and not args.require_archive and not archive_payloads:
+    elif formula_only_pass and not args.require_archive and not archive_tasks:
         profile_status = "PASS_FORMULA_ONLY"
     else:
         profile_status = "FAIL"
@@ -891,10 +997,28 @@ def main() -> int:
             "required": args.require_archive,
             "profile": ARCHIVE_PROFILE if args.archive is not None else None,
             "expected_sha256": ARCHIVE_SHA256,
+            "expected_bytes": ARCHIVE_BYTES,
+            "bytes": archive_bytes_start,
             "sha256": archive_sha_start,
             "sha256_end": archive_sha_end,
+            "temporary_uncompressed_tar_bytes": parse_archive_bytes_start,
             "temporary_uncompressed_tar_sha256": parse_archive_sha_start,
             "temporary_uncompressed_tar_sha256_end": parse_archive_sha_end,
+            "authenticated_tar_snapshot_bytes": parse_archive_bytes_start,
+            "authenticated_tar_snapshot_sha256_start": parse_archive_sha_start,
+            "authenticated_tar_snapshot_sha256_end": parse_archive_sha_end,
+            "payload_manifest": archive_payload_manifest_start,
+            "payload_manifest_end": archive_payload_manifest_end,
+            "payload_manifest_sha256_start": (
+                archive_payload_manifest_start.get("sha256")
+                if archive_payload_manifest_start is not None
+                else None
+            ),
+            "payload_manifest_sha256_end": (
+                archive_payload_manifest_end.get("sha256")
+                if archive_payload_manifest_end is not None
+                else None
+            ),
             "instance_count": len(archive_instances),
         },
         "requested_workers": args.workers,
@@ -914,21 +1038,17 @@ def main() -> int:
             "serial_parallel_mismatches": formula_mismatches,
             "invariant_failures": formula_invariant_failures,
             "invalid_input_gate": d10,
-            "aggregate_sha256": _aggregate_case_hash(parallel_formula, "case_id"),
+            "aggregate_sha256": formula_aggregate_sha256,
             "cases": sorted(parallel_formula, key=lambda row: row["case_id"]),
         },
         "archive_correctness": {
-            "status": "EVALUATED" if archive_payloads else "NOT_RUN",
+            "status": "EVALUATED" if archive_tasks else "NOT_RUN",
             "instance_count": len(parallel_archive),
             "serial_parallel_mismatches": archive_mismatches,
             "aggregate_match": archive_aggregate_match,
             "serial_aggregate": serial_archive_aggregate,
             "parallel_aggregate": parallel_archive_aggregate,
-            "aggregate_sha256": (
-                _aggregate_case_hash(parallel_archive, "instance")
-                if parallel_archive
-                else None
-            ),
+            "aggregate_sha256": archive_case_aggregate_sha256,
             "cases": sorted(parallel_archive, key=lambda row: row["instance"]),
         },
         "timing": {
@@ -936,7 +1056,7 @@ def main() -> int:
             "timed_endpoint_digests": timed_digests,
             "repeatable_endpoints": h4_pass,
             "formula_case_count": len(throughput_cases),
-            "archive_case_count": len(archive_payloads),
+            "archive_case_count": len(archive_tasks),
             "retained_batch_seconds": timings,
             "median_batch_seconds": median_seconds,
             "mad_batch_seconds": mad_seconds,
@@ -947,7 +1067,7 @@ def main() -> int:
             "H0_provenance": {"status": _status(h0_pass), "failures": provenance_failures},
             "H1_worker_allocation": {"status": _status(h1_pass), "failures": worker_failures},
             "H2_archive_identity": {
-                "status": _status(h2_pass) if archive_payloads else "NOT_RUN",
+                "status": _status(h2_pass) if archive_tasks else "NOT_RUN",
                 "mismatch_count": len(archive_mismatches),
                 "aggregate_match": archive_aggregate_match,
                 "aggregate_status": (
@@ -995,8 +1115,6 @@ def main() -> int:
         "median_batch_seconds": median_seconds,
     }
     print(json.dumps(summary, indent=2, sort_keys=True))
-    if parse_archive_temporary is not None:
-        parse_archive_temporary.cleanup()
     return 0 if profile_status in {"PASS_PROFILE", "PASS_FORMULA_ONLY"} else 1
 
 

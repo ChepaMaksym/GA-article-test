@@ -7,10 +7,20 @@ import hashlib
 import io
 import json
 import math
+import os
+import stat
 import tarfile
+import tempfile
 from pathlib import Path, PurePosixPath
 from typing import Any
 
+from .archive import (
+    ARCHIVE_BYTES,
+    ArchiveValidationError,
+    materialize_authenticated_archive,
+    verify_authenticated_tar_snapshot,
+    verify_frozen_archive_identity,
+)
 from .canonical import canonical_sha256
 
 
@@ -20,6 +30,7 @@ class WitnessValidationError(ValueError):
 
 ARCHIVE_SHA256 = "1b7e8cf1ef637005bd994104f6e1ee520256ed387994b126bbe875a137632e41"
 GRAPH_SHA256 = "1589cfc27c761c6014e3e6ff108270b49392ea300e9395015e28d535def57b39"
+GRAPH_BYTES = 123_130
 MAIN_MEMBER = "gcp_hard_ahead_1h_deleter/deleter/r250.5_15.csv"
 MAIN_SHA256 = "8baa38bc27940fcbb7e470b2cfb13cc46a7de7950552c11dfa565323f412e787"
 TBT_MEMBER = "gcp_hard_ahead_1h_deleter/deleter/tbt/r250.5_15.csv"
@@ -44,27 +55,49 @@ def _sha256_bytes(value: bytes) -> str:
     return hashlib.sha256(value).hexdigest()
 
 
-def _sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        while block := handle.read(1024 * 1024):
-            digest.update(block)
-    return digest.hexdigest()
-
-
 def parse_dimacs_graph(path: str | Path) -> dict[str, Any]:
     """Parse one strict undirected DIMACS ``p edge`` graph."""
 
-    graph_path = Path(path)
-    if _sha256_file(graph_path) != GRAPH_SHA256:
+    graph_path = Path(path).resolve()
+    with graph_path.open("rb") as handle:
+        graph_stat_start = os.fstat(handle.fileno())
+        if not stat.S_ISREG(graph_stat_start.st_mode):
+            raise WitnessValidationError("selected graph must be a regular file")
+        raw_graph = handle.read()
+        graph_digest = _sha256_bytes(raw_graph)
+        try:
+            handle.seek(0)
+            raw_graph_end = handle.read()
+            graph_stat_end = os.fstat(handle.fileno())
+            current_path_stat = graph_path.stat()
+        except OSError as error:
+            raise WitnessValidationError(
+                "cannot reauthenticate selected graph"
+            ) from error
+        stable_stat_fields = ("st_dev", "st_ino", "st_size", "st_mtime_ns", "st_ctime_ns")
+        if (
+            raw_graph_end != raw_graph
+            or any(
+                getattr(graph_stat_start, name) != getattr(graph_stat_end, name)
+                for name in stable_stat_fields
+            )
+            or current_path_stat.st_dev != graph_stat_end.st_dev
+            or current_path_stat.st_ino != graph_stat_end.st_ino
+        ):
+            raise WitnessValidationError("selected graph changed during authentication")
+    if len(raw_graph) != GRAPH_BYTES:
+        raise WitnessValidationError("selected graph byte count mismatch")
+    if graph_digest != GRAPH_SHA256:
         raise WitnessValidationError("selected graph SHA-256 mismatch")
+    try:
+        graph_text = raw_graph.decode("utf-8")
+    except UnicodeDecodeError as error:
+        raise WitnessValidationError("selected graph is not UTF-8") from error
     vertices: int | None = None
     declared_edges: int | None = None
     edges: list[tuple[int, int]] = []
     seen: set[tuple[int, int]] = set()
-    for line_number, raw in enumerate(
-        graph_path.read_text(encoding="utf-8").splitlines(), 1
-    ):
+    for line_number, raw in enumerate(graph_text.splitlines(), 1):
         line = raw.strip()
         if not line or line.startswith("c"):
             continue
@@ -298,11 +331,24 @@ def validate_selected_witness(
 
     archive_path = Path(archive_path).resolve()
     graph_path = Path(graph_path).resolve()
-    if _sha256_file(archive_path) != ARCHIVE_SHA256:
-        raise WitnessValidationError("archive SHA-256 mismatch")
-    with tarfile.open(archive_path, "r:*") as archive:
-        main_raw = _read_exact_member(archive, MAIN_MEMBER, MAIN_SHA256)
-        tbt_raw = _read_exact_member(archive, TBT_MEMBER, TBT_SHA256)
+    with tempfile.TemporaryFile(mode="w+b") as parse_snapshot:
+        try:
+            identity = materialize_authenticated_archive(
+                archive_path,
+                parse_snapshot,
+                ARCHIVE_SHA256,
+                ARCHIVE_BYTES,
+            )
+        except ArchiveValidationError as error:
+            raise WitnessValidationError(str(error)) from error
+        with tarfile.open(fileobj=parse_snapshot, mode="r:") as archive:
+            main_raw = _read_exact_member(archive, MAIN_MEMBER, MAIN_SHA256)
+            tbt_raw = _read_exact_member(archive, TBT_MEMBER, TBT_SHA256)
+        try:
+            verify_authenticated_tar_snapshot(parse_snapshot, identity)
+            verify_frozen_archive_identity(identity)
+        except ArchiveValidationError as error:
+            raise WitnessValidationError(str(error)) from error
     main = _parse_main(main_raw)
     tbt = _parse_tbt(tbt_raw)
     graph = parse_dimacs_graph(graph_path)
@@ -319,7 +365,10 @@ def validate_selected_witness(
         "candidate_id": "EU26-02",
         "status": "PASS_SELECTED_WITNESS",
         "paper_level_status": "BLOCKED_MULTIPLE_SOURCE_CONFLICTS",
-        "archive_sha256": ARCHIVE_SHA256,
+        "archive_bytes": identity.archive_bytes,
+        "archive_sha256": identity.archive_sha256,
+        "temporary_uncompressed_tar_bytes": identity.uncompressed_tar_bytes,
+        "temporary_uncompressed_tar_sha256": identity.uncompressed_tar_sha256,
         "members": {
             "main": {"path": MAIN_MEMBER, "bytes": len(main_raw), "sha256": MAIN_SHA256},
             "tbt": {"path": TBT_MEMBER, "bytes": len(tbt_raw), "sha256": TBT_SHA256},

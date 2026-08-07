@@ -24,10 +24,18 @@ time profiles and cannot claim a full paper reproduction:
 - `paper_claimed_3600_diagnostic`: a row-level cutoff diagnostic, not a
   reconstruction of a one-hour run.
 
-The frozen v1 contract and pre-run v1.1 source-audit amendment are in
-`preregistration/`. The 62 MB upstream archive
-is not vendored; every formal replay must acquire the exact pinned object and
-verify its SHA-256 before parsing it.
+The frozen v1 contract and its amendments are in `preregistration/`:
+
+- [001](preregistration/amendment-001-source-audit.md) records the source audit;
+- [002](preregistration/amendment-002-provenance-binding.md) freezes the
+  aggregate/container provenance boundary;
+- [003](preregistration/amendment-003-container-access.md) freezes deterministic
+  container access; and
+- [004](preregistration/amendment-004-authenticated-snapshots.md) freezes the
+  authenticated-snapshot remediation before evidence reruns.
+
+The 62 MB upstream archive is not vendored; every formal replay must acquire
+the exact pinned object and verify its SHA-256 before parsing it.
 
 Passing this directory's tests establishes the Deleter transition semantics,
 the archive parser, and deterministic parallel aggregation. It does not

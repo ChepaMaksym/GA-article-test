@@ -2,7 +2,21 @@
   "schema_version": "1.0.0",
   "candidate_id": "EU26-02",
   "source_commit": "04da9dd489f6e8e76fa3504d105c137bdf9ea323",
+  "archive_bytes": 64960102,
   "archive_sha256": "1b7e8cf1ef637005bd994104f6e1ee520256ed387994b126bbe875a137632e41",
+  "uncompressed_tar_bytes": 276705280,
+  "uncompressed_tar_sha256": "a3c5893a1a7de480a05b26cbef24a2e07d161f8ed5923354444d6ea2d2fb5cf8",
+  "root_payload_manifest": {
+    "instance_count": 31,
+    "member_count": 1143,
+    "payload_bytes": 104406336,
+    "sha256": "d50f4be5378357a45fc65047849f2ad1e99d01a8a005da42538f2d27fd585a36"
+  },
+  "hardware_expected_digests": {
+    "formula_correctness": "5e0f1346a7eb931a7c5bda08f2df082c2a0027c9b359f37c78b1be5ef5f3d61a",
+    "archive_correctness": "9b0b90fca330fd89c259b907a215f9336add73f6ad599a4a94c9946d632183c9",
+    "combined_timing_endpoint": "3fe3d29b882589784d4cc136dc1aced17400e86e12fd0fd0371076a865819962"
+  },
   "expected_instances": 31,
   "expected_seeds": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
   "profiles": {

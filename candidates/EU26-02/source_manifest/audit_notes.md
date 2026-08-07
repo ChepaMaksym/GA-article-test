@@ -113,3 +113,21 @@ Native builds and downloads must occur in a disposable directory because the
 upstream build script removes `build_release`. A native micro-run is a separate
 verification gate; absence of that environment evidence cannot be converted
 into a paper-level pass.
+
+## Authenticated-byte custody review
+
+A final adversarial review found that the first validator revision hashed the
+archive path and then reopened it for parsing. Deterministic atomic-replacement
+probes demonstrated that this could bind a pinned digest to bytes other than
+those consumed by the parser. Amendment 004 supersedes every archive, witness,
+hardware and H5 report from that revision.
+
+The remediated path copies one retained archive descriptor into a private
+authenticated snapshot, decompresses and parses only bytes derived from that
+snapshot, and verifies the same file objects again after use. The selected
+graph is read and reauthenticated through one retained descriptor. Hardware
+workers inherit immutable `(member_name, bytes)` payloads and never open an
+archive path; the pinned member-manifest digest, count and byte summary are
+retained and compared across profiles. This closes the demonstrated input-path
+race without changing a scientific target or clearing the mandatory
+paper-level block.

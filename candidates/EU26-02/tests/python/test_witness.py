@@ -74,7 +74,9 @@ class SelectedWitnessTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             graph = Path(directory) / "wrong.col"
             graph.write_text("p edge 2 1\ne 1 2\n", encoding="utf-8")
-            with self.assertRaisesRegex(WitnessValidationError, "SHA-256"):
+            with self.assertRaisesRegex(
+                WitnessValidationError, "(?:byte count|SHA-256) mismatch"
+            ):
                 parse_dimacs_graph(graph)
 
 
