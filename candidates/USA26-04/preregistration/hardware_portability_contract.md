@@ -41,7 +41,8 @@ the Table 1 result was reproduced. The report and comparator must always retain
 
 ## Canonicalization
 
-Protocol ID: `USA26-04-FORMULA-PORTABILITY-v1`.  
+Protocol ID: `USA26-04-FORMULA-PORTABILITY-v1`.
+
 Hash domain: the UTF-8 bytes `USA26-04-FORMULA-V1\0` followed by canonical
 JSON (`sort_keys=true`, separators `(',', ':')`, `allow_nan=false`, one record
 per case). Floating values are finite IEEE-754 binary64 values serialized by

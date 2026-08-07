@@ -2,8 +2,10 @@
 
 Frozen: 2026-08-07, before implementation or execution.
 
-Scope: **`FORMULA_AND_AMBIGUITY_VALIDATION_ONLY`**  
-Overall scientific status: **`BLOCKED_G5_G9`**  
+Scope: **`FORMULA_AND_AMBIGUITY_VALIDATION_ONLY`**
+
+Overall scientific status: **`BLOCKED_G5_G9`**
+
 Published-result status: **`INCONCLUSIVE_PUBLISHED_RESULT`**
 
 This contract permits clean-room objective-function checks, three explicitly
