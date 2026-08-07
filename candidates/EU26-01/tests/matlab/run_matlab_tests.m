@@ -59,10 +59,15 @@ for i = 1:numel(invalid_cases)
     else
         entry = invalid_cases(i);
     end
+    names = fieldnames(entry);
+    input_fields = setdiff(names, {'case_id'; 'expected_error'});
+    assert(numel(names) == 3 && numel(input_fields) == 1, ...
+        ['invalid fixture schema changed: ' entry.case_id]);
+    case_data = entry.(input_fields{1});
     accepted = true;
     message = '';
     try
-        eu26_generation_from_tape(entry.case);
+        eu26_generation_from_tape(case_data);
     catch caught
         accepted = false;
         message = caught.message;
