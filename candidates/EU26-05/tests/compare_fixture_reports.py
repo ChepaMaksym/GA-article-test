@@ -26,9 +26,11 @@ from eu2605.core import (  # noqa: E402
     fixture_report,
 )
 from eu2605.reporting import (  # noqa: E402
+    exclusive_write_bytes,
     git_head,
     matlab_implementation_paths,
     python_implementation_paths,
+    prepare_exclusive_outputs,
     source_digest,
     source_hash_rows,
 )
@@ -44,6 +46,7 @@ ENVELOPE_KEYS = {
     "runtime",
     "implementation_source_hashes",
     "implementation_source_digest",
+    "execution_authentication",
     "h0_source_status",
     "source_byte_status",
     "source_freeze_status",
@@ -85,6 +88,8 @@ def validate_implementation_report(report: dict[str, Any], implementation: str) 
         or report.get("implementation") != implementation
     ):
         raise ValueError(f"{implementation} report identity is invalid")
+    if report.get("execution_authentication") != "SELF_ASSERTED_RUNTIME_CONTEXT_ONLY":
+        raise ValueError(f"{implementation} execution context was overstated")
     if report.get("git_head") != git_head(REPOSITORY):
         raise ValueError(f"{implementation} report git HEAD differs from the checkout")
     if (
@@ -108,7 +113,13 @@ def validate_implementation_report(report: dict[str, Any], implementation: str) 
     rows = report.get("implementation_source_hashes")
     if rows != expected_rows:
         raise ValueError(f"{implementation} implementation source hashes differ")
-    if any(set(row) != {"path", "sha256"} for row in rows):
+    if not isinstance(rows, list) or any(
+        not isinstance(row, dict)
+        or set(row) != {"path", "sha256"}
+        or not isinstance(row["path"], str)
+        or not isinstance(row["sha256"], str)
+        for row in rows
+    ):
         raise ValueError(f"{implementation} source row schema is not exact")
     if report.get("implementation_source_digest") != source_digest(expected_rows):
         raise ValueError(f"{implementation} implementation source digest differs")
@@ -135,7 +146,11 @@ def compare_reports(
         raise ValueError("independent implementations unexpectedly share a source digest")
     return {
         "schema_version": "1.0.0",
-        "status": "PASS_H3_CROSS_LANGUAGE_FIXED_TAPE",
+        "status": "PASS_H3_PAYLOAD_FORMULA_EQUIVALENCE_ONLY",
+        "native_runtime_execution_status": (
+            "NOT_EVALUATED_EXTERNAL_EXECUTION_AUTH_REQUIRED"
+        ),
+        "offline_comparison_authorizes_native_execution": False,
         "git_head": python_report["git_head"],
         "h0_source_status": H0_SOURCE_STATUS,
         "source_byte_status": SOURCE_BYTE_STATUS,
@@ -158,9 +173,11 @@ def main() -> None:
     except (KeyError, TypeError, ValueError) as error:
         raise SystemExit(f"EU26-05 cross-language comparison failed: {error}") from error
     if args.output:
-        args.output.parent.mkdir(parents=True, exist_ok=True)
-        args.output.write_bytes(canonical_bytes(summary) + b"\n")
-    print("EU26-05 CROSS-LANGUAGE FIXTURE PASS")
+        (output_path,) = prepare_exclusive_outputs(
+            [args.output], REPOSITORY, labels=["fixture-comparison output"]
+        )
+        exclusive_write_bytes(output_path, canonical_bytes(summary) + b"\n")
+    print("EU26-05 CROSS-LANGUAGE PAYLOAD EQUIVALENCE PASS; NATIVE EXECUTION NOT AUTHENTICATED")
 
 
 if __name__ == "__main__":

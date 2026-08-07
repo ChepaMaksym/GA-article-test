@@ -20,15 +20,16 @@
       "paper_level_status",
       "source_byte_status"
     ],
-    "missing_profile_status": "NOT_RUN_MISSING_PROFILES",
-    "pass_status": "PASS_H5_PORTABILITY"
+    "missing_profile_status": "NOT_RUN_MISSING_PROFILES"
   },
-  "github_api_attestation": {
-    "attestation_type": "GITHUB_ACTIONS_ARTIFACT_API_v1",
+  "github_content_match": {
+    "record_type": "CALLER_SUPPLIED_GITHUB_METADATA_CONTENT_MATCH_v1",
     "repository": "ChepaMaksym/GA-article-test",
     "workflow_path": ".github/workflows/eu26-05-validation.yml",
     "artifact_name": "eu26-05-github-4-formula-portability",
     "report_member": "github-4.json",
-    "missing_status": "NOT_RUN_GITHUB_API_ATTESTATION"
+    "missing_status": "NOT_RUN_GITHUB_CONTENT_MATCH_RECORD",
+    "external_authentication_status": "NOT_EVALUATED_EXTERNAL_GITHUB_AUTH_REQUIRED",
+    "offline_authorizes_h5": false
   }
 }

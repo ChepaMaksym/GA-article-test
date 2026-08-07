@@ -91,6 +91,7 @@ report.git_head = repository_git_head(repository);
 report.runtime = runtime_record();
 report.implementation_source_hashes = source_rows;
 report.implementation_source_digest = source_rows_digest(source_rows);
+report.execution_authentication = 'SELF_ASSERTED_RUNTIME_CONTEXT_ONLY';
 report.h0_source_status = ...
     'PASS_METADATA_ONLY / BLOCKED_SOURCE_BYTE_FREEZE';
 report.source_byte_status = 'PASS_METADATA_ONLY';
@@ -102,16 +103,60 @@ report.semantic_payload_sha256 = ...
     '6f560ccd36492e9fb1c4057d67ea2e54fffa032e72ddd02557bad077aacaf502';
 
 if ~isempty(output_path)
-    output_directory = fileparts(output_path);
-    if ~isempty(output_directory) && exist(output_directory, 'dir') == 0
-        mkdir(output_directory);
-    end
+    validate_external_output_path(output_path, repository);
     handle = fopen(output_path, 'w');
     if handle < 0
         error('EU2605:WriteFailed', 'cannot open fixture report output');
     end
     cleanup = onCleanup(@() fclose(handle)); %#ok<NASGU>
     fprintf(handle, '%s\n', jsonencode(report));
+end
+end
+
+function validate_external_output_path(output_path, repository)
+if ~ischar(output_path) || ~isrow(output_path)
+    error('EU2605:UnsafeOutput', 'fixture report output must be a character row');
+end
+[output_directory, output_name, output_extension] = fileparts(output_path);
+if isempty(output_directory)
+    output_directory = pwd;
+end
+if isempty([output_name, output_extension]) || exist(output_directory, 'dir') == 0
+    error('EU2605:UnsafeOutput', ...
+        'fixture report output requires an existing external directory and file name');
+end
+if exist(output_path, 'file') ~= 0 || exist(output_path, 'dir') ~= 0
+    error('EU2605:UnsafeOutput', ...
+        'fixture report output already exists; evidence writes are exclusive');
+end
+resolved_output_directory = canonical_directory(output_directory);
+resolved_repository = canonical_directory(repository);
+repository_prefix = [resolved_repository, filesep];
+if strcmp(resolved_output_directory, resolved_repository) ...
+        || strncmp(resolved_output_directory, repository_prefix, numel(repository_prefix))
+    error('EU2605:UnsafeOutput', ...
+        'fixture report output must be outside the repository');
+end
+end
+
+function resolved = canonical_directory(path)
+if exist('OCTAVE_VERSION', 'builtin') ~= 0 ...
+        && exist('canonicalize_file_name', 'builtin') ~= 0
+    resolved = canonicalize_file_name(path);
+    if isempty(resolved)
+        error('EU2605:UnsafeOutput', 'cannot canonicalize output directory');
+    end
+    return;
+end
+try
+    file = javaObject('java.io.File', path);
+    resolved = char(file.getCanonicalPath());
+catch
+    [status, attributes] = fileattrib(path);
+    if ~status
+        error('EU2605:UnsafeOutput', 'cannot canonicalize output directory');
+    end
+    resolved = attributes.Name;
 end
 end
 

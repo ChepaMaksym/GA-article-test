@@ -84,6 +84,10 @@ class ContractTests(unittest.TestCase):
         self.assertTrue(self.contract["paper_level_status"].startswith("BLOCKED_"))
 
     def test_formula_digests_are_preregistered_but_not_paper_outcomes(self) -> None:
+        self.assertEqual(
+            self.contract["evidence_boundary_amendment"],
+            "preregistration/amendment-001-offline-evidence-boundary.md",
+        )
         digests = self.contract["micro_oracle_digests"]
         self.assertEqual(
             digests["shared_fixture_report_sha256"],
@@ -101,10 +105,15 @@ class ContractTests(unittest.TestCase):
             (CANDIDATE / "config" / "hardware_profiles.json").read_text(encoding="utf-8")
         )
         self.assertEqual(hardware["parallel_case_count"], 128)
+        content_match = hardware["github_content_match"]
         self.assertEqual(
-            hardware["github_api_attestation"]["missing_status"],
-            "NOT_RUN_GITHUB_API_ATTESTATION",
+            content_match["missing_status"], "NOT_RUN_GITHUB_CONTENT_MATCH_RECORD"
         )
+        self.assertEqual(
+            content_match["external_authentication_status"],
+            "NOT_EVALUATED_EXTERNAL_GITHUB_AUTH_REQUIRED",
+        )
+        self.assertIs(content_match["offline_authorizes_h5"], False)
 
     def test_registry_stays_conditional_and_g5_g6_unresolved(self) -> None:
         registry = json.loads(

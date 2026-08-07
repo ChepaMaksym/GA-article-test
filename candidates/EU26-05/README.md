@@ -55,8 +55,11 @@ octave --quiet --eval \
   "addpath('candidates/EU26-05/tests/matlab'); run_matlab_tests"
 ```
 
-The shared Python and MATLAB/Octave reports are compared as parsed objects and
-by their frozen semantic digest:
+The shared Python and MATLAB/Octave-shaped reports are compared as parsed
+objects and by their frozen semantic digest. The offline result is only
+`PASS_H3_PAYLOAD_FORMULA_EQUIVALENCE_ONLY`; runtime execution remains
+`NOT_EVALUATED_EXTERNAL_EXECUTION_AUTH_REQUIRED`. A runtime string and source
+hashes do not authenticate which executable emitted an envelope.
 
 ```bash
 python candidates/EU26-05/environments/python/run_formula_report.py \
@@ -69,19 +72,19 @@ python candidates/EU26-05/tests/compare_fixture_reports.py \
 ```
 
 Formal Work reports must start from the same clean commit and write evidence
-outside the repository. Each profile requires five repeats and an affinity
-mask exposing exactly the frozen CPU count. The strict comparator returns
+to new, distinct paths outside the repository. Each profile requires five
+repeats, an exact affinity mask and barrier-confirmed distinct worker PIDs with
+deterministic case shards. The strict comparator returns
 `NOT_RUN_MISSING_PROFILES` until all three real profiles exist; a GitHub report
-cannot be relabelled from a Work run. Even three equal profile JSON files are
-insufficient: H5 stays `NOT_RUN_GITHUB_API_ATTESTATION` until a separate
-post-completion record binds the repository, workflow, head, run/attempt,
-artifact ID/name and actual `github-4.json` byte digest to authenticated GitHub
-API objects. This attestation is acquired externally by a reviewer after the
-validation workflow has completed successfully; it is never self-issued by
-the run being attested. The reviewer fetches the completed workflow-run and
-artifact JSON with authenticated GitHub API access, downloads the named
-artifact, and passes those objects plus `github-4.json` to
-`build_github_api_attestation.py`.
+cannot be relabelled from a Work run.
+
+Even three equal profile JSON files cannot authorize H5 offline. The optional
+`build_github_content_match.py` helper checks only coherence among
+caller-supplied GitHub-shaped metadata and a local report. It explicitly does
+not authenticate API acquisition or artifact membership. After that check the
+offline status remains `NOT_EVALUATED_EXTERNAL_GITHUB_AUTH_REQUIRED`, with
+`offline_authorizes_h5=false`. A reviewer must separately verify the real API
+objects, jobs, downloaded artifact and member bytes.
 
 ```bash
 taskset -c 0-3 python candidates/EU26-05/tests/hardware/run_portability_suite.py \
@@ -97,15 +100,22 @@ python candidates/EU26-05/tests/hardware/compare_portability_reports.py \
   --allow-incomplete --output /tmp/eu26-05-work-partial.json
 ```
 
-After downloading the real GitHub4 report and separately acquiring its API
-attestation, the only H5-authorizing comparator form is:
+An optional non-authorizing offline content check is:
 
 ```bash
+python candidates/EU26-05/tests/hardware/build_github_content_match.py \
+  --workflow-run-json /tmp/workflow-run.json \
+  --artifact-json /tmp/artifact.json --report /tmp/github-4.json \
+  --output /tmp/github-content-match.json
 python candidates/EU26-05/tests/hardware/compare_portability_reports.py \
   /tmp/eu26-05-work-4.json /tmp/eu26-05-work-8.json /tmp/github-4.json \
-  --github-attestation /tmp/github-api-attestation.json \
-  --output /tmp/eu26-05-h5.json
+  --github-content-match /tmp/github-content-match.json \
+  --allow-incomplete --output /tmp/eu26-05-offline-comparison.json
 ```
+
+This command cannot emit `PASS_H5_PORTABILITY`.
 
 The H0-H5 contract and every unresolved semantic boundary are frozen in
 [`preregistration/formula_transition_contract.md`](preregistration/formula_transition_contract.md).
+The post-freeze authentication correction is recorded in
+[`preregistration/amendment-001-offline-evidence-boundary.md`](preregistration/amendment-001-offline-evidence-boundary.md).

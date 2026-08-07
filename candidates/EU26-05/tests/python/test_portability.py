@@ -22,7 +22,7 @@ from eu2605.portability import (  # noqa: E402
     property_summary,
 )
 import compare_portability_reports as comparator  # noqa: E402
-import build_github_api_attestation as attestation_builder  # noqa: E402
+import build_github_content_match as content_match_builder  # noqa: E402
 import run_portability_suite as runner  # noqa: E402
 
 
@@ -52,8 +52,36 @@ class PortabilityPayloadTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     parallel_case(value)  # type: ignore[arg-type]
 
+    def test_barrier_observes_distinct_worker_processes_and_exact_shards(self) -> None:
+        rows, evidence = runner._parallel_rows(4)
+        self.assertEqual([row["case_id"] for row in rows], [
+            f"formula-transition-{index:03d}" for index in range(PARALLEL_CASE_COUNT)
+        ])
+        self.assertEqual(len({record["pid"] for record in evidence}), 4)
+        for slot, record in enumerate(evidence):
+            self.assertEqual(record["worker_slot"], slot)
+            self.assertEqual(
+                record["scientific_case_indices"],
+                list(range(slot, PARALLEL_CASE_COUNT, 4)),
+            )
+
 
 class StrictComparatorTests(unittest.TestCase):
+    @staticmethod
+    def worker_evidence(workers: int, cpus: list[int]) -> list[list[dict[str, object]]]:
+        return [
+            [
+                {
+                    "worker_slot": slot,
+                    "pid": 10_000 + repeat * workers + slot,
+                    "affinity_visible_cpus": cpus,
+                    "scientific_case_indices": list(range(slot, PARALLEL_CASE_COUNT, workers)),
+                }
+                for slot in range(workers)
+            ]
+            for repeat in range(5)
+        ]
+
     @classmethod
     def setUpClass(cls) -> None:
         args = SimpleNamespace(
@@ -68,6 +96,7 @@ class StrictComparatorTests(unittest.TestCase):
         base["git_clean_at_start"] = True
         base["hardware"]["exact_visible_cpus_enforced"] = True
         base["hardware"]["affinity_visible_cpus"] = [0, 1, 2, 3]
+        base["worker_execution_repeats"] = cls.worker_evidence(4, [0, 1, 2, 3])
         cls.work4 = base
 
         cls.work8 = copy.deepcopy(base)
@@ -75,6 +104,7 @@ class StrictComparatorTests(unittest.TestCase):
         cls.work8["requested_workers"] = 8
         cls.work8["requested_logical_cpus"] = 8
         cls.work8["hardware"]["affinity_visible_cpus"] = list(range(8))
+        cls.work8["worker_execution_repeats"] = cls.worker_evidence(8, list(range(8)))
 
         cls.github4 = copy.deepcopy(base)
         cls.github4["profile_label"] = "github-4"
@@ -84,6 +114,7 @@ class StrictComparatorTests(unittest.TestCase):
             "github_run_id": "123456",
             "github_run_attempt": "1",
         }
+        cls.github4["worker_execution_repeats"] = cls.worker_evidence(4, [0, 1, 2, 3])
         cls._temporary = tempfile.TemporaryDirectory()
         report_path = Path(cls._temporary.name) / "github-4.json"
         report_path.write_bytes(canonical_bytes(cls.github4) + b"\n")
@@ -105,7 +136,7 @@ class StrictComparatorTests(unittest.TestCase):
             "workflow_run": {"id": 123456, "head_sha": cls.github4["git_head"]},
             "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/987654",
         }
-        cls.attestation = attestation_builder.build_attestation(
+        cls.content_match = content_match_builder.build_content_match(
             workflow_run, artifact, report_path
         )
 
@@ -128,33 +159,62 @@ class StrictComparatorTests(unittest.TestCase):
             [self.work4, self.work8, self.github4]
         )
         self.assertIs(complete, False)
-        self.assertEqual(summary["status"], "NOT_RUN_GITHUB_API_ATTESTATION")
+        self.assertEqual(summary["status"], "NOT_RUN_GITHUB_CONTENT_MATCH_RECORD")
         self.assertEqual(
             summary["github_role_authentication"],
-            "UNAUTHENTICATED_SELF_ASSERTED_CONTEXT",
+            "NOT_EVALUATED_EXTERNAL_GITHUB_AUTH_REQUIRED",
         )
 
-    def test_api_attested_three_profiles_pass_formula_portability_only(self) -> None:
+    def test_offline_content_match_never_authorizes_h5(self) -> None:
         summary, complete = comparator.compare_reports(
             [self.work4, self.work8, self.github4],
-            github_attestation=self.attestation,
+            github_content_match=self.content_match,
             report_sha256_by_label={"github-4": self.github_report_sha256},
         )
-        self.assertIs(complete, True)
-        self.assertEqual(summary["status"], "PASS_H5_PORTABILITY")
-        self.assertEqual(summary["strongest_result"], "PASS_FORMULA_AND_TRANSITION_PORTABILITY")
+        self.assertIs(complete, False)
+        self.assertEqual(
+            summary["status"], "NOT_EVALUATED_EXTERNAL_GITHUB_AUTH_REQUIRED"
+        )
+        self.assertEqual(summary["strongest_result"], "NOT_EVALUATED")
+        self.assertIs(summary["offline_authorizes_h5"], False)
+        self.assertEqual(
+            summary["offline_content_match"],
+            "PASS_CALLER_SUPPLIED_METADATA_AND_LOCAL_REPORT_COHERENCE_ONLY",
+        )
         self.assertIs(summary["published_27_of_30_evaluated"], False)
         self.assertIs(summary["pass_full_claimed"], False)
 
-    def test_forged_api_attestation_rejects(self) -> None:
-        forged = copy.deepcopy(self.attestation)
+    def test_internally_incoherent_content_match_rejects(self) -> None:
+        forged = copy.deepcopy(self.content_match)
         forged["artifact_id"] += 1
         with self.assertRaisesRegex(ValueError, "artifact API URL"):
             comparator.compare_reports(
                 [self.work4, self.work8, self.github4],
-                github_attestation=forged,
+                github_content_match=forged,
                 report_sha256_by_label={"github-4": self.github_report_sha256},
             )
+
+    def test_cpu_masks_and_worker_evidence_require_exact_types(self) -> None:
+        bad_mask = copy.deepcopy(self.work4)
+        bad_mask["hardware"]["affinity_visible_cpus"] = ["forged"] * 4
+        with self.assertRaisesRegex(ValueError, "CPU mask"):
+            comparator.compare_reports([bad_mask])
+
+        duplicate_mask = copy.deepcopy(self.work4)
+        duplicate_mask["hardware"]["affinity_visible_cpus"] = [0, 0, 1, 2]
+        with self.assertRaisesRegex(ValueError, "CPU mask"):
+            comparator.compare_reports([duplicate_mask])
+
+        bad_pid = copy.deepcopy(self.work4)
+        bad_pid["worker_execution_repeats"][0][0]["pid"] = True
+        with self.assertRaisesRegex(ValueError, "PID"):
+            comparator.compare_reports([bad_pid])
+
+    def test_bool_integer_confusion_rejects(self) -> None:
+        bad = copy.deepcopy(self.work4)
+        bad["requested_workers"] = True
+        with self.assertRaisesRegex(ValueError, "exact integer"):
+            comparator.compare_reports([bad])
 
     def test_tampered_scientific_payload_rejects(self) -> None:
         bad = copy.deepcopy(self.work4)

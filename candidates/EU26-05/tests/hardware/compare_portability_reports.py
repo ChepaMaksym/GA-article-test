@@ -31,6 +31,10 @@ from eu2605.core import (  # noqa: E402
     SOURCE_FREEZE_STATUS,
 )
 from eu2605.portability import expected_parallel_cases, scientific_payload  # noqa: E402
+from eu2605.reporting import (  # noqa: E402
+    exclusive_write_bytes,
+    prepare_exclusive_outputs,
+)
 from run_portability_suite import (  # noqa: E402
     PROFILE_STATUS,
     PROTOCOL_ID,
@@ -44,7 +48,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("profiles", nargs="+", type=Path)
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--allow-incomplete", action="store_true")
-    parser.add_argument("--github-attestation", type=Path)
+    parser.add_argument("--github-content-match", type=Path)
     return parser.parse_args()
 
 
@@ -79,9 +83,105 @@ def _is_hex(value: Any, length: int) -> bool:
     )
 
 
+def _require_exact_integer(value: Any, expected: int, label: str) -> None:
+    if type(value) is not int or value != expected:
+        raise ValueError(f"{label} must be the exact integer {expected}")
+
+
+def _require_nonempty_string(value: Any, label: str) -> None:
+    if not isinstance(value, str) or not value:
+        raise ValueError(f"{label} must be a non-empty string")
+
+
+def _validate_cpu_mask(value: Any, expected_count: int, label: str) -> list[int]:
+    if (
+        not isinstance(value, list)
+        or len(value) != expected_count
+        or any(type(cpu) is not int or cpu < 0 for cpu in value)
+        or value != sorted(set(value))
+    ):
+        raise ValueError(
+            f"{label} must be an exact sorted unique non-negative integer CPU mask"
+        )
+    return value
+
+
+def _validate_worker_execution_repeats(
+    value: Any, *, workers: int, visible_cpus: list[int], label: str
+) -> None:
+    if not isinstance(value, list) or len(value) != 5:
+        raise ValueError(f"{label}: worker evidence must contain exactly five repeats")
+    expected_slots = list(range(workers))
+    expected_all_indices = list(range(128))
+    for repeat_index, records in enumerate(value):
+        if not isinstance(records, list) or len(records) != workers:
+            raise ValueError(f"{label}: repeat {repeat_index} lacks exact worker records")
+        if [record.get("worker_slot") if isinstance(record, dict) else None for record in records] != expected_slots:
+            raise ValueError(f"{label}: repeat {repeat_index} worker slots are not exact")
+        pids: list[int] = []
+        observed_indices: list[int] = []
+        for slot, record in enumerate(records):
+            _require_exact_keys(
+                record,
+                {
+                    "worker_slot",
+                    "pid",
+                    "affinity_visible_cpus",
+                    "scientific_case_indices",
+                },
+                f"{label} worker record",
+            )
+            _require_exact_integer(record["worker_slot"], slot, f"{label} worker slot")
+            pid = record["pid"]
+            if type(pid) is not int or pid <= 0:
+                raise ValueError(f"{label}: worker PID must be a positive integer")
+            pids.append(pid)
+            if _validate_cpu_mask(
+                record["affinity_visible_cpus"], len(visible_cpus), f"{label} worker affinity"
+            ) != visible_cpus:
+                raise ValueError(f"{label}: worker affinity differs from the profile mask")
+            expected_indices = list(range(slot, 128, workers))
+            indices = record["scientific_case_indices"]
+            if (
+                not isinstance(indices, list)
+                or any(type(index) is not int for index in indices)
+                or indices != expected_indices
+            ):
+                raise ValueError(f"{label}: worker scientific shard is not exact")
+            observed_indices.extend(indices)
+        if len(set(pids)) != workers:
+            raise ValueError(f"{label}: startup barrier did not prove distinct worker PIDs")
+        if sorted(observed_indices) != expected_all_indices:
+            raise ValueError(f"{label}: worker shards do not cover every scientific case")
+
+
 def _frozen_config() -> tuple[dict[str, Any], dict[str, Any]]:
     contract = strict_json_load(CANDIDATE / "config" / "validation_contract.json")
     profiles = strict_json_load(CANDIDATE / "config" / "hardware_profiles.json")
+    if not isinstance(contract, dict) or not isinstance(profiles, dict):
+        raise ValueError("frozen configuration values must be JSON objects")
+    if contract.get("required_labels") != {
+        "strongest_allowed": "PASS_FORMULA_AND_TRANSITION_PORTABILITY",
+        "published_result": PUBLISHED_RESULT_STATUS,
+    }:
+        raise ValueError("formula-only result labels changed")
+    if contract.get("evidence_boundary_amendment") != (
+        "preregistration/amendment-001-offline-evidence-boundary.md"
+    ):
+        raise ValueError("offline evidence-boundary amendment is not frozen")
+    if profiles.get("profiles") != [
+        {"label": "work-4", "workers": 4, "logical_cpus": 4},
+        {"label": "work-8", "workers": 8, "logical_cpus": 8},
+        {"label": "github-4", "workers": 4, "logical_cpus": 4},
+    ]:
+        raise ValueError("hardware profile rows changed or use non-exact types")
+    github_content = profiles.get("github_content_match")
+    if not isinstance(github_content, dict) or (
+        github_content.get("external_authentication_status")
+        != "NOT_EVALUATED_EXTERNAL_GITHUB_AUTH_REQUIRED"
+        or github_content.get("offline_authorizes_h5") is not False
+    ):
+        raise ValueError("offline GitHub authentication boundary changed")
     return contract, profiles
 
 
@@ -112,6 +212,7 @@ def validate_report(
             "scientific_payload_bytes",
             "scientific_payload",
             "repeat_scientific_digests",
+            "worker_execution_repeats",
             "profile_status",
             "scope",
             "paper_level_status",
@@ -141,19 +242,27 @@ def validate_report(
         raise ValueError(f"{label}: portability protocol changed")
     if report.get("profile_status") != PROFILE_STATUS:
         raise ValueError(f"{label}: profile formula gates did not pass")
-    if (
-        report.get("requested_workers") != expected["workers"]
-        or report.get("requested_logical_cpus") != expected["logical_cpus"]
-        or report.get("timing_repeats") != 5
-    ):
-        raise ValueError(f"{label}: hardware/repeat contract changed")
+    _require_exact_integer(
+        report.get("requested_workers"), expected["workers"], f"{label} requested workers"
+    )
+    _require_exact_integer(
+        report.get("requested_logical_cpus"),
+        expected["logical_cpus"],
+        f"{label} requested logical CPUs",
+    )
+    _require_exact_integer(report.get("timing_repeats"), 5, f"{label} timing repeats")
     if report.get("git_head") != git_head:
         raise ValueError(f"{label}: report was generated from a different commit")
+    if not _is_hex(report.get("git_head"), 40):
+        raise ValueError(f"{label}: report git HEAD is malformed")
     if report.get("git_clean_at_start") is not True:
         raise ValueError(f"{label}: report did not start from a clean tree")
     if report.get("source_hashes") != source_hashes:
         raise ValueError(f"{label}: source hashes differ from the checked-out tree")
-    if not all(isinstance(path, str) and _is_hex(digest, 64) for path, digest in source_hashes.items()):
+    if not isinstance(source_hashes, dict) or not all(
+        isinstance(path, str) and path and _is_hex(digest, 64)
+        for path, digest in source_hashes.items()
+    ):
         raise ValueError(f"{label}: current source map is malformed")
     if report.get("source_digest") != sha256_value(source_hashes):
         raise ValueError(f"{label}: source aggregate digest is invalid")
@@ -220,6 +329,7 @@ def validate_report(
             "five_repeat_scientific_payload_sha256"
         )
         or report.get("scientific_digest") != digest
+        or type(report.get("scientific_payload_bytes")) is not int
         or report.get("scientific_payload_bytes") != len(payload_bytes)
         or report.get("repeat_scientific_digests") != [digest] * 5
     ):
@@ -240,10 +350,25 @@ def validate_report(
         f"{label} hardware",
     )
     context = hardware.get("execution_context", {})
+    _require_nonempty_string(hardware.get("platform_system"), f"{label} platform system")
+    _require_nonempty_string(hardware.get("platform_machine"), f"{label} platform machine")
+    _require_nonempty_string(hardware.get("python_version"), f"{label} Python version")
+    os_cpu_count = hardware.get("os_cpu_count")
+    if os_cpu_count is not None and (type(os_cpu_count) is not int or os_cpu_count <= 0):
+        raise ValueError(f"{label}: os_cpu_count must be a positive integer or null")
     if hardware.get("exact_visible_cpus_enforced") is not True:
         raise ValueError(f"{label}: exact affinity-visible CPUs were not enforced")
-    if len(hardware.get("affinity_visible_cpus", [])) != expected["logical_cpus"]:
-        raise ValueError(f"{label}: affinity-visible CPU count differs from profile")
+    visible_cpus = _validate_cpu_mask(
+        hardware.get("affinity_visible_cpus"),
+        expected["logical_cpus"],
+        f"{label} affinity-visible CPUs",
+    )
+    _validate_worker_execution_repeats(
+        report.get("worker_execution_repeats"),
+        workers=expected["workers"],
+        visible_cpus=visible_cpus,
+        label=str(label),
+    )
     if label == "github-4":
         _require_exact_keys(
             context,
@@ -252,8 +377,12 @@ def validate_report(
         )
         if (
             context.get("github_actions") is not True
-            or not context.get("github_run_id")
-            or not context.get("github_run_attempt")
+            or not isinstance(context.get("github_run_id"), str)
+            or not context["github_run_id"].isdigit()
+            or int(context["github_run_id"]) <= 0
+            or not isinstance(context.get("github_run_attempt"), str)
+            or not context["github_run_attempt"].isdigit()
+            or int(context["github_run_attempt"]) <= 0
         ):
             raise ValueError("github-4 lacks GitHub Actions run provenance")
         if report.get("hardware_role_authentication") != "UNAUTHENTICATED_CONTEXT_CLAIM":
@@ -264,92 +393,96 @@ def validate_report(
         raise ValueError(f"{label}: Work role-authentication label changed")
 
 
-def validate_github_attestation(
-    attestation: dict[str, Any],
+def validate_github_content_match(
+    record: dict[str, Any],
     *,
     github_report: dict[str, Any],
     github_report_sha256: str,
     profile_config: dict[str, Any],
 ) -> None:
-    """Validate a separate authenticated-API evidence record.
-
-    The profile's own environment variables are only a context claim. H5 is
-    never authorized from that claim; the caller must separately acquire this
-    attestation from authenticated GitHub API metadata and bind it to the
-    downloaded report bytes.
-    """
+    """Validate offline metadata/content coherence without authenticating it."""
 
     _require_exact_keys(
-        attestation,
+        record,
         {
             "schema_version",
-            "attestation_type",
-            "retrieval_method",
+            "record_type",
+            "metadata_source",
+            "external_authentication_status",
+            "offline_authorizes_h5",
+            "artifact_membership_verified",
             "repository",
             "workflow_path",
             "head_sha",
             "run_id",
             "run_attempt",
-            "workflow_conclusion",
+            "claimed_workflow_conclusion",
             "artifact_id",
             "artifact_name",
-            "artifact_expired",
+            "claimed_artifact_expired",
             "report_member",
-            "report_sha256",
-            "workflow_run_api_url",
-            "artifact_api_url",
+            "local_report_sha256",
+            "claimed_workflow_run_api_url",
+            "claimed_artifact_api_url",
             "h0_source_status",
             "source_byte_status",
             "source_freeze_status",
         },
-        "GitHub API attestation",
+        "GitHub caller-supplied content match",
     )
-    frozen = profile_config["github_api_attestation"]
+    frozen = profile_config["github_content_match"]
     expected_scalars = {
         "schema_version": "1.0.0",
-        "attestation_type": frozen["attestation_type"],
-        "retrieval_method": "authenticated_github_api",
+        "record_type": frozen["record_type"],
+        "metadata_source": "CALLER_SUPPLIED_UNVERIFIED_JSON",
+        "external_authentication_status": frozen["external_authentication_status"],
+        "offline_authorizes_h5": False,
+        "artifact_membership_verified": False,
         "repository": frozen["repository"],
         "workflow_path": frozen["workflow_path"],
         "head_sha": github_report["git_head"],
         "run_id": github_report["hardware"]["execution_context"]["github_run_id"],
         "run_attempt": github_report["hardware"]["execution_context"]["github_run_attempt"],
-        "workflow_conclusion": "success",
+        "claimed_workflow_conclusion": "success",
         "artifact_name": frozen["artifact_name"],
-        "artifact_expired": False,
+        "claimed_artifact_expired": False,
         "report_member": frozen["report_member"],
-        "report_sha256": github_report_sha256,
+        "local_report_sha256": github_report_sha256,
         "h0_source_status": H0_SOURCE_STATUS,
         "source_byte_status": SOURCE_BYTE_STATUS,
         "source_freeze_status": SOURCE_FREEZE_STATUS,
     }
     for key, expected in expected_scalars.items():
-        if attestation.get(key) != expected:
-            raise ValueError(f"GitHub API attestation field differs: {key}")
+        if record.get(key) != expected:
+            raise ValueError(f"GitHub content-match field differs: {key}")
     if not _is_hex(github_report_sha256, 64):
         raise ValueError("GitHub report byte digest is malformed")
-    if not _is_hex(attestation.get("head_sha"), 40):
-        raise ValueError("GitHub attestation head SHA is malformed")
-    if not isinstance(attestation.get("run_id"), str) or not attestation["run_id"].isdigit() or int(attestation["run_id"]) <= 0:
+    if not _is_hex(record.get("head_sha"), 40):
+        raise ValueError("GitHub content-match head SHA is malformed")
+    if not isinstance(record.get("run_id"), str) or not record["run_id"].isdigit() or int(record["run_id"]) <= 0:
         raise ValueError("GitHub run ID must be a positive decimal string")
-    if not isinstance(attestation.get("run_attempt"), str) or not attestation["run_attempt"].isdigit() or int(attestation["run_attempt"]) <= 0:
+    if (
+        not isinstance(record.get("run_attempt"), str)
+        or not record["run_attempt"].isdigit()
+        or int(record["run_attempt"]) <= 0
+    ):
         raise ValueError("GitHub run attempt must be a positive decimal string")
-    if not isinstance(attestation.get("artifact_id"), int) or isinstance(attestation["artifact_id"], bool) or attestation["artifact_id"] <= 0:
-        raise ValueError("GitHub API artifact ID must be a positive integer")
-    run_id = str(attestation["run_id"])
-    artifact_id = str(attestation["artifact_id"])
+    if type(record.get("artifact_id")) is not int or record["artifact_id"] <= 0:
+        raise ValueError("GitHub artifact ID must be a positive integer")
+    run_id = record["run_id"]
+    artifact_id = str(record["artifact_id"])
     expected_run_url = f"https://api.github.com/repos/{frozen['repository']}/actions/runs/{run_id}"
     expected_artifact_url = f"https://api.github.com/repos/{frozen['repository']}/actions/artifacts/{artifact_id}"
-    if attestation.get("workflow_run_api_url") != expected_run_url:
-        raise ValueError("GitHub workflow-run API URL is not exact")
-    if attestation.get("artifact_api_url") != expected_artifact_url:
-        raise ValueError("GitHub artifact API URL is not exact")
+    if record.get("claimed_workflow_run_api_url") != expected_run_url:
+        raise ValueError("claimed GitHub workflow-run API URL is not exact")
+    if record.get("claimed_artifact_api_url") != expected_artifact_url:
+        raise ValueError("claimed GitHub artifact API URL is not exact")
 
 
 def compare_reports(
     reports: list[dict[str, Any]],
     *,
-    github_attestation: dict[str, Any] | None = None,
+    github_content_match: dict[str, Any] | None = None,
     report_sha256_by_label: dict[str, str] | None = None,
 ) -> tuple[dict[str, Any], bool]:
     contract, profile_config = _frozen_config()
@@ -402,52 +535,67 @@ def compare_reports(
         values = {report.get(field) for report in by_label.values()}
         if len(values) != 1:
             raise ValueError(f"cross-profile exact field differs: {field}")
-    if github_attestation is None:
-        summary["status"] = profile_config["github_api_attestation"]["missing_status"]
+    if github_content_match is None:
+        summary["status"] = profile_config["github_content_match"]["missing_status"]
         summary["strongest_result"] = "NOT_RUN"
-        summary["github_role_authentication"] = "UNAUTHENTICATED_SELF_ASSERTED_CONTEXT"
+        summary["github_role_authentication"] = (
+            "NOT_EVALUATED_EXTERNAL_GITHUB_AUTH_REQUIRED"
+        )
+        summary["offline_content_match"] = "NOT_RUN_MISSING_CONTENT_MATCH_RECORD"
         return summary, False
     if report_sha256_by_label is None or "github-4" not in report_sha256_by_label:
-        raise ValueError("GitHub API attestation requires the actual report byte digest")
-    validate_github_attestation(
-        github_attestation,
+        raise ValueError("GitHub content matching requires the actual report byte digest")
+    validate_github_content_match(
+        github_content_match,
         github_report=by_label["github-4"],
         github_report_sha256=report_sha256_by_label["github-4"],
         profile_config=profile_config,
     )
-    summary["status"] = profile_config["comparison"]["pass_status"]
-    summary["strongest_result"] = contract["required_labels"]["strongest_allowed"]
+    summary["status"] = profile_config["github_content_match"][
+        "external_authentication_status"
+    ]
+    summary["strongest_result"] = "NOT_EVALUATED"
     summary["scientific_digest"] = by_label[required[0]]["scientific_digest"]
-    summary["github_role_authentication"] = "PASS_SEPARATE_GITHUB_API_ATTESTATION"
-    summary["github_attestation"] = {
-        "run_id": github_attestation["run_id"],
-        "run_attempt": github_attestation["run_attempt"],
-        "artifact_id": github_attestation["artifact_id"],
-        "artifact_name": github_attestation["artifact_name"],
-        "report_sha256": github_attestation["report_sha256"],
+    summary["github_role_authentication"] = (
+        "NOT_EVALUATED_EXTERNAL_GITHUB_AUTH_REQUIRED"
+    )
+    summary["offline_content_match"] = (
+        "PASS_CALLER_SUPPLIED_METADATA_AND_LOCAL_REPORT_COHERENCE_ONLY"
+    )
+    summary["offline_authorizes_h5"] = False
+    summary["github_content_match"] = {
+        "run_id": github_content_match["run_id"],
+        "run_attempt": github_content_match["run_attempt"],
+        "artifact_id": github_content_match["artifact_id"],
+        "artifact_name": github_content_match["artifact_name"],
+        "local_report_sha256": github_content_match["local_report_sha256"],
     }
-    return summary, True
+    return summary, False
 
 
 def main() -> None:
     args = parse_args()
+    (output_path,) = prepare_exclusive_outputs(
+        [args.output], REPOSITORY, labels=["portability-comparison output"]
+    )
     reports = [strict_json_load(path) for path in args.profiles]
     report_sha256_by_label: dict[str, str] = {}
     for path, report in zip(args.profiles, reports):
         label = report.get("profile_label") if isinstance(report, dict) else None
         if isinstance(label, str):
             report_sha256_by_label[label] = _sha256_file(path)
-    attestation = strict_json_load(args.github_attestation) if args.github_attestation else None
+    content_match = (
+        strict_json_load(args.github_content_match) if args.github_content_match else None
+    )
     try:
         summary, complete = compare_reports(
             reports,
-            github_attestation=attestation,
+            github_content_match=content_match,
             report_sha256_by_label=report_sha256_by_label,
         )
     except (KeyError, TypeError, ValueError) as error:
         raise SystemExit(f"EU26-05 portability comparison failed: {error}") from error
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_bytes(canonical_bytes(summary) + b"\n")
+    exclusive_write_bytes(output_path, canonical_bytes(summary) + b"\n")
     print(json.dumps({"status": summary["status"], "h0": H0_SOURCE_STATUS}, sort_keys=True))
     if not complete and not args.allow_incomplete:
         raise SystemExit("EU26-05 portability comparison is incomplete")

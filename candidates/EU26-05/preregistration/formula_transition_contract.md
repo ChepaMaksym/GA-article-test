@@ -1,5 +1,9 @@
 # EU26-05 formula and transition validation contract v1
 
+Evidence-authentication semantics are narrowed by
+[`amendment-001-offline-evidence-boundary.md`](amendment-001-offline-evidence-boundary.md);
+the scientific formula/source scope below is unchanged.
+
 Frozen: 2026-08-07, before implementation tests and before any CEC-2017
 outcome run.
 
@@ -152,9 +156,9 @@ function as an authenticated CEC-2017 implementation.
 | H0 provenance | DOI/handle/OAI identity, source rows and all conflicts validate; status remains `PASS_METADATA_ONLY` until the exact postprint bytes are SHA-256 frozen. |
 | H1 unit/formula | Probability, decode-anchor and crossover unit fixtures pass independently in Python and MATLAB/Octave. |
 | H2 property/adversarial | Probability simplex/floor, binary closure, Hamming/geometric properties, invalid-input rejection and exhaustive small-parent cases pass. |
-| H3 fixed transition | Python and MATLAB/Octave consume the same frozen parent/type/cut tape and produce the exact same canonical transition report and digest. |
+| H3 fixed transition | Offline envelopes produce the exact same canonical transition payload and digest: `PASS_H3_PAYLOAD_FORMULA_EQUIVALENCE_ONLY`. Native execution remains `NOT_EVALUATED_EXTERNAL_EXECUTION_AUTH_REQUIRED`. |
 | H4 repeatability | Work4 and Work8 each execute the formula suite five times; every same-profile report is byte-identical. GitHub4 uses the same logical four-worker contract. |
-| H5 portability/comparator | Strict comparator requires identical contract/source/fixture digests, gate sets and formula payloads across Work4, Work8 and GitHub4. Missing GitHub4 evidence is `NOT_RUN`, never a pass. |
+| H5 portability/comparator | Strict offline comparator requires identical contract/source/fixture digests, gate sets and formula payloads across Work4, Work8 and GitHub4, but cannot authenticate GitHub/API/artifact provenance. Even complete offline content remains `NOT_EVALUATED_EXTERNAL_GITHUB_AUTH_REQUIRED`. |
 
 The strongest possible v1 label is
 `PASS_FORMULA_AND_TRANSITION_PORTABILITY`. The paper result remains

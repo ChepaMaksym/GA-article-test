@@ -1,6 +1,7 @@
 {
   "schema_version": "1.0.0",
   "protocol_id": "EU26-05-FORMULA-TRANSITION-v1",
+  "evidence_boundary_amendment": "preregistration/amendment-001-offline-evidence-boundary.md",
   "scope": "FORMULA_AND_TRANSITION_VALIDATION_ONLY",
   "paper_level_status": "BLOCKED_SOURCE_BYTE_FREEZE_AND_STOCHASTIC_PROVENANCE",
   "source_byte_status": "PASS_METADATA_ONLY",

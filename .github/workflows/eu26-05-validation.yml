@@ -73,16 +73,16 @@ jobs:
             --output "${RUNNER_TEMP}/eu26-05-python.json"
           octave --quiet --eval \
             "addpath('candidates/EU26-05/environments/matlab'); run_shared_fixture_report('${RUNNER_TEMP}/eu26-05-octave.json')"
-      - name: Require exact cross-language parsed payload and digest
+      - name: Require exact cross-language payload equivalence without runtime authentication
         run: |
           python candidates/EU26-05/tests/compare_fixture_reports.py \
             "${RUNNER_TEMP}/eu26-05-python.json" \
             "${RUNNER_TEMP}/eu26-05-octave.json" \
             --output "${RUNNER_TEMP}/eu26-05-cross-language.json"
-      - name: Upload independently bound cross-language evidence
+      - name: Upload non-authorizing cross-language payload evidence
         uses: actions/upload-artifact@v4
         with:
-          name: eu26-05-cross-language-fixed-tape
+          name: eu26-05-cross-language-payload-equivalence
           path: |
             ${{ runner.temp }}/eu26-05-python.json
             ${{ runner.temp }}/eu26-05-octave.json
@@ -133,6 +133,11 @@ jobs:
           assert report["source_byte_status"] == "PASS_METADATA_ONLY"
           assert report["source_freeze_status"] == "BLOCKED_SOURCE_BYTE_FREEZE"
           assert report["gates"]["H5_cross_profile"]["status"] == "NOT_EVALUATED_SINGLE_PROFILE"
+          assert len(report["worker_execution_repeats"]) == 5
+          for repeat in report["worker_execution_repeats"]:
+              assert len(repeat) == 4
+              assert len({row["pid"] for row in repeat}) == 4
+              assert all(row["affinity_visible_cpus"] == report["hardware"]["affinity_visible_cpus"] for row in repeat)
           assert report["published_27_of_30_evaluated"] is False
           assert report["cec2017_reproduced"] is False
           assert report["pass_full_claimed"] is False

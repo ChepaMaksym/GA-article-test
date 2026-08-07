@@ -153,6 +153,8 @@ assert(strcmp(report.source_freeze_status, 'BLOCKED_SOURCE_BYTE_FREEZE'));
 assert(strcmp(report.h0_source_status, ...
     'PASS_METADATA_ONLY / BLOCKED_SOURCE_BYTE_FREEZE'));
 assert(strcmp(report.implementation, 'matlab_octave'));
+assert(strcmp(report.execution_authentication, ...
+    'SELF_ASSERTED_RUNTIME_CONTEXT_ONLY'));
 assert(any(strcmp(report.runtime.engine, {'matlab', 'octave'})));
 assert(~isempty(regexp(report.git_head, '^[0-9a-f]{40}$', 'once')));
 assert(numel(report.implementation_source_hashes) >= 6);
