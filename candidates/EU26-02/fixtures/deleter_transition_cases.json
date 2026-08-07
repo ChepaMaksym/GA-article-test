@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0.0",
+  "source_semantics": "gcp_ahead 04da9dd adaptive.cpp",
+  "frozen_source": {
+    "source_commit": "04da9dd489f6e8e76fa3504d105c137bdf9ea323",
+    "archive_sha256": "1b7e8cf1ef637005bd994104f6e1ee520256ed387994b126bbe875a137632e41",
+    "archived_witness_member": "gcp_hard_ahead_1h_deleter/deleter/tbt/r250.5_15.csv",
+    "archived_witness_instance": "r250.5",
+    "archived_witness_seed": 15,
+    "archived_witness_target_color_count": 66
+  },
+  "cases": [
+    {
+      "name": "warmup_turn_29",
+      "state": {"nb_operators": 6, "nb_selected": 2, "turn": 29, "counts": [10, 10, 10, 10, 10, 10], "means": [6, 5, 4, 3, 2, 1], "surviving": [0, 1, 2, 3, 4, 5], "removed": []},
+      "selected_operators": [0, 1],
+      "scores": [6, 5],
+      "expected_deleted_operator": null,
+      "expected_turn": 30,
+      "expected_surviving": [0, 1, 2, 3, 4, 5],
+      "expected_counts": [11, 11, 10, 10, 10, 10],
+      "expected_means": [6, 5, 4, 3, 2, 1]
+    },
+    {
+      "name": "first_deletion_turn_30",
+      "state": {"nb_operators": 6, "nb_selected": 2, "turn": 30, "counts": [10, 10, 10, 10, 10, 10], "means": [6, 5, 4, 3, 2, 1], "surviving": [0, 1, 2, 3, 4, 5], "removed": []},
+      "selected_operators": [0, 1],
+      "scores": [6, 5],
+      "expected_deleted_operator": 0,
+      "expected_turn": 31,
+      "expected_surviving": [1, 2, 3, 4, 5],
+      "expected_counts": [11, 11, 10, 10, 10, 10],
+      "expected_means": [6, 5, 4, 3, 2, 1]
+    },
+    {
+      "name": "equal_means_delete_lowest",
+      "state": {"nb_operators": 6, "nb_selected": 2, "turn": 30, "counts": [1, 1, 1, 1, 1, 1], "means": [5, 5, 5, 5, 5, 5], "surviving": [0, 1, 2, 3, 4, 5], "removed": []},
+      "selected_operators": [4, 5],
+      "scores": [5, 5],
+      "expected_deleted_operator": 0,
+      "expected_turn": 31,
+      "expected_surviving": [1, 2, 3, 4, 5],
+      "expected_counts": [1, 1, 1, 1, 2, 2],
+      "expected_means": [5, 5, 5, 5, 5, 5]
+    },
+    {
+      "name": "second_deletion_turn_35",
+      "state": {"nb_operators": 6, "nb_selected": 2, "turn": 35, "counts": [11, 10, 10, 10, 10, 10], "means": [6, 5, 4, 3, 2, 1], "surviving": [1, 2, 3, 4, 5], "removed": [0]},
+      "selected_operators": [1, 2],
+      "scores": [5, 4],
+      "expected_deleted_operator": 1,
+      "expected_turn": 36,
+      "expected_surviving": [2, 3, 4, 5],
+      "expected_counts": [11, 11, 11, 10, 10, 10],
+      "expected_means": [6, 5, 4, 3, 2, 1]
+    },
+    {
+      "name": "one_survivor_boundary",
+      "state": {"nb_operators": 6, "nb_selected": 2, "turn": 100, "counts": [1, 1, 1, 1, 1, 10], "means": [6, 5, 4, 3, 2, 1], "surviving": [5], "removed": [0, 1, 2, 3, 4]},
+      "selected_operators": [5, 5],
+      "scores": [1, 1],
+      "expected_deleted_operator": null,
+      "expected_turn": 101,
+      "expected_surviving": [5],
+      "expected_counts": [1, 1, 1, 1, 1, 12],
+      "expected_means": [6, 5, 4, 3, 2, 1]
+    },
+    {
+      "name": "archived_r250_5_seed15_turn30",
+      "state": {"nb_operators": 6, "nb_selected": 2, "turn": 30, "counts": [15, 9, 10, 10, 11, 5], "means": [2.0666666666666669, 2.8888888888888888, 2.4, 1.9, 2.5454545454545454, 2.2], "surviving": [0, 1, 2, 3, 4, 5], "removed": []},
+      "selected_operators": [0, 5],
+      "scores": [2, 2],
+      "expected_deleted_operator": 1,
+      "expected_turn": 31,
+      "expected_surviving": [0, 2, 3, 4, 5],
+      "expected_counts": [16, 9, 10, 10, 11, 6],
+      "expected_means": [2.0625, 2.8888888888888888, 2.4, 1.9, 2.5454545454545454, 2.1666666666666665]
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "source": {
+    "path": "registry/candidates.json",
+    "commit": "b9b46dfc64b9f99cf581abe27c3edc11e92de5c6",
+    "blob": "d060fe0a7ec809fef0342fe457e139af41ef2a35",
+    "record_count": 15
+  },
+  "candidates": [
+    {"candidate_id": "EU-001", "title": "Adaptive Gene Level Mutation", "doi": "10.3390/a14010016"},
+    {"candidate_id": "EU-002", "title": "An Efficient Hybrid Evolutionary Optimization Method Coupling Cultural Algorithm with Genetic Algorithms and Its Application to Aerodynamic Shape Design", "doi": "10.3390/app12073482"},
+    {"candidate_id": "EU-003", "title": "A decision support tool for optimising groundwater-level monitoring networks using an adaptive genetic algorithm", "doi": "10.2166/hydro.2021.045"},
+    {"candidate_id": "EU-004", "title": "The development of a novel adaptive genetic algorithm for the optimization of fuel cycle length", "doi": "10.1016/j.anucene.2021.108153"},
+    {"candidate_id": "EU-005", "title": "Adaptive crossover operator based multi-objective binary genetic algorithm for feature selection in classification", "doi": "10.1016/j.knosys.2021.107218"},
+    {"candidate_id": "EU-006", "title": "Feature selection using a classification error impurity algorithm and an adaptive genetic algorithm improved with an external repository", "doi": "10.1016/j.knosys.2024.112345"},
+    {"candidate_id": "EU-007", "title": "An Output Power Interval Control Strategy Based on Pseudo-Tip-Speed Ratio and Adaptive Genetic Algorithm for Variable-Pitch Tidal Stream Turbine", "doi": "10.3390/jmse10091197"},
+    {"candidate_id": "USA-001", "title": "Calibration of an Adaptive Genetic Algorithm for Modeling Opinion Diffusion", "doi": "10.3390/a15020045"},
+    {"candidate_id": "USA-002", "title": "Using a novel genetic algorithm to assess peer influence on willingness to use pre-exposure prophylaxis in networks of Black men who have sex with men", "doi": "10.1007/s41109-020-00347-2"},
+    {"candidate_id": "USA-003", "title": "Genetic algorithms with self-adaptation for predictive classification of Medicare standardized payments for physical therapists", "doi": "10.1016/j.eswa.2023.119529"},
+    {"candidate_id": "USA-004", "title": "Effects of Imputation Strategy on Genetic Algorithms and Neural Networks on a Binary Classification Problem", "doi": "10.1145/3512290.3528863"},
+    {"candidate_id": "USA-005", "title": "Performance of a Genetic Algorithm for Estimating DeGroot Opinion Diffusion Model Parameters for Health Behavior Interventions", "doi": "10.3390/ijerph182413394"},
+    {"candidate_id": "USA-006", "title": "An On-Board Off-Board Framework for Online Replanning: Applied to UAVs in Urban Environments", "doi": null},
+    {"candidate_id": "USA-007", "title": "Prediction of crystal structures and motifs in the Fe-Mg-O system at Earth's core pressures", "doi": "10.1088/1367-2630/ac0287"},
+    {"candidate_id": "USA-008", "title": "Superconductivity in the Li-B-C system at 100 GPa", "doi": "10.1103/PhysRevB.107.014508"}
+  ]
+}

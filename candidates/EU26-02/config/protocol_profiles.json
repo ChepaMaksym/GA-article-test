@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "candidate_id": "EU26-02",
+  "source_commit": "04da9dd489f6e8e76fa3504d105c137bdf9ea323",
+  "archive_sha256": "1b7e8cf1ef637005bd994104f6e1ee520256ed387994b126bbe875a137632e41",
+  "expected_instances": 31,
+  "expected_seeds": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
+  "profiles": {
+    "artifact_actual_10800": {
+      "required_header_time_limit_seconds": 10800,
+      "row_time_cutoff_seconds": null,
+      "claim": "archive_to_published_table_provenance"
+    },
+    "paper_claimed_3600_diagnostic": {
+      "required_header_time_limit_seconds": 10800,
+      "row_time_cutoff_seconds": 3600,
+      "claim": "diagnostic_only_not_a_fresh_one_hour_run"
+    }
+  }
+}

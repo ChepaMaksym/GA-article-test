@@ -1,0 +1,74 @@
+{
+  "method": "memetic",
+  "name": "head",
+  "initialization": "random",
+  "population_size": 2,
+  "nb_selected": 2,
+  "selection": {
+    "method": "selection",
+    "name": "selection_head"
+  },
+  "crossover": [
+    {
+      "method": "crossover",
+      "name": "gpx",
+      "pseudo": "gpx_50",
+      "colors_p1": 1
+    },
+    {
+      "method": "crossover",
+      "name": "gpx",
+      "pseudo": "gpx_75",
+      "colors_p1": 3
+    },
+    {
+      "method": "crossover",
+      "name": "gpx",
+      "pseudo": "gpx_90",
+      "colors_p1": 9
+    }
+  ],
+  "local_search": [
+    {
+      "method": "local_search",
+      "name": "tabu_col_optimized",
+      "pseudo": "TabuColOptimized",
+      "tabu_iter": {
+        "alpha": 0.6,
+        "random": {
+          "min": 0,
+          "max": 10
+        }
+      },
+      "time": {
+        "relative": 0.001
+      }
+    },
+    {
+      "method": "local_search",
+      "name": "partial_col",
+      "pseudo": "PartialCol",
+      "tabu_iter": {
+        "alpha": 0.6,
+        "random": {
+          "min": 0,
+          "max": 10
+        }
+      },
+      "time": {
+        "relative": 0.001
+      }
+    }
+  ],
+  "insertion": {
+    "method": "insertion",
+    "name": "insertion_head"
+  },
+  "adaptive": {
+    "method": "adaptive",
+    "name": "deleter",
+    "memory_size": 50,
+    "coeff_exploi_explo": 1.0
+  },
+  "elites": 10
+}
