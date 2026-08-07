@@ -1,0 +1,205 @@
+name: EU26-02 archive and formula validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/EU26-02-ahead-verification
+    paths:
+      - "candidates/EU26-02/**"
+      - "registry/cohort_2026_12/**"
+      - ".github/workflows/eu26-02-validation.yml"
+  pull_request:
+    paths:
+      - "candidates/EU26-02/**"
+      - "registry/cohort_2026_12/**"
+      - ".github/workflows/eu26-02-validation.yml"
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+
+jobs:
+  registry-gates:
+    name: Registry consistency and conditional-status gates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out the candidate branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate all records and hard gates 3-10
+        run: python registry/cohort_2026_12/validate_registry.py
+      - name: Run fail-closed registry mutation tests
+        run: python registry/cohort_2026_12/tests/run_registry_tests.py
+
+  python-formula:
+    name: Python 3.12 formula and archive-unit gates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out the candidate branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned Python dependencies when present
+        run: |
+          if [ -f candidates/EU26-02/environments/python/requirements.txt ]; then
+            python -m pip install --requirement candidates/EU26-02/environments/python/requirements.txt
+          fi
+      - name: Run formula, parser, protocol and fail-closed tests
+        run: python candidates/EU26-02/tests/run_python_tests.py
+
+  octave-formula:
+    name: GNU Octave fixed-tape and formula gates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out the candidate branch
+        uses: actions/checkout@v4
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends octave
+      - name: Run MATLAB-compatible formula tests
+        run: >-
+          octave --quiet --eval
+          "addpath('candidates/EU26-02/tests/matlab'); run_matlab_tests"
+
+  github-four-core:
+    name: GitHub 4-vCPU pinned-archive portability profile
+    needs: [registry-gates, python-formula, octave-formula]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+      VECLIB_MAXIMUM_THREADS: "1"
+      ARCHIVE_SHA256: 1b7e8cf1ef637005bd994104f6e1ee520256ed387994b126bbe875a137632e41
+      ARCHIVE_URL: https://github.com/Cyril-Grelier/gcp_ahead/raw/04da9dd489f6e8e76fa3504d105c137bdf9ea323/outputs/gcp_hard_ahead_1h_deleter.tgz
+      GRAPH_SHA256: 1589cfc27c761c6014e3e6ff108270b49392ea300e9395015e28d535def57b39
+      GRAPH_URL: https://raw.githubusercontent.com/Cyril-Grelier/gc_instances/68e2563a82af68a42ef2ce397317d80b78a5b2a1/reduced_gcp/r250.5.col
+    steps:
+      - name: Check out the candidate branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned Python dependencies when present
+        run: |
+          if [ -f candidates/EU26-02/environments/python/requirements.txt ]; then
+            python -m pip install --requirement candidates/EU26-02/environments/python/requirements.txt
+          fi
+      - name: Require exactly four exposed logical CPUs
+        run: |
+          lscpu
+          cat /sys/fs/cgroup/cpu.max || true
+          cat /sys/fs/cgroup/cpuset.cpus.effective || true
+          python - <<'PY'
+          import os
+          visible = sorted(os.sched_getaffinity(0))
+          if os.cpu_count() != 4 or len(visible) != 4:
+              raise SystemExit(
+                  f"expected exactly 4 exposed CPUs; os.cpu_count={os.cpu_count()}, "
+                  f"affinity={visible}"
+              )
+          print({"os_cpu_count": os.cpu_count(), "affinity": visible})
+          PY
+      - name: Prepare immutable artifact directory
+        run: mkdir -p hardware-artifacts
+      - name: Download and verify the pinned 64,960,102-byte archive
+        run: |
+          curl --fail --location --retry 4 --retry-all-errors \
+            --output "${RUNNER_TEMP}/gcp_hard_ahead_1h_deleter.tgz" \
+            "${ARCHIVE_URL}"
+          test "$(wc -c < "${RUNNER_TEMP}/gcp_hard_ahead_1h_deleter.tgz")" -eq 64960102
+          echo "${ARCHIVE_SHA256}  ${RUNNER_TEMP}/gcp_hard_ahead_1h_deleter.tgz" \
+            | sha256sum --check --strict
+      - name: Download and verify the pinned 235-vertex witness graph
+        run: |
+          curl --fail --location --retry 4 --retry-all-errors \
+            --output "${RUNNER_TEMP}/r250.5.col" \
+            "${GRAPH_URL}"
+          test "$(wc -c < "${RUNNER_TEMP}/r250.5.col")" -eq 123130
+          echo "${GRAPH_SHA256}  ${RUNNER_TEMP}/r250.5.col" \
+            | sha256sum --check --strict
+      - name: Replay the frozen archive-to-Table-2 validator
+        run: |
+          python candidates/EU26-02/environments/python/run_archive_validation.py \
+            --archive "${RUNNER_TEMP}/gcp_hard_ahead_1h_deleter.tgz" \
+            --output hardware-artifacts/archive-validation.json
+      - name: Validate the selected archived transition and legal coloring
+        run: |
+          python candidates/EU26-02/environments/python/run_selected_witness.py \
+            --archive "${RUNNER_TEMP}/gcp_hard_ahead_1h_deleter.tgz" \
+            --graph "${RUNNER_TEMP}/r250.5.col" \
+            --output hardware-artifacts/selected-witness.json
+      - name: Run the frozen 4-vCPU archive and formula profile
+        run: |
+          python candidates/EU26-02/tests/hardware/run_portability_suite.py \
+            --label github-actions-4core \
+            --workers 4 \
+            --logical-cpus 4 \
+            --timing-repeats 5 \
+            --archive "${RUNNER_TEMP}/gcp_hard_ahead_1h_deleter.tgz" \
+            --require-archive \
+            --require-exact-visible-cpus \
+            --output hardware-artifacts/github-4core.json \
+            --hashes hardware-artifacts/github-4core-hashes.tsv
+      - name: Assert the profile passes without changing the paper outcome
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(
+              Path("hardware-artifacts/github-4core.json").read_text(encoding="utf-8")
+          )
+          archive_report = json.loads(
+              Path("hardware-artifacts/archive-validation.json").read_text(
+                  encoding="utf-8"
+              )
+          )
+          if archive_report.get("paper_level_status") \
+                  != "BLOCKED_MULTIPLE_SOURCE_CONFLICTS":
+              raise SystemExit("archive replay incorrectly cleared the paper-level block")
+          if report.get("profile_status") != "PASS_PROFILE":
+              raise SystemExit(f"unexpected profile status: {report.get('profile_status')}")
+          if report.get("paper_level_status") != "BLOCKED_MULTIPLE_SOURCE_CONFLICTS":
+              raise SystemExit("paper-level source conflicts were incorrectly cleared")
+          if report.get("gates", {}).get("H5_cross_profile", {}).get("status") \
+                  != "NOT_EVALUATED_SINGLE_PROFILE":
+              raise SystemExit("single GitHub profile must not claim H5")
+          witness = json.loads(
+              Path("hardware-artifacts/selected-witness.json").read_text(
+                  encoding="utf-8"
+              )
+          )
+          if witness.get("status") != "PASS_SELECTED_WITNESS":
+              raise SystemExit(f"unexpected witness status: {witness.get('status')}")
+          if witness.get("legal_coloring", {}).get("legal") is not True:
+              raise SystemExit("selected archived coloring is not legal")
+          if witness.get("archive_sha256") != "${{ env.ARCHIVE_SHA256 }}":
+              raise SystemExit("witness archive identity changed")
+          if witness.get("graph", {}).get("sha256") != "${{ env.GRAPH_SHA256 }}":
+              raise SystemExit("witness graph identity changed")
+          if witness.get("paper_level_status") != "BLOCKED_MULTIPLE_SOURCE_CONFLICTS":
+              raise SystemExit("witness incorrectly cleared the paper-level block")
+          PY
+      - name: Upload immutable validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eu26-02-github-4core-validation
+          path: hardware-artifacts/
+          if-no-files-found: error
+          retention-days: 30

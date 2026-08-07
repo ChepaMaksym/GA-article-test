@@ -69,11 +69,28 @@ class RegistryValidatorTests(unittest.TestCase):
         with self.assertRaisesRegex(validator.ValidationError, "Duplicate DOI"):
             self.validate(registry=registry)
 
+    def test_prior_cohort_doi_overlap_fails(self):
+        registry = copy.deepcopy(self.registry)
+        registry[0]["doi"] = "10.3390/a14010016"
+        with self.assertRaisesRegex(validator.ValidationError, "overlaps the old registry"):
+            self.validate(registry=registry)
+
     def test_inverse_scope_fails(self):
         registry = copy.deepcopy(self.registry)
         registry[0]["direct_not_inverse"] = False
         with self.assertRaisesRegex(validator.ValidationError, "direct-only scope"):
             self.validate(registry=registry)
+
+    def test_dimension_below_threshold_fails(self):
+        registry = copy.deepcopy(self.registry)
+        registry[0]["selected_decision_dimension"] = 10
+        with self.assertRaisesRegex(validator.ValidationError, "must be an integer >=11"):
+            self.validate(registry=registry)
+
+    def test_selection_operator_is_a_valid_adaptive_target(self):
+        assessments = copy.deepcopy(self.assessments)
+        assessments[0]["g3"]["target_kinds"] = ["selection_operator"]
+        self.validate(assessments=assessments)
 
     def test_noneligible_score_fails(self):
         registry = copy.deepcopy(self.registry)
@@ -97,6 +114,7 @@ class RegistryValidatorTests(unittest.TestCase):
     def test_claimed_code_requires_source_native_replay(self):
         assessments = copy.deepcopy(self.assessments)
         target = next(item for item in assessments if item["candidate_id"] == "EU26-02")
+        target["g10"]["status"] = "pass"
         target["g10"]["source_native_replay_possible"] = False
         with self.assertRaisesRegex(validator.ValidationError, "source-native replay"):
             self.validate(assessments=assessments)

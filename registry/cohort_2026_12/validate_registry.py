@@ -18,7 +18,9 @@ REGISTRY_PATH = COHORT / "registry.json"
 ASSESSMENTS_PATH = COHORT / "hard_gate_assessments.json"
 DEFINITIONS_PATH = COHORT / "gate_definitions.json"
 RANKING_PATH = COHORT / "ranking.csv"
-OLD_REGISTRY_PATH = ROOT / "registry" / "candidates.json"
+# Frozen identities keep cohort de-duplication independent of later edits to the
+# historical registry while preserving its exact committed provenance.
+OLD_REGISTRY_PATH = COHORT / "prior_cohort_identities.json"
 
 DOI_RE = re.compile(r"10\.\d{4,9}/[-._;()/:A-Z0-9]+", re.IGNORECASE)
 VALID_STATUSES = {"hard_pass", "conditional_noneligible", "hard_fail"}
@@ -92,6 +94,7 @@ VALID_TARGET_KINDS = {
     "crossover_rate",
     "crossover_operator",
     "selection_probability",
+    "selection_operator",
     "tournament_size",
     "elitism",
     "replacement",

@@ -1,0 +1,4 @@
+workload_id,kind,replicates,turns,base_seed
+deleter-small,formula,64,80,2602000
+deleter-throughput,formula,1024,500,2602100
+table2-all,archive,31,0,0
