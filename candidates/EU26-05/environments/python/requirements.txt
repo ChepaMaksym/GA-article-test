@@ -1,0 +1,1 @@
+# Standard-library-only deterministic oracle; no external numerical package.

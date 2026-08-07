@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "protocol_id": "EU26-05-HARDWARE-PORTABILITY-v1",
+  "timing_repeats": 5,
+  "parallel_case_count": 128,
+  "expected_scientific_digest": "6c55a35ccf72f0c86aa926c59b2382f5526bbcfcbeeec4fd782743ea5af89dd3",
+  "profiles": [
+    {"label": "work-4", "workers": 4, "logical_cpus": 4},
+    {"label": "work-8", "workers": 8, "logical_cpus": 8},
+    {"label": "github-4", "workers": 4, "logical_cpus": 4}
+  ],
+  "comparison": {
+    "required_profiles": ["work-4", "work-8", "github-4"],
+    "exact_fields": [
+      "git_head",
+      "source_digest",
+      "contract_digest",
+      "fixture_digest",
+      "scientific_digest",
+      "paper_level_status",
+      "source_byte_status"
+    ],
+    "missing_profile_status": "NOT_RUN_MISSING_PROFILES",
+    "pass_status": "PASS_H5_PORTABILITY"
+  },
+  "github_api_attestation": {
+    "attestation_type": "GITHUB_ACTIONS_ARTIFACT_API_v1",
+    "repository": "ChepaMaksym/GA-article-test",
+    "workflow_path": ".github/workflows/eu26-05-validation.yml",
+    "artifact_name": "eu26-05-github-4-formula-portability",
+    "report_member": "github-4.json",
+    "missing_status": "NOT_RUN_GITHUB_API_ATTESTATION"
+  }
+}

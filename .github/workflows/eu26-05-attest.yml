@@ -1,0 +1,66 @@
+name: EU26-05 GitHub4 API attestation
+
+on:
+  workflow_run:
+    workflows:
+      - EU26-05 formula and transition validation
+    types:
+      - completed
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+  GH_TOKEN: ${{ github.token }}
+
+jobs:
+  attest-github-four:
+    name: Bind completed run API metadata to GitHub4 report bytes
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_repository.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out the exact completed-run head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fetch authenticated run and artifact API objects
+        env:
+          TARGET_RUN_ID: ${{ github.event.workflow_run.id }}
+        run: |
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${TARGET_RUN_ID}" \
+            > "${RUNNER_TEMP}/workflow-run.json"
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${TARGET_RUN_ID}/artifacts?per_page=100" \
+            > "${RUNNER_TEMP}/artifacts.json"
+          mkdir -p "${RUNNER_TEMP}/github4-download"
+          gh run download "${TARGET_RUN_ID}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --name eu26-05-github-4-formula-portability \
+            --dir "${RUNNER_TEMP}/github4-download"
+          mapfile -t reports < <(find "${RUNNER_TEMP}/github4-download" -type f -name github-4.json)
+          if [ "${#reports[@]}" -ne 1 ]; then
+            echo "expected one github-4.json, found ${#reports[@]}" >&2
+            exit 1
+          fi
+          echo "EU2605_GITHUB4_REPORT=${reports[0]}" >> "${GITHUB_ENV}"
+      - name: Build strict post-completion API attestation
+        run: |
+          python candidates/EU26-05/tests/hardware/build_github_api_attestation.py \
+            --workflow-run-json "${RUNNER_TEMP}/workflow-run.json" \
+            --artifact-json "${RUNNER_TEMP}/artifacts.json" \
+            --report "${EU2605_GITHUB4_REPORT}" \
+            --output "${RUNNER_TEMP}/github-api-attestation.json"
+      - name: Upload the separate API attestation
+        uses: actions/upload-artifact@v4
+        with:
+          name: eu26-05-github-api-attestation-${{ github.event.workflow_run.id }}
+          path: ${{ runner.temp }}/github-api-attestation.json
+          if-no-files-found: error
+          retention-days: 30
