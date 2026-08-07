@@ -7,12 +7,14 @@ import shutil
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 
 CANDIDATE = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(CANDIDATE / "environments" / "python"))
 
 from banditverify.cases import EXPECTED_CASE_IDS, load_matrix  # noqa: E402
+import banditverify.protocol as protocol_module  # noqa: E402
 from banditverify.protocol import validate_protocol  # noqa: E402
 
 
@@ -32,6 +34,15 @@ class ProtocolTests(unittest.TestCase):
         cases = load_matrix(CANDIDATE / "config" / "hardware_formula_matrix.csv")
         self.assertEqual({case["case_id"] for case in cases}, EXPECTED_CASE_IDS)
         self.assertTrue(all(case["iterations"] == 20000 for case in cases))
+
+    def test_freeze_commit_must_be_ancestor_of_current_head(self) -> None:
+        with mock.patch.object(
+            protocol_module.subprocess,
+            "run",
+            return_value=protocol_module.subprocess.CompletedProcess([], 1),
+        ):
+            with self.assertRaisesRegex(AssertionError, "not an ancestor"):
+                protocol_module._validate_git_binding()
 
     def test_absence_cannot_be_silently_promoted(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

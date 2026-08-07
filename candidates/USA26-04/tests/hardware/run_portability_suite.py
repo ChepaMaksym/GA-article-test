@@ -307,13 +307,24 @@ def _matlab_fixed_tape_gate(
         and not numeric_mismatches
         and report["payload"].get("state_provenance") == FIXTURE_STATE_PROVENANCE
     )
+    content_validation_status = (
+        "PASS_CROSS_ENV_FIXED_TAPE_CONTENT"
+        if passed
+        else "FAIL_CROSS_ENV_FIXED_TAPE_CONTENT"
+    )
     if not trusted_origin:
         status = "NOT_EVALUATED_UNAUTHENTICATED_EXTERNAL_MATLAB_REPORT"
+        report_origin = "EXTERNAL_UNAUTHENTICATED"
+    elif passed:
+        status = "NOT_EVALUATED_EXTERNAL_NATIVE_RUNTIME_AUTH_REQUIRED"
+        report_origin = "RUNNER_INVOKED_ENGINE_LOCAL_SELF_ATTESTED"
     else:
-        status = "PASS_CROSS_ENV_FIXED_TAPE" if passed else "FAIL_CROSS_ENV_FIXED_TAPE"
+        status = "REJECTED_CROSS_ENV_FIXED_TAPE_CONTENT_MISMATCH"
+        report_origin = "RUNNER_INVOKED_ENGINE_LOCAL_SELF_ATTESTED"
     return {
         "status": status,
-        "report_origin": "RUNNER_INVOKED_ENGINE" if trusted_origin else "EXTERNAL_UNAUTHENTICATED",
+        "content_validation_status": content_validation_status,
+        "report_origin": report_origin,
         "report_sha256": sha256_file(path),
         "state_provenance": FIXTURE_STATE_PROVENANCE,
         "exact_mismatches": exact_mismatches,
@@ -333,6 +344,20 @@ def _matlab_fixed_tape_gate(
         ).hexdigest(),
         "matlab_report": report,
     }
+
+
+def _native_engine_environment(directory: str) -> dict[str, str]:
+    environment = {
+        "PATH": "/usr/bin:/bin",
+        "LANG": "C",
+        "LC_ALL": "C",
+        "TMPDIR": directory,
+        **{name: "1" for name in THREAD_ENV},
+    }
+    for license_name in ("MLM_LICENSE_FILE", "LM_LICENSE_FILE"):
+        if os.environ.get(license_name):
+            environment[license_name] = os.environ[license_name]
+    return environment
 
 
 def _runner_generated_matlab_gate(
@@ -400,9 +425,7 @@ def _runner_generated_matlab_gate(
             if engine == "octave"
             else [str(executable_path), "-sd", directory, "-batch", "disp(version)"]
         )
-        child_environment = os.environ.copy()
-        child_environment["OCTAVE_PATH"] = ""
-        child_environment["MATLABPATH"] = ""
+        child_environment = _native_engine_environment(directory)
         try:
             probe = subprocess.run(
                 probe_command,
@@ -650,10 +673,9 @@ def main() -> int:
             "status": "NOT_EVALUATED_SINGLE_PROFILE",
         },
     }
-    h2_pass = h2["status"] == "PASS_CROSS_ENV_FIXED_TAPE"
     core_pass = h0_pass and h1_pass and h3["status"].startswith("PASS_") and h4_pass
-    if core_pass and h2_pass:
-        profile_status = "PASS_PROFILE_H0_H4"
+    if core_pass and h2["status"] == "NOT_EVALUATED_EXTERNAL_NATIVE_RUNTIME_AUTH_REQUIRED":
+        profile_status = "INCONCLUSIVE_H2_EXTERNAL_NATIVE_RUNTIME_AUTH_REQUIRED"
     elif core_pass and h2["status"] in {
         "NOT_EVALUATED_MATLAB_REPORT_ABSENT",
         "NOT_EVALUATED_UNAUTHENTICATED_EXTERNAL_MATLAB_REPORT",
@@ -712,9 +734,9 @@ def main() -> int:
     _write_hashes(args.hashes, serial_records)
     print(json.dumps(report, indent=2, sort_keys=True, allow_nan=False))
     if args.require_matlab_report:
-        return 0 if profile_status == "PASS_PROFILE_H0_H4" else 1
+        return 0 if h2.get("content_validation_status") == "PASS_CROSS_ENV_FIXED_TAPE_CONTENT" else 1
     return 0 if profile_status in {
-        "PASS_PROFILE_H0_H4",
+        "INCONCLUSIVE_H2_EXTERNAL_NATIVE_RUNTIME_AUTH_REQUIRED",
         "INCONCLUSIVE_H2_MATLAB_NOT_EVALUATED",
     } else 1
 

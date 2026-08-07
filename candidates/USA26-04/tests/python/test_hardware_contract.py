@@ -98,8 +98,9 @@ def _h2(records: list[dict], head: str) -> dict:
         "canonical_payload_sha256": payload_sha256(payload),
     }
     return {
-        "status": "PASS_CROSS_ENV_FIXED_TAPE",
-        "report_origin": "RUNNER_INVOKED_ENGINE",
+        "status": "NOT_EVALUATED_EXTERNAL_NATIVE_RUNTIME_AUTH_REQUIRED",
+        "content_validation_status": "PASS_CROSS_ENV_FIXED_TAPE_CONTENT",
+        "report_origin": "RUNNER_INVOKED_ENGINE_LOCAL_SELF_ATTESTED",
         "report_sha256": "1" * 64,
         "state_provenance": module.STATE_PROVENANCE,
         "exact_mismatches": [],
@@ -143,7 +144,7 @@ def profile(role: str, *, complete_h2: bool = False) -> dict:
         "fixed_controller_state_provenance": module.STATE_PROVENANCE,
         "profile_label": module.ROLE_LABELS[role],
         "profile_status": (
-            "PASS_PROFILE_H0_H4"
+            "INCONCLUSIVE_H2_EXTERNAL_NATIVE_RUNTIME_AUTH_REQUIRED"
             if complete_h2
             else "INCONCLUSIVE_H2_MATLAB_NOT_EVALUATED"
         ),
@@ -242,16 +243,16 @@ class HardwareComparatorTests(unittest.TestCase):
             {"work_4core": profile("work_4core"), "work_8core": profile("work_8core")}
         )
         self.assertEqual(result["pairwise"][0]["status"], "PASS_STRICT_FORMULA_MATCH")
-        self.assertEqual(result["H5_status"], "INCOMPLETE_REQUIRED_PROFILE")
+        self.assertEqual(result["H5_status"], "NOT_EVALUATED_EXTERNAL_GITHUB_AUTH_REQUIRED")
         self.assertEqual(result["overall_status"], "INCONCLUSIVE_ENGINEERING_PORTABILITY")
 
     def test_github_json_without_api_attestation_is_incomplete(self) -> None:
         profiles = {role: profile(role, complete_h2=True) for role in module.ROLES}
         result = module.compare_reports(profiles)
-        self.assertEqual(result["H5_status"], "INCOMPLETE_UNAUTHENTICATED_GITHUB_PROFILE")
+        self.assertEqual(result["H5_status"], "NOT_EVALUATED_EXTERNAL_GITHUB_AUTH_REQUIRED")
         self.assertFalse(result["github_api_metadata_binding"]["metadata_binding_valid"])
 
-    def test_exact_api_binding_can_pass_engineering_only(self) -> None:
+    def test_python_forged_h2_and_matching_api_json_never_authorize_pass(self) -> None:
         profiles = {role: profile(role, complete_h2=True) for role in module.ROLES}
         head = profiles["work_4core"]["git_sha"]
         report_sha = "a" * 64
@@ -260,8 +261,12 @@ class HardwareComparatorTests(unittest.TestCase):
             github_api_provenance=api_record(head, report_sha),
             github_report_sha256=report_sha,
         )
-        self.assertEqual(result["H5_status"], "PASS_FORMULA_PORTABILITY")
-        self.assertEqual(result["overall_status"], "PASS_ENGINEERING_FORMULA_PORTABILITY")
+        self.assertEqual(result["H5_status"], "NOT_EVALUATED_EXTERNAL_GITHUB_AUTH_REQUIRED")
+        self.assertEqual(result["overall_status"], "INCONCLUSIVE_ENGINEERING_PORTABILITY")
+        self.assertTrue(result["github_api_metadata_binding"]["metadata_binding_valid"])
+        self.assertFalse(
+            result["github_api_metadata_binding"]["external_authentication_established"]
+        )
         self.assertEqual(result["paper_level_status"], "BLOCKED_G5_G9")
         self.assertFalse(result["claim_limits"]["published_result_equivalence_tested"])
 
@@ -381,7 +386,7 @@ class HardwareComparatorTests(unittest.TestCase):
             )
             with self.subTest(key=key):
                 self.assertEqual(
-                    result["H5_status"], "INCOMPLETE_UNAUTHENTICATED_GITHUB_PROFILE"
+                    result["H5_status"], "NOT_EVALUATED_EXTERNAL_GITHUB_AUTH_REQUIRED"
                 )
 
 

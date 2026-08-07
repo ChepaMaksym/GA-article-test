@@ -187,6 +187,21 @@ class MatlabEvidenceTests(unittest.TestCase):
                 )
         self.assertEqual(gate["status"], "REJECTED_UNTRUSTED_MATLAB_ENGINE_PATH")
 
+    def test_native_engine_environment_drops_runtime_injection_variables(self) -> None:
+        hostile = {
+            "LD_PRELOAD": "/tmp/forge.so",
+            "LD_LIBRARY_PATH": "/tmp/forge-libs",
+            "PYTHONPATH": "/tmp/forge-python",
+            "OCTAVE_PATH": "/tmp/forge-octave",
+            "MATLABPATH": "/tmp/forge-matlab",
+        }
+        with mock.patch.dict(runner.os.environ, hostile, clear=False):
+            environment = runner._native_engine_environment("/tmp/native-engine")
+        for name in hostile:
+            self.assertNotIn(name, environment)
+        self.assertEqual(environment["PATH"], "/usr/bin:/bin")
+        self.assertTrue(all(environment[name] == "1" for name in runner.THREAD_ENV))
+
     def test_artifact_collisions_and_repository_outputs_are_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             outside = Path(directory) / "profile.json"

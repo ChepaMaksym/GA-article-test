@@ -125,7 +125,7 @@ jobs:
             --require-exact-visible-cpus \
             --output "$RUNNER_TEMP/usa26-04-hardware-artifacts/github-4core.json" \
             --hashes "$RUNNER_TEMP/usa26-04-hardware-artifacts/github-4core-hashes.tsv"
-      - name: Assert formula pass without paper-result promotion
+      - name: Assert native content match without authentication promotion
         run: |
           python - <<'PY'
           import json
@@ -138,8 +138,16 @@ jobs:
                   / "github-4core.json"
               ).read_text()
           )
-          if report.get("profile_status") != "PASS_PROFILE_H0_H4":
+          if report.get("profile_status") \
+                  != "INCONCLUSIVE_H2_EXTERNAL_NATIVE_RUNTIME_AUTH_REQUIRED":
               raise SystemExit(f"unexpected profile status: {report.get('profile_status')}")
+          h2 = report.get("gates", {}).get("H2_fixed_tape", {})
+          if h2.get("status") \
+                  != "NOT_EVALUATED_EXTERNAL_NATIVE_RUNTIME_AUTH_REQUIRED":
+              raise SystemExit("offline native execution must not claim authenticated H2")
+          if h2.get("content_validation_status") \
+                  != "PASS_CROSS_ENV_FIXED_TAPE_CONTENT":
+              raise SystemExit("native fixed-tape content did not match")
           if report.get("paper_level_status") != "BLOCKED_G5_G9":
               raise SystemExit("formula profile incorrectly cleared paper-level block")
           if report.get("published_result_status") \

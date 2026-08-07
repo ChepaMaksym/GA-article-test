@@ -29,8 +29,9 @@ It is never passed to an experiment runner.
 - equal-weight `argmax` tie ambiguity and the inconsistent SD derivation;
 - an interior fixed-tape controller transition whose complete initial state is
   synthetic and always labeled `synthetic_fixture_not_article_state`;
-- H0-H4 source/formula/batch checks on Work-4, Work-8, and GitHub-4, followed
-  by a strict H5 formula-digest comparison.
+- H0/H1/H3/H4 source/formula/batch checks and local H2 content diagnostics on
+  Work-4, Work-8, and GitHub-4, followed by a strict but externally
+  authentication-blocked H5 formula-digest comparison.
 
 Passing these checks means only that the clean-room formula ports agree on the
 tested fixtures. It cannot establish the missing mutation transition,
@@ -60,12 +61,13 @@ python registry/cohort_2026_12/tests/run_registry_tests.py
 
 ## Frozen Work profiles
 
-Write every generated artifact outside the repository. A formal H2 is created
-only when the profile runner invokes a system MATLAB/Octave engine itself. The
-runner disables Octave init/site files, resolves the exact tracked writer,
-records the runtime/executable identity, and embeds the provenance-bound
-MATLAB report for comparator revalidation. Run exactly five retained timing
-repeats per profile:
+Write every generated artifact outside the repository. The profile runner can
+invoke a system MATLAB/Octave engine, disable Octave init/site files, resolve
+the exact tracked writer, record runtime/executable identity, and embed the
+provenance-bound report for comparator revalidation. This establishes only a
+local native-content match; it remains
+`NOT_EVALUATED_EXTERNAL_NATIVE_RUNTIME_AUTH_REQUIRED`, never an authenticated
+H2. Run exactly five retained timing repeats per profile:
 
 ```bash
 python candidates/USA26-04/tests/hardware/run_portability_suite.py \
@@ -89,9 +91,8 @@ diagnostic Work run. Such a profile is explicitly
 `--matlab-report PATH` accepts an already-created report only as an
 unauthenticated diagnostic: even an exact report cannot promote H2.
 
-The comparator accepts two profiles for a fail-closed partial check, but H5
-remains `INCOMPLETE_REQUIRED_PROFILE` until an authenticated GitHub-4 artifact
-is included:
+The comparator accepts two profiles for a fail-closed formula-content check,
+but H5 remains `NOT_EVALUATED_EXTERNAL_GITHUB_AUTH_REQUIRED`:
 
 ```bash
 python candidates/USA26-04/tests/hardware/compare_portability_reports.py \
@@ -100,7 +101,7 @@ python candidates/USA26-04/tests/hardware/compare_portability_reports.py \
   --output /tmp/usa26-04-work-partial-comparison.json
 ```
 
-The command exits nonzero because H5 is intentionally incomplete. The
+The command exits nonzero because H5 is intentionally not evaluated. The
 candidate workflow generates the GitHub-4 profile and preserves all status and
 provenance fields in its uploaded artifact. A profile JSON cannot authenticate
 its own GitHub role. Formal H5 additionally requires a separately obtained
@@ -112,5 +113,6 @@ profile SHA-256. Supply it with `--github-api-provenance` alongside
 The comparator validates the record's metadata binding but cannot establish
 that the record itself came from an authenticated GitHub API response. API
 retrieval, artifact download, and hashing therefore remain an external
-attestation prerequisite; without them H5 is
-`INCOMPLETE_UNAUTHENTICATED_GITHUB_PROFILE`, never `PASS`.
+attestation prerequisite. Even a perfectly matching API JSON leaves H5
+`NOT_EVALUATED_EXTERNAL_GITHUB_AUTH_REQUIRED`; this offline comparator has no
+path to `PASS`.

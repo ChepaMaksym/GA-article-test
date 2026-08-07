@@ -206,6 +206,15 @@ def _validate_git_binding() -> None:
         ).strip()
         if resolved != freeze:
             raise AssertionError("frozen preregistration commit did not resolve exactly")
+        ancestry = subprocess.run(
+            ["git", "merge-base", "--is-ancestor", freeze, "HEAD"],
+            cwd=repository,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            check=False,
+        )
+        if ancestry.returncode != 0:
+            raise AssertionError("frozen preregistration commit is not an ancestor of HEAD")
         for path, expected_blob, expected_sha in bindings:
             blob = subprocess.check_output(
                 ["git", "rev-parse", f"{freeze}:{path}"],

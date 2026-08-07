@@ -8,11 +8,13 @@ scope, or the frozen `BLOCKED_G5_G9` / `INCONCLUSIVE_PUBLISHED_RESULT` status.
 The following fail-closed controls supersede weaker transport wording in the
 original hardware contract:
 
-- H2 can pass only for a report produced inside the profile runner's own
-  init-disabled MATLAB/Octave invocation. The report binds protocol ID,
-  current Git SHA, engine/version, every independent `.m` source hash, fixture
-  hash, canonical payload and digest. A separately supplied report is
-  diagnostic and unauthenticated, even when its values match.
+- A report produced inside the profile runner's own init-disabled
+  MATLAB/Octave invocation can establish a local native-content match only.
+  The report binds protocol ID, current Git SHA, engine/version, every
+  independent `.m` source hash, fixture hash, canonical payload and digest,
+  but remains `NOT_EVALUATED_EXTERNAL_NATIVE_RUNTIME_AUTH_REQUIRED`. A
+  separately supplied report is diagnostic and unauthenticated, even when its
+  values match. This offline pipeline has no H2 `PASS` path.
 - Each profile binds a nonempty exact current-checkout source map and Git SHA.
   The comparator revalidates the full typed schema, exact unique frozen case
   set, every recomputed canonical record/per-record hash/aggregate digest,
@@ -23,7 +25,9 @@ original hardware contract:
   frozen workflow, head, run/attempt, artifact ID/name and downloaded report
   SHA-256. The comparator checks this metadata binding only; authenticated API
   retrieval, download and hashing remain an external prerequisite that JSON
-  alone cannot establish.
+  alone cannot establish. Even matching API JSON leaves H5
+  `NOT_EVALUATED_EXTERNAL_GITHUB_AUTH_REQUIRED`; this offline comparator has no
+  H5 `PASS` path.
 - Generated profile/comparison artifacts must be distinct files outside the
   repository. Missing, malformed, duplicate, extra, type-confused, copied, or
   status-promoted evidence fails closed.
