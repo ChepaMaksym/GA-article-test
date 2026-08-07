@@ -2,11 +2,13 @@ from __future__ import annotations
 
 import copy
 import hashlib
+import os
 from pathlib import Path
 from types import SimpleNamespace
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 
 CANDIDATE = Path(__file__).resolve().parents[2]
@@ -27,6 +29,18 @@ import run_portability_suite as runner  # noqa: E402
 
 
 class PortabilityPayloadTests(unittest.TestCase):
+    def test_execution_context_rejects_profile_relabelling(self) -> None:
+        with patch.dict(
+            os.environ,
+            {"GITHUB_ACTIONS": "true", "GITHUB_RUN_ID": "1", "GITHUB_RUN_ATTEMPT": "1"},
+            clear=False,
+        ):
+            with self.assertRaisesRegex(ValueError, "may not be relabelled"):
+                runner._execution_context("work-4")
+        with patch.dict(os.environ, {"GITHUB_ACTIONS": "false"}, clear=False):
+            with self.assertRaisesRegex(ValueError, "only in a GitHub Actions"):
+                runner._execution_context("github-4")
+
     def test_property_counts_and_claim_boundaries(self) -> None:
         summary = property_summary()
         self.assertEqual(summary["probability_grid_cases"], 120)
@@ -92,7 +106,11 @@ class StrictComparatorTests(unittest.TestCase):
             require_clean=False,
             require_exact_visible_cpus=False,
         )
-        base, _ = runner.build_report(args)
+        # This is a synthetic Work-profile fixture even when the unit suite is
+        # itself executing inside GitHub Actions. Keep the production relabel
+        # guard enabled and mask only the test process's ambient CI marker.
+        with patch.dict(os.environ, {"GITHUB_ACTIONS": "false"}, clear=False):
+            base, _ = runner.build_report(args)
         base["git_clean_at_start"] = True
         base["hardware"]["exact_visible_cpus_enforced"] = True
         base["hardware"]["affinity_visible_cpus"] = [0, 1, 2, 3]
