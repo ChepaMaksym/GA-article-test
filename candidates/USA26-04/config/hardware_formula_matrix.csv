@@ -1,0 +1,9 @@
+case_id,operation,fixture,iterations
+ackley-mixed,objective:ackley,mixed5,20000
+griewank-mixed,objective:griewank,mixed5,20000
+rastrigin-mixed,objective:rastrigin,mixed5,20000
+rosenbrock-mixed,objective:rosenbrock,mixed5,20000
+sphere-mixed,objective:sphere,mixed5,20000
+linear-mixed,objective:linear,mixed5,20000
+reward-signs,rewards,reward_sign,20000
+controller-fixed-tape,controller,fixed_controller_tape,20000

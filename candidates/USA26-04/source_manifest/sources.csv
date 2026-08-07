@@ -1,0 +1,8 @@
+source_id,kind,url,revision_or_path,accessed_utc,bytes,sha256,license_status
+NSF_FULL_TEXT,legal_full_text,https://par.nsf.gov/servlets/purl/10568003,NSF-PAR record 10568003,2026-08-07,3765486,808fa86ff865d7228959c39d6793c8d4e18d965ea37269d340371f9ff8a1effb,ACM permission notice; no code license
+ARXIV_PDF,author_manuscript,https://arxiv.org/pdf/2406.15976v1,arXiv:2406.15976v1,2026-08-07,3554426,74f07de64535fdf3e3a058a196ee95ec30c8dd8b6d94e39eaa8e0fb7d4002543,arXiv nonexclusive distribution license
+ARXIV_SOURCE,source_archive,https://arxiv.org/e-print/2406.15976v1,arXiv:2406.15976v1,2026-08-07,4741270,d64694271e3f57a409ad7be419db835cb1dc90d572392dd64a15d871cc8db017,arXiv nonexclusive distribution license
+ARXIV_MAIN_TEX,source_archive_member,https://arxiv.org/e-print/2406.15976v1,AdaMAD-v2.tex,2026-08-07,66195,1fb58c7a7c6a080e27ffb23f0c78d4baacee761b071fe74398c90458516dc638,arXiv nonexclusive distribution license
+AUTHOR_FORK_REPO,author-named_repository,https://github.com/andrewni2002/propeller,commit 19cd3291bdc85cc51ad8ae2d442726e5e141841e; tree 9d4a59e74f8ac1987323ef5ca87dea00ee5eff39,2026-08-07,,,EPL-2.0 OR GPL-2.0-or-later WITH Classpath-exception-2.0
+AUTHOR_FORK_LICENSE,repository_member,https://github.com/andrewni2002/propeller/blob/19cd3291bdc85cc51ad8ae2d442726e5e141841e/LICENSE,19cd329:LICENSE,2026-08-07,14199,721c2da257578bace3332b14d8ea06643d7d26753e7ef25a837b4e904edc0bf5,EPL-2.0 OR GPL-2.0-or-later WITH Classpath-exception-2.0
+PROPELLER_UPSTREAM,related_upstream_repository,https://github.com/lspector/propeller,commit 847341e4d8dd632b9aef961cfdc170ebd23b8bd8; tree 2054bcbb16bdcac6774fcdc9b87b2f668d8c2214,2026-08-07,,,EPL-2.0 OR GPL-2.0-or-later WITH Classpath-exception-2.0; temporal comparator only
