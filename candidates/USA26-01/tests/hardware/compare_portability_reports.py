@@ -90,7 +90,7 @@ def main() -> int:
     profiles = [json.loads(path.read_text(encoding="utf-8")) for path in args.profiles]
     if len(profiles) < 2:
         raise SystemExit("at least two profiles are required")
-    if any(profile.get("protocol_id") != "GESMR-HW-PORTABILITY-v1" for profile in profiles):
+    if any(profile.get("protocol_id") != "GESMR-HW-PORTABILITY-v1.1" for profile in profiles):
         raise SystemExit("all profiles must use the frozen protocol")
     labels = [profile.get("profile_label") for profile in profiles]
     if len(set(labels)) != len(labels):
@@ -154,7 +154,7 @@ def main() -> int:
         else "INCONCLUSIVE"
     )
     report = {
-        "protocol_id": "GESMR-HW-PORTABILITY-v1",
+        "protocol_id": "GESMR-HW-PORTABILITY-v1.1",
         "verification_scope": "FORMULA_HARDWARE_PORTABILITY_NOT_PUBLISHED_REPRODUCTION",
         "profiles": [profile["profile_label"] for profile in profiles],
         "profile_failures": profile_failures,

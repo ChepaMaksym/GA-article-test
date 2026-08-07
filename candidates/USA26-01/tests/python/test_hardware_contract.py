@@ -67,6 +67,55 @@ class HardwareContractTests(unittest.TestCase):
         self.assertNotEqual(original, RUNNER._result_hash(case, changed_history))
         self.assertNotEqual(original, RUNNER._result_hash(case, changed_accounting))
 
+    def test_cpu_allocation_uses_cgroup_quota_when_present(self) -> None:
+        evidence = RUNNER._cpu_allocation_evidence(
+            {
+                "cgroup_cpu_max": "800000 100000",
+                "cgroup_cpuset": "0-8",
+                "os_cpu_count": 9,
+                "affinity_before": list(range(9)),
+                "affinity_after": list(range(4)),
+            },
+            4,
+        )
+        self.assertTrue(evidence["valid"])
+        self.assertEqual(evidence["mode"], "cgroup_cpu_max")
+
+    def test_cpu_allocation_accepts_exact_visible_vm_cpu_set(self) -> None:
+        evidence = RUNNER._cpu_allocation_evidence(
+            {
+                "cgroup_cpu_max": None,
+                "cgroup_cpuset": "0-3",
+                "os_cpu_count": 4,
+                "affinity_before": [0, 1, 2, 3],
+                "affinity_after": [0, 1, 2, 3],
+            },
+            4,
+        )
+        self.assertTrue(evidence["valid"])
+        self.assertEqual(evidence["mode"], "exact_visible_cpu_set")
+
+    def test_cpu_allocation_rejects_incomplete_fallback_evidence(self) -> None:
+        base = {
+            "cgroup_cpu_max": None,
+            "cgroup_cpuset": "0-3",
+            "os_cpu_count": 4,
+            "affinity_before": [0, 1, 2, 3],
+            "affinity_after": [0, 1, 2, 3],
+        }
+        invalid = {
+            "logical_count_mismatch": dict(base, os_cpu_count=8),
+            "initial_affinity_too_small": dict(base, affinity_before=[0, 1, 2]),
+            "enforced_affinity_mismatch": dict(base, affinity_after=[0, 1, 2]),
+            "cgroup_cpuset_mismatch": dict(base, cgroup_cpuset="0-2"),
+            "duplicate_affinity_cpu": dict(base, affinity_before=[0, 1, 2, 2]),
+        }
+        for label, hardware in invalid.items():
+            with self.subTest(label=label):
+                evidence = RUNNER._cpu_allocation_evidence(hardware, 4)
+                self.assertFalse(evidence["valid"])
+                self.assertEqual(evidence["mode"], "insufficient")
+
     def test_source_mismatch_cannot_pass_pairwise_gate(self) -> None:
         row = {
             "case_id": "case",

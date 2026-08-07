@@ -1,7 +1,8 @@
-# GESMR hardware portability contract v1
+# GESMR hardware portability contract v1.1
 
-Status: frozen before formal hardware-profile runs  
-Date: 2026-08-06  
+Status: v1 frozen before formal runs; v1.1 metadata-only amendment after the first GitHub runs
+
+Date: 2026-08-06; amended 2026-08-07
 Scope: clean-room formula implementation only; this is not a published-result reproduction gate.
 
 ## Question
@@ -31,7 +32,7 @@ Every process is restricted to one numerical-library thread through `OMP_NUM_THR
 
 | Gate | PASS rule |
 |---|---|
-| H0 provenance | Git SHA, source hashes, OS, architecture, CPU model, affinity, cgroup CPU quota, RAM, Python, NumPy and BLAS metadata are present; every hashed executable/configuration source is tracked and byte-identical to that Git HEAD before and after execution, with no source/HEAD change during the run. |
+| H0 provenance | Git SHA, source hashes, OS, architecture, CPU model, CPU-allocation evidence, RAM, Python, NumPy and BLAS metadata are present; every hashed executable/configuration source is tracked and byte-identical to that Git HEAD before and after execution, with no source/HEAD change during the run. |
 | H1 seed ledger | Exactly the 40 unique correctness seeds 0..39 are retained. |
 | H2 invariants | No crash/NaN/Inf; all mutation rates remain positive and change within-run; elitist best fitness is non-increasing within 1e-12; evaluation counts are exact. |
 | H3 parallel safety | Every parallel correctness-run V1 SHA-256 equals its serial-reference V1 SHA-256 on the same profile. |
@@ -39,6 +40,21 @@ Every process is restricted to one numerical-library thread through `OMP_NUM_THR
 | H5 cross-profile portability | `PASS_BITWISE` only when all correctness hashes and source hashes match. Any hash mismatch is `INCONCLUSIVE` and requires a separate full-array numerical review; sparse summary values cannot grant PASS. |
 
 The worker gate additionally requires exactly the requested number of distinct worker PIDs, the selected CPU-affinity set in every worker, and all five numerical thread limits equal to one in every worker.
+
+### H0 metadata amendment
+
+The first two GitHub profiles exposed exactly four logical CPUs but did not
+mount `/sys/fs/cgroup/cpu.max`; both failed H0 only for that missing file.
+Those failed artifacts remain retained. Version 1.1 keeps `cpu.max` as the
+primary CPU-allocation evidence. When it is unavailable, H0 accepts only a
+strict fallback in which `os.cpu_count()`, the initial and enforced process
+affinity, and `/sys/fs/cgroup/cpuset.cpus.effective` all identify the same
+exact requested CPU set. The unchanged worker gate must also pass.
+
+This amendment changes metadata availability handling only. It does not alter
+the workloads, algorithm, hashes, invariants, serial-parallel comparison or
+timing observations, and it does not establish physical-core count, absence of
+throttling, controlled clock frequency or a causal GHz effect.
 
 Timing is descriptive and includes the small, fixed cost of computing the V1 verification digest after each trajectory. A throughput ratio is not a claim that one GESMR trajectory scales across cores, and no speed threshold affects H0-H5.
 

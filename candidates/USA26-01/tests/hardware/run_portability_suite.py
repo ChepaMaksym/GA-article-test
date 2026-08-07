@@ -44,7 +44,7 @@ sys.path.insert(0, str(PYTHON_ENV))
 from gesmr import GESMRConfig, get_benchmark, run_gesmr  # noqa: E402
 
 
-PROTOCOL_ID = "GESMR-HW-PORTABILITY-v1"
+PROTOCOL_ID = "GESMR-HW-PORTABILITY-v1.1"
 HASH_DOMAIN = b"GESMR-HW-V1\0"
 THREAD_ENV = (
     "OMP_NUM_THREADS",
@@ -93,6 +93,62 @@ def _read_text(path: str) -> str | None:
         return Path(path).read_text(encoding="utf-8").strip()
     except (OSError, UnicodeDecodeError):
         return None
+
+
+def _parse_cpu_set(value: Any) -> list[int] | None:
+    """Parse Linux CPU-list syntax such as ``0-3,8,10-11``."""
+
+    if not isinstance(value, str) or not value.strip():
+        return None
+    cpus: set[int] = set()
+    try:
+        for item in value.split(","):
+            bounds = item.strip().split("-", 1)
+            start = int(bounds[0])
+            stop = int(bounds[-1])
+            if start < 0 or stop < start:
+                return None
+            cpus.update(range(start, stop + 1))
+    except (TypeError, ValueError):
+        return None
+    return sorted(cpus) if cpus else None
+
+
+def _cpu_allocation_evidence(hardware: dict[str, Any], requested: int) -> dict[str, Any]:
+    """Validate primary cgroup quota metadata or the strict VM fallback."""
+
+    quota_present = bool(hardware.get("cgroup_cpu_max"))
+    affinity_before = hardware.get("affinity_before")
+    affinity_after = hardware.get("affinity_after")
+    cpuset = _parse_cpu_set(hardware.get("cgroup_cpuset"))
+    exact_visible_set = (
+        isinstance(requested, int)
+        and not isinstance(requested, bool)
+        and requested > 0
+        and hardware.get("os_cpu_count") == requested
+        and isinstance(affinity_before, list)
+        and isinstance(affinity_after, list)
+        and len(affinity_before) == requested
+        and len(set(affinity_before)) == requested
+        and affinity_before == affinity_after
+        and cpuset == affinity_before
+    )
+    mode = (
+        "cgroup_cpu_max"
+        if quota_present
+        else ("exact_visible_cpu_set" if exact_visible_set else "insufficient")
+    )
+    return {
+        "valid": quota_present or exact_visible_set,
+        "mode": mode,
+        "cgroup_cpu_max_present": quota_present,
+        "exact_visible_cpu_set": exact_visible_set,
+        "requested_logical_cpus": requested,
+        "os_cpu_count": hardware.get("os_cpu_count"),
+        "affinity_before": affinity_before,
+        "affinity_after": affinity_after,
+        "parsed_cgroup_cpuset": cpuset,
+    }
 
 
 def _git_sha() -> str | None:
@@ -437,6 +493,7 @@ def main() -> int:
     source_sha256_start = {name: _sha256_file(path) for name, path in source_paths.items()}
     git_source_state_start = _git_source_state(source_paths)
     hardware = _hardware_manifest(affinity_before, affinity_after)
+    cpu_allocation_evidence = _cpu_allocation_evidence(hardware, args.logical_cpus)
 
     serial = [_correctness_case(case) for case in correctness_cases]
     serial_by_id = {row["case_id"]: row for row in serial}
@@ -530,9 +587,11 @@ def main() -> int:
         or git_source_state_start != git_source_state_end
     ):
         provenance_failures.append("source_or_git_head_changed_during_execution")
-    for field in ("platform", "machine", "cpu_model", "cgroup_cpu_max", "cgroup_cpuset"):
+    for field in ("platform", "machine", "cpu_model", "cgroup_cpuset"):
         if not hardware.get(field):
             provenance_failures.append(f"missing_hardware_{field}")
+    if not cpu_allocation_evidence["valid"]:
+        provenance_failures.append("missing_cpu_allocation_evidence")
     if not hardware.get("cgroup_memory_max") and not hardware.get("visible_memory_bytes"):
         provenance_failures.append("missing_memory_metadata")
     if not hardware.get("python") or not hardware.get("numpy") or not hardware.get("blas_name"):
@@ -558,6 +617,7 @@ def main() -> int:
         "requested_workers": args.workers,
         "requested_logical_cpus": args.logical_cpus,
         "hardware": hardware,
+        "cpu_allocation_evidence": cpu_allocation_evidence,
         "provenance_failures": provenance_failures,
         "worker_pool": {
             "unique_worker_pids": worker_pids,
