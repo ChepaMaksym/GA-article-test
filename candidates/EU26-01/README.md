@@ -12,6 +12,10 @@ Registry status: **`conditional_noneligible`**
 
 `PASS_FULL` is forbidden.
 
+Research selection milestone, comparison of PR #2-#6, and the reusable
+Protocol v2:
+[`RESEARCH_MILESTONE_2026-08-07_UA.md`](../../registry/cohort_2026_12/RESEARCH_MILESTONE_2026-08-07_UA.md).
+
 ## What is frozen
 
 The only admitted paper cell is Algorithm 2 TwoRate using hypervolume on
