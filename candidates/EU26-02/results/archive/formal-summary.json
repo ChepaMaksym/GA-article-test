@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0.0",
+  "candidate_id": "EU26-02",
+  "formal_git_sha": "79eb3b6e01e581fb364c9f17b4db985544eb0130",
+  "source_state": "TRACKED_CLEAN_UNCHANGED",
+  "archive": {
+    "bytes": 64960102,
+    "sha256": "1b7e8cf1ef637005bd994104f6e1ee520256ed387994b126bbe875a137632e41",
+    "temporary_uncompressed_tar_sha256": "a3c5893a1a7de480a05b26cbef24a2e07d161f8ed5923354444d6ea2d2fb5cf8"
+  },
+  "artifact_actual_10800": {
+    "status": "PASS_ARCHIVE_EXACT",
+    "aggregate_status": "PASS_AGGREGATE_EXACT",
+    "complete_31_instance_set": true,
+    "all_published_cells_match": true,
+    "attempt_files": 1143,
+    "retained_runs": 620,
+    "files_with_restart": 298,
+    "restart_lines": 7450,
+    "canonical_result_digest": "23ad21210e61dddd10f4fbb72a50dcc882f006ebc7d5d0e7395b0d78b77d9de6"
+  },
+  "paper_claimed_3600_diagnostic": {
+    "status": "DIAGNOSTIC_ONLY",
+    "attempt_files": 1143,
+    "retained_runs": 617,
+    "missing_seeds": {
+      "C2000.9": [3, 8],
+      "r1000.5": [5]
+    },
+    "canonical_result_digest": "9452b0fdd3ce8852eb757dff671faeb6b8e1d2f891c572f9f24a7c25824e2576"
+  },
+  "selected_witness": {
+    "status": "PASS_SELECTED_WITNESS",
+    "legal": true,
+    "conflicts": 0,
+    "used_colors": 66,
+    "vertices": 235,
+    "edges": 13968,
+    "removed_operator_at_turn_30": 1,
+    "report_digest": "787c8e1390d8b65d27b863e54570793498d3adf0715465c06fef635ddc065a57"
+  },
+  "full_report": {
+    "bytes": 433451,
+    "file_sha256": "7143c378808c4923cc77a5ac6d169c742e61cece7626bf494140c06579415b9f",
+    "report_digest": "94760eff05e0d4460d086d6de1cac3cb6b19c7d5d75aef1068669b59711ebe61"
+  },
+  "paper_level_status": "BLOCKED_MULTIPLE_SOURCE_CONFLICTS"
+}

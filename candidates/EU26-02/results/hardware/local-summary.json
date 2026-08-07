@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0.0",
+  "protocol_id": "EU26-02-HW-PORTABILITY-v1",
+  "formal_git_sha": "79eb3b6e01e581fb364c9f17b4db985544eb0130",
+  "profiles": {
+    "work_4core": {
+      "status": "PASS_PROFILE",
+      "workers": 4,
+      "H0_H4": "PASS",
+      "median_batch_seconds": 5.918211252000219,
+      "mad_over_median": 0.008107646374389904,
+      "report_bytes": 905794,
+      "report_sha256": "814ff9efc1c7f517343101413fa50427529f0c5e090d09e485f45503c33ee378"
+    },
+    "work_8core": {
+      "status": "PASS_PROFILE",
+      "workers": 8,
+      "H0_H4": "PASS",
+      "median_batch_seconds": 3.508301083000333,
+      "mad_over_median": 0.009425148018410462,
+      "report_bytes": 911611,
+      "report_sha256": "84cfcc07820ca18cdcb871cba58816cf237bd26f167e12ed8b4f51938c92da8a"
+    }
+  },
+  "common_evidence": {
+    "source_file_count": 46,
+    "formula_case_count": 64,
+    "archive_case_count": 31,
+    "formula_aggregate_sha256": "5e0f1346a7eb931a7c5bda08f2df082c2a0027c9b359f37c78b1be5ef5f3d61a",
+    "archive_case_aggregate_sha256": "9b0b90fca330fd89c259b907a215f9336add73f6ad599a4a94c9946d632183c9",
+    "archive_result_digest": "23ad21210e61dddd10f4fbb72a50dcc882f006ebc7d5d0e7395b0d78b77d9de6",
+    "case_hashes_tsv_bytes": 8924,
+    "case_hashes_tsv_sha256": "51222aab345b410695b50f4b52a4a22d7804af08337cebd49aa0094fb850f99a"
+  },
+  "work_4_vs_work_8": {
+    "status": "PASS_BITWISE",
+    "formula_mismatches": 0,
+    "archive_mismatches": 0,
+    "source_hashes_match": true,
+    "archive_hashes_match": true,
+    "archive_aggregates_match": true
+  },
+  "H5_cross_profile": "INCONCLUSIVE_PENDING_GITHUB_ACTIONS_4CORE",
+  "paper_level_status": "BLOCKED_MULTIPLE_SOURCE_CONFLICTS"
+}
