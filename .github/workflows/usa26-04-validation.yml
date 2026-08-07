@@ -1,0 +1,156 @@
+name: USA26-04 formula and ambiguity validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/USA26-04-bandit-mutation-verification
+    paths:
+      - "candidates/USA26-04/**"
+      - "registry/cohort_2026_12/**"
+      - ".github/workflows/usa26-04-validation.yml"
+  pull_request:
+    paths:
+      - "candidates/USA26-04/**"
+      - "registry/cohort_2026_12/**"
+      - ".github/workflows/usa26-04-validation.yml"
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+  OMP_NUM_THREADS: "1"
+  OPENBLAS_NUM_THREADS: "1"
+  MKL_NUM_THREADS: "1"
+  NUMEXPR_NUM_THREADS: "1"
+  VECLIB_MAXIMUM_THREADS: "1"
+
+jobs:
+  registry-gates:
+    name: Registry remains conditional/noneligible
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out the candidate branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate registry and hard gates
+        run: python registry/cohort_2026_12/validate_registry.py
+      - name: Run fail-closed registry mutation tests
+        run: python registry/cohort_2026_12/tests/run_registry_tests.py
+
+  python-formula:
+    name: Python formula, property, and adversarial gates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out the candidate branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run the standard-library clean-room suite
+        run: python candidates/USA26-04/tests/run_python_tests.py
+
+  octave-formula:
+    name: GNU Octave formula and fixed-tape gates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out the candidate branch
+        uses: actions/checkout@v4
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends octave
+      - name: Run the independent MATLAB-compatible tests
+        run: >-
+          octave --quiet --eval
+          "addpath('candidates/USA26-04/tests/matlab'); run_matlab_tests"
+
+  github-four-core:
+    name: GitHub 4-vCPU formula-portability profile
+    needs: [registry-gates, python-formula, octave-formula]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Check out the candidate branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends octave
+      - name: Require exactly four exposed logical CPUs
+        run: |
+          lscpu
+          cat /sys/fs/cgroup/cpu.max || true
+          cat /sys/fs/cgroup/cpuset.cpus.effective || true
+          python - <<'PY'
+          import os
+          affinity = sorted(os.sched_getaffinity(0))
+          if os.cpu_count() != 4 or len(affinity) != 4:
+              raise SystemExit(
+                  f"expected exactly four visible CPUs; "
+                  f"os.cpu_count={os.cpu_count()}, affinity={affinity}"
+              )
+          print({"os_cpu_count": os.cpu_count(), "affinity": affinity})
+          PY
+      - name: Create an independent Octave fixed-tape report
+        run: |
+          mkdir -p hardware-artifacts
+          octave --quiet --eval \
+            "addpath('candidates/USA26-04/environments/matlab'); \
+             write_fixed_tape_report('hardware-artifacts/matlab-fixed-tape.json')"
+      - name: Run the frozen profile with five retained timings
+        run: |
+          python candidates/USA26-04/tests/hardware/run_portability_suite.py \
+            --label github-actions-4core \
+            --workers 4 \
+            --logical-cpus 4 \
+            --timing-repeats 5 \
+            --matlab-report hardware-artifacts/matlab-fixed-tape.json \
+            --require-matlab-report \
+            --require-exact-visible-cpus \
+            --output hardware-artifacts/github-4core.json \
+            --hashes hardware-artifacts/github-4core-hashes.tsv
+      - name: Assert formula pass without paper-result promotion
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(
+              Path("hardware-artifacts/github-4core.json").read_text()
+          )
+          if report.get("profile_status") != "PASS_PROFILE_H0_H4":
+              raise SystemExit(f"unexpected profile status: {report.get('profile_status')}")
+          if report.get("paper_level_status") != "BLOCKED_G5_G9":
+              raise SystemExit("formula profile incorrectly cleared paper-level block")
+          if report.get("published_result_status") \
+                  != "INCONCLUSIVE_PUBLISHED_RESULT":
+              raise SystemExit("formula profile incorrectly promoted published result")
+          if report.get("fixed_controller_state_provenance") \
+                  != "synthetic_fixture_not_article_state":
+              raise SystemExit("synthetic initial-state provenance was lost")
+          if report.get("gates", {}).get("H5_cross_profile", {}).get("status") \
+                  != "NOT_EVALUATED_SINGLE_PROFILE":
+              raise SystemExit("a single profile cannot claim H5")
+          if report.get("claim_limits", {}).get("table1_executed") is not False:
+              raise SystemExit("Table 1 must remain unexecuted")
+          PY
+      - name: Upload the immutable formula-only profile
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: usa26-04-github-4core-formula-profile
+          path: hardware-artifacts/
+          if-no-files-found: error
+          retention-days: 30

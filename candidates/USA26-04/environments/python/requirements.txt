@@ -1,0 +1,1 @@
+# Standard-library-only clean-room implementation; Python 3.12 is required.
