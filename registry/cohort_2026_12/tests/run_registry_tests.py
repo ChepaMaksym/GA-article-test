@@ -119,6 +119,13 @@ class RegistryValidatorTests(unittest.TestCase):
         with self.assertRaisesRegex(validator.ValidationError, "source-native replay"):
             self.validate(assessments=assessments)
 
+    def test_no_seed_ledger_cannot_pass_stochastic_protocol(self):
+        assessments = copy.deepcopy(self.assessments)
+        target = next(item for item in assessments if item["candidate_id"] == "EU26-01")
+        target["g9"]["status"] = "pass"
+        with self.assertRaisesRegex(validator.ValidationError, "reproducible seed/RNG"):
+            self.validate(assessments=assessments)
+
     def test_unresolved_gate_cannot_be_labeled_hard_pass(self):
         registry = copy.deepcopy(self.registry)
         registry[0]["eligibility_status"] = "hard_pass"

@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0.0",
+  "candidate_id": "EU26-01",
+  "scope": "ARCHIVE_AND_FORMULA_VALIDATION_ONLY",
+  "paper": {
+    "doi": "10.1145/3638529.3654073",
+    "algorithm": "TwoRate",
+    "indicator": "HV",
+    "problem": "OneMinMax",
+    "dimension": 100,
+    "lambda": 10,
+    "r_init": 1,
+    "runs": 100,
+    "hv_reference": [-1, -1],
+    "published_mean_fes": 61624,
+    "published_population_variance": "3.271e+08"
+  },
+  "source": {
+    "repository": "https://github.com/FurongYe/GSEMO",
+    "revision": "fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380",
+    "tie_policy": "first_maximum",
+    "offspring_groups_zero_based": [[0, 5], [5, 10]],
+    "rng_claim_limit": "one_seeded_continuous_stream_not_a_published_100_seed_ledger"
+  },
+  "archive": {
+    "record_url": "https://zenodo.org/records/7880836",
+    "record_doi": "10.5281/zenodo.7880836",
+    "filename": "csv.zip",
+    "bytes": 173556521,
+    "md5": "a9970c46812e4cc986595704877bf160",
+    "sha256": "2d5d3491c23e68bdd6d3c9c9dedfae67c805fa0588a3d443912c0b12c348fe4a",
+    "member": "csv/om/TwoRateL10P1HVOneMaxD100.csv",
+    "member_uncompressed_bytes": 102227,
+    "member_compressed_bytes": 25033,
+    "member_crc32": "6ca56598",
+    "member_sha256": "75a7788105ac9b73f6f4a1baa2a84d5ffb0d13e736da70115319e9eb62eda154"
+  },
+  "statistics": {
+    "complete_runs_required": 100,
+    "completion_rule": "maximum_First_hit_over_all_101_required_pairs",
+    "mean_rounding": "nearest_integer_half_away_from_zero",
+    "variance_denominator": 100,
+    "variance_rounding": "four_significant_decimal_digits"
+  },
+  "overall_status": "BLOCKED_SOURCE_NATIVE_REPLAY",
+  "eligibility_status": "conditional_noneligible",
+  "pass_full_allowed": false
+}

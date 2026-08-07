@@ -1,0 +1,172 @@
+name: EU26-01 archive and formula validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/EU26-01-tworate-hv-verification
+    paths:
+      - "candidates/EU26-01/**"
+      - "registry/cohort_2026_12/**"
+      - ".github/workflows/eu26-01-validation.yml"
+  pull_request:
+    paths:
+      - "candidates/EU26-01/**"
+      - "registry/cohort_2026_12/**"
+      - ".github/workflows/eu26-01-validation.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+
+jobs:
+  registry-gates:
+    name: Registry consistency and conditional-status gates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out the candidate branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate cohort records and hard gates
+        run: python registry/cohort_2026_12/validate_registry.py
+      - name: Run fail-closed registry mutation tests
+        run: python registry/cohort_2026_12/tests/run_registry_tests.py
+
+  python-formula:
+    name: Python formula, parser, protocol and adversarial gates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out the candidate branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Confirm the environment has no third-party dependency
+        run: python -m pip install --requirement candidates/EU26-01/environments/python/requirements.txt
+      - name: Run all candidate-local Python gates
+        run: python candidates/EU26-01/tests/run_python_tests.py
+
+  octave-formula:
+    name: Independent GNU Octave fixed-tape and formula gates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out the candidate branch
+        uses: actions/checkout@v4
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends octave
+      - name: Run MATLAB-compatible formula tests
+        run: >-
+          octave --quiet --eval
+          "addpath('candidates/EU26-01/tests/matlab'); run_matlab_tests"
+
+  github-four-core:
+    name: GitHub4 authenticated archive/formula portability profile
+    needs: [registry-gates, python-formula, octave-formula]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+      VECLIB_MAXIMUM_THREADS: "1"
+      ARCHIVE_URL: https://zenodo.org/api/records/7880836/files/csv.zip/content
+      ARCHIVE_SHA256: 2d5d3491c23e68bdd6d3c9c9dedfae67c805fa0588a3d443912c0b12c348fe4a
+      ARCHIVE_MD5: a9970c46812e4cc986595704877bf160
+    steps:
+      - name: Check out the candidate branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Require exactly four exposed logical CPUs
+        run: |
+          lscpu
+          cat /sys/fs/cgroup/cpu.max || true
+          cat /sys/fs/cgroup/cpuset.cpus.effective || true
+          python - <<'PY'
+          import os
+          visible = sorted(os.sched_getaffinity(0))
+          if os.cpu_count() != 4 or len(visible) != 4:
+              raise SystemExit(
+                  f"expected exactly four CPUs; os.cpu_count={os.cpu_count()}, "
+                  f"affinity={visible}"
+              )
+          print({"os_cpu_count": os.cpu_count(), "affinity": visible})
+          PY
+      - name: Download and authenticate exact Zenodo csv.zip
+        run: |
+          curl --fail --location --retry 4 --retry-all-errors \
+            --output "${RUNNER_TEMP}/eu26-01-csv.zip" "${ARCHIVE_URL}"
+          test "$(wc -c < "${RUNNER_TEMP}/eu26-01-csv.zip")" -eq 173556521
+          echo "${ARCHIVE_MD5}  ${RUNNER_TEMP}/eu26-01-csv.zip" \
+            | md5sum --check --strict
+          echo "${ARCHIVE_SHA256}  ${RUNNER_TEMP}/eu26-01-csv.zip" \
+            | sha256sum --check --strict
+      - name: Create external evidence directory
+        run: mkdir -p "${RUNNER_TEMP}/eu26-01-evidence"
+      - name: Recalculate exact Table 1 focus cell
+        run: |
+          python candidates/EU26-01/environments/python/run_archive_validation.py \
+            --archive "${RUNNER_TEMP}/eu26-01-csv.zip" \
+            --output "${RUNNER_TEMP}/eu26-01-evidence/archive-report.json"
+      - name: Run frozen GitHub4 H0-H4 profile
+        run: |
+          python candidates/EU26-01/tests/hardware/run_portability_suite.py \
+            --profile-role github4 --label github-actions-4core \
+            --workers 4 --logical-cpus 4 --timing-repeats 5 \
+            --archive "${RUNNER_TEMP}/eu26-01-csv.zip" \
+            --output "${RUNNER_TEMP}/eu26-01-evidence/github4.json" \
+            --hashes "${RUNNER_TEMP}/eu26-01-evidence/github4-hashes.tsv"
+      - name: Assert narrow statuses and exact unrounded statistics
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          root = Path(os.environ["RUNNER_TEMP"]) / "eu26-01-evidence"
+          archive = json.loads((root / "archive-report.json").read_text())
+          profile = json.loads((root / "github4.json").read_text())
+          if archive["archive_status"] != "PASS_ARCHIVE_EXACT":
+              raise SystemExit("exact archive gate did not pass")
+          if archive["statistics"]["mean_exact"] != "61623.78":
+              raise SystemExit("exact mean changed")
+          if archive["statistics"]["population_variance_exact"] != "327085104.6716":
+              raise SystemExit("exact population variance changed")
+          if profile["profile_status"] != "PASS_PROFILE":
+              raise SystemExit("GitHub4 H0-H4 profile did not pass")
+          for document in (archive, profile):
+              if document["paper_level_status"] != "BLOCKED_SOURCE_NATIVE_REPLAY":
+                  raise SystemExit("paper-level source-native block was cleared")
+              if document["pass_full_allowed"] is not False:
+                  raise SystemExit("PASS_FULL prohibition changed")
+              if document["algorithm2_conflict"] != (
+                  "literal_one_based_pseudocode_4_low_6_high_vs_"
+                  "prose_and_source_5_low_5_high"
+              ):
+                  raise SystemExit("Algorithm 2 conflict marker is missing")
+          if profile["gates"]["H5_cross_profile"]["status"] \
+                  != "NOT_EVALUATED_SINGLE_PROFILE":
+              raise SystemExit("single GitHub profile incorrectly asserted H5")
+          PY
+      - name: Upload immutable validation reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eu26-01-github4-validation
+          path: ${{ runner.temp }}/eu26-01-evidence/
+          if-no-files-found: error
+          retention-days: 30

@@ -1,0 +1,1 @@
+# Intentionally empty: EU26-01 validation uses only the Python standard library.
