@@ -96,21 +96,13 @@ class ProtocolTests(unittest.TestCase):
                     validate_protocol(clone)
 
     def test_both_freeze_twins_as_ancestors_fail_closed(self) -> None:
-        original_run = protocol_module.subprocess.run
-
-        def accept_all_twin_ancestry(*args, **kwargs):
-            command = args[0] if args else kwargs.get("args", [])
-            if command[:3] == ["git", "merge-base", "--is-ancestor"]:
-                return protocol_module.subprocess.CompletedProcess(command, 0)
-            return original_run(*args, **kwargs)
-
-        with mock.patch.object(
-            protocol_module.subprocess,
-            "run",
-            side_effect=accept_all_twin_ancestry,
-        ):
-            with self.assertRaisesRegex(AssertionError, "exactly one"):
-                protocol_module._validate_git_binding()
+        remap = protocol_module.EXPECTED_BINDING["publication_remap"]
+        twins = [
+            remap["prepublication_local_commit"],
+            remap["published_remote_commit"],
+        ]
+        with self.assertRaisesRegex(AssertionError, "exactly one"):
+            protocol_module._require_unique_published_ancestor(twins, twins)
 
     def test_absence_cannot_be_silently_promoted(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

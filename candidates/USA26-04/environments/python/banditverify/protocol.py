@@ -185,6 +185,19 @@ def _typed_equal(actual: Any, expected: Any, context: str) -> None:
         raise AssertionError(f"{context} changed or has a type mismatch")
 
 
+def _require_unique_published_ancestor(
+    resolved_twins: list[str], ancestor_twins: list[str]
+) -> None:
+    if not resolved_twins:
+        raise AssertionError("both preregistration freeze twins are unavailable")
+    if len(ancestor_twins) != 1:
+        raise AssertionError(
+            "exactly one publication-remap freeze twin must be an ancestor of HEAD"
+        )
+    if ancestor_twins[0] != EXPECTED_BINDING["freeze_commit"]:
+        raise AssertionError("published remote preregistration freeze is not the HEAD ancestor")
+
+
 def _validate_git_binding() -> None:
     repository = repository_root(CANDIDATE)
     remap = EXPECTED_BINDING["publication_remap"]
@@ -262,14 +275,7 @@ def _validate_git_binding() -> None:
         elif ancestry.returncode != 1:
             raise AssertionError("could not establish preregistration freeze ancestry")
 
-    if not resolved_twins:
-        raise AssertionError("both preregistration freeze twins are unavailable")
-    if len(ancestor_twins) != 1:
-        raise AssertionError(
-            "exactly one publication-remap freeze twin must be an ancestor of HEAD"
-        )
-    if ancestor_twins[0] != EXPECTED_BINDING["freeze_commit"]:
-        raise AssertionError("published remote preregistration freeze is not the HEAD ancestor")
+    _require_unique_published_ancestor(resolved_twins, ancestor_twins)
 
 
 def validate_protocol(candidate: Path = CANDIDATE) -> dict[str, Any]:
