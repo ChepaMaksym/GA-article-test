@@ -204,7 +204,11 @@ def validate_gate(candidate_id: str, gate_id: str, gate: dict[str, Any], require
             ["seed_or_rng_protocol", "independence_unit", "budget_or_stopping", "aggregation_or_analysis", "provenance"],
             context,
         )
-        if any(token in gate["seed_or_rng_protocol"].lower() for token in ("missing", "conflict", "unknown")):
+        seed_text = gate["seed_or_rng_protocol"].lower()
+        if (
+            any(token in seed_text for token in ("missing", "conflict", "unknown", "no ledger"))
+            or ("no " in seed_text and "ledger" in seed_text)
+        ):
             raise ValidationError(f"{context} pass requires a reproducible seed/RNG protocol")
 
     if gate_id == "g10" and gate["status"] == "pass":

@@ -1,0 +1,4 @@
+workload_id,kind,replicates
+fixture-correctness,formula,64
+fixture-throughput,formula,512
+table1-focus-runs,archive,100

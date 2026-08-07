@@ -33,6 +33,14 @@ ambiguous, while retaining an explicit claim limit:
 - source itself marks the TwoRate adaptation with a comment saying it was
   changed because it was not defined according to the paper.
 
+The paper's `flip_l(x)` treats `l` as the number of uniformly chosen flipped
+bits. Frozen source does not call its distinct-index `bitflip_index` helper;
+it calls `ioh::common::random::integers(l,0,n-1)`. The publication-era
+IOHexperimenter revision is missing, and an available implementation of that
+API samples with replacement, allowing repeated positions to cancel. The
+clean-room fixed tape requires distinct indices as the paper specifies. This
+is another reason it is not an author-trajectory replay.
+
 For OneMinMax, the source maps a bit string to `(ones,zeros)`. Every distinct
 objective pair is non-dominated. Its two-dimensional hypervolume sorts by the
 first objective and sums rectangles relative to `(-1,-1)`; duplicates

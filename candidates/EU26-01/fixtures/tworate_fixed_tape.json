@@ -1,0 +1,204 @@
+{
+  "schema_version": "1.0.0",
+  "candidate_id": "EU26-01",
+  "tie_policy": "first_maximum",
+  "adaptation_cases": [
+    {
+      "case_id": "low-group-unique-winner-double",
+      "n": 100,
+      "population": [[50, 50]],
+      "children": [[49, 51], [50, 50], [50, 50], [50, 50], [50, 50], [50, 50], [50, 50], [50, 50], [50, 50], [50, 50]],
+      "r": 1,
+      "q": "19/25",
+      "expected": {
+        "scores": [2651, 2601, 2601, 2601, 2601, 2601, 2601, 2601, 2601, 2601],
+        "winner_index": 0,
+        "winner_group": "low",
+        "s": "3/4",
+        "q": "19/25",
+        "decision": "double",
+        "r_before": 1,
+        "r_after": 2
+      }
+    },
+    {
+      "case_id": "high-group-unique-winner-q-equals-s",
+      "n": 100,
+      "population": [[50, 50]],
+      "children": [[50, 50], [50, 50], [50, 50], [50, 50], [50, 50], [50, 50], [50, 50], [51, 49], [50, 50], [50, 50]],
+      "r": 1,
+      "q": "1/4",
+      "expected": {
+        "scores": [2601, 2601, 2601, 2601, 2601, 2601, 2601, 2651, 2601, 2601],
+        "winner_index": 7,
+        "winner_group": "high",
+        "s": "1/4",
+        "q": "1/4",
+        "decision": "halve",
+        "r_before": 1,
+        "r_after": "1/2"
+      }
+    },
+    {
+      "case_id": "cross-group-score-tie-first-maximum",
+      "n": 100,
+      "population": [[50, 50]],
+      "children": [[49, 51], [50, 50], [50, 50], [50, 50], [50, 50], [51, 49], [50, 50], [50, 50], [50, 50], [50, 50]],
+      "r": 2,
+      "q": "3/4",
+      "expected": {
+        "scores": [2651, 2601, 2601, 2601, 2601, 2651, 2601, 2601, 2601, 2601],
+        "winner_index": 0,
+        "winner_group": "low",
+        "s": "3/4",
+        "q": "3/4",
+        "decision": "halve",
+        "r_before": 2,
+        "r_after": 1
+      }
+    },
+    {
+      "case_id": "lower-strength-clamp",
+      "n": 100,
+      "population": [[50, 50]],
+      "children": [[49, 51], [50, 50], [50, 50], [50, 50], [50, 50], [50, 50], [50, 50], [50, 50], [50, 50], [50, 50]],
+      "r": "1/2",
+      "q": 0,
+      "expected": {
+        "scores": [2651, 2601, 2601, 2601, 2601, 2601, 2601, 2601, 2601, 2601],
+        "winner_index": 0,
+        "winner_group": "low",
+        "s": "3/4",
+        "q": 0,
+        "decision": "halve",
+        "r_before": "1/2",
+        "r_after": "1/2"
+      }
+    },
+    {
+      "case_id": "upper-strength-clamp",
+      "n": 100,
+      "population": [[50, 50]],
+      "children": [[50, 50], [50, 50], [50, 50], [50, 50], [50, 50], [51, 49], [50, 50], [50, 50], [50, 50], [50, 50]],
+      "r": 25,
+      "q": 1,
+      "expected": {
+        "scores": [2601, 2601, 2601, 2601, 2601, 2651, 2601, 2601, 2601, 2601],
+        "winner_index": 5,
+        "winner_group": "high",
+        "s": "1/4",
+        "q": 1,
+        "decision": "double",
+        "r_before": 25,
+        "r_after": 25
+      }
+    }
+  ],
+  "generation_cases": [
+    {
+      "case_id": "n100-five-five-fixed-tape",
+      "n": 100,
+      "lambda": 10,
+      "r": 1,
+      "q": "3/4",
+      "population_bits": [
+        "1111111111111111111111111111111111111111111111111100000000000000000000000000000000000000000000000000"
+      ],
+      "children": [
+        {"parent_index": 0, "binomial_draws": [0, 1], "flip_indices": [0]},
+        {"parent_index": 0, "binomial_draws": [1], "flip_indices": [1]},
+        {"parent_index": 0, "binomial_draws": [1], "flip_indices": [2]},
+        {"parent_index": 0, "binomial_draws": [1], "flip_indices": [3]},
+        {"parent_index": 0, "binomial_draws": [1], "flip_indices": [4]},
+        {"parent_index": 0, "binomial_draws": [1], "flip_indices": [50]},
+        {"parent_index": 0, "binomial_draws": [1], "flip_indices": [51]},
+        {"parent_index": 0, "binomial_draws": [1], "flip_indices": [52]},
+        {"parent_index": 0, "binomial_draws": [1], "flip_indices": [53]},
+        {"parent_index": 0, "binomial_draws": [1], "flip_indices": [54]}
+      ],
+      "expected": {
+        "n": 100,
+        "lambda": 10,
+        "population_points_before": [[50, 50]],
+        "parent_indices": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        "mutation_probabilities": ["1/200", "1/200", "1/200", "1/200", "1/200", "1/50", "1/50", "1/50", "1/50", "1/50"],
+        "positive_binomial_counts": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        "child_points": [[49, 51], [49, 51], [49, 51], [49, 51], [49, 51], [51, 49], [51, 49], [51, 49], [51, 49], [51, 49]],
+        "adaptation": {
+          "scores": [2651, 2651, 2651, 2651, 2651, 2651, 2651, 2651, 2651, 2651],
+          "winner_index": 0,
+          "winner_group": "low",
+          "s": "3/4",
+          "q": "3/4",
+          "decision": "halve",
+          "r_before": 1,
+          "r_after": "1/2"
+        },
+        "population_points_after": [[49, 51], [50, 50], [51, 49]],
+        "hypervolume_after": 2701
+      }
+    }
+  ],
+  "invalid_generation_cases": [
+    {
+      "case_id": "reject-zero-only-binomial-tape",
+      "case": {
+        "n": 4,
+        "lambda": 2,
+        "r": 1,
+        "q": 0,
+        "population_bits": ["1100"],
+        "children": [
+          {"parent_index": 0, "binomial_draws": [0], "flip_indices": []},
+          {"parent_index": 0, "binomial_draws": [1], "flip_indices": [2]}
+        ]
+      },
+      "expected_error": "first positive"
+    },
+    {
+      "case_id": "reject-post-generation-parent-index",
+      "case": {
+        "n": 4,
+        "lambda": 2,
+        "r": 1,
+        "q": 0,
+        "population_bits": ["1100"],
+        "children": [
+          {"parent_index": 1, "binomial_draws": [1], "flip_indices": [0]},
+          {"parent_index": 0, "binomial_draws": [1], "flip_indices": [2]}
+        ]
+      },
+      "expected_error": "pre-generation population"
+    },
+    {
+      "case_id": "reject-repeated-index-paper-flip-l",
+      "case": {
+        "n": 4,
+        "lambda": 2,
+        "r": 1,
+        "q": 0,
+        "population_bits": ["1100"],
+        "children": [
+          {"parent_index": 0, "binomial_draws": [2], "flip_indices": [0, 0]},
+          {"parent_index": 0, "binomial_draws": [1], "flip_indices": [2]}
+        ]
+      },
+      "expected_error": "distinct"
+    },
+    {
+      "case_id": "reject-nonfinite-q",
+      "case": {
+        "n": 4,
+        "lambda": 2,
+        "r": 1,
+        "q": "NaN",
+        "population_bits": ["1100"],
+        "children": [
+          {"parent_index": 0, "binomial_draws": [1], "flip_indices": [0]},
+          {"parent_index": 0, "binomial_draws": [1], "flip_indices": [2]}
+        ]
+      },
+      "expected_error": "finite rational"
+    }
+  ]
+}

@@ -1,0 +1,281 @@
+name: EU26-01 archive and formula validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/EU26-01-tworate-hv-verification
+    paths:
+      - "candidates/EU26-01/**"
+      - "registry/cohort_2026_12/**"
+      - ".github/workflows/eu26-01-validation.yml"
+  pull_request:
+    paths:
+      - "candidates/EU26-01/**"
+      - "registry/cohort_2026_12/**"
+      - ".github/workflows/eu26-01-validation.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+
+jobs:
+  registry-gates:
+    name: Registry consistency and conditional-status gates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out the candidate branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate cohort records and hard gates
+        run: python registry/cohort_2026_12/validate_registry.py
+      - name: Run fail-closed registry mutation tests
+        run: python registry/cohort_2026_12/tests/run_registry_tests.py
+
+  python-formula:
+    name: Python formula, parser, protocol and adversarial gates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out the candidate branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Confirm the environment has no third-party dependency
+        run: python -m pip install --requirement candidates/EU26-01/environments/python/requirements.txt
+      - name: Run all candidate-local Python gates
+        run: python candidates/EU26-01/tests/run_python_tests.py
+
+  octave-formula:
+    name: Independent GNU Octave fixed-tape and formula gates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out the candidate branch
+        uses: actions/checkout@v4
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends octave
+      - name: Run MATLAB-compatible formula tests
+        run: >-
+          octave --quiet --eval
+          "addpath('candidates/EU26-01/tests/matlab'); run_matlab_tests"
+
+  github-four-core:
+    name: GitHub4 authenticated archive/formula portability profile
+    needs: [registry-gates, python-formula, octave-formula]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+      VECLIB_MAXIMUM_THREADS: "1"
+      ARCHIVE_URL: https://zenodo.org/api/records/7880836/files/csv.zip/content
+      ARCHIVE_SHA256: 2d5d3491c23e68bdd6d3c9c9dedfae67c805fa0588a3d443912c0b12c348fe4a
+      ARCHIVE_MD5: a9970c46812e4cc986595704877bf160
+    steps:
+      - name: Check out the candidate branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Require exactly four exposed logical CPUs
+        run: |
+          lscpu
+          cat /sys/fs/cgroup/cpu.max || true
+          cat /sys/fs/cgroup/cpuset.cpus.effective || true
+          python - <<'PY'
+          import os
+          visible = sorted(os.sched_getaffinity(0))
+          if os.cpu_count() != 4 or len(visible) != 4:
+              raise SystemExit(
+                  f"expected exactly four CPUs; os.cpu_count={os.cpu_count()}, "
+                  f"affinity={visible}"
+              )
+          print({"os_cpu_count": os.cpu_count(), "affinity": visible})
+          PY
+      - name: Download and authenticate exact Zenodo csv.zip
+        run: |
+          curl --fail --location --retry 4 --retry-all-errors \
+            --output "${RUNNER_TEMP}/eu26-01-csv.zip" "${ARCHIVE_URL}"
+          test "$(wc -c < "${RUNNER_TEMP}/eu26-01-csv.zip")" -eq 173556521
+          echo "${ARCHIVE_MD5}  ${RUNNER_TEMP}/eu26-01-csv.zip" \
+            | md5sum --check --strict
+          echo "${ARCHIVE_SHA256}  ${RUNNER_TEMP}/eu26-01-csv.zip" \
+            | sha256sum --check --strict
+      - name: Create external evidence directory
+        run: mkdir -p "${RUNNER_TEMP}/eu26-01-evidence"
+      - name: Recalculate exact Table 1 focus cell
+        run: |
+          python candidates/EU26-01/environments/python/run_archive_validation.py \
+            --archive "${RUNNER_TEMP}/eu26-01-csv.zip" \
+            --output "${RUNNER_TEMP}/eu26-01-evidence/archive-report.json"
+      - name: Run frozen GitHub4 H0-H4 profile
+        run: |
+          python candidates/EU26-01/tests/hardware/run_portability_suite.py \
+            --profile-role github4 --label github-actions-4core \
+            --workers 4 --logical-cpus 4 --timing-repeats 5 \
+            --archive "${RUNNER_TEMP}/eu26-01-csv.zip" \
+            --output "${RUNNER_TEMP}/eu26-01-evidence/github4.json" \
+            --hashes "${RUNNER_TEMP}/eu26-01-evidence/github4-hashes.tsv"
+      - name: Assert narrow statuses and exact unrounded statistics
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          root = Path(os.environ["RUNNER_TEMP"]) / "eu26-01-evidence"
+          archive = json.loads((root / "archive-report.json").read_text())
+          profile = json.loads((root / "github4.json").read_text())
+          if archive["archive_status"] != "PASS_ARCHIVE_EXACT":
+              raise SystemExit("exact archive gate did not pass")
+          if archive["statistics"]["mean_exact"] != "61623.78":
+              raise SystemExit("exact mean changed")
+          if archive["statistics"]["population_variance_exact"] != "327085104.6716":
+              raise SystemExit("exact population variance changed")
+          if profile["profile_status"] != "PASS_PROFILE":
+              raise SystemExit("GitHub4 H0-H4 profile did not pass")
+          for document in (archive, profile):
+              if document["paper_level_status"] != "BLOCKED_SOURCE_NATIVE_REPLAY":
+                  raise SystemExit("paper-level source-native block was cleared")
+              if document["pass_full_allowed"] is not False:
+                  raise SystemExit("PASS_FULL prohibition changed")
+              if document["algorithm2_conflict"] != (
+                  "literal_one_based_pseudocode_4_low_6_high_vs_"
+                  "prose_and_source_5_low_5_high"
+              ):
+                  raise SystemExit("Algorithm 2 conflict marker is missing")
+          if profile["gates"]["H5_cross_profile"]["status"] \
+                  != "NOT_EVALUATED_SINGLE_PROFILE":
+              raise SystemExit("single GitHub profile incorrectly asserted H5")
+          PY
+      - name: Upload immutable validation reports
+        id: validation_artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eu26-01-github4-validation
+          path: ${{ runner.temp }}/eu26-01-evidence/
+          if-no-files-found: error
+          retention-days: 30
+      - name: Acquire separate authenticated GitHub API attestation
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VALIDATION_ARTIFACT_ID: ${{ steps.validation_artifact.outputs.artifact-id }}
+        run: |
+          run_url="${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          artifact_url="${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/actions/artifacts/${VALIDATION_ARTIFACT_ID}"
+          curl --fail --silent --show-error --location \
+            --header "Authorization: Bearer ${GH_TOKEN}" \
+            --header "Accept: application/vnd.github+json" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            --output "${RUNNER_TEMP}/eu26-01-run-api.json" "${run_url}"
+          curl --fail --silent --show-error --location \
+            --header "Authorization: Bearer ${GH_TOKEN}" \
+            --header "Accept: application/vnd.github+json" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            --output "${RUNNER_TEMP}/eu26-01-artifact-api.json" "${artifact_url}"
+          python - <<'PY'
+          import hashlib
+          import os
+          from pathlib import Path
+          import sys
+
+          repository_root = Path(os.environ["GITHUB_WORKSPACE"])
+          candidate = repository_root / "candidates" / "EU26-01"
+          sys.path.insert(0, str(candidate / "environments" / "python"))
+          from tworateverify.canonical import canonical_sha256, strict_json_load
+
+          temporary = Path(os.environ["RUNNER_TEMP"])
+          run_path = temporary / "eu26-01-run-api.json"
+          artifact_path = temporary / "eu26-01-artifact-api.json"
+          report_path = temporary / "eu26-01-evidence" / "github4.json"
+          run = strict_json_load(run_path)
+          artifact = strict_json_load(artifact_path)
+          profile = strict_json_load(report_path)
+          artifact_id = int(os.environ["VALIDATION_ARTIFACT_ID"])
+          run_id = int(os.environ["GITHUB_RUN_ID"])
+          run_attempt = int(os.environ["GITHUB_RUN_ATTEMPT"])
+          expected_repository = "ChepaMaksym/GA-article-test"
+          expected_workflow = ".github/workflows/eu26-01-validation.yml"
+          expected_artifact = "eu26-01-github4-validation"
+          if os.environ["GITHUB_REPOSITORY"] != expected_repository:
+              raise SystemExit("repository differs from frozen API-attestation identity")
+          if (
+              run.get("id") != run_id
+              or run.get("run_attempt") != run_attempt
+              or run.get("head_sha") != os.environ["GITHUB_SHA"]
+              or run.get("path") != expected_workflow
+              or run.get("repository", {}).get("full_name") != expected_repository
+          ):
+              raise SystemExit("authenticated workflow-run API object is inconsistent")
+          workflow_run = artifact.get("workflow_run", {})
+          if (
+              artifact.get("id") != artifact_id
+              or artifact.get("name") != expected_artifact
+              or artifact.get("expired") is not False
+              or workflow_run.get("id") != run_id
+              or workflow_run.get("head_sha") != os.environ["GITHUB_SHA"]
+          ):
+              raise SystemExit("authenticated artifact API object is inconsistent")
+          if (
+              profile.get("git_sha_start") != os.environ["GITHUB_SHA"]
+              or profile.get("hardware", {}).get("github_run_id") != str(run_id)
+              or profile.get("hardware", {}).get("github_run_attempt")
+              != str(run_attempt)
+          ):
+              raise SystemExit("GitHub4 profile does not bind the API run identity")
+          def file_sha256(path):
+              return hashlib.sha256(path.read_bytes()).hexdigest()
+          record = {
+              "schema_version": "1.0.0",
+              "attestation_type": "GITHUB_ACTIONS_ARTIFACT_API_v1",
+              "retrieval_method": "authenticated_github_api",
+              "repository": expected_repository,
+              "workflow_path": expected_workflow,
+              "head_sha": os.environ["GITHUB_SHA"],
+              "run_id": run_id,
+              "run_attempt": run_attempt,
+              "artifact_id": artifact_id,
+              "artifact_name": expected_artifact,
+              "artifact_expired": False,
+              "report_member": "github4.json",
+              "report_sha256": file_sha256(report_path),
+              "profile_report_sha256": profile["report_sha256"],
+              "workflow_run_api_url": run["url"],
+              "artifact_api_url": artifact["url"],
+              "workflow_run_api_sha256": file_sha256(run_path),
+              "artifact_api_sha256": file_sha256(artifact_path),
+          }
+          record["attestation_sha256"] = canonical_sha256(
+              record, domain="EU26-01-GITHUB-API-ATTESTATION-V1"
+          )
+          output = temporary / "eu26-01-github-api-attestation.json"
+          import json
+          output.write_text(
+              json.dumps(record, sort_keys=True, indent=2, allow_nan=False) + "\n",
+              encoding="utf-8",
+          )
+          PY
+      - name: Upload separate GitHub API attestation record
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eu26-01-github4-api-attestation
+          path: ${{ runner.temp }}/eu26-01-github-api-attestation.json
+          if-no-files-found: error
+          retention-days: 30

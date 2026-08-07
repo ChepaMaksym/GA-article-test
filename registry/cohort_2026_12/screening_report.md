@@ -17,7 +17,7 @@
 | USA26-04 | USA | bandit-selected mutation rate | P | P | U | P | P | P | U | P | conditional |
 | USA26-05 | USA | crossover + mutation rates | P | P | U | P | U | P | U | P | conditional |
 | USA26-06 | USA | crossover + mutation rates | U | P | F | F | F | P | F | F | hard fail |
-| EU26-01 | EU | mutation strength/operator policy | P | P | U | P | P | P | P | U | conditional |
+| EU26-01 | EU | TwoRate mutation strength via HV | P | P | U | P | P | P | U | U | conditional |
 | EU26-02 | EU | crossover/local-search action policy | P | P | U | P | P | U | U | U | conditional |
 | EU26-03 | EU | local mutation-operator probabilities | P | P | P | P | U | P | U | F | hard fail |
 | EU26-04 | EU | mutation/restart/selection parameters | P | P | U | U | P | U | U | U | conditional |
@@ -29,7 +29,7 @@
 - **USA26-01 / GESMR:** математична state transition відтворювана, але camera-ready raw runs, exact environment і однозначний stochastic protocol відсутні; paper має конфлікти 5/40 seeds і d=10/30. Тому можливий лише formula validation.
 - **USA26-02:** native result залежить від спеціального S1 hardware, а literal numeric endpoint поза figure regeneration не заморожено. Це прямо порушує gates 7, 8 і 10.
 - **USA26-06:** pseudocode має overlapping branches, cross-variable assignment і не задає initial/bounds; виконання потребувало б вигадування семантики.
-- **EU26-01:** raw Zenodo data сильні, але exact policy ще не заморожена, а clean checkout author code зламаний absolute symlinks і unpinned IOHexperimenter.
+- **EU26-01:** exact TwoRate+HV cell та Zenodo member заморожені й дозволяють точний Table 1 recalculation, але literal Algorithm 2 дає 4/6 проти prose/source 5/5, paper tie невизначений, 100-seed ledger відсутній, а clean checkout має absolute symlinks та unpinned IOHexperimenter.
 - **EU26-02:** paper budget = 1 hour, official generator/archive = 3 hours; published table не можна однозначно прив'язати до одного protocol cell.
 - **EU26-03:** A-NTGA має повну paper-level формулу, але стаття заявляє complete source code, тоді як frozen configs запускають UniformMultiOperator, а factory підміняє CreditRoulette іншим selector. Це decisive gate-10 failure, не просто evidence gap.
 - **Виправлене виключення:** [L2-AGE optical-mode-sorter](https://repository.tudelft.nl/file/File_a1ff69e2-5aad-428b-8c6d-0421250aa314) (`10.1145/3583131.3590479`) вилучено, бо сама стаття визначає задачу як inverse problem / inverse design.

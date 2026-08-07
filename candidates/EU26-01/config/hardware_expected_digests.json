@@ -1,0 +1,22 @@
+{
+  "archive_sha256": "2d5d3491c23e68bdd6d3c9c9dedfae67c805fa0588a3d443912c0b12c348fe4a",
+  "binding_kind": "post_freeze_exact_object_output_binding",
+  "candidate_id": "EU26-01",
+  "complete_runs": 100,
+  "completion_maximum": 131875,
+  "completion_minimum": 30344,
+  "completion_statistics_sha256": "937f5d3a538a90eceda702d08bfe0c0098b7b2de22cd713685d85df6af409652",
+  "completion_sum": 6162378,
+  "completion_vector_sha256": "d75a9f7f9b2d3ba27adcdcc2905ac4267b58948db69555907b987c2666c2b417",
+  "fixture_file_sha256": "a9736e73557e89cf46cb5ea11c627fe24059419cd43d88af4fdda8d452f54fa6",
+  "fixture_result_sha256": "556f836b2c851ad8e7eedaf9f962d28c1d63af68589340acf775d85108255381",
+  "formula_correctness_sha256": "f85ec78935f701bc7572a5fe78e7ce4cca7890fd7dcd158f04f19e6b611c7650",
+  "mean_exact": "61623.78",
+  "member_sha256": "75a7788105ac9b73f6f4a1baa2a84d5ffb0d13e736da70115319e9eb62eda154",
+  "paper_level_status": "BLOCKED_SOURCE_NATIVE_REPLAY",
+  "pass_full_allowed": false,
+  "population_variance_exact": "327085104.6716",
+  "schema_version": "1.0.0",
+  "timing_endpoint_sha256": "3e25b9a9248c2e0a71b7b7085508fc539cc3987a11a73795665970a1a57dd124",
+  "timing_formula_cases_sha256": "e32f200a313633a53d67c262798b49d0a7478881ca3cfd78055fa3c42a0dea51"
+}
