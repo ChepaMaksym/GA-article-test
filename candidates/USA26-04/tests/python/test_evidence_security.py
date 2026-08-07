@@ -4,6 +4,7 @@ import copy
 import hashlib
 import importlib.util
 import json
+import os
 from argparse import Namespace
 from pathlib import Path
 import sys
@@ -27,7 +28,11 @@ from banditverify.provenance import (  # noqa: E402
     repository_root,
     source_hashes,
 )
-from banditverify.security import EvidenceValidationError, strict_json_load  # noqa: E402
+from banditverify.security import (  # noqa: E402
+    EvidenceValidationError,
+    exclusive_write_text,
+    strict_json_load,
+)
 
 
 RUNNER = CANDIDATE / "tests" / "hardware" / "run_portability_suite.py"
@@ -217,6 +222,58 @@ class MatlabEvidenceTests(unittest.TestCase):
             for args in collisions:
                 with self.subTest(args=args), self.assertRaises(SystemExit):
                     runner._validate_artifact_paths(args)
+
+    def test_runner_rejects_hardlinks_preexisting_outputs_and_symlinks(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            existing = root / "existing.json"
+            existing.write_text("preserve", encoding="utf-8")
+            hardlink = root / "hardlink.tsv"
+            os.link(existing, hardlink)
+            with self.assertRaises(SystemExit):
+                runner._validate_artifact_paths(
+                    Namespace(output=existing, hashes=hardlink, matlab_report=None)
+                )
+            self.assertEqual(existing.read_text(encoding="utf-8"), "preserve")
+
+            with self.assertRaises(SystemExit):
+                runner._validate_artifact_paths(
+                    Namespace(
+                        output=existing,
+                        hashes=root / "new-hashes.tsv",
+                        matlab_report=None,
+                    )
+                )
+
+            symlink = root / "output-link.json"
+            symlink.symlink_to(existing)
+            with self.assertRaises(SystemExit):
+                runner._validate_artifact_paths(
+                    Namespace(
+                        output=symlink,
+                        hashes=root / "other-hashes.tsv",
+                        matlab_report=None,
+                    )
+                )
+
+    def test_exclusive_writer_never_overwrites_file_or_symlink(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            target = root / "target.txt"
+            target.write_text("preserve", encoding="utf-8")
+            with self.assertRaises(EvidenceValidationError):
+                exclusive_write_text(target, "forged", "test output")
+            self.assertEqual(target.read_text(encoding="utf-8"), "preserve")
+
+            link = root / "link.txt"
+            link.symlink_to(target)
+            with self.assertRaises(EvidenceValidationError):
+                exclusive_write_text(link, "forged", "test symlink")
+            self.assertEqual(target.read_text(encoding="utf-8"), "preserve")
+
+            fresh = root / "fresh.txt"
+            exclusive_write_text(fresh, "new evidence", "fresh output")
+            self.assertEqual(fresh.read_text(encoding="utf-8"), "new evidence")
 
 
 if __name__ == "__main__":

@@ -49,8 +49,11 @@ from banditverify.provenance import (  # noqa: E402
 )
 from banditverify.security import (  # noqa: E402
     EvidenceValidationError,
+    exclusive_write_text,
+    require_distinct_files,
     require_exact_keys,
     require_int,
+    require_new_output,
     require_string,
     strict_json_load,
 )
@@ -782,6 +785,27 @@ def compare_reports(
     }
 
 
+def _validate_artifact_paths(args: argparse.Namespace) -> None:
+    named_paths = {
+        role: path
+        for role, path in (
+            ("work_4core", args.work_4),
+            ("work_8core", args.work_8),
+            ("github_actions_4core", args.github_4),
+            ("github_api_provenance", args.github_api_provenance),
+        )
+        if path is not None
+    }
+    named_paths["output"] = args.output
+    try:
+        require_distinct_files(named_paths)
+        require_new_output(args.output, "comparison --output")
+    except EvidenceValidationError as exc:
+        raise SystemExit(str(exc)) from exc
+    if args.output.resolve(strict=False).is_relative_to(REPOSITORY):
+        raise SystemExit("comparison artifacts must be written outside the repository")
+
+
 def main() -> int:
     args = parse_args()
     paths = {
@@ -793,14 +817,7 @@ def main() -> int:
         )
         if path is not None
     }
-    output_path = args.output.resolve()
-    input_paths = {path.resolve() for path in paths.values()}
-    if args.github_api_provenance is not None:
-        input_paths.add(args.github_api_provenance.resolve())
-    if output_path in input_paths:
-        raise SystemExit("comparison output cannot overwrite an input artifact")
-    if output_path.is_relative_to(REPOSITORY):
-        raise SystemExit("comparison artifacts must be written outside the repository")
+    _validate_artifact_paths(args)
     profiles = {role: strict_json_load(path) for role, path in paths.items()}
     api_record = (
         strict_json_load(args.github_api_provenance)
@@ -816,9 +833,10 @@ def main() -> int:
         github_report_sha256=github_report_digest,
     )
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(
+    exclusive_write_text(
+        args.output,
         json.dumps(report, indent=2, sort_keys=True, allow_nan=False) + "\n",
-        encoding="utf-8",
+        "comparison report",
     )
     print(json.dumps(report, indent=2, sort_keys=True, allow_nan=False))
     return 0 if report["overall_status"].startswith("PASS_") else 1

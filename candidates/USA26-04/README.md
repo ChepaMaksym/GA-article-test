@@ -61,7 +61,9 @@ python registry/cohort_2026_12/tests/run_registry_tests.py
 
 ## Frozen Work profiles
 
-Write every generated artifact outside the repository. The profile runner can
+Write every generated artifact to a new, non-symlink path outside the
+repository; existing files are never overwritten, and hardlinked evidence
+paths are rejected. The profile runner can
 invoke a system MATLAB/Octave engine, disable Octave init/site files, resolve
 the exact tracked writer, record runtime/executable identity, and embed the
 provenance-bound report for comparator revalidation. This establishes only a

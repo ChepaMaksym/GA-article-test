@@ -28,9 +28,11 @@ original hardware contract:
   alone cannot establish. Even matching API JSON leaves H5
   `NOT_EVALUATED_EXTERNAL_GITHUB_AUTH_REQUIRED`; this offline comparator has no
   H5 `PASS` path.
-- Generated profile/comparison artifacts must be distinct files outside the
-  repository. Missing, malformed, duplicate, extra, type-confused, copied, or
-  status-promoted evidence fails closed.
+- Generated profile/comparison artifacts must be new, non-symlink, distinct
+  files outside the repository. Inode aliases/hardlinks and pre-existing
+  outputs are rejected before computation; creation is exclusive and never
+  overwrites evidence. Missing, malformed, duplicate, extra, type-confused,
+  copied, or status-promoted evidence fails closed.
 
 These controls may turn a formerly accepted engineering report into
 `INCOMPLETE_*`, `INCONCLUSIVE_*`, or rejection. They can never promote a

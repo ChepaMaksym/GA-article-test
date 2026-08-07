@@ -3,8 +3,11 @@ from __future__ import annotations
 import copy
 import hashlib
 import importlib.util
+import os
+from argparse import Namespace
 from pathlib import Path
 import sys
+import tempfile
 import unittest
 
 
@@ -238,6 +241,53 @@ def api_record(head: str, report_sha256: str) -> dict:
 
 
 class HardwareComparatorTests(unittest.TestCase):
+    def test_comparator_rejects_hardlinked_inputs_and_existing_outputs(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            work4 = root / "work4.json"
+            work4.write_text("work4", encoding="utf-8")
+            work8 = root / "work8.json"
+            os.link(work4, work8)
+            with self.assertRaises(SystemExit):
+                module._validate_artifact_paths(
+                    Namespace(
+                        work_4=work4,
+                        work_8=work8,
+                        github_4=None,
+                        github_api_provenance=None,
+                        output=root / "comparison.json",
+                    )
+                )
+
+            work8.unlink()
+            work8.write_text("work8", encoding="utf-8")
+            output = root / "comparison.json"
+            output.write_text("preserve", encoding="utf-8")
+            with self.assertRaises(SystemExit):
+                module._validate_artifact_paths(
+                    Namespace(
+                        work_4=work4,
+                        work_8=work8,
+                        github_4=None,
+                        github_api_provenance=None,
+                        output=output,
+                    )
+                )
+            self.assertEqual(output.read_text(encoding="utf-8"), "preserve")
+
+            output.unlink()
+            output.symlink_to(work4)
+            with self.assertRaises(SystemExit):
+                module._validate_artifact_paths(
+                    Namespace(
+                        work_4=work4,
+                        work_8=work8,
+                        github_4=None,
+                        github_api_provenance=None,
+                        output=output,
+                    )
+                )
+
     def test_two_work_profiles_match_but_remain_incomplete(self) -> None:
         result = module.compare_reports(
             {"work_4core": profile("work_4core"), "work_8core": profile("work_8core")}

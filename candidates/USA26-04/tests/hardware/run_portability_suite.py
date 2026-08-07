@@ -66,6 +66,9 @@ from banditverify.provenance import (  # noqa: E402
 from banditverify.rewards import evaluate_reward, printed_eq2_literal  # noqa: E402
 from banditverify.security import (  # noqa: E402
     EvidenceValidationError,
+    exclusive_write_text,
+    require_distinct_files,
+    require_new_output,
     strict_json_load,
 )
 
@@ -534,20 +537,23 @@ def _write_hashes(path: Path, records: list[dict[str, Any]]) -> None:
     for record in sorted(records, key=lambda item: item["case_id"]):
         digest = record_digest(record)
         lines.append(f"{record['case_id']}\t{digest}")
-    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    exclusive_write_text(path, "\n".join(lines) + "\n", "hash manifest")
 
 
 def _validate_artifact_paths(args: argparse.Namespace) -> None:
-    output = args.output.resolve()
-    hashes = args.hashes.resolve()
-    if output == hashes:
-        raise SystemExit("--output and --hashes must be distinct files")
+    named_paths = {"output": args.output, "hashes": args.hashes}
+    if args.matlab_report is not None:
+        named_paths["matlab_report"] = args.matlab_report
+    try:
+        require_distinct_files(named_paths)
+        require_new_output(args.output, "--output")
+        require_new_output(args.hashes, "--hashes")
+    except EvidenceValidationError as exc:
+        raise SystemExit(str(exc)) from exc
+    output = args.output.resolve(strict=False)
+    hashes = args.hashes.resolve(strict=False)
     if output.is_relative_to(REPOSITORY) or hashes.is_relative_to(REPOSITORY):
         raise SystemExit("formal profile artifacts must be written outside the repository")
-    if args.matlab_report is not None:
-        report = args.matlab_report.resolve()
-        if report in {output, hashes}:
-            raise SystemExit("diagnostic MATLAB input cannot collide with an output artifact")
 
 
 def main() -> int:
@@ -727,9 +733,10 @@ def main() -> int:
         },
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(
+    exclusive_write_text(
+        args.output,
         json.dumps(report, indent=2, sort_keys=True, allow_nan=False) + "\n",
-        encoding="utf-8",
+        "profile report",
     )
     _write_hashes(args.hashes, serial_records)
     print(json.dumps(report, indent=2, sort_keys=True, allow_nan=False))

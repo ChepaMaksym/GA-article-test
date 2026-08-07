@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import math
+import os
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -98,3 +99,77 @@ def require_int(value: Any, context: str, *, minimum: int | None = None) -> int:
     if minimum is not None and value < minimum:
         raise EvidenceValidationError(f"{context} must be >= {minimum}")
     return value
+
+
+def require_distinct_files(paths: dict[str, Path]) -> None:
+    """Reject textual aliases and inode aliases across evidence paths."""
+
+    items = list(paths.items())
+    resolved: dict[Path, str] = {}
+    for name, path in items:
+        normalized = path.resolve(strict=False)
+        if normalized in resolved:
+            raise EvidenceValidationError(
+                f"evidence paths {resolved[normalized]!r} and {name!r} resolve identically"
+            )
+        resolved[normalized] = name
+    for left_index, (left_name, left_path) in enumerate(items):
+        if not left_path.exists():
+            continue
+        for right_name, right_path in items[left_index + 1 :]:
+            if not right_path.exists():
+                continue
+            try:
+                aliases = os.path.samefile(left_path, right_path)
+            except OSError as exc:
+                raise EvidenceValidationError(
+                    "evidence path identity changed during validation"
+                ) from exc
+            if aliases:
+                raise EvidenceValidationError(
+                    f"evidence paths {left_name!r} and {right_name!r} share one inode"
+                )
+
+
+def require_new_output(path: Path, context: str) -> None:
+    """Require an output name that does not already exist, including symlinks."""
+
+    if path.is_symlink() or path.exists():
+        raise EvidenceValidationError(f"{context} must not already exist or be a symlink")
+
+
+def exclusive_write_text(path: Path, value: str, context: str) -> None:
+    """Create and write a new regular evidence file without following symlinks."""
+
+    flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_CLOEXEC", 0)
+    flags |= getattr(os, "O_NOFOLLOW", 0)
+    try:
+        descriptor = os.open(path, flags, 0o644)
+    except OSError as exc:
+        raise EvidenceValidationError(
+            f"could not exclusively create {context}: {path}"
+        ) from exc
+    created_identity = os.fstat(descriptor)
+    handle = None
+    try:
+        handle = os.fdopen(descriptor, "w", encoding="utf-8", newline="")
+        with handle:
+            handle.write(value)
+            handle.flush()
+            os.fsync(handle.fileno())
+    except BaseException:
+        if handle is None:
+            try:
+                os.close(descriptor)
+            except OSError:
+                pass
+        try:
+            current = path.stat(follow_symlinks=False)
+            if (current.st_dev, current.st_ino) == (
+                created_identity.st_dev,
+                created_identity.st_ino,
+            ):
+                path.unlink()
+        except OSError:
+            pass
+        raise
