@@ -1,0 +1,196 @@
+{
+  "candidate_id": "EU26-07",
+  "claim_boundaries": [
+    "The source adapter verifies an author-linked Git commit, not an archival release.",
+    "Artifact replay uses the Jump-specialized source profile, not literal paper pseudocode.",
+    "PASS_FULL is forbidden by frozen paper/source semantic differences."
+  ],
+  "claim_status": "PASS_TARGET_ARTIFACT_REPLAY",
+  "environment": {
+    "numpy": "2.3.5",
+    "platform": "Linux-6.18.35-x86_64-with-glibc2.39",
+    "python": "3.12.13",
+    "scipy": "1.17.0"
+  },
+  "formula_witness": {
+    "H2_paper_formula": {
+      "expected": {
+        "biased_crossover": 526335,
+        "exact_mutant": 530431,
+        "grow_to_cap": 20.0,
+        "logical_evaluations": 4,
+        "paper_crossover_probability": 0.4,
+        "paper_lambda_after_success": 1.3333333333333333,
+        "paper_mutation_probability": 0.125,
+        "paper_parent_after": 2047,
+        "paper_round_2_5": 3,
+        "paper_strict_success": true,
+        "reset_from_cap": 1.0
+      },
+      "observed": {
+        "biased_crossover": 526335,
+        "exact_mutant": 530431,
+        "grow_to_cap": 20.0,
+        "logical_evaluations": 4,
+        "paper_crossover_probability": 0.4,
+        "paper_lambda_after_success": 1.3333333333333333,
+        "paper_mutation_probability": 0.125,
+        "paper_parent_after": 2047,
+        "paper_round_2_5": 3,
+        "paper_strict_success": true,
+        "reset_from_cap": 1.0
+      },
+      "status": "PASS"
+    },
+    "H3_profile_isolation": {
+      "expected": {
+        "artifact_round_2_5": 2,
+        "artifact_selected_candidate": 3071,
+        "paper_round_2_5": 3,
+        "paper_selected_candidate": 2047
+      },
+      "observed": {
+        "artifact_round_2_5": 2,
+        "artifact_selected_candidate": 3071,
+        "paper_round_2_5": 3,
+        "paper_selected_candidate": 2047
+      },
+      "status": "PASS"
+    }
+  },
+  "gates": {
+    "H0_source_freeze": "PASS",
+    "H1_eligibility": "PASS_FROZEN_AUDIT",
+    "H2_paper_formula": "PASS",
+    "H3_profile_isolation": "PASS",
+    "H4_published_data_integrity": "PASS",
+    "H5_source_native_replay": "PASS",
+    "H6_cleanroom_replay": "PASS",
+    "H7_cross_language": "NOT_RUN_BY_THIS_SCRIPT"
+  },
+  "generated_at_utc": "2026-08-07T15:51:56.443581+00:00",
+  "local_contract_sha256": {
+    "config/environment_lock.json": "3b547f8165c4e3622c9a64538b762e3f632d4da2ae32c96c54f44c5c4fe1bb5e",
+    "config/seed_ledger.csv": "08d48530350ebbafd0a4a9b18d1921b264a5635d323d1d7e4f6734d0d1e4a18d",
+    "config/verification_contract.json": "06c81757cb2c076983e5a647259e7cfe7287a94de05e4e3c301c7c3a44c41f48",
+    "fixtures/fixed_tape_cases.json": "c80b9290d1e3eb21c9fbf1a12b2a981884752549d76d9d10d9d4df0dc17238ae",
+    "fixtures/published_summary.json": "0e67d366a70b406535772948ce4b6da104071fa7a5c70bdb98de9daff18cc2c4",
+    "preregistration/amendment-001-pre-replay-review.md": "ad68617bb8827476baf0c647fe92d4cad9f5c0b3065e0b16d7711c4b089df373",
+    "preregistration/eligibility_audit.md": "e83c129aefc1a5c995a5de40f5ee99746abc84b3b7e483c275604738e1cc17d4",
+    "preregistration/verification_contract.md": "e7959622061600b5770e71349cdb6d35f5aaaed2c1c98fba7c481758317105e0",
+    "source_manifest/sources.csv": "96e754e95d2b7d2a52173381ca36b9f11a0d5bfe25cc50fefb39eac4e71bac01"
+  },
+  "local_protocol": {
+    "declared_environment": {
+      "artifact_materialization": {
+        "reason": "frozen raw filename contains colon characters and cannot be checked out on native Windows/NTFS",
+        "source_native_replay_platform": "POSIX-compatible filesystem required",
+        "windows_formula_tests": "not blocked by the external raw filename"
+      },
+      "author_environment": {
+        "dependency_lock_present": false,
+        "source_language": "Python 3",
+        "status": "UNRESOLVED_NO_REQUIREMENTS_OR_CONTAINER"
+      },
+      "schema_version": 1,
+      "verification_environment": {
+        "numpy": "2.3.5",
+        "platform_role": "current replay environment, not an author-published lock",
+        "python": "3.12.13",
+        "scipy": "1.17.0"
+      }
+    },
+    "published_targets": {
+      "mean_evaluations": 108964.48,
+      "median_evaluations": 84730.0,
+      "q1_evaluations": 32787.0,
+      "q3_evaluations": 150829.0,
+      "runs": 500
+    },
+    "seed_rows": 500
+  },
+  "local_source_identity": {
+    "candidate_tree": "eaca2359698dddcfd20d2f8d88d727d027fbcf4e",
+    "commit": "282b9dcc01b189c8344f8d12cef82f640a09b8ee",
+    "repository_tree": "98270c1c5b223e82867b71eb133e9d4583dff689",
+    "scoped_paths": [
+      "candidates/EU26-07",
+      ".github/workflows/eu26-07-validation.yml"
+    ],
+    "scoped_worktree_clean": true,
+    "workflow_blob": "aa688d8b6338fc5bfd826cc78f0fcba00d073ace"
+  },
+  "paper_level_status": "BLOCKED_PAPER_SOURCE_DIVERGENCES",
+  "post_run_authentication": {
+    "local_contract_sha256": {
+      "config/environment_lock.json": "3b547f8165c4e3622c9a64538b762e3f632d4da2ae32c96c54f44c5c4fe1bb5e",
+      "config/seed_ledger.csv": "08d48530350ebbafd0a4a9b18d1921b264a5635d323d1d7e4f6734d0d1e4a18d",
+      "config/verification_contract.json": "06c81757cb2c076983e5a647259e7cfe7287a94de05e4e3c301c7c3a44c41f48",
+      "fixtures/fixed_tape_cases.json": "c80b9290d1e3eb21c9fbf1a12b2a981884752549d76d9d10d9d4df0dc17238ae",
+      "fixtures/published_summary.json": "0e67d366a70b406535772948ce4b6da104071fa7a5c70bdb98de9daff18cc2c4",
+      "preregistration/amendment-001-pre-replay-review.md": "ad68617bb8827476baf0c647fe92d4cad9f5c0b3065e0b16d7711c4b089df373",
+      "preregistration/eligibility_audit.md": "e83c129aefc1a5c995a5de40f5ee99746abc84b3b7e483c275604738e1cc17d4",
+      "preregistration/verification_contract.md": "e7959622061600b5770e71349cdb6d35f5aaaed2c1c98fba7c481758317105e0",
+      "source_manifest/sources.csv": "96e754e95d2b7d2a52173381ca36b9f11a0d5bfe25cc50fefb39eac4e71bac01"
+    },
+    "local_source_identity": {
+      "candidate_tree": "eaca2359698dddcfd20d2f8d88d727d027fbcf4e",
+      "commit": "282b9dcc01b189c8344f8d12cef82f640a09b8ee",
+      "repository_tree": "98270c1c5b223e82867b71eb133e9d4583dff689",
+      "scoped_paths": [
+        "candidates/EU26-07",
+        ".github/workflows/eu26-07-validation.yml"
+      ],
+      "scoped_worktree_clean": true,
+      "workflow_blob": "aa688d8b6338fc5bfd826cc78f0fcba00d073ace"
+    },
+    "source_identity": {
+      "commit": "49949a55208359ac93b7110afb23ed276bda158d",
+      "required_files": 9,
+      "root": "/workspace/scratch/0e914dd03136/upstream-telo-reset",
+      "tree": "a9d1a04fbbafbb114585ff7caf10bddc6381755a",
+      "worktree_clean_for_required_files": true
+    },
+    "status": "PASS"
+  },
+  "published": {
+    "canonical_rows_sha256": "6e5b6b6da38d0c2d846b3379150532667447a0ff38fb64aae3148149db41d176",
+    "processed_targets": {
+      "mean_evaluations": 108964.48,
+      "median_evaluations": 84730.0,
+      "q1_evaluations": 32787.0,
+      "q3_evaluations": 150829.0,
+      "runs": 500
+    },
+    "raw_artifact_sha256": "b2ac8c81efaf786823d49dcef26eeb20f0257ca7fe9e1e2394d02ca5e26dd9a6",
+    "recomputed_summary": {
+      "mean_evaluations": 108964.48,
+      "median_evaluations": 84730.0,
+      "population_sd_evaluations": 99730.17415323008,
+      "q1_evaluations": 32787.0,
+      "q3_evaluations": 150829.0,
+      "runs": 500,
+      "sample_sd_evaluations": 99830.05417240708
+    },
+    "sd_provenance": "derived diagnostic; not printed in processed artifact"
+  },
+  "replay": {
+    "cleanroom_rows_compared": 500,
+    "cleanroom_rows_sha256": "6e5b6b6da38d0c2d846b3379150532667447a0ff38fb64aae3148149db41d176",
+    "expected_prefix_sha256": "6e5b6b6da38d0c2d846b3379150532667447a0ff38fb64aae3148149db41d176",
+    "first_failure": null,
+    "rows_examined": 500,
+    "source_rows_compared": 500,
+    "source_rows_sha256": "6e5b6b6da38d0c2d846b3379150532667447a0ff38fb64aae3148149db41d176"
+  },
+  "requested_runs": 500,
+  "requested_workers": 8,
+  "schema_version": 1,
+  "source_identity": {
+    "commit": "49949a55208359ac93b7110afb23ed276bda158d",
+    "required_files": 9,
+    "root": "/workspace/scratch/0e914dd03136/upstream-telo-reset",
+    "tree": "a9d1a04fbbafbb114585ff7caf10bddc6381755a",
+    "worktree_clean_for_required_files": true
+  }
+}

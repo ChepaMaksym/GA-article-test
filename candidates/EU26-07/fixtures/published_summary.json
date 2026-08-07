@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "source": "author processed file authenticated by SHA-256",
+  "published": {
+    "runs": 500,
+    "mean_evaluations": 108964.48,
+    "median_evaluations": 84730.0,
+    "q1_evaluations": 32787.0,
+    "q3_evaluations": 150829.0
+  },
+  "derived_from_authenticated_raw_not_published": {
+    "population_sd_evaluations": 99730.17415323008,
+    "sample_sd_evaluations": 99830.05417240708,
+    "canonical_rows_sha256": "6e5b6b6da38d0c2d846b3379150532667447a0ff38fb64aae3148149db41d176"
+  }
+}

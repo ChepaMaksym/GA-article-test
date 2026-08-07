@@ -1,0 +1,122 @@
+name: EU26-07 formula and artifact replay validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/EU26-07-reset-jump-verification
+    paths:
+      - "candidates/EU26-07/**"
+      - ".github/workflows/eu26-07-validation.yml"
+  pull_request:
+    paths:
+      - "candidates/EU26-07/**"
+      - ".github/workflows/eu26-07-validation.yml"
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+  AUTHOR_COMMIT: 49949a55208359ac93b7110afb23ed276bda158d
+  AUTHOR_REPOSITORY: https://github.com/mariohevia/Parameter-Control-Mechanisms-Genetic-Algorithm.git
+
+jobs:
+  registry-gates:
+    name: Registry consistency and fail-closed gates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out the candidate branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate the frozen cohort registry
+        run: python registry/cohort_2026_12/validate_registry.py
+      - name: Run registry mutation tests
+        run: python registry/cohort_2026_12/tests/run_registry_tests.py
+
+  python-full-replay:
+    name: Python formula and exact 500-row artifact replay
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - name: Check out the candidate branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: candidates/EU26-07/environments/python/requirements.txt
+      - name: Install the frozen verification dependencies
+        run: >-
+          python -m pip install --requirement
+          candidates/EU26-07/environments/python/requirements.txt
+      - name: Fetch the exact author commit without using a moving branch
+        shell: bash
+        run: |
+          git init "${RUNNER_TEMP}/eu2607-author"
+          git -C "${RUNNER_TEMP}/eu2607-author" remote add origin "${AUTHOR_REPOSITORY}"
+          git -C "${RUNNER_TEMP}/eu2607-author" fetch --depth=1 origin "${AUTHOR_COMMIT}"
+          git -C "${RUNNER_TEMP}/eu2607-author" checkout --detach FETCH_HEAD
+      - name: Run formula, provenance, parser and two-row source tests
+        env:
+          EU2607_UPSTREAM: ${{ runner.temp }}/eu2607-author
+        run: python candidates/EU26-07/tests/run_python_tests.py
+      - name: Replay all 500 source-native and clean-room rows
+        run: |
+          python candidates/EU26-07/environments/python/run_full_verification.py \
+            --upstream "${RUNNER_TEMP}/eu2607-author" \
+            --runs 500 \
+            --workers 4 \
+            --output "${RUNNER_TEMP}/eu26-07-full-replay.json"
+      - name: Assert the strongest allowed artifact claim and claim blocker
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          report = json.loads(
+              (Path(os.environ["RUNNER_TEMP"]) / "eu26-07-full-replay.json")
+              .read_text(encoding="utf-8")
+          )
+          if report["claim_status"] != "PASS_TARGET_ARTIFACT_REPLAY":
+              raise SystemExit(report["claim_status"])
+          if report["paper_level_status"] != "BLOCKED_PAPER_SOURCE_DIVERGENCES":
+              raise SystemExit("paper/source claim blocker was lost")
+          for gate in ("H0_source_freeze", "H4_published_data_integrity",
+                       "H5_source_native_replay", "H6_cleanroom_replay"):
+              if report["gates"][gate] != "PASS":
+                  raise SystemExit(f"{gate}: {report['gates'][gate]}")
+          if report["replay"]["source_rows_compared"] != 500:
+              raise SystemExit("full source ledger was not compared")
+          if report["replay"]["cleanroom_rows_compared"] != 500:
+              raise SystemExit("full ledger was not compared")
+          PY
+      - name: Upload the non-vendored replay report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eu26-07-full-replay
+          path: ${{ runner.temp }}/eu26-07-full-replay.json
+          if-no-files-found: error
+          retention-days: 30
+
+  octave-formula:
+    name: GNU Octave cross-language formula gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out the candidate branch
+        uses: actions/checkout@v4
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends octave
+      - name: Run MATLAB-compatible fixed-tape tests
+        run: >-
+          octave --quiet --eval
+          "addpath('candidates/EU26-07/tests/matlab'); run_matlab_tests"
