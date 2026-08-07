@@ -36,10 +36,18 @@ class ProtocolTests(unittest.TestCase):
         self.assertTrue(all(case["iterations"] == 20000 for case in cases))
 
     def test_freeze_commit_must_be_ancestor_of_current_head(self) -> None:
+        original_run = protocol_module.subprocess.run
+
+        def reject_only_ancestry(*args, **kwargs):
+            command = args[0] if args else kwargs.get("args", [])
+            if command[:3] == ["git", "merge-base", "--is-ancestor"]:
+                return protocol_module.subprocess.CompletedProcess(command, 1)
+            return original_run(*args, **kwargs)
+
         with mock.patch.object(
             protocol_module.subprocess,
             "run",
-            return_value=protocol_module.subprocess.CompletedProcess([], 1),
+            side_effect=reject_only_ancestry,
         ):
             with self.assertRaisesRegex(AssertionError, "not an ancestor"):
                 protocol_module._validate_git_binding()
