@@ -9,13 +9,11 @@ on:
       - "candidates/EU26-05/**"
       - "registry/cohort_2026_12/**"
       - ".github/workflows/eu26-05-validation.yml"
-      - ".github/workflows/eu26-05-attest.yml"
   pull_request:
     paths:
       - "candidates/EU26-05/**"
       - "registry/cohort_2026_12/**"
       - ".github/workflows/eu26-05-validation.yml"
-      - ".github/workflows/eu26-05-attest.yml"
 
 permissions:
   contents: read

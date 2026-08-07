@@ -76,8 +76,12 @@ cannot be relabelled from a Work run. Even three equal profile JSON files are
 insufficient: H5 stays `NOT_RUN_GITHUB_API_ATTESTATION` until a separate
 post-completion record binds the repository, workflow, head, run/attempt,
 artifact ID/name and actual `github-4.json` byte digest to authenticated GitHub
-API objects. The `eu26-05-attest.yml` workflow produces that separate record
-after the validation workflow has completed successfully.
+API objects. This attestation is acquired externally by a reviewer after the
+validation workflow has completed successfully; it is never self-issued by
+the run being attested. The reviewer fetches the completed workflow-run and
+artifact JSON with authenticated GitHub API access, downloads the named
+artifact, and passes those objects plus `github-4.json` to
+`build_github_api_attestation.py`.
 
 ```bash
 taskset -c 0-3 python candidates/EU26-05/tests/hardware/run_portability_suite.py \
@@ -93,8 +97,8 @@ python candidates/EU26-05/tests/hardware/compare_portability_reports.py \
   --allow-incomplete --output /tmp/eu26-05-work-partial.json
 ```
 
-After downloading the real GitHub4 report and its separately uploaded API
-attestation, the only H5-authorizing form is:
+After downloading the real GitHub4 report and separately acquiring its API
+attestation, the only H5-authorizing comparator form is:
 
 ```bash
 python candidates/EU26-05/tests/hardware/compare_portability_reports.py \

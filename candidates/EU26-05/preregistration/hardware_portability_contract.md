@@ -45,6 +45,9 @@ GitHub API attestation with exact repository, workflow path, head SHA, run ID,
 run attempt, successful conclusion, artifact ID/name, member name and SHA-256
 of the downloaded `github-4.json` bytes. Missing attestation yields
 `NOT_RUN_GITHUB_API_ATTESTATION`; a copied or relabelled profile cannot pass.
+The attestation must be acquired externally by a reviewer through
+authenticated API calls after CI completion. The CI run cannot attest itself,
+and no H5 pass is emitted inside the validation workflow.
 
 H3 reports are implementation envelopes, not bare equal JSON payloads. Each
 binds protocol, git HEAD, runtime, exact implementation source hashes and the

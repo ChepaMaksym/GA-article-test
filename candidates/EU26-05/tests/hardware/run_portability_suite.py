@@ -71,10 +71,9 @@ def _source_paths() -> list[Path]:
         ):
             continue
         paths.add(path)
-    for workflow_name in ("eu26-05-validation.yml", "eu26-05-attest.yml"):
-        workflow = REPOSITORY / ".github" / "workflows" / workflow_name
-        if workflow.is_file():
-            paths.add(workflow)
+    workflow = REPOSITORY / ".github" / "workflows" / "eu26-05-validation.yml"
+    if workflow.is_file():
+        paths.add(workflow)
     registry = REPOSITORY / "registry" / "cohort_2026_12"
     for path in registry.rglob("*"):
         if path.is_file() and "__pycache__" not in path.parts and path.suffix not in {".pyc", ".pyo"}:
