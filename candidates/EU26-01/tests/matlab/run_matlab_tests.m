@@ -54,7 +54,11 @@ end
 
 invalid_cases = fixture.invalid_generation_cases;
 for i = 1:numel(invalid_cases)
-    entry = invalid_cases(i);
+    if iscell(invalid_cases)
+        entry = invalid_cases{i};
+    else
+        entry = invalid_cases(i);
+    end
     accepted = true;
     message = '';
     try
