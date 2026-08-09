@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0.0",
+  "candidate_id": "EU26-11",
+  "status": "TARGETED_DETERMINISTIC_FIGURE1_REPLAY_ONLY",
+  "readiness": "ADMITTED_TARGETED_EVIDENCE",
+  "paper_level_status": "TARGETED_ARTIFACT_ONLY_NOT_FULL_REPRODUCTION",
+  "forbidden_claims": [
+    "PASS_FULL",
+    "PASS_BBOB_EMPIRICAL",
+    "PASS_AUTHOR_EXECUTION_REPLAY"
+  ],
+  "paper": {
+    "doi": "10.5220/0013000900003837",
+    "url": "https://www.scitepress.org/Papers/2024/130009/130009.pdf",
+    "bytes": 435554,
+    "sha256": "28b1b3741fa03398b0e5fb2e343962540c74944f86240e94e9212e195b191da1",
+    "license": "CC-BY-NC-ND-4.0"
+  },
+  "data_record": {
+    "doi": "10.5281/zenodo.12756059",
+    "url": "https://zenodo.org/records/12756059",
+    "publication_date": "2024-07-17",
+    "license": "CC-BY-4.0"
+  },
+  "point_set": {
+    "name": "Sub_Sobol_20_128.txt",
+    "url": "https://zenodo.org/api/records/12756059/files/Sub_Sobol_20_128.txt/content",
+    "bytes": 23229,
+    "md5": "deb3e83ddb3c84c345b2637b29b9cc64",
+    "sha256": "129d27fbf9711ff270c966f618ec360667582d873094f30cb1dd7e9f78fd2472",
+    "header": "n=150,k=128,dim=20, discrepancy=0.224604, runtime=174.924370",
+    "source_pool_size": 150,
+    "rows": 128,
+    "dimension": 20
+  },
+  "numeric_block": {
+    "name": "discr.pkl",
+    "url": "https://zenodo.org/api/records/12756059/files/discr.pkl/content",
+    "bytes": 1705,
+    "md5": "5666ec16b81790258196c4a6ad503647",
+    "sha256": "b2431beff3f660c3a1a0f7e96a3a6e6b095a1acd0d2786a44d5e05851f8381f2",
+    "binary64_block_bytes": 800,
+    "dimensions": [2, 5, 10, 20, 40],
+    "algorithms": [
+      "UNIFORM-16", "SOBOL-16", "HALTON-16", "OPT-16",
+      "UNIFORM-32", "SOBOL-32", "HALTON-32", "OPT-32",
+      "UNIFORM-64", "SOBOL-64", "HALTON-64", "OPT-64",
+      "UNIFORM-128", "SOBOL-128", "HALTON-128", "OPT-128",
+      "UNIFORM-256", "SOBOL-256", "HALTON-256", "OPT-256"
+    ]
+  },
+  "source": {
+    "repository": "https://github.com/IOHprofiler/ModularCMAES",
+    "tag": "v1.0.8",
+    "commit": "ec517cafaca432444f781a1c463b43963bff05eb",
+    "tree": "4200fc05eaa1a8eac4632aee3d0950ddf62cc75c",
+    "license": "MIT",
+    "members": {
+      "modcma/modularcmaes.py": {
+        "bytes": 17966,
+        "sha256": "7a8e0ab564f88af9c146a1800f46440c6a8ce1d6ea6af2149eeeabb5d42d8614"
+      },
+      "modcma/parameters.py": {
+        "bytes": 36592,
+        "sha256": "49a53a08013457848b8fd6f42abea4f563b3d14e382d68ff1b003f62e8ef131b"
+      },
+      "LICENSE": {
+        "bytes": 1071,
+        "sha256": "3454b70bcc796e369a21e641cd10126944ec2b136219ce1475a580dfd3be8e8f"
+      }
+    }
+  },
+  "endpoint": {
+    "figure": 1,
+    "algorithm": "OPT-128",
+    "dimension": 20,
+    "paper_display": "-4.16",
+    "l2_star_reference": "6.892638555983242e-05",
+    "log10_reference": "-4.1616144949364955",
+    "l2_absolute_tolerance": 5e-16,
+    "log10_absolute_tolerance": 1e-10,
+    "cross_language_l2_absolute_tolerance": 5e-16,
+    "seed_policy": "not_applicable_deterministic_point_set_formula"
+  },
+  "verification_execution": {
+    "minimum_python_tests": 14,
+    "require_zero_skips_for_formal_report": true,
+    "require_new_output_paths": true,
+    "pickle_execution_forbidden": true
+  }
+}
