@@ -26,7 +26,6 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:
-      EU2616_UPSTREAM: ${{ runner.temp }}/g3p-kemlc
       PYTHONDONTWRITEBYTECODE: "1"
     steps:
       - name: Check out the verification branch
@@ -36,6 +35,8 @@ jobs:
         with:
           python-version: "3.12"
       - name: Check out the exact author source revision
+        env:
+          EU2616_UPSTREAM: ${{ runner.temp }}/g3p-kemlc
         run: |
           git clone --quiet --no-checkout https://github.com/kdis-lab/G3P-kEMLC.git "$EU2616_UPSTREAM"
           git -C "$EU2616_UPSTREAM" checkout --quiet --detach "$EU2616_COMMIT"
@@ -43,10 +44,14 @@ jobs:
           test "$(git -C "$EU2616_UPSTREAM" rev-parse 'HEAD^{tree}')" = "$EU2616_TREE"
           test -z "$(git -C "$EU2616_UPSTREAM" status --porcelain=v1 --untracked-files=all)"
       - name: Run fail-closed Python checks
+        env:
+          EU2616_UPSTREAM: ${{ runner.temp }}/g3p-kemlc
         run: |
           python candidates/EU26-16/tests/run_python_tests.py \
             --output "$RUNNER_TEMP/eu26-16-python-tests.json"
       - name: Create the bounded formula/source report
+        env:
+          EU2616_UPSTREAM: ${{ runner.temp }}/g3p-kemlc
         run: |
           python candidates/EU26-16/environments/python/run_verification.py \
             --checkout "$EU2616_UPSTREAM" \
@@ -65,13 +70,12 @@ jobs:
     name: GNU Octave transition and Yeast structure gates
     runs-on: ubuntu-24.04
     timeout-minutes: 20
-    env:
-      EU2616_UPSTREAM: ${{ runner.temp }}/g3p-kemlc
-      EU2616_OCTAVE_REPORT: ${{ runner.temp }}/eu26-16-octave-report.json
     steps:
       - name: Check out the verification branch
         uses: actions/checkout@v4
       - name: Check out the exact author source revision
+        env:
+          EU2616_UPSTREAM: ${{ runner.temp }}/g3p-kemlc
         run: |
           git clone --quiet --no-checkout https://github.com/kdis-lab/G3P-kEMLC.git "$EU2616_UPSTREAM"
           git -C "$EU2616_UPSTREAM" checkout --quiet --detach "$EU2616_COMMIT"
@@ -83,6 +87,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install --yes --no-install-recommends octave
       - name: Run the independent MATLAB-compatible checks
+        env:
+          EU2616_UPSTREAM: ${{ runner.temp }}/g3p-kemlc
+          EU2616_OCTAVE_REPORT: ${{ runner.temp }}/eu26-16-octave-report.json
         run: >-
           octave --quiet --eval
           "addpath('candidates/EU26-16/tests/matlab'); run_matlab_tests"
