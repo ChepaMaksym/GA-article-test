@@ -1,0 +1,139 @@
+{
+  "schema_version": "1.0.0",
+  "candidate_id": "EU26-14",
+  "status": "TARGETED_ARTIFACT_REPLAY_ONLY",
+  "paper_mapping": "PAPER_CONTEXT_ONLY",
+  "readiness": "ADMITTED_TARGETED_ARTIFACT",
+  "forbidden_claims": [
+    "PASS_FULL",
+    "PASS_EXACT_SOURCE_NATIVE",
+    "PASS_LITERAL_PAPER_ENDPOINT",
+    "HISTORICAL_ENVIRONMENT_PROVEN",
+    "PAPER_BUDGET_EXHAUSTION_CONFIRMED"
+  ],
+  "paper": {
+    "title": "MSC-CMA-ES: Structure-Aware Restarts for CMA-ES via Cyclic Nearest-Better Basin Discovery",
+    "doi": "10.48550/arXiv.2606.15830",
+    "arxiv_version": "2606.15830v3",
+    "pdf_url": "https://arxiv.org/pdf/2606.15830v3",
+    "pdf_bytes": 1491426,
+    "pdf_sha256": "db6fd539753f6adf36caea298de6ae31791491779f8967ff22c261169d3c2f4b",
+    "literal_numeric_mapping": false
+  },
+  "upstream": {
+    "repository": "https://github.com/snenovgmailcom/cma_es_project",
+    "commit": "a88841620b2eddd13a1fab85331fcfc8caa1e85f",
+    "commit_date": "2026-07-21T16:17:20Z",
+    "archive_root": "src-a888416",
+    "license": "MIT"
+  },
+  "zenodo": {
+    "record_id": 21483843,
+    "doi": "10.5281/zenodo.21483843",
+    "record_url": "https://zenodo.org/api/records/21483843",
+    "version": "1.0.0",
+    "publication_date": "2026-07-22",
+    "created": "2026-07-22T06:39:33.508447+00:00",
+    "updated": "2026-07-22T06:39:33.784339+00:00",
+    "license": "cc-by-4.0"
+  },
+  "files": {
+    "SHA256SUMS": {
+      "url": "https://zenodo.org/api/records/21483843/files/SHA256SUMS/content",
+      "bytes": 344,
+      "md5": "972d3b03271f232507b2467ef684b6d0",
+      "sha256": "7b6abb7ac47d15e836416cfe822cd04ff4a1a1f9bbda30705a7f6a3fa6dc28ff"
+    },
+    "source.tar.gz": {
+      "url": "https://zenodo.org/api/records/21483843/files/source.tar.gz/content",
+      "bytes": 20992578,
+      "md5": "f9e838739cd44502deff1c958b15efe3",
+      "sha256": "351c5a68331c6c589dd7c23b1ab5dee150c50ce6bf8a963dead6555cafa9b2a9"
+    },
+    "msc_cec2020.tar.zst": {
+      "url": "https://zenodo.org/api/records/21483843/files/msc_cec2020.tar.zst/content",
+      "bytes": 317976046,
+      "md5": "b6bf0e94f37139893edcaaf75fc16f2a",
+      "sha256": "22c0468ce1d01e03c30826abcd0952942a5d03d7822c0cc509897c6f7a40540e"
+    }
+  },
+  "member": {
+    "path": "experiments/cec2020/d15/MSC-CMA/maxevals_3000000/f1.pkl",
+    "tar_data_offset": 481445376,
+    "bytes": 462408,
+    "sha256": "310f68adb1878ea8179c527e42831286b472ec8dc1bd96984c843b9e5f7d344b"
+  },
+  "endpoint": {
+    "suite": "cec2020",
+    "dimension": 15,
+    "function": 1,
+    "f_opt": "100",
+    "algorithm": "MSC-CMA",
+    "budget": 3000000,
+    "n_runs": 51,
+    "seeds": {
+      "first": 0,
+      "last": 50,
+      "count": 51
+    },
+    "environment": {
+      "python": "3.13.5",
+      "numpy": "2.3.1",
+      "scipy": "1.15.3",
+      "cma": "4.4.2",
+      "minionpy": "1.5.0"
+    },
+    "run0": {
+      "error": "0.0",
+      "improvements_shape": [339, 2],
+      "first_improvement": ["4096", "17928356740.02234"],
+      "last_improvement": ["2882691", "9.243294130101276e-09"],
+      "cycle_count": 30,
+      "pre_refine_error": "0.8729793091438722",
+      "nfev_pre_refine": 2876679,
+      "nfev_total": 2893419,
+      "cycles": [
+        {
+          "index": 0,
+          "nfev_start": 0,
+          "nfev_end": 49960,
+          "best_end": "138.7076282341263",
+          "phase0_evaluations": 4096,
+          "basins": 25,
+          "phi": "1.1490020177074536",
+          "mode": "alt-0"
+        },
+        {
+          "index": 1,
+          "nfev_start": 49960,
+          "nfev_end": 143428,
+          "best_start": "138.7076282341263",
+          "best_end": "101.47263506942203",
+          "phase0_evaluations": 0,
+          "sample_reused": true,
+          "basins": 5,
+          "phi": "1.1154715908615365",
+          "improvement": "37.23499316470428",
+          "mode": "alt-1"
+        }
+      ]
+    }
+  },
+  "safe_pickle": {
+    "allowed_globals": [
+      "numpy._core.numeric._frombuffer",
+      "numpy.dtype"
+    ],
+    "general_unpickling_forbidden": true
+  },
+  "execution": {
+    "source_native": "NOT_ATTEMPTED_OUT_OF_SCOPE",
+    "full_archive_required": true,
+    "maximum_download_bytes": 318000000,
+    "output_must_be_new": true
+  },
+  "documented_conflicts": [
+    "Paper/README remaining-budget wording conflicts with raw run0 nfev_total=2893419 below budget=3000000.",
+    "Pinned package versions do not establish the full historical Intel/platform floating-point environment."
+  ]
+}
