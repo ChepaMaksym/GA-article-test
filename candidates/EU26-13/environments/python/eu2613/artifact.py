@@ -10,12 +10,22 @@ from pathlib import Path
 from typing import Any
 
 from .code_archive import verify_code_archive
+from .attestations import (
+    EXPECTED_MUTATION_TESTS,
+    EXPECTED_OCTAVE_ATTESTATION_SHA256,
+    EXPECTED_TESTS_RUN,
+    OCTAVE_ATTESTATION_KEYS,
+    OCTAVE_CHECK_KEYS,
+    OCTAVE_VALUE_KEYS,
+    PYTHON_ATTESTATION_KEYS,
+)
 from .contract import exact, require
 from .controls import run_controls
 from .endpoint import validate_endpoint
 from .errors import VerificationError
 from .integrity import implementation_manifest
 from .ranges import HTTPRangeSource, fetch_https_bytes
+from .safe_paths import safe_read_bytes
 from .zipformat import ZipEntry, verify_local_header, verify_nested_zip, verify_outer_zip64
 
 
@@ -105,23 +115,35 @@ def _inflate_target(payload: bytes, expected_bytes: int, stage: str) -> bytes:
     return raw
 
 
-def _load_attestation(path: Path | str, stage: str) -> dict[str, Any]:
-    try:
-        data = Path(path).read_bytes()
-    except OSError as exc:
-        raise VerificationError(stage, f"cannot read attestation: {exc}") from exc
-    return _unique_json(data, stage)
+def _load_attestation(
+    path: Path | str,
+    stage: str,
+    *,
+    canonical_pretty_json: bool,
+) -> tuple[dict[str, Any], bytes]:
+    data = safe_read_bytes(path, stage=stage, maximum_bytes=1_000_000)
+    report = _unique_json(data, stage)
+    if canonical_pretty_json:
+        canonical = json.dumps(report, indent=2, sort_keys=True, ensure_ascii=False).encode("utf-8") + b"\n"
+        exact(data, canonical, stage, "canonical attestation bytes")
+    return report, data
 
 
 def validate_python_attestation(path: Path | str, contract: dict[str, Any]) -> dict[str, Any]:
     stage = "A9_FAIL_CLOSED"
-    report = _load_attestation(path, stage)
+    report, _data = _load_attestation(path, stage, canonical_pretty_json=True)
+    exact(set(report), set(PYTHON_ATTESTATION_KEYS), stage, "Python attestation schema")
+    exact(report.get("schema_version"), "1.0.0", stage, "schema version")
     exact(report.get("candidate_id"), contract["candidate_id"], stage, "candidate id")
     exact(report.get("status"), "PASS_FAIL_CLOSED_MUTATION_SUITE", stage, "attestation status")
+    exact(report.get("source_native_status"), contract["source_native_status"], stage, "source-native status")
     exact(report.get("failures"), 0, stage, "test failures")
     exact(report.get("errors"), 0, stage, "test errors")
-    require(type(report.get("tests_run")) is int and report["tests_run"] >= 30, stage, "fewer than 30 mutation/unit tests")
-    require(type(report.get("mutation_tests")) is int and report["mutation_tests"] >= 20, stage, "fewer than 20 negative mutation tests")
+    exact(report.get("skipped"), 0, stage, "skipped tests")
+    exact(report.get("expected_failures"), 0, stage, "expected failures")
+    exact(report.get("unexpected_successes"), 0, stage, "unexpected successes")
+    exact(report.get("tests_run"), EXPECTED_TESTS_RUN, stage, "exact test count")
+    exact(report.get("mutation_tests"), EXPECTED_MUTATION_TESTS, stage, "exact mutation-test count")
     manifest = implementation_manifest()
     exact(report.get("implementation_files"), manifest["files"], stage, "implementation file count")
     exact(
@@ -141,7 +163,9 @@ def _close(actual: Any, expected: float, stage: str, field: str) -> None:
 
 def validate_octave_attestation(path: Path | str, contract: dict[str, Any]) -> dict[str, Any]:
     stage = "A8_CROSS_LANGUAGE"
-    report = _load_attestation(path, stage)
+    report, data = _load_attestation(path, stage, canonical_pretty_json=False)
+    exact(set(report), set(OCTAVE_ATTESTATION_KEYS), stage, "Octave attestation schema")
+    exact(report.get("schema_version"), "1.0.0", stage, "schema version")
     exact(report.get("candidate_id"), contract["candidate_id"], stage, "candidate id")
     exact(report.get("status"), "PASS_CROSS_LANGUAGE_CONTROLS", stage, "Octave status")
     exact(report.get("paper_mapping"), contract["paper_mapping"], stage, "paper mapping")
@@ -153,12 +177,21 @@ def validate_octave_attestation(path: Path | str, contract: dict[str, Any]) -> d
         "octave_script_sha256": candidate_root / "tests" / "octave" / "run_octave_tests.m",
     }
     for field, frozen_path in frozen_files.items():
-        exact(report.get(field), hashlib.sha256(frozen_path.read_bytes()).hexdigest(), stage, field)
+        payload = safe_read_bytes(frozen_path, stage=stage, maximum_bytes=100_000)
+        exact(report.get(field), hashlib.sha256(payload).hexdigest(), stage, field)
+    exact(
+        hashlib.sha256(data).hexdigest(),
+        EXPECTED_OCTAVE_ATTESTATION_SHA256,
+        stage,
+        "Octave attestation byte SHA-256",
+    )
     checks = report.get("checks")
-    require(isinstance(checks, dict) and len(checks) >= 8, stage, "Octave checks missing")
+    require(isinstance(checks, dict), stage, "Octave checks must be an object")
+    exact(set(checks), set(OCTAVE_CHECK_KEYS), stage, "Octave check names")
     require(all(value is True for value in checks.values()), stage, "an Octave check did not pass")
     values = report.get("values")
     require(isinstance(values, dict), stage, "Octave values missing")
+    exact(set(values), set(OCTAVE_VALUE_KEYS), stage, "Octave value schema")
     fixtures = contract["control_fixtures"]
     exact(values.get("seed_rows"), fixtures["seed_schedule"]["expected_rows"], stage, "seed rows")
     exact(values.get("seed_last"), fixtures["seed_schedule"]["expected_last"], stage, "last seed row")
@@ -166,7 +199,20 @@ def validate_octave_attestation(path: Path | str, contract: dict[str, Any]) -> d
     exact(values.get("second_lambda"), fixtures["bipop"]["second_restart"]["expected_lambda"], stage, "second lambda")
     _close(values.get("second_sigma"), fixtures["bipop"]["second_restart"]["expected_sigma"], stage, "second sigma")
     _close(values.get("repelling_radius"), fixtures["repelling_radius"]["expected_radius"], stage, "repelling radius")
+    _close(values.get("repelling_shrinkage"), fixtures["repelling_radius"]["expected_shrinkage"], stage, "repelling shrinkage")
     _close(values.get("csa_sigma"), fixtures["csa"]["expected_sigma"], stage, "CSA sigma")
+    exact(
+        values.get("hill_fractions"),
+        fixtures["hill_valley"]["expected_interpolation_fractions"],
+        stage,
+        "hill-valley fractions",
+    )
+    exact(
+        values.get("endpoint_best_y_decimal"),
+        contract["endpoint"]["best_y_decimal"],
+        stage,
+        "endpoint decimal",
+    )
     return report
 
 

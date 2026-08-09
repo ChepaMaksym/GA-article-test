@@ -1,12 +1,15 @@
 {
   "candidate_id": "EU26-13",
   "errors": 0,
+  "expected_failures": 0,
   "failures": 0,
-  "implementation_files": 22,
-  "implementation_manifest_sha256": "b15e674bb04272e1c78adf924b27247b2ed6aa6a78dc0ad6defa0ba2d8189f63",
-  "mutation_tests": 81,
+  "implementation_files": 25,
+  "implementation_manifest_sha256": "da8dd7f584b04d74aa1600bfdfec41c15c8f35011aec5fceb2c86f4755203898",
+  "mutation_tests": 99,
   "schema_version": "1.0.0",
+  "skipped": 0,
   "source_native_status": "BLOCKED_UNPINNED_TOOLCHAIN_DEPS",
   "status": "PASS_FAIL_CLOSED_MUTATION_SUITE",
-  "tests_run": 95
+  "tests_run": 117,
+  "unexpected_successes": 0
 }

@@ -12,6 +12,7 @@ from eu2613.artifact import verify_artifact
 from eu2613.contract import DEFAULT_CONTRACT, load_contract
 from eu2613.errors import VerificationError
 from eu2613.report import write_json_once
+from eu2613.safe_paths import safe_read_bytes
 
 
 def parse_args() -> argparse.Namespace:
@@ -25,22 +26,24 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def read_optional(path: Path | None) -> bytes | None:
+def read_optional(path: Path | None, *, maximum_bytes: int, stage: str) -> bytes | None:
     if path is None:
         return None
-    return path.read_bytes()
+    return safe_read_bytes(path, stage=stage, maximum_bytes=maximum_bytes)
 
 
 def main() -> int:
     args = parse_args()
     try:
-        if args.output.exists() or args.output.is_symlink():
-            raise VerificationError("REPORT", f"refusing to overwrite {args.output}")
         contract = load_contract(args.contract)
         report = verify_artifact(
             contract,
-            metadata_bytes=read_optional(args.metadata),
-            code_archive_bytes=read_optional(args.code_archive),
+            metadata_bytes=read_optional(args.metadata, maximum_bytes=1_000_000, stage="METADATA_INPUT"),
+            code_archive_bytes=read_optional(
+                args.code_archive,
+                maximum_bytes=contract["zenodo_files"]["repelling_code.zip"]["bytes"],
+                stage="CODE_INPUT",
+            ),
             python_attestation=args.python_attestation,
             octave_attestation=args.octave_attestation,
         )

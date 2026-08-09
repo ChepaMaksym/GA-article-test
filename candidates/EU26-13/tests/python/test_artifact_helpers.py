@@ -8,6 +8,7 @@ import zlib
 from pathlib import Path
 
 from eu2613.artifact import _inflate_target, validate_octave_attestation, validate_python_attestation, verify_metadata
+from eu2613.attestations import EXPECTED_MUTATION_TESTS, EXPECTED_TESTS_RUN
 from eu2613.contract import load_contract
 from eu2613.errors import VerificationError
 from eu2613.integrity import implementation_manifest
@@ -44,6 +45,13 @@ class ArtifactHelperTests(unittest.TestCase):
 
     def encoded_metadata(self, value) -> bytes:
         return json.dumps(value).encode("utf-8")
+
+    def write_python_attestation(self, path: Path, value) -> None:
+        write_json_once(path, value)
+
+    def valid_python_attestation(self):
+        manifest = implementation_manifest()
+        return {"schema_version": "1.0.0", "candidate_id": "EU26-13", "status": "PASS_FAIL_CLOSED_MUTATION_SUITE", "failures": 0, "errors": 0, "skipped": 0, "expected_failures": 0, "unexpected_successes": 0, "tests_run": EXPECTED_TESTS_RUN, "mutation_tests": EXPECTED_MUTATION_TESTS, "implementation_files": manifest["files"], "implementation_manifest_sha256": manifest["sha256"], "source_native_status": "BLOCKED_UNPINNED_TOOLCHAIN_DEPS"}
 
     def test_metadata(self) -> None:
         report = verify_metadata(self.encoded_metadata(metadata_fixture(self.contract)), self.contract)
@@ -103,30 +111,80 @@ class ArtifactHelperTests(unittest.TestCase):
             self.assertEqual(json.loads(path.read_text())["status"], "first")
 
     def test_python_attestation(self) -> None:
-        manifest = implementation_manifest()
-        value = {"candidate_id": "EU26-13", "status": "PASS_FAIL_CLOSED_MUTATION_SUITE", "failures": 0, "errors": 0, "tests_run": 50, "mutation_tests": 30, "implementation_files": manifest["files"], "implementation_manifest_sha256": manifest["sha256"]}
+        value = self.valid_python_attestation()
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "tests.json"
-            path.write_text(json.dumps(value), encoding="utf-8")
-            self.assertEqual(validate_python_attestation(path, self.contract)["tests_run"], 50)
+            self.write_python_attestation(path, value)
+            self.assertEqual(validate_python_attestation(path, self.contract)["tests_run"], EXPECTED_TESTS_RUN)
 
     def test_mutation_python_attestation_count(self) -> None:
-        manifest = implementation_manifest()
-        value = {"candidate_id": "EU26-13", "status": "PASS_FAIL_CLOSED_MUTATION_SUITE", "failures": 0, "errors": 0, "tests_run": 50, "mutation_tests": 19, "implementation_files": manifest["files"], "implementation_manifest_sha256": manifest["sha256"]}
+        value = self.valid_python_attestation()
+        value["mutation_tests"] -= 1
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "tests.json"
-            path.write_text(json.dumps(value), encoding="utf-8")
+            self.write_python_attestation(path, value)
             with self.assertRaises(VerificationError):
                 validate_python_attestation(path, self.contract)
 
     def test_mutation_python_attestation_manifest(self) -> None:
-        manifest = implementation_manifest()
-        value = {"candidate_id": "EU26-13", "status": "PASS_FAIL_CLOSED_MUTATION_SUITE", "failures": 0, "errors": 0, "tests_run": 50, "mutation_tests": 30, "implementation_files": manifest["files"], "implementation_manifest_sha256": "0" * 64}
+        value = self.valid_python_attestation()
+        value["implementation_manifest_sha256"] = "0" * 64
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "tests.json"
+            self.write_python_attestation(path, value)
+            with self.assertRaises(VerificationError):
+                validate_python_attestation(path, self.contract)
+
+    def test_mutation_python_attestation_extra_key(self) -> None:
+        value = self.valid_python_attestation()
+        value["unexpected"] = True
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "tests.json"
+            self.write_python_attestation(path, value)
+            with self.assertRaises(VerificationError):
+                validate_python_attestation(path, self.contract)
+
+    def test_mutation_python_attestation_missing_key(self) -> None:
+        value = self.valid_python_attestation()
+        del value["schema_version"]
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "tests.json"
+            self.write_python_attestation(path, value)
+            with self.assertRaises(VerificationError):
+                validate_python_attestation(path, self.contract)
+
+    def test_mutation_python_attestation_noncanonical(self) -> None:
+        value = self.valid_python_attestation()
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "tests.json"
             path.write_text(json.dumps(value), encoding="utf-8")
             with self.assertRaises(VerificationError):
                 validate_python_attestation(path, self.contract)
+
+    def test_octave_attestation(self) -> None:
+        candidate = Path(__file__).resolve().parents[2]
+        path = candidate / "results" / "octave-controls.json"
+        self.assertEqual(validate_octave_attestation(path, self.contract)["status"], "PASS_CROSS_LANGUAGE_CONTROLS")
+
+    def test_mutation_octave_attestation_check_key(self) -> None:
+        candidate = Path(__file__).resolve().parents[2]
+        value = json.loads((candidate / "results" / "octave-controls.json").read_text(encoding="utf-8"))
+        value["checks"]["unexpected"] = True
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "octave.json"
+            path.write_text(json.dumps(value), encoding="utf-8")
+            with self.assertRaises(VerificationError):
+                validate_octave_attestation(path, self.contract)
+
+    def test_mutation_octave_attestation_missing_key(self) -> None:
+        candidate = Path(__file__).resolve().parents[2]
+        value = json.loads((candidate / "results" / "octave-controls.json").read_text(encoding="utf-8"))
+        del value["paper_mapping"]
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "octave.json"
+            path.write_text(json.dumps(value), encoding="utf-8")
+            with self.assertRaises(VerificationError):
+                validate_octave_attestation(path, self.contract)
 
 
 if __name__ == "__main__":

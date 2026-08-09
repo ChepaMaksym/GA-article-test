@@ -21,13 +21,16 @@ run reports seed 0, 2,173 evaluations, and exact best objective token
 
 The preregistration was committed first as
 `918dcad2b3f530595294e1a3e679b3e6e950a060`, based on
-`eeac926e15107503377cbe09cdc8e830a6607fa5`. Implementation follows in a
-separate commit.
+`eeac926e15107503377cbe09cdc8e830a6607fa5`. Initial implementation is
+`0ae6701a14b275b49e68512bb2873103954724d9`; corrective fail-closed
+hardening follows in a third, separate commit.
 
 ## What is included
 
 - fail-closed Zenodo-only HTTP access with initial/final URL validation and
   exact `206 Content-Range` framing;
+- component-wise no-follow retained-file access with regular-file, inode,
+  parent re-resolution, and write-once output binding;
 - bounded ZIP64, nested-ZIP, central/local-header, path, duplicate, method,
   flag, size, hash, deflate, and CRC validation;
 - exact IOH 0.3.15 schema/order/run/decimal validation;
@@ -39,14 +42,15 @@ separate commit.
 
 ## Verification
 
-- Python: 95/95 tests pass, including 81 negative mutation tests.
+- Python: 117/117 tests pass, including 99 negative mutation tests and zero
+  skips, expected failures, or unexpected successes.
 - GNU Octave 8.4.0: 9/9 independent checks pass.
 - Live Zenodo replay: all A1–A10 gates pass; A11 remains
   `BLOCKED_UNPINNED_TOOLCHAIN_DEPS`.
 - Retained report SHA-256:
-  `c852b183712a543bbb8a31097b9026fe5edb6459237b6a460753d214fe57a7fb`.
+  `0a1ea00cd318cac3d74bebe535f3ef02b255989d0c9a4b1ceac07495c645e549`.
 - Python attestation SHA-256:
-  `80df71056f0735f88bbc656e2a7cbe52d0760bbe5062c6a06dea7681c5c3b5eb`.
+  `a749aea85c2ac5103248f9bd33576dc98121a38b1292a06e1de62daf41d8bfe6`.
 - Octave attestation SHA-256:
   `cc8fb17b0b45d8d4db4da64db19adb5103bc85ac33607e09ef49f33a1982d9df`.
 

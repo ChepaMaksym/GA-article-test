@@ -18,9 +18,9 @@ Retained identities from the completed local run:
 
 | File | Bytes | SHA-256 |
 |---|---:|---|
-| `python-test-attestation.json` | 378 | `80df71056f0735f88bbc656e2a7cbe52d0760bbe5062c6a06dea7681c5c3b5eb` |
+| `python-test-attestation.json` | 450 | `a749aea85c2ac5103248f9bd33576dc98121a38b1292a06e1de62daf41d8bfe6` |
 | `octave-controls.json` | 937 | `cc8fb17b0b45d8d4db4da64db19adb5103bc85ac33607e09ef49f33a1982d9df` |
-| `verification-report.json` | 8,054 | `c852b183712a543bbb8a31097b9026fe5edb6459237b6a460753d214fe57a7fb` |
+| `verification-report.json` | 8,132 | `0a1ea00cd318cac3d74bebe535f3ef02b255989d0c9a4b1ceac07495c645e549` |
 
 The final report contains exactly seven range requests totaling 611,381
 bytes. The selected endpoint is `/scenarios/3/runs/0`: instance 1, inferred

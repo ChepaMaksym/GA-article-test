@@ -1,7 +1,10 @@
 from __future__ import annotations
 
 import copy
+import json
+import tempfile
 import unittest
+from pathlib import Path
 
 from eu2613.contract import load_contract, validate_contract
 from eu2613.errors import VerificationError
@@ -20,6 +23,22 @@ class ContractTests(unittest.TestCase):
 
     def test_valid_contract(self) -> None:
         validate_contract(copy.deepcopy(self.contract))
+
+    def test_load_contract_exact_byte_copy(self) -> None:
+        source = Path(__file__).resolve().parents[2] / "config" / "verification_contract.json"
+        with tempfile.TemporaryDirectory() as tmp:
+            copied = Path(tmp) / "contract.json"
+            copied.write_bytes(source.read_bytes())
+            self.assertEqual(load_contract(copied)["candidate_id"], "EU26-13")
+
+    def test_mutation_load_contract_offset_hash(self) -> None:
+        candidate = copy.deepcopy(self.contract)
+        candidate["outer_zip64"]["central_directory_offset"] += 1
+        with tempfile.TemporaryDirectory() as tmp:
+            mutated = Path(tmp) / "contract.json"
+            mutated.write_text(json.dumps(candidate, indent=2) + "\n", encoding="utf-8")
+            with self.assertRaises(VerificationError):
+                load_contract(mutated)
 
     def test_mutation_status(self) -> None:
         self.reject(lambda c: c.__setitem__("status", "PASS_FULL"))

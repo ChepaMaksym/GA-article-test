@@ -3,14 +3,17 @@
 from __future__ import annotations
 
 import json
+import hashlib
 from pathlib import Path
 from typing import Any
 
 from .errors import VerificationError
+from .safe_paths import safe_read_bytes
 
 
 CANDIDATE_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_CONTRACT = CANDIDATE_ROOT / "config" / "verification_contract.json"
+FROZEN_CONTRACT_SHA256 = "bac36e68ca999de11dd145b27e2c501829770f44b090c05e99d718b8dcc76f42"
 
 
 def require(condition: bool, stage: str, detail: str) -> None:
@@ -29,8 +32,14 @@ def exact(actual: Any, expected: Any, stage: str, field: str) -> None:
 def load_contract(path: Path | str = DEFAULT_CONTRACT) -> dict[str, Any]:
     contract_path = Path(path)
     try:
-        raw = contract_path.read_text(encoding="utf-8")
-        contract = json.loads(raw)
+        raw = safe_read_bytes(contract_path, stage="CONTRACT", maximum_bytes=100_000)
+        exact(
+            hashlib.sha256(raw).hexdigest(),
+            FROZEN_CONTRACT_SHA256,
+            "CONTRACT",
+            "frozen contract byte SHA-256",
+        )
+        contract = json.loads(raw.decode("utf-8", errors="strict"))
     except (OSError, UnicodeError, json.JSONDecodeError) as exc:
         raise VerificationError("CONTRACT", f"cannot load {contract_path}: {exc}") from exc
     require(isinstance(contract, dict), "CONTRACT", "root must be an object")
