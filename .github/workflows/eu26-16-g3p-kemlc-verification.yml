@@ -1,0 +1,102 @@
+name: EU26-16 G3P-kEMLC source-transition validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/EU26-16-g3p-kemlc-verification
+    paths:
+      - "candidates/EU26-16/**"
+      - ".github/workflows/eu26-16-g3p-kemlc-verification.yml"
+  pull_request:
+    paths:
+      - "candidates/EU26-16/**"
+      - ".github/workflows/eu26-16-g3p-kemlc-verification.yml"
+
+permissions:
+  contents: read
+
+env:
+  EU2616_COMMIT: a800162492ee8ccb4e20f692b879610cb607db07
+  EU2616_TREE: 8377a7be53e33bc6759cf079f22f30126dd50f83
+
+jobs:
+  python-source-transition:
+    name: Python source, transition, and evidence gates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+    steps:
+      - name: Check out the verification branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check out the exact author source revision
+        env:
+          EU2616_UPSTREAM: ${{ runner.temp }}/g3p-kemlc
+        run: |
+          git clone --quiet --no-checkout https://github.com/kdis-lab/G3P-kEMLC.git "$EU2616_UPSTREAM"
+          git -C "$EU2616_UPSTREAM" checkout --quiet --detach "$EU2616_COMMIT"
+          test "$(git -C "$EU2616_UPSTREAM" rev-parse HEAD)" = "$EU2616_COMMIT"
+          test "$(git -C "$EU2616_UPSTREAM" rev-parse 'HEAD^{tree}')" = "$EU2616_TREE"
+          test -z "$(git -C "$EU2616_UPSTREAM" status --porcelain=v1 --untracked-files=all)"
+      - name: Run fail-closed Python checks
+        env:
+          EU2616_UPSTREAM: ${{ runner.temp }}/g3p-kemlc
+        run: |
+          python candidates/EU26-16/tests/run_python_tests.py \
+            --output "$RUNNER_TEMP/eu26-16-python-tests.json"
+      - name: Create the bounded formula/source report
+        env:
+          EU2616_UPSTREAM: ${{ runner.temp }}/g3p-kemlc
+        run: |
+          python candidates/EU26-16/environments/python/run_verification.py \
+            --checkout "$EU2616_UPSTREAM" \
+            --output "$RUNNER_TEMP/eu26-16-formula-source-report.json"
+      - name: Upload non-empirical verification reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: eu26-16-python-formula-source-reports
+          path: |
+            ${{ runner.temp }}/eu26-16-python-tests.json
+            ${{ runner.temp }}/eu26-16-formula-source-report.json
+          if-no-files-found: error
+          retention-days: 30
+
+  octave-source-transition:
+    name: GNU Octave transition and Yeast structure gates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out the verification branch
+        uses: actions/checkout@v4
+      - name: Check out the exact author source revision
+        env:
+          EU2616_UPSTREAM: ${{ runner.temp }}/g3p-kemlc
+        run: |
+          git clone --quiet --no-checkout https://github.com/kdis-lab/G3P-kEMLC.git "$EU2616_UPSTREAM"
+          git -C "$EU2616_UPSTREAM" checkout --quiet --detach "$EU2616_COMMIT"
+          test "$(git -C "$EU2616_UPSTREAM" rev-parse HEAD)" = "$EU2616_COMMIT"
+          test "$(git -C "$EU2616_UPSTREAM" rev-parse 'HEAD^{tree}')" = "$EU2616_TREE"
+          test -z "$(git -C "$EU2616_UPSTREAM" status --porcelain=v1 --untracked-files=all)"
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends octave
+      - name: Run the independent MATLAB-compatible checks
+        env:
+          EU2616_UPSTREAM: ${{ runner.temp }}/g3p-kemlc
+          EU2616_OCTAVE_REPORT: ${{ runner.temp }}/eu26-16-octave-report.json
+        run: >-
+          octave --quiet --eval
+          "addpath('candidates/EU26-16/tests/matlab'); run_matlab_tests"
+      - name: Upload the non-empirical Octave report
+        uses: actions/upload-artifact@v4
+        with:
+          name: eu26-16-octave-formula-source-report
+          path: ${{ runner.temp }}/eu26-16-octave-report.json
+          if-no-files-found: error
+          retention-days: 30

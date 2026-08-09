@@ -1,0 +1,165 @@
+{
+  "schema_version": "1.0.0",
+  "candidate_id": "EU26-16",
+  "status": "FORMULA_AND_SOURCE_TRANSITION_VALIDATION_ONLY",
+  "readiness": "CONDITIONAL_NONELIGIBLE",
+  "paper_mapping": "TABLE_7_NOT_REPLAYABLE_FROM_SHIPPED_ARTIFACTS",
+  "forbidden_claims": [
+    "PASS_FULL",
+    "PASS_TABLE_7_REPLAY",
+    "PASS_EMPIRICAL_REPRODUCTION",
+    "DATASET_LICENSE_RESOLVED"
+  ],
+  "paper": {
+    "title": "Auto-adaptive Grammar-Guided Genetic Programming algorithm to build Ensembles of Multi-Label Classifiers",
+    "doi": "10.1016/j.inffus.2021.07.005",
+    "journal": "Information Fusion",
+    "volume": 78,
+    "publication_year": 2022,
+    "authors": ["Jose M. Moyano", "Sebastian Ventura"],
+    "eu_affiliation": "University of Cordoba, Spain",
+    "institutional_record": "http://hdl.handle.net/10396/22040",
+    "institutional_pdf_url": "http://helvia.uco.es/xmlui/bitstream/10396/22040/2/1-s2.0-S1566253521001469-main.pdf",
+    "pdf_bytes": 1429980,
+    "pdf_sha256": "20868324adba7cbfadc004afa0624503ead29f4406701aca6f5650862cbdb517",
+    "article_license": "CC-BY-4.0",
+    "table_7_literal_values_present": true,
+    "table_7_source_native_replayable": false
+  },
+  "upstream": {
+    "repository": "https://github.com/kdis-lab/G3P-kEMLC.git",
+    "tag": "v3.0",
+    "commit": "a800162492ee8ccb4e20f692b879610cb607db07",
+    "tree": "8377a7be53e33bc6759cf079f22f30126dd50f83",
+    "license": "GPL-3.0",
+    "license_path": "LICENSE.md",
+    "paper_links_repository": true,
+    "paper_pins_revision": false
+  },
+  "transition": {
+    "initial_crossover_probability": 0.5,
+    "initial_mutation_probability": 0.5,
+    "initial_best_average_fitness": 0.0,
+    "initial_best_fitness": -1.0,
+    "initial_last_best_generation": 0,
+    "decimal_update": 0.02,
+    "source_step_type": "Java float",
+    "improvement_comparator": ">",
+    "equality_branch": "non_improvement",
+    "improvement_guard": "pc < 1 - 2*step && pm >= 2*step",
+    "non_improvement_guard": "pm < 1 - 2*step && pc >= 2*step",
+    "probability_clamp": false,
+    "publication_lattice_endpoints": [0.04, 0.96],
+    "global_bounds_claim": false,
+    "off_lattice_improvement_fixture": {
+      "before": [0.95, 0.05],
+      "after": [0.97, 0.03]
+    },
+    "best_fitness_decimal_places": 4,
+    "early_stop_patience": 10,
+    "ordering": [
+      "round_current_best_fitness",
+      "update_best_fitness_and_generation",
+      "cast_and_compare_population_average",
+      "update_best_average_before_improvement_guard",
+      "attempt_probability_update",
+      "evaluate_stop_condition"
+    ]
+  },
+  "paper_protocol": {
+    "random_cross_validation_folds": 5,
+    "random_seed_count": 10,
+    "seed_values_enumerated": false,
+    "runs_per_table_7_average": 50,
+    "population_size": 50,
+    "stagnation_generations": 10,
+    "table_7_target_enabled": false
+  },
+  "shipped_yeast": {
+    "config_path": "cfg/Yeast.xml",
+    "config_seeds": [10, 20, 100],
+    "referenced_folds": [1, 2],
+    "materialized_folds": [1],
+    "missing_paths": [
+      "data/Yeast/Yeast-train2.arff",
+      "data/Yeast/Yeast-test2.arff"
+    ],
+    "input_attributes": 103,
+    "labels": 14,
+    "train_rows_fold_1": 1933,
+    "test_rows_fold_1": 484,
+    "total_rows_fold_1": 2417,
+    "dataset_license_status": "UNRESOLVED"
+  },
+  "blockers": [
+    "PAPER_TEN_SEEDS_NOT_ENUMERATED",
+    "ONLY_FOLD_1_SHIPPED",
+    "CONFIG_REFERENCES_ABSENT_FOLD_2",
+    "NO_FIVE_FOLD_DATA_MANIFEST",
+    "NO_RAW_FIFTY_RUN_TABLE_7_LEDGER",
+    "TABLE_7_VARIANT_CONFIG_NOT_FULLY_BOUND",
+    "DATASET_LICENSE_UNRESOLVED"
+  ],
+  "source_tokens": [
+    "currentBestFitness *= 10000;",
+    "currentBestFitness = Math.round(currentBestFitness);",
+    "if(currentBestFitness > bestFitness) {",
+    "lastIterBestFitness = generation;",
+    "float step = (float)0.02;",
+    "float avgFitness = (float)IndividualStatistics.averageFitnessAndFitnessVariance(bset)[0];",
+    "if(avgFitness > bestAvgFitness) {",
+    "bestAvgFitness = avgFitness;",
+    "if(getRecombinationProb() < 1-(step*2) && getMutationProb() >= step*2) {",
+    "setRecombinationProb(getRecombinationProb() + 0.02);",
+    "setMutationProb(getMutationProb() - 0.02);",
+    "if(getMutationProb() < 1-(step*2) && getRecombinationProb() >= step*2) {",
+    "setRecombinationProb(getRecombinationProb() - 0.02);",
+    "setMutationProb(getMutationProb() + 0.02);",
+    "generation >= (lastIterBestFitness+nItersWithoutImprovement)",
+    "generation >= maxOfGenerations"
+  ],
+  "required_members": [
+    {
+      "path": "LICENSE.md",
+      "bytes": 35142,
+      "sha256": "8646559c866597b7bf28d110cde63de18f6d97354bf22559053301bc3ca492c5",
+      "git_blob": "5dc6b429ba4a658bcd584331a5a38b20e6e3f3c3"
+    },
+    {
+      "path": "src/g3pkemlc/Alg.java",
+      "bytes": 18379,
+      "sha256": "5581a346307475f090fde878fe5c089602bde6308adba7df0016a343b191b388",
+      "git_blob": "e37ae3d14bc618b385ced5b41ee55dc4052d800d"
+    },
+    {
+      "path": "cfg/Yeast.xml",
+      "bytes": 1341,
+      "sha256": "92fe6df14a385e53b33556d1feb2607315545433fc1149a46d80fd2f6457b89e",
+      "git_blob": "61858a8c2f8c8ee89a2a08e942367659d776e7e1"
+    },
+    {
+      "path": "data/Yeast/Yeast.xml",
+      "bytes": 429,
+      "sha256": "f64cd9b47a1de803dc2d6f2dec8cf680a4926c231eabc985890777f53f9607af",
+      "git_blob": "16d3ce11b4b42b1de6972d2167c3c70f26f82e4a"
+    },
+    {
+      "path": "data/Yeast/Yeast-train1.arff",
+      "bytes": 1933647,
+      "sha256": "2344d4357e4a062e21c85566f210fd6a9f80e7efbb802ef5718de1046dcd72da",
+      "git_blob": "c833810ae64baff112bff2d75d54527ceaaef9a9"
+    },
+    {
+      "path": "data/Yeast/Yeast-test1.arff",
+      "bytes": 485967,
+      "sha256": "d91e0d98caf7244f1734206363cf819e3e23f1f456968706343bed2c2c25ec34",
+      "git_blob": "bd3b9866f9e6abeb9b4d40c1e2df72c173318955"
+    }
+  ],
+  "verification_execution": {
+    "minimum_python_tests": 35,
+    "require_zero_skips": true,
+    "require_clean_checkout_before_and_after": true,
+    "require_new_report_path": true
+  }
+}
