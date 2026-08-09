@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "candidate_id": "EU26-17",
+  "amendment": 1,
+  "frozen_before_validation": true,
+  "overrides": {
+    "direct_only": "pass",
+    "c2_meaningful_applied_parameters": "pass",
+    "c2_count": 18,
+    "c2_interpretation": "18 named biomedical input variables are meaningful domain parameters separate from GA controls",
+    "g7_lawful_reproducible_inputs": "pass",
+    "g7_license": "CC-BY-4.0"
+  },
+  "uci_input": {
+    "doi": "10.24432/C5ZS3N",
+    "record": "https://archive.ics.uci.edu/dataset/189/parkinsons+telemonitoring",
+    "download": "https://archive.ics.uci.edu/static/public/189/parkinsons+telemonitoring.zip",
+    "member": "parkinsons_updrs.data",
+    "bytes": 911261,
+    "sha256": "f2c7d5025dec4e92e7feae367a5f7ccf58789a10ac6b54bdf15976c599f9dd39",
+    "repository_member": "problems/datasets/data/parkinson.csv",
+    "byte_comparison": "identical"
+  },
+  "new_permitted_outcomes": [
+    "PASS_APPLIED_DIMENSION",
+    "PASS_LAWFUL_INPUT"
+  ],
+  "unchanged": {
+    "artifact_scope": "FORMULA_AND_SOURCE_TRANSITION_VALIDATION_ONLY",
+    "eligibility_status": "HARD_FAIL",
+    "published_numeric_endpoint": null,
+    "acceptance_tolerance": null,
+    "decisive_failure": "G8_NO_LITERAL_UNAMBIGUOUS_NUMERIC_PAPER_CELL"
+  }
+}
