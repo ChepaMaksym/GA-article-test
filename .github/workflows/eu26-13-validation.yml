@@ -1,0 +1,128 @@
+name: EU26-13 targeted repelling-restart verification
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/EU26-13-repelling-restart-verification
+    paths:
+      - "candidates/EU26-13/**"
+      - ".github/workflows/eu26-13-validation.yml"
+  pull_request:
+    paths:
+      - "candidates/EU26-13/**"
+      - ".github/workflows/eu26-13-validation.yml"
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+
+jobs:
+  python-fail-closed:
+    name: Python parser, formula, and mutation gates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.13"
+      - name: Run candidate-local unit and negative tests
+        run: >-
+          python candidates/EU26-13/tests/run_python_tests.py
+          --attestation "${RUNNER_TEMP}/python-test-attestation.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: eu26-13-python-attestation
+          path: ${{ runner.temp }}/python-test-attestation.json
+          if-no-files-found: error
+          retention-days: 30
+
+  octave-controls:
+    name: Independent GNU Octave controls
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends octave
+      - name: Run endpoint, schedule, restart, repelling, and CSA controls
+        run: >-
+          octave --quiet --eval
+          "addpath('candidates/EU26-13/tests/octave');
+          run_octave_tests(
+          'candidates/EU26-13/config/verification_contract.json',
+          'candidates/EU26-13/fixtures/frozen_endpoint.json',
+          '${RUNNER_TEMP}/octave-controls.json')"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: eu26-13-octave-attestation
+          path: ${{ runner.temp }}/octave-controls.json
+          if-no-files-found: error
+          retention-days: 30
+
+  registry-gates:
+    name: Frozen registry validation and mutation gates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.13"
+      - name: Validate the frozen cohort registry
+        run: python registry/cohort_2026_12/validate_registry.py
+      - name: Run fail-closed registry mutation tests
+        run: python registry/cohort_2026_12/tests/run_registry_tests.py
+
+  targeted-live-range:
+    name: Authenticated Zenodo range replay
+    needs: [python-fail-closed, octave-controls, registry-gates]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.13"
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: eu26-13-*-attestation
+          path: ${{ runner.temp }}/attestations
+          merge-multiple: true
+      - name: Strictly fetch code/metadata and replay seven preregistered ranges
+        run: >-
+          python candidates/EU26-13/environments/python/run_verification.py
+          --python-attestation "${RUNNER_TEMP}/attestations/python-test-attestation.json"
+          --octave-attestation "${RUNNER_TEMP}/attestations/octave-controls.json"
+          --output "${RUNNER_TEMP}/eu26-13-verification-report.json"
+      - name: Enforce targeted-only/source-blocked conclusion
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          report = json.loads(
+              (Path(os.environ["RUNNER_TEMP"]) / "eu26-13-verification-report.json")
+              .read_text(encoding="utf-8")
+          )
+          assert report["overall_status"] == \
+              "TARGETED_ARTIFACT_REPLAY_VERIFIED_WITH_SOURCE_NATIVE_BLOCKED"
+          assert report["candidate_status"] == "TARGETED_ARTIFACT_REPLAY_ONLY"
+          assert report["paper_mapping"] == "PAPER_CONTEXT_ONLY"
+          assert report["source_native_status"] == "BLOCKED_UNPINNED_TOOLCHAIN_DEPS"
+          assert report["pass_full"] is False
+          assert report["source_native_executed"] is False
+          assert report["archive"]["total_range_bytes"] == 611381
+          assert len(report["archive"]["range_requests"]) == 7
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: eu26-13-targeted-verification
+          path: ${{ runner.temp }}/eu26-13-verification-report.json
+          if-no-files-found: error
+          retention-days: 30

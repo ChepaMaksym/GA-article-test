@@ -1,0 +1,265 @@
+{
+  "archive": {
+    "nested_directory_sha256": "53bdc3d6918143f159f8912f75915fadc87d1a4fe46f75b15af0c6bfe57ea855",
+    "nested_entries": 338,
+    "nested_tail_sha256": "f04b183deefcc03302c59f150779c27383a384ae0eac8b7175e0fe47ff6c9dea",
+    "outer_directory_sha256": "de9e084a48c68eb9c565ce05b782ef199f7abe5b6ceae239a2b9b728ae6e7347",
+    "outer_entries": 60,
+    "outer_member_crc_status": "CENTRAL_DIRECTORY_DECLARED_NOT_RECOMPUTED",
+    "outer_tail_sha256": "f37de706cbe1c09bb11562c993c166be88696e55546fd82068f9396a7b25d0bd",
+    "range_requests": [
+      {
+        "bytes": 65536,
+        "end": 17573142425,
+        "sha256": "f37de706cbe1c09bb11562c993c166be88696e55546fd82068f9396a7b25d0bd",
+        "start": 17573076890
+      },
+      {
+        "bytes": 6866,
+        "end": 17573142327,
+        "sha256": "de9e084a48c68eb9c565ce05b782ef199f7abe5b6ceae239a2b9b728ae6e7347",
+        "start": 17573135462
+      },
+      {
+        "bytes": 100,
+        "end": 410334574,
+        "sha256": "fe8863dcb098fc7db1e79197d9057e49a4e970697746e3761170aa57d102a71f",
+        "start": 410334475
+      },
+      {
+        "bytes": 65536,
+        "end": 795428048,
+        "sha256": "f04b183deefcc03302c59f150779c27383a384ae0eac8b7175e0fe47ff6c9dea",
+        "start": 795362513
+      },
+      {
+        "bytes": 51011,
+        "end": 795428026,
+        "sha256": "53bdc3d6918143f159f8912f75915fadc87d1a4fe46f75b15af0c6bfe57ea855",
+        "start": 795377016
+      },
+      {
+        "bytes": 123,
+        "end": 789247242,
+        "sha256": "bfe85301a1ab6db2ad151310338c81294f25f24af43d68a31d51718483a713ba",
+        "start": 789247120
+      },
+      {
+        "bytes": 422209,
+        "end": 789669451,
+        "sha256": "97b33f647c6afd990bc368a8b0e60e98f6fc14781203f4fb6090ff503a2e8dfc",
+        "start": 789247243
+      }
+    ],
+    "target_compressed_sha256": "97b33f647c6afd990bc368a8b0e60e98f6fc14781203f4fb6090ff503a2e8dfc",
+    "target_crc32": "63419fdd",
+    "target_raw_sha256": "ee9cb8f7e11803263f21d15563daa266e379ea32a435a425f5228f8c74dc0f9a",
+    "total_range_bytes": 611381
+  },
+  "candidate_id": "EU26-13",
+  "candidate_status": "TARGETED_ARTIFACT_REPLAY_ONLY",
+  "code_archive": {
+    "bytes": 24065992,
+    "duplicates": 0,
+    "eigen_version": "3.4.0",
+    "embedded_license": "MIT",
+    "encrypted_members": 0,
+    "entries": 498,
+    "git_revision": null,
+    "md5": "a4d4a132570f162c686123a46a78fc67",
+    "modcma_version": "1.0.6",
+    "sha256": "4b3a99b4e3661f701276dc63426d14879ed6c2bb38563af67b7662bc83ec4a9b",
+    "source_native_status": "BLOCKED_UNPINNED_TOOLCHAIN_DEPS",
+    "status": "PASS_CODE_ARCHIVE_IDENTITY",
+    "total_uncompressed_bytes": 33214272
+  },
+  "endpoint": {
+    "best_evals": 2173,
+    "best_x_length": 20,
+    "best_y_decimal": "7.379046076174201e-09",
+    "dimension": 20,
+    "evals": 2173,
+    "inferred_seed": 0,
+    "instance": 1,
+    "json_pointer": "/scenarios/3/runs/0",
+    "run_index": 0,
+    "runs": 500,
+    "scenario_count": 9,
+    "status": "PASS_ARTIFACT_ENDPOINT"
+  },
+  "forbidden_claims_retained": [
+    "PASS_FULL",
+    "PASS_LITERAL_PAPER_ENDPOINT",
+    "PASS_EXACT_SOURCE_NATIVE_REPLAY",
+    "HISTORICAL_DEPENDENCY_ENVIRONMENT_PROVEN",
+    "FULL_ARCHIVE_MD5_RECOMPUTED",
+    "ARCHIVE_SOURCE_MATCHES_PUBLIC_GIT_COMMIT"
+  ],
+  "full_nested_archive_downloaded": false,
+  "full_outer_archive_downloaded": false,
+  "gates": {
+    "A10_boundary": "PASS_TARGETED_ONLY_BOUNDARY",
+    "A11_source_native": "BLOCKED_UNPINNED_TOOLCHAIN_DEPS",
+    "A1_metadata": "PASS_ZENODO_METADATA",
+    "A2_code": "PASS_CODE_ARCHIVE_IDENTITY",
+    "A3_outer_zip64": "PASS_OUTER_ZIP64_IDENTITY",
+    "A4_nested_zip": "PASS_NESTED_ZIP_IDENTITY",
+    "A5_target_member": "PASS_RANGE_AUTHENTICATED_MEMBER",
+    "A6_endpoint": "PASS_ARTIFACT_ENDPOINT",
+    "A7_controls": "PASS_INDEPENDENT_CONTROLS",
+    "A8_cross_language": "PASS_CROSS_LANGUAGE_CONTROLS",
+    "A9_fail_closed": "PASS_FAIL_CLOSED_MUTATION_SUITE"
+  },
+  "large_archive_md5_status": "ZENODO_DECLARED_NOT_RECOMPUTED",
+  "metadata": {
+    "doi": "10.5281/zenodo.10997200",
+    "files": {
+      "repelling.zip": {
+        "bytes": 17573142426,
+        "declared_md5": "5bf7f5e28ca5c6f26859c94c3eb1fcee",
+        "md5_status": "ZENODO_DECLARED_NOT_RECOMPUTED"
+      },
+      "repelling_code.zip": {
+        "bytes": 24065992,
+        "declared_md5": "a4d4a132570f162c686123a46a78fc67",
+        "md5_status": "RECOMPUTED_LATER"
+      }
+    },
+    "license": "cc-by-4.0",
+    "record_id": 10997200,
+    "status": "PASS_ZENODO_METADATA"
+  },
+  "octave_controls": {
+    "candidate_id": "EU26-13",
+    "checks": {
+      "bipop_first": true,
+      "bipop_second": true,
+      "boundary": true,
+      "csa": true,
+      "endpoint_schema": true,
+      "endpoint_value": true,
+      "hill_valley": true,
+      "repelling": true,
+      "seed_schedule": true
+    },
+    "contract_sha256": "bac36e68ca999de11dd145b27e2c501829770f44b090c05e99d718b8dcc76f42",
+    "fixture_sha256": "d4b0aea7671098203cf611986ba2f523f12399d52d83c6c573b246934086e909",
+    "octave_script_sha256": "391eafa3cb68bfc19c36f918686d933c72e10991deca7643d80c1b0f3493a000",
+    "paper_mapping": "PAPER_CONTEXT_ONLY",
+    "schema_version": "1.0.0",
+    "source_native_status": "BLOCKED_UNPINNED_TOOLCHAIN_DEPS",
+    "status": "PASS_CROSS_LANGUAGE_CONTROLS",
+    "values": {
+      "csa_sigma": 2.05354060920934,
+      "endpoint_best_y_decimal": "7.379046076174201e-09",
+      "first_lambda": 24,
+      "hill_fractions": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "repelling_radius": 8.378500086238091,
+      "repelling_shrinkage": 0.9994976094477416,
+      "second_lambda": 8,
+      "second_sigma": 0.06324555320336758,
+      "seed_last": [
+        10,
+        49,
+        2058
+      ],
+      "seed_rows": 500
+    }
+  },
+  "overall_status": "TARGETED_ARTIFACT_REPLAY_VERIFIED_WITH_SOURCE_NATIVE_BLOCKED",
+  "paper_mapping": "PAPER_CONTEXT_ONLY",
+  "pass_full": false,
+  "public_git_revision": null,
+  "python_controls": {
+    "bipop": {
+      "first": {
+        "budget_large": 99500,
+        "budget_small": 99500,
+        "lambda": 24,
+        "lambda_large": 24,
+        "lambda_small": 2,
+        "lambda_small_floor": 2,
+        "last_used_budget": 1000,
+        "mu": 12,
+        "remaining_budget": 199000,
+        "selected_large": true,
+        "sigma": 2.0,
+        "used_budget": 1000
+      },
+      "second": {
+        "budget_large": 97500,
+        "budget_small": 99500,
+        "lambda": 8,
+        "lambda_large": 48,
+        "lambda_small": 8,
+        "lambda_small_floor": 7,
+        "last_used_budget": 2000,
+        "mu": 4,
+        "remaining_budget": 197000,
+        "selected_large": false,
+        "sigma": 0.06324555320336758,
+        "used_budget": 3000
+      }
+    },
+    "csa": {
+      "sigma": 2.05354060920934
+    },
+    "hill_valley": {
+      "barrier_different_basin": true,
+      "barrier_evaluations": 2,
+      "equality_same_basin": true,
+      "fractions": [
+        0.25,
+        0.5,
+        0.75
+      ]
+    },
+    "repelling": {
+      "effective_radius_after_attempts": 8.357474826211032,
+      "gamma_factor": 1.2006411259288579,
+      "radius": 8.378500086238091,
+      "shrinkage": 0.9994976094477416
+    },
+    "seed_schedule": {
+      "first": [
+        1,
+        0,
+        0
+      ],
+      "instance2_first": [
+        2,
+        0,
+        0
+      ],
+      "last": [
+        10,
+        49,
+        2058
+      ],
+      "rows": 500
+    },
+    "status": "PASS_INDEPENDENT_CONTROLS"
+  },
+  "python_test_attestation": {
+    "candidate_id": "EU26-13",
+    "errors": 0,
+    "expected_failures": 0,
+    "failures": 0,
+    "implementation_files": 25,
+    "implementation_manifest_sha256": "da8dd7f584b04d74aa1600bfdfec41c15c8f35011aec5fceb2c86f4755203898",
+    "mutation_tests": 99,
+    "schema_version": "1.0.0",
+    "skipped": 0,
+    "source_native_status": "BLOCKED_UNPINNED_TOOLCHAIN_DEPS",
+    "status": "PASS_FAIL_CLOSED_MUTATION_SUITE",
+    "tests_run": 117,
+    "unexpected_successes": 0
+  },
+  "schema_version": "1.0.0",
+  "source_native_executed": false,
+  "source_native_status": "BLOCKED_UNPINNED_TOOLCHAIN_DEPS"
+}
