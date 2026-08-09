@@ -1,0 +1,117 @@
+{
+  "candidate_id": "EU26-14",
+  "endpoint": {
+    "algorithm": "MSC-CMA",
+    "budget": 3000000,
+    "dimension": 15,
+    "f_opt": "100.0",
+    "function": "f1",
+    "n_runs": 51,
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50
+    ],
+    "suite": "cec2020"
+  },
+  "environment": {
+    "cma_version": "4.4.2",
+    "hostname": "srv-01",
+    "minionpy_version": "1.5.0",
+    "numpy_version": "2.3.1",
+    "python_version": "3.13.5",
+    "scipy_version": "1.15.3",
+    "timestamp": "2026-06-06T08:44:52"
+  },
+  "forbidden_claims": [
+    "PASS_FULL",
+    "PASS_EXACT_SOURCE_NATIVE",
+    "PASS_LITERAL_PAPER_ENDPOINT",
+    "HISTORICAL_ENVIRONMENT_PROVEN",
+    "PAPER_BUDGET_EXHAUSTION_CONFIRMED"
+  ],
+  "member": {
+    "bytes": 462408,
+    "path": "experiments/cec2020/d15/MSC-CMA/maxevals_3000000/f1.pkl",
+    "sha256": "310f68adb1878ea8179c527e42831286b472ec8dc1bd96984c843b9e5f7d344b",
+    "tar_data_offset": 481445376
+  },
+  "paper_mapping": "PAPER_CONTEXT_ONLY",
+  "result_archive_sha256": "22c0468ce1d01e03c30826abcd0952942a5d03d7822c0cc509897c6f7a40540e",
+  "run0": {
+    "cycle_count": 30,
+    "error": "0.0",
+    "first_improvement": [
+      "4096.0",
+      "17928356740.02234"
+    ],
+    "improvements_shape": [
+      339,
+      2
+    ],
+    "last_improvement": [
+      "2882691.0",
+      "9.243294130101276e-09"
+    ],
+    "nfev_pre_refine": 2876679,
+    "nfev_total": 2893419,
+    "pre_refine_error": "0.8729793091438722"
+  },
+  "schema_version": "1.0.0",
+  "source_archive_sha256": "351c5a68331c6c589dd7c23b1ab5dee150c50ce6bf8a963dead6555cafa9b2a9",
+  "status": "TARGETED_ARTIFACT_REPLAY_ONLY",
+  "stop_semantic_conflict": {
+    "budget_exhaustion_claim_forbidden": true,
+    "nominal_budget": 3000000,
+    "run0_nfev_total": 2893419,
+    "unspent_evaluations": 106581
+  }
+}
