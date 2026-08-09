@@ -1,0 +1,199 @@
+{
+  "schema_version": "1.0.0",
+  "candidate_id": "EU26-16",
+  "tolerance": 1e-12,
+  "cases": [
+    {
+      "name": "improving_average",
+      "state": {
+        "crossover_probability": 0.5,
+        "mutation_probability": 0.5,
+        "best_average_fitness": 0.0,
+        "best_fitness": -1.0,
+        "last_best_generation": 0
+      },
+      "generation": 1,
+      "current_best_fitness": 0.12345,
+      "current_average_fitness": 0.2,
+      "max_generations": 200,
+      "expected": {
+        "crossover_probability": 0.52,
+        "mutation_probability": 0.48,
+        "best_average_fitness": 0.2,
+        "best_fitness": 0.1235,
+        "last_best_generation": 1,
+        "average_branch": "improvement",
+        "probabilities_changed": true,
+        "should_stop": false
+      }
+    },
+    {
+      "name": "equal_average_uses_non_improvement_branch",
+      "state": {
+        "crossover_probability": 0.52,
+        "mutation_probability": 0.48,
+        "best_average_fitness": 0.2,
+        "best_fitness": 0.1235,
+        "last_best_generation": 1
+      },
+      "generation": 2,
+      "current_best_fitness": 0.12349,
+      "current_average_fitness": 0.2,
+      "max_generations": 200,
+      "expected": {
+        "crossover_probability": 0.5,
+        "mutation_probability": 0.5,
+        "best_average_fitness": 0.2,
+        "best_fitness": 0.1235,
+        "last_best_generation": 1,
+        "average_branch": "non_improvement",
+        "probabilities_changed": true,
+        "should_stop": false
+      }
+    },
+    {
+      "name": "upper_lattice_guard_updates_best_average_only",
+      "state": {
+        "crossover_probability": 0.96,
+        "mutation_probability": 0.04,
+        "best_average_fitness": 0.2,
+        "best_fitness": 0.5,
+        "last_best_generation": 1
+      },
+      "generation": 2,
+      "current_best_fitness": 0.5,
+      "current_average_fitness": 0.3,
+      "max_generations": 200,
+      "expected": {
+        "crossover_probability": 0.96,
+        "mutation_probability": 0.04,
+        "best_average_fitness": 0.3,
+        "best_fitness": 0.5,
+        "last_best_generation": 1,
+        "average_branch": "improvement",
+        "probabilities_changed": false,
+        "should_stop": false
+      }
+    },
+    {
+      "name": "lower_lattice_guard_blocks_non_improvement",
+      "state": {
+        "crossover_probability": 0.04,
+        "mutation_probability": 0.96,
+        "best_average_fitness": 0.3,
+        "best_fitness": 0.5,
+        "last_best_generation": 1
+      },
+      "generation": 2,
+      "current_best_fitness": 0.5,
+      "current_average_fitness": 0.2,
+      "max_generations": 200,
+      "expected": {
+        "crossover_probability": 0.04,
+        "mutation_probability": 0.96,
+        "best_average_fitness": 0.3,
+        "best_fitness": 0.5,
+        "last_best_generation": 1,
+        "average_branch": "non_improvement",
+        "probabilities_changed": false,
+        "should_stop": false
+      }
+    },
+    {
+      "name": "off_lattice_improvement_is_not_clamped",
+      "state": {
+        "crossover_probability": 0.95,
+        "mutation_probability": 0.05,
+        "best_average_fitness": 0.2,
+        "best_fitness": 0.5,
+        "last_best_generation": 1
+      },
+      "generation": 2,
+      "current_best_fitness": 0.5,
+      "current_average_fitness": 0.3,
+      "max_generations": 200,
+      "expected": {
+        "crossover_probability": 0.97,
+        "mutation_probability": 0.03,
+        "best_average_fitness": 0.3,
+        "best_fitness": 0.5,
+        "last_best_generation": 1,
+        "average_branch": "improvement",
+        "probabilities_changed": true,
+        "should_stop": false
+      }
+    },
+    {
+      "name": "off_lattice_non_improvement_is_not_clamped",
+      "state": {
+        "crossover_probability": 0.05,
+        "mutation_probability": 0.95,
+        "best_average_fitness": 0.3,
+        "best_fitness": 0.5,
+        "last_best_generation": 1
+      },
+      "generation": 2,
+      "current_best_fitness": 0.5,
+      "current_average_fitness": 0.2,
+      "max_generations": 200,
+      "expected": {
+        "crossover_probability": 0.03,
+        "mutation_probability": 0.97,
+        "best_average_fitness": 0.3,
+        "best_fitness": 0.5,
+        "last_best_generation": 1,
+        "average_branch": "non_improvement",
+        "probabilities_changed": true,
+        "should_stop": false
+      }
+    },
+    {
+      "name": "ten_generation_stop_after_equal_best",
+      "state": {
+        "crossover_probability": 0.5,
+        "mutation_probability": 0.5,
+        "best_average_fitness": 0.3,
+        "best_fitness": 0.5,
+        "last_best_generation": 1
+      },
+      "generation": 11,
+      "current_best_fitness": 0.50004,
+      "current_average_fitness": 0.2,
+      "max_generations": 200,
+      "expected": {
+        "crossover_probability": 0.48,
+        "mutation_probability": 0.52,
+        "best_average_fitness": 0.3,
+        "best_fitness": 0.5,
+        "last_best_generation": 1,
+        "average_branch": "non_improvement",
+        "probabilities_changed": true,
+        "should_stop": true
+      }
+    },
+    {
+      "name": "rounded_best_improvement_prevents_same_generation_stop",
+      "state": {
+        "crossover_probability": 0.5,
+        "mutation_probability": 0.5,
+        "best_average_fitness": 0.3,
+        "best_fitness": 0.5,
+        "last_best_generation": 1
+      },
+      "generation": 11,
+      "current_best_fitness": 0.50006,
+      "current_average_fitness": 0.31,
+      "max_generations": 200,
+      "expected": {
+        "crossover_probability": 0.52,
+        "mutation_probability": 0.48,
+        "best_average_fitness": 0.31,
+        "best_fitness": 0.5001,
+        "last_best_generation": 11,
+        "average_branch": "improvement",
+        "probabilities_changed": true,
+        "should_stop": false
+      }
+    }
+  ]
+}
