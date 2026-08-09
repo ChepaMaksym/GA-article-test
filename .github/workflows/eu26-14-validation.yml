@@ -1,0 +1,160 @@
+name: EU26-14 MSC-CMA targeted artifact validation
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_full_archive:
+        description: Download and authenticate the complete 318 MB CEC2020 archive
+        required: true
+        default: false
+        type: boolean
+  push:
+    branches:
+      - research/EU26-14-msc-cma-verification
+    paths:
+      - "candidates/EU26-14/**"
+      - ".github/workflows/eu26-14-validation.yml"
+  pull_request:
+    paths:
+      - "candidates/EU26-14/**"
+      - ".github/workflows/eu26-14-validation.yml"
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+  RECORD_URL: https://zenodo.org/api/records/21483843
+  CHECKSUM_URL: https://zenodo.org/api/records/21483843/files/SHA256SUMS/content
+  SOURCE_URL: https://zenodo.org/api/records/21483843/files/source.tar.gz/content
+  RESULTS_URL: https://zenodo.org/api/records/21483843/files/msc_cec2020.tar.zst/content
+
+jobs:
+  python-unit:
+    name: Python unit, protocol, and adversarial gates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install the pinned verifier dependency
+        run: python -m pip install --requirement candidates/EU26-14/environments/python/requirements.txt
+      - name: Run fail-closed tests
+        run: python candidates/EU26-14/tests/run_python_tests.py
+      - name: Reject accidental general unpickling
+        run: >-
+          ! grep --recursive --line-number --extended-regexp
+          'pickle\.(load|loads)|Unpickler\(|find_class'
+          candidates/EU26-14/environments/python/eu2614
+
+  octave-controls:
+    name: Independent Octave fixture controls
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends octave
+      - name: Verify seed order, alternation, reuse, and arithmetic
+        run: >-
+          octave --quiet --eval
+          "addpath('candidates/EU26-14/tests/octave');
+          run_octave_tests('${RUNNER_TEMP}/eu26-14-octave.json');"
+      - name: Assert the narrow Octave report
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          report = json.loads((Path(os.environ["RUNNER_TEMP"]) / "eu26-14-octave.json").read_text())
+          if report.get("cross_language_gate") != "PASS_CROSS_LANGUAGE_CONTROLS":
+              raise SystemExit("Octave control gate did not pass")
+          if report.get("status") != "TARGETED_ARTIFACT_REPLAY_ONLY":
+              raise SystemExit("Octave report expanded the claim ceiling")
+          if report.get("run0_nfev_total") != 2893419:
+              raise SystemExit("Octave endpoint differs")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eu26-14-octave-controls
+          path: ${{ runner.temp }}/eu26-14-octave.json
+          if-no-files-found: error
+          retention-days: 30
+
+  full-artifact:
+    name: Authenticated complete archive integration
+    if: github.event_name == 'workflow_dispatch' && inputs.run_full_archive
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Python and Octave controls
+        run: |
+          python -m pip install --requirement candidates/EU26-14/environments/python/requirements.txt
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends octave
+      - name: Download all immutable inputs
+        run: |
+          mkdir -p "${RUNNER_TEMP}/eu26-14"
+          curl --fail --location --retry 4 --retry-all-errors --output "${RUNNER_TEMP}/eu26-14/record.json" "${RECORD_URL}"
+          curl --fail --location --retry 4 --retry-all-errors --output "${RUNNER_TEMP}/eu26-14/SHA256SUMS" "${CHECKSUM_URL}"
+          curl --fail --location --retry 4 --retry-all-errors --output "${RUNNER_TEMP}/eu26-14/source.tar.gz" "${SOURCE_URL}"
+          curl --fail --location --retry 4 --retry-all-errors --output "${RUNNER_TEMP}/eu26-14/msc_cec2020.tar.zst" "${RESULTS_URL}"
+      - name: Run complete integration and all adversarial tests
+        env:
+          EU2614_ARTIFACT_DIR: ${{ runner.temp }}/eu26-14
+        run: |
+          python candidates/EU26-14/tests/run_python_tests.py
+          python candidates/EU26-14/environments/python/run_artifact_verification.py \
+            --record-json "${RUNNER_TEMP}/eu26-14/record.json" \
+            --checksum-manifest "${RUNNER_TEMP}/eu26-14/SHA256SUMS" \
+            --source-archive "${RUNNER_TEMP}/eu26-14/source.tar.gz" \
+            --result-archive "${RUNNER_TEMP}/eu26-14/msc_cec2020.tar.zst" \
+            --output "${RUNNER_TEMP}/eu26-14/python-report.json"
+      - name: Bind independent Octave controls
+        run: |
+          octave --quiet --eval "addpath('candidates/EU26-14/tests/octave'); run_octave_tests('${RUNNER_TEMP}/eu26-14/octave-report.json');"
+          python candidates/EU26-14/environments/python/finalize_cross_language.py \
+            --python-report "${RUNNER_TEMP}/eu26-14/python-report.json" \
+            --octave-report "${RUNNER_TEMP}/eu26-14/octave-report.json" \
+            --output "${RUNNER_TEMP}/eu26-14/cross-language-report.json"
+      - name: Enforce the claim ceiling
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          root = Path(os.environ["RUNNER_TEMP"]) / "eu26-14"
+          artifact = json.loads((root / "python-report.json").read_text())
+          cross = json.loads((root / "cross-language-report.json").read_text())
+          if artifact.get("overall_gate") != "PASS_TARGETED_ARTIFACT_REPLAY":
+              raise SystemExit("targeted artifact gate did not pass")
+          if artifact.get("status") != "TARGETED_ARTIFACT_REPLAY_ONLY":
+              raise SystemExit("artifact report expanded its claim")
+          if artifact.get("source_native_gate") != "NOT_ATTEMPTED_OUT_OF_SCOPE":
+              raise SystemExit("source-native boundary differs")
+          if cross.get("cross_language_gate") != "PASS_CROSS_LANGUAGE_CONTROLS":
+              raise SystemExit("cross-language controls did not pass")
+          if "PASS_FULL" not in artifact.get("forbidden_claims", []):
+              raise SystemExit("PASS_FULL is not explicitly forbidden")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eu26-14-full-integration-reports
+          path: |
+            ${{ runner.temp }}/eu26-14/python-report.json
+            ${{ runner.temp }}/eu26-14/octave-report.json
+            ${{ runner.temp }}/eu26-14/cross-language-report.json
+          if-no-files-found: error
+          retention-days: 30
