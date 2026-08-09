@@ -1,0 +1,216 @@
+{
+  "schema_version": "1.0.0",
+  "candidate_id": "EU26-12",
+  "status": "TARGETED_ARTIFACT_REPLAY_ONLY",
+  "readiness": "ADMITTED_TARGETED_ARTIFACT",
+  "paper_mapping": "PAPER_EXPERIMENT_ARTIFACT_MAPPING",
+  "forbidden_claims": [
+    "PASS_FULL",
+    "PASS_LITERAL_PAPER_ENDPOINT",
+    "HISTORICAL_DEPENDENCY_ENVIRONMENT_PROVEN",
+    "FULL_ARCHIVE_MD5_RECOMPUTED",
+    "EXACT_ARTIFACT_GIT_TREE_MATCH"
+  ],
+  "paper": {
+    "doi": "10.1145/3583131.3590417",
+    "arxiv_url": "https://arxiv.org/pdf/2304.09524",
+    "pdf_bytes": 911142,
+    "pdf_sha256": "39b02abeea9c60dd923f5524fbb6f6972d8d634ea10cd659c2fbb71f23c020e8",
+    "literal_numeric_mapping": false,
+    "context": "Experiment 1 common L-SHADE, BBOB, D=20, 50 runs, budget 50000"
+  },
+  "zenodo": {
+    "record_id": 7624677,
+    "doi": "10.5281/zenodo.7624677",
+    "record_url": "https://zenodo.org/api/records/7624677",
+    "publication_date": "2023-02-09",
+    "created": "2023-02-10T15:04:00.481387+00:00",
+    "updated": "2023-02-11T02:26:59.944710+00:00",
+    "license": "cc-by-4.0"
+  },
+  "upstream": {
+    "repository": "https://github.com/Dvermetten/ModDE.git",
+    "commit": "b65062c66ecf22873f2e8f0aa4b12d04161d4bd5",
+    "tree": "b845e5b2677ed43768eb5d664c2481e8db022466",
+    "commit_date": "2022-12-22T17:09:39+01:00",
+    "paper_pins_revision": false,
+    "artifact_exact_tree_match": false,
+    "matched_git_blobs": 14,
+    "tracked_git_blobs": 15,
+    "missing_tracked_paths": [
+      ".github/workflows/python_test.yml"
+    ],
+    "missing_tracked_blob": "ec3048da336bfb60f708cceb5d27d8ed10c2bbb3",
+    "artifact_only_entries": [
+      "modde/",
+      "modde/.ipynb_checkpoints/",
+      "modde/.ipynb_checkpoints/modularde-checkpoint.py",
+      "modde/.ipynb_checkpoints/parameters-checkpoint.py",
+      "modde/.ipynb_checkpoints/population-checkpoint.py",
+      "modde/.ipynb_checkpoints/sampling-checkpoint.py",
+      "modde/.ipynb_checkpoints/utils-checkpoint.py",
+      "modde/.ipynb_checkpoints/__init__-checkpoint.py",
+      "modde/__pycache__/",
+      "modde/__pycache__/modularde.cpython-38.pyc",
+      "modde/__pycache__/parameters.cpython-38.pyc",
+      "modde/__pycache__/population.cpython-38.pyc",
+      "modde/__pycache__/sampling.cpython-38.pyc",
+      "modde/__pycache__/utils.cpython-38.pyc",
+      "modde/__pycache__/__init__.cpython-38.pyc",
+      "tests/",
+      "tests/.ipynb_checkpoints/",
+      "tests/.ipynb_checkpoints/create_expected-checkpoint.py",
+      "tests/.ipynb_checkpoints/test_modularde-checkpoint.py",
+      "tests/.ipynb_checkpoints/__init__-checkpoint.py",
+      "tests/__pycache__/",
+      "tests/__pycache__/test_modularde.cpython-38.pyc",
+      "tests/__pycache__/__init__.cpython-38.pyc"
+    ],
+    "artifact_only_file_entries": 17,
+    "artifact_only_directory_entries": 6,
+    "mapping_status": "PARTIAL_14_OF_15_GIT_BLOB_CORROBORATION",
+    "license": "MIT"
+  },
+  "zenodo_files": {
+    "ModDE.zip": {
+      "bytes": 70234,
+      "md5": "e28f5cade07b0145b355d124827bb69d",
+      "sha256": "566ada662621b98aabc3ee72eb960cfe5a31d19a0e6ad8c2761ee8d3f9eee688",
+      "url": "https://zenodo.org/api/records/7624677/files/ModDE.zip/content"
+    },
+    "Common_DE_runner.py": {
+      "bytes": 5918,
+      "md5": "02e31dda03982d7a7f5cb7ace1e97ae0",
+      "sha256": "05b392177a29cff9825cecef10bcd9d8a56107ed4600a77710a4963a38227c12",
+      "url": "https://zenodo.org/api/records/7624677/files/Common_DE_runner.py/content"
+    },
+    "raw_data.zip": {
+      "bytes": 4785454278,
+      "md5": "649a5553abc54909b2d8958d1c0c586c",
+      "md5_status": "ZENODO_DECLARED_NOT_RECOMPUTED",
+      "url": "https://zenodo.org/api/records/7624677/files/raw_data.zip/content"
+    }
+  },
+  "zip64": {
+    "tail_bytes": 65536,
+    "tail_sha256": "324174d314969a0d96729fbff6358ddb68afdb4e8207b78e4ed850453210b32c",
+    "zip64_eocd_offset": 4785454180,
+    "zip64_locator_offset": 4785454236,
+    "classic_eocd_offset": 4785454256,
+    "entry_count": 44200,
+    "central_directory_offset": 4778137904,
+    "central_directory_bytes": 7316276,
+    "central_directory_sha256": "06279742ca533ef829dd4209672a8dd67990d1f3c3bbd0c0a27f9b911110394c"
+  },
+  "endpoint": {
+    "problem_suite": "BBOB",
+    "function_id": 1,
+    "function_name": "Sphere",
+    "dimension": 20,
+    "instance": 0,
+    "seed": 0,
+    "run_index": 0,
+    "runs": 50,
+    "instances": 10,
+    "seeds_per_instance": 5,
+    "requested_budget": 50000,
+    "logged_evaluations": 50002,
+    "best_evaluation": 45886,
+    "best_y_decimal": "1.698652750709869e-14",
+    "json_pointer": "/scenarios/0/runs/0",
+    "algorithm": "L-SHADE",
+    "initial_population": 360,
+    "minimum_population": 3,
+    "memory_size": 100,
+    "initial_F": "0.5",
+    "initial_CR": "0.5",
+    "seed_formula": "nested iid=0..9 then seed=0..4; np.random.seed(seed) per run",
+    "rng_api": "legacy numpy.random global RandomState API"
+  },
+  "raw_members": {
+    "json": {
+      "path": "raw_data/Modde_common/F1_20D_L-SHADE/IOHprofiler_f1_Sphere.json",
+      "local_header_offset": 14351998,
+      "flags": 0,
+      "compression_method": 8,
+      "compressed_bytes": 8934,
+      "uncompressed_bytes": 25475,
+      "crc32": "c20703c5",
+      "sha256": "f5c6ef22ae717593befa5728793724aff0b4595746f3693b15ec467d256f49e1"
+    },
+    "dat": {
+      "path": "raw_data/Modde_common/F1_20D_L-SHADE/data_f1_Sphere/IOHprofiler_f1_DIM20.dat",
+      "local_header_offset": 14264250,
+      "flags": 0,
+      "compression_method": 8,
+      "compressed_bytes": 87642,
+      "uncompressed_bytes": 245243,
+      "crc32": "cc5d84cb",
+      "sha256": "24d07c9de1714223ff75161b19211ad3d56f89ddc2cff3564c14a80e46997646"
+    }
+  },
+  "control_fixtures": {
+    "memory_update": {
+      "old_fitness": [10, 8, 5],
+      "new_fitness": [9, 6, 4.5],
+      "successful_F": [0.2, 0.4, 0.8],
+      "successful_CR": [0.1, 0.5, 0.9],
+      "expected_F": "0.4",
+      "expected_CR": "0.44285714285714285714285714285714285714285714285714"
+    },
+    "cr_transform": {
+      "memory": 0.5,
+      "normal_z": [-10, 0, 10],
+      "expected": [0, 0.5, 1]
+    },
+    "f_transform": {
+      "memory": 0.5,
+      "cauchy_draw_sequences": [[-6, -4], [8], [0]],
+      "expected": [0.1, 1, 0.5]
+    },
+    "replacement": {
+      "parent_fitness": [1, 2, 3],
+      "offspring_fitness": [1, 1.5, 4],
+      "expected_sources": ["offspring", "offspring", "parent"],
+      "expected_improved": [false, true, false]
+    },
+    "evaluation_schedule": {
+      "initial_population": 360,
+      "minimum_population": 3,
+      "budget": 50000,
+      "expected_generations": 582,
+      "expected_used_budget": 49642,
+      "expected_logged_evaluations": 50002,
+      "expected_terminal_population": 6
+    }
+  },
+  "required_code_members": [
+    {"path": "requirements.txt", "bytes": 54, "sha256": "e2e5962bd959ecde887c64659630b71653193c650e8303066b413f136befc30a", "normalized_lf_bytes": 51, "normalized_git_blob": "ddbf53d39565c486392cfcbd48bbce84cb8db392"},
+    {"path": "setup.py", "bytes": 764, "sha256": "d758e1b69092e64cc9e8dc4c538d988a2d9dd445dfb14de53fa48e7720d56be7", "normalized_lf_bytes": 735, "normalized_git_blob": "1e2d1f4630658961edfc8cf7e877657260227608"},
+    {"path": "modde/modularde.py", "bytes": 16908, "sha256": "177f689cc083aadb8b3f85988342d19c622f12922dd2636be5b253cdec4e9e0c", "normalized_lf_bytes": 16527, "normalized_git_blob": "ff9e0f45fe84acc54a8c95cdf42ef0081d313e6a"},
+    {"path": "modde/parameters.py", "bytes": 19157, "sha256": "c0b261a2236b07e3570c117ff7c1beffffba56e1f25631514850c00cb6b031b2", "normalized_lf_bytes": 18717, "normalized_git_blob": "415e8b5c12032d5cdc51475389e76437442a22a8"},
+    {"path": "modde/population.py", "bytes": 3130, "sha256": "5fb4122b68715274c49cc7798369059f8d32b9eab82ee256f8699e5aef3ec9d4", "normalized_lf_bytes": 3032, "normalized_git_blob": "b63a70616163aebc03f02c686bf0333e985ed239"},
+    {"path": "modde/sampling.py", "bytes": 7929, "sha256": "79c148096e61b5260d848284a57be797d04106bf2c8947250c691b41d7603c05", "normalized_lf_bytes": 7664, "normalized_git_blob": "a74ed6e654331eba285457ecf8c29a343700a80f"},
+    {"path": "modde/utils.py", "bytes": 6969, "sha256": "bbcc89036e3650af4903c064467d21c3622e28be5bebb5b576527feac52792be", "normalized_lf_bytes": 6770, "normalized_git_blob": "75aeafbc0b953005663d316fb945748359a12c80"},
+    {"path": "modde/__init__.py", "bytes": 482, "sha256": "1afaa2999035bf791d66b5cdfbaa9615bfdd8f969c5178144e57b14e4fb2b125", "normalized_lf_bytes": 459, "normalized_git_blob": "364eb90b09f2bfbc075a6707a9bcc63ba213b885"},
+    {"path": "tests/create_expected.py", "bytes": 1696, "sha256": "1eeae93a42fcbdfbb3e7f7ad00e5c815cbce8e2a4ca137085433ba3d08b8223c", "normalized_lf_bytes": 1649, "normalized_git_blob": "89a9394d5597cc556c162f06597478e281a4c0e0"},
+    {"path": "tests/expected.json", "bytes": 16839, "sha256": "9c16b5533cd5d6b0161554f07241ac380b5e4bb36ede5984b87c957fd406808f", "normalized_lf_bytes": 16839, "normalized_git_blob": "74942b62910b005202bda567fb3a98830faa3083"},
+    {"path": "tests/test_modularde.py", "bytes": 6828, "sha256": "80cda7d0c3a26b56164163d83f0ace7a4bda54c16d7cbc0823763afb8cfbf688", "normalized_lf_bytes": 6647, "normalized_git_blob": "b76f2df71cf3e89075f0a628d78dd50198b45b6b"},
+    {"path": "tests/__init__.py", "bytes": 0, "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "normalized_lf_bytes": 0, "normalized_git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"},
+    {"path": "LICENCE", "bytes": 1095, "sha256": "f1031c28b4c89f0d656134682b59eacc018f372a28551f8fcd253cbd70dd198c", "normalized_lf_bytes": 1075, "normalized_git_blob": "e9003bb6c057aaf8e0f7094b1082c7c84ca3edd0"},
+    {"path": "README.md", "bytes": 3191, "sha256": "ca8941180ca15d45a1d926cc8982f5cd03b31c59f3df8676e62f7318c8f836cd", "normalized_lf_bytes": 3111, "normalized_git_blob": "78839e043e289a7f089cfc2eef7b419f52654c18"}
+  ],
+  "source_native": {
+    "dependency_lock_in_upstream": false,
+    "exact_endpoint_match_required_for_diagnostic_pass": true,
+    "historical_environment_proven": false,
+    "checkout_must_remain_clean": true
+  },
+  "verification_execution": {
+    "minimum_fail_closed_python_tests": 50,
+    "require_zero_skips": true,
+    "require_new_report_paths": true,
+    "maximum_raw_archive_bytes_per_request": 8000000,
+    "full_raw_archive_download_forbidden": true
+  }
+}

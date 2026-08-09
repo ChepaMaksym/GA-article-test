@@ -1,0 +1,12 @@
+source_id,kind,url,revision_or_path,accessed_utc,bytes,sha256,secondary_checksum,license_status
+PAPER_DOI,publisher_record,https://doi.org/10.1145/3583131.3590417,GECCO 2023 pages 864-872,2026-08-09,,,,bibliographic record
+PAPER_ARXIV,legal_full_text,https://arxiv.org/pdf/2304.09524,arXiv:2304.09524v1,2026-08-09,911142,39b02abeea9c60dd923f5524fbb6f6972d8d634ea10cd659c2fbb71f23c020e8,,arXiv-hosted
+ZENODO_RECORD,paper_cited_artifact,https://zenodo.org/records/7624677,10.5281/zenodo.7624677,2026-08-09,,,,CC-BY-4.0
+UPSTREAM_REPO,author_code,https://github.com/Dvermetten/ModDE,b65062c66ecf22873f2e8f0aa4b12d04161d4bd5,2026-08-09,,,,MIT
+UPSTREAM_TREE,git_tree,https://github.com/Dvermetten/ModDE/tree/b65062c66ecf22873f2e8f0aa4b12d04161d4bd5,b845e5b2677ed43768eb5d664c2481e8db022466,2026-08-09,,,,MIT
+STATIC_CODE,zenodo_code_archive,https://zenodo.org/api/records/7624677/files/ModDE.zip/content,ModDE.zip,2026-08-09,70234,566ada662621b98aabc3ee72eb960cfe5a31d19a0e6ad8c2761ee8d3f9eee688,md5:e28f5cade07b0145b355d124827bb69d,CC-BY-4.0 plus embedded MIT
+COMMON_RUNNER,zenodo_experiment_driver,https://zenodo.org/api/records/7624677/files/Common_DE_runner.py/content,Common_DE_runner.py,2026-08-09,5918,05b392177a29cff9825cecef10bcd9d8a56107ed4600a77710a4963a38227c12,md5:02e31dda03982d7a7f5cb7ace1e97ae0,CC-BY-4.0
+RAW_ARCHIVE,zenodo_raw_data,https://zenodo.org/api/records/7624677/files/raw_data.zip/content,raw_data.zip range-only,2026-08-09,4785454278,,md5:649a5553abc54909b2d8958d1c0c586c declared not recomputed,CC-BY-4.0
+RAW_CENTRAL_DIRECTORY,range_authenticated_structure,https://zenodo.org/api/records/7624677/files/raw_data.zip/content,offset 4778137904 length 7316276,2026-08-09,7316276,06279742ca533ef829dd4209672a8dd67990d1f3c3bbd0c0a27f9b911110394c,,CC-BY-4.0
+TARGET_JSON,range_authenticated_raw_member,https://zenodo.org/api/records/7624677/files/raw_data.zip/content,raw_data/Modde_common/F1_20D_L-SHADE/IOHprofiler_f1_Sphere.json,2026-08-09,25475,f5c6ef22ae717593befa5728793724aff0b4595746f3693b15ec467d256f49e1,crc32:c20703c5,CC-BY-4.0
+COMPANION_DAT,range_authenticated_raw_member,https://zenodo.org/api/records/7624677/files/raw_data.zip/content,raw_data/Modde_common/F1_20D_L-SHADE/data_f1_Sphere/IOHprofiler_f1_DIM20.dat,2026-08-09,245243,24d07c9de1714223ff75161b19211ad3d56f89ddc2cff3564c14a80e46997646,crc32:cc5d84cb,CC-BY-4.0
