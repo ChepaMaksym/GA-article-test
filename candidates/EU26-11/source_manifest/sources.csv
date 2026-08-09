@@ -1,0 +1,9 @@
+source_id,kind,url,revision_or_path,accessed_utc,bytes,sha256,license_status
+PAPER_DOI,publisher_record,https://doi.org/10.5220/0013000900003837,ECTA 2024 paper,2026-08-09,,,bibliographic record
+PAPER_PDF,legal_publisher_full_text,https://www.scitepress.org/Papers/2024/130009/130009.pdf,130009.pdf,2026-08-09,435554,28b1b3741fa03398b0e5fb2e343962540c74944f86240e94e9212e195b191da1,CC-BY-NC-ND-4.0
+DATA_RECORD,author_archival_record,https://zenodo.org/records/12756059,record 12756059,2026-08-09,,,CC-BY-4.0
+POINT_SET,author_data_member,https://zenodo.org/api/records/12756059/files/Sub_Sobol_20_128.txt/content,Sub_Sobol_20_128.txt,2026-08-09,23229,129d27fbf9711ff270c966f618ec360667582d873094f30cb1dd7e9f78fd2472,CC-BY-4.0
+NUMERIC_BLOCK,author_data_member,https://zenodo.org/api/records/12756059/files/discr.pkl/content,discr.pkl,2026-08-09,1705,b2431beff3f660c3a1a0f7e96a3a6e6b095a1acd0d2786a44d5e05851f8381f2,CC-BY-4.0
+RUN_OPT,author_code_member,https://zenodo.org/api/records/12756059/files/run_opt_p_sets.py/content,run_opt_p_sets.py,2026-08-09,2940,9d0c7dc0e2cae7d3590cac7e66a5a996d8d8be568f28a5ace415f65bd808d5d9,CC-BY-4.0
+UPSTREAM_REPO,author_optimizer_source,https://github.com/IOHprofiler/ModularCMAES,v1.0.8 / ec517cafaca432444f781a1c463b43963bff05eb,2026-08-09,,,MIT
+UPSTREAM_TREE,git_tree,https://github.com/IOHprofiler/ModularCMAES/tree/ec517cafaca432444f781a1c463b43963bff05eb,4200fc05eaa1a8eac4632aee3d0950ddf62cc75c,2026-08-09,,,MIT

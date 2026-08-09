@@ -1,0 +1,188 @@
+name: EU26-11 deterministic Figure 1 validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/EU26-11-cma-sampling-verification
+    paths:
+      - "candidates/EU26-11/**"
+      - "registry/cohort_2026_12/**"
+      - ".github/workflows/eu26-11-validation.yml"
+  pull_request:
+    paths:
+      - "candidates/EU26-11/**"
+      - "registry/cohort_2026_12/**"
+      - ".github/workflows/eu26-11-validation.yml"
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+  POINT_URL: https://zenodo.org/api/records/12756059/files/Sub_Sobol_20_128.txt/content
+  POINT_SHA256: 129d27fbf9711ff270c966f618ec360667582d873094f30cb1dd7e9f78fd2472
+  PICKLE_URL: https://zenodo.org/api/records/12756059/files/discr.pkl/content
+  PICKLE_SHA256: b2431beff3f660c3a1a0f7e96a3a6e6b095a1acd0d2786a44d5e05851f8381f2
+  SOURCE_REPOSITORY: https://github.com/IOHprofiler/ModularCMAES.git
+  SOURCE_TAG: v1.0.8
+  SOURCE_COMMIT: ec517cafaca432444f781a1c463b43963bff05eb
+  SOURCE_TREE: 4200fc05eaa1a8eac4632aee3d0950ddf62cc75c
+
+jobs:
+  registry-regression:
+    name: Frozen registry non-regression gates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out the candidate branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate the frozen registry and mutation gates
+        run: |
+          python registry/cohort_2026_12/validate_registry.py
+          python registry/cohort_2026_12/tests/run_registry_tests.py
+
+  python-artifact:
+    name: Authenticated Python artifact and source gates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out the candidate branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fetch and authenticate the two exact artifact members
+        run: |
+          mkdir -p "${RUNNER_TEMP}/eu26-11"
+          curl --fail --location --retry 4 --retry-all-errors \
+            --output "${RUNNER_TEMP}/eu26-11/Sub_Sobol_20_128.txt" "${POINT_URL}"
+          curl --fail --location --retry 4 --retry-all-errors \
+            --output "${RUNNER_TEMP}/eu26-11/discr.pkl" "${PICKLE_URL}"
+          test "$(wc -c < "${RUNNER_TEMP}/eu26-11/Sub_Sobol_20_128.txt")" -eq 23229
+          test "$(wc -c < "${RUNNER_TEMP}/eu26-11/discr.pkl")" -eq 1705
+          echo "${POINT_SHA256}  ${RUNNER_TEMP}/eu26-11/Sub_Sobol_20_128.txt" | sha256sum --check --strict
+          echo "${PICKLE_SHA256}  ${RUNNER_TEMP}/eu26-11/discr.pkl" | sha256sum --check --strict
+      - name: Fetch and authenticate the exact MIT source tag
+        run: |
+          git clone --quiet --depth=1 --branch "${SOURCE_TAG}" "${SOURCE_REPOSITORY}" "${RUNNER_TEMP}/eu26-11/ModularCMAES"
+          test "$(git -C "${RUNNER_TEMP}/eu26-11/ModularCMAES" rev-parse 'HEAD^{commit}')" = "${SOURCE_COMMIT}"
+          test "$(git -C "${RUNNER_TEMP}/eu26-11/ModularCMAES" rev-parse 'HEAD^{tree}')" = "${SOURCE_TREE}"
+          test -z "$(git -C "${RUNNER_TEMP}/eu26-11/ModularCMAES" status --porcelain=v1 --untracked-files=all)"
+          test "$(git -C "${RUNNER_TEMP}/eu26-11/ModularCMAES" tag --points-at HEAD)" = "${SOURCE_TAG}"
+      - name: Run fail-closed parser, formula, source, and protocol tests
+        env:
+          EU2611_POINT_SET: ${{ runner.temp }}/eu26-11/Sub_Sobol_20_128.txt
+          EU2611_PICKLE: ${{ runner.temp }}/eu26-11/discr.pkl
+          EU2611_SOURCE: ${{ runner.temp }}/eu26-11/ModularCMAES
+        run: |
+          mkdir -p candidate-artifacts
+          python candidates/EU26-11/tests/run_python_tests.py \
+            --output candidate-artifacts/test-report.json
+      - name: Generate the authenticated target report
+        run: |
+          python candidates/EU26-11/environments/python/run_artifact_verification.py \
+            --point-set "${RUNNER_TEMP}/eu26-11/Sub_Sobol_20_128.txt" \
+            --numeric-block "${RUNNER_TEMP}/eu26-11/discr.pkl" \
+            --source-checkout "${RUNNER_TEMP}/eu26-11/ModularCMAES" \
+            --output candidate-artifacts/target-report.json
+      - name: Assert the literal pass remains narrow
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          report = json.loads(Path("candidate-artifacts/target-report.json").read_text())
+          if report.get("status") != "PASS_TARGET_ARTIFACT_REPLAY":
+              raise SystemExit("target artifact did not pass")
+          if report.get("observed", {}).get("display_two_decimals") != "-4.16":
+              raise SystemExit("literal Figure 1 cell differs")
+          if report.get("source_gate", {}).get("status") != "PASS_SOURCE_ADAPTATION_GATE":
+              raise SystemExit("source adaptation gate did not pass")
+          if report.get("paper_level_status") != "TARGETED_ARTIFACT_ONLY_NOT_FULL_REPRODUCTION":
+              raise SystemExit("target report expanded its claim boundary")
+          if "PASS_FULL" not in report.get("forbidden_claims", []):
+              raise SystemExit("PASS_FULL is not explicitly forbidden")
+          PY
+      - name: Upload generated Python evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eu26-11-python-evidence
+          path: candidate-artifacts/
+          if-no-files-found: error
+          retention-days: 30
+
+  octave-formula:
+    name: Independent GNU Octave formula gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out the candidate branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends octave
+      - name: Fetch authenticated artifacts and exact source
+        run: |
+          mkdir -p "${RUNNER_TEMP}/eu26-11"
+          curl --fail --location --retry 4 --retry-all-errors \
+            --output "${RUNNER_TEMP}/eu26-11/Sub_Sobol_20_128.txt" "${POINT_URL}"
+          curl --fail --location --retry 4 --retry-all-errors \
+            --output "${RUNNER_TEMP}/eu26-11/discr.pkl" "${PICKLE_URL}"
+          echo "${POINT_SHA256}  ${RUNNER_TEMP}/eu26-11/Sub_Sobol_20_128.txt" | sha256sum --check --strict
+          echo "${PICKLE_SHA256}  ${RUNNER_TEMP}/eu26-11/discr.pkl" | sha256sum --check --strict
+          git clone --quiet --depth=1 --branch "${SOURCE_TAG}" "${SOURCE_REPOSITORY}" "${RUNNER_TEMP}/eu26-11/ModularCMAES"
+          test "$(git -C "${RUNNER_TEMP}/eu26-11/ModularCMAES" rev-parse 'HEAD^{commit}')" = "${SOURCE_COMMIT}"
+          test "$(git -C "${RUNNER_TEMP}/eu26-11/ModularCMAES" rev-parse 'HEAD^{tree}')" = "${SOURCE_TREE}"
+      - name: Evaluate the defining equation independently
+        env:
+          EU2611_POINT_SET: ${{ runner.temp }}/eu26-11/Sub_Sobol_20_128.txt
+          EU2611_OCTAVE_REPORT: ${{ runner.temp }}/eu26-11/octave-raw.json
+        run: >-
+          octave --quiet --eval
+          "addpath('candidates/EU26-11/tests/matlab'); run_matlab_tests"
+      - name: Bind Octave and Python to the same authenticated inputs
+        run: |
+          mkdir -p candidate-artifacts
+          python candidates/EU26-11/environments/python/run_artifact_verification.py \
+            --point-set "${RUNNER_TEMP}/eu26-11/Sub_Sobol_20_128.txt" \
+            --numeric-block "${RUNNER_TEMP}/eu26-11/discr.pkl" \
+            --source-checkout "${RUNNER_TEMP}/eu26-11/ModularCMAES" \
+            --output "${RUNNER_TEMP}/eu26-11/python-report.json"
+          python candidates/EU26-11/environments/python/finalize_cross_language.py \
+            --octave-raw "${RUNNER_TEMP}/eu26-11/octave-raw.json" \
+            --python-report "${RUNNER_TEMP}/eu26-11/python-report.json" \
+            --output candidate-artifacts/cross-language-report.json
+      - name: Assert cross-language pass and claim boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          report = json.loads(Path("candidate-artifacts/cross-language-report.json").read_text())
+          if report.get("status") != "PASS_CROSS_LANGUAGE_FORMULA":
+              raise SystemExit("cross-language formula gate did not pass")
+          if report.get("paper_level_status") != "TARGETED_ARTIFACT_ONLY_NOT_FULL_REPRODUCTION":
+              raise SystemExit("cross-language report expanded the claim")
+          if "PASS_FULL" not in report.get("forbidden_claims", []):
+              raise SystemExit("PASS_FULL is not forbidden")
+          PY
+      - name: Upload generated cross-language evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eu26-11-cross-language-evidence
+          path: candidate-artifacts/
+          if-no-files-found: error
+          retention-days: 30
