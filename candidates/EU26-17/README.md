@@ -25,10 +25,10 @@ numeric endpoint is frozen here.
 
 Other blockers independently prevent a full claim:
 
-- the Parkinson's Telemonitoring row establishes 18 input features and 5,875
-  samples, but input dimensionality is not automatically the number of direct
-  chromosome decisions; the benchmark-only applied-status interpretation is
-  unresolved;
+- preregistration amendment 001 applies the corrected scope rule: the 18 named
+  Parkinson's Telemonitoring biomedical inputs satisfy the separate applied
+  domain-parameter gate, direct-only passes, and the byte-identical UCI input
+  is CC BY 4.0; none of those corrections supplies an optimizer endpoint;
 - the experiment revision installs `heidmic/suprb@main`, not an immutable
   SupRB commit. Core commit `2af0421...` is an auditor-selected,
   publication-era snapshot, not an author-pinned experiment dependency;
@@ -41,6 +41,21 @@ Other blockers independently prevent a full claim:
 The preregistered claim boundary and exact source identities are frozen under
 `preregistration/` and `source_manifest/`. Passing the eventual validators may
 establish only source identity, source-method transitions, cross-language
-agreement, and the Parkinson input-dimension fact. `PASS_FULL`, empirical CEC
-replay, a literal-paper-endpoint pass, and an author-pinned-core claim are
-forbidden.
+agreement, the Parkinson input-dimension fact, applied dimension, and lawful
+input identity. `PASS_FULL`, empirical CEC replay, a literal-paper-endpoint
+pass, and an author-pinned-core claim are forbidden.
+
+Run the authenticated suite with explicit immutable inputs:
+
+```bash
+python candidates/EU26-17/tests/run_python_tests.py \
+  --core-repo /path/to/suprb \
+  --experiment-repo /path/to/suprb-experimentation \
+  --paper-pdf /path/to/117133.pdf \
+  --uci-archive /path/to/parkinsons-telemonitoring.zip \
+  --require-integration
+```
+
+The branch CI additionally runs the MATLAB-compatible implementation under
+GNU Octave, exports an independent transition ledger, and requires Python to
+match that ledger to the frozen cases within absolute tolerance `1e-12`.
