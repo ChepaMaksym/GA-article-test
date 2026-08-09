@@ -29,5 +29,43 @@ Consequently source-native execution is preregistered as
 `BLOCKED_UNPINNED_TOOLCHAIN_DEPS`.
 
 See `preregistration/eligibility_audit.md` and
-`preregistration/verification_contract.md`. Execution commands are added only
-by a later implementation commit.
+`preregistration/verification_contract.md`. The preregistration is commit
+`918dcad2b3f530595294e1a3e679b3e6e950a060`; every implementation file was
+added later.
+
+## Candidate-local verification
+
+Run the fail-closed Python suite:
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 python candidates/EU26-13/tests/run_python_tests.py \
+  --attestation /tmp/eu26-13-python-tests.json
+```
+
+Run the independent Octave controls:
+
+```bash
+octave --quiet --eval \
+  "addpath('candidates/EU26-13/tests/octave'); \
+   run_octave_tests( \
+   'candidates/EU26-13/config/verification_contract.json', \
+   'candidates/EU26-13/fixtures/frozen_endpoint.json', \
+   '/tmp/eu26-13-octave.json')"
+```
+
+Then run the authenticated live replay. Supplying cached metadata/code avoids
+re-downloading the 24-MB source snapshot; the verifier still performs exactly
+seven fresh bounded requests against `repelling.zip`:
+
+```bash
+python candidates/EU26-13/environments/python/run_verification.py \
+  --metadata /tmp/zenodo-record.json \
+  --code-archive /tmp/repelling_code.zip \
+  --python-attestation /tmp/eu26-13-python-tests.json \
+  --octave-attestation /tmp/eu26-13-octave.json \
+  --output /tmp/eu26-13-verification.json
+```
+
+All reports are write-once. The verifier never executes the released CMA-ES
+extension or installs its lower-bound-only dependencies; that path remains
+`BLOCKED_UNPINNED_TOOLCHAIN_DEPS` by contract.

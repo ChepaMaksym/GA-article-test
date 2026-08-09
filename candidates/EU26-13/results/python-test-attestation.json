@@ -1,0 +1,12 @@
+{
+  "candidate_id": "EU26-13",
+  "errors": 0,
+  "failures": 0,
+  "implementation_files": 22,
+  "implementation_manifest_sha256": "b15e674bb04272e1c78adf924b27247b2ed6aa6a78dc0ad6defa0ba2d8189f63",
+  "mutation_tests": 81,
+  "schema_version": "1.0.0",
+  "source_native_status": "BLOCKED_UNPINNED_TOOLCHAIN_DEPS",
+  "status": "PASS_FAIL_CLOSED_MUTATION_SUITE",
+  "tests_run": 95
+}
