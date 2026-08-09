@@ -33,5 +33,29 @@ dependency environment is known, and claims that the full raw-archive MD5 was
 recomputed are forbidden.
 
 See `preregistration/eligibility_audit.md` and
-`preregistration/verification_contract.md` for the frozen gates. Execution
-commands are added only by the post-freeze implementation commit.
+`preregistration/verification_contract.md` for the frozen gates. The
+post-freeze source-inventory correction is preserved in
+`preregistration/amendment-001-artifact-tree-scope.md`: 14 of 15 tracked Git
+blobs match, so an exact upstream-tree claim is forbidden.
+
+## Local commands
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 \
+  python candidates/EU26-12/tests/run_python_tests.py \
+  --output /tmp/eu26-12-python-tests.json
+PYTHONDONTWRITEBYTECODE=1 \
+  python candidates/EU26-12/environments/python/run_artifact_verification.py \
+  --output /tmp/eu26-12-artifact.json
+EU2612_OCTAVE_REPORT=/tmp/eu26-12-octave.json \
+  octave --quiet --eval \
+  "addpath('candidates/EU26-12/tests/matlab'); run_octave_tests"
+python candidates/EU26-12/environments/python/finalize_cross_language.py \
+  --python-report /tmp/eu26-12-artifact.json \
+  --octave-report /tmp/eu26-12-octave.json \
+  --output /tmp/eu26-12-cross-language.json
+```
+
+An optional modern-environment diagnostic is available through
+`run_source_native_replay.py`. It records missing dependencies or mismatches as
+bounded evidence rather than weakening the artifact gate.

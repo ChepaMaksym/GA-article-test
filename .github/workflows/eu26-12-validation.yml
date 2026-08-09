@@ -1,0 +1,244 @@
+name: EU26-12 range-authenticated Modular DE validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/EU26-12-modde-verification
+    paths:
+      - "candidates/EU26-12/**"
+      - ".github/workflows/eu26-12-validation.yml"
+  pull_request:
+    paths:
+      - "candidates/EU26-12/**"
+      - ".github/workflows/eu26-12-validation.yml"
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+
+jobs:
+  registry-regression:
+    name: Frozen registry non-regression gates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out candidate branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.13"
+      - name: Validate frozen registry and mutation gates
+        run: |
+          python registry/cohort_2026_12/validate_registry.py
+          python registry/cohort_2026_12/tests/run_registry_tests.py
+
+  fail-closed-tests:
+    name: Python unit, adversarial, integration, and protocol gates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out candidate branch
+        uses: actions/checkout@v4
+      - name: Set up frozen Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.13"
+      - name: Run complete candidate-local suite
+        run: |
+          mkdir -p candidate-artifacts
+          python candidates/EU26-12/tests/run_python_tests.py \
+            --output candidate-artifacts/python-tests.json
+      - name: Assert suite completeness and claim boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          report = json.loads(Path("candidate-artifacts/python-tests.json").read_text())
+          if report.get("status") != "PASS_FAIL_CLOSED_SUITE":
+              raise SystemExit("fail-closed suite did not pass")
+          if report.get("tests_run", 0) < report.get("minimum_tests", 10**9):
+              raise SystemExit("test count is below the frozen minimum")
+          if any(report.get(key) for key in ("failures", "errors", "skipped")):
+              raise SystemExit("suite contains failures, errors, or skips")
+          if "PASS_FULL" not in report.get("forbidden_claims", []):
+              raise SystemExit("PASS_FULL is not forbidden")
+          if "EXACT_ARTIFACT_GIT_TREE_MATCH" not in report.get("forbidden_claims", []):
+              raise SystemExit("exact-tree promotion is not forbidden")
+          PY
+      - name: Upload generated test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eu26-12-test-evidence
+          path: candidate-artifacts/
+          if-no-files-found: error
+          retention-days: 30
+
+  python-artifact:
+    name: Real Zenodo metadata, code, ZIP64, member, endpoint, and controls
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out candidate branch
+        uses: actions/checkout@v4
+      - name: Set up frozen Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.13"
+      - name: Run bounded range-authenticated replay
+        run: |
+          mkdir -p candidate-artifacts
+          python candidates/EU26-12/environments/python/run_artifact_verification.py \
+            --output candidate-artifacts/artifact-report.json \
+            --timeout 120
+      - name: Assert endpoint and non-vendoring boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          report = json.loads(Path("candidate-artifacts/artifact-report.json").read_text())
+          required = {
+              "metadata_gate": "PASS_ZENODO_METADATA",
+              "code_gate": "PASS_CODE_IDENTITY",
+              "range_gate": "PASS_RANGE_AUTHENTICATED_MEMBER",
+              "artifact_gate": "PASS_ARTIFACT_ENDPOINT",
+              "control_gate": "PASS_CONTROL_TRANSITIONS",
+          }
+          for field, expected in required.items():
+              if report.get(field) != expected:
+                  raise SystemExit(f"{field} did not pass")
+          endpoint = report.get("endpoint", {})
+          if endpoint.get("best_y_decimal") != "1.698652750709869e-14":
+              raise SystemExit("frozen objective differs")
+          if endpoint.get("logged_evaluations") != 50002:
+              raise SystemExit("frozen evaluation total differs")
+          transport = report.get("range_transport", {})
+          if transport.get("request_count") != 6 or transport.get("bytes_received") != 7478587:
+              raise SystemExit("bounded range transport shape differs")
+          if transport.get("full_archive_downloaded") is not False:
+              raise SystemExit("full raw archive was downloaded")
+          if report.get("zip64", {}).get("full_archive_md5_status") != "ZENODO_DECLARED_NOT_RECOMPUTED":
+              raise SystemExit("full-archive MD5 claim was upgraded")
+          if report.get("status") != "TARGETED_ARTIFACT_REPLAY_ONLY":
+              raise SystemExit("claim ceiling was lost")
+          if "PASS_FULL" not in report.get("forbidden_claims", []):
+              raise SystemExit("PASS_FULL is not forbidden")
+          if "EXACT_ARTIFACT_GIT_TREE_MATCH" not in report.get("forbidden_claims", []):
+              raise SystemExit("exact-tree promotion is not forbidden")
+          code = report.get("code", {})
+          if code.get("artifact_exact_tree_match") is not False:
+              raise SystemExit("artifact was promoted to an exact Git tree")
+          if code.get("matched_git_blobs") != 14 or code.get("tracked_git_blobs") != 15:
+              raise SystemExit("partial Git-blob mapping counts differ")
+          PY
+      - name: Upload authenticated artifact evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: eu26-12-artifact-evidence
+          path: candidate-artifacts/artifact-report.json
+          if-no-files-found: error
+          retention-days: 30
+
+  octave-cross-language:
+    name: Independent MATLAB/Octave control transitions
+    needs: python-artifact
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out candidate branch
+        uses: actions/checkout@v4
+      - name: Set up frozen Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.13"
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends octave
+      - name: Download authenticated Python artifact report
+        uses: actions/download-artifact@v4
+        with:
+          name: eu26-12-artifact-evidence
+          path: candidate-artifacts
+      - name: Run independent control implementation
+        run: |
+          EU2612_OCTAVE_REPORT="$RUNNER_TEMP/eu26-12-octave.json" \
+            octave --quiet --eval \
+            "addpath('candidates/EU26-12/tests/matlab'); run_octave_tests"
+      - name: Bind independent evidence
+        run: |
+          python candidates/EU26-12/environments/python/finalize_cross_language.py \
+            --python-report candidate-artifacts/artifact-report.json \
+            --octave-report "$RUNNER_TEMP/eu26-12-octave.json" \
+            --output candidate-artifacts/cross-language-report.json
+      - name: Assert narrow cross-language gate
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          report = json.loads(Path("candidate-artifacts/cross-language-report.json").read_text())
+          if report.get("cross_language_gate") != "PASS_CROSS_LANGUAGE":
+              raise SystemExit("cross-language control gate did not pass")
+          if report.get("status") != "TARGETED_ARTIFACT_REPLAY_ONLY":
+              raise SystemExit("cross-language report lost claim ceiling")
+          if "PASS_FULL" not in report.get("forbidden_claims", []):
+              raise SystemExit("PASS_FULL is not forbidden")
+          if "EXACT_ARTIFACT_GIT_TREE_MATCH" not in report.get("forbidden_claims", []):
+              raise SystemExit("exact-tree promotion is not forbidden")
+          PY
+      - name: Upload cross-language evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eu26-12-cross-language-evidence
+          path: candidate-artifacts/cross-language-report.json
+          if-no-files-found: error
+          retention-days: 30
+
+  source-native-blocker:
+    name: Explicit source-native dependency-lock blocker
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out candidate branch
+        uses: actions/checkout@v4
+      - name: Set up frozen verifier Python only
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.13"
+      - name: Record missing unlocked scientific environment fail-closed
+        run: |
+          mkdir -p candidate-artifacts
+          python candidates/EU26-12/environments/python/run_source_native_replay.py \
+            --output candidate-artifacts/source-native-report.json
+      - name: Assert blocker cannot become a full claim
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          report = json.loads(Path("candidate-artifacts/source-native-report.json").read_text())
+          if not str(report.get("source_native_gate", "")).startswith("SOURCE_NATIVE_BLOCKED_"):
+              raise SystemExit("unlocked CI environment unexpectedly claimed source replay")
+          if report.get("historical_environment_proven") is not False:
+              raise SystemExit("historical environment was incorrectly proven")
+          if "PASS_FULL" not in report.get("forbidden_claims", []):
+              raise SystemExit("PASS_FULL is not forbidden")
+          if "EXACT_ARTIFACT_GIT_TREE_MATCH" not in report.get("forbidden_claims", []):
+              raise SystemExit("exact-tree promotion is not forbidden")
+          PY
+      - name: Upload blocker evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eu26-12-source-native-blocker
+          path: candidate-artifacts/source-native-report.json
+          if-no-files-found: error
+          retention-days: 30

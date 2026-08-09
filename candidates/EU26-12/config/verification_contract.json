@@ -8,7 +8,8 @@
     "PASS_FULL",
     "PASS_LITERAL_PAPER_ENDPOINT",
     "HISTORICAL_DEPENDENCY_ENVIRONMENT_PROVEN",
-    "FULL_ARCHIVE_MD5_RECOMPUTED"
+    "FULL_ARCHIVE_MD5_RECOMPUTED",
+    "EXACT_ARTIFACT_GIT_TREE_MATCH"
   ],
   "paper": {
     "doi": "10.1145/3583131.3590417",
@@ -33,7 +34,41 @@
     "tree": "b845e5b2677ed43768eb5d664c2481e8db022466",
     "commit_date": "2022-12-22T17:09:39+01:00",
     "paper_pins_revision": false,
-    "artifact_maps_to_commit": true,
+    "artifact_exact_tree_match": false,
+    "matched_git_blobs": 14,
+    "tracked_git_blobs": 15,
+    "missing_tracked_paths": [
+      ".github/workflows/python_test.yml"
+    ],
+    "missing_tracked_blob": "ec3048da336bfb60f708cceb5d27d8ed10c2bbb3",
+    "artifact_only_entries": [
+      "modde/",
+      "modde/.ipynb_checkpoints/",
+      "modde/.ipynb_checkpoints/modularde-checkpoint.py",
+      "modde/.ipynb_checkpoints/parameters-checkpoint.py",
+      "modde/.ipynb_checkpoints/population-checkpoint.py",
+      "modde/.ipynb_checkpoints/sampling-checkpoint.py",
+      "modde/.ipynb_checkpoints/utils-checkpoint.py",
+      "modde/.ipynb_checkpoints/__init__-checkpoint.py",
+      "modde/__pycache__/",
+      "modde/__pycache__/modularde.cpython-38.pyc",
+      "modde/__pycache__/parameters.cpython-38.pyc",
+      "modde/__pycache__/population.cpython-38.pyc",
+      "modde/__pycache__/sampling.cpython-38.pyc",
+      "modde/__pycache__/utils.cpython-38.pyc",
+      "modde/__pycache__/__init__.cpython-38.pyc",
+      "tests/",
+      "tests/.ipynb_checkpoints/",
+      "tests/.ipynb_checkpoints/create_expected-checkpoint.py",
+      "tests/.ipynb_checkpoints/test_modularde-checkpoint.py",
+      "tests/.ipynb_checkpoints/__init__-checkpoint.py",
+      "tests/__pycache__/",
+      "tests/__pycache__/test_modularde.cpython-38.pyc",
+      "tests/__pycache__/__init__.cpython-38.pyc"
+    ],
+    "artifact_only_file_entries": 17,
+    "artifact_only_directory_entries": 6,
+    "mapping_status": "PARTIAL_14_OF_15_GIT_BLOB_CORROBORATION",
     "license": "MIT"
   },
   "zenodo_files": {
