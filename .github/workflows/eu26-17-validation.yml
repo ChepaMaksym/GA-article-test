@@ -1,0 +1,156 @@
+name: EU26-17 formula and source-transition validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/EU26-17-suprb-saga1-verification
+    paths:
+      - "candidates/EU26-17/**"
+      - ".github/workflows/eu26-17-validation.yml"
+  pull_request:
+    paths:
+      - "candidates/EU26-17/**"
+      - ".github/workflows/eu26-17-validation.yml"
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+  CORE_FREEZE: 2af04212216ffd6a01160167f50ee01e62b2b36c
+  CORE_FREEZE_TREE: 59335a04a71c4a6e3ddf0914485549ae0d6198fa
+  CORE_ADDITION: cefd949488dbe23c030f17bb50b6c7c73a44ae3
+  CORE_ADDITION_TREE: 0146522f95e1ae49cb2bfac1b082e972056e5ea6
+  EXPERIMENT_COMMIT: 5c7c87df854ce397533b1d4efcdf8758b3783047
+  EXPERIMENT_TREE: 07b5a6557130a00d30912675f971eac24cb67836
+  PAPER_URL: https://opus.bibliothek.uni-augsburg.de/opus4/files/117133/117133.pdf
+  PAPER_SHA256: f55862101aaf771c3ccedcbc98d66c57d41903a89eabaebf8bed3903c1044fa0
+  UCI_URL: https://archive.ics.uci.edu/static/public/189/parkinsons+telemonitoring.zip
+  UCI_MEMBER_SHA256: f2c7d5025dec4e92e7feae367a5f7ccf58789a10ac6b54bdf15976c599f9dd39
+
+jobs:
+  formula-source-transition:
+    name: Exact sources, Python, and MATLAB-compatible transition
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Check out the validation branch
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install validation dependencies
+        run: |
+          python -m pip install --requirement \
+            candidates/EU26-17/environments/python/requirements.txt
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends octave poppler-utils unzip
+
+      - name: Acquire author repositories and detach exact revisions
+        run: |
+          git clone https://github.com/heidmic/suprb.git "${RUNNER_TEMP}/suprb"
+          git -C "${RUNNER_TEMP}/suprb" checkout --detach "${CORE_FREEZE}"
+          test "$(git -C "${RUNNER_TEMP}/suprb" rev-parse HEAD^{tree})" = "${CORE_FREEZE_TREE}"
+          test "$(git -C "${RUNNER_TEMP}/suprb" rev-parse "${CORE_ADDITION}^{tree}")" = "${CORE_ADDITION_TREE}"
+
+          git clone https://github.com/heidmic/suprb-experimentation.git \
+            "${RUNNER_TEMP}/suprb-experimentation"
+          git -C "${RUNNER_TEMP}/suprb-experimentation" checkout --detach \
+            "${EXPERIMENT_COMMIT}"
+          test "$(git -C "${RUNNER_TEMP}/suprb-experimentation" rev-parse HEAD^{tree})" = "${EXPERIMENT_TREE}"
+
+      - name: Acquire and authenticate lawful paper and UCI input
+        run: |
+          curl --fail --location --retry 4 --retry-all-errors \
+            --output "${RUNNER_TEMP}/117133.pdf" "${PAPER_URL}"
+          test "$(wc -c < "${RUNNER_TEMP}/117133.pdf")" -eq 3303306
+          echo "${PAPER_SHA256}  ${RUNNER_TEMP}/117133.pdf" | sha256sum --check --strict
+
+          curl --fail --location --retry 4 --retry-all-errors \
+            --output "${RUNNER_TEMP}/parkinsons-telemonitoring.zip" "${UCI_URL}"
+          test "$(unzip -p "${RUNNER_TEMP}/parkinsons-telemonitoring.zip" \
+            parkinsons_updrs.data | wc -c)" -eq 911261
+          test "$(unzip -p "${RUNNER_TEMP}/parkinsons-telemonitoring.zip" \
+            parkinsons_updrs.data | sha256sum | cut -d' ' -f1)" = "${UCI_MEMBER_SHA256}"
+
+      - name: Run MATLAB-compatible adversarial and boundary tests
+        run: >-
+          octave --quiet --eval
+          "addpath('candidates/EU26-17/tests/matlab');
+          run_matlab_tests;
+          write_transition_results(
+          'candidates/EU26-17/fixtures/transition_cases.json',
+          '${{ runner.temp }}/octave-transitions.tsv');"
+
+      - name: Run authenticated Python tests and cross-language comparison
+        run: |
+          python candidates/EU26-17/tests/run_python_tests.py \
+            --core-repo "${RUNNER_TEMP}/suprb" \
+            --experiment-repo "${RUNNER_TEMP}/suprb-experimentation" \
+            --paper-pdf "${RUNNER_TEMP}/117133.pdf" \
+            --uci-archive "${RUNNER_TEMP}/parkinsons-telemonitoring.zip" \
+            --octave-tsv "${RUNNER_TEMP}/octave-transitions.tsv" \
+            --require-integration \
+            --require-octave
+
+      - name: Build formula-only evidence report
+        run: |
+          mkdir -p validation-artifacts
+          cp "${RUNNER_TEMP}/octave-transitions.tsv" \
+            validation-artifacts/octave-transitions.tsv
+          python candidates/EU26-17/environments/python/run_validation.py \
+            --core-repo "${RUNNER_TEMP}/suprb" \
+            --experiment-repo "${RUNNER_TEMP}/suprb-experimentation" \
+            --paper-pdf "${RUNNER_TEMP}/117133.pdf" \
+            --uci-archive "${RUNNER_TEMP}/parkinsons-telemonitoring.zip" \
+            --octave-tsv "${RUNNER_TEMP}/octave-transitions.tsv" \
+            --output validation-artifacts/eu26-17-validation.json
+
+      - name: Enforce the hard-fail claim boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          report = json.loads(
+              Path("validation-artifacts/eu26-17-validation.json").read_text(
+                  encoding="utf-8"
+              )
+          )
+          if report["eligibility_status"] != "HARD_FAIL":
+              raise SystemExit("EU26-17 eligibility was incorrectly elevated")
+          if report["published_numeric_endpoint"] is not None:
+              raise SystemExit("a numeric paper endpoint was invented")
+          if report["acceptance_tolerance"] is not None:
+              raise SystemExit("an empirical acceptance tolerance was invented")
+          required = {
+              "PASS_SOURCE_IDENTITY",
+              "PASS_SOURCE_METHOD_TRANSITIONS",
+              "PASS_CROSS_LANGUAGE",
+              "PASS_PARKINSON_DIMENSION_FACT",
+              "PASS_APPLIED_DIMENSION",
+              "PASS_LAWFUL_INPUT",
+              "HARD_FAIL_ELIGIBILITY_UNCHANGED",
+          }
+          if set(report["outcomes"]) != required:
+              raise SystemExit(f"unexpected outcome set: {report['outcomes']}")
+          forbidden = set(report["claim_boundary"]["forbidden_claims"])
+          if forbidden.intersection(report["outcomes"]):
+              raise SystemExit("report emitted a forbidden claim")
+          if report["effective_gate_status"]["g8_literal_numeric_published_target"] \
+                  != "fail":
+              raise SystemExit("decisive G8 failure was cleared")
+          PY
+
+      - name: Upload narrow validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eu26-17-formula-source-transition
+          path: validation-artifacts/
+          if-no-files-found: error
+          retention-days: 30

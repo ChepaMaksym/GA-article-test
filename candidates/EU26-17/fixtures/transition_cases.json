@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0.0",
+  "candidate_id": "EU26-17",
+  "tolerance": 1e-12,
+  "config": {
+    "v_min": 0.005,
+    "v_max": 0.15,
+    "mutation_rate_min": 0.001,
+    "mutation_rate_max": 0.25,
+    "mutation_rate_multiplier": 1.1,
+    "crossover_rate_min": 0.5,
+    "crossover_rate_max": 1.0,
+    "crossover_rate_multiplier": 1.1
+  },
+  "cases": [
+    {
+      "name": "above_v_max_default",
+      "fitness": [1.0, 1.0],
+      "state": {"mutation_rate": 0.025, "crossover_rate": 0.75},
+      "expected": {
+        "gdm": 1.0,
+        "mutation_rate": 0.027500000000000004,
+        "crossover_rate": 0.6818181818181818,
+        "branch": "above_v_max"
+      }
+    },
+    {
+      "name": "below_v_min_default",
+      "fitness": [-0.999, 1.0],
+      "state": {"mutation_rate": 0.025, "crossover_rate": 0.75},
+      "expected": {
+        "gdm": 0.0005000000000000004,
+        "mutation_rate": 0.022727272727272728,
+        "crossover_rate": 0.8250000000000001,
+        "branch": "below_v_min"
+      }
+    },
+    {
+      "name": "interior_no_change",
+      "fitness": [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+      "state": {"mutation_rate": 0.025, "crossover_rate": 0.75},
+      "expected": {
+        "gdm": 0.1,
+        "mutation_rate": 0.025,
+        "crossover_rate": 0.75,
+        "branch": "no_change"
+      }
+    },
+    {
+      "name": "above_v_max_clamps_both_rates",
+      "fitness": [1.0, 1.0],
+      "state": {"mutation_rate": 0.24, "crossover_rate": 0.51},
+      "expected": {
+        "gdm": 1.0,
+        "mutation_rate": 0.25,
+        "crossover_rate": 0.5,
+        "branch": "above_v_max"
+      }
+    },
+    {
+      "name": "below_v_min_clamps_both_rates",
+      "fitness": [-0.999, 1.0],
+      "state": {"mutation_rate": 0.00105, "crossover_rate": 0.99},
+      "expected": {
+        "gdm": 0.0005000000000000004,
+        "mutation_rate": 0.001,
+        "crossover_rate": 1.0,
+        "branch": "below_v_min"
+      }
+    },
+    {
+      "name": "second_above_v_max_step",
+      "fitness": [1.0, 1.0],
+      "state": {
+        "mutation_rate": 0.027500000000000004,
+        "crossover_rate": 0.6818181818181818
+      },
+      "expected": {
+        "gdm": 1.0,
+        "mutation_rate": 0.030250000000000006,
+        "crossover_rate": 0.6198347107438016,
+        "branch": "above_v_max"
+      }
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "schema_version": "1.0.0",
+  "candidate_id": "EU26-17",
+  "paper": {
+    "title": "Exploring Self-Adaptive Genetic Algorithms to Combine Compact Sets of Rules",
+    "doi": "10.1109/CEC60901.2024.10612101",
+    "venue": "2024 IEEE Congress on Evolutionary Computation (CEC)",
+    "affiliation": "Organic Computing Group, University of Augsburg, Augsburg, Germany"
+  },
+  "artifact_scope": "FORMULA_AND_SOURCE_TRANSITION_VALIDATION_ONLY",
+  "eligibility_status": "HARD_FAIL",
+  "eligibility_score": null,
+  "published_numeric_endpoint": null,
+  "acceptance_tolerance": null,
+  "forbidden_claims": [
+    "PASS_FULL",
+    "PASS_CEC_EMPIRICAL_REPLAY",
+    "PASS_LITERAL_PAPER_ENDPOINT",
+    "AUTHOR_PINNED_EXPERIMENT_CORE",
+    "HISTORICAL_EXECUTION_REVISION_PROVEN"
+  ],
+  "permitted_outcomes": [
+    "PASS_SOURCE_IDENTITY",
+    "PASS_SOURCE_METHOD_TRANSITIONS",
+    "PASS_CROSS_LANGUAGE",
+    "PASS_PARKINSON_DIMENSION_FACT",
+    "HARD_FAIL_ELIGIBILITY_UNCHANGED"
+  ],
+  "source_revisions": {
+    "core_publication_era_auditor_freeze": {
+      "repository": "https://github.com/heidmic/suprb.git",
+      "commit": "2af04212216ffd6a01160167f50ee01e62b2b36c",
+      "tree": "59335a04a71c4a6e3ddf0914485549ae0d6198fa",
+      "author_pinned_by_experiment": false
+    },
+    "core_algorithm_addition": {
+      "repository": "https://github.com/heidmic/suprb.git",
+      "commit": "cefd949488dbe23c030f17bb50b6c7c73a44ae3",
+      "tree": "0146522f95e1ae49cb2bfac1b082e972056e5ea6"
+    },
+    "experiment": {
+      "repository": "https://github.com/heidmic/suprb-experimentation.git",
+      "commit": "5c7c87df854ce397533b1d4efcdf8758b3783047",
+      "tree": "07b5a6557130a00d30912675f971eac24cb67836",
+      "core_requirement": "-e git+https://github.com/heidmic/suprb@main#egg=suprb"
+    }
+  },
+  "formula": {
+    "gdm": "mean(fitness) / max(fitness)",
+    "v_min": 0.005,
+    "v_max": 0.15,
+    "mutation_rate": {
+      "initial": 0.025,
+      "minimum": 0.001,
+      "maximum": 0.25,
+      "multiplier": 1.1
+    },
+    "crossover_rate": {
+      "initial": 0.75,
+      "minimum": 0.5,
+      "maximum": 1.0,
+      "multiplier": 1.1
+    },
+    "high_branch": "gdm > v_max: pm=min(pm_max, pm*1.1); pc=max(pc_min, pc/1.1)",
+    "low_branch": "gdm < v_min: pm=max(pm_min, pm/1.1); pc=min(pc_max, pc*1.1)",
+    "equality_branch": "gdm == v_min or gdm == v_max: no change",
+    "timing": "once at the start of every SAGA1 generation after the current population is fitted and before elitism/selection/crossover/mutation/replacement",
+    "clean_room_input_policy": "reject empty or non-finite fitness vectors and reject max(fitness)==0 before evaluating the ratio",
+    "upstream_guard_note": "the frozen upstream methods contain no corresponding empty/non-finite/zero-maximum guard; this validation-only rejection is not attributed to the authors"
+  },
+  "authenticated_methods": {
+    "path": "suprb/optimizer/solution/saga1/base.py",
+    "file_sha256": "25ee2543b4133f7095ce4e951d42f3530ddeaa24ae735e77750e802f97a8f879",
+    "git_blob": "1f92f468fc2e48f802a2c9f67caf1831694130ab",
+    "methods": {
+      "calc_gdm": {
+        "source_sha256": "edc31cf2270f88a91c8756c55305d86699584b9f5018e0ffe1bdef42fe5744b0",
+        "token_count": 40,
+        "tokens_sha256": "7dce9d2edf193ddabbd3341002e604831fe09928c80723c05776df115227bd9f",
+        "ast_sha256": "bae9d50357c864e2bc4aa15b84c20481989c0c2eb5103598d76006aecc03b2f5"
+      },
+      "adjust_rates": {
+        "source_sha256": "9c3559ec88138eaaee9ffab1cb403c1508583031dc29929bb3f775bd77285efd",
+        "token_count": 99,
+        "tokens_sha256": "321b523ed8fd48f58dc09af26a7da715ed01b6c03c0f03ab3ca71bcc23921d86",
+        "ast_sha256": "7ff72979aa493390c4c32ad080e28b3dce080255d4b608b1f18d41f1799efd16"
+      }
+    }
+  },
+  "experiment_protocol_facts": {
+    "master_seed": 42,
+    "model_seed_count": 8,
+    "model_seeds": [
+      3444837047,
+      2669555309,
+      2046530742,
+      3581440988,
+      1691623607,
+      2099784219,
+      1184028159,
+      862288241
+    ],
+    "splitter": "ShuffleSplit(n_splits=8, test_size=0.25, random_state=42)",
+    "nominal_model_split_fits": 64,
+    "raw_result_store_present": false
+  },
+  "parkinson_factual_check": {
+    "paper_table": "Table I",
+    "paper_abbreviation": "PT",
+    "paper_input_dimension": 18,
+    "paper_sample_count": 5875,
+    "csv_columns": 22,
+    "loader_target": "total_UPDRS",
+    "loader_removed_columns": ["subject#", "test_time", "motor_UPDRS"],
+    "expected_input_features": [
+      "age",
+      "sex",
+      "Jitter(%)",
+      "Jitter(Abs)",
+      "Jitter:RAP",
+      "Jitter:PPQ5",
+      "Jitter:DDP",
+      "Shimmer",
+      "Shimmer(dB)",
+      "Shimmer:APQ3",
+      "Shimmer:APQ5",
+      "Shimmer:APQ11",
+      "Shimmer:DDA",
+      "NHR",
+      "HNR",
+      "RPDE",
+      "DFA",
+      "PPE"
+    ],
+    "expected_rows": 5875,
+    "eligibility_interpretation": "UNRESOLVED_BENCHMARK_INPUT_DIMENSION_IS_NOT_AUTOMATICALLY_CHROMOSOME_DIMENSION"
+  },
+  "hard_blockers": [
+    "G8_NO_LITERAL_UNAMBIGUOUS_NUMERIC_PAPER_CELL",
+    "G9_RAW_MLRUNS_IGNORED_AND_ABSENT",
+    "G9_EXPERIMENT_DEPENDENCY_POINTS_TO_MUTABLE_MAIN",
+    "G10_NO_AUTHOR_PINNED_SOURCE_NATIVE_HISTORICAL_REVISION",
+    "G10_PUBLICATION_ERA_RELEASE_PROVENANCE_UNRESOLVED",
+    "C2_BENCHMARK_ONLY_APPLIED_STATUS_UNRESOLVED"
+  ]
+}

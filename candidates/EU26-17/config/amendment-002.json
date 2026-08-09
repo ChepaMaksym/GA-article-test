@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "candidate_id": "EU26-17",
+  "amendment": 2,
+  "recorded_after_first_git_probe": true,
+  "algorithm_addition": {
+    "requested_revision": "cefd949488dbe23c030f17bb50b6c7c73a44ae3",
+    "requested_revision_kind": "39_HEX_UNIQUE_PREFIX",
+    "resolved_commit": "cefd949488dbe23c030f17bb50b6c7c73a44ae3a",
+    "tree": "0146522f95e1ae49cb2bfac1b082e972056e5ea6",
+    "require_unique_resolution": true,
+    "require_report_both_names": true
+  },
+  "unchanged": {
+    "artifact_scope": "FORMULA_AND_SOURCE_TRANSITION_VALIDATION_ONLY",
+    "eligibility_status": "HARD_FAIL",
+    "published_numeric_endpoint": null,
+    "acceptance_tolerance": null,
+    "decisive_failure": "G8_NO_LITERAL_UNAMBIGUOUS_NUMERIC_PAPER_CELL"
+  }
+}
