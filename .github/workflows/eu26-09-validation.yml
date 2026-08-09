@@ -25,6 +25,22 @@ env:
   RAW_PATH: Raw/results_20-09-28_06:58:03_OneMax_n100_JA.OnePlusLambdaCommaLambdaSAReset_λ100.txt
 
 jobs:
+  registry-regression:
+    name: Frozen registry non-regression gates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out candidate branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate the frozen registry and mutation gates
+        run: |
+          python registry/cohort_2026_12/validate_registry.py
+          python registry/cohort_2026_12/tests/run_registry_tests.py
+
   python-artifact:
     name: Python parser, controls, protocol, and mutation gates
     runs-on: ubuntu-24.04
