@@ -10,6 +10,15 @@ Local Python outcome: **`PASS_TARGETED_ARTIFACT_REPLAY`** under status
 Source-native optimization was not run and remains
 `NOT_ATTEMPTED_OUT_OF_SCOPE`.
 
+Independent pre-PR review stopped publication until the post-implementation
+preregistration rewrite, contract drift, dtype type confusion, ancestor
+symlinks, optional-only full CI, and forged cross-language report acceptance
+were corrected. The two original preregistration documents are restored to
+their frozen bytes. Amendment 001 records the timing and narrowly supersedes
+the impossible reducer wording without changing the endpoint or claim ceiling.
+The amended live contract is schema `1.1.0`, SHA-256
+`47ac507e09bb9ad705fa934af672763bd6e2fd02d8b18fe74fedb1498b39ff49`.
+
 ## Authenticated inputs
 
 | Input | Bytes | Verified identity |
@@ -44,20 +53,43 @@ row `[4096, 17928356740.02234]`, last row
 `nfev_total=2893419`.
 
 The create-only local JSON report had SHA-256
-`231f422a4161cd697c7dae6f7398c901c3537e2615b385435c33fa3167785863`.
+`55ab0eca2303fc361944e4546cb04e5f9c993219dd9a35c76762e714076a26f8`
+and domain-separated report digest
+`sha256:b134d1322fb746100f0bb79a5301fd146dc28dd9f36ed09d6a059f465167aef9`.
+The report carries the amended contract identity.
 
 ## Tests
 
-Python 3.12.13 with zstandard 0.25.0 passed 22/22 tests when the complete
-artifact directory was supplied. Coverage included unit, protocol, complete
-integration, unsafe pickle forms, duplicate/path/link tar attacks, identity
-mutation, symlink, retained-descriptor path replacement, in-place mutation,
-fixture arithmetic, claim ceiling, and create-only output behavior.
+Python 3.13.5 with pinned zstandard 0.23.0 passed 45/45 tests with the complete
+artifact directory supplied and `--require-full-artifact`; zero tests skipped.
+Coverage included unit, protocol, complete integration, unsafe pickle forms,
+strict dtype slot types, duplicate/path/link tar attacks, contract mutation,
+leaf and ancestor symlinks, retained-descriptor path replacement, in-place
+mutation, fixture arithmetic, claim ceiling, create-only output behavior,
+duplicate JSON keys, non-regular report inputs, and forged/malformed Python
+and Octave report rejection. The registry validator
+passed and all 13/13 registry mutation tests passed.
 
-GNU Octave was not installed in the local execution environment, so this
-report does not claim a local Octave pass. The independent Octave control and
-an explicit CI job are committed; CI must produce
-`PASS_CROSS_LANGUAGE_CONTROLS` before a cross-language evidence claim.
+The required pull-request workflow pins Python 3.13.5 and zstandard 0.23.0,
+runs the same full suite with zero skips, and bounds every download before
+complete-file size/hash authentication. It also runs the registry regression
+and independent Octave jobs before the full integration job.
+
+GNU Octave 8.4.0 from Ubuntu package `8.4.0-1build5` ran from an isolated
+non-repository runtime. The `octave-cli` binary SHA-256 was
+`9f09bcbadf9fd0a540437a364449e7b23246cfa97c9eeeb0b6539161bc00205f`.
+It produced `PASS_CROSS_LANGUAGE_CONTROLS`; the Octave report SHA-256 was
+`6517594b10675697bb92b6178d55080f359b75fea5c6bce2cd3169f0fdb22f7b`.
+The actual Python/Octave finalizer also passed, producing a cross-language
+report with SHA-256
+`55f11aff15edd03199e3bdbf6677c56808e0cbd0e76830c2686946df767af49a`
+and report digest
+`sha256:41e3889ee5a6faea2612b1144b2dd582a98ab8e26684938cc8a18268ed4f3a9d`.
+The create-only Octave writer rejected a second write with exit status 1.
+
+The automatic required pull-request CI repeats the independent control and
+full binder. The contract binds the control source's 48 static `assert()` call
+sites instead of carrying an ambiguous assertion sentinel.
 
 ## Preserved conflict
 

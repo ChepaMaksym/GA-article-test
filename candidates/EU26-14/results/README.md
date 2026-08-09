@@ -2,9 +2,10 @@
 
 Generated reports are intentionally not required for ordinary unit tests.
 `run_artifact_verification.py` writes a create-only JSON report after every
-identity and endpoint gate passes. The manual full-integration CI job uploads
-the Python, Octave, and bound cross-language reports without committing the
-318 MB input archive.
+identity and endpoint gate passes. The automatic pull-request full-integration
+job uploads the Python, Octave, and bound cross-language reports without
+committing the 318 MB input archive. Downloads are bounded before the verifier
+enforces exact complete-file sizes and hashes.
 
 The committed fixtures are the small, reviewable evidence surface:
 

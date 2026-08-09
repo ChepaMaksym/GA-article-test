@@ -2,12 +2,6 @@ name: EU26-14 MSC-CMA targeted artifact validation
 
 on:
   workflow_dispatch:
-    inputs:
-      run_full_archive:
-        description: Download and authenticate the complete 318 MB CEC2020 archive
-        required: true
-        default: false
-        type: boolean
   push:
     branches:
       - research/EU26-14-msc-cma-verification
@@ -30,6 +24,20 @@ env:
   RESULTS_URL: https://zenodo.org/api/records/21483843/files/msc_cec2020.tar.zst/content
 
 jobs:
+  registry-gates:
+    name: Registry regression gates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13.5"
+      - name: Validate the frozen cohort registry
+        run: python registry/cohort_2026_12/validate_registry.py
+      - name: Run fail-closed registry mutation tests
+        run: python registry/cohort_2026_12/tests/run_registry_tests.py
+
   python-unit:
     name: Python unit, protocol, and adversarial gates
     runs-on: ubuntu-24.04
@@ -38,7 +46,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.13.5"
       - name: Install the pinned verifier dependency
         run: python -m pip install --requirement candidates/EU26-14/environments/python/requirements.txt
       - name: Run fail-closed tests
@@ -76,8 +84,10 @@ jobs:
               raise SystemExit("Octave control gate did not pass")
           if report.get("status") != "TARGETED_ARTIFACT_REPLAY_ONLY":
               raise SystemExit("Octave report expanded the claim ceiling")
-          if report.get("run0_nfev_total") != 2893419:
+          if report.get("run0_nfev_total") != "2893419":
               raise SystemExit("Octave endpoint differs")
+          if report.get("static_assert_call_sites") != 48:
+              raise SystemExit("Octave static assertion-site count differs")
           PY
       - uses: actions/upload-artifact@v4
         if: always()
@@ -89,14 +99,14 @@ jobs:
 
   full-artifact:
     name: Authenticated complete archive integration
-    if: github.event_name == 'workflow_dispatch' && inputs.run_full_archive
+    needs: [registry-gates, python-unit, octave-controls]
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.13.5"
       - name: Install Python and Octave controls
         run: |
           python -m pip install --requirement candidates/EU26-14/environments/python/requirements.txt
@@ -105,15 +115,18 @@ jobs:
       - name: Download all immutable inputs
         run: |
           mkdir -p "${RUNNER_TEMP}/eu26-14"
-          curl --fail --location --retry 4 --retry-all-errors --output "${RUNNER_TEMP}/eu26-14/record.json" "${RECORD_URL}"
-          curl --fail --location --retry 4 --retry-all-errors --output "${RUNNER_TEMP}/eu26-14/SHA256SUMS" "${CHECKSUM_URL}"
-          curl --fail --location --retry 4 --retry-all-errors --output "${RUNNER_TEMP}/eu26-14/source.tar.gz" "${SOURCE_URL}"
-          curl --fail --location --retry 4 --retry-all-errors --output "${RUNNER_TEMP}/eu26-14/msc_cec2020.tar.zst" "${RESULTS_URL}"
+          curl --fail --location --proto '=https' --tlsv1.2 --retry 4 --retry-all-errors --max-filesize 1000000 --output "${RUNNER_TEMP}/eu26-14/record.json" "${RECORD_URL}"
+          curl --fail --location --proto '=https' --tlsv1.2 --retry 4 --retry-all-errors --max-filesize 344 --output "${RUNNER_TEMP}/eu26-14/SHA256SUMS" "${CHECKSUM_URL}"
+          curl --fail --location --proto '=https' --tlsv1.2 --retry 4 --retry-all-errors --max-filesize 20992578 --output "${RUNNER_TEMP}/eu26-14/source.tar.gz" "${SOURCE_URL}"
+          curl --fail --location --proto '=https' --tlsv1.2 --retry 4 --retry-all-errors --max-filesize 318000000 --output "${RUNNER_TEMP}/eu26-14/msc_cec2020.tar.zst" "${RESULTS_URL}"
+          test "$(stat --format=%s "${RUNNER_TEMP}/eu26-14/SHA256SUMS")" -eq 344
+          test "$(stat --format=%s "${RUNNER_TEMP}/eu26-14/source.tar.gz")" -eq 20992578
+          test "$(stat --format=%s "${RUNNER_TEMP}/eu26-14/msc_cec2020.tar.zst")" -eq 317976046
       - name: Run complete integration and all adversarial tests
         env:
           EU2614_ARTIFACT_DIR: ${{ runner.temp }}/eu26-14
         run: |
-          python candidates/EU26-14/tests/run_python_tests.py
+          python candidates/EU26-14/tests/run_python_tests.py --require-full-artifact
           python candidates/EU26-14/environments/python/run_artifact_verification.py \
             --record-json "${RUNNER_TEMP}/eu26-14/record.json" \
             --checksum-manifest "${RUNNER_TEMP}/eu26-14/SHA256SUMS" \
@@ -143,8 +156,16 @@ jobs:
               raise SystemExit("artifact report expanded its claim")
           if artifact.get("source_native_gate") != "NOT_ATTEMPTED_OUT_OF_SCOPE":
               raise SystemExit("source-native boundary differs")
+          if artifact.get("contract", {}).get("sha256") != "47ac507e09bb9ad705fa934af672763bd6e2fd02d8b18fe74fedb1498b39ff49":
+              raise SystemExit("amended contract identity differs")
           if cross.get("cross_language_gate") != "PASS_CROSS_LANGUAGE_CONTROLS":
               raise SystemExit("cross-language controls did not pass")
+          if cross.get("contract_sha256") != artifact["contract"]["sha256"]:
+              raise SystemExit("cross-language report is not bound to the contract")
+          if cross.get("python_report_digest") != artifact.get("report_digest"):
+              raise SystemExit("cross-language report is not bound to the Python report")
+          if cross.get("octave_static_assert_call_sites") != 48:
+              raise SystemExit("Octave static assertion-site contract differs")
           if "PASS_FULL" not in artifact.get("forbidden_claims", []):
               raise SystemExit("PASS_FULL is not explicitly forbidden")
           PY

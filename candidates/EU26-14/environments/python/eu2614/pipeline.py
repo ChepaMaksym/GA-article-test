@@ -5,7 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from .contract import load_contract
+from .contract import CONTRACT_SHA256, load_contract
 from .endpoint import verify_endpoint
 from .fixture import verify_committed_fixture
 from .metadata import verify_zenodo_record
@@ -35,6 +35,11 @@ def verify_artifacts(
         "candidate_id": "EU26-14",
         "status": "TARGETED_ARTIFACT_REPLAY_ONLY",
         "paper_mapping": "PAPER_CONTEXT_ONLY",
+        "contract": {
+            "schema_version": contract["schema_version"],
+            "sha256": CONTRACT_SHA256,
+            "amendments": contract["amendments"],
+        },
         "overall_gate": "PASS_TARGETED_ARTIFACT_REPLAY",
         "source_native_gate": "NOT_ATTEMPTED_OUT_OF_SCOPE",
         "zenodo": metadata,

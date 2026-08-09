@@ -24,22 +24,32 @@ and full CMA-ES under the alternating MSC restart schedule. Run 0 has error
 
 ## Security and evidence boundary
 
-Every external input is opened once with no-follow semantics, hashed through
-the retained descriptor, rewound, parsed from that same descriptor, then
-re-fstat'ed and re-hashed. Path replacement, symlinks, in-place mutation,
-archive duplicates, unsafe tar names/types, wrong offsets, and output
-replacement fail closed.
+Every external artifact input is traversed component by component without
+following symlinks, opened once, hashed through a retained descriptor, rewound,
+parsed from that same descriptor, then re-fstat'ed and re-hashed. Final path
+and parent-directory identities are rechecked. Path replacement, ancestor or
+leaf symlinks, in-place mutation, archive duplicates, unsafe tar names/types,
+wrong offsets, and output replacement fail closed.
 
 The result archive is hashed in full before zstd/tar decoding. The selected
 pickle is never passed to a general unpickler. A local stack machine recognizes
 only the exact protocol-5 primitive subset and statically validates the two
 NumPy constructions used by the frozen bytes: `numpy.dtype` and
 `numpy._core.numeric._frombuffer`. No payload callable is imported or run.
+Exact dtype `BUILD` slots are type-checked so Python numeric equality cannot
+substitute booleans or floats for frozen integers. The post-freeze clarification
+and its timing are disclosed in
+[`preregistration/amendment-001-safe-pickle-and-verifier-hardening.md`](preregistration/amendment-001-safe-pickle-and-verifier-hardening.md);
+the original preregistration files remain byte-identical to their frozen commit.
 
 The committed JSON and CSV fixtures bind source/result/member hashes, seed
 order, run-0 endpoint literals, every run-0 cycle, alternation, sample reuse,
 and evaluation/improvement arithmetic. GNU Octave checks those controls
-independently.
+independently. The finalizer recomputes the domain-separated Python report
+digest, enforces the complete claim/gate projection with exact JSON types, and
+binds the Octave fixture hashes and exact static assertion-site count. Octave
+creates its report through `mkstemp` plus an atomic no-clobber hard link; an
+existing output is never replaced.
 
 ## Run locally
 
@@ -54,7 +64,7 @@ With the four complete inputs in an artifact directory:
 
 ```bash
 EU2614_ARTIFACT_DIR=/path/to/artifacts \
-  python candidates/EU26-14/tests/run_python_tests.py
+  python candidates/EU26-14/tests/run_python_tests.py --require-full-artifact
 
 python candidates/EU26-14/environments/python/run_artifact_verification.py \
   --record-json /path/to/artifacts/record.json \
@@ -71,9 +81,10 @@ octave --quiet --eval \
   "addpath('candidates/EU26-14/tests/octave'); run_octave_tests('/new/path/octave.json');"
 ```
 
-The GitHub workflow runs Python and Octave gates separately. Its explicit
-`run_full_archive` dispatch job downloads and reauthenticates the complete
-318 MB archive and binds the two language reports.
+Every candidate-scoped pull request automatically runs registry regression,
+Python 3.13.5 unit/adversarial controls, independent Octave controls, and a
+required bounded download that reauthenticates the complete 318 MB archive.
+The full job rejects any test skip and binds the two language reports.
 
 ## Claim ceiling
 

@@ -135,7 +135,17 @@ def _validate_dtype_reduce(arguments: Any) -> _DType:
 def _validate_dtype_build(instance: Any, state: Any) -> _DType:
     if not isinstance(instance, _DType) or instance.built:
         raise VerificationError("BUILD target is not a fresh admitted dtype")
-    if state != (3, "<", None, None, None, -1, -1, 0):
+    if (
+        not isinstance(state, tuple)
+        or len(state) != 8
+        or not _is_int(state[0])
+        or state[0] != 3
+        or not isinstance(state[1], str)
+        or state[1] != "<"
+        or any(item is not None for item in state[2:5])
+        or any(not _is_int(item) for item in state[5:8])
+        or state[5:] != (-1, -1, 0)
+    ):
         raise VerificationError("numpy.dtype BUILD state differs")
     instance.built = True
     instance.byte_order = "<"

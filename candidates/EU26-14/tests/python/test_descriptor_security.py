@@ -39,6 +39,23 @@ class DescriptorSecurityTests(unittest.TestCase):
                 with open_verified(link, _identity(payload), label="symlink"):
                     pass
 
+    def test_symlinked_parent_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            real_parent = root / "real"
+            linked_parent = root / "linked"
+            real_parent.mkdir()
+            payload = b"target"
+            (real_parent / "input.bin").write_bytes(payload)
+            linked_parent.symlink_to(real_parent, target_is_directory=True)
+            with self.assertRaises(VerificationError):
+                with open_verified(
+                    linked_parent / "input.bin",
+                    _identity(payload),
+                    label="ancestor symlink",
+                ):
+                    pass
+
     def test_path_replacement_is_detected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

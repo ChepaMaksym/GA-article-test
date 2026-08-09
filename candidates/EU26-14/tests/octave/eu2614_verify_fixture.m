@@ -6,6 +6,12 @@ function report = eu2614_verify_fixture()
     json_path = fullfile(candidate_root, 'fixtures', 'frozen_endpoint.json');
     csv_path = fullfile(candidate_root, 'fixtures', 'run0_cycles.csv');
 
+    fixture_json_sha256 = lower(hash('sha256', fileread(json_path)));
+    fixture_csv_sha256 = lower(hash('sha256', fileread(csv_path)));
+    assert(strcmp(fixture_json_sha256, ...
+        '9439e0b14370b7685e769d96b17f9f92f9b24dc51dc1f9fcb047bc35e1d431bf'));
+    assert(strcmp(fixture_csv_sha256, ...
+        'e00b4af33a678a3e87cf7e6474d77fef6962c65be0051a5765909359983d5320'));
     fixture = jsondecode(fileread(json_path));
     assert(strcmp(fixture.candidate_id, 'EU26-14'));
     assert(strcmp(fixture.status, 'TARGETED_ARTIFACT_REPLAY_ONLY'));
@@ -33,6 +39,8 @@ function report = eu2614_verify_fixture()
     assert(fixture.run0.nfev_total == 2893419);
     assert(fixture.stop_semantic_conflict.unspent_evaluations == 106581);
     assert(fixture.stop_semantic_conflict.budget_exhaustion_claim_forbidden);
+    assert(numel(fixture.forbidden_claims) == 5);
+    assert(strcmp(fixture.forbidden_claims{1}, 'PASS_FULL'));
 
     handle = fopen(csv_path, 'r');
     assert(handle >= 0);
@@ -112,8 +120,17 @@ function report = eu2614_verify_fixture()
     report.cycle_count = 30;
     report.reused_cycle_count = reused_count;
     report.zero_eval_reused_cycle_count = zero_eval_reused_count;
-    report.final_cycle_nfev = prior_end;
-    report.run0_nfev_total = fixture.run0.nfev_total;
-    report.unspent_evaluations = fixture.stop_semantic_conflict.unspent_evaluations;
-    report.assertions = 31;
+    report.final_cycle_nfev = sprintf('%.0f', prior_end);
+    report.run0_nfev_total = sprintf('%.0f', fixture.run0.nfev_total);
+    report.unspent_evaluations = sprintf( ...
+        '%.0f', fixture.stop_semantic_conflict.unspent_evaluations);
+    report.static_assert_call_sites = 48;
+    report.fixture_json_sha256 = fixture_json_sha256;
+    report.fixture_csv_sha256 = fixture_csv_sha256;
+    report.source_archive_sha256 = fixture.source_archive_sha256;
+    report.result_archive_sha256 = fixture.result_archive_sha256;
+    report.member_sha256 = fixture.member.sha256;
+    report.member_bytes = sprintf('%.0f', fixture.member.bytes);
+    report.member_data_offset = sprintf('%.0f', fixture.member.tar_data_offset);
+    report.forbidden_claim_count = numel(fixture.forbidden_claims);
 end

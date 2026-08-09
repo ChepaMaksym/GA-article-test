@@ -1,9 +1,18 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "candidate_id": "EU26-14",
   "status": "TARGETED_ARTIFACT_REPLAY_ONLY",
   "paper_mapping": "PAPER_CONTEXT_ONLY",
   "readiness": "ADMITTED_TARGETED_ARTIFACT",
+  "amendments": [
+    {
+      "id": "001",
+      "path": "preregistration/amendment-001-safe-pickle-and-verifier-hardening.md",
+      "recorded": "2026-08-09",
+      "endpoint_changed": false,
+      "claim_ceiling_changed": false
+    }
+  ],
   "forbidden_claims": [
     "PASS_FULL",
     "PASS_EXACT_SOURCE_NATIVE",
@@ -124,7 +133,21 @@
       "numpy._core.numeric._frombuffer",
       "numpy.dtype"
     ],
-    "general_unpickling_forbidden": true
+    "general_unpickling_forbidden": true,
+    "dtype_reduce_codes": ["i8", "f8"],
+    "dtype_reduce_align": false,
+    "dtype_reduce_copy": true,
+    "dtype_build_state": [3, "<", null, null, null, -1, -1, 0],
+    "frombuffer_order": "C",
+    "exact_slot_types_required": true
+  },
+  "cross_language": {
+    "python_report_domain": "EU26-14-ARTIFACT-REPORT-V1",
+    "cross_language_report_domain": "EU26-14-CROSS-LANGUAGE-REPORT-V1",
+    "fixture_json_sha256": "9439e0b14370b7685e769d96b17f9f92f9b24dc51dc1f9fcb047bc35e1d431bf",
+    "fixture_csv_sha256": "e00b4af33a678a3e87cf7e6474d77fef6962c65be0051a5765909359983d5320",
+    "fixture_digest": "sha256:7a42a84bab8cc67822d33cbb3b636f60c422107a643a16c0cc2708aece5e636c",
+    "octave_static_assert_call_sites": 48
   },
   "execution": {
     "source_native": "NOT_ATTEMPTED_OUT_OF_SCOPE",

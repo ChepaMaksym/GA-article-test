@@ -73,6 +73,20 @@ class SafePickleTests(unittest.TestCase):
         with self.assertRaises(VerificationError):
             parse_numpy_pickle(payload)
 
+    def test_dtype_build_rejects_float_version(self) -> None:
+        payload = safe_array_pickle().replace(
+            b"(K\x03" + _short("<"),
+            b"(G" + struct.pack(">d", 3.0) + _short("<"),
+            1,
+        )
+        with self.assertRaises(VerificationError):
+            parse_numpy_pickle(payload)
+
+    def test_dtype_build_rejects_boolean_flag(self) -> None:
+        payload = safe_array_pickle().replace(b"K\x00tb", b"\x89tb", 1)
+        with self.assertRaises(VerificationError):
+            parse_numpy_pickle(payload)
+
     def test_object_construction_opcode_is_rejected(self) -> None:
         payload = safe_array_pickle()[:-1] + b"\x81."
         with self.assertRaises(VerificationError):
