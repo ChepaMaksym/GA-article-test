@@ -1,0 +1,260 @@
+{
+  "schema_version": "1.0.0",
+  "candidate_id": "EU26-15",
+  "candidate_name": "GARBO",
+  "candidate_status": "CONDITIONAL_NONELIGIBLE",
+  "verification_scope": "FORMULA_AND_SOURCE_TRANSITION_VALIDATION_ONLY",
+  "pass_full": false,
+  "claim_boundary": {
+    "allowed": [
+      "exact source identity",
+      "synthetic fuzzy-transition fixture agreement",
+      "synthetic population-statistic agreement",
+      "optional CSV structural dimension observation"
+    ],
+    "forbidden": [
+      "PASS_FULL",
+      "empirical GARBO replay",
+      "Table 2 replay",
+      "biomarker-panel reproduction",
+      "dataset license established"
+    ]
+  },
+  "paper": {
+    "title": "Feature set optimization in biomarker discovery from genome-scale data",
+    "doi": "10.1093/bioinformatics/btaa144",
+    "year": 2020,
+    "context_only_endpoint": {
+      "table": "Table 2",
+      "task": "Erlotinib",
+      "omics": "mRNA",
+      "method": "GARBO",
+      "overall": 0.86,
+      "average_size": 4.5,
+      "f1_score": 0.8,
+      "replay_forbidden": true
+    }
+  },
+  "upstream": {
+    "repository": "https://github.com/Greco-Lab/GARBO",
+    "licensed_revision": "9727e017371484dd5837a0859b41c195a87fd8d0",
+    "licensed_tree": "995ee6c51315ea52d0e82211fb708e32b45800bb",
+    "paper_era_revision": "1854385ffb0be85ef8deeeda45980aaed6e50207",
+    "paper_era_tree": "2c5240ae8ec6396db3a3ff15586cb23c7be83ed3",
+    "license": "GPL-3.0",
+    "license_added_at": "2024-11-05T17:38:37+02:00",
+    "required_files": {
+      "GARBO.py": {
+        "bytes": 35668,
+        "git_blob": "2c3de81f0fd9f510a31e5f7adcc7d25023454aad",
+        "sha256": "1ef92bbcf1ae66a0996a7aa7c56d7b057a50de9b0d4a7cbdfc9b25c724b63a67"
+      },
+      "runGARBO.py": {
+        "bytes": 2702,
+        "git_blob": "f45c8e4e4754f847ced7fc57f3c8fe13b4c49d32",
+        "sha256": "0cda6df4129a0e56d251a349c74b6556df6e1dadd90726ac1c8bc50e9e356469"
+      },
+      "LICENSE": {
+        "bytes": 35149,
+        "git_blob": "f288702d2fa16d3cdf0035b15a9fcbc552cd88e7",
+        "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+      }
+    },
+    "paper_era_identical_paths": [
+      "GARBO.py",
+      "runGARBO.py"
+    ]
+  },
+  "applied_dimension": {
+    "observed_path": "data_ccle_erl_ge.csv",
+    "observed_revision": "9727e017371484dd5837a0859b41c195a87fd8d0",
+    "rows_excluding_header": 217,
+    "columns": 1600,
+    "predictors": 1599,
+    "target_column": "class",
+    "dataset_license_status": "UNRESOLVED_NOT_CLAIMED",
+    "probe_mode": "OPTIONAL_STRUCTURE_ONLY"
+  },
+  "initial_state": {
+    "cxpb": 0.6,
+    "mutpb": 0.1,
+    "mutop": [0.2, 0.2, 0.6]
+  },
+  "statistics": {
+    "fv": "(max(fitness)-mean(fitness))/max(fitness)",
+    "ft": "abs(mean(fitness)-previous_mean_fitness)",
+    "mlc": "mean(chromosome_cardinality)",
+    "ssc": "mean_pairwise_jaccard_for_i_gt_j"
+  },
+  "update_timing": "after current offspring evaluation; applies to next generation",
+  "override": {
+    "condition": "ssc > 0.75",
+    "threshold": 0.75,
+    "strict": true,
+    "cxpb": 0.0,
+    "mutpb": 1.0,
+    "mutop": [0.9, 0.1, 0.0]
+  },
+  "numeric_semantics": {
+    "binary_format": "IEEE-754 binary64",
+    "arange": "numpy effective-step, nominal stop exclusive",
+    "antecedent_interpolation": "linear, zero outside sampled universe",
+    "and_implication": "minimum",
+    "aggregation": "maximum",
+    "defuzzification": "piecewise-linear area centroid",
+    "zero_area": "error",
+    "absolute_tolerance": 5e-12
+  },
+  "universes": {
+    "fv": {"start": -0.01, "stop": 0.7, "step": 0.001, "length": 710, "last": 0.6989999999999994},
+    "ft": {"start": -0.01, "stop": 0.7, "step": 0.001, "length": 710, "last": 0.6989999999999994},
+    "mlc": {"start": 0.0, "stop": 200.0, "step": 1.0, "length": 200, "last": 199.0},
+    "ssc": {"start": -0.01, "stop": 1.01, "step": 0.01, "length": 102, "last": 1.0},
+    "eva": {"start": 0.0, "stop": 1.1, "step": 0.01, "length": 110, "last": 1.09},
+    "cr": {"start": 0.0, "stop": 0.8, "step": 0.01, "length": 80, "last": 0.79},
+    "mr": {"start": 0.0, "stop": 0.3, "step": 0.01, "length": 30, "last": 0.29},
+    "pi": {"start": 0.1, "stop": 0.4, "step": 0.01, "length": 31, "last": 0.3999999999999998},
+    "pd": {"start": 0.1, "stop": 0.4, "step": 0.01, "length": 31, "last": 0.3999999999999998},
+    "pl": {"start": 0.0, "stop": 0.6, "step": 0.01, "length": 60, "last": 0.59, "source_status": "declared_but_unused"},
+    "est": {"start": -0.12, "stop": 0.12, "step": 0.01, "length": 24, "last": 0.10999999999999988}
+  },
+  "memberships": {
+    "fv": {
+      "low": ["trap", -0.01, -0.01, 0.0, 0.03],
+      "med": ["tri", 0.02, 0.05, 0.08],
+      "high": ["trap", 0.07, 0.1, 0.4, 0.7]
+    },
+    "ft": {
+      "low": ["trap", -0.01, -0.01, 0.005, 0.01],
+      "med": ["tri", 0.0075, 0.015, 0.03],
+      "high": ["trap", 0.02, 0.04, 0.4, 0.7]
+    },
+    "mlc": {
+      "low": ["trap", 0.0, 0.0, 5.0, 15.0],
+      "med": ["tri", 10.0, 20.0, 30.0],
+      "high": ["trap", 25.0, 35.0, 200.0, 200.0]
+    },
+    "ssc": {
+      "low": ["trap", -0.01, -0.01, 0.0, 0.2],
+      "med": ["tri", 0.1, 0.3, 0.5],
+      "high": ["trap", 0.4, 0.6, 1.01, 1.01]
+    },
+    "eva": {
+      "low": ["trap", 0.0, 0.0, 0.1, 0.4],
+      "med": ["tri", 0.2, 0.5, 0.8],
+      "high": ["trap", 0.6, 0.9, 1.1, 1.1]
+    },
+    "cr": {
+      "low": ["trap", 0.0, 0.0, 0.1, 0.2],
+      "med_low": ["tri", 0.15, 0.25, 0.35],
+      "med": ["tri", 0.3, 0.4, 0.5],
+      "med_high": ["tri", 0.45, 0.55, 0.65],
+      "high": ["trap", 0.6, 0.7, 0.8, 0.8]
+    },
+    "mr": {
+      "low": ["trap", 0.0, 0.0, 0.05, 0.08],
+      "med_low": ["tri", 0.07, 0.1, 0.13],
+      "med": ["tri", 0.12, 0.15, 0.18],
+      "med_high": ["tri", 0.17, 0.2, 0.23],
+      "high": ["trap", 0.22, 0.25, 0.3, 0.3]
+    },
+    "pi": {
+      "low": ["trap", 0.1, 0.1, 0.1, 0.15],
+      "med_low": ["tri", 0.125, 0.175, 0.225],
+      "med": ["tri", 0.2, 0.25, 0.3],
+      "med_high": ["tri", 0.275, 0.325, 0.375],
+      "high": ["trap", 0.35, 0.4, 0.4, 0.4]
+    },
+    "pd": {
+      "low": ["trap", 0.1, 0.1, 0.1, 0.15],
+      "med_low": ["tri", 0.125, 0.175, 0.225],
+      "med": ["tri", 0.2, 0.25, 0.3],
+      "med_high": ["tri", 0.275, 0.325, 0.375],
+      "high": ["trap", 0.35, 0.4, 0.4, 0.4]
+    },
+    "est": {
+      "low": ["trap", -0.12, -0.12, -0.1, -0.07],
+      "med_low": ["tri", -0.08, -0.05, -0.02],
+      "med": ["tri", -0.03, 0.0, 0.03],
+      "med_high": ["tri", 0.02, 0.05, 0.08],
+      "high": ["trap", 0.07, 0.1, 0.12, 0.12]
+    }
+  },
+  "rule_matrices": {
+    "crossover": {
+      "row_input": "fv",
+      "rows": ["high", "med", "low"],
+      "column_input": "mlc",
+      "columns": ["high", "med", "low"],
+      "output": "cr",
+      "terms": [
+        ["high", "med_high", "med_high"],
+        ["med", "med", "med_low"],
+        ["med_low", "low", "low"]
+      ]
+    },
+    "mutation": {
+      "row_input": "mlc",
+      "rows": ["high", "med", "low"],
+      "column_input": "ft_via_intFV",
+      "columns": ["high", "med", "low"],
+      "output": "mr",
+      "terms": [
+        ["med", "med_high", "high"],
+        ["med_low", "med", "med_high"],
+        ["low", "med_low", "med"]
+      ]
+    },
+    "insertion": {
+      "row_input": "ssc",
+      "rows": ["high", "med", "low"],
+      "column_input": "mlc",
+      "columns": ["low", "med", "high"],
+      "output": "pi",
+      "terms": [
+        ["high", "med", "med_low"],
+        ["med_high", "med_low", "low"],
+        ["med_low", "low", "low"]
+      ]
+    },
+    "deletion": {
+      "row_input": "ssc",
+      "rows": ["high", "med", "low"],
+      "column_input": "mlc",
+      "columns": ["low", "med", "high"],
+      "output": "pd",
+      "terms": [
+        ["med_low", "med", "high"],
+        ["low", "med_low", "med_high"],
+        ["low", "low", "med_low"]
+      ]
+    },
+    "feature_rank": {
+      "row_input": "usage",
+      "rows": ["high", "med", "low"],
+      "column_input": "benefit",
+      "columns": ["low", "med", "high"],
+      "output": "est",
+      "terms": [
+        ["low", "med", "med_high"],
+        ["med_low", "med_high", "high"],
+        ["med_low", "med", "med_high"]
+      ]
+    }
+  },
+  "source_quirks": {
+    "mutation_antecedent": "intFV(ft_input)",
+    "intFT_declared_but_not_used_by_mutation": true,
+    "mutation_operator_order": ["insertion", "deletion", "substitution"],
+    "substitution_formula": "1-(pDeletion+pInsertion)",
+    "additional_mutop_normalization": false
+  },
+  "blockers": [
+    "numpy RNG unseeded",
+    "paper splits and complete seed ledger absent",
+    "raw stochastic run ledger absent",
+    "full lawful dataset provenance manifest absent",
+    "Python 2.7 and dependencies unpinned",
+    "no paper-specific tag or release"
+  ]
+}

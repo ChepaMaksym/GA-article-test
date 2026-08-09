@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0.0",
+  "candidate_id": "EU26-15",
+  "reference": "pinned GARBO.py with scikit-fuzzy 0.4.2 reference semantics",
+  "absolute_tolerance": 5e-12,
+  "universe_endpoints": {
+    "fv": {"length": 710, "first": -0.01, "last": 0.6989999999999994},
+    "ft": {"length": 710, "first": -0.01, "last": 0.6989999999999994},
+    "mlc": {"length": 200, "first": 0.0, "last": 199.0},
+    "ssc": {"length": 102, "first": -0.01, "last": 1.0},
+    "eva": {"length": 110, "first": 0.0, "last": 1.09},
+    "cr": {"length": 80, "first": 0.0, "last": 0.79},
+    "mr": {"length": 30, "first": 0.0, "last": 0.29},
+    "pi": {"length": 31, "first": 0.1, "last": 0.3999999999999998},
+    "pd": {"length": 31, "first": 0.1, "last": 0.3999999999999998},
+    "pl": {"length": 60, "first": 0.0, "last": 0.59},
+    "est": {"length": 24, "first": -0.12, "last": 0.10999999999999988}
+  },
+  "transition_cases": [
+    {"id": "rule_low_low", "fv": 0.0, "ft": 0.0, "mlc": 5.0, "ssc": 0.0, "expected": {"branch": "fuzzy", "cxpb": 0.07777777777777779, "mutpb": 0.15, "mutop": [0.17500000000000002, 0.11666666666666667, 0.7083333333333333]}},
+    {"id": "rule_low_med", "fv": 0.0, "ft": 0.0, "mlc": 20.0, "ssc": 0.0, "expected": {"branch": "fuzzy", "cxpb": 0.07777777777777779, "mutpb": 0.2, "mutop": [0.11666666666666667, 0.11666666666666667, 0.7666666666666666]}},
+    {"id": "rule_low_high", "fv": 0.0, "ft": 0.0, "mlc": 35.0, "ssc": 0.0, "expected": {"branch": "fuzzy", "cxpb": 0.24999999999999994, "mutpb": 0.26181818181818184, "mutop": [0.11666666666666667, 0.17500000000000002, 0.7083333333333333]}},
+    {"id": "rule_med_low", "fv": 0.05, "ft": 0.05, "mlc": 5.0, "ssc": 0.3, "expected": {"branch": "fuzzy", "cxpb": 0.24999999999999997, "mutpb": 0.1, "mutop": [0.3249999999999999, 0.11666666666666667, 0.5583333333333335]}},
+    {"id": "rule_med_med", "fv": 0.05, "ft": 0.05, "mlc": 20.0, "ssc": 0.3, "expected": {"branch": "fuzzy", "cxpb": 0.39999999999999997, "mutpb": 0.15, "mutop": [0.17500000000000002, 0.17500000000000002, 0.6499999999999999]}},
+    {"id": "rule_med_high", "fv": 0.05, "ft": 0.05, "mlc": 35.0, "ssc": 0.3, "expected": {"branch": "fuzzy", "cxpb": 0.39999999999999997, "mutpb": 0.2, "mutop": [0.11666666666666667, 0.3249999999999999, 0.5583333333333335]}},
+    {"id": "rule_high_low", "fv": 0.1, "ft": 0.1, "mlc": 5.0, "ssc": 0.6, "expected": {"branch": "fuzzy", "cxpb": 0.5500000000000002, "mutpb": 0.03307692307692309, "mutop": [0.3833333333333331, 0.17500000000000002, 0.4416666666666669]}},
+    {"id": "rule_high_med", "fv": 0.1, "ft": 0.1, "mlc": 20.0, "ssc": 0.6, "expected": {"branch": "fuzzy", "cxpb": 0.5500000000000002, "mutpb": 0.1, "mutop": [0.24999999999999997, 0.24999999999999997, 0.5]}},
+    {"id": "rule_high_high", "fv": 0.1, "ft": 0.1, "mlc": 35.0, "ssc": 0.6, "expected": {"branch": "fuzzy", "cxpb": 0.7170238095238094, "mutpb": 0.15, "mutop": [0.17500000000000002, 0.3833333333333331, 0.4416666666666669]}},
+    {"id": "mixed_memberships", "fv": 0.025, "ft": 0.025, "mlc": 12.5, "ssc": 0.45, "expected": {"branch": "fuzzy", "cxpb": 0.24553292600135782, "mutpb": 0.15, "mutop": [0.26543990086741004, 0.19656303972366146, 0.5379970594089285]}},
+    {"id": "lower_sampled_endpoints", "fv": -0.01, "ft": -0.01, "mlc": 0.0, "ssc": -0.01, "expected": {"branch": "fuzzy", "cxpb": 0.07777777777777782, "mutpb": 0.15000000000000002, "mutop": [0.17500000000000002, 0.11666666666666667, 0.7083333333333333]}},
+    {"id": "ssc_equal_threshold_uses_fuzzy", "fv": 0.05, "ft": 0.015, "mlc": 20.0, "ssc": 0.75, "expected": {"branch": "fuzzy", "cxpb": 0.39999999999999997, "mutpb": 0.19999999999999996, "mutop": [0.24999999999999997, 0.24999999999999997, 0.5]}},
+    {"id": "ssc_above_threshold_overrides", "fv": 0.699, "ft": 0.699, "mlc": 200.0, "ssc": 0.7500000001, "expected": {"branch": "similarity_override", "cxpb": 0.0, "mutpb": 1.0, "mutop": [0.9, 0.1, 0.0]}},
+    {"id": "mutation_intfv_regression", "fv": 0.25, "ft": 0.015, "mlc": 20.0, "ssc": 0.2222222222222222, "expected": {"branch": "fuzzy", "cxpb": 0.5500000000000002, "mutpb": 0.2, "mutop": [0.17500000000000002, 0.17500000000000002, 0.6499999999999999]}, "forbidden_intft_mutpb": 0.15}
+  ],
+  "population_case": {
+    "id": "three_twenty_feature_chromosomes",
+    "fitness": [0.8, 0.6, 0.4],
+    "previous_mean_fitness": 0.585,
+    "chromosomes": [
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
+      [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
+      [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39]
+    ],
+    "expected_statistics": {"fv": 0.25, "ft": 0.015000000000000013, "mlc": 20.0, "ssc": 0.2222222222222222},
+    "expected_transition": {"branch": "fuzzy", "cxpb": 0.5500000000000002, "mutpb": 0.2, "mutop": [0.17500000000000002, 0.17500000000000002, 0.6499999999999999]}
+  },
+  "feature_rank_cases": [
+    {"id": "low_low", "usage": 0.1, "benefit": 0.1, "expected_delta": -0.049999999999999996},
+    {"id": "low_med", "usage": 0.1, "benefit": 0.5, "expected_delta": 6.610621579460203e-18},
+    {"id": "low_high", "usage": 0.1, "benefit": 0.9, "expected_delta": 0.05000000000000001},
+    {"id": "med_low", "usage": 0.5, "benefit": 0.1, "expected_delta": -0.049999999999999996},
+    {"id": "med_med", "usage": 0.5, "benefit": 0.5, "expected_delta": 0.05000000000000001},
+    {"id": "med_high", "usage": 0.5, "benefit": 0.9, "expected_delta": 0.0959999999999999},
+    {"id": "high_low", "usage": 0.9, "benefit": 0.1, "expected_delta": -0.10142857142857142},
+    {"id": "high_med", "usage": 0.9, "benefit": 0.5, "expected_delta": 6.610621579460203e-18},
+    {"id": "high_high", "usage": 0.9, "benefit": 0.9, "expected_delta": 0.05000000000000001}
+  ],
+  "negative_cases": [
+    {"id": "decimal_0699_is_outside_fv_samples", "operation": "transition", "fv": 0.699, "ft": 0.05, "mlc": 20.0, "ssc": 0.75, "expected_error": "ZeroAreaError"},
+    {"id": "mlc_200_is_outside_samples", "operation": "transition", "fv": 0.05, "ft": 0.05, "mlc": 200.0, "ssc": 0.75, "expected_error": "ZeroAreaError"},
+    {"id": "nonfinite_statistic", "operation": "transition_nonfinite", "expected_error": "ValueError"},
+    {"id": "zero_max_fitness", "operation": "population_zero_max", "expected_error": "ValueError"},
+    {"id": "one_chromosome_has_no_pairwise_ssc", "operation": "population_single", "expected_error": "ValueError"},
+    {"id": "empty_union_jaccard", "operation": "population_empty_union", "expected_error": "ValueError"}
+  ]
+}

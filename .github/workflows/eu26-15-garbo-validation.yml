@@ -1,0 +1,61 @@
+name: EU26-15 GARBO transition validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/EU26-15-garbo-verification
+    paths:
+      - "candidates/EU26-15/**"
+      - ".github/workflows/eu26-15-garbo-validation.yml"
+  pull_request:
+    paths:
+      - "candidates/EU26-15/**"
+      - ".github/workflows/eu26-15-garbo-validation.yml"
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+
+jobs:
+  exact-source-and-transition:
+    name: Exact source, Python, and GNU Octave controls
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Check out the candidate branch
+        uses: actions/checkout@v4
+
+      - name: Check out the exact licensed GARBO revision with history
+        uses: actions/checkout@v4
+        with:
+          repository: Greco-Lab/GARBO
+          ref: 9727e017371484dd5837a0859b41c195a87fd8d0
+          fetch-depth: 0
+          path: _upstream/GARBO
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.13"
+
+      - name: Run standard-library formula and negative tests
+        run: python candidates/EU26-15/tests/run_python_tests.py
+
+      - name: Verify source hashes, tokens, paper-era identity, and CSV shape
+        run: >-
+          python candidates/EU26-15/environments/python/verify_source.py
+          --source-dir _upstream/GARBO
+          --data-csv _upstream/GARBO/data_ccle_erl_ge.csv
+
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends octave
+
+      - name: Run independent MATLAB-compatible transition controls
+        run: >-
+          octave --quiet --eval
+          "addpath('candidates/EU26-15/tests/octave'); run_octave_tests"
