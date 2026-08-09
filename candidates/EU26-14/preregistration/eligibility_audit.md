@@ -56,10 +56,12 @@ this study.
    literal budget exhaustion.
 5. Python pickle is executable. The verifier may not call `pickle.load`,
    `pickle.loads`, NumPy's pickle loader, or any equivalent general unpickler.
-   It must parse the frozen protocol without executing constructors, allow
-   only the frozen NumPy symbolic references, and reject every other global,
-   extension, persistent reference, reducer, object-construction path, or
-   unexpected opcode.
+   It must parse the frozen protocol without executing constructors. The only
+   admitted `REDUCE` forms are exact, statically validated interpretations of
+   `numpy.dtype` and `numpy._core.numeric._frombuffer`; the only admitted
+   `BUILD` is the frozen dtype-state form. No referenced callable is imported
+   or executed. Every other global, `REDUCE`, `BUILD`, extension, persistent
+   reference, object-construction path, or unexpected opcode must reject.
 6. The 317,976,046-byte result archive must pass its complete SHA-256 before
    endpoint acceptance. A partial or range-only result cannot pass.
 7. The selected member must be located by streaming zstd and tar parsing at

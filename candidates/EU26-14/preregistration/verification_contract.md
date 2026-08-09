@@ -86,8 +86,14 @@ numpy._core.numeric._frombuffer
 numpy.dtype
 ```
 
-All other globals and all extension, persistent-reference, dynamic-global,
-reducer, instance, object-construction, or unexpected opcodes fail closed.
+The only admitted `REDUCE` forms are statically validated local
+interpretations of `numpy.dtype(code, False, True)` and
+`numpy._core.numeric._frombuffer(buffer, dtype, shape, "C")`. The only
+admitted `BUILD` is the exact frozen dtype state
+`(3, "<", None, None, None, -1, -1, 0)`. No referenced callable is imported
+or executed. Every other `REDUCE`, `BUILD`, global, extension,
+persistent-reference, dynamic-global, instance, object-construction, or
+unexpected opcode fails closed.
 
 ## Verification gates
 
