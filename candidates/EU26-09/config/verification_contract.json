@@ -1,0 +1,141 @@
+{
+  "schema_version": "1.0.0",
+  "candidate_id": "EU26-09",
+  "status": "TARGETED_ARTIFACT_REPLAY",
+  "readiness": "CONDITIONAL_EVIDENCE",
+  "paper_mapping": "PAPER_FIGURE_CONTEXT_ONLY",
+  "forbidden_claims": [
+    "PASS_FULL",
+    "PASS_LITERAL_PAPER_ENDPOINT",
+    "HISTORICAL_DEPENDENCY_ENVIRONMENT_PROVEN"
+  ],
+  "paper": {
+    "doi": "10.1145/3564755",
+    "author_pdf_url": "https://mhevia.com/assets/pdf/journal_oplclga.pdf",
+    "pdf_bytes": 4891151,
+    "pdf_sha256": "4ba0a96795ab7fe1c8d775489a41631ecca9f3b42e0ffbe5a0dc982ad1fa2221",
+    "literal_numeric_mapping": false,
+    "context": "Figure 5: OneMax means over 500 runs"
+  },
+  "upstream": {
+    "repository": "https://github.com/mariohevia/Parameter-Control-Mechanisms-Genetic-Algorithm.git",
+    "commit": "49949a55208359ac93b7110afb23ed276bda158d",
+    "tree": "a9d1a04fbbafbb114585ff7caf10bddc6381755a",
+    "paper_pins_revision": false,
+    "license": "GPL-3.0",
+    "license_path": "LICENSE",
+    "license_bytes": 35149,
+    "license_sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+    "license_git_blob": "f288702d2fa16d3cdf0035b15a9fcbc552cd88e7"
+  },
+  "endpoint": {
+    "problem": "OneMax",
+    "dimension": 100,
+    "runs": 500,
+    "base_seed": 885480221,
+    "first_effective_seed": 885480222,
+    "last_effective_seed": 885480721,
+    "seed_formula": "base_seed + run_id for both numpy.random and random",
+    "algorithm": "JA.OnePlusLambdaCommaLambdaSAReset",
+    "lambda_cap": 100,
+    "initial_lambda_real": 1.0,
+    "crossover_rate": 1.0,
+    "update_factor": 1.5,
+    "raw_totals": {
+      "generations": 98168,
+      "evaluations": 447632,
+      "fitness": 50000,
+      "final_logged_lambda": 4946
+    },
+    "raw_means": {
+      "generations": "196.336",
+      "evaluations": "895.264",
+      "fitness": "100.0",
+      "final_logged_lambda": "9.892"
+    }
+  },
+  "raw_member": {
+    "path": "Raw/results_20-09-28_06:58:03_OneMax_n100_JA.OnePlusLambdaCommaLambdaSAReset_λ100.txt",
+    "bytes": 48918,
+    "sha256": "22177154c4375290632476ab8e82845465d4a7261a31c78f63701ef7e901714a",
+    "git_blob": "5d6ab57c986d3c166cf0b731496d24d973b0b651",
+    "lf_count": 522,
+    "logical_lines": 523,
+    "terminal_lf": false,
+    "encoding": "UTF-8"
+  },
+  "source_profiles": {
+    "artifact_python": {
+      "offspring_rounding": "Python round: nearest, ties to even",
+      "initial_parent_evaluation_count": 0,
+      "zero_mutation_strength_generation_count": "2 * round(lambda_real)",
+      "final_log_timing": "pre-transition"
+    },
+    "paper_diagnostic": {
+      "offspring_rounding": "ceil(lambda_real)",
+      "acceptance_target": false
+    }
+  },
+  "source_native": {
+    "command": [
+      "python",
+      "master.py",
+      "-t", "OneMax",
+      "-n", "100",
+      "-l", "100",
+      "-r", "500",
+      "-c", "1",
+      "-a", "JA.OnePlusLambdaCommaLambdaSAReset",
+      "-G", "1.5",
+      "--seed", "885480221",
+      "-v"
+    ],
+    "dependency_lock_in_upstream": false,
+    "exact_run_tuple_match_required": true,
+    "exact_footer_match_required": true,
+    "checkout_must_remain_clean": true
+  },
+  "verification_execution": {
+    "minimum_fail_closed_python_tests": 45,
+    "require_zero_skips": true,
+    "require_new_report_paths": true
+  },
+  "required_members": [
+    {
+      "path": "README.md",
+      "bytes": 1789,
+      "sha256": "542db3cc40002aed7f44bb710855421563fd980d21eed24f616c75514d9879ba",
+      "git_blob": "c6d2d5422b93ed52fcf9035499d4590194005e89"
+    },
+    {
+      "path": "Python-code/master.py",
+      "bytes": 7849,
+      "sha256": "d1fb4f9e2c2c305936d2c078e2f40a43303e588f1a672d5de28c1dc8084ec71b",
+      "git_blob": "2c607af15ed516d1263e4caeeba075e41d8bc039"
+    },
+    {
+      "path": "Python-code/utils/journalalgorithms.py",
+      "bytes": 81176,
+      "sha256": "845f1a196f58682de6b40f39e5495e00814f2921cbd4bbc744d169975c577192",
+      "git_blob": "9c4fbc4406f63b4e3ca98598711ecad5f75e9942"
+    },
+    {
+      "path": "Python-code/utils/functions.py",
+      "bytes": 11928,
+      "sha256": "0aabfa6d3dcd490f0b4be763f0fda2e098deaed78cd2fbc59d39b05a0cfa9b05",
+      "git_blob": "ecfa438ee8749c160d239d1e4c990a76a5530b0a"
+    },
+    {
+      "path": "Python-code/utils/inputs.py",
+      "bytes": 12331,
+      "sha256": "37e8a2938b02cebd36c3086cb13a485ba7e581738edfb2773b7679d5c4b76cb9",
+      "git_blob": "702786660f988143fbed9bf4c65e52d352cd112c"
+    },
+    {
+      "path": "Python-code/utils/outputs.py",
+      "bytes": 1034,
+      "sha256": "fb8d30d2e8291bca6742bc6e10ecdb8e72c21d6e1c5fad331bd4284a9dbac19d",
+      "git_blob": "ce8588cd393ac23d8821ff67b06fc76a02fc25c6"
+    }
+  ]
+}

@@ -1,0 +1,200 @@
+name: EU26-09 authenticated PCM-GA validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/EU26-09-pcmga-verification
+    paths:
+      - "candidates/EU26-09/**"
+      - ".github/workflows/eu26-09-validation.yml"
+  pull_request:
+    paths:
+      - "candidates/EU26-09/**"
+      - ".github/workflows/eu26-09-validation.yml"
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+  PCMGA_REPOSITORY: https://github.com/mariohevia/Parameter-Control-Mechanisms-Genetic-Algorithm.git
+  PCMGA_COMMIT: 49949a55208359ac93b7110afb23ed276bda158d
+  PCMGA_TREE: a9d1a04fbbafbb114585ff7caf10bddc6381755a
+  RAW_SHA256: 22177154c4375290632476ab8e82845465d4a7261a31c78f63701ef7e901714a
+  RAW_PATH: Raw/results_20-09-28_06:58:03_OneMax_n100_JA.OnePlusLambdaCommaLambdaSAReset_λ100.txt
+
+jobs:
+  python-artifact:
+    name: Python parser, controls, protocol, and mutation gates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out candidate branch
+        uses: actions/checkout@v4
+      - name: Set up frozen Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.13"
+      - name: Fetch and authenticate publication-era upstream
+        run: |
+          git init --quiet "$RUNNER_TEMP/pcmga"
+          git -C "$RUNNER_TEMP/pcmga" remote add origin "$PCMGA_REPOSITORY"
+          git -C "$RUNNER_TEMP/pcmga" fetch --quiet --depth=1 origin "$PCMGA_COMMIT"
+          git -C "$RUNNER_TEMP/pcmga" checkout --quiet --detach FETCH_HEAD
+          test "$(git -C "$RUNNER_TEMP/pcmga" rev-parse 'HEAD^{commit}')" = "$PCMGA_COMMIT"
+          test "$(git -C "$RUNNER_TEMP/pcmga" rev-parse 'HEAD^{tree}')" = "$PCMGA_TREE"
+          test -z "$(git -C "$RUNNER_TEMP/pcmga" status --porcelain=v1 --untracked-files=all)"
+          echo "$RAW_SHA256  $RUNNER_TEMP/pcmga/$RAW_PATH" | sha256sum --check --strict
+      - name: Run all fail-closed Python tests
+        run: |
+          mkdir -p candidate-artifacts
+          EU2609_UPSTREAM="$RUNNER_TEMP/pcmga" python candidates/EU26-09/tests/run_python_tests.py \
+            --output candidate-artifacts/python-tests.json
+      - name: Verify authenticated artifact endpoint
+        run: |
+          python candidates/EU26-09/environments/python/run_artifact_verification.py \
+            --checkout "$RUNNER_TEMP/pcmga" \
+            --output candidate-artifacts/artifact-report.json
+      - name: Assert narrow claim boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          report = json.loads(Path("candidate-artifacts/artifact-report.json").read_text())
+          if report.get("artifact_gate") != "PASS_ARTIFACT_ENDPOINT":
+              raise SystemExit("artifact endpoint did not pass")
+          if report.get("paper_mapping") != "PAPER_FIGURE_CONTEXT_ONLY":
+              raise SystemExit("paper mapping boundary was lost")
+          if "PASS_FULL" not in report.get("forbidden_claims", []):
+              raise SystemExit("PASS_FULL is not forbidden")
+          PY
+      - name: Upload generated Python evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eu26-09-python-evidence
+          path: candidate-artifacts/
+          if-no-files-found: error
+          retention-days: 30
+
+  octave-cross-language:
+    name: Independent MATLAB/Octave parser and controls
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out candidate branch
+        uses: actions/checkout@v4
+      - name: Set up frozen Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.13"
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends octave
+      - name: Fetch and authenticate publication-era upstream
+        run: |
+          git init --quiet "$RUNNER_TEMP/pcmga"
+          git -C "$RUNNER_TEMP/pcmga" remote add origin "$PCMGA_REPOSITORY"
+          git -C "$RUNNER_TEMP/pcmga" fetch --quiet --depth=1 origin "$PCMGA_COMMIT"
+          git -C "$RUNNER_TEMP/pcmga" checkout --quiet --detach FETCH_HEAD
+          test "$(git -C "$RUNNER_TEMP/pcmga" rev-parse 'HEAD^{commit}')" = "$PCMGA_COMMIT"
+          test "$(git -C "$RUNNER_TEMP/pcmga" rev-parse 'HEAD^{tree}')" = "$PCMGA_TREE"
+          echo "$RAW_SHA256  $RUNNER_TEMP/pcmga/$RAW_PATH" | sha256sum --check --strict
+      - name: Run independent MATLAB-compatible gates
+        run: |
+          mkdir -p candidate-artifacts
+          EU2609_UPSTREAM="$RUNNER_TEMP/pcmga" \
+          EU2609_OCTAVE_REPORT="$RUNNER_TEMP/eu26-09-octave.json" \
+            octave --quiet --eval \
+            "addpath('candidates/EU26-09/tests/matlab'); run_matlab_tests"
+      - name: Bind cross-language evidence
+        run: |
+          python candidates/EU26-09/environments/python/run_artifact_verification.py \
+            --checkout "$RUNNER_TEMP/pcmga" \
+            --output "$RUNNER_TEMP/eu26-09-python.json"
+          python candidates/EU26-09/environments/python/finalize_cross_language.py \
+            --python-report "$RUNNER_TEMP/eu26-09-python.json" \
+            --octave-report "$RUNNER_TEMP/eu26-09-octave.json" \
+            --output candidate-artifacts/cross-language-report.json
+      - name: Assert cross-language claim boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          report = json.loads(Path("candidate-artifacts/cross-language-report.json").read_text())
+          if report.get("cross_language_gate") != "PASS_CROSS_LANGUAGE":
+              raise SystemExit("cross-language gate did not pass")
+          if report.get("paper_mapping") != "PAPER_FIGURE_CONTEXT_ONLY":
+              raise SystemExit("paper mapping boundary was lost")
+          if "PASS_FULL" not in report.get("forbidden_claims", []):
+              raise SystemExit("PASS_FULL is not forbidden")
+          PY
+      - name: Upload generated cross-language evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eu26-09-cross-language-evidence
+          path: candidate-artifacts/
+          if-no-files-found: error
+          retention-days: 30
+
+  source-native-replay:
+    name: Frozen modern-environment 500-seed source replay
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out candidate branch
+        uses: actions/checkout@v4
+      - name: Set up frozen Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.13"
+      - name: Install frozen auditor-selected dependencies
+        run: >-
+          python -m pip install
+          numpy==2.3.5
+          scipy==1.17.0
+          matplotlib==3.10.8
+      - name: Fetch and authenticate publication-era upstream
+        run: |
+          git init --quiet "$RUNNER_TEMP/pcmga"
+          git -C "$RUNNER_TEMP/pcmga" remote add origin "$PCMGA_REPOSITORY"
+          git -C "$RUNNER_TEMP/pcmga" fetch --quiet --depth=1 origin "$PCMGA_COMMIT"
+          git -C "$RUNNER_TEMP/pcmga" checkout --quiet --detach FETCH_HEAD
+          test "$(git -C "$RUNNER_TEMP/pcmga" rev-parse 'HEAD^{commit}')" = "$PCMGA_COMMIT"
+          test "$(git -C "$RUNNER_TEMP/pcmga" rev-parse 'HEAD^{tree}')" = "$PCMGA_TREE"
+          echo "$RAW_SHA256  $RUNNER_TEMP/pcmga/$RAW_PATH" | sha256sum --check --strict
+      - name: Replay all 500 source-native seeds
+        run: |
+          mkdir -p candidate-artifacts
+          python candidates/EU26-09/environments/python/run_source_native_replay.py \
+            --checkout "$RUNNER_TEMP/pcmga" \
+            --output candidate-artifacts/source-native-report.json
+      - name: Assert exact replay remains narrowly scoped
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          report = json.loads(Path("candidate-artifacts/source-native-report.json").read_text())
+          if report.get("source_native_gate") != "PASS_SOURCE_NATIVE_RAW_REPLAY":
+              raise SystemExit("source-native raw replay did not match exactly")
+          if report.get("generated", {}).get("exact_byte_match") is not True:
+              raise SystemExit("source-native replay was not an exact byte match")
+          if report.get("historical_environment_proven") is not False:
+              raise SystemExit("modern replay incorrectly proved historical environment")
+          if "PASS_FULL" not in report.get("forbidden_claims", []):
+              raise SystemExit("PASS_FULL is not forbidden")
+          PY
+      - name: Upload generated source-native evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eu26-09-source-native-evidence
+          path: candidate-artifacts/
+          if-no-files-found: error
+          retention-days: 30
