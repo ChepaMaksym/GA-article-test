@@ -1,0 +1,237 @@
+{
+  "schema_version": "1.0.0",
+  "candidate_id": "EU26-13",
+  "status": "TARGETED_ARTIFACT_REPLAY_ONLY",
+  "readiness": "ADMITTED_TARGETED_ARTIFACT",
+  "paper_mapping": "PAPER_CONTEXT_ONLY",
+  "source_native_status": "BLOCKED_UNPINNED_TOOLCHAIN_DEPS",
+  "forbidden_claims": [
+    "PASS_FULL",
+    "PASS_LITERAL_PAPER_ENDPOINT",
+    "PASS_EXACT_SOURCE_NATIVE_REPLAY",
+    "HISTORICAL_DEPENDENCY_ENVIRONMENT_PROVEN",
+    "FULL_ARCHIVE_MD5_RECOMPUTED",
+    "ARCHIVE_SOURCE_MATCHES_PUBLIC_GIT_COMMIT"
+  ],
+  "paper": {
+    "doi": "10.1007/978-3-031-70068-2_17",
+    "arxiv_url": "https://arxiv.org/pdf/2405.01226",
+    "arxiv_id": "2405.01226v1",
+    "pdf_bytes": 1474257,
+    "pdf_sha256": "3e2274f8e819e5eb7c268a4fe8f30f723241a8f1af424791cd1c2e50442ea78c",
+    "literal_numeric_mapping": false,
+    "context": "Paper cites the repository; selected BIPOP/elitist endpoint is additional repository evidence"
+  },
+  "zenodo": {
+    "record_id": 10997200,
+    "doi": "10.5281/zenodo.10997200",
+    "record_url": "https://zenodo.org/api/records/10997200",
+    "publication_date": "2024-04-19",
+    "created": "2024-05-02T10:54:46.550783+00:00",
+    "updated": "2024-05-02T10:54:46.836185+00:00",
+    "license": "cc-by-4.0"
+  },
+  "zenodo_files": {
+    "repelling_code.zip": {
+      "bytes": 24065992,
+      "md5": "a4d4a132570f162c686123a46a78fc67",
+      "sha256": "4b3a99b4e3661f701276dc63426d14879ed6c2bb38563af67b7662bc83ec4a9b",
+      "url": "https://zenodo.org/api/records/10997200/files/repelling_code.zip/content",
+      "entry_count": 498,
+      "total_uncompressed_bytes": 33214272,
+      "license": "CC-BY-4.0 plus embedded MIT"
+    },
+    "repelling.zip": {
+      "bytes": 17573142426,
+      "md5": "5bf7f5e28ca5c6f26859c94c3eb1fcee",
+      "md5_status": "ZENODO_DECLARED_NOT_RECOMPUTED",
+      "url": "https://zenodo.org/api/records/10997200/files/repelling.zip/content"
+    }
+  },
+  "source_snapshot": {
+    "public_repository": "https://github.com/IOHprofiler/ModularCMAES",
+    "git_revision": null,
+    "archive_maps_to_public_git_commit": false,
+    "modcma_version": "1.0.6",
+    "eigen_version": "3.4.0",
+    "runtime_requirements": [
+      "ioh>=0.3.12",
+      "numpy>=1.18.5",
+      "pybind11>=2.6.0",
+      "scipy>=1.9.1"
+    ],
+    "build_flags_linux": ["-O3", "-fno-math-errno", "-march=native"],
+    "embedded_extension": "modcma/c_maes/cmaescpp.cpython-311-x86_64-linux-gnu.so",
+    "license": "MIT"
+  },
+  "required_code_members": [
+    {"path": "repelling_code/LICENSE", "bytes": 1071, "sha256": "3454b70bcc796e369a21e641cd10126944ec2b136219ce1475a580dfd3be8e8f"},
+    {"path": "repelling_code/requirements.txt", "bytes": 54, "sha256": "2644227799a1cdb68d44c2f7aa60cd00f66958e971ddad093b6c1a602f564905"},
+    {"path": "repelling_code/setup.py", "bytes": 1464, "sha256": "ffa446df200265d5af5b6e17ee707ca4b6c9a124cdeee49e4e09c983fb9bc348"},
+    {"path": "repelling_code/repelling/collect_data.py", "bytes": 3157, "sha256": "7717aca9029a3ae361a88f87a0d07c19704951bbb0a0ba9299284eeaf534d9f7"},
+    {"path": "repelling_code/include/common.hpp", "bytes": 6049, "sha256": "e24ea1b6e690d2660fcfd2211fff43b728cd2104d8c813a07da2098cadb6782b"},
+    {"path": "repelling_code/include/modules.hpp", "bytes": 1773, "sha256": "d5381c836ac8f1568b6ce48146ae4f2254706885798d406ae009e55a57c6320d"},
+    {"path": "repelling_code/include/repelling.hpp", "bytes": 2920, "sha256": "4a07bc2321a47c9dd1b0c7875d7cea3048ea6d3415c1d62c02f9fd94df370218"},
+    {"path": "repelling_code/include/restart.hpp", "bytes": 4550, "sha256": "77a479dfb29c6cea2d1151df6505734c9fb17827ecbf4e0746512e3516462240"},
+    {"path": "repelling_code/include/settings.hpp", "bytes": 2837, "sha256": "7d1e98de91c0060d488e83b69ab55446f242173346249a0a25c99ab202700580"},
+    {"path": "repelling_code/src/common.cpp", "bytes": 2541, "sha256": "1a0f4ad0fd1cf6304164a49099961cd1d583d21df54be079b950845d59cb9a86"},
+    {"path": "repelling_code/src/c_maes.cpp", "bytes": 1403, "sha256": "883926a9a882ac958825b47e4926d6c3e57aab0ef1a1bfb779fe900df8f5f25c"},
+    {"path": "repelling_code/src/matrix_adaptation.cpp", "bytes": 6754, "sha256": "06ff35daeabe62cfa2f33452d4225824cf7ec0a5b1b21945d111b2f3bc88893f"},
+    {"path": "repelling_code/src/mutation.cpp", "bytes": 8145, "sha256": "fe263da31ca589ec1a1421240ab3c7d9360caaeb04dd9a342d43510dc2f4382b"},
+    {"path": "repelling_code/src/parameters.cpp", "bytes": 3346, "sha256": "c3d3ad89d2764903d716d254a4c06a7678a70a23cf38daf61420a96ec4971f41"},
+    {"path": "repelling_code/src/repelling.cpp", "bytes": 5884, "sha256": "b2e8b5789896a5be03a7189725335bcbab092083d49b6f0c3e2212263d3b66c0"},
+    {"path": "repelling_code/src/restart.cpp", "bytes": 6521, "sha256": "d9073d0339568bf9e5a43ceee317b0c44644bb48d6be631341aa50a600eb11b0"},
+    {"path": "repelling_code/src/selection.cpp", "bytes": 1375, "sha256": "1082e00b5331ac23774ae81fccd43b52911d8b581e4a3995014577f19957ac11"}
+  ],
+  "outer_zip64": {
+    "tail_start": 17573076890,
+    "tail_bytes": 65536,
+    "tail_sha256": "f37de706cbe1c09bb11562c993c166be88696e55546fd82068f9396a7b25d0bd",
+    "zip64_eocd_offset": 17573142328,
+    "zip64_locator_offset": 17573142384,
+    "classic_eocd_offset": 17573142404,
+    "entry_count": 60,
+    "central_directory_offset": 17573135462,
+    "central_directory_bytes": 6866,
+    "central_directory_sha256": "de9e084a48c68eb9c565ce05b782ef199f7abe5b6ceae239a2b9b728ae6e7347"
+  },
+  "outer_member": {
+    "path": "CMA-ES-BIPOP-repelling-c1000.0-elitist.zip",
+    "local_header_offset": 410334475,
+    "local_header_bytes": 100,
+    "local_header_sha256": "fe8863dcb098fc7db1e79197d9057e49a4e970697746e3761170aa57d102a71f",
+    "data_offset": 410334575,
+    "flags": 0,
+    "compression_method": 0,
+    "compressed_bytes": 385093474,
+    "uncompressed_bytes": 385093474,
+    "crc32": "e907dafc",
+    "crc_status": "CENTRAL_DIRECTORY_DECLARED_NOT_RECOMPUTED"
+  },
+  "nested_zip": {
+    "bytes": 385093474,
+    "tail_start_relative": 385027938,
+    "tail_bytes": 65536,
+    "tail_sha256": "f04b183deefcc03302c59f150779c27383a384ae0eac8b7175e0fe47ff6c9dea",
+    "classic_eocd_offset_relative": 385093452,
+    "entry_count": 338,
+    "central_directory_offset_relative": 385042441,
+    "central_directory_bytes": 51011,
+    "central_directory_sha256": "53bdc3d6918143f159f8912f75915fadc87d1a4fe46f75b15af0c6bfe57ea855"
+  },
+  "target_member": {
+    "path": "CMA-ES-BIPOP-repelling-c1000.0-elitist/IOHprofiler_f1_Sphere.json",
+    "local_header_offset_relative": 378912545,
+    "local_header_offset_absolute": 789247120,
+    "local_header_bytes": 123,
+    "local_header_sha256": "bfe85301a1ab6db2ad151310338c81294f25f24af43d68a31d51718483a713ba",
+    "data_offset_absolute": 789247243,
+    "data_end_inclusive_absolute": 789669451,
+    "flags": 0,
+    "compression_method": 8,
+    "compressed_bytes": 422209,
+    "uncompressed_bytes": 3113753,
+    "crc32": "63419fdd",
+    "compressed_sha256": "97b33f647c6afd990bc368a8b0e60e98f6fc14781203f4fb6090ff503a2e8dfc",
+    "raw_sha256": "ee9cb8f7e11803263f21d15563daa266e379ea32a435a425f5228f8c74dc0f9a"
+  },
+  "endpoint": {
+    "json_version": "0.3.15",
+    "suite": "unknown_suite",
+    "function_id": 1,
+    "function_name": "Sphere",
+    "maximization": false,
+    "algorithm_name": "CMA-ES-BIPOP-repelling-c1000.0-elitist",
+    "scenario_dimensions": [9, 4, 3, 20, 5, 10, 6, 7, 8],
+    "scenario_index": 3,
+    "dimension": 20,
+    "scenario_path": "data_f1_Sphere/IOHprofiler_f1_DIM20.dat",
+    "runs": 500,
+    "instances": 10,
+    "runs_per_instance": 50,
+    "run_index": 0,
+    "instance": 1,
+    "seed": 0,
+    "seed_formula": "set_seed(42 * run), instance outer and run inner",
+    "evals": 2173,
+    "best_evals": 2173,
+    "best_y_decimal": "7.379046076174201e-09",
+    "best_x_length": 20,
+    "json_pointer": "/scenarios/3/runs/0"
+  },
+  "control_fixtures": {
+    "seed_schedule": {
+      "instances": 10,
+      "runs_per_instance": 50,
+      "seed_multiplier": 42,
+      "expected_rows": 500,
+      "expected_first": [1, 0, 0],
+      "expected_instance2_first": [2, 0, 0],
+      "expected_last": [10, 49, 2058]
+    },
+    "bipop": {
+      "lambda_init": 12,
+      "mu_init": 6,
+      "budget": 200000,
+      "first_restart": {
+        "evaluations": 1000,
+        "uniform_population": 0.5,
+        "expected_budget_small": 99500,
+        "expected_budget_large": 99500,
+        "expected_lambda_large": 24,
+        "expected_lambda_small_proposal": 2,
+        "expected_lambda": 24,
+        "expected_mu": 12,
+        "expected_sigma": 2.0
+      },
+      "second_restart": {
+        "evaluations": 3000,
+        "uniform_population": 0.25,
+        "uniform_sigma": 0.75,
+        "expected_budget_small": 99500,
+        "expected_budget_large": 97500,
+        "expected_lambda_large": 48,
+        "expected_lambda_small": 8,
+        "expected_lambda": 8,
+        "expected_mu": 4,
+        "expected_sigma": 0.06324555320336758
+      }
+    },
+    "repelling_radius": {
+      "dimension": 20,
+      "volume": "1e20",
+      "sigma0": 2.0,
+      "coverage": 1000.0,
+      "finalized_restarts": 2,
+      "n_rep": 3,
+      "expected_gamma_factor": 1.2006411259288579,
+      "expected_radius": 8.378500086238091,
+      "expected_shrinkage": 0.9994976094477416,
+      "attempts": 5,
+      "expected_effective_radius": 8.357474826211032
+    },
+    "csa": {
+      "sigma": 2.0,
+      "cs": 0.3,
+      "damps": 1.5,
+      "ps_norm": 5.0,
+      "chi_n": 4.416605124547244,
+      "expected_sigma": 2.05354060920934
+    },
+    "hill_valley": {
+      "n_evals": 3,
+      "expected_interpolation_fractions": [0.25, 0.5, 0.75],
+      "strict_barrier_comparison": true,
+      "equality_means_same_basin": true
+    }
+  },
+  "verification_execution": {
+    "maximum_range_bytes_per_request": 4000000,
+    "full_outer_archive_download_forbidden": true,
+    "full_nested_archive_download_forbidden": true,
+    "require_exact_content_range": true,
+    "require_zero_skips": true,
+    "require_report_write_once": true,
+    "source_native_execution_forbidden_under_v1": true
+  }
+}
