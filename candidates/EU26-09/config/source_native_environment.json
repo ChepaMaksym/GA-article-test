@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0.0",
+  "selection_frozen_before_replay": true,
+  "local_audit_profile": {
+    "python": "3.12.13",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "matplotlib": "3.10.8"
+  },
+  "ci_profile": {
+    "runner": "ubuntu-24.04",
+    "python": "3.12.13",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "matplotlib": "3.10.8"
+  },
+  "upstream_dependency_lock_present": false,
+  "interpretation": "An exact replay binds only to this auditor-selected modern environment."
+}
