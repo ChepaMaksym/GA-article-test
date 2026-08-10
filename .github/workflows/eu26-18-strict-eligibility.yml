@@ -1,0 +1,111 @@
+name: EU26-18 strict verification
+
+on:
+  pull_request:
+    paths:
+      - "candidates/EU26-18/**"
+      - ".github/workflows/eu26-18-strict-eligibility.yml"
+  push:
+    branches:
+      - "research/EU26-18-self-adaptive-plm-strict-audit"
+    paths:
+      - "candidates/EU26-18/**"
+      - ".github/workflows/eu26-18-strict-eligibility.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  source-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Download official UNED accepted manuscript
+        run: >-
+          curl --fail --location --retry 3 --retry-all-errors
+          --output eu26-18-source.pdf
+          https://espacio-pre.uned.es/bitstreams/fccf7fd1-f3dc-4871-b289-f8e7bf985574/download
+      - name: Verify source bytes and PDF signature
+        run: >-
+          python candidates/EU26-18/verification/verify_source_pdf.py
+          --pdf eu26-18-source.pdf
+
+  eligibility-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate JSON syntax
+        run: python -m json.tool candidates/EU26-18/config/eligibility_contract.json >/dev/null
+      - name: Run fail-closed contract tests
+        run: python -m unittest discover -s candidates/EU26-18/tests -p "test_strict_eligibility.py" -v
+
+  portable-reference-kernel:
+    name: ${{ matrix.label }} formula and worker verification
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            python: "3.10"
+            label: ubuntu-py310
+          - os: ubuntu-latest
+            python: "3.12"
+            label: ubuntu-py312
+          - os: ubuntu-latest
+            python: "3.13"
+            label: ubuntu-py313
+          - os: macos-latest
+            python: "3.12"
+            label: macos-py312
+          - os: windows-latest
+            python: "3.12"
+            label: windows-py312
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Run formula, algorithm, contract, and worker tests
+        run: python -m unittest discover -s candidates/EU26-18/tests -p "test_*.py" -v
+      - name: Generate canonical 1/2/4-worker report
+        run: >-
+          python candidates/EU26-18/verification/run_verification.py
+          --workers 1 2 4
+          --cases 96
+          --output machine-report.json
+      - name: Upload machine report
+        uses: actions/upload-artifact@v4
+        with:
+          name: eu26-18-${{ matrix.label }}
+          path: machine-report.json
+          if-no-files-found: error
+          retention-days: 14
+
+  cross-machine-gate:
+    needs: portable-reference-kernel
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Download all machine reports
+        uses: actions/download-artifact@v4
+        with:
+          pattern: eu26-18-*
+          path: machine-reports
+      - name: Compare cross-machine scientific digests
+        run: >-
+          python candidates/EU26-18/verification/compare_machine_reports.py
+          --root machine-reports
+          --expected-count 5

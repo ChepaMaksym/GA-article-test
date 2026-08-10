@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "requirements_tag": "STRICT_ADAPTIVE_GA_2026-08-10",
+  "freeze_date": "2026-08-10",
+  "candidate_id": "EU26-18",
+  "identity": {
+    "title": "Self-adaptive polynomial mutation in NSGA-II",
+    "authors": [
+      "Jose L. Carles-Bou",
+      "Severino F. Galan"
+    ],
+    "year": 2023,
+    "doi": "10.1007/s00500-023-09049-0",
+    "region": "EU",
+    "qualifying_country": "Spain",
+    "qualifying_affiliation": "Universidad Nacional de Educacion a Distancia (UNED), Madrid, Spain"
+  },
+  "selected_variant": "NSGA-II with self-adaptive polynomial mutation (NSGA-II + SA-PLM)",
+  "decision": "UNKNOWN",
+  "hard_gates": {
+    "publication_2020_or_later": "PASS",
+    "us_or_eu_affiliation": "PASS",
+    "genetic_algorithm_family": "PASS",
+    "non_hybrid": "PASS",
+    "within_run_adaptation": "PASS",
+    "allowed_dynamic_control_nonempty": "PASS",
+    "no_out_of_set_dynamic_control": "PASS",
+    "feedback_or_self_adaptation": "PASS",
+    "update_rule_specified": "UNKNOWN",
+    "experimental_use_demonstrated": "PASS"
+  },
+  "allowed_dynamic_control_names": [
+    "crossover_probability",
+    "mutation_probability",
+    "mutation_strength",
+    "population_size",
+    "tournament_size",
+    "selection_pressure"
+  ],
+  "dynamic_controls": [
+    {
+      "canonical_name": "mutation_strength",
+      "source_name": "polynomial mutation distribution index eta_m",
+      "level": "individual strategy state stored in the genome",
+      "initialization": "randomly chosen between [1, 100] bounds; distribution and endpoint semantics are unspecified",
+      "update": "selected-parent eta_m values are averaged, one Normal(0,1) perturbation is added, undefined repair is called, and one shared result is written to every selected parent",
+      "application": "update occurs before crossover; child eta_m is later read by polynomial mutation, but inheritance semantics are unspecified",
+      "strength_mapping": "lower eta_m produces broader and larger perturbations; higher eta_m produces narrower and smaller perturbations",
+      "feedback_path": "NSGA-II rank/crowding state -> selected parent eta_m values -> one shared Gaussian-perturbed parent value -> crossover -> child eta_m read with unspecified inheritance -> mutation -> evaluation -> survivor selection"
+    }
+  ],
+  "out_of_set_dynamic_controls": [],
+  "static_controls": {
+    "population_size": 300,
+    "maximum_evaluations": 25000,
+    "crossover_operator": "SBX",
+    "crossover_probability": 0.9,
+    "crossover_distribution_index": 20,
+    "mutation_operator": "polynomial mutation",
+    "mutation_probability": "1/n",
+    "parent_and_survivor_selection": "NSGA-II rank/crowding framework; exact selectParents comparator and tie-breaking are unspecified"
+  },
+  "hybrid_component_set": [],
+  "feedback_classification": {
+    "type": "self_adaptive_under_selection",
+    "time_only_schedule": false,
+    "offline_tuning": false,
+    "unselected_random_schedule": false,
+    "explanation": "The strategy variable is stored per individual and selected-parent values affect its next value, so the disclosed concept is selection-mediated. Exact parent object and child inheritance semantics remain unspecified."
+  },
+  "auxiliary_preference": {
+    "more_than_10_other_parameters": "UNKNOWN",
+    "does_not_affect_decision": true,
+    "benchmark_decision_dimensions": [
+      2,
+      6,
+      7,
+      10,
+      12,
+      22,
+      30
+    ],
+    "note": "Decision-vector dimension is not reinterpreted as a count of other parameters."
+  },
+  "claim_boundary": {
+    "eligibility_only": true,
+    "numeric_reproduction_claimed": false,
+    "source_native_execution_claimed": false,
+    "pass_full_claimed": false,
+    "exact_method_reproduction_blocked": true,
+    "final_article_source_code_identified": false,
+    "detailed_method_source": "Author's UNED-hosted accepted manuscript of the 2023 article"
+  },
+  "primary_sources": [
+    {
+      "source_id": "S1",
+      "url": "https://link.springer.com/article/10.1007/s00500-023-09049-0",
+      "locators": [
+        "title and author block",
+        "publication date",
+        "abstract"
+      ]
+    },
+    {
+      "source_id": "S2",
+      "url": "https://espacio-pre.uned.es/entities/publication/66da0031-2a03-4e12-8474-9e43eebfb91c",
+      "locators": [
+        "date",
+        "citation",
+        "institutional record",
+        "DOI"
+      ]
+    },
+    {
+      "source_id": "S3",
+      "url": "https://espacio-pre.uned.es/bitstreams/fccf7fd1-f3dc-4871-b289-f8e7bf985574/download",
+      "sha256": "d534e4a0d2612d409adea33f899133cf346cdeb6c5ef04e6820565d67e4a35f2",
+      "byte_length": 877981,
+      "locators": [
+        "Physical PDF page 1: accepted-version DOI notice",
+        "Physical PDF page 2: title and authors",
+        "Physical PDF page 9: mutation-strength mapping",
+        "Physical PDF page 12: Algorithm 3",
+        "Physical PDF page 13: Algorithm 4 and fixed controls",
+        "Physical PDF page 14: eta_m bounds and run count"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "candidate_id": "EU26-18",
+  "requirements_tag": "STRICT_ADAPTIVE_GA_2026-08-10",
+  "source_pdf_sha256": "d534e4a0d2612d409adea33f899133cf346cdeb6c5ef04e6820565d67e4a35f2",
+  "eligibility_decision": "UNKNOWN",
+  "verification_scope": {
+    "formula_kernel": "CONFORMS_TO_DECLARED_INTERPRETATION",
+    "algorithm_scope": "ALGORITHMS_2_AND_4_PLUS_ALGORITHM_3_NOVELTY_ORDER_ONLY",
+    "worker_determinism": "ENFORCED_FOR_CLEAN_ROOM_KERNEL",
+    "cross_machine_portability": "ENFORCED_BY_CI_QUANTIZED_DIGEST",
+    "author_implementation": "NOT_AVAILABLE",
+    "complete_nsga2": "NOT_IMPLEMENTED",
+    "published_numeric_reproduction": "BLOCKED"
+  },
+  "declared_interpretations": {
+    "repair_semantics": "clamp_to_nearest_bound",
+    "algorithm_2_x_c": "current_coordinate_x",
+    "parent_update_semantics": "selected_parent_objects_updated_in_place",
+    "strategy_inheritance": "both_updated_parents_have_one_shared_eta_before_crossover",
+    "initial_eta_distribution": "UNSPECIFIED_BY_PAPER",
+    "rng": "NOT_RECONSTRUCTED"
+  },
+  "verified_source_facts": {
+    "eta_update": "mean(selected_parent_eta) + one N(0,1) perturbation, then repair to bounds",
+    "eta_bounds": [
+      1,
+      100
+    ],
+    "mutation_probability": "1/n decision variables",
+    "crossover_probability": 0.9,
+    "population_size": 300,
+    "maximum_evaluations": 25000,
+    "crossover_distribution_index": 20,
+    "algorithm_order": [
+      "select parents",
+      "update distribution index",
+      "SBX crossover",
+      "PLM child 1",
+      "PLM child 2",
+      "append offspring"
+    ]
+  },
+  "determinism_probe": {
+    "profile_id": "eu26-18-clean-room-kernel-v1",
+    "master_seed": 20260810,
+    "case_count": 96,
+    "worker_counts": [
+      1,
+      2,
+      4
+    ],
+    "same_machine_gate": "exact float.hex digest",
+    "cross_machine_gate": "12-decimal scientific digest",
+    "expected_quantized_digest": "811f44a8851b568af13561aa95ac104cd01cab2e855558d2a47507626eb67b22",
+    "note": "Probe perturbations are deterministic formula inputs, not reconstructed author Gaussian draws."
+  },
+  "ci_matrix": [
+    {
+      "os": "ubuntu-latest",
+      "python": "3.10"
+    },
+    {
+      "os": "ubuntu-latest",
+      "python": "3.12"
+    },
+    {
+      "os": "ubuntu-latest",
+      "python": "3.13"
+    },
+    {
+      "os": "macos-latest",
+      "python": "3.12"
+    },
+    {
+      "os": "windows-latest",
+      "python": "3.12"
+    }
+  ],
+  "blockers": [
+    {
+      "id": "B01",
+      "severity": "HARD",
+      "summary": "Author implementation and exact jMetal revision are unavailable"
+    },
+    {
+      "id": "B02",
+      "severity": "HARD",
+      "summary": "Algorithm 2 uses undefined x_c in the coordinate update"
+    },
+    {
+      "id": "B03",
+      "severity": "HARD",
+      "summary": "Algorithm 4 does not define repair semantics"
+    },
+    {
+      "id": "B04",
+      "severity": "HARD",
+      "summary": "Parent reference/copy and eta inheritance semantics are not pinned"
+    },
+    {
+      "id": "B05",
+      "severity": "HARD",
+      "summary": "Author seeds, RNG implementation, stream policy, and raw runs are unavailable"
+    },
+    {
+      "id": "B06",
+      "severity": "HARD",
+      "summary": "Offspring size and 25000-evaluation terminal-batch behavior are not specified"
+    },
+    {
+      "id": "B07",
+      "severity": "HARD",
+      "summary": "Metric reference points/fronts, normalization, and raw values are unavailable"
+    },
+    {
+      "id": "B08",
+      "severity": "MEDIUM",
+      "summary": "Initial eta distribution is described only as random between bounds"
+    },
+    {
+      "id": "B09",
+      "severity": "MEDIUM",
+      "summary": "Accepted manuscript may differ from the inaccessible detailed version of record"
+    },
+    {
+      "id": "B10",
+      "severity": "HARD",
+      "summary": "Exact parent selector, comparator order, and tie-breaking are not specified"
+    },
+    {
+      "id": "B11",
+      "severity": "HARD",
+      "summary": "Statistical test variants, pairing, and tie handling are not pinned"
+    }
+  ],
+  "claim_boundary": {
+    "eligibility_was_downgraded_fail_closed": true,
+    "clean_room_kernel_is_not_author_code": true,
+    "multi_machine_ci_is_not_numeric_reproduction": true,
+    "performance_speedup_is_not_claimed": true,
+    "pass_full_is_not_claimed": true
+  }
+}
