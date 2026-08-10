@@ -19,7 +19,7 @@ Decision: `PASS_STRICT`
 The publisher article page establishes the version-of-record identity, date,
 authors, title, and the claim that the proposed mechanism controls the polynomial
 mutation distribution index. The UNED repository supplies the institutional
-record and the author's detailed 2022 method document that precedes the final
+record and the author's UNED-hosted accepted manuscript of the same 2023
 article.
 
 ## Hard-gate matrix
@@ -28,7 +28,7 @@ article.
 |---|---|---|
 | Publication year is 2020 or later | PASS | Springer version of record: published 21 August 2023. |
 | At least one US or EU affiliation | PASS | Both authors are affiliated with UNED in Madrid, Spain. |
-| Selected algorithm is a GA | PASS | The publisher identifies NSGA-II; author method document Section 3.1 and Algorithm 3 retain the NSGA-II genetic pipeline. |
+| Selected algorithm is a GA | PASS | The publisher identifies NSGA-II; the accepted manuscript's Section 3.1 and Algorithm 3 retain the NSGA-II genetic pipeline. |
 | No hybrid optimizer/controller | PASS | Algorithm 3 contains only NSGA-II parent selection, distribution-index update, SBX crossover, polynomial mutation, evaluation, and NSGA-II survivor reduction. |
 | At least one allowed control changes in-run | PASS | Individual polynomial-mutation distribution index `eta_m` changes before crossover and mutation during the loop. |
 | Dynamic control is mutation strength | PASS | Section 3.2 states that `eta_m` controls whether mutations stay near the parent or make larger moves. |
@@ -134,9 +134,10 @@ auxiliary claim is made. This field does not affect `PASS_STRICT`.
 
 - The final article's detailed source code was not identified in the inspected
   primary records.
-- Detailed pseudocode locators come from the author's UNED-hosted 2022 method
-  document; the 2023 version-of-record abstract independently confirms the same
-  self-adapted polynomial-mutation distribution index and 25-problem experiment.
+- Detailed pseudocode locators come from the author's UNED-hosted accepted
+  manuscript of the 2023 article; the version-of-record abstract independently
+  confirms the same self-adapted polynomial-mutation distribution index and
+  25-problem experiment.
 - The audit establishes method eligibility only. It does not claim source-native
   execution, a reproduced table, author seeds, raw-run provenance, or
   `PASS_FULL`.
@@ -147,7 +148,9 @@ auxiliary claim is made. This field does not affect `PASS_STRICT`.
 
 - Springer version of record: title page and abstract.
 - UNED publication record: date, citation, institutional ownership, and DOI.
-- UNED method document, PDF pages 13-17: Sections 3.2-3.3 and Algorithms 1-4.
-- UNED method document, PDF page 18: benchmark dimensions.
-- UNED method document, PDF page 19: fixed experimental controls and only
-  self-adaptive `eta_m` difference.
+- UNED accepted manuscript, physical PDF page 9: mutation-strength mapping.
+- UNED accepted manuscript, physical PDF page 12: Algorithm 3.
+- UNED accepted manuscript, physical PDF page 13: Algorithm 4 and fixed
+  experimental controls.
+- UNED accepted manuscript, physical PDF page 14: `eta_m` bounds and 30-run
+  protocol.

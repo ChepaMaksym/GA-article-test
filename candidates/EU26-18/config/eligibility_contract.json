@@ -88,7 +88,7 @@
     "source_native_execution_claimed": false,
     "pass_full_claimed": false,
     "final_article_source_code_identified": false,
-    "detailed_method_source": "Author's UNED-hosted 2022 method document that precedes the 2023 article"
+    "detailed_method_source": "Author's UNED-hosted accepted manuscript of the 2023 article"
   },
   "primary_sources": [
     {
@@ -112,13 +112,16 @@
     },
     {
       "source_id": "S3",
-      "url": "https://e-spacio.uned.es/bitstreams/a5b2d52a-ac4a-4dd1-9985-5b933a4a22a5/download",
-      "sha256": "377e6ba5e834d6cf40919bd690fc384cf76db0ff5b5531f7356258b24de2d3b3",
-      "byte_length": 829623,
+      "url": "https://espacio-pre.uned.es/bitstreams/fccf7fd1-f3dc-4871-b289-f8e7bf985574/download",
+      "sha256": "d534e4a0d2612d409adea33f899133cf346cdeb6c5ef04e6820565d67e4a35f2",
+      "byte_length": 877981,
       "locators": [
-        "PDF pages 13-17: Sections 3.2-3.3 and Algorithms 1-4",
-        "PDF page 18: benchmark dimensions",
-        "PDF page 19: fixed controls and eta_m bounds"
+        "Physical PDF page 1: accepted-version DOI notice",
+        "Physical PDF page 2: title and authors",
+        "Physical PDF page 9: mutation-strength mapping",
+        "Physical PDF page 12: Algorithm 3",
+        "Physical PDF page 13: Algorithm 4 and fixed controls",
+        "Physical PDF page 14: eta_m bounds and run count"
       ]
     }
   ]

@@ -85,9 +85,9 @@ class StrictEligibilityContractTests(unittest.TestCase):
         method = next(row for row in rows if row["source_id"] == "S3")
         self.assertEqual(
             method["sha256"],
-            "377e6ba5e834d6cf40919bd690fc384cf76db0ff5b5531f7356258b24de2d3b3",
+            "d534e4a0d2612d409adea33f899133cf346cdeb6c5ef04e6820565d67e4a35f2",
         )
-        self.assertEqual(int(method["byte_length"]), 829623)
+        self.assertEqual(int(method["byte_length"]), 877981)
 
 
 if __name__ == "__main__":
