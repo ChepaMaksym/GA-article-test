@@ -2,7 +2,7 @@
 
 Requirements tag: `STRICT_ADAPTIVE_GA_2026-08-10`
 
-Status: `PASS_STRICT`
+Status: `UNKNOWN`
 
 This candidate is Jose L. Carles-Bou and Severino F. Galan, "Self-adaptive
 polynomial mutation in NSGA-II", *Soft Computing* 27, 17711-17727 (2023),
@@ -14,9 +14,12 @@ mutation strength. Lower values produce broader, larger perturbations; higher
 values concentrate mutations near the current value. The mutation probability
 itself remains fixed at `1/n`.
 
-The strict decision is limited to scientific eligibility under the new
-requirements. It is not a claim that the paper's numeric results, source code,
-or execution environment have been reproduced.
+The scientific classification is supported: the method is a non-hybrid GA and
+the only disclosed dynamic control is mutation strength. The final strict
+decision is nevertheless `UNKNOWN`, because the paper does not define the
+`repair` helper, the `x_c` symbol in Algorithm 2, parent copy/reference
+semantics, or exact inheritance of `eta_m` through crossover. Under the frozen
+fail-closed requirements these gaps cannot be repaired by assumption.
 
 ## Files
 
@@ -34,11 +37,10 @@ or execution environment have been reproduced.
 ## Exact boundary
 
 The Gaussian perturbation of `eta_m` is not accepted by itself as feedback.
-The feedback loop exists because `eta_m` is stored in each genome, inherited,
-and propagated through NSGA-II parent and survivor selection based on current
-non-domination rank and crowding distance. Two runs at the same generation can
-therefore propagate different mutation strengths because they selected
-different current parents.
+The paper supports a selection-mediated self-adaptation concept because
+`eta_m` is stored in the genome and selected parent values are updated before
+crossover. It does not, however, specify enough object and inheritance
+semantics to reconstruct the exact child state without assumptions.
 
 The paper cites evolutionary strategies as inspiration for this representation,
 but Algorithm 3 does not execute an ES or another optimizer. Its pipeline remains
@@ -47,9 +49,18 @@ non-dominated survivor reduction. No local search, PSO, DE, fuzzy controller,
 reinforcement learning, neural controller, genetic programming, meta-GA, or
 adaptive operator selection is present in the selected variant.
 
+## Verification stage
+
+The candidate-scoped [`verification/`](verification/) package transcribes the
+novel formula kernel under a declared clean-room profile, tests Algorithms 2 and
+4 plus the novelty ordering in Algorithm 3, checks exact determinism for 1, 2,
+and 4 process workers, and compares a quantized digest across Linux, macOS, and
+Windows CI jobs. These checks validate the declared interpretation only. They
+do not recover the authors' jMetal execution or published numeric results.
+
 ## Non-blocking preference
 
 The source reports benchmark decision-vector dimensions from 2 to 30, including
 several cases above 10. This audit does not reinterpret decision variables as
 "more than 10 other parameters". That preference remains `UNKNOWN` and does not
-affect `PASS_STRICT`.
+affect the strict decision.

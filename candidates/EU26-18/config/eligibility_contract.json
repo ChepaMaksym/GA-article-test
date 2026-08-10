@@ -16,7 +16,7 @@
     "qualifying_affiliation": "Universidad Nacional de Educacion a Distancia (UNED), Madrid, Spain"
   },
   "selected_variant": "NSGA-II with self-adaptive polynomial mutation (NSGA-II + SA-PLM)",
-  "decision": "PASS_STRICT",
+  "decision": "UNKNOWN",
   "hard_gates": {
     "publication_2020_or_later": "PASS",
     "us_or_eu_affiliation": "PASS",
@@ -26,7 +26,7 @@
     "allowed_dynamic_control_nonempty": "PASS",
     "no_out_of_set_dynamic_control": "PASS",
     "feedback_or_self_adaptation": "PASS",
-    "update_rule_specified": "PASS",
+    "update_rule_specified": "UNKNOWN",
     "experimental_use_demonstrated": "PASS"
   },
   "allowed_dynamic_control_names": [
@@ -42,11 +42,11 @@
       "canonical_name": "mutation_strength",
       "source_name": "polynomial mutation distribution index eta_m",
       "level": "individual strategy state stored in the genome",
-      "initialization": "uniformly sampled within [1, 100]",
-      "update": "repair(mean(selected_parent_eta_m) + Normal(0,1), 1, 100)",
-      "application": "used by polynomial mutation for each generated child",
+      "initialization": "randomly chosen between [1, 100] bounds; distribution and endpoint semantics are unspecified",
+      "update": "selected-parent eta_m values are averaged, one Normal(0,1) perturbation is added, undefined repair is called, and one shared result is written to every selected parent",
+      "application": "update occurs before crossover; child eta_m is later read by polynomial mutation, but inheritance semantics are unspecified",
       "strength_mapping": "lower eta_m produces broader and larger perturbations; higher eta_m produces narrower and smaller perturbations",
-      "feedback_path": "NSGA-II rank and crowding selection -> selected parent eta_m values -> inheritance and Gaussian variation -> child mutation -> objective evaluation -> survivor selection"
+      "feedback_path": "NSGA-II rank/crowding state -> selected parent eta_m values -> one shared Gaussian-perturbed parent value -> crossover -> child eta_m read with unspecified inheritance -> mutation -> evaluation -> survivor selection"
     }
   ],
   "out_of_set_dynamic_controls": [],
@@ -58,7 +58,7 @@
     "crossover_distribution_index": 20,
     "mutation_operator": "polynomial mutation",
     "mutation_probability": "1/n",
-    "parent_and_survivor_selection": "fixed NSGA-II non-domination rank and crowding-distance rules"
+    "parent_and_survivor_selection": "NSGA-II rank/crowding framework; exact selectParents comparator and tie-breaking are unspecified"
   },
   "hybrid_component_set": [],
   "feedback_classification": {
@@ -66,7 +66,7 @@
     "time_only_schedule": false,
     "offline_tuning": false,
     "unselected_random_schedule": false,
-    "explanation": "The Gaussian perturbation is embedded in an inherited strategy variable whose propagation is controlled by current NSGA-II parent and survivor selection."
+    "explanation": "The strategy variable is stored per individual and selected-parent values affect its next value, so the disclosed concept is selection-mediated. Exact parent object and child inheritance semantics remain unspecified."
   },
   "auxiliary_preference": {
     "more_than_10_other_parameters": "UNKNOWN",
@@ -87,6 +87,7 @@
     "numeric_reproduction_claimed": false,
     "source_native_execution_claimed": false,
     "pass_full_claimed": false,
+    "exact_method_reproduction_blocked": true,
     "final_article_source_code_identified": false,
     "detailed_method_source": "Author's UNED-hosted accepted manuscript of the 2023 article"
   },

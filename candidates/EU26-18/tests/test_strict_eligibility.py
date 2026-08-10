@@ -38,10 +38,18 @@ class StrictEligibilityContractTests(unittest.TestCase):
         self.assertGreaterEqual(self.contract["identity"]["year"], 2020)
         self.assertIn(self.contract["identity"]["region"], {"EU", "USA"})
 
-    def test_pass_strict_requires_every_hard_gate(self) -> None:
-        self.assertEqual(self.contract["decision"], "PASS_STRICT")
+    def test_unknown_decision_fails_closed_on_one_unresolved_gate(self) -> None:
+        self.assertEqual(self.contract["decision"], "UNKNOWN")
         self.assertTrue(self.contract["hard_gates"])
-        self.assertEqual(set(self.contract["hard_gates"].values()), {"PASS"})
+        self.assertEqual(
+            self.contract["hard_gates"]["update_rule_specified"], "UNKNOWN"
+        )
+        other_gates = {
+            name: status
+            for name, status in self.contract["hard_gates"].items()
+            if name != "update_rule_specified"
+        }
+        self.assertEqual(set(other_gates.values()), {"PASS"})
 
     def test_dynamic_control_set_is_nonempty_and_strict_subset(self) -> None:
         controls = {
