@@ -1,0 +1,29 @@
+name: EU26-18 strict eligibility
+
+on:
+  pull_request:
+    paths:
+      - "candidates/EU26-18/**"
+      - ".github/workflows/eu26-18-strict-eligibility.yml"
+  push:
+    branches:
+      - "research/EU26-18-self-adaptive-plm-strict-audit"
+    paths:
+      - "candidates/EU26-18/**"
+      - ".github/workflows/eu26-18-strict-eligibility.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  eligibility-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate JSON syntax
+        run: python -m json.tool candidates/EU26-18/config/eligibility_contract.json >/dev/null
+      - name: Run fail-closed contract tests
+        run: python candidates/EU26-18/tests/test_strict_eligibility.py
