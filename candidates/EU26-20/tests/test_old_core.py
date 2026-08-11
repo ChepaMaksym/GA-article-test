@@ -1,12 +1,14 @@
 import importlib.util
 from pathlib import Path
 import random
+import sys
 import unittest
 import numpy as np
 
 CORE = Path(__file__).resolve().parents[1] / "old" / "agawer_core.py"
 spec = importlib.util.spec_from_file_location("eu2620_agawer_core", CORE)
 mod = importlib.util.module_from_spec(spec)
+sys.modules[spec.name] = mod
 spec.loader.exec_module(mod)
 
 AdaptiveState = mod.AdaptiveState
