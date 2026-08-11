@@ -44,3 +44,34 @@ jobs:
           test -f candidates/EU26-20/hybrid/README.md
           count=$(find candidates/EU26-20/hybrid -type f ! -name README.md | wc -l)
           test "$count" -eq 0
+
+  colon-source-smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      - name: Install author-era compatibility environment
+        run: >-
+          python -m pip install
+          numpy==1.23.5 pandas==1.5.3 scipy==1.10.1 scikit-learn==1.2.2
+          openpyxl==3.1.2 matplotlib==3.7.5 ypstruct==0.0.2
+      - name: Fetch exact author snapshot
+        run: |
+          git init "${RUNNER_TEMP}/cmf"
+          git -C "${RUNNER_TEMP}/cmf" remote add origin "$UPSTREAM_REPO"
+          git -C "${RUNNER_TEMP}/cmf" fetch --depth=1 origin "$UPSTREAM_COMMIT"
+          git -C "${RUNNER_TEMP}/cmf" checkout --detach FETCH_HEAD
+      - name: Run pinned Colon author-source compatibility smoke seed
+        env:
+          MPLBACKEND: Agg
+        run: python candidates/EU26-20/old/run_author_colon.py "${RUNNER_TEMP}/cmf" --seed 1 | tee "${RUNNER_TEMP}/colon-seed1.log"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eu26-20-colon-seed1
+          path: ${{ runner.temp }}/colon-seed1.log
+          if-no-files-found: error
+          retention-days: 30
