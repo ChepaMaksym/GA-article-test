@@ -1,5 +1,9 @@
-# HYBRID gate
+# HYBRID permanently blocked for EU26-20
 
-Executable hybrid code is forbidden in this directory until `V5_OLD_NUMERIC=PASS` is recorded for `../old/`.
+Candidate status: `REJECTED_OLD_REPRODUCTION`.
 
-Planned intervention after the gate: preserve the CMF feature pool, dataset, classifier, fitness and external repository; replace only AGAwER's stagnation-step `(Pc,Pm)` controller with the PR #8 verified self-adjusting `(1+(lambda,lambda))` control adapted to feature-subset moves. OLD and HYBRID will receive equal fitness-evaluation budgets.
+The OLD verification did not reproduce the complete Colon paper endpoint under the preregistered quality gate, and the public source failed to complete a stable ten-run campaign. Therefore no executable PR #8 hybrid is permitted for this candidate.
+
+This directory must remain documentation-only. The former hybrid hypothesis is retained only as historical context and must not be implemented on the rejected branch.
+
+See `../old/OLD_STATUS.md` for the complete evidence and decision.
