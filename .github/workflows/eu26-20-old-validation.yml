@@ -12,6 +12,10 @@ on:
       - 'candidates/EU26-20/**'
       - '.github/workflows/eu26-20-old-validation.yml'
 
+concurrency:
+  group: eu26-20-old-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
@@ -30,6 +34,8 @@ jobs:
       - run: python -m pip install numpy
       - name: Verify OLD paper formulas and operators
         run: python candidates/EU26-20/tests/test_old_core.py
+      - name: Verify numerical campaign gates fail closed
+        run: python candidates/EU26-20/tests/test_numeric_gate.py
       - name: Fetch exact author snapshot
         run: |
           git init "${RUNNER_TEMP}/cmf"
@@ -64,14 +70,83 @@ jobs:
           git -C "${RUNNER_TEMP}/cmf" remote add origin "$UPSTREAM_REPO"
           git -C "${RUNNER_TEMP}/cmf" fetch --depth=1 origin "$UPSTREAM_COMMIT"
           git -C "${RUNNER_TEMP}/cmf" checkout --detach FETCH_HEAD
+          test "$(git -C "${RUNNER_TEMP}/cmf" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
       - name: Run pinned Colon author-source compatibility smoke seed
         env:
           MPLBACKEND: Agg
-        run: python candidates/EU26-20/old/run_author_colon.py "${RUNNER_TEMP}/cmf" --seed 1 | tee "${RUNNER_TEMP}/colon-seed1.log"
+        run: |
+          python candidates/EU26-20/old/run_author_colon.py \
+            "${RUNNER_TEMP}/cmf" \
+            --seed 1 \
+            --quiet \
+            --output-json "${RUNNER_TEMP}/colon-seed1.json" \
+            --log-file "${RUNNER_TEMP}/colon-seed1.log"
+          cat "${RUNNER_TEMP}/colon-seed1.json"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: eu26-20-colon-seed1
-          path: ${{ runner.temp }}/colon-seed1.log
+          path: |
+            ${{ runner.temp }}/colon-seed1.json
+            ${{ runner.temp }}/colon-seed1.log
           if-no-files-found: error
+          retention-days: 30
+
+  colon-ten-run-campaign:
+    needs: [old-core, colon-source-smoke]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      - name: Install frozen source-compatibility environment
+        run: >-
+          python -m pip install
+          numpy==1.23.5 pandas==1.5.3 scipy==1.10.1 scikit-learn==1.2.2
+          openpyxl==3.1.2 matplotlib==3.7.5 ypstruct==0.0.2
+      - name: Fetch exact author snapshot
+        run: |
+          git init "${RUNNER_TEMP}/cmf"
+          git -C "${RUNNER_TEMP}/cmf" remote add origin "$UPSTREAM_REPO"
+          git -C "${RUNNER_TEMP}/cmf" fetch --depth=1 origin "$UPSTREAM_COMMIT"
+          git -C "${RUNNER_TEMP}/cmf" checkout --detach FETCH_HEAD
+          test "$(git -C "${RUNNER_TEMP}/cmf" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
+      - name: Execute and enforce preregistered Colon OLD campaign
+        env:
+          MPLBACKEND: Agg
+        run: |
+          python candidates/EU26-20/old/run_colon_campaign.py \
+            "${RUNNER_TEMP}/cmf" \
+            --output-dir "${RUNNER_TEMP}/eu26-20-campaign" \
+            --output-json "${RUNNER_TEMP}/eu26-20-campaign.json" \
+            --timeout-per-run 360 \
+            --enforce-reproduction
+      - name: Print compact scientific result
+        if: always()
+        run: |
+          if test -f "${RUNNER_TEMP}/eu26-20-campaign.json"; then
+            python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          report = json.loads((Path(os.environ['RUNNER_TEMP']) / 'eu26-20-campaign.json').read_text())
+          print(json.dumps({
+              'claim_status': report['claim_status'],
+              'gates': {k: v['pass'] for k, v in report['gates'].items()},
+              'accuracy': report['statistics']['accuracy'],
+              'subset_length': report['statistics']['subset_length'],
+              'nfe': report['statistics']['nfe'],
+          }, sort_keys=True))
+          PY
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eu26-20-colon-ten-run-campaign
+          path: |
+            ${{ runner.temp }}/eu26-20-campaign.json
+            ${{ runner.temp }}/eu26-20-campaign
+          if-no-files-found: warn
           retention-days: 30
