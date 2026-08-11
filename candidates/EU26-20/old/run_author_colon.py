@@ -146,20 +146,31 @@ def _prepare_source(root: Path, seed: int) -> tuple[str, dict[str, Any]]:
     src = src.replace(anchor, anchor + seed_block, 1)
 
     # Prevent a source-only reporting NameError if the initial elite is never
-    # strictly improved. This initializes metadata only; it does not change the
-    # population, fitness, selection, or stopping behavior.
-    best_anchor = "BestAcc=BestSol.fit"
-    if src.count(best_anchor) != 1:
-        raise SystemExit("initial-best reporting anchor changed")
-    best_metadata = (
-        "\nBestList=BestSol.List\n"
+    # strictly improved. Match the complete initial-ledger context because the
+    # source contains more than one textual BestAcc assignment elsewhere.
+    best_context = (
+        "BestFits[it]=BestSol.fit\n"
+        "Best_External_fits[it]=Best_REP_fit\n"
+        "BestAcc=BestSol.fit\n"
+        "##store worst fit"
+    )
+    if src.count(best_context) != 1:
+        raise SystemExit(
+            f"initial-best reporting context changed; found {src.count(best_context)}"
+        )
+    best_replacement = (
+        "BestFits[it]=BestSol.fit\n"
+        "Best_External_fits[it]=Best_REP_fit\n"
+        "BestAcc=BestSol.fit\n"
+        "BestList=BestSol.List\n"
         "BestPosition=BestSol.position\n"
         "BestPre=BestSol.precision\n"
         "BestRec=BestSol.recall\n"
         "BestFmeasure=BestSol.fmeasure\n"
-        "BestMCC=BestSol.mcc"
+        "BestMCC=BestSol.mcc\n"
+        "##store worst fit"
     )
-    src = src.replace(best_anchor, best_anchor + best_metadata, 1)
+    src = src.replace(best_context, best_replacement, 1)
 
     # Append a machine-readable endpoint without changing the optimizer.
     summary = r"""
