@@ -1,12 +1,23 @@
+import importlib.util
+from pathlib import Path
 import random
 import unittest
 import numpy as np
 
-from candidates.EU26_20.old.agawer_core import (
-    AdaptiveState, average_minimum_distance, offspring_counts,
-    replacement_mutation, repository_radius, roulette_probabilities,
-    should_stop, update_adaptation, variable_single_point_crossover,
-)
+CORE = Path(__file__).resolve().parents[1] / "old" / "agawer_core.py"
+spec = importlib.util.spec_from_file_location("eu2620_agawer_core", CORE)
+mod = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(mod)
+
+AdaptiveState = mod.AdaptiveState
+average_minimum_distance = mod.average_minimum_distance
+offspring_counts = mod.offspring_counts
+replacement_mutation = mod.replacement_mutation
+repository_radius = mod.repository_radius
+roulette_probabilities = mod.roulette_probabilities
+should_stop = mod.should_stop
+update_adaptation = mod.update_adaptation
+variable_single_point_crossover = mod.variable_single_point_crossover
 
 
 class TestOldCore(unittest.TestCase):
@@ -50,7 +61,6 @@ class TestOldCore(unittest.TestCase):
         np.testing.assert_allclose(p, [0.1,0.2,0.7])
 
     def test_paper_distance_example(self):
-        # Paper example S1={(1,2),(3,4)}, S2={(2,1),(5,6),(7,8)} gives ~2.71.
         s1 = np.array([[1,2],[3,4]])
         s2 = np.array([[2,1],[5,6],[7,8]])
         self.assertAlmostEqual(average_minimum_distance(s1, s2), 2.7106, places=3)
