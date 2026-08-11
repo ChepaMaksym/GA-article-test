@@ -1,0 +1,137 @@
+name: EU26-20 bounded OLD sensitivity
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [research/EU26-20-cmf-agawer-old-first-hybrid]
+    paths:
+      - 'candidates/EU26-20/old/SENSITIVITY_PLAN.md'
+      - 'candidates/EU26-20/old/sensitivity_variants.py'
+      - 'candidates/EU26-20/old/run_sensitivity_colon.py'
+      - 'candidates/EU26-20/old/run_sensitivity_campaign.py'
+      - 'candidates/EU26-20/tests/test_sensitivity_variants.py'
+      - 'candidates/EU26-20/tests/test_sensitivity_campaign.py'
+      - '.github/workflows/eu26-20-sensitivity.yml'
+  pull_request:
+    paths:
+      - 'candidates/EU26-20/old/SENSITIVITY_PLAN.md'
+      - 'candidates/EU26-20/old/sensitivity_variants.py'
+      - 'candidates/EU26-20/old/run_sensitivity_colon.py'
+      - 'candidates/EU26-20/old/run_sensitivity_campaign.py'
+      - 'candidates/EU26-20/tests/test_sensitivity_variants.py'
+      - 'candidates/EU26-20/tests/test_sensitivity_campaign.py'
+      - '.github/workflows/eu26-20-sensitivity.yml'
+
+concurrency:
+  group: eu26-20-sensitivity-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  UPSTREAM_REPO: https://github.com/KhaosResearch/CMF-AGAwER.git
+  UPSTREAM_COMMIT: d24e61e78ac197ad75342e8f4be5d63d17bd9e7a
+
+jobs:
+  sensitivity-unit:
+    name: Sensitivity isolation and fail-closed tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      - name: Install frozen clean-room environment
+        run: >-
+          python -m pip install
+          numpy==1.23.5 pandas==1.5.3 scipy==1.10.1 scikit-learn==1.2.2
+          openpyxl==3.1.2
+      - name: Verify variant isolation and primary-profile restoration
+        run: python candidates/EU26-20/tests/test_sensitivity_variants.py
+      - name: Verify sensitivity campaign labels cannot become OLD PASS
+        run: python candidates/EU26-20/tests/test_sensitivity_campaign.py
+      - name: Enforce documentation-only HYBRID
+        run: |
+          test -f candidates/EU26-20/hybrid/README.md
+          count=$(find candidates/EU26-20/hybrid -type f ! -name README.md | wc -l)
+          test "$count" -eq 0
+
+  sensitivity-campaign:
+    name: Sensitivity - ${{ matrix.variant }}
+    needs: sensitivity-unit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        variant:
+          - legacy_mt19937_rng
+          - source_rounding
+          - source_stop19
+          - numeric_identifier_geometry
+          - source_like_bundle
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      - name: Install frozen clean-room environment
+        run: >-
+          python -m pip install
+          numpy==1.23.5 pandas==1.5.3 scipy==1.10.1 scikit-learn==1.2.2
+          openpyxl==3.1.2
+      - name: Fetch exact author data snapshot
+        run: |
+          git init "${RUNNER_TEMP}/cmf"
+          git -C "${RUNNER_TEMP}/cmf" remote add origin "$UPSTREAM_REPO"
+          git -C "${RUNNER_TEMP}/cmf" fetch --depth=1 origin "$UPSTREAM_COMMIT"
+          git -C "${RUNNER_TEMP}/cmf" checkout --detach FETCH_HEAD
+          test "$(git -C "${RUNNER_TEMP}/cmf" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
+      - name: Run preregistered ten-seed sensitivity campaign
+        run: |
+          python candidates/EU26-20/old/run_sensitivity_campaign.py \
+            "${RUNNER_TEMP}/cmf" \
+            --variant "${{ matrix.variant }}" \
+            --output-dir "${RUNNER_TEMP}/eu26-20-${{ matrix.variant }}" \
+            --output-json "${RUNNER_TEMP}/eu26-20-${{ matrix.variant }}.json" \
+            --repository-attempt-limit 20000 \
+            --timeout-per-run 480
+      - name: Validate diagnostic claim boundary and print verdict
+        run: |
+          VARIANT="${{ matrix.variant }}" python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          variant = os.environ['VARIANT']
+          path = Path(os.environ['RUNNER_TEMP']) / f'eu26-20-{variant}.json'
+          report = json.loads(path.read_text())
+          if report['schema'] != 'eu26-20-colon-sensitivity-campaign-v1':
+              raise SystemExit('unexpected sensitivity schema')
+          if report['variant'] != variant or report['primary_gate_eligible'] is not False:
+              raise SystemExit('sensitivity claim boundary was lost')
+          if 'PASS_OLD_REPRODUCTION' in report['claim_status']:
+              raise SystemExit('sensitivity illegally upgraded OLD')
+          print(json.dumps({
+              'variant': variant,
+              'claim_status': report['claim_status'],
+              'successful_runs': report['successful_runs'],
+              'failed_runs': report['failed_runs'],
+              'failure_statuses': report.get('failure_statuses'),
+              'gates': {k: v['pass'] for k, v in report.get('gates', {}).items()},
+              'statistics': report.get('statistics'),
+              'partial_statistics': report.get('partial_statistics'),
+          }, sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eu26-20-sensitivity-${{ matrix.variant }}
+          path: |
+            ${{ runner.temp }}/eu26-20-${{ matrix.variant }}.json
+            ${{ runner.temp }}/eu26-20-${{ matrix.variant }}
+          if-no-files-found: warn
+          retention-days: 30
