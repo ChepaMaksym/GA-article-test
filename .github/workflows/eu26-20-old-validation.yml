@@ -24,18 +24,24 @@ env:
   UPSTREAM_COMMIT: d24e61e78ac197ad75342e8f4be5d63d17bd9e7a
 
 jobs:
-  old-core:
+  old-contract:
+    name: OLD contracts, fail-closed gates, and provenance
     runs-on: ubuntu-24.04
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
       - run: python -m pip install numpy
-      - name: Verify OLD paper formulas and operators
+      - name: Verify legacy independent OLD formulas and operators
         run: python candidates/EU26-20/tests/test_old_core.py
-      - name: Verify numerical campaign gates fail closed
+      - name: Verify original numerical gates fail closed
         run: python candidates/EU26-20/tests/test_numeric_gate.py
+      - name: Verify bounded source instrumentation
+        run: python candidates/EU26-20/tests/test_source_guard.py
+      - name: Verify bounded source campaign classification
+        run: python candidates/EU26-20/tests/test_source_campaign_v2.py
       - name: Fetch exact author snapshot
         run: |
           git init "${RUNNER_TEMP}/cmf"
@@ -43,15 +49,16 @@ jobs:
           git -C "${RUNNER_TEMP}/cmf" fetch --depth=1 origin "$UPSTREAM_COMMIT"
           git -C "${RUNNER_TEMP}/cmf" checkout --detach FETCH_HEAD
           test "$(git -C "${RUNNER_TEMP}/cmf" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
-      - name: Audit source/data contract and preserve paper-source divergence
+      - name: Audit exact blobs, source contract, and known divergences
         run: python candidates/EU26-20/old/source_audit.py "${RUNNER_TEMP}/cmf"
-      - name: Enforce no executable HYBRID before numerical OLD pass
+      - name: Enforce no executable HYBRID before full OLD pass
         run: |
           test -f candidates/EU26-20/hybrid/README.md
           count=$(find candidates/EU26-20/hybrid -type f ! -name README.md | wc -l)
           test "$count" -eq 0
 
-  colon-source-smoke:
+  paper-unit:
+    name: Independent printed-paper unit and invariant tests
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
@@ -59,43 +66,20 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.9'
-      - name: Install author-era compatibility environment
+      - name: Install frozen clean-room environment
         run: >-
           python -m pip install
           numpy==1.23.5 pandas==1.5.3 scipy==1.10.1 scikit-learn==1.2.2
-          openpyxl==3.1.2 matplotlib==3.7.5 ypstruct==0.0.2
-      - name: Fetch exact author snapshot
-        run: |
-          git init "${RUNNER_TEMP}/cmf"
-          git -C "${RUNNER_TEMP}/cmf" remote add origin "$UPSTREAM_REPO"
-          git -C "${RUNNER_TEMP}/cmf" fetch --depth=1 origin "$UPSTREAM_COMMIT"
-          git -C "${RUNNER_TEMP}/cmf" checkout --detach FETCH_HEAD
-          test "$(git -C "${RUNNER_TEMP}/cmf" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
-      - name: Run pinned Colon author-source compatibility smoke seed
-        env:
-          MPLBACKEND: Agg
-        run: |
-          python candidates/EU26-20/old/run_author_colon.py \
-            "${RUNNER_TEMP}/cmf" \
-            --seed 1 \
-            --quiet \
-            --output-json "${RUNNER_TEMP}/colon-seed1.json" \
-            --log-file "${RUNNER_TEMP}/colon-seed1.log"
-          cat "${RUNNER_TEMP}/colon-seed1.json"
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: eu26-20-colon-seed1
-          path: |
-            ${{ runner.temp }}/colon-seed1.json
-            ${{ runner.temp }}/colon-seed1.log
-          if-no-files-found: error
-          retention-days: 30
+          openpyxl==3.1.2
+      - name: Verify printed-paper operators, geometry, adaptation, and NFE
+        run: python candidates/EU26-20/tests/test_paper_profile.py
+      - name: Verify printed-paper campaign gates fail closed
+        run: python candidates/EU26-20/tests/test_paper_campaign.py
 
-  colon-ten-run-campaign:
-    needs: [old-core, colon-source-smoke]
+  source-smoke:
+    name: Pinned author-source Colon seed 1
     runs-on: ubuntu-24.04
-    timeout-minutes: 45
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -113,40 +97,184 @@ jobs:
           git -C "${RUNNER_TEMP}/cmf" fetch --depth=1 origin "$UPSTREAM_COMMIT"
           git -C "${RUNNER_TEMP}/cmf" checkout --detach FETCH_HEAD
           test "$(git -C "${RUNNER_TEMP}/cmf" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
-      - name: Execute and enforce preregistered Colon OLD campaign
+      - name: Execute pinned source-compatible smoke seed
         env:
           MPLBACKEND: Agg
         run: |
-          python candidates/EU26-20/old/run_colon_campaign.py \
+          python candidates/EU26-20/old/run_author_colon.py \
             "${RUNNER_TEMP}/cmf" \
-            --output-dir "${RUNNER_TEMP}/eu26-20-campaign" \
-            --output-json "${RUNNER_TEMP}/eu26-20-campaign.json" \
-            --timeout-per-run 360 \
+            --seed 1 \
+            --quiet \
+            --output-json "${RUNNER_TEMP}/source-seed1.json" \
+            --log-file "${RUNNER_TEMP}/source-seed1.log"
+          cat "${RUNNER_TEMP}/source-seed1.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eu26-20-source-seed1
+          path: |
+            ${{ runner.temp }}/source-seed1.json
+            ${{ runner.temp }}/source-seed1.log
+          if-no-files-found: error
+          retention-days: 30
+
+  source-bounded-campaign:
+    name: Bounded ten-seed author-source campaign
+    needs: [old-contract, source-smoke]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      - name: Install frozen source-compatibility environment
+        run: >-
+          python -m pip install
+          numpy==1.23.5 pandas==1.5.3 scipy==1.10.1 scikit-learn==1.2.2
+          openpyxl==3.1.2 matplotlib==3.7.5 ypstruct==0.0.2
+      - name: Fetch exact author snapshot
+        run: |
+          git init "${RUNNER_TEMP}/cmf"
+          git -C "${RUNNER_TEMP}/cmf" remote add origin "$UPSTREAM_REPO"
+          git -C "${RUNNER_TEMP}/cmf" fetch --depth=1 origin "$UPSTREAM_COMMIT"
+          git -C "${RUNNER_TEMP}/cmf" checkout --detach FETCH_HEAD
+          test "$(git -C "${RUNNER_TEMP}/cmf" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
+      - name: Execute all bounded source seeds and enforce source alignment
+        env:
+          MPLBACKEND: Agg
+        run: |
+          python candidates/EU26-20/old/run_colon_campaign_v2.py \
+            "${RUNNER_TEMP}/cmf" \
+            --output-dir "${RUNNER_TEMP}/eu26-20-source-campaign" \
+            --output-json "${RUNNER_TEMP}/eu26-20-source-campaign.json" \
+            --attempt-limit 20000 \
+            --timeout-per-run 480 \
             --enforce-reproduction
-      - name: Print compact scientific result
+      - name: Print bounded source verdict
         if: always()
         run: |
-          if test -f "${RUNNER_TEMP}/eu26-20-campaign.json"; then
+          if test -f "${RUNNER_TEMP}/eu26-20-source-campaign.json"; then
             python - <<'PY'
-          import json
-          import os
+          import json, os
           from pathlib import Path
-          report = json.loads((Path(os.environ['RUNNER_TEMP']) / 'eu26-20-campaign.json').read_text())
+          report = json.loads((Path(os.environ['RUNNER_TEMP']) / 'eu26-20-source-campaign.json').read_text())
           print(json.dumps({
               'claim_status': report['claim_status'],
-              'gates': {k: v['pass'] for k, v in report['gates'].items()},
-              'accuracy': report['statistics']['accuracy'],
-              'subset_length': report['statistics']['subset_length'],
-              'nfe': report['statistics']['nfe'],
+              'successful_runs': report['successful_runs'],
+              'failed_runs': report['failed_runs'],
+              'failure_statuses': report.get('failure_statuses'),
+              'gates': {k: v['pass'] for k, v in report.get('gates', {}).items()},
+              'statistics': report.get('statistics'),
+              'partial_statistics': report.get('partial_statistics'),
           }, sort_keys=True))
           PY
           fi
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: eu26-20-colon-ten-run-campaign
+          name: eu26-20-source-ten-run-campaign
           path: |
-            ${{ runner.temp }}/eu26-20-campaign.json
-            ${{ runner.temp }}/eu26-20-campaign
+            ${{ runner.temp }}/eu26-20-source-campaign.json
+            ${{ runner.temp }}/eu26-20-source-campaign
+          if-no-files-found: warn
+          retention-days: 30
+
+  paper-smoke:
+    name: Independent printed-paper Colon seed 1
+    needs: [old-contract, paper-unit]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      - name: Install frozen clean-room environment
+        run: >-
+          python -m pip install
+          numpy==1.23.5 pandas==1.5.3 scipy==1.10.1 scikit-learn==1.2.2
+          openpyxl==3.1.2
+      - name: Fetch exact author data snapshot
+        run: |
+          git init "${RUNNER_TEMP}/cmf"
+          git -C "${RUNNER_TEMP}/cmf" remote add origin "$UPSTREAM_REPO"
+          git -C "${RUNNER_TEMP}/cmf" fetch --depth=1 origin "$UPSTREAM_COMMIT"
+          git -C "${RUNNER_TEMP}/cmf" checkout --detach FETCH_HEAD
+          test "$(git -C "${RUNNER_TEMP}/cmf" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
+      - name: Execute independent paper-profile smoke seed
+        run: |
+          python candidates/EU26-20/old/run_paper_colon.py \
+            "${RUNNER_TEMP}/cmf" \
+            --seed 1 \
+            --output-json "${RUNNER_TEMP}/paper-seed1.json" \
+            | tee "${RUNNER_TEMP}/paper-seed1.log"
+          cat "${RUNNER_TEMP}/paper-seed1.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eu26-20-paper-seed1
+          path: |
+            ${{ runner.temp }}/paper-seed1.json
+            ${{ runner.temp }}/paper-seed1.log
+          if-no-files-found: warn
+          retention-days: 30
+
+  paper-ten-run-campaign:
+    name: Independent ten-seed printed-paper campaign
+    needs: [old-contract, paper-unit, paper-smoke]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      - name: Install frozen clean-room environment
+        run: >-
+          python -m pip install
+          numpy==1.23.5 pandas==1.5.3 scipy==1.10.1 scikit-learn==1.2.2
+          openpyxl==3.1.2
+      - name: Fetch exact author data snapshot
+        run: |
+          git init "${RUNNER_TEMP}/cmf"
+          git -C "${RUNNER_TEMP}/cmf" remote add origin "$UPSTREAM_REPO"
+          git -C "${RUNNER_TEMP}/cmf" fetch --depth=1 origin "$UPSTREAM_COMMIT"
+          git -C "${RUNNER_TEMP}/cmf" checkout --detach FETCH_HEAD
+          test "$(git -C "${RUNNER_TEMP}/cmf" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
+      - name: Execute and enforce independent printed-paper campaign
+        run: |
+          python candidates/EU26-20/old/run_paper_campaign.py \
+            "${RUNNER_TEMP}/cmf" \
+            --output-dir "${RUNNER_TEMP}/eu26-20-paper-campaign" \
+            --output-json "${RUNNER_TEMP}/eu26-20-paper-campaign.json" \
+            --timeout-per-run 600 \
+            --enforce-reproduction
+      - name: Print independent paper verdict
+        if: always()
+        run: |
+          if test -f "${RUNNER_TEMP}/eu26-20-paper-campaign.json"; then
+            python - <<'PY'
+          import json, os
+          from pathlib import Path
+          report = json.loads((Path(os.environ['RUNNER_TEMP']) / 'eu26-20-paper-campaign.json').read_text())
+          print(json.dumps({
+              'claim_status': report['claim_status'],
+              'successful_runs': report['successful_runs'],
+              'failed_runs': report['failed_runs'],
+              'failure_statuses': report.get('failure_statuses'),
+              'gates': {k: v['pass'] for k, v in report.get('gates', {}).items()},
+              'statistics': report.get('statistics'),
+              'partial_statistics': report.get('partial_statistics'),
+          }, sort_keys=True))
+          PY
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eu26-20-paper-ten-run-campaign
+          path: |
+            ${{ runner.temp }}/eu26-20-paper-campaign.json
+            ${{ runner.temp }}/eu26-20-paper-campaign
           if-no-files-found: warn
           retention-days: 30
