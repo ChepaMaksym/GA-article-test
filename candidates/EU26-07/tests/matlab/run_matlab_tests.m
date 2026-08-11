@@ -10,14 +10,17 @@ fixture_path = fullfile(candidate_root, 'fixtures', 'fixed_tape_cases.json');
 fixed_tape_fixture = jsondecode(fileread(fixture_path));
 
 test_jump_fitness();
+test_bit_vector_fitness_large_n();
 test_exact_mutation_and_crossover(fixed_tape_fixture);
 test_named_rounding_profiles();
 test_algorithm_controls();
 test_lambda_update_and_reset_delay();
 test_fixed_tape_profile_isolation(fixed_tape_fixture);
 test_fixed_tape_acceptance_and_accounting();
+test_paper_algorithm3_runner();
+test_paper_batch_runner();
 test_invalid_inputs_fail_closed();
-fprintf('EU26-07 MATLAB/Octave formula tests: PASS\n');
+fprintf('EU26-07 MATLAB/Octave paper-profile tests: PASS\n');
 
     function test_jump_fitness()
         n = 20;
@@ -34,6 +37,19 @@ fprintf('EU26-07 MATLAB/Octave formula tests: PASS\n');
         assert(value == 3);
         assert(~solved);
         assert(eu2607_jump_fitness(0, n, k) == 4);
+    end
+
+    function test_bit_vector_fitness_large_n()
+        n = 60;
+        k = 4;
+        global_optimum = true(1, n);
+        local_optimum = [true(1, n - k), false(1, k)];
+        gap_point = [true(1, n - k + 1), false(1, k - 1)];
+        [values, solved] = eu2607_jump_fitness_bits( ...
+            [global_optimum; local_optimum; gap_point], n, k);
+        assert(isequal(values, [64; 60; 3]));
+        assert(isequal(solved, [true; false; false]));
+        assert(eu2607_jump_fitness_bits(false(1, n), n, k) == 4);
     end
 
     function test_exact_mutation_and_crossover(fixture)
@@ -93,9 +109,9 @@ fprintf('EU26-07 MATLAB/Octave formula tests: PASS\n');
     end
 
     function test_fixed_tape_profile_isolation(fixture)
-        % Shared H7 witness: parent=1023 has ten ones and fitness 14.  Both
+        % Shared H7 witness: parent=1023 has ten ones and fitness 14. Both
         % mutants and the non-parent crossover have eleven ones and fitness
-        % 15.  At final tie index 1, the paper pool chooses its duplicated
+        % 15. At final tie index 1, the paper pool chooses its duplicated
         % selected mutant 2047, whereas either all-mutant artifact pool
         % chooses the otherwise unselected mutant 3071.
         assert(fixture.schema_version == 1);
@@ -161,6 +177,86 @@ fprintf('EU26-07 MATLAB/Octave formula tests: PASS\n');
         assert(all_parent.parent_after == 3);
     end
 
+    function test_paper_algorithm3_runner()
+        config = struct( ...
+            'n', 20, ...
+            'k', 4, ...
+            'update_factor', 1.5, ...
+            'seed', 7, ...
+            'max_generations', 8, ...
+            'initial_parent', false(1, 20), ...
+            'record_trace', true);
+        result = eu2607_run_paper_algorithm3(config);
+        assert(strcmp(result.profile, 'paper_algorithm3_fixed_order'));
+        assert(result.generations > 0 && result.generations <= 8);
+        assert(numel(result.final_parent) == 20);
+        assert(result.final_fitness >= 4);
+        assert(result.lambda_final >= 1 && result.lambda_final <= 20);
+        assert(result.logical_evaluations == ...
+            sum(result.trace.logical_evaluation_increment));
+        assert(all(result.trace.logical_evaluation_increment == ...
+            2 * result.trace.offspring_count));
+        assert(all(result.trace.offspring_count == ...
+            floor(result.trace.lambda_before + 0.5)));
+        assert(max(abs(result.trace.mutation_probability - ...
+            result.trace.lambda_before / 20)) < 1e-15);
+        assert(max(abs(result.trace.crossover_probability - ...
+            1 ./ result.trace.lambda_before)) < 1e-15);
+        assert(all(result.trace.mutation_strength >= 0));
+        assert(all(result.trace.mutation_strength <= 20));
+        assert(all(result.trace.parent_fitness_after >= ...
+            result.trace.parent_fitness_before));
+
+        large = eu2607_run_paper_algorithm3(struct( ...
+            'n', 60, 'k', 4, 'seed', 9, 'max_generations', 1, ...
+            'initial_parent', false(1, 60), 'record_trace', true));
+        assert(large.generations == 1);
+        assert(large.logical_evaluations == 2);
+        assert(numel(large.final_parent) == 60);
+        assert(large.trace.offspring_count == 1);
+
+        initial_optimum = eu2607_run_paper_algorithm3(struct( ...
+            'n', 20, 'k', 4, 'seed', 3, ...
+            'initial_parent', true(1, 20)));
+        assert(initial_optimum.solved);
+        assert(initial_optimum.generations == 0);
+        assert(initial_optimum.logical_evaluations == 0);
+        assert(strcmp(initial_optimum.status, 'SOLVED_INITIAL_PARENT'));
+
+        budget = eu2607_run_paper_algorithm3(struct( ...
+            'n', 20, 'k', 4, 'seed', 4, 'max_evaluations', 1, ...
+            'initial_parent', false(1, 20)));
+        assert(~budget.solved);
+        assert(budget.generations == 0);
+        assert(budget.logical_evaluations == 0);
+        assert(strcmp(budget.status, 'MAX_EVALUATIONS'));
+    end
+
+    function test_paper_batch_runner()
+        csv_path = [tempname(), '.csv'];
+        csv_cleanup = onCleanup(@() delete_if_exists(csv_path)); %#ok<NASGU>
+        report = eu2607_run_paper_batch(struct( ...
+            'n', 20, 'k', 4, 'update_factor', 1.5, ...
+            'runs', 3, 'base_seed', 100, 'max_generations', 2, ...
+            'max_evaluations', 100, 'output_csv', csv_path));
+        assert(strcmp(report.profile, 'paper_algorithm3_fixed_order'));
+        assert(isequal(report.rows.run, [1; 2; 3]));
+        assert(isequal(report.rows.effective_seed, [101; 102; 103]));
+        assert(report.summary.runs == 3);
+        assert(report.summary.solved_runs + report.summary.incomplete_runs == 3);
+        assert(exist(csv_path, 'file') == 2);
+        csv_text = fileread(csv_path);
+        assert(~isempty(strfind(csv_text, 'logical_evaluations'))); %#ok<STREMP>
+        if report.summary.incomplete_runs > 0
+            assert(strcmp(report.summary.status, ...
+                'INCOMPLETE_RUNS_NO_UNQUALIFIED_AGGREGATE'));
+            assert(isnan(report.summary.mean_evaluations));
+        else
+            assert(strcmp(report.summary.status, 'PASS_ALL_RUNS_SOLVED'));
+            assert(isfinite(report.summary.mean_evaluations));
+        end
+    end
+
     function test_invalid_inputs_fail_closed()
         assert_throws(@() eu2607_jump_fitness(0, 10, 4), ...
             'EU2607:BadProblem');
@@ -168,6 +264,10 @@ fprintf('EU26-07 MATLAB/Octave formula tests: PASS\n');
             'EU2607:BadProblem');
         assert_throws(@() eu2607_jump_fitness(2 ^ 20, 20, 4), ...
             'EU2607:BadBitString');
+        assert_throws(@() eu2607_jump_fitness_bits(false(1, 59), 60, 4), ...
+            'EU2607:BadBitMatrix');
+        assert_throws(@() eu2607_jump_fitness_bits([0, 2, zeros(1, 58)], 60, 4), ...
+            'EU2607:BadBitMatrix');
         assert_throws(@() eu2607_round_lambda(2, 'paper'), ...
             'EU2607:BadProfile');
         assert_throws(@() eu2607_round_lambda(0.9, 'paper_algorithm3'), ...
@@ -191,6 +291,12 @@ fprintf('EU26-07 MATLAB/Octave formula tests: PASS\n');
             'EU2607:BadPositions');
         assert_throws(@() eu2607_crossover_mask(0, 1, 20, 20), ...
             'EU2607:BadPositions');
+        assert_throws(@() eu2607_run_paper_algorithm3(struct('n', 10)), ...
+            'EU2607:BadProblem');
+        assert_throws(@() eu2607_run_paper_algorithm3( ...
+            struct('record_trace', 1)), 'EU2607:BadConfig');
+        assert_throws(@() eu2607_run_paper_batch(struct('runs', 0)), ...
+            'EU2607:BadConfig');
     end
 end
 
@@ -211,4 +317,10 @@ catch exception
     assert(strcmp(exception.identifier, expected_identifier));
 end
 assert(did_throw);
+end
+
+function delete_if_exists(path)
+if exist(path, 'file') == 2
+    delete(path);
+end
 end
