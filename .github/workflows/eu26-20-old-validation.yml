@@ -1,0 +1,33 @@
+name: EU26-20 CMF-AGAwER OLD validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [research/EU26-20-cmf-agawer-old-first-hybrid]
+    paths:
+      - 'candidates/EU26-20/**'
+      - '.github/workflows/eu26-20-old-validation.yml'
+  pull_request:
+    paths:
+      - 'candidates/EU26-20/**'
+      - '.github/workflows/eu26-20-old-validation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  old-core:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install numpy
+      - name: Verify OLD paper formulas and operators
+        run: python candidates/EU26-20/tests/test_old_core.py
+      - name: Enforce no executable HYBRID before numerical OLD pass
+        run: |
+          test -f candidates/EU26-20/hybrid/README.md
+          count=$(find candidates/EU26-20/hybrid -type f ! -name README.md | wc -l)
+          test "$count" -eq 0
