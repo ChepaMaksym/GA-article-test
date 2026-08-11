@@ -22,6 +22,7 @@ EXPECTED_SEEDS = list(range(1, 11))
 # Two-sided 95% Student-t critical value, df=9, frozen because the campaign
 # has exactly ten runs.
 T_CRITICAL_DF9 = 2.2621571628540993
+NUMERIC_EPS = 1e-12
 CAMPAIGN_PREFIX = "EU26_20_CAMPAIGN="
 
 DETERMINISTIC_FIELDS = (
@@ -162,10 +163,12 @@ def evaluate_campaign(
 
     accuracy_distance = abs(accuracy_stats["mean"] - PAPER_ACCURACY)
     accuracy_ci_contains = (
-        accuracy_stats["ci95_low"] <= PAPER_ACCURACY <= accuracy_stats["ci95_high"]
+        accuracy_stats["ci95_low"] - NUMERIC_EPS
+        <= PAPER_ACCURACY
+        <= accuracy_stats["ci95_high"] + NUMERIC_EPS
     )
     gates["G3_final_accuracy_alignment"] = {
-        "pass": bool(accuracy_distance <= 0.03 and accuracy_ci_contains),
+        "pass": bool(accuracy_distance <= 0.03 + NUMERIC_EPS and accuracy_ci_contains),
         "target": PAPER_ACCURACY,
         "absolute_mean_difference": float(accuracy_distance),
         "tolerance": 0.03,
@@ -175,10 +178,12 @@ def evaluate_campaign(
 
     subset_distance = abs(subset_stats["mean"] - PAPER_SUBSET_LENGTH)
     subset_ci_contains = (
-        subset_stats["ci95_low"] <= PAPER_SUBSET_LENGTH <= subset_stats["ci95_high"]
+        subset_stats["ci95_low"] - NUMERIC_EPS
+        <= PAPER_SUBSET_LENGTH
+        <= subset_stats["ci95_high"] + NUMERIC_EPS
     )
     gates["G4_subset_length_alignment"] = {
-        "pass": bool(subset_distance <= 1.5 and subset_ci_contains),
+        "pass": bool(subset_distance <= 1.5 + NUMERIC_EPS and subset_ci_contains),
         "target": PAPER_SUBSET_LENGTH,
         "absolute_mean_difference": float(subset_distance),
         "tolerance": 1.5,
@@ -187,9 +192,9 @@ def evaluate_campaign(
     }
 
     strong_improvements = sum(
-        value >= PAPER_BASELINE + 0.20 - 1e-12 for value in accuracies
+        value >= PAPER_BASELINE + 0.20 - NUMERIC_EPS for value in accuracies
     )
-    no_regressions = min(accuracies) >= PAPER_BASELINE
+    no_regressions = min(accuracies) >= PAPER_BASELINE - NUMERIC_EPS
     gates["G5_qualitative_improvement"] = {
         "pass": bool(strong_improvements >= 8 and no_regressions),
         "runs_improving_by_at_least_0_20": int(strong_improvements),
@@ -229,7 +234,7 @@ def evaluate_campaign(
             "iterations": iteration_stats,
             "adaptive_events": adaptation_stats,
             "runs_at_or_above_paper_accuracy": int(
-                sum(value >= PAPER_ACCURACY for value in accuracies)
+                sum(value >= PAPER_ACCURACY - NUMERIC_EPS for value in accuracies)
             ),
         },
         "deterministic_fields": list(DETERMINISTIC_FIELDS),
