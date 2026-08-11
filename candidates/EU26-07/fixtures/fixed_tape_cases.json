@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "operator_case": {
+    "n": 20,
+    "parent": 1023,
+    "mutation_positions_zero_based_lsb": [10, 12, 19],
+    "expected_mutant": 530431,
+    "crossover_take_mutant_positions_zero_based_lsb": [10, 19],
+    "expected_crossover": 526335
+  },
+  "cases": [
+    {
+      "name": "paper_selected_mutant_pool",
+      "profile": "paper_algorithm3",
+      "n": 20,
+      "k": 4,
+      "parent": 1023,
+      "lambda_real": 2.0,
+      "update_factor": 1.5,
+      "mutation_children": [2047, 3071],
+      "crossover_children": [2047, 1023],
+      "mutation_tie_choice": 0,
+      "final_tie_choice": 1,
+      "expected": {
+        "selected_mutant": 2047,
+        "selected_candidate": 2047,
+        "parent_after": 2047,
+        "strict_success": true,
+        "logical_evaluations": 4
+      }
+    },
+    {
+      "name": "artifact_all_mutants_pool",
+      "profile": "artifact_generic",
+      "n": 20,
+      "k": 4,
+      "parent": 1023,
+      "lambda_real": 2.0,
+      "update_factor": 1.5,
+      "mutation_children": [2047, 3071],
+      "crossover_children": [2047, 1023],
+      "mutation_tie_choice": 0,
+      "final_tie_choice": 1,
+      "expected": {
+        "selected_mutant": 2047,
+        "selected_candidate": 3071,
+        "parent_after": 3071,
+        "strict_success": true,
+        "logical_evaluations": 4
+      }
+    }
+  ]
+}

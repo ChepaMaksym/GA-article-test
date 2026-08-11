@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "verification_environment": {
+    "python": "3.12.13",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "platform_role": "current replay environment, not an author-published lock"
+  },
+  "author_environment": {
+    "status": "UNRESOLVED_NO_REQUIREMENTS_OR_CONTAINER",
+    "source_language": "Python 3",
+    "dependency_lock_present": false
+  },
+  "artifact_materialization": {
+    "source_native_replay_platform": "POSIX-compatible filesystem required",
+    "reason": "frozen raw filename contains colon characters and cannot be checked out on native Windows/NTFS",
+    "windows_formula_tests": "not blocked by the external raw filename"
+  }
+}
