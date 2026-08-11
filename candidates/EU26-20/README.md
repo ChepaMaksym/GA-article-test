@@ -1,74 +1,66 @@
-# EU26-20 - CMF-AGAwER -> PR8 hybrid
+# EU26-20 - CMF-AGAwER candidate rejected before HYBRID
 
-## Candidate
+Status: `REJECTED_OLD_REPRODUCTION`.
 
 Hossein Nematzadeh, José García-Nieto, Ismael Navas-Delgado, José F. Aldana-Montes, **Feature selection using a classification error impurity algorithm and an adaptive genetic algorithm improved with an external repository**, Knowledge-Based Systems 301 (2024) 112345, DOI `10.1016/j.knosys.2024.112345`.
 
-Authors are based at Universidad de Málaga / IBIMA, Spain. The paper is open access and the authors publish the implementation and all benchmark datasets in `KhaosResearch/CMF-AGAwER`.
+## Why the candidate was selected
 
-## Why this candidate fits
+- Applied high-dimensional biomedical feature selection.
+- Explicit premature-convergence/local-optimum motivation.
+- Adaptive crossover and mutation probabilities.
+- External repository intended to preserve exploration.
+- Colon has 2,000 task variables, far above the required 15.
+- Public author implementation, datasets, and precomputed feature pools.
+- Clear Colon target: baseline accuracy `0.69`, CMF-AGAwER mean accuracy `0.94`, mean subset length `6`.
 
-- Applied problem: high-dimensional biomedical feature selection.
-- Explicit local-optimum/premature-convergence motivation.
-- Adaptive GA: crossover probability and mutation probability change after stagnation.
-- External repository adds diverse candidate solutions to improve exploration.
-- Task dimensionality is far above 15: Colon alone has **2,000 input features**; other paper datasets reach 22,283.
-- Exact public paper endpoint for Colon: decision-tree accuracy **0.69 before**, **0.94 after CMF-AGAwER**, average selected subset length **6**.
-- Public author code and data make OLD reproduction materially auditable.
+## OLD verification completed
 
-## Frozen OLD target
+The verification used two non-interchangeable tracks:
 
-Primary target: **Colon** dataset.
+1. pinned author-source compatibility profile;
+2. independent clean-room printed-paper profile.
 
-Paper constants:
+The author repository was pinned to commit `d24e61e78ac197ad75342e8f4be5d63d17bd9e7a`, with exact source/data/feature blobs authenticated.
 
-- samples: 62;
-- raw features: 2,000;
-- classes: 2 (22 / 40);
-- top 50 CEI + top 50 MI + top 50 Fisher Ratio, unique concatenation defines AGAwER search space;
-- `nPop = 10`;
-- initial `Pc = 0.9`, `Pm = 0.4`;
-- no improvement for 5 consecutive iterations -> `Pc -= 0.3`, `Pm += 0.2`;
-- improvement -> reset to `Pc=0.9`, `Pm=0.4`;
-- stop after 20 iterations without improvement, 100 maximum iterations, or fitness 1;
-- external-repository diversity radius `max_distance / beta`, beta=2;
-- initial solution length: 1..10 features;
-- decision-tree classifier, random_state=42;
-- paper reports 5-fold stratified CV for evaluation.
+### Independent printed-paper result
 
-Author-source identities at the screened `main` snapshot:
+All 10 preregistered seeds completed and seed 1 repeated exactly.
 
-- `CMF-AGAwER.py` blob `80ebd0599ac328e09373f21d3c61bb86004d184a`;
-- `Datasets/Colon.xlsx` blob `0c02aa35b606e433079e4e858f091624f9ab05ab`;
-- Colon `features.npy` blob `5ea58b5418a235ff1afcea97f76df81a07d9b1db`.
+- baseline accuracy: `0.69` - PASS;
+- mean final accuracy: `0.941`, 95% CI `[0.92575, 0.95625]` - PASS against `0.94`;
+- mean subset length: `8.2`, 95% CI `[5.99383, 10.40617]` - FAIL against the frozen mean-difference tolerance for target `6`;
+- mean NFE: `870.8` vs paper diagnostic `788`.
 
-Before final numerical claims the workflow must additionally freeze an upstream commit SHA rather than rely on moving `main`.
+Verdict: `BLOCKED_PAPER_NUMERIC_MISMATCH`.
 
-## Hard OLD/HYBRID gate
+### Pinned author-source result
 
-Directory policy:
+- only 9/10 seeds completed;
+- seed 4 could not generate the required diverse external-repository population within 20,000 attempts;
+- partial means: accuracy `0.94444`, subset length `7.22222`, NFE `966.67`.
 
-- `old/` contains the independent paper reproduction and verification.
-- `hybrid/` is documentation-only until OLD passes.
+Verdict: `BLOCKED_SOURCE_REPOSITORY_NONTERMINATION`.
 
-No executable PR8 hybrid is permitted before `V5_OLD_NUMERIC=PASS`.
+### Bounded sensitivity result
 
-If the OLD result cannot reproduce the paper endpoint within the preregistered acceptance rule, this candidate is rejected and no hybrid result may be claimed.
+Five preregistered profiles tested legacy MT19937, source `round()`, effective stop after 19 failures, numeric feature-ID geometry, and a source-like bundle.
 
-## Verification ladder
+No single documented ambiguity reproduced both target accuracy and target subset length. The source-like bundle approached subset `6.375` only on 8 completed runs and failed repository generation on 2/10 runs.
 
-1. `V0_SOURCE`: paper, source, data, feature-list identities and constants frozen.
-2. `V1_DATA`: Colon = 62 x (2000 features + label), two classes with 22/40 distribution.
-3. `V2_OPERATORS`: variable-length crossover, replacement mutation, RWS, repository distance and radius match paper/source.
-4. `V3_ADAPTATION`: exact Pc/Pm schedule and reset semantics pass fixed-tape tests.
-5. `V4_PROTOCOL`: decision-tree and CV protocol is frozen; stochastic seed ledger is explicit.
-6. `V5_OLD_NUMERIC`: repeated OLD campaign targets paper accuracy 0.94 and subset length 6. Acceptance is based on confidence intervals / repeated-run distribution, not one lucky seed.
-7. Only after V5 passes: implement `hybrid/` using PR #8 control.
+Detailed evidence, gates, per-seed values, artifact digests, and final rationale are in [`old/OLD_STATUS.md`](old/OLD_STATUS.md).
 
-## Hybrid hypothesis - frozen but not implemented
+## Final OLD/HYBRID decision
 
-Keep the biomedical dataset, CMF feature pool, classifier, fitness and external-repository machinery unchanged. Replace only AGAwER's hand-stepped `(Pc,Pm)` stagnation controller with the verified PR #8 self-adjusting `(1+(lambda,lambda))` search-control layer adapted to variable-length feature subsets. Compare OLD vs HYBRID under equal fitness-evaluation budgets.
+The candidate does not meet the required OLD quality gate:
 
-## Current status
+- printed-paper accuracy reproduced, but reported subset length did not;
+- public source was not stable over the ten-seed campaign;
+- sensitivity analysis did not identify one defensible paper ambiguity that repairs the result.
 
-`OLD_IMPLEMENTATION_IN_PROGRESS`
+Therefore:
+
+- this PR must not be merged as a successful reproduction;
+- no executable PR #8 hybrid may be added;
+- `hybrid/` remains documentation-only;
+- the next candidate must branch from the shared PR #8 base, not from EU26-20.
