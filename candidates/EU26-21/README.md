@@ -1,20 +1,30 @@
-# EU26-21 - CHC-QX Census-Income OLD-first candidate
+# EU26-21 - CHC-QX Census-Income plus Hybrid 1
 
-Status: `PREREGISTERED_OLD_ONLY`.
+## Current status
 
-Paper: Mohammed Ghaith Altarabichi, Sławomir Nowaczyk, Sepideh Pashami, and Peyman Sheikholharam Mashhadi, **Fast Genetic Algorithm for feature selection - A qualitative approximation approach**, Expert Systems with Applications 211 (2023) 118528, DOI `10.1016/j.eswa.2022.118528`.
+- `old/`: `PASS_SOURCE_NUMERIC_ALIGNMENT` for the pinned public CHC-QX implementation;
+- literal paper/source reconciliation: still documented as incomplete;
+- `hybrid/`: retired documentation-only placeholder retained for provenance;
+- `hybrid_1/`: user-authorized Step 2 implementation and experiment;
+- applied Census improvement: not yet claimed until the paired campaign passes.
 
-## Why this candidate is materially stronger
+Paper used for the applied OLD baseline:
 
-- Applied wrapper feature selection for income classification, not a synthetic objective.
-- Census-Income contains 199,523 observations and **41 task features**, exceeding the required 15 task variables.
-- Binary feature masks make the later scientific comparison with PR #8 technically clean, but HYBRID remains forbidden until OLD passes.
-- The search landscape is combinatorial (`2^41` masks), with premature convergence and false/local optima discussed explicitly in the paper.
-- The underlying CHC adaptive search changes its incest-prevention distance threshold as progress stalls and triggers cataclysmic mutation/restart when convergence is detected.
-- The authors publish complete Python source, the exact Census-Income dataset, an executed notebook endpoint, and the article carries a Code Ocean reproducibility badge.
-- Table 2 provides a ten-run numerical endpoint: Census-Income baseline Decision Tree `92.87%`, CHC-QX median test accuracy `94.94%`, standard deviation `0.07` percentage points.
+Mohammed Ghaith Altarabichi, Sławomir Nowaczyk, Sepideh Pashami, and Peyman Sheikholharam Mashhadi, **Fast Genetic Algorithm for feature selection - A qualitative approximation approach**, Expert Systems with Applications 211 (2023) 118528, DOI `10.1016/j.eswa.2022.118528`.
 
-## Frozen author evidence
+Parameter-control paper used for Hybrid 1:
+
+Mario Alejandro Hevia Fajardo and Dirk Sudholt, **Theoretical and Empirical Analysis of Parameter Control Mechanisms in the `(1+(lambda,lambda))` Genetic Algorithm**, ACM Transactions on Evolutionary Learning and Optimization 2(4), DOI `10.1145/3564755`.
+
+## Applied problem
+
+- Census-Income income classification;
+- 199,523 observations;
+- 41 task features;
+- binary search space of `2^41` feature masks;
+- Decision Tree evaluation under the frozen author-source 60/20/20 protocol.
+
+## Frozen OLD evidence
 
 Repository: `Ghaith81/Fast-Genetic-Algorithm-For-Feature-Selection`.
 
@@ -27,42 +37,53 @@ Pinned blobs:
 - `code/Example.ipynb`: `87d2ea5caada5278853553de2c73d2ec6083f9b6`;
 - `data/census-income.data`: `e780a25c2dec3f1a10d65cca9ea05001a77b37b6`.
 
-The executed notebook records one non-seeded source endpoint:
+The ten-seed source campaign reproduced:
 
-- meta-model training sample size `14,964`;
-- best validation fitness `0.9491` at generation `60`;
-- test accuracy `94.96%`;
-- selected features `[12, 16, 17, 19, 40]`.
+- all-feature baseline: `92.8681%`;
+- CHC-QX median test accuracy: `94.9455%`;
+- sample standard deviation: `0.0336` percentage points;
+- 10/10 completed runs plus an exact repeat of seed 1.
 
-That notebook row is an authenticated artifact target, not a historical-seed claim.
+Detailed OLD evidence remains in `old/SOURCE_STATUS.md` and
+`old/PAPER_SOURCE_DIVERGENCES.md`.
 
-## OLD tracks
+## Hybrid 1 intervention
 
-OLD is deliberately split into non-interchangeable verification tracks:
+Hybrid 1 preserves the applied data, split, normalization, active sample,
+classifier, validation objective, and held-out test. It replaces only the
+feature-mask search layer with reset self-adjusting `(1+(lambda,lambda))`:
 
-1. `notebook_artifact` - authenticate the executed notebook outputs and exact upstream identities.
-2. `author_source_seeded` - run the pinned author code with an auditor-defined seed ledger and no algorithm tuning.
-3. `paper_cleanroom` - only after source behavior is understood, independently implement the printed CHC-QX flow and compare it with source behavior.
+- `m = round_half_up(lambda)`;
+- mutation probability `p=lambda/41`;
+- crossover probability `c=1/lambda`;
+- strict-success shrink;
+- failure growth by `F^(1/4)`;
+- failure at `lambda=41` resets lambda to 1.
 
-A successful source run by itself is not sufficient for `PASS_OLD_FULL`.
+Fitness is lexicographic:
 
-## Hard gate
+```text
+(validation accuracy, - selected_feature_fraction)
+```
 
-`hybrid/` must contain no executable optimizer unless all of the following are true:
+Thus accuracy always dominates sparsity.
 
-- exact source/data identities pass;
-- data preprocessing and 60/20/20 split pass independent checks;
-- CHC adaptive distance and cataclysmic restart semantics pass fixed-tape tests;
-- the seeded source campaign completes all preregistered runs deterministically;
-- the Census-Income baseline and CHC-QX Table 2 endpoint satisfy the frozen numerical gate;
-- an independent paper-profile implementation is completed and its divergences from source are resolved or explicitly bounded.
+## Verification strategy
 
-If the numerical OLD endpoint cannot be reproduced after a bounded verification cycle, this candidate is rejected and no PR #8 hybrid is created.
+1. exact control/formula and fixed-tape tests;
+2. Jump local-optimum reset-vs-no-reset confirmation;
+3. OneMax no-regression control;
+4. exact 1/2/4 evaluation-worker invariance;
+5. exact 1/2/4 process-worker campaign invariance;
+6. Census data-boundary and held-out-test smoke;
+7. paired Census reset-vs-no-reset pilot;
+8. final ten-seed applied campaign for H1-H3.
 
-## Current work
+The complete hypotheses and pass thresholds are frozen in
+`hybrid_1/HYPOTHESES.md`.
 
-- source and artifact contract: in implementation;
-- source-compatible single-seed runner: in implementation;
-- ten-seed numerical gate: preregistered before execution;
-- independent paper profile: blocked until source smoke and campaign evidence;
-- HYBRID: documentation-only.
+## Claim boundary
+
+A passing Jump result proves that the transferred reset controller improves the
+selected local-optimum control problem. It does not prove an applied Census
+improvement. That conclusion requires the frozen paired Census campaign.
