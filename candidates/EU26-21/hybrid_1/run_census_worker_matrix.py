@@ -83,6 +83,8 @@ def main() -> None:
         "invariant": invariant,
         "results": results,
         "active_sample_size": int(prepared.active_instances.size),
+        "active_indices_sha256": prepared.metadata["active_indices_sha256"],
+        "active_sampling": prepared.metadata["active_sampling"],
     }
     if args.output_json:
         args.output_json.parent.mkdir(parents=True, exist_ok=True)
@@ -93,6 +95,8 @@ def main() -> None:
     print(json.dumps({
         "invariant": invariant,
         "active_sample_size": report["active_sample_size"],
+        "active_indices_sha256": report["active_indices_sha256"],
+        "active_sampling": report["active_sampling"],
     }, sort_keys=True))
     if not invariant:
         raise SystemExit(1)
