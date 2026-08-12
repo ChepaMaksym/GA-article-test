@@ -244,3 +244,115 @@ jobs:
           path: ${{ runner.temp }}/hybrid-1-census-reset-probe.json
           if-no-files-found: error
           retention-days: 30
+
+  census-final-practical:
+    name: Final ten-seed Census Hybrid 1 practical-budget campaign
+    needs: [hybrid-unit, census-worker-matrix]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      - run: python -m pip install -r candidates/EU26-21/hybrid_1/requirements.txt
+      - name: Fetch exact CHC-QX OLD snapshot
+        run: |
+          git init "${RUNNER_TEMP}/chcqx"
+          git -C "${RUNNER_TEMP}/chcqx" remote add origin "$UPSTREAM_REPO"
+          git -C "${RUNNER_TEMP}/chcqx" fetch --depth=1 origin "$UPSTREAM_COMMIT"
+          git -C "${RUNNER_TEMP}/chcqx" checkout --detach FETCH_HEAD
+          test "$(git -C "${RUNNER_TEMP}/chcqx" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
+      - name: Run and enforce H1-H2 on the frozen seed ledger
+        run: |
+          python candidates/EU26-21/hybrid_1/run_census_campaign.py \
+            "${RUNNER_TEMP}/chcqx" \
+            --seed-start 1 \
+            --runs 10 \
+            --budget 400 \
+            --workers 4 \
+            --initial-population 50 \
+            --bootstrap-resamples 20000 \
+            --output-json "${RUNNER_TEMP}/hybrid-1-census-final-400.json" \
+            --enforce-h1-h2
+      - name: Print compact applied verdict
+        if: always()
+        run: |
+          if test -f "${RUNNER_TEMP}/hybrid-1-census-final-400.json"; then
+            python - <<'PY'
+          import json, os
+          from pathlib import Path
+          report = json.loads(
+              (Path(os.environ['RUNNER_TEMP']) / 'hybrid-1-census-final-400.json').read_text()
+          )
+          print(json.dumps({
+              'applied_claim_status': report['applied_claim_status'],
+              'reset_effect_status': report['reset_effect_status'],
+              'applied_gates': report['applied_gates'],
+              'statistics': report['statistics'],
+          }, sort_keys=True))
+          PY
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eu26-21-hybrid-1-census-final-budget-400
+          path: ${{ runner.temp }}/hybrid-1-census-final-400.json
+          if-no-files-found: warn
+          retention-days: 30
+
+  census-final-reset-effect:
+    name: Ten-seed Census reset-vs-no-reset high-budget campaign
+    needs: [hybrid-unit, census-worker-matrix]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      - run: python -m pip install -r candidates/EU26-21/hybrid_1/requirements.txt
+      - name: Fetch exact CHC-QX OLD snapshot
+        run: |
+          git init "${RUNNER_TEMP}/chcqx"
+          git -C "${RUNNER_TEMP}/chcqx" remote add origin "$UPSTREAM_REPO"
+          git -C "${RUNNER_TEMP}/chcqx" fetch --depth=1 origin "$UPSTREAM_COMMIT"
+          git -C "${RUNNER_TEMP}/chcqx" checkout --detach FETCH_HEAD
+          test "$(git -C "${RUNNER_TEMP}/chcqx" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
+      - name: Run paired reset-effect campaign under equal high budgets
+        run: |
+          python candidates/EU26-21/hybrid_1/run_census_campaign.py \
+            "${RUNNER_TEMP}/chcqx" \
+            --seed-start 1 \
+            --runs 10 \
+            --budget 2500 \
+            --workers 4 \
+            --initial-population 50 \
+            --bootstrap-resamples 20000 \
+            --output-json "${RUNNER_TEMP}/hybrid-1-census-final-2500.json"
+      - name: Print compact reset-effect verdict
+        if: always()
+        run: |
+          if test -f "${RUNNER_TEMP}/hybrid-1-census-final-2500.json"; then
+            python - <<'PY'
+          import json, os
+          from pathlib import Path
+          report = json.loads(
+              (Path(os.environ['RUNNER_TEMP']) / 'hybrid-1-census-final-2500.json').read_text()
+          )
+          print(json.dumps({
+              'applied_claim_status': report['applied_claim_status'],
+              'reset_effect_status': report['reset_effect_status'],
+              'applied_gates': report['applied_gates'],
+              'reset_activation': report['statistics']['reset_activation'],
+              'paired_reset_minus_no_reset': report['statistics']['paired_reset_minus_no_reset'],
+          }, sort_keys=True))
+          PY
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eu26-21-hybrid-1-census-final-budget-2500
+          path: ${{ runner.temp }}/hybrid-1-census-final-2500.json
+          if-no-files-found: warn
+          retention-days: 30
