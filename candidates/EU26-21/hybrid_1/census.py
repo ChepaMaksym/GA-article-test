@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import copy
+import hashlib
 from pathlib import Path
 import random
 import subprocess
@@ -200,6 +201,10 @@ def prepare_author_census(upstream: Path, seed: int) -> PreparedCensus:
     if active.min() < 0 or active.max() >= split_sizes[0]:
         raise RuntimeError("active-sampling indices escaped the training split")
 
+    active_hash = hashlib.sha256(
+        np.asarray(active, dtype="<i8").tobytes(order="C")
+    ).hexdigest()
+
     return PreparedCensus(
         x_train=np.asarray(dataset.X_train, dtype=float),
         y_train=np.asarray(dataset.y_train),
@@ -216,6 +221,7 @@ def prepare_author_census(upstream: Path, seed: int) -> PreparedCensus:
             "features": 41,
             "split_sizes": list(split_sizes),
             "active_sample_size": int(active.size),
+            "active_indices_sha256": active_hash,
             "controlled_individuals": int(len(controlled_population)),
             "data_protocol": "author_source_contiguous_60_20_20",
             "active_sampling": active_protocol,
