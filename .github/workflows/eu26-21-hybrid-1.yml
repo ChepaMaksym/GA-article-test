@@ -1,0 +1,197 @@
+name: EU26-21 Hybrid 1 reset-lambda validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [research/EU26-21-chcqx-census-old-first]
+    paths:
+      - 'candidates/EU26-21/hybrid_1/**'
+      - 'candidates/EU26-21/tests/test_hybrid_1_*.py'
+      - '.github/workflows/eu26-21-hybrid-1.yml'
+  pull_request:
+    paths:
+      - 'candidates/EU26-21/hybrid_1/**'
+      - 'candidates/EU26-21/tests/test_hybrid_1_*.py'
+      - '.github/workflows/eu26-21-hybrid-1.yml'
+
+concurrency:
+  group: eu26-21-hybrid-1-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  UPSTREAM_REPO: https://github.com/Ghaith81/Fast-Genetic-Algorithm-For-Feature-Selection.git
+  UPSTREAM_COMMIT: 6ac5a7ec77f8a7c096ab4d019254fcc897988fd6
+  PYTHONHASHSEED: '0'
+  MPLBACKEND: Agg
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  NUMEXPR_NUM_THREADS: '1'
+
+jobs:
+  hybrid-unit:
+    name: Hybrid 1 critical, Jump, OneMax, and worker tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      - name: Install Hybrid 1 environment
+        run: python -m pip install -r candidates/EU26-21/hybrid_1/requirements.txt
+      - name: Require the frozen passing source OLD milestone
+        run: grep -q 'PASS_SOURCE_NUMERIC_ALIGNMENT' candidates/EU26-21/old/SOURCE_STATUS.md
+      - name: Compile Hybrid 1 on Python 3.9
+        run: >-
+          python -m py_compile
+          candidates/EU26-21/hybrid_1/*.py
+          candidates/EU26-21/tests/test_hybrid_1_*.py
+      - name: Run all Hybrid 1 unit and critical tests
+        run: >-
+          python -m unittest discover
+          -s candidates/EU26-21/tests
+          -p 'test_hybrid_1_*.py'
+          -v
+
+  jump-confirmation:
+    name: Jump local-optimum meaningful-improvement confirmation
+    needs: hybrid-unit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      - run: python -m pip install numpy==1.23.5
+      - name: Run frozen confirmation ledger with four process workers
+        run: |
+          python candidates/EU26-21/hybrid_1/run_jump_campaign.py \
+            --n 20 \
+            --k 3 \
+            --budget 10000 \
+            --seed-start 101 \
+            --runs 50 \
+            --campaign-workers 4 \
+            --evaluation-workers 1 \
+            --output-json "${RUNNER_TEMP}/hybrid-1-jump.json" \
+            --enforce
+          cat "${RUNNER_TEMP}/hybrid-1-jump.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eu26-21-hybrid-1-jump-confirmation
+          path: ${{ runner.temp }}/hybrid-1-jump.json
+          if-no-files-found: error
+          retention-days: 30
+
+  census-worker-matrix:
+    name: Census Hybrid 1 exact 1-2-4 worker invariance
+    needs: hybrid-unit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      - run: python -m pip install -r candidates/EU26-21/hybrid_1/requirements.txt
+      - name: Fetch exact CHC-QX OLD snapshot
+        run: |
+          git init "${RUNNER_TEMP}/chcqx"
+          git -C "${RUNNER_TEMP}/chcqx" remote add origin "$UPSTREAM_REPO"
+          git -C "${RUNNER_TEMP}/chcqx" fetch --depth=1 origin "$UPSTREAM_COMMIT"
+          git -C "${RUNNER_TEMP}/chcqx" checkout --detach FETCH_HEAD
+          test "$(git -C "${RUNNER_TEMP}/chcqx" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
+      - name: Freeze active sample once and compare 1-2-4 workers
+        run: |
+          python candidates/EU26-21/hybrid_1/run_census_worker_matrix.py \
+            "${RUNNER_TEMP}/chcqx" \
+            --seed 1 \
+            --budget 160 \
+            --output-json "${RUNNER_TEMP}/hybrid-1-census-workers.json"
+          cat "${RUNNER_TEMP}/hybrid-1-census-workers.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eu26-21-hybrid-1-census-worker-matrix
+          path: ${{ runner.temp }}/hybrid-1-census-workers.json
+          if-no-files-found: error
+          retention-days: 30
+
+  census-smoke:
+    name: Applied Census Hybrid 1 seed 1 smoke
+    needs: [hybrid-unit, census-worker-matrix]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      - run: python -m pip install -r candidates/EU26-21/hybrid_1/requirements.txt
+      - name: Fetch exact CHC-QX OLD snapshot
+        run: |
+          git init "${RUNNER_TEMP}/chcqx"
+          git -C "${RUNNER_TEMP}/chcqx" remote add origin "$UPSTREAM_REPO"
+          git -C "${RUNNER_TEMP}/chcqx" fetch --depth=1 origin "$UPSTREAM_COMMIT"
+          git -C "${RUNNER_TEMP}/chcqx" checkout --detach FETCH_HEAD
+          test "$(git -C "${RUNNER_TEMP}/chcqx" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
+      - name: Execute applied Hybrid 1 with four evaluation workers
+        run: |
+          python candidates/EU26-21/hybrid_1/run_census_hybrid.py \
+            "${RUNNER_TEMP}/chcqx" \
+            --seed 1 \
+            --budget 400 \
+            --workers 4 \
+            --initial-population 50 \
+            --output-json "${RUNNER_TEMP}/hybrid-1-census-seed1.json"
+          cat "${RUNNER_TEMP}/hybrid-1-census-seed1.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eu26-21-hybrid-1-census-seed1
+          path: ${{ runner.temp }}/hybrid-1-census-seed1.json
+          if-no-files-found: error
+          retention-days: 30
+
+  census-paired-pilot:
+    name: Three-seed paired Census reset vs no-reset pilot
+    needs: [hybrid-unit, census-worker-matrix]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      - run: python -m pip install -r candidates/EU26-21/hybrid_1/requirements.txt
+      - name: Fetch exact CHC-QX OLD snapshot
+        run: |
+          git init "${RUNNER_TEMP}/chcqx"
+          git -C "${RUNNER_TEMP}/chcqx" remote add origin "$UPSTREAM_REPO"
+          git -C "${RUNNER_TEMP}/chcqx" fetch --depth=1 origin "$UPSTREAM_COMMIT"
+          git -C "${RUNNER_TEMP}/chcqx" checkout --detach FETCH_HEAD
+          test "$(git -C "${RUNNER_TEMP}/chcqx" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
+      - name: Run paired exploratory applied pilot
+        run: |
+          python candidates/EU26-21/hybrid_1/run_census_campaign.py \
+            "${RUNNER_TEMP}/chcqx" \
+            --seed-start 1 \
+            --runs 3 \
+            --budget 400 \
+            --workers 4 \
+            --initial-population 50 \
+            --output-json "${RUNNER_TEMP}/hybrid-1-census-pilot.json"
+          cat "${RUNNER_TEMP}/hybrid-1-census-pilot.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eu26-21-hybrid-1-census-paired-pilot
+          path: ${{ runner.temp }}/hybrid-1-census-pilot.json
+          if-no-files-found: error
+          retention-days: 30
