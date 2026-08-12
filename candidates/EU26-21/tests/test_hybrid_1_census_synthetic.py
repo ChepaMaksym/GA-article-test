@@ -10,7 +10,12 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from hybrid_1.census import FeatureSelectionObjective, PreparedCensus, final_test_accuracy  # noqa: E402
+from hybrid_1.census import (  # noqa: E402
+    FROZEN_ACTIVE_SAMPLE_SIZES,
+    FeatureSelectionObjective,
+    PreparedCensus,
+    final_test_accuracy,
+)
 from hybrid_1.core import run_reset_lambda_ga, source_density_population  # noqa: E402
 
 
@@ -30,6 +35,24 @@ class HybridOneCensusSyntheticTests(unittest.TestCase):
             baseline_validation_accuracy=0.0,
             baseline_test_accuracy=0.0,
             metadata={},
+        )
+
+    def test_frozen_old_active_size_ledger_is_complete(self) -> None:
+        self.assertEqual(set(FROZEN_ACTIVE_SAMPLE_SIZES), set(range(1, 11)))
+        self.assertEqual(
+            [FROZEN_ACTIVE_SAMPLE_SIZES[seed] for seed in range(1, 11)],
+            [
+                7482,
+                7482,
+                14964,
+                7482,
+                14964,
+                14964,
+                7482,
+                14964,
+                7482,
+                14964,
+            ],
         )
 
     def test_empty_mask_is_penalized_and_sparsity_breaks_ties(self) -> None:
