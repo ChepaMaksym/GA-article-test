@@ -70,6 +70,10 @@ def _variant(
     selected = [
         index for index, value in enumerate(result.best_mask) if value == 1
     ]
+    first_reset_evaluations = next(
+        (row.evaluations for row in result.trace if row.reset_event),
+        None,
+    )
     return {
         "validation_accuracy": result.best_fitness[0],
         "test_accuracy": final_test_accuracy(prepared, result.best_mask),
@@ -78,6 +82,11 @@ def _variant(
         "evaluations": result.evaluations,
         "generations": result.generations,
         "reset_events": result.reset_events,
+        "first_reset_evaluations": first_reset_evaluations,
+        "max_lambda_before": max(
+            (row.lambda_before for row in result.trace),
+            default=1.0,
+        ),
     }
 
 
