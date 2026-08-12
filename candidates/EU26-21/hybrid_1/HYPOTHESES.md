@@ -22,6 +22,30 @@ work. No exact CHC-QX plus reset `(1+(lambda,lambda))` Census feature-selection
 hybrid was found in the searched primary sources. This is a search result, not
 an unconditional claim of worldwide novelty.
 
+## Reproducibility amendment before the final Census campaign
+
+The first three-seed pilot exposed that the public CHC-QX active-sampling
+criterion contains a wall-clock-time ratio. Consequently, the chosen sample
+size can change with hardware even when the seed is fixed. This amendment does
+not use Hybrid 1 outcome quality to choose a better sample.
+
+For the final seeds `1..10`, Hybrid 1 freezes the active-sample sizes observed in
+the already passing OLD source ledger:
+
+```text
+seed: 1    2    3     4    5     6     7    8     9    10
+size: 7482 7482 14964 7482 14964 14964 7482 14964 7482 14964
+```
+
+For each seed, the source random stream still generates the ten controlled
+feature masks and all candidate instance samples in the original order. The
+hardware-dependent timing decision is replaced only by selection of the
+pre-frozen OLD size. The exact selected instance indices therefore remain
+seeded and reproducible across machines.
+
+This amendment is frozen before the final ten-seed Hybrid 1 campaign. It is
+reported as `frozen_passing_old_size_ledger` in every applied result.
+
 ## H1 - applied quality non-inferiority
 
 Across frozen seeds `1..10`, Hybrid 1 should preserve the strong OLD prediction
@@ -105,7 +129,8 @@ The implementation must pass fixed-tape and invariant tests for:
 - `1 <= lambda <= n` at every transition;
 - no logical budget overshoot;
 - empty Census feature masks receiving a dominated fitness;
-- validation-only optimization and one final held-out test evaluation.
+- validation-only optimization and one final held-out test evaluation;
+- exact active-sample size and indices under the frozen OLD seed ledger.
 
 ## Statistical reporting
 
