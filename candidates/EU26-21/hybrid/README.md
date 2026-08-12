@@ -1,14 +1,21 @@
-# HYBRID blocked until EU26-21 OLD passes
+# Retired HYBRID placeholder
 
-This directory is intentionally documentation-only.
+This directory remains documentation-only so the OLD-first history is not
+rewritten.
 
-No executable PR #8 hybrid may be added until:
+After the pinned author-source OLD campaign passed, the user explicitly moved
+the project to Step 2. The implemented experiment is now located in:
 
-1. the pinned CHC-QX source campaign passes the preregistered Census-Income numerical gate;
-2. an independent printed-paper CHC-QX implementation is completed and verified;
-3. source/paper divergences are explicitly resolved;
-4. the candidate receives `PASS_OLD_FULL`.
+```text
+../hybrid_1/
+```
 
-A successful smoke seed or source-only pass is not sufficient.
+`hybrid_1` is a deliberately simple, independently implemented transfer of the
+reset self-adjusting `(1+(lambda,lambda))` controller to the CHC-QX Census
+feature-mask objective. Its hypotheses, code, Jump controls, worker tests, and
+applied campaign are kept together in that folder.
 
-The later hypothesis, if OLD passes, is to freeze the CHC-QX data, surrogate, classifier, split, control frequency, and evaluation budget, then replace only the binary feature-mask optimizer with the verified PR #8 `(1+(lambda,lambda))` mechanism. That hypothesis is not implemented here.
+The remaining paper/source divergence in OLD is still disclosed. Therefore
+Hybrid 1 uses the verified public-source OLD endpoint as its applied baseline
+and does not claim that the public source is a literal implementation of every
+printed CHC-QX detail.
