@@ -195,3 +195,52 @@ jobs:
           path: ${{ runner.temp }}/hybrid-1-census-pilot.json
           if-no-files-found: error
           retention-days: 30
+
+  census-reset-activation:
+    name: Census seed 1 high-budget reset activation probe
+    needs: [hybrid-unit, census-worker-matrix]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      - run: python -m pip install -r candidates/EU26-21/hybrid_1/requirements.txt
+      - name: Fetch exact CHC-QX OLD snapshot
+        run: |
+          git init "${RUNNER_TEMP}/chcqx"
+          git -C "${RUNNER_TEMP}/chcqx" remote add origin "$UPSTREAM_REPO"
+          git -C "${RUNNER_TEMP}/chcqx" fetch --depth=1 origin "$UPSTREAM_COMMIT"
+          git -C "${RUNNER_TEMP}/chcqx" checkout --detach FETCH_HEAD
+          test "$(git -C "${RUNNER_TEMP}/chcqx" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
+      - name: Probe reset activation under a nontrivial equal budget
+        run: |
+          python candidates/EU26-21/hybrid_1/run_census_campaign.py \
+            "${RUNNER_TEMP}/chcqx" \
+            --seed-start 1 \
+            --runs 1 \
+            --budget 2500 \
+            --workers 4 \
+            --initial-population 50 \
+            --output-json "${RUNNER_TEMP}/hybrid-1-census-reset-probe.json"
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          report = json.loads(
+              (Path(os.environ['RUNNER_TEMP']) / 'hybrid-1-census-reset-probe.json').read_text()
+          )
+          row = report['rows'][0]
+          print(json.dumps({
+              'reset': row['reset'],
+              'no_reset': row['no_reset'],
+              'active_sample_size': row['active_sample_size'],
+          }, sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eu26-21-hybrid-1-census-reset-activation-probe
+          path: ${{ runner.temp }}/hybrid-1-census-reset-probe.json
+          if-no-files-found: error
+          retention-days: 30
