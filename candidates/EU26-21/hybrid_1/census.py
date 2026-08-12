@@ -7,11 +7,12 @@ independent Hybrid 1 implementation in :mod:`hybrid_1.core`.
 from __future__ import annotations
 
 from dataclasses import dataclass
+import copy
 from pathlib import Path
 import random
 import subprocess
 import sys
-from typing import Any, Dict, Sequence
+from typing import Any, Dict, Sequence, Tuple
 
 import numpy as np
 from sklearn.tree import DecisionTreeClassifier
@@ -19,6 +20,18 @@ from sklearn.tree import DecisionTreeClassifier
 from .core import Fitness, Mask
 
 EXPECTED_UPSTREAM_COMMIT = "6ac5a7ec77f8a7c096ab4d019254fcc897988fd6"
+FROZEN_ACTIVE_SAMPLE_SIZES = {
+    1: 7482,
+    2: 7482,
+    3: 14964,
+    4: 7482,
+    5: 14964,
+    6: 14964,
+    7: 7482,
+    8: 14964,
+    9: 7482,
+    10: 14964,
+}
 
 
 @dataclass(frozen=True)
@@ -118,11 +131,54 @@ def prepare_author_census(upstream: Path, seed: int) -> PreparedCensus:
             evaluate=True,
             partial_sample=False,
         )
-        selected_instances, controlled_population = Evolution.select_instances(
-            10,
-            dataset,
-            minimum_sample_size=5000,
-        )
+        if seed in FROZEN_ACTIVE_SAMPLE_SIZES:
+            # Recreate the source random stream, but replace its hardware-time
+            # stopping decision with the active-sample size observed in the
+            # passing OLD seed ledger. This makes the Hybrid 1 applied protocol
+            # reproducible across machines while preserving source generation.
+            controlled_population = []
+            for _ in range(10):
+                controlled = copy.copy(dataset)
+                controlled.divide_dataset(
+                    dataset.clf,
+                    normalize=True,
+                    shuffle=False,
+                    all_features=False,
+                    all_instances=True,
+                    evaluate=True,
+                    partial_sample=False,
+                )
+                controlled_population.append(controlled)
+
+            candidates = {}
+            sample_size = dataset.X_train.shape[0] // 2
+            while sample_size > 5000:
+                sampled = copy.copy(dataset)
+                sampled.divide_dataset(
+                    dataset.clf,
+                    normalize=True,
+                    shuffle=False,
+                    all_features=True,
+                    all_instances=True,
+                    evaluate=False,
+                    partial_sample=sample_size,
+                )
+                candidates[int(sample_size)] = np.asarray(
+                    sampled.instances, dtype=int
+                ).copy()
+                sample_size //= 2
+            frozen_size = FROZEN_ACTIVE_SAMPLE_SIZES[seed]
+            if frozen_size not in candidates:
+                raise RuntimeError("frozen active-sample size is unavailable")
+            selected_instances = candidates[frozen_size]
+            active_protocol = "frozen_passing_old_size_ledger"
+        else:
+            selected_instances, controlled_population = Evolution.select_instances(
+                10,
+                dataset,
+                minimum_sample_size=5000,
+            )
+            active_protocol = "author_source_progressive_halving"
     finally:
         try:
             sys.path.remove(str(code_dir))
@@ -162,6 +218,9 @@ def prepare_author_census(upstream: Path, seed: int) -> PreparedCensus:
             "active_sample_size": int(active.size),
             "controlled_individuals": int(len(controlled_population)),
             "data_protocol": "author_source_contiguous_60_20_20",
-            "active_sampling": "author_source_progressive_halving",
+            "active_sampling": active_protocol,
+            "frozen_active_sample_size": (
+                FROZEN_ACTIVE_SAMPLE_SIZES.get(seed)
+            ),
         },
     )
