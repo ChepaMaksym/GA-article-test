@@ -1,0 +1,143 @@
+name: EU26-21 OLD vs Hybrid 1 thirty-seed matrix
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [research/EU26-21-chcqx-census-old-first]
+    paths:
+      - 'candidates/EU26-21/hybrid_1/run_old_hybrid_seed_v2.py'
+      - 'candidates/EU26-21/hybrid_1/aggregate_old_hybrid_v2.py'
+      - 'candidates/EU26-21/hybrid_1/EXECUTION_MATRIX_30_SEED.md'
+      - '.github/workflows/eu26-21-old-hybrid-30-matrix.yml'
+
+concurrency:
+  group: eu26-21-old-hybrid-30-${{ github.ref_name }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  UPSTREAM_REPO: https://github.com/Ghaith81/Fast-Genetic-Algorithm-For-Feature-Selection.git
+  UPSTREAM_COMMIT: 6ac5a7ec77f8a7c096ab4d019254fcc897988fd6
+  PYTHONHASHSEED: '0'
+  MPLBACKEND: Agg
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  NUMEXPR_NUM_THREADS: '1'
+
+jobs:
+  matrix-unit:
+    name: Matrix runner and aggregator tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      - name: Install frozen experiment environment
+        run: python -m pip install -r candidates/EU26-21/hybrid_1/requirements.txt
+      - name: Compile matrix entrypoints
+        run: >-
+          python -m py_compile
+          candidates/EU26-21/hybrid_1/run_old_hybrid_seed_v2.py
+          candidates/EU26-21/hybrid_1/aggregate_old_hybrid_v2.py
+          candidates/EU26-21/hybrid_1/paired_comparison_v2.py
+          candidates/EU26-21/hybrid_1/run_old_hybrid_comparison_v2.py
+      - name: Re-run corrected decision tests
+        run: >-
+          python -m unittest
+          candidates/EU26-21/tests/test_hybrid_1_paired_comparison_v2.py
+          -v
+
+  paired-seed:
+    name: Paired Census seed ${{ matrix.seed }}
+    needs: matrix-unit
+    strategy:
+      fail-fast: false
+      max-parallel: 15
+      matrix:
+        seed: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      - name: Install frozen experiment environment
+        run: python -m pip install -r candidates/EU26-21/hybrid_1/requirements.txt
+      - name: Fetch exact CHC-QX OLD snapshot
+        run: |
+          git init "${RUNNER_TEMP}/chcqx"
+          git -C "${RUNNER_TEMP}/chcqx" remote add origin "$UPSTREAM_REPO"
+          git -C "${RUNNER_TEMP}/chcqx" fetch --depth=1 origin "$UPSTREAM_COMMIT"
+          git -C "${RUNNER_TEMP}/chcqx" checkout --detach FETCH_HEAD
+          test "$(git -C "${RUNNER_TEMP}/chcqx" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
+      - name: Run isolated paired seed
+        run: |
+          printf -v seed2 '%02d' '${{ matrix.seed }}'
+          python candidates/EU26-21/hybrid_1/run_old_hybrid_seed_v2.py \
+            "${RUNNER_TEMP}/chcqx" \
+            --seed '${{ matrix.seed }}' \
+            --output-json "${RUNNER_TEMP}/seed-${seed2}.json"
+          cat "${RUNNER_TEMP}/seed-${seed2}.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eu26-21-old-hybrid-v2-seed-${{ matrix.seed }}
+          path: ${{ runner.temp }}/seed-*.json
+          if-no-files-found: error
+          retention-days: 30
+
+  aggregate:
+    name: Aggregate 30 seeds and decide H1-H3
+    needs: paired-seed
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      - name: Install frozen experiment environment
+        run: python -m pip install -r candidates/EU26-21/hybrid_1/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: eu26-21-old-hybrid-v2-seed-*
+          path: ${{ runner.temp }}/paired-rows
+          merge-multiple: true
+      - name: Validate ledger and compute frozen BCa decisions
+        run: |
+          python candidates/EU26-21/hybrid_1/aggregate_old_hybrid_v2.py \
+            "${RUNNER_TEMP}/paired-rows" \
+            --output-json "${RUNNER_TEMP}/eu26-21-old-hybrid-30-v2.json" \
+            --enforce-protocol
+      - name: Print final scientific verdict
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          report = json.loads(
+              (Path(os.environ['RUNNER_TEMP']) / 'eu26-21-old-hybrid-30-v2.json').read_text()
+          )
+          print(json.dumps({
+              'claim_status': report['claim_status'],
+              'protocol_gates': report['protocol_gates'],
+              'h1': report['h1'],
+              'h2': report['h2'],
+              'h3': report['h3'],
+          }, sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eu26-21-old-vs-hybrid-1-thirty-seed-v2-final
+          path: |
+            ${{ runner.temp }}/eu26-21-old-hybrid-30-v2.json
+            ${{ runner.temp }}/paired-rows
+          if-no-files-found: warn
+          retention-days: 30
