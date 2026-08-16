@@ -1,0 +1,85 @@
+name: EU26-21 aggregate existing thirty-seed OLD vs Hybrid results
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [research/EU26-21-chcqx-census-old-first]
+    paths:
+      - 'candidates/EU26-21/hybrid_1/aggregate_old_hybrid_v2_corrected.py'
+      - 'candidates/EU26-21/tests/test_hybrid_1_aggregation_guard.py'
+      - '.github/workflows/eu26-21-old-hybrid-aggregate-only.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  SOURCE_RUN_ID: '31934321927'
+  PYTHONHASHSEED: '0'
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  NUMEXPR_NUM_THREADS: '1'
+
+jobs:
+  aggregate-existing:
+    name: Correct guard and aggregate immutable 30-seed artifacts
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      - name: Install frozen analysis environment
+        run: python -m pip install -r candidates/EU26-21/hybrid_1/requirements.txt
+      - name: Test corrected initial-population first-hit guard
+        run: >-
+          python -m unittest
+          candidates/EU26-21/tests/test_hybrid_1_aggregation_guard.py
+          candidates/EU26-21/tests/test_hybrid_1_paired_comparison_v2.py
+          -v
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+          pattern: eu26-21-old-hybrid-v2-seed-*
+          path: ${{ runner.temp }}/paired-rows
+          merge-multiple: true
+      - name: Aggregate without rerunning any optimizer
+        run: |
+          python candidates/EU26-21/hybrid_1/aggregate_old_hybrid_v2_corrected.py \
+            "${RUNNER_TEMP}/paired-rows" \
+            --output-json "${RUNNER_TEMP}/eu26-21-old-hybrid-30-v2-corrected.json" \
+            --enforce-protocol
+      - name: Print corrected final verdict
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          report = json.loads(
+              (Path(os.environ['RUNNER_TEMP']) / 'eu26-21-old-hybrid-30-v2-corrected.json').read_text()
+          )
+          primary = report['h3']['target_reports']['0.946000']
+          print(json.dumps({
+              'claim_status': report['claim_status'],
+              'protocol_gates': report['protocol_gates'],
+              'h1_decision': report['h1']['decision'],
+              'h1_paired_difference': report['h1']['paired_hybrid_minus_old'],
+              'h2': report['h2'],
+              'h3_primary_decision': report['h3']['primary_decision'],
+              'h3_primary': primary,
+              'aggregation_correction': report['aggregation_correction'],
+          }, sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eu26-21-old-vs-hybrid-1-thirty-seed-v2-corrected
+          path: |
+            ${{ runner.temp }}/eu26-21-old-hybrid-30-v2-corrected.json
+            ${{ runner.temp }}/paired-rows
+          if-no-files-found: warn
+          retention-days: 30
