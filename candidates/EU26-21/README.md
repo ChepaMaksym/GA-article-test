@@ -2,19 +2,30 @@
 
 ## Current status
 
-- `old/`: `PASS_SOURCE_NUMERIC_ALIGNMENT` for the pinned public CHC-QX implementation;
-- literal paper/source reconciliation: still documented as incomplete;
-- `hybrid/`: retired documentation-only placeholder retained for provenance;
-- `hybrid_1/`: user-authorized Step 2 implementation and experiment;
-- applied Census improvement: not yet claimed until the paired campaign passes.
+```text
+OLD public-source reproduction: PASS_SOURCE_NUMERIC_ALIGNMENT
+Hybrid 1 core and mechanism verification: PASS
+Extended paired Census H1-H2-H3: PASS_EXTENDED_30_SEED_H1_H2_H3
+PR state: open draft, mergeable
+```
+
+The literal printed-paper/public-source reconciliation remains documented as
+incomplete and is not silently treated as solved. The applied OLD reference is
+the verified public-source CHC-QX profile.
 
 Paper used for the applied OLD baseline:
 
-Mohammed Ghaith Altarabichi, Sławomir Nowaczyk, Sepideh Pashami, and Peyman Sheikholharam Mashhadi, **Fast Genetic Algorithm for feature selection - A qualitative approximation approach**, Expert Systems with Applications 211 (2023) 118528, DOI `10.1016/j.eswa.2022.118528`.
+Mohammed Ghaith Altarabichi, Sławomir Nowaczyk, Sepideh Pashami, and Peyman
+Sheikholharam Mashhadi, **Fast Genetic Algorithm for feature selection - A
+qualitative approximation approach**, Expert Systems with Applications 211
+(2023) 118528, DOI `10.1016/j.eswa.2022.118528`.
 
 Parameter-control paper used for Hybrid 1:
 
-Mario Alejandro Hevia Fajardo and Dirk Sudholt, **Theoretical and Empirical Analysis of Parameter Control Mechanisms in the `(1+(lambda,lambda))` Genetic Algorithm**, ACM Transactions on Evolutionary Learning and Optimization 2(4), DOI `10.1145/3564755`.
+Mario Alejandro Hevia Fajardo and Dirk Sudholt, **Theoretical and Empirical
+Analysis of Parameter Control Mechanisms in the `(1+(lambda,lambda))` Genetic
+Algorithm**, ACM Transactions on Evolutionary Learning and Optimization 2(4),
+DOI `10.1145/3564755`.
 
 ## Applied problem
 
@@ -22,68 +33,154 @@ Mario Alejandro Hevia Fajardo and Dirk Sudholt, **Theoretical and Empirical Anal
 - 199,523 observations;
 - 41 task features;
 - binary search space of `2^41` feature masks;
-- Decision Tree evaluation under the frozen author-source 60/20/20 protocol.
+- Decision Tree evaluation under the frozen public-source 60/20/20 protocol.
 
-## Frozen OLD evidence
+## OLD evidence
 
-Repository: `Ghaith81/Fast-Genetic-Algorithm-For-Feature-Selection`.
+Pinned repository:
 
-Commit: `6ac5a7ec77f8a7c096ab4d019254fcc897988fd6`.
-
-Pinned blobs:
-
-- `code/Dataset.py`: `18c8d417f7236ef0af3c8a35279a1914679cac74`;
-- `code/Evolution.py`: `05b0d8afc02faee688e5d1ff8e24531ae41307c7`;
-- `code/Example.ipynb`: `87d2ea5caada5278853553de2c73d2ec6083f9b6`;
-- `data/census-income.data`: `e780a25c2dec3f1a10d65cca9ea05001a77b37b6`.
+```text
+Ghaith81/Fast-Genetic-Algorithm-For-Feature-Selection
+commit 6ac5a7ec77f8a7c096ab4d019254fcc897988fd6
+```
 
 The ten-seed source campaign reproduced:
 
-- all-feature baseline: `92.8681%`;
-- CHC-QX median test accuracy: `94.9455%`;
-- sample standard deviation: `0.0336` percentage points;
-- 10/10 completed runs plus an exact repeat of seed 1.
+- all-feature baseline `92.8681%`;
+- CHC-QX median test accuracy `94.9455%`;
+- sample standard deviation `0.0336` percentage point;
+- 10/10 completed runs plus exact seed-1 repeat.
 
-Detailed OLD evidence remains in `old/SOURCE_STATUS.md` and
-`old/PAPER_SOURCE_DIVERGENCES.md`.
+Detailed OLD evidence:
+
+- `old/SOURCE_STATUS.md`;
+- `old/PAPER_SOURCE_DIVERGENCES.md`.
 
 ## Hybrid 1 intervention
 
-Hybrid 1 preserves the applied data, split, normalization, active sample,
-classifier, validation objective, and held-out test. It replaces only the
-feature-mask search layer with reset self-adjusting `(1+(lambda,lambda))`:
+Hybrid 1 preserves data, split, train-only normalization, active sample,
+classifier, validation objective, and held-out test. It replaces only binary
+feature-mask search with reset self-adjusting `(1+(lambda,lambda))`:
 
-- `m = round_half_up(lambda)`;
-- mutation probability `p=lambda/41`;
-- crossover probability `c=1/lambda`;
-- strict-success shrink;
-- failure growth by `F^(1/4)`;
-- failure at `lambda=41` resets lambda to 1.
+```text
+m = round_half_up(lambda)
+p = lambda/41
+c = 1/lambda
+strict success -> shrink
+failure -> grow by F^(1/4)
+failure at lambda=41 -> reset to 1
+```
 
 Fitness is lexicographic:
 
 ```text
-(validation accuracy, - selected_feature_fraction)
+(validation accuracy, -selected_feature_fraction)
 ```
 
-Thus accuracy always dominates sparsity.
+Accuracy always dominates sparsity.
 
-## Verification strategy
+## Mechanism controls
 
-1. exact control/formula and fixed-tape tests;
-2. Jump local-optimum reset-vs-no-reset confirmation;
-3. OneMax no-regression control;
-4. exact 1/2/4 evaluation-worker invariance;
-5. exact 1/2/4 process-worker campaign invariance;
-6. Census data-boundary and held-out-test smoke;
-7. paired Census reset-vs-no-reset pilot;
-8. final ten-seed applied campaign for H1-H3.
+Jump confirmation:
 
-The complete hypotheses and pass thresholds are frozen in
-`hybrid_1/HYPOTHESES.md`.
+- reset `27/50` vs no reset `8/50` successes;
+- success probability `54%` vs `16%`;
+- `+38` percentage points;
+- `3.375x` successes;
+- solved-run median NFE `32.1%` lower.
 
-## Claim boundary
+OneMax and exact 1/2/4-worker scientific-signature tests passed.
 
-A passing Jump result proves that the transferred reset controller improves the
-selected local-optimum control problem. It does not prove an applied Census
-improvement. That conclusion requires the frozen paired Census campaign.
+## Final 30-seed applied experiment
+
+Frozen paired protocol:
+
+- seeds `1..30`;
+- fixed active size 14,964;
+- identical 50 initial masks for OLD and Hybrid within each seed;
+- H1 budget 400;
+- H3 budget/censoring horizon 2,500;
+- validation targets 0.945, 0.946, and 0.947;
+- primary target 0.946;
+- exact logical-NFE instrumentation;
+- 50,000 deterministic BCa resamples;
+- lower endpoint of a two-sided 95% BCa interval as the confidence gate.
+
+### H1
+
+```text
+OLD median test accuracy: 94.9367%
+Hybrid median test accuracy: 94.9016%
+paired median difference: -0.0263 percentage point
+95% BCa interval: -0.0677 to -0.0013 percentage point
+non-inferiority margin: -0.10 percentage point
+```
+
+Result: `PASS_CONFIDENCE_BOUND`.
+
+This supports non-inferiority, not accuracy superiority.
+
+### H2
+
+```text
+OLD median features: 5.5
+Hybrid median features: 5.0
+paired median difference: -1 feature
+```
+
+Result: `PASS`.
+
+### H3
+
+At primary validation target 0.946:
+
+```text
+OLD reached: 29/30
+Hybrid reached: 30/30
+OLD median capped NFE: 319.0
+Hybrid median capped NFE: 141.5
+paired median relative reduction: 55.50%
+95% BCa interval: 34.91% to 64.97%
+```
+
+Result: `PASS_CONFIDENCE_BOUND` against the preregistered 20% requirement.
+
+All three sensitivity targets also pass confidence-bound.
+
+## Final provenance
+
+```text
+immutable 30-seed run: 31934321927
+corrected aggregation run: 31934816828
+aggregation job: 95134969064
+final artifact: 9260332711
+artifact sha256: 8efc217b690f1c3e6698cb9aa0f55207d93f10e6390087c6e9f425d935bea21a
+```
+
+The aggregation correction accepted valid first-hit NFE inside the common
+initial population. No seed row was regenerated.
+
+## Final claim boundary
+
+Supported:
+
+```text
+Hybrid 1 is confidence-bound non-inferior to reproduced public-source OLD
+CHC-QX within a 0.10 percentage-point accuracy margin, selects one fewer
+feature by paired median, and reaches validation target 0.946 with 55.5% fewer
+logical objective evaluations by paired median; the lower 95% BCa bound for the
+NFE reduction is 34.9%.
+```
+
+Not supported:
+
+```text
+Hybrid 1 is more accurate than OLD, the public code is identical to the printed
+paper, or reset alone caused the whole Census NFE improvement.
+```
+
+Full reports:
+
+- `hybrid_1/RESULTS.md`;
+- `hybrid_1/EXTENDED_30_SEED_RESULTS.md`;
+- `hybrid_1/AMENDMENT_30_SEED_V2.md`.
