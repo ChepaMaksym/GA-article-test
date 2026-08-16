@@ -1,9 +1,10 @@
 # Hybrid 1 - CHC-QX Census objective with reset self-adjusting lambda control
 
+Status: `PASS_EXTENDED_30_SEED_H1_H2_H3`.
+
 ## What is hybridized
 
-`Hybrid 1` is the deliberately simple first hybrid requested for EU26-21.
-It combines:
+`Hybrid 1` combines:
 
 1. the applied Census-Income feature-selection protocol reproduced in `old/`;
 2. Algorithm 3 reset parameter control from **Theoretical and Empirical
@@ -11,8 +12,8 @@ It combines:
    Genetic Algorithm**.
 
 Only the feature-mask search layer changes. Data encoding, the author-source
-60/20/20 split, train-only normalization, active sample, Decision Tree, and
-held-out test remain frozen.
+60/20/20 split, train-only normalization, active sample, Decision Tree,
+validation-only optimization, and held-out test remain frozen.
 
 ## Algorithm
 
@@ -38,30 +39,68 @@ Fitness is:
 
 Accuracy therefore dominates. Sparsity can only decide an accuracy tie.
 
+## Final 30-seed applied result
+
+The paired experiment used seeds `1..30`, one fixed 14,964-instance active
+sample size, identical 50-mask initial populations per seed, a budget of 400
+for H1, and a budget/censoring horizon of 2,500 for H3.
+
+- H1 confidence-bound non-inferiority: **PASS**;
+- H2 smaller/equal feature subsets: **PASS**;
+- H3 at least 20% fewer logical NFE: **PASS confidence-bound**.
+
+Primary numbers:
+
+```text
+OLD median test accuracy: 94.9367%
+Hybrid median test accuracy: 94.9016%
+paired median difference: -0.0263 percentage point
+95% BCa interval: -0.0677 to -0.0013 percentage point
+non-inferiority margin: -0.10 percentage point
+
+OLD median selected features: 5.5
+Hybrid median selected features: 5.0
+paired median difference: -1 feature
+
+validation target: 0.946
+OLD median capped NFE: 319.0
+Hybrid median capped NFE: 141.5
+paired median NFE reduction: 55.50%
+95% BCa interval: 34.91% to 64.97%
+```
+
+The correct claim is **efficiency plus non-inferiority**, not accuracy
+superiority. Full provenance, tables, confidence intervals, and the aggregation
+correction are in `EXTENDED_30_SEED_RESULTS.md`.
+
 ## Files
 
 - `core.py` - independent generic reset `(1+(lambda,lambda))` implementation;
 - `benchmarks.py` - exact Jump and OneMax controls;
 - `census.py` - validation-only Census objective and source-protocol bridge;
-- `run_jump_campaign.py` - preregistered reset-vs-no-reset Jump experiment;
+- `paired_comparison_v2.py` - exact paired OLD/Hybrid data and NFE protocol;
+- `run_old_hybrid_seed_v2.py` - isolated paired seed runner;
+- `aggregate_old_hybrid_v2_corrected.py` - immutable 30-row BCa aggregation;
+- `run_jump_campaign.py` - reset-vs-no-reset Jump experiment;
 - `run_census_hybrid.py` - one applied Hybrid 1 run;
 - `run_census_worker_matrix.py` - exact 1/2/4-worker invariance check;
-- `HYPOTHESES.md` - hypotheses, acceptance gates, and claim boundaries.
+- `HYPOTHESES.md` - frozen hypotheses and gates;
+- `AMENDMENT_30_SEED_V2.md` - pre-outcome first-hit and confidence amendment;
+- `EXECUTION_MATRIX_30_SEED.md` - seed-parallel execution amendment;
+- `RESULTS.md` - consolidated evidence;
+- `EXTENDED_30_SEED_RESULTS.md` - final H1-H3 report.
 
 Tests live in `../tests/test_hybrid_1_*.py`.
 
 ## Verification levels
 
-- `V1_CORE` - formulas and boundaries;
-- `V2_FIXED_TAPE` - mutation, crossover, final pool, acceptance, reset;
-- `V3_WORKERS` - exact invariance for 1/2/4 evaluation and campaign workers;
-- `V4_JUMP` - preregistered meaningful local-optimum improvement;
-- `V5_ONEMAX` - no-regression control;
-- `V6_CENSUS_SMOKE` - data boundary, nonempty subset, budget, held-out test;
-- `V7_CENSUS_CAMPAIGN` - paired applied hypotheses H1-H3.
-
-Passing Jump is evidence that the transferred mechanism works. It is not by
-itself evidence that Census performance improved. That claim requires V7.
+- `V1_CORE` - formulas and boundaries: PASS;
+- `V2_FIXED_TAPE` - mutation, crossover, final pool, acceptance, reset: PASS;
+- `V3_WORKERS` - exact invariance for 1/2/4 evaluation and campaign workers: PASS;
+- `V4_JUMP` - meaningful local-optimum improvement: PASS;
+- `V5_ONEMAX` - no-regression control: PASS;
+- `V6_CENSUS_SMOKE` - data boundary, subset, budget, held-out test: PASS;
+- `V7_CENSUS_CAMPAIGN` - paired applied H1-H3: PASS.
 
 ## Reproduction examples
 
@@ -71,18 +110,34 @@ python candidates/EU26-21/hybrid_1/run_jump_campaign.py \
   --campaign-workers 4 --enforce
 ```
 
-```bash
-python candidates/EU26-21/hybrid_1/run_census_hybrid.py \
-  /path/to/pinned/Fast-Genetic-Algorithm-For-Feature-Selection \
-  --seed 1 --budget 800 --workers 4 --output-json result.json
+The final paired seed execution is defined by:
+
+```text
+.github/workflows/eu26-21-old-hybrid-30-matrix.yml
+```
+
+The immutable 30 seed artifacts were aggregated by:
+
+```text
+.github/workflows/eu26-21-old-hybrid-aggregate-only.yml
 ```
 
 ## Current claim boundary
 
-Implementation and mechanism-control tests may pass before the full applied
-campaign. Until V7 is complete, the allowed statement is:
+Supported statement:
 
 ```text
-Hybrid 1 is implemented and its reset controller is verified on critical and
-Jump controls; applied Census improvement remains under test.
+Under the frozen 30-seed paired Census-Income protocol, Hybrid 1 is
+confidence-bound non-inferior to reproduced OLD CHC-QX within a 0.10
+percentage-point accuracy margin, selects one fewer feature by paired median,
+and reaches validation target 0.946 with 55.5% fewer logical objective
+evaluations by paired median; the 95% BCa lower bound for the NFE reduction is
+34.9%.
+```
+
+Not supported:
+
+```text
+Hybrid 1 is more accurate than OLD, or reset alone caused the full Census NFE
+improvement.
 ```
