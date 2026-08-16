@@ -22,58 +22,113 @@ work. No exact CHC-QX plus reset `(1+(lambda,lambda))` Census feature-selection
 hybrid was found in the searched primary sources. This is a search result, not
 an unconditional claim of worldwide novelty.
 
-## Reproducibility amendment before the final Census campaign
+## Reproducibility amendment for the original ten-seed campaign
 
 The first three-seed pilot exposed that the public CHC-QX active-sampling
 criterion contains a wall-clock-time ratio. Consequently, the chosen sample
-size can change with hardware even when the seed is fixed. This amendment does
+size can change with hardware even when the seed is fixed. This amendment did
 not use Hybrid 1 outcome quality to choose a better sample.
 
-For the final seeds `1..10`, Hybrid 1 freezes the active-sample sizes observed in
-the already passing OLD source ledger:
+For the original final seeds `1..10`, Hybrid 1 froze the active-sample sizes
+observed in the already passing OLD source ledger:
 
 ```text
 seed: 1    2    3     4    5     6     7    8     9    10
 size: 7482 7482 14964 7482 14964 14964 7482 14964 7482 14964
 ```
 
-For each seed, the source random stream still generates the ten controlled
+For each seed, the source random stream still generated the ten controlled
 feature masks and all candidate instance samples in the original order. The
-hardware-dependent timing decision is replaced only by selection of the
-pre-frozen OLD size. The exact selected instance indices therefore remain
-seeded and reproducible across machines.
+hardware-dependent timing decision was replaced only by selection of the
+pre-frozen OLD size.
 
-This amendment is frozen before the final ten-seed Hybrid 1 campaign. It is
-reported as `frozen_passing_old_size_ledger` in every applied result.
+## Extended paired amendment: seeds 1..30
 
-## H1 - applied quality non-inferiority
+The ten-seed result is retained as the first experiment. The strengthened H1
+and the exact-NFE H3 experiment use a new, fully paired protocol frozen before
+its execution:
 
-Across frozen seeds `1..10`, Hybrid 1 should preserve the strong OLD prediction
-quality:
+- seeds `1..30`;
+- exactly `14,964` active training instances for every seed, matching the
+  authenticated executed author notebook endpoint;
+- active indices generated in the public-source progressive-halving order;
+- no wall-clock value used in any scientific decision;
+- the same 50 source-density initial feature masks supplied to OLD and Hybrid 1
+  for each seed;
+- OLD source CHC parameters `f=10`, outer no-change limit `2`, and source HUX,
+  distance adaptation, duplicate history, and restart behavior;
+- Hybrid 1 practical budget `400` logical evaluations for H1-H2;
+- Hybrid 1 budget `2,500` logical evaluations for H3;
+- one final held-out test evaluation per optimizer result;
+- 50,000 deterministic BCa bootstrap resamples.
 
-- median test accuracy must be at least `94.8455%` (OLD median `94.9455%`
-  minus a preregistered `0.10` percentage-point margin);
-- at least 8/10 runs must improve the all-feature baseline by at least `1.50`
-  percentage points.
+This controlled profile is not presented as a hidden replacement for the
+historical Table 2 experiment. Its purpose is a fair optimizer comparison after
+the historical OLD source result was already reproduced.
 
-This hypothesis prevents a smaller subset or lower evaluation count from being
-presented as an improvement if predictive quality is materially worse.
+## H1 - confidence-bound applied quality non-inferiority
+
+The non-inferiority margin remains `0.10` percentage point:
+
+```text
+Hybrid test accuracy - paired OLD test accuracy >= -0.001
+```
+
+The primary H1 decision uses the one-sided 95% BCa lower confidence bound for
+the paired median difference across seeds `1..30`:
+
+- `PASS_CONFIDENCE_BOUND` if the lower bound is at least `-0.001` and at least
+  24/30 Hybrid runs improve the all-feature baseline by `1.50` percentage
+  points;
+- `PASS_POINT_ONLY` if only the paired median point estimate meets the same
+  margin and baseline-gain requirement;
+- otherwise H1 fails.
+
+A hypothesis failure is a scientific result and must not be converted into a CI
+or implementation failure.
 
 ## H2 - sparse feature subsets
 
-Conditional on H1 passing, the median number of selected features should be at
-most `8`, the median of the frozen OLD source campaign. The primary comparison
-is paired by seed.
+Under the paired 30-seed protocol, the median of
 
-## H3 - evaluation efficiency
+```text
+Hybrid selected-feature count - OLD selected-feature count
+```
 
-At matched validation-fitness targets, Hybrid 1 should require at least 20%
-fewer logical feature-mask evaluations than the instrumented OLD search. If a
-run never reaches the target, it is censored at the common budget rather than
-removed.
+should be at most zero. Accuracy remains the primary objective; sparsity cannot
+compensate for failure of H1.
 
-Until OLD has exact NFE instrumentation, H3 remains preregistered but cannot be
-claimed as passed.
+## H3 - exact logical evaluation efficiency
+
+Every wrapper objective call is counted exactly:
+
+- `OLD active NFE`: every source CHC feature-mask evaluation using the active
+  sample;
+- `OLD full-validation NFE`: each unique population member reevaluated by the
+  outer CHC-QX wrapper on all training instances;
+- `OLD optimizer NFE`: active NFE plus full-validation NFE;
+- `Hybrid NFE`: initial masks plus all mutation and crossover evaluations.
+
+Shared data preparation, construction of the active sample, baseline scoring,
+and the one final held-out test evaluation are reported separately and are not
+used to make one optimizer appear faster.
+
+Matched validation targets are:
+
+```text
+0.945, 0.946, 0.947
+```
+
+The primary target is `0.946`. First-hit NFE is recorded. Failure to reach a
+target is censored at the common `2,500`-evaluation budget rather than removed.
+For a point-estimate H3 pass at the primary target:
+
+- both algorithms must reach the target in at least 24/30 paired runs;
+- Hybrid target coverage must be at least OLD target coverage;
+- the paired median relative NFE reduction must be at least 20%.
+
+A confidence-bound H3 pass additionally requires the one-sided 95% BCa lower
+bound of the paired median relative reduction to be at least 20%.
 
 ## H4 - local-optimum control on Jump
 
@@ -130,10 +185,23 @@ The implementation must pass fixed-tape and invariant tests for:
 - no logical budget overshoot;
 - empty Census feature masks receiving a dominated fitness;
 - validation-only optimization and one final held-out test evaluation;
-- exact active-sample size and indices under the frozen OLD seed ledger.
+- exact active-sample size, indices, initial-mask digest, and NFE accounting in
+  the paired protocol.
 
 ## Statistical reporting
 
-The final applied campaign will report all per-seed rows, medians, bootstrap
-95% confidence intervals, paired differences, selected-feature counts, NFE,
-reset counts, and worker settings. A single lucky seed is never sufficient.
+The extended campaign reports all 30 paired rows, medians, means, BCa 95%
+confidence intervals, one-sided lower confidence bounds, selected-feature
+counts, exact logical NFE, target coverage, censored observations, active-sample
+digests, and initial-mask digests. A single lucky seed is never sufficient.
+
+Methodological references:
+
+- Altarabichi et al., *Fast Genetic Algorithm for feature selection - A
+  qualitative approximation approach*, DOI `10.1016/j.eswa.2022.118528`;
+- Hevia Fajardo and Sudholt, *Theoretical and Empirical Analysis of Parameter
+  Control Mechanisms in the (1+(lambda,lambda)) Genetic Algorithm*, DOI
+  `10.1145/3564755`;
+- FDA, *Non-Inferiority Clinical Trials* guidance, used only for the general
+  principle of a predeclared margin and confidence-bound decision;
+- NIST/SEMATECH e-Handbook bootstrap guidance and BCa bootstrap documentation.
