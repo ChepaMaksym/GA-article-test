@@ -1,252 +1,276 @@
-# Hybrid 1 final verification results
+# Hybrid 1 consolidated verification results
 
-## Decision
+## Final decision
 
-Status: `PASS_HYBRID_1_EXPERIMENT_WITH_MIXED_RESET_TRANSFER`.
+Status: `PASS_EXTENDED_30_SEED_H1_H2_H3`.
 
-The requested simple Hybrid 1 is implemented and verified. The complete
-`(1+(lambda,lambda))` feature-mask search passed the preregistered applied H1-H2
-gates on Census-Income, and the reset branch produced a large, repeatable gain
-on the Jump local-optimum control. However, reset itself did **not** produce a
-robust median improvement on Census: under a high budget it improved accuracy
-in 2/10 paired runs, changed nothing in 8/10, and never reduced accuracy.
+Hybrid 1 is implemented, mechanism-tested, multicore-verified, and evaluated on
+the applied Census-Income feature-selection task against reproduced OLD
+CHC-QX. The final extended paired experiment closes the formerly pending H3 and
+strengthens H1 from a point-estimate result to a confidence-bound result.
 
-No claim is made that reset universally improves every applied landscape.
+The correct overall conclusion is:
 
-## Frozen evidence
+```text
+Hybrid 1 is confidence-bound non-inferior in Census test accuracy within the
+predeclared 0.10 percentage-point margin, selects fewer features by paired
+median, and reaches matched validation targets with substantially fewer
+logical objective evaluations.
+```
 
-- Hybrid commit under test: `c13bf493166f0cecda6d9fae17deda373d452e18`.
-- GitHub Actions workflow run: `31587871151`.
-- Environment: Python 3.9.25; NumPy 1.23.5; pandas 1.5.3; SciPy 1.10.1;
-  scikit-learn 1.2.2; DEAP 1.3.3; PySwarms 1.3.0.
-- Numerical-library threads were pinned to one. Hybrid evaluation workers were
-  controlled separately.
-- Applied OLD reference: `PASS_SOURCE_NUMERIC_ALIGNMENT` at upstream commit
-  `6ac5a7ec77f8a7c096ab4d019254fcc897988fd6`.
+It is not correct to claim accuracy superiority or to attribute the complete
+OLD-versus-Hybrid efficiency difference solely to reset.
 
-## Implemented intervention
+## Reproduced OLD reference
 
-The applied data and model protocol remained frozen:
+The pinned public CHC-QX source at commit
+`6ac5a7ec77f8a7c096ab4d019254fcc897988fd6` previously passed its ten-seed
+numerical reproduction:
 
-- Census-Income: 199,523 observations and 41 input variables;
-- author-source contiguous 60/20/20 split;
-- normalization fitted on training data only;
-- source-compatible active training sample;
-- Decision Tree with fixed classifier seed;
-- optimization on validation data;
-- one held-out test evaluation after search.
+```text
+all-feature baseline test accuracy: 92.8681%
+CHC-QX median test accuracy: 94.9455%
+sample SD: 0.0336 percentage point
+completed: 10/10 plus exact seed-1 repeat
+```
 
-Only feature-mask search changed. Hybrid 1 uses:
+The printed-paper/source divergences remain documented in
+`../old/PAPER_SOURCE_DIVERGENCES.md`. The applied OLD reference is the verified
+public-source profile, not an unsupported claim of literal Algorithm 1
+identity.
+
+## Implemented Hybrid 1
+
+Only the binary feature-mask search layer changes. Census encoding, the public
+60/20/20 split, train-only normalization, active training sample, Decision
+Tree, validation objective, and final held-out test stay fixed.
+
+For dimension `n=41`:
 
 ```text
 m = round_half_up(lambda)
-p = lambda / 41
-L ~ Binomial(41, p), shared by all mutants in the generation
-c = 1 / lambda
-strict improvement -> lambda / F
-failure -> lambda * F^(1/4)
-failure at lambda = 41 -> reset lambda to 1
+p = lambda / n
+L ~ Binomial(n,p), shared by all mutants in one generation
+c = 1/lambda
+strict success -> max(1, lambda/F)
+failure -> min(n, lambda * F^(1/4))
+failure at lambda=n -> reset lambda to 1
 ```
 
 Fitness is lexicographic:
 
 ```text
-(validation accuracy, - selected_feature_fraction)
+(validation accuracy, -selected_feature_fraction)
 ```
 
-Accuracy therefore dominates sparsity.
+Accuracy dominates sparsity.
 
-## Reproducibility correction
+## Core and mechanism verification
 
-The public CHC-QX active-sampling implementation contains a wall-clock-time
-ratio. The first pilot confirmed that the selected sample size could change
-between machines. Before the final campaigns, the experiment froze the sample
-sizes from the already passing OLD seed ledger:
+All formula, mutation, crossover, final-pool, parameter-transition, data-boundary,
+and budget tests passed. The test suite verifies:
 
-```text
-seed: 1    2    3     4    5     6     7    8     9    10
-size: 7482 7482 14964 7482 14964 14964 7482 14964 7482 14964
-```
+- nearest-half-up offspring rounding;
+- `p=lambda/n` and `c=1/lambda`;
+- one shared binomial mutation strength per generation;
+- exact-bit mutation without replacement;
+- selected-best-mutant plus crossover final pool;
+- exclusion of exact parent copies;
+- neutral acceptance but strict-success parameter control;
+- success shrink, failure growth, and cap reset;
+- `1 <= lambda <= n`;
+- no logical NFE overshoot;
+- empty-mask penalty;
+- validation-only search and one held-out test evaluation.
 
-For every seed, the original random stream still generates the controlled
-feature masks and candidate sample indices. Only the hardware-dependent timing
-decision is replaced by the pre-frozen OLD size. Each row records a SHA-256
-digest of the active-instance indices.
+Evaluation workers `1`, `2`, and `4`, as well as campaign workers `1`, `2`, and
+`4`, preserve complete scientific signatures: masks, fitness, logical NFE,
+lambda trajectory, mutation strengths, acceptance sequence, strict-success
+sequence, and reset count.
 
-## Test matrix
+## Jump local-optimum control
 
-All 15 unit and critical tests passed.
+Frozen `Jump_3`, `n=20`, exact local-optimum start, seeds `101..150`, and common
+budget 10,000:
 
-| Area | Verification | Result |
-|---|---|---|
-| Formulas | nearest-half-up `m`, `p=lambda/n`, `c=1/lambda` | PASS |
-| Mutation | one shared binomial strength; exact-bit flips without replacement | PASS |
-| Crossover | biased-uniform child construction | PASS |
-| Final pool | selected best mutant plus crossover offspring; parent copies excluded | PASS |
-| Control | neutral acceptance; strict-success shrink; failure growth; cap reset | PASS |
-| Bounds | `1 <= lambda <= n`; no logical NFE overshoot | PASS |
-| Census boundary | empty masks dominated; validation-only search; final held-out test | PASS |
-| Frozen data | complete seed 1..10 active-size ledger | PASS |
-| OneMax | 20 seeds, reset/no-reset exact no-regression | PASS |
-| Workers | 1/2/4 evaluation workers and 1/2/4 campaign workers | PASS |
-
-The worker tests preserved the complete scientific signature, not only final
-accuracy: mask, fitness, logical NFE, lambda trajectory, mutation strengths,
-acceptance sequence, strict-success sequence, and reset count were identical.
-For the real Census worker matrix, the frozen seed-1 active-instance digest was
-`5a5726d03fda76d40dd37372b9ad4e5bdf5c4377b6c414fa516aa62798ad94a8`.
-
-## H4 - Jump local-optimum confirmation
-
-Frozen configuration:
-
-- `Jump_3`;
-- `n=20`;
-- every run starts at the exact local optimum with 17 one-bits;
-- common budget: 10,000 logical fitness evaluations;
-- confirmation seeds: 101..150;
-- four campaign workers.
-
-| Metric | Reset | No reset | Difference |
+| Metric | Reset | No reset | Effect |
 |---|---:|---:|---:|
-| Successful runs | 27/50 | 8/50 | +19 runs |
-| Success rate | 54% | 16% | **+38 percentage points** |
-| Relative success | - | - | **3.375x** |
-| Median NFE among solved runs | 3,389 | 4,991 | **32.1% lower** |
-| Observed reset events | 783 | 0 | mechanism activated |
+| Successes | 27/50 | 8/50 | +19 |
+| Success rate | 54% | 16% | +38 pp |
+| Relative successes | - | - | 3.375x |
+| Solved-run median NFE | 3,389 | 4,991 | 32.1% lower |
+| Reset events | 783 | 0 | activated |
 
-All preregistered Jump gates passed. This is the strongest causal evidence for
-the transferred reset mechanism because reset and no-reset variants differ in
-only the failure-at-cap transition.
+This is the strongest causal evidence for the reset transition because the two
+Jump variants differ only at failure on maximum lambda.
 
-Artifact:
+## OneMax no-regression control
 
-```text
-name: eu26-21-hybrid-1-jump-confirmation
-id: 9137904197
-sha256: ed955e1be82c3cfcfb3cc4d774654b6012d2bfb37e354a46e7bca17127d1d1bd
-```
+For `n=64`, seeds `1..20`, and budget 5,000, reset and no-reset variants solved
+all runs with identical solutions and evaluation counts. The reset branch is
+dormant when unnecessary.
 
-## H1-H2 - Census practical-budget campaign
+## Original applied campaigns
 
-Frozen configuration:
+The first practical Census campaign used ten seeds and budget 400. It passed
+the preregistered point gates but its bootstrap lower bound narrowly crossed
+the non-inferiority margin. A paired budget-2,500 reset/no-reset ablation then
+showed that reset improved test accuracy in 2/10 runs, was identical in 8/10,
+and was worse in 0/10. Thus the reset-specific Census effect was positive but
+not robust by paired median.
 
-- seeds 1..10;
-- 50 common initial masks per seed;
-- 400 logical evaluations;
-- four evaluation workers;
-- 20,000 bootstrap resamples.
+Those results remain valid historical evidence. They motivated, but were not
+silently mixed into, the final 30-seed controlled OLD-versus-Hybrid experiment.
 
-| Metric | OLD CHC-QX | Hybrid 1 | Interpretation |
-|---|---:|---:|---|
-| Median test accuracy | 94.9455% | **94.8841%** | -0.0614 pp by aggregate medians |
-| Hybrid median 95% bootstrap CI | - | 94.8428% to 94.9154% | narrow uncertainty band |
-| Median paired accuracy difference | - | -0.0551 pp | CI -0.1177 to -0.0250 pp |
-| Median selected features | 8 | **6** | 25% fewer by medians |
-| Hybrid feature median 95% bootstrap CI | - | 5 to 7 | below OLD median 8 |
-| Runs beating all-feature baseline by >=1.5 pp | - | **10/10** | baseline gate passed |
+## Extended 30-seed paired protocol
 
-All frozen H1-H2 point-estimate gates passed:
+The final experiment froze before execution:
 
-- complete ten-seed ledger;
-- exact frozen active-sample protocol;
-- median accuracy above the allowed non-inferiority margin of 94.8455%;
-- at least 8/10 baseline gains, observed 10/10;
-- median feature count at most 8, observed 6.
+- seeds `1..30`;
+- exactly 14,964 active training instances per seed;
+- per-seed active-index SHA-256;
+- identical 50-mask initial populations for OLD and Hybrid per seed;
+- per-seed initial-mask SHA-256;
+- H1 budget 400, four Hybrid evaluation workers;
+- H3 budget/censoring horizon 2,500, one Hybrid worker for exact call order;
+- validation targets `0.945`, `0.946`, and `0.947`;
+- primary target `0.946`;
+- 50,000 deterministic BCa bootstrap resamples;
+- lower endpoint of a two-sided 95% BCa interval as the confidence gate.
 
-Important statistical limitation: the bootstrap lower bound, 94.8428%, is
-0.0027 percentage points below the non-inferiority threshold. Thus the
-preregistered point-estimate gate passes, but a stronger confidence-bound
-non-inferiority claim needs more seeds.
+All 30 isolated seed jobs completed. All provenance and accounting gates passed.
 
-Reset was dormant in all ten budget-400 runs, so these applied results establish
-the performance of the self-adjusting Hybrid 1 search as a whole. They do not
-identify a separate reset effect.
-
-Artifact:
+Immutable seed execution:
 
 ```text
-name: eu26-21-hybrid-1-census-final-budget-400
-id: 9137988308
-sha256: 7566e19f527bacc87dbd6db19af69e146d0e4211bd28f58fdf22940e052f1de9
+run id: 31934321927
+head: 6a9e9faba1fe4e7691fbb88cec1e5d2e84232a04
 ```
 
-## Reset-specific Census ablation
+Corrected analysis-only aggregation:
 
-A second paired campaign used the same ten seeds and initial masks with a budget
-of 2,500 evaluations so that lambda could reach the cap and the reset branch
-could activate.
+```text
+run id: 31934816828
+job id: 95134969064
+head: 62b267f850b9bdd09934ca27507c272c35cb34e3
+result: success
+```
 
-| Metric | Reset | No reset |
+Final artifact:
+
+```text
+name: eu26-21-old-vs-hybrid-1-thirty-seed-v2-corrected
+id: 9260332711
+sha256: 8efc217b690f1c3e6698cb9aa0f55207d93f10e6390087c6e9f425d935bea21a
+```
+
+The aggregation correction accepted positive first-hit NFE within the common
+initial population. No optimizer row was regenerated.
+
+## H1 - strengthened confidence-bound non-inferiority
+
+Margin:
+
+```text
+Hybrid - OLD >= -0.10 percentage point
+```
+
+| Metric | OLD CHC-QX | Hybrid 1 |
 |---|---:|---:|
-| Median test accuracy | **94.8954%** | 94.8741% |
-| Mean test accuracy | **94.8891%** | 94.8828% |
-| Median selected features | 5.5 | **4.5** |
-| Runs with at least one reset | 10/10 | - |
-| Total reset events | 17 | - |
-| Median NFE of first reset | 1,257 | - |
+| Mean test accuracy | 94.9153% | 94.9006% |
+| Median test accuracy | 94.9367% | 94.9016% |
+| Runs improving all-feature baseline by >=1.50 pp | - | 30/30 |
 
-Paired causal result:
-
-- 2/10 runs obtained higher test accuracy with reset;
-- 8/10 runs produced exactly the same final test accuracy and feature subset;
-- 0/10 runs obtained lower test accuracy with reset;
-- the two positive changes were +0.0100 and +0.0526 percentage points;
-- paired median accuracy effect was 0.0000 percentage points;
-- bootstrap 95% CI for the paired median effect was 0.0000 to +0.0050
-  percentage points;
-- one positive-accuracy run selected three additional features; all other
-  paired feature counts were identical.
-
-Therefore the appropriate conclusion is:
+Paired result:
 
 ```text
-Reset occasionally improves the Census endpoint after activation, but the
-current ten-seed evidence does not show a robust median benefit. Its effect is
-strong and repeatable on Jump, but landscape-dependent on Census.
+median Hybrid-minus-OLD: -0.0263125 percentage point
+95% BCa interval: [-0.0676607, -0.0012530] percentage point
+margin: -0.10 percentage point
 ```
 
-The full high-budget Hybrid still passed the H1-H2 applied gates, with median
-accuracy 94.8954% and median 5.5 features. Relative to OLD, its paired median
-accuracy difference was -0.0576 percentage points and its paired median feature
-difference was -3.5 features.
-
-Artifact:
+The entire interval lies above the non-inferiority margin:
 
 ```text
-name: eu26-21-hybrid-1-census-final-budget-2500
-id: 9138194131
-sha256: 2316763a49bd435aace3d8cd329d028b76bef11cff8c5b5d7371ffbcd70161a0
+H1 = PASS_CONFIDENCE_BOUND
 ```
 
-## Hypothesis decisions
+The interval lies below zero, so the data support non-inferiority, not Hybrid
+accuracy superiority.
 
-| Hypothesis | Decision | Evidence |
-|---|---|---|
-| H1 applied accuracy non-inferiority | PASS by preregistered point gate | both Census budgets pass; confidence-bound caveat retained |
-| H2 smaller subsets | PASS descriptive/preregistered gate | median 6 at budget 400 and 5.5 at budget 2500 vs OLD 8 |
-| H3 at least 20% fewer NFE than OLD | PENDING | OLD source lacks equivalent exact logical NFE instrumentation |
-| H4 Jump local-optimum gain | PASS strongly | +38 pp success; 3.375x successes; 32.1% lower solved-run median NFE |
-| H5 1/2/4 worker invariance | PASS exactly | complete scientific signatures identical |
-| H6 OneMax no regression | PASS exactly | all 20 paired runs solve identically |
-| H7 critical semantics | PASS | formula, operator, transition, budget, and data-boundary tests |
+## H2 - selected-feature count
 
-## Final scientific interpretation
+```text
+OLD median: 5.5 features
+Hybrid median: 5.0 features
+paired median Hybrid-minus-OLD: -1 feature
+fewer/equal/more pairs: 16 / 7 / 7
+```
 
-Hybrid 1 is a valid master-level experimental contribution because it provides:
+```text
+H2 = PASS
+```
 
-1. a clearly isolated transfer of a published parameter-control mechanism to an
-   applied feature-selection landscape;
-2. an independently implemented and fixed-tape-tested algorithmic core;
-3. an OLD reference reproduced before hybrid testing;
-4. mechanism controls on Jump and OneMax;
-5. exact multicore reproducibility checks;
-6. paired reset/no-reset ablation;
-7. two-budget applied evaluation with an honest positive, negative, and null
-   result boundary.
+## H3 - exact logical-NFE efficiency
 
-The strongest positive finding is reset on Jump. The strongest applied finding
-is that Hybrid 1 keeps Census accuracy within the frozen tolerance while using
-fewer features. The central limitation is that the reset-specific Census effect
-is sparse rather than robust, and H3 remains open until OLD receives equivalent
-logical-NFE instrumentation.
+Every wrapper objective call is counted. OLD NFE contains active-sample CHC
+calls plus earlier outer full-validation reevaluations. Hybrid NFE contains
+initial masks plus mutation and crossover evaluations. Shared preparation and
+the one final held-out test evaluation are excluded from both search counts.
+
+Primary target `0.946`:
+
+| Metric | OLD CHC-QX | Hybrid 1 |
+|---|---:|---:|
+| Reached target | 29/30 | 30/30 |
+| Median capped NFE | 319.0 | 141.5 |
+| Mean capped NFE | 391.97 | 228.00 |
+
+```text
+paired median relative reduction: 55.4990%
+95% BCa interval: [34.9110%, 64.9701%]
+restricted-mean reduction with censoring: 41.8318%
+Hybrid faster/equal/slower: 26 / 0 / 4 pairs
+```
+
+The lower confidence bound exceeds the frozen 20% requirement:
+
+```text
+H3 = PASS_CONFIDENCE_BOUND
+```
+
+Sensitivity targets:
+
+| Target | OLD reached | Hybrid reached | OLD median NFE | Hybrid median NFE | Median reduction | 95% BCa interval | Decision |
+|---:|---:|---:|---:|---:|---:|---:|---|
+| 0.945 | 29/30 | 30/30 | 278.0 | 109.5 | 56.3680% | 44.2155%-64.5112% | PASS confidence-bound |
+| 0.946 | 29/30 | 30/30 | 319.0 | 141.5 | 55.4990% | 34.9110%-64.9701% | PASS confidence-bound |
+| 0.947 | 28/30 | 30/30 | 475.0 | 211.5 | 55.4696% | 48.1734%-68.7529% | PASS confidence-bound |
+
+At budget 2,500 reset activated in all 30 Hybrid runs, with 54 total reset
+events. This confirms participation of the controller but does not isolate reset
+as the sole cause of the whole-search efficiency difference.
+
+## Final hypothesis decisions
+
+| Hypothesis | Decision |
+|---|---|
+| H1 applied accuracy non-inferiority | `PASS_CONFIDENCE_BOUND` |
+| H2 smaller/equal feature subsets | `PASS` |
+| H3 at least 20% fewer logical NFE | `PASS_CONFIDENCE_BOUND` |
+| H4 Jump local-optimum gain | `PASS` |
+| H5 worker invariance | `PASS` |
+| H6 OneMax no regression | `PASS` |
+| H7 semantic correctness | `PASS` |
+
+Full 30-seed tables, confidence intervals, provenance, and claim boundaries are
+in `EXTENDED_30_SEED_RESULTS.md`.
+
+## Supported master-thesis conclusion
+
+Under the controlled paired Census-Income protocol, Hybrid 1 preserves
+predictive accuracy within a 0.10 percentage-point confidence-bound
+non-inferiority margin, reduces the selected subset by one feature at the
+paired median, and reaches validation target 0.946 with 55.5% fewer logical
+objective evaluations at the paired median. The lower 95% BCa bound for the NFE
+reduction is 34.9%, above the preregistered 20% threshold.
