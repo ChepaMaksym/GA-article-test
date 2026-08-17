@@ -15,25 +15,14 @@ on:
       - 'candidates/EU26-21/hybrid_1/aggregate_old_hybrid_v2.py'
       - 'candidates/EU26-21/hybrid_1/audit_validation.py'
       - 'candidates/EU26-21/hybrid_1/requirements.txt'
-      - 'candidates/EU26-21/tests/test_hybrid_1_*.py'
-      - '.github/workflows/eu26-21-old-hybrid-30-matrix.yml'
-  pull_request:
-    paths:
-      - 'candidates/EU26-21/hybrid_1/core.py'
-      - 'candidates/EU26-21/hybrid_1/benchmarks.py'
-      - 'candidates/EU26-21/hybrid_1/census.py'
-      - 'candidates/EU26-21/hybrid_1/paired_comparison.py'
-      - 'candidates/EU26-21/hybrid_1/paired_comparison_v2.py'
-      - 'candidates/EU26-21/hybrid_1/run_old_hybrid_comparison_v2.py'
-      - 'candidates/EU26-21/hybrid_1/run_old_hybrid_seed_v2.py'
-      - 'candidates/EU26-21/hybrid_1/aggregate_old_hybrid_v2.py'
-      - 'candidates/EU26-21/hybrid_1/audit_validation.py'
-      - 'candidates/EU26-21/hybrid_1/requirements.txt'
-      - 'candidates/EU26-21/tests/test_hybrid_1_*.py'
+      - 'candidates/EU26-21/tests/test_hybrid_1_aggregation_guard.py'
+      - 'candidates/EU26-21/tests/test_hybrid_1_audit_validation.py'
+      - 'candidates/EU26-21/tests/test_hybrid_1_paired_comparison.py'
+      - 'candidates/EU26-21/tests/test_hybrid_1_paired_comparison_v2.py'
       - '.github/workflows/eu26-21-old-hybrid-30-matrix.yml'
 
 concurrency:
-  group: eu26-21-old-hybrid-30-${{ github.event.pull_request.number || github.ref_name }}
+  group: eu26-21-old-hybrid-30-${{ github.ref_name }}
   cancel-in-progress: true
 
 permissions:
@@ -75,6 +64,7 @@ jobs:
           python -m unittest
           candidates/EU26-21/tests/test_hybrid_1_aggregation_guard.py
           candidates/EU26-21/tests/test_hybrid_1_audit_validation.py
+          candidates/EU26-21/tests/test_hybrid_1_paired_comparison.py
           candidates/EU26-21/tests/test_hybrid_1_paired_comparison_v2.py
           -v
 
