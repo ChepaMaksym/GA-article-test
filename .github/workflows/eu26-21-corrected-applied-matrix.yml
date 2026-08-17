@@ -43,6 +43,12 @@ jobs:
           python -m py_compile
           candidates/EU26-21/corrected_applied/*.py
           candidates/EU26-21/tests/test_corrected_applied.py
+      - name: Verify canonical module entry points
+        env:
+          PYTHONPATH: ${{ github.workspace }}/candidates/EU26-21
+        run: |
+          python -m corrected_applied.experiment --help >/dev/null
+          python -m corrected_applied.aggregate --help >/dev/null
       - name: Ruff fail-closed static check
         run: >-
           ruff check
@@ -146,11 +152,13 @@ jobs:
           cat test.sha256
       - name: Run one corrected paired seed
         id: experiment
+        env:
+          PYTHONPATH: ${{ github.workspace }}/candidates/EU26-21
         run: |
           set +e
           set -o pipefail
           mkdir -p "${RUNNER_TEMP}/corrected-seed"
-          python candidates/EU26-21/corrected_applied/experiment.py \
+          python -m corrected_applied.experiment \
             "${RUNNER_TEMP}/upstream" \
             "${RUNNER_TEMP}/uci/census-income.test" \
             --seed "${{ matrix.seed }}" \
@@ -209,11 +217,13 @@ jobs:
           path: ${{ runner.temp }}/corrected-rows
           merge-multiple: true
       - name: Aggregate and preserve scientific failures
+        env:
+          PYTHONPATH: ${{ github.workspace }}/candidates/EU26-21
         run: |
           set +e
           set -o pipefail
           mkdir -p "${RUNNER_TEMP}/corrected-final/plots"
-          python candidates/EU26-21/corrected_applied/aggregate.py \
+          python -m corrected_applied.aggregate \
             "${RUNNER_TEMP}/corrected-rows" \
             --output-json "${RUNNER_TEMP}/corrected-final/corrected-report.json" \
             --output-csv "${RUNNER_TEMP}/corrected-final/corrected-seeds.csv" \
