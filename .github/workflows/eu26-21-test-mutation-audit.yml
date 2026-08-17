@@ -44,7 +44,7 @@ jobs:
           python-version: '3.9'
       - name: Install frozen test environment
         run: python -m pip install -r candidates/EU26-21/hybrid_1/requirements.txt
-      - name: Run baseline and deliberate-mutant audit
+      - name: Require the unmodified baseline to pass and every mutant to fail
         run: |
           python candidates/EU26-21/hybrid_1/mutation_sensitivity_audit.py \
             --root . \
