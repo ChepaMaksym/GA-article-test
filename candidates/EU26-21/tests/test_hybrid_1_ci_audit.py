@@ -53,7 +53,6 @@ class CiAuditTests(unittest.TestCase):
             text = text.replace(
                 "      - 'candidates/EU26-21/hybrid_1/core.py'\n",
                 "",
-                1,
             )
             matrix_path.write_text(text, encoding="utf-8")
             report = audit(root)
