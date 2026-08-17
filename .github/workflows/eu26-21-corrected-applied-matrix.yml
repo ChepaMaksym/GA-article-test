@@ -1,4 +1,4 @@
-name: EU26-21 corrected applied official-test matrix
+name: EU26-21 corrected applied official-UCI matrix
 
 on:
   workflow_dispatch:
@@ -61,11 +61,11 @@ jobs:
           -v
 
   data-fixture:
-    name: Authenticate official UCI Census-Income test fixture
+    name: Authenticate official UCI Census-Income train/test fixture
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
-      - name: Download current official UCI dataset archive
+      - name: Download and extract current official UCI archive
         run: |
           set -euo pipefail
           mkdir -p "${RUNNER_TEMP}/uci"
@@ -85,29 +85,42 @@ jobs:
             > "${RUNNER_TEMP}/uci/census.tar.gz"
           tar -tzf "${RUNNER_TEMP}/uci/census.tar.gz" \
             | tee "${RUNNER_TEMP}/uci/tar-members.txt"
+          train_member=$(
+            grep -E '(^|/)census-income\.data$' "${RUNNER_TEMP}/uci/tar-members.txt" \
+              | head -n 1
+          )
           test_member=$(
             grep -E '(^|/)census-income\.test$' "${RUNNER_TEMP}/uci/tar-members.txt" \
               | head -n 1
           )
+          test -n "$train_member"
           test -n "$test_member"
+          tar -xOzf "${RUNNER_TEMP}/uci/census.tar.gz" "$train_member" \
+            > "${RUNNER_TEMP}/uci/census-income.data"
           tar -xOzf "${RUNNER_TEMP}/uci/census.tar.gz" "$test_member" \
             > "${RUNNER_TEMP}/uci/census-income.test"
+          test "$(wc -l < "${RUNNER_TEMP}/uci/census-income.data")" -eq 199523
           test "$(wc -l < "${RUNNER_TEMP}/uci/census-income.test")" -eq 99762
           printf '%s\n' "$UCI_ARCHIVE_URL" \
             > "${RUNNER_TEMP}/uci/source-url.txt"
           sha256sum "${RUNNER_TEMP}/uci/census-income-kdd.zip" \
             > "${RUNNER_TEMP}/uci/archive.sha256"
+          sha256sum "${RUNNER_TEMP}/uci/census-income.data" \
+            > "${RUNNER_TEMP}/uci/train.sha256"
           sha256sum "${RUNNER_TEMP}/uci/census-income.test" \
             > "${RUNNER_TEMP}/uci/test.sha256"
           cat "${RUNNER_TEMP}/uci/archive.sha256"
+          cat "${RUNNER_TEMP}/uci/train.sha256"
           cat "${RUNNER_TEMP}/uci/test.sha256"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: eu26-21-official-uci-test-fixture
+          name: eu26-21-official-uci-train-test-fixture
           path: |
+            ${{ runner.temp }}/uci/census-income.data
             ${{ runner.temp }}/uci/census-income.test
             ${{ runner.temp }}/uci/source-url.txt
             ${{ runner.temp }}/uci/archive.sha256
+            ${{ runner.temp }}/uci/train.sha256
             ${{ runner.temp }}/uci/test.sha256
             ${{ runner.temp }}/uci/zip-members.txt
             ${{ runner.temp }}/uci/tar-members.txt
@@ -131,7 +144,7 @@ jobs:
           python-version: '3.9'
       - name: Install frozen environment
         run: python -m pip install -r candidates/EU26-21/hybrid_1/requirements.txt
-      - name: Fetch pinned OLD source
+      - name: Fetch pinned CHC source code
         run: |
           git clone --filter=blob:none \
             https://github.com/Ghaith81/Fast-Genetic-Algorithm-For-Feature-Selection.git \
@@ -140,15 +153,18 @@ jobs:
           test "$(git -C "${RUNNER_TEMP}/upstream" rev-parse HEAD)" = "${UPSTREAM_COMMIT}"
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
-          name: eu26-21-official-uci-test-fixture
+          name: eu26-21-official-uci-train-test-fixture
           path: ${{ runner.temp }}/uci
-      - name: Verify official UCI test fixture
+      - name: Verify official UCI train/test fixture
         run: |
           set -euo pipefail
+          test "$(wc -l < "${RUNNER_TEMP}/uci/census-income.data")" -eq 199523
           test "$(wc -l < "${RUNNER_TEMP}/uci/census-income.test")" -eq 99762
           cd "${RUNNER_TEMP}/uci"
+          sha256sum --check train.sha256
           sha256sum --check test.sha256
           cat source-url.txt
+          cat train.sha256
           cat test.sha256
       - name: Run one corrected paired seed
         id: experiment
@@ -160,6 +176,7 @@ jobs:
           mkdir -p "${RUNNER_TEMP}/corrected-seed"
           python -m corrected_applied.experiment \
             "${RUNNER_TEMP}/upstream" \
+            "${RUNNER_TEMP}/uci/census-income.data" \
             "${RUNNER_TEMP}/uci/census-income.test" \
             --seed "${{ matrix.seed }}" \
             --output-json "${RUNNER_TEMP}/corrected-seed/seed-$(printf '%02d' '${{ matrix.seed }}').json" \
@@ -193,6 +210,7 @@ jobs:
           name: eu26-21-corrected-seed-${{ matrix.seed }}
           path: |
             ${{ runner.temp }}/corrected-seed
+            ${{ runner.temp }}/uci/train.sha256
             ${{ runner.temp }}/uci/test.sha256
             ${{ runner.temp }}/uci/source-url.txt
           if-no-files-found: warn
@@ -265,6 +283,7 @@ jobs:
               'h1_corrected': report['h1_corrected'],
               'h2_corrected': report['h2_corrected'],
               'h8_reset_ablation': report['h8_reset_ablation'],
+              'official_train_file_sha256': report['protocol']['train_file_sha256'],
               'official_test_file_sha256': report['protocol']['official_test_file_sha256'],
           }, sort_keys=True))
           PY
