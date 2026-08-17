@@ -8,9 +8,13 @@ Hybrid 1 evidence.
 
 ## Corrections implemented
 
-1. Uses the official UCI `census-income.test` file as the final held-out set.
-2. Removes raw instance-weight index 24 from the predictive mask: 41 source
-   inputs become 40 predictive inputs.
+1. Uses both official UCI files: `census-income.data` for model development and
+   `census-income.test` as the final held-out set. The pinned upstream
+   repository supplies only CHC code because its checked-in data file is already
+   numerically encoded and is not representation-compatible with raw UCI test
+   categories.
+2. Removes raw instance-weight index 24 from the predictive mask: 41 UCI inputs
+   become 40 predictive inputs.
 3. Supplies instance weights to Decision Tree fitting and weighted metrics.
 4. Optimizes weighted balanced accuracy rather than accuracy.
 5. Reports accuracy, balanced accuracy, positive precision/recall/F1, MCC,
@@ -23,7 +27,7 @@ Hybrid 1 evidence.
 
 ## Canonical files
 
-- `data_protocol.py` - weight-aware official-test protocol and metrics;
+- `data_protocol.py` - weight-aware official-train/test protocol and metrics;
 - `experiment.py` - one paired OLD/Hybrid/reset-ablation seed;
 - `aggregate.py` - strict validation, BCa statistics, CSV, and plots;
 - `METHODOLOGY_AMENDMENT.md` - frozen pre-outcome criteria.
@@ -50,6 +54,6 @@ outcome is written to the result artifact and analyzed without parameter tuning.
 
 - `old/` remains the authenticated public-source reproduction.
 - `hybrid_1/` remains the source-compatible 41-bit comparison.
-- `corrected_applied/` is the weight-aware 40-bit official-test profile.
+- `corrected_applied/` is the weight-aware 40-bit official-UCI profile.
 
 No merge is part of this stage.
