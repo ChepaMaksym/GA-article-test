@@ -15,6 +15,7 @@ from hybrid_1.ci_audit import (  # noqa: E402
     AUDIT_WORKFLOW,
     CANONICAL_MATRIX,
     HYBRID_WORKFLOW,
+    MUTATION_WORKFLOW,
     OLD_WORKFLOW,
     RETIRED_WORKFLOWS,
     audit,
@@ -24,6 +25,7 @@ from hybrid_1.ci_audit import (  # noqa: E402
 AUDITED_FILES = (
     CANONICAL_MATRIX,
     AUDIT_WORKFLOW,
+    MUTATION_WORKFLOW,
     OLD_WORKFLOW,
     HYBRID_WORKFLOW,
     *RETIRED_WORKFLOWS,
@@ -77,6 +79,21 @@ class CiAuditTests(unittest.TestCase):
             gate = f"C8_MANUAL_ONLY_{retired_path.stem}"
             self.assertFalse(report["pass"])
             self.assertFalse(report["critical_gates"][gate])
+
+    def test_pull_request_trigger_on_expensive_matrix_is_detected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self._copy_audited_files(root)
+            matrix_path = root / CANONICAL_MATRIX
+            text = matrix_path.read_text(encoding="utf-8")
+            text = text.replace(
+                "on:\n  workflow_dispatch:\n",
+                "on:\n  workflow_dispatch:\n  pull_request:\n",
+            )
+            matrix_path.write_text(text, encoding="utf-8")
+            report = audit(root)
+            self.assertFalse(report["pass"])
+            self.assertFalse(report["critical_gates"]["C0_MATRIX_IS_PUSH_ONLY"])
 
     def test_mutable_action_ref_is_detected_in_canonical_matrix(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
