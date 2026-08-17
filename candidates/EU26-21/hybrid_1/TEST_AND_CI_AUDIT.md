@@ -1,126 +1,272 @@
 # Hybrid 1 test and CI audit
 
-Status: `AUDIT_RECHECK_RUNNING`.
+Status: `AUDIT_PASS_WITH_LIMITATIONS`.
 
-This audit is separate from the scientific H1-H3 result. It checks whether the
-implementation is tested for the claimed behavior, whether invalid states fail
-closed, whether deliberate algorithm defects are detected, and whether GitHub
-Actions preserves evidence when a test or experiment fails.
+This audit is separate from the scientific H1-H3 result. It verifies that the
+implementation is tested for the claimed behavior, invalid states fail closed,
+deliberate algorithm defects are detected, scientific null/negative results are
+not hidden as CI errors, and GitHub Actions preserves evidence when execution
+fails.
 
-No merge is part of this stage.
+No merge was performed. PR #19 remains an open draft.
 
-## Historical failures retained as evidence
+## Final independent audit run
 
-### Original matrix aggregate failure
+```text
+workflow: EU26-21 independent test and CI verification audit
+run id: 32029855098
+head commit: 6a5165b535bbc05d72a27e9acd42b2643192da13
+conclusion: success
+```
 
-The immutable 30-seed matrix run `31934321927` completed all 30 seed jobs, but
-its original aggregate job failed. The cause was an analysis guard that rejected
-a first target hit with NFE below 50. Such a hit is valid because any of the 50
-initial masks may reach a target at objective call 1 through 50.
+All four independent jobs passed:
 
-This was not an optimizer failure and not a failed scientific hypothesis. The
-fix is now in the canonical strict aggregator and directly regression-tested.
-The original red job remains part of the provenance.
+1. current scientific row-generation code matches immutable evidence commit;
+2. positive, negative, and failure-reporting test discovery;
+3. workflow-trigger, retirement, action-pinning, and failure-semantics audit;
+4. strict H1-H3 recomputation from immutable 30-seed rows.
 
-### First independent negative-test failure
+## Scientific-code fingerprint
 
-The first audit run also produced one deliberately retained test-design failure:
-a non-hex digest test changed only the top-level digest, so the older consistency
-check correctly failed before the intended hexadecimal-format check. The test
-was corrected to corrupt both consistent copies and now reaches the intended
-invariant. No optimizer output or seed row was regenerated.
+The audit compared the current result-generating implementation against the
+immutable matrix evidence commit:
 
-### First CI topology fixture failure
+```text
+evidence commit: 6a9e9faba1fe4e7691fbb88cec1e5d2e84232a04
+diff exit code: 0
+matches: true
+```
 
-After adding the mutation-sensitivity workflow, three CI-audit mutation tests
-failed because their temporary fixture did not copy that new workflow. The
-fixture was incomplete; the production workflow topology was not the cause. The
-fixture now copies every audited workflow and includes a regression that rejects
-an expensive `pull_request` trigger.
+Compared files include the Hybrid core, benchmarks, Census bridge, paired OLD
+and Hybrid protocol, first-hit tracking, isolated seed runner, and frozen
+requirements. Therefore the audit did not need to regenerate 30 expensive
+optimizer rows merely to verify documentation and CI changes.
 
-## Test traceability
+Artifact:
 
-| Topic | Main tests | What is checked |
-|---|---|---|
-| Offspring controls | `test_hybrid_1_core.py` | half-up offspring rounding, `p=lambda/n`, `c=1/lambda` |
-| Lambda transitions | core and extended semantic tests | strict-success shrink, failure growth, reset only after a failed generation already at the cap |
-| Mutation | core and extended semantic tests | one shared exact strength, distinct-bit flips, zero-strength endpoint |
-| Crossover | core and extended semantic tests | biased crossover and probability-zero/probability-one endpoints |
-| Final pool | core tests | best mutant retained, exact parent copies excluded |
-| Acceptance | core and extended semantic tests | neutral acceptance but strict-success-only parameter shrink |
-| NFE accounting | core and extended semantic tests | no budget overshoot and objective-call count equals recorded logical NFE |
-| Parallel workers | worker and extended semantic tests | ordered outputs, exception propagation, exact 1/2/4-worker scientific signatures |
-| Jump | Jump tests plus 50-seed campaign | local optimum/valley/global optimum definition and reset/no-reset effect |
-| OneMax | control tests | reset is unnecessary and does not change solved endpoints |
-| Census boundary | synthetic and real smoke tests | empty-mask penalty, validation-only search, held-out test evaluation |
-| OLD source | source/campaign tests | pinned HUX, adaptive distance, restart, source endpoint, numerical gates |
-| H1-H3 | paired-comparison tests | positive and deliberately failing synthetic ledgers, confidence and coverage gates |
-| Immutable rows | strict audit tests | seeds, reset flag, digests, masks, monotone first-hit NFE, best-fitness support |
-| Scientific failure reporting | strict audit tests | valid negative H1/H3 results remain scientific results; H2 is blocked when H1 fails |
-| CI topology | CI audit tests | trigger scope, action SHA pinning, retired workflows, partial-failure artifacts |
-| Test sensitivity | mutation audit | six deliberate critical-code defects must each make focused tests fail |
+```text
+name: eu26-21-evidence-code-fingerprint
+id: 9288451995
+sha256: a7ed57f434d79e89b1e11b8ddfb4befb1aa22d09c0757cfb9b831f011e5b22ac
+```
 
-## Deliberate-mutant result
+## Complete test discovery
 
-The baseline focused suite passed and all six deliberate defects were detected:
+The independent audit compiled all Hybrid 1 modules and tests, then used test
+discovery rather than a hand-selected subset:
+
+```text
+Ran 53 tests in 8.130s
+OK
+```
+
+The suite includes positive and deliberately failing synthetic campaigns,
+invalid NFE values, malformed digests, inconsistent masks, wrong reset
+configuration, non-monotone first-hit ledgers, objective exceptions, parallel
+ordering, Jump critical points, OneMax, worker invariance, Census boundaries,
+and H1-H3 confidence/coverage decisions.
+
+## Deliberate-mutant sensitivity
+
+A separate test-sensitivity audit first required the unmodified baseline suite
+to pass and then introduced six critical defects one at a time:
 
 1. mutation probability changed away from `lambda/n`;
 2. crossover probability changed away from `1/lambda`;
-3. reset disabled at the cap;
+3. reset disabled after failure at the cap;
 4. exact parent copies allowed into final selection;
 5. neutral candidates incorrectly rejected;
 6. logical NFE undercounted.
 
-The mutation audit run `32028306923` killed `6/6` mutants and produced artifact
-`9287903313` with digest
-`sha256:6e79e5960e9d9d6bc36dd2203f767627448479ad4f3aa6836fc1c3e86732a1c2`.
+Result:
 
-## CI failure semantics
+```text
+baseline_pass: true
+killed: 6
+total: 6
+pass: true
+```
 
-### Implementation or protocol failure
+Each mutant produced a concrete test failure associated with its topic. This is
+evidence that the focused tests are sensitive to real semantic defects rather
+than only executing the code.
 
-Malformed/missing rows, wrong seeds, inconsistent masks, invalid NFE, wrong
-reset configuration, worker-dependent output, source-provenance mismatch, and
-test failures make CI fail. Logs and partial artifacts use `if: always()`.
+```text
+workflow run: 32028306923
+job: 95382361963
+artifact: 9287903313
+sha256: 6e79e5960e9d9d6bc36dd2203f767627448479ad4f3aa6836fc1c3e86732a1c2
+```
 
-### Scientific hypothesis failure
+## Immutable H1-H3 revalidation
 
-A confidence interval crossing a threshold or a null/negative algorithm effect
-is written as a scientific `FAIL...` decision in the report. The canonical
-aggregator does not convert an honest negative H1/H3 result into a protocol
-error.
+The strict audit downloaded the original 30 seed rows from run `31934321927`.
+It did not rerun or retune OLD or Hybrid 1. It validated:
 
-## Trigger audit and correction
+- complete seed ledger `1..30`;
+- expected seed and search seed;
+- reset enabled in both Hybrid endpoints;
+- exact single-worker first-hit mode for H3;
+- hexadecimal active-sample and initial-mask digests;
+- selected-feature indices consistent with binary masks;
+- monotone first-hit NFE across increasing targets;
+- target hits supported by recorded best evaluated fitness;
+- positive first hits inside the initial population;
+- H2 conditional on H1;
+- separation of scientific failure from protocol failure.
 
-GitHub evaluates `paths` for pull requests using a three-dot diff against the
-merge base, whereas pushes to an existing branch use a two-dot diff between the
-previous and new heads. On this large PR, that meant later audit-only commits
-continued to match old scientific files and repeatedly retriggered expensive
-campaigns.
+All protocol and audit gates passed. The recomputed decisions remained:
 
-The corrected topology is:
+```text
+H1 = PASS_CONFIDENCE_BOUND
+H2 = PASS
+H3 = PASS_CONFIDENCE_BOUND
+```
 
-- expensive OLD, Hybrid, mutation, and 30-seed workflows are `push` plus manual
-  dispatch only;
-- push path filters are specific to the files that can alter each result;
-- the independent audit remains a push-scoped check visible on the PR head;
-- superseded v1/v2 comparison workflows remain manual-only;
-- the canonical matrix no longer watches unrelated CI-audit tests or result-only
-  documentation;
-- canonical third-party actions are pinned to full commit SHAs.
+Primary H3 target `0.946` was reproduced exactly:
 
-## Claim limitations retained
+```text
+OLD reached: 29/30
+Hybrid reached: 30/30
+OLD median capped NFE: 319.0
+Hybrid median capped NFE: 141.5
+paired median reduction: 55.4990%
+95% BCa interval: 34.9110% to 64.9701%
+```
 
-- NFE means logical wrapper-objective calls, not wall time or equal CPU work.
-- H3 compares complete search layers and does not prove reset alone caused the
-  full NFE difference.
-- Reset-specific causal evidence comes from paired reset/no-reset controls.
-- The printed CHC-QX paper and public source are not claimed to be identical.
-- The PR remains draft and is not merged.
+Artifact:
 
-## Final gate
+```text
+name: eu26-21-immutable-row-revalidation
+id: 9288452041
+sha256: 789a9e49b5e8323b3b97702ef4f4cd9bf308518c409a631520e35574baee2061
+```
 
-This status changes to `AUDIT_PASS`, `AUDIT_FAIL`, or
-`AUDIT_PASS_WITH_LIMITATIONS` only after the corrected independent audit
-workflow completes. Any red workflow is retained and analyzed rather than
-renamed as success.
+## CI topology audit
+
+The static CI audit passed every critical gate and produced no warnings:
+
+```text
+pass: true
+warnings: []
+```
+
+Verified properties:
+
+- expensive OLD, Hybrid, mutation, and 30-seed workflows are push/manual only;
+- push path filters cover the scientific files capable of changing each result;
+- the canonical matrix uses the strict aggregator;
+- superseded v1/v2 comparison workflows are manual-only;
+- matrix execution uses `fail-fast: false`;
+- per-seed logs and partial artifacts are retained with `if: always()`;
+- aggregate status is written even when rows are missing or invalid;
+- canonical actions are pinned to full commit SHAs;
+- result-only documentation does not retrigger unrelated expensive campaigns;
+- scientific H1/H3 failure is reported as a result, not transformed into a
+  protocol error.
+
+Artifact:
+
+```text
+name: eu26-21-ci-topology-audit
+id: 9288452105
+sha256: 8a662836e9240ec1be1926f412af57a91319b01d0d4dad7c233100ec486452aa
+```
+
+## Historical failures retained and analyzed
+
+### Original 30-seed aggregation failure
+
+The seed jobs completed, but the original aggregate job rejected first-hit NFE
+below 50. That assumption was wrong because any initial mask may reach a target
+at objective call 1 through 50. The red job remains historical evidence. The
+canonical strict aggregator now accepts every positive first-hit NFE and rejects
+zero, negative, boolean, fractional, or out-of-budget values.
+
+### Negative digest-test failure
+
+The first non-hex test changed only the top-level digest. An earlier consistency
+check therefore failed before the intended format check. The fixture was
+corrected to corrupt both matching copies, proving the hexadecimal validator is
+actually reached.
+
+### CI fixture failure
+
+After adding the mutation workflow, three CI-audit mutation tests failed because
+the temporary fixture omitted the new workflow. The production topology was not
+the cause. The fixture now copies every audited workflow and contains a
+regression that rejects accidental expensive `pull_request` triggers.
+
+These failures were not deleted or described as algorithm successes. Each was
+classified by layer and corrected with a targeted regression test.
+
+## Test traceability
+
+| Topic | Verification |
+|---|---|
+| `p=lambda/n`, `c=1/lambda`, offspring rounding | direct fixed-value assertions and deliberate mutants |
+| Shared exact mutation strength | fixed-tape child checks and generation-wide strength assertion |
+| Crossover endpoints | probability 0 and 1 tests |
+| Final pool and parent-copy exclusion | fixed pool test and parent-copy mutant |
+| Neutral acceptance vs strict success | direct transition test and neutral-rejection mutant |
+| Reset timing | transition-to-cap vs failure-at-cap test and reset mutant |
+| Logical NFE | budget, objective-call equality, first-hit and undercount mutant |
+| Parallel workers | exact 1/2/4 signatures, ordered mapping, exception propagation |
+| Jump | landscape critical points and reset/no-reset confirmation |
+| OneMax | no-regression control |
+| Census | empty-mask penalty, nonempty subset, validation/test boundary |
+| OLD source | pinned provenance, HUX, adaptive distance, restart, numerical campaign |
+| H1-H3 statistics | passing and deliberately failing paired ledgers |
+| CI/CD | triggers, action pinning, retirement, artifacts, failure semantics |
+
+## Failure semantics
+
+### CI must fail
+
+- implementation test failure;
+- malformed or missing seed row;
+- source or commit mismatch;
+- inconsistent feature mask;
+- invalid or non-monotone NFE;
+- worker-dependent scientific output;
+- wrong experiment configuration;
+- test suite unable to kill a declared critical mutant.
+
+### CI may stay technically valid while the scientific decision is negative
+
+- H1 confidence bound crosses the non-inferiority margin;
+- H2 does not improve sparsity after H1 passes;
+- H3 lower confidence bound does not exceed 20%;
+- reset produces no meaningful Jump or Census effect.
+
+Such outcomes must be recorded as `FAIL...`, `BLOCKED...`, or a null scientific
+result, not hidden by tuning or rewritten as an infrastructure error.
+
+## Remaining limitations
+
+1. NFE is logical wrapper-objective calls, not wall-clock time or equal CPU work.
+2. H3 compares complete OLD and Hybrid search layers. It does not prove reset
+   alone caused the full NFE reduction.
+3. Printed CHC-QX Algorithm 1 and the public source are not claimed to be
+   identical; the divergence register remains authoritative.
+4. The final audit revalidated immutable rows plus a byte-level scientific-code
+   fingerprint. It did not rerun the entire expensive 30-seed matrix after
+   documentation/CI-only edits.
+5. GitHub currently emits Node 20 and `punycode` deprecation warnings for the
+   pinned official actions. They did not fail execution, but should be monitored
+   when newer action commits are adopted.
+6. Repository governance such as branch protection and required-check policy is
+   outside this algorithm/test audit.
+
+## Final decision
+
+`AUDIT_PASS_WITH_LIMITATIONS` means:
+
+- the current scientific generator matches the immutable evidence generator;
+- all 53 discovered tests pass;
+- all 6 deliberate critical mutants are detected;
+- immutable H1-H3 decisions reproduce under stricter validation;
+- CI trigger, pinning, evidence-retention, and failure semantics pass;
+- the limitations above remain explicit.
+
+PR #19 remains draft, open, mergeable, and unmerged.
