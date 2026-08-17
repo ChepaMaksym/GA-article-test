@@ -102,7 +102,7 @@ def audit(root: Path) -> Dict[str, object]:
         for token in (
             "31934321927",
             "aggregate_old_hybrid_v2.py",
-            "audit_validation.py",
+            "test_hybrid_1_audit_validation.py",
         )
     )
 
