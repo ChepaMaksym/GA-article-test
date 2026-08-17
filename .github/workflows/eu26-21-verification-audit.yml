@@ -7,13 +7,9 @@ on:
     paths:
       - 'candidates/EU26-21/**'
       - '.github/workflows/eu26-21-*.yml'
-  pull_request:
-    paths:
-      - 'candidates/EU26-21/**'
-      - '.github/workflows/eu26-21-*.yml'
 
 concurrency:
-  group: eu26-21-verification-audit-${{ github.event.pull_request.number || github.ref }}
+  group: eu26-21-verification-audit-${{ github.ref_name }}
   cancel-in-progress: true
 
 permissions:
