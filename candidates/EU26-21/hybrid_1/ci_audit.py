@@ -105,18 +105,26 @@ def audit(root: Path) -> Dict[str, object]:
             "test_hybrid_1_audit_validation.py",
         )
     )
+    critical["C8_AUDIT_KILLS_DELIBERATE_MUTANTS"] = all(
+        token in audit_workflow
+        for token in (
+            "mutation_sensitivity_audit.py",
+            "--enforce",
+            "mutation-audit.json",
+        )
+    )
 
     for relative in RETIRED_WORKFLOWS:
         text = _read(root, relative)
-        critical[f"C8_MANUAL_ONLY_{Path(relative).stem}"] = (
+        critical[f"C9_MANUAL_ONLY_{Path(relative).stem}"] = (
             "workflow_dispatch:" in text and TOP_LEVEL_EVENT.search(text) is None
         )
 
-    critical["C9_OLD_TRIGGER_IS_OLD_SCOPED"] = (
+    critical["C10_OLD_TRIGGER_IS_OLD_SCOPED"] = (
         "candidates/EU26-21/**" not in old_workflow
         and "candidates/EU26-21/old/**" in old_workflow
     )
-    critical["C10_HYBRID_TRIGGER_EXCLUDES_RESULT_ONLY_DOCS"] = (
+    critical["C11_HYBRID_TRIGGER_EXCLUDES_RESULT_ONLY_DOCS"] = (
         "candidates/EU26-21/hybrid_1/**" not in hybrid_workflow
         and "candidates/EU26-21/hybrid_1/core.py" in hybrid_workflow
     )
@@ -135,7 +143,7 @@ def audit(root: Path) -> Dict[str, object]:
         root,
         "candidates/EU26-21/hybrid_1/aggregate_old_hybrid_v2.py",
     )
-    critical["C11_SCIENTIFIC_FAILURE_IS_NOT_CI_PROTOCOL_FAILURE"] = (
+    critical["C12_SCIENTIFIC_FAILURE_IS_NOT_CI_PROTOCOL_FAILURE"] = (
         'report["claim_status"]' in aggregator
         and 'report["audit_status"]' in aggregator
         and 'report["h1"]["decision"] !=' not in aggregator
@@ -143,7 +151,7 @@ def audit(root: Path) -> Dict[str, object]:
     )
 
     return {
-        "schema": "eu26-21-ci-audit-v1",
+        "schema": "eu26-21-ci-audit-v2",
         "critical_gates": critical,
         "warnings": warnings,
         "pass": all(critical.values()),
