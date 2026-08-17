@@ -33,14 +33,28 @@ jobs:
           python-version: '3.9'
       - name: Install frozen environment used by immutable seed run
         run: python -m pip install -r candidates/EU26-21/hybrid_1/requirements.txt
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ github.repository }}
-          run-id: ${{ env.SOURCE_RUN_ID }}
-          pattern: eu26-21-corrected-seed-*
-          path: ${{ runner.temp }}/corrected-rows
-          merge-multiple: true
+      - name: Download all immutable seed artifacts with bounded retries
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          downloaded=0
+          for attempt in 1 2 3 4 5; do
+            rm -rf "${RUNNER_TEMP}/corrected-rows"
+            mkdir -p "${RUNNER_TEMP}/corrected-rows"
+            if gh run download "${SOURCE_RUN_ID}" \
+              --repo "${GITHUB_REPOSITORY}" \
+              --pattern 'eu26-21-corrected-seed-*' \
+              --dir "${RUNNER_TEMP}/corrected-rows"; then
+              count=$(find "${RUNNER_TEMP}/corrected-rows" -type f -name 'seed-*.json' | wc -l)
+              if test "$count" -eq 30; then
+                downloaded=1
+                break
+              fi
+            fi
+            sleep $((attempt * 5))
+          done
+          test "$downloaded" -eq 1
       - name: Verify complete immutable ledger
         run: |
           set -euo pipefail
