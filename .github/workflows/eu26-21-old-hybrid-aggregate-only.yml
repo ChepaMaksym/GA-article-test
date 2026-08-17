@@ -1,13 +1,7 @@
-name: EU26-21 aggregate existing thirty-seed OLD vs Hybrid results
+name: EU26-21 replay immutable thirty-seed artifacts (manual only)
 
 on:
   workflow_dispatch:
-  push:
-    branches: [research/EU26-21-chcqx-census-old-first]
-    paths:
-      - 'candidates/EU26-21/hybrid_1/aggregate_old_hybrid_v2_corrected.py'
-      - 'candidates/EU26-21/tests/test_hybrid_1_aggregation_guard.py'
-      - '.github/workflows/eu26-21-old-hybrid-aggregate-only.yml'
 
 permissions:
   contents: read
@@ -22,24 +16,25 @@ env:
   NUMEXPR_NUM_THREADS: '1'
 
 jobs:
-  aggregate-existing:
-    name: Correct guard and aggregate immutable 30-seed artifacts
+  replay-existing:
+    name: Strictly revalidate immutable 30-seed artifacts
     runs-on: ubuntu-24.04
     timeout-minutes: 35
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: '3.9'
       - name: Install frozen analysis environment
         run: python -m pip install -r candidates/EU26-21/hybrid_1/requirements.txt
-      - name: Test corrected initial-population first-hit guard
+      - name: Run canonical guard, protocol, and negative tests
         run: >-
           python -m unittest
           candidates/EU26-21/tests/test_hybrid_1_aggregation_guard.py
+          candidates/EU26-21/tests/test_hybrid_1_audit_validation.py
           candidates/EU26-21/tests/test_hybrid_1_paired_comparison_v2.py
           -v
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.repository }}
@@ -47,39 +42,21 @@ jobs:
           pattern: eu26-21-old-hybrid-v2-seed-*
           path: ${{ runner.temp }}/paired-rows
           merge-multiple: true
-      - name: Aggregate without rerunning any optimizer
+      - name: Recompute strict report without rerunning optimizers
         run: |
-          python candidates/EU26-21/hybrid_1/aggregate_old_hybrid_v2_corrected.py \
+          set -o pipefail
+          python candidates/EU26-21/hybrid_1/aggregate_old_hybrid_v2.py \
             "${RUNNER_TEMP}/paired-rows" \
-            --output-json "${RUNNER_TEMP}/eu26-21-old-hybrid-30-v2-corrected.json" \
-            --enforce-protocol
-      - name: Print corrected final verdict
-        run: |
-          python - <<'PY'
-          import json
-          import os
-          from pathlib import Path
-          report = json.loads(
-              (Path(os.environ['RUNNER_TEMP']) / 'eu26-21-old-hybrid-30-v2-corrected.json').read_text()
-          )
-          primary = report['h3']['target_reports']['0.946000']
-          print(json.dumps({
-              'claim_status': report['claim_status'],
-              'protocol_gates': report['protocol_gates'],
-              'h1_decision': report['h1']['decision'],
-              'h1_paired_difference': report['h1']['paired_hybrid_minus_old'],
-              'h2': report['h2'],
-              'h3_primary_decision': report['h3']['primary_decision'],
-              'h3_primary': primary,
-              'aggregation_correction': report['aggregation_correction'],
-          }, sort_keys=True))
-          PY
-      - uses: actions/upload-artifact@v4
+            --output-json "${RUNNER_TEMP}/eu26-21-old-hybrid-30-v2-audited.json" \
+            --enforce-protocol \
+            2>&1 | tee "${RUNNER_TEMP}/immutable-replay.log"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
-          name: eu26-21-old-vs-hybrid-1-thirty-seed-v2-corrected
+          name: eu26-21-old-vs-hybrid-1-immutable-audit
           path: |
-            ${{ runner.temp }}/eu26-21-old-hybrid-30-v2-corrected.json
+            ${{ runner.temp }}/eu26-21-old-hybrid-30-v2-audited.json
+            ${{ runner.temp }}/immutable-replay.log
             ${{ runner.temp }}/paired-rows
           if-no-files-found: warn
-          retention-days: 30
+          retention-days: 90
