@@ -289,13 +289,33 @@ def _read_raw(path: Path, expected_rows: int) -> pd.DataFrame:
 
 
 def _binary_target(values: pd.Series) -> np.ndarray:
-    normalized = values.astype(str).str.strip().str.rstrip(".")
-    positive = normalized.str.contains("50000+", regex=False)
-    negative = normalized.str.contains("- 50000", regex=False)
-    if not bool((positive | negative).all()):
-        unknown = sorted(set(normalized[~(positive | negative)].tolist()))
-        raise ValueError("unknown Census target values: {0}".format(unknown[:5]))
-    return positive.astype(np.int8).to_numpy()
+    """Parse either pinned-source numeric labels or official UCI text labels.
+
+    The author's checked-in training file already contains ``0``/``1`` labels,
+    whereas the official UCI test file contains ``- 50000.``/``50000+.``.
+    A single input series must use exactly one representation; mixed or unknown
+    encodings fail closed so a malformed concatenation cannot pass silently.
+    """
+
+    normalized = values.astype("string").str.strip().str.rstrip(".")
+    if bool(normalized.isna().any()):
+        raise ValueError("Census target contains missing values")
+    normalized = normalized.str.replace(r"\s+", " ", regex=True)
+
+    numeric_mapping = {"0": 0, "1": 1, "0.0": 0, "1.0": 1}
+    numeric_known = normalized.isin(numeric_mapping)
+    if bool(numeric_known.all()):
+        return normalized.map(numeric_mapping).astype(np.int8).to_numpy()
+
+    textual_mapping = {"- 50000": 0, "50000+": 1}
+    textual_known = normalized.isin(textual_mapping)
+    if bool(textual_known.all()):
+        return normalized.map(textual_mapping).astype(np.int8).to_numpy()
+
+    unknown = sorted(set(normalized[~(numeric_known | textual_known)].tolist()))
+    if not unknown:
+        unknown = ["mixed numeric and textual target representations"]
+    raise ValueError("unknown Census target values: {0}".format(unknown[:5]))
 
 
 def _weights(values: pd.Series) -> np.ndarray:
