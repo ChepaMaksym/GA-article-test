@@ -35,7 +35,10 @@ REQUIRED_MATRIX_PATHS = (
     "candidates/EU26-21/hybrid_1/aggregate_old_hybrid_v2.py",
     "candidates/EU26-21/hybrid_1/audit_validation.py",
     "candidates/EU26-21/hybrid_1/requirements.txt",
-    "candidates/EU26-21/tests/test_hybrid_1_*.py",
+    "candidates/EU26-21/tests/test_hybrid_1_aggregation_guard.py",
+    "candidates/EU26-21/tests/test_hybrid_1_audit_validation.py",
+    "candidates/EU26-21/tests/test_hybrid_1_paired_comparison.py",
+    "candidates/EU26-21/tests/test_hybrid_1_paired_comparison_v2.py",
 )
 
 
@@ -60,6 +63,10 @@ def _action_refs(text: str) -> List[Dict[str, str]]:
     return output
 
 
+def _push_only(text: str) -> bool:
+    return "  push:" in text and "  pull_request:" not in text
+
+
 def audit(root: Path) -> Dict[str, object]:
     critical: Dict[str, bool] = {}
     warnings: List[str] = []
@@ -70,9 +77,7 @@ def audit(root: Path) -> Dict[str, object]:
     old_workflow = _read(root, OLD_WORKFLOW)
     hybrid_workflow = _read(root, HYBRID_WORKFLOW)
 
-    critical["C0_MATRIX_HAS_PUSH_AND_PR_TRIGGERS"] = (
-        "  push:" in matrix and "  pull_request:" in matrix
-    )
+    critical["C0_MATRIX_IS_PUSH_ONLY"] = _push_only(matrix)
     critical["C1_MATRIX_COVERS_ALL_SCIENTIFIC_PATHS"] = all(
         path in matrix for path in REQUIRED_MATRIX_PATHS
     )
@@ -114,27 +119,16 @@ def audit(root: Path) -> Dict[str, object]:
             "workflow_dispatch:" in text and TOP_LEVEL_EVENT.search(text) is None
         )
 
-    critical["C9_OLD_TRIGGER_IS_OLD_SCOPED"] = (
-        "candidates/EU26-21/**" not in old_workflow
+    critical["C9_OLD_TRIGGER_IS_PUSH_ONLY_AND_OLD_SCOPED"] = (
+        _push_only(old_workflow)
+        and "candidates/EU26-21/**" not in old_workflow
         and "candidates/EU26-21/old/**" in old_workflow
     )
-    critical["C10_HYBRID_TRIGGER_EXCLUDES_RESULT_ONLY_DOCS"] = (
-        "candidates/EU26-21/hybrid_1/**" not in hybrid_workflow
+    critical["C10_HYBRID_TRIGGER_IS_PUSH_ONLY_AND_EXCLUDES_RESULT_DOCS"] = (
+        _push_only(hybrid_workflow)
+        and "candidates/EU26-21/hybrid_1/**" not in hybrid_workflow
         and "candidates/EU26-21/hybrid_1/core.py" in hybrid_workflow
     )
-
-    for relative, text in (
-        (OLD_WORKFLOW, old_workflow),
-        (HYBRID_WORKFLOW, hybrid_workflow),
-    ):
-        mutable = [
-            item for item in _action_refs(text) if item["pinned"] != "true"
-        ]
-        if mutable:
-            warnings.append(
-                f"{relative} still uses mutable action tags: "
-                + ", ".join(f"{item['action']}@{item['ref']}" for item in mutable)
-            )
 
     aggregator = _read(
         root,
@@ -146,8 +140,11 @@ def audit(root: Path) -> Dict[str, object]:
         and 'report["h1"]["decision"] !=' not in aggregator
         and 'report["h3"]["primary_decision"] !=' not in aggregator
     )
-    critical["C12_MUTATION_AUDIT_ACTIONS_PINNED"] = all(
-        item["pinned"] == "true" for item in _action_refs(mutation_workflow)
+    critical["C12_MUTATION_AUDIT_IS_PUSH_ONLY_AND_PINNED"] = (
+        _push_only(mutation_workflow)
+        and all(
+            item["pinned"] == "true" for item in _action_refs(mutation_workflow)
+        )
     )
     critical["C13_AUDIT_KILLS_DELIBERATE_MUTANTS"] = all(
         token in mutation_workflow
@@ -158,9 +155,26 @@ def audit(root: Path) -> Dict[str, object]:
             "Kill six deliberate critical-code mutants",
         )
     )
+    critical["C14_VERIFICATION_AUDIT_IS_PUSH_ONLY"] = _push_only(audit_workflow)
+
+    for relative, text in (
+        (OLD_WORKFLOW, old_workflow),
+        (HYBRID_WORKFLOW, hybrid_workflow),
+        (CANONICAL_MATRIX, matrix),
+        (AUDIT_WORKFLOW, audit_workflow),
+        (MUTATION_WORKFLOW, mutation_workflow),
+    ):
+        mutable = [
+            item for item in _action_refs(text) if item["pinned"] != "true"
+        ]
+        if mutable:
+            warnings.append(
+                f"{relative} still uses mutable action tags: "
+                + ", ".join(f"{item['action']}@{item['ref']}" for item in mutable)
+            )
 
     return {
-        "schema": "eu26-21-ci-audit-v2",
+        "schema": "eu26-21-ci-audit-v3",
         "critical_gates": critical,
         "warnings": warnings,
         "pass": all(critical.values()),
