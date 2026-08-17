@@ -32,10 +32,11 @@ AUDITED_FILES = (
 
 
 class CiAuditTests(unittest.TestCase):
-    def test_repository_ci_topology_passes(self) -> None:
+    def test_repository_ci_topology_passes_without_mutable_action_warnings(self) -> None:
         report = audit(REPO_ROOT)
         self.assertTrue(report["pass"], report)
         self.assertTrue(all(report["critical_gates"].values()))
+        self.assertEqual(report["warnings"], [])
 
     def _copy_audited_files(self, destination: Path) -> None:
         for relative in AUDITED_FILES:
