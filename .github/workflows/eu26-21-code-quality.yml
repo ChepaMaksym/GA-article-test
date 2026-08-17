@@ -1,0 +1,134 @@
+name: EU26-21 code quality and dependency audit
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [research/EU26-21-chcqx-census-old-first]
+    paths:
+      - 'candidates/EU26-21/hybrid_1/**'
+      - 'candidates/EU26-21/corrected_applied/**'
+      - 'candidates/EU26-21/tests/**'
+      - '.github/workflows/eu26-21-code-quality.yml'
+
+permissions:
+  contents: read
+
+env:
+  PYTHONHASHSEED: '0'
+  MPLBACKEND: Agg
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  NUMEXPR_NUM_THREADS: '1'
+
+jobs:
+  quality:
+    name: Tests, coverage, static analysis, unused code, dependency audit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.9'
+      - name: Install frozen environment and audit tools
+        run: |
+          python -m pip install -r candidates/EU26-21/hybrid_1/requirements.txt
+          python -m pip install coverage==7.10.4 ruff==0.12.10 bandit==1.8.6 vulture==2.14 pip-audit==2.9.0
+          python -m pip check
+      - name: Run all EU26-21 tests under coverage
+        id: tests
+        run: |
+          set +e
+          mkdir -p "${RUNNER_TEMP}/quality"
+          coverage run --source=candidates/EU26-21/hybrid_1,candidates/EU26-21/corrected_applied \
+            -m unittest discover -s candidates/EU26-21/tests -p 'test_*.py' -v \
+            2>&1 | tee "${RUNNER_TEMP}/quality/tests.log"
+          status=${PIPESTATUS[0]}
+          coverage json -o "${RUNNER_TEMP}/quality/coverage.json" || true
+          coverage report -m | tee "${RUNNER_TEMP}/quality/coverage.txt" || true
+          echo "exit_code=$status" >> "$GITHUB_OUTPUT"
+          exit "$status"
+      - name: Ruff canonical implementation
+        id: ruff
+        run: |
+          set +e
+          ruff check candidates/EU26-21/hybrid_1 candidates/EU26-21/corrected_applied candidates/EU26-21/tests \
+            --output-format json --output-file "${RUNNER_TEMP}/quality/ruff.json"
+          status=$?
+          ruff check candidates/EU26-21/hybrid_1 candidates/EU26-21/corrected_applied candidates/EU26-21/tests \
+            2>&1 | tee "${RUNNER_TEMP}/quality/ruff.txt"
+          echo "exit_code=$status" >> "$GITHUB_OUTPUT"
+          exit "$status"
+      - name: Bandit high-severity audit of project code
+        id: bandit
+        run: |
+          set +e
+          bandit -r candidates/EU26-21/hybrid_1 candidates/EU26-21/corrected_applied \
+            -x candidates/EU26-21/tests -lll -ii -f json -o "${RUNNER_TEMP}/quality/bandit.json"
+          status=$?
+          bandit -r candidates/EU26-21/hybrid_1 candidates/EU26-21/corrected_applied \
+            -x candidates/EU26-21/tests -lll -ii 2>&1 | tee "${RUNNER_TEMP}/quality/bandit.txt"
+          echo "exit_code=$status" >> "$GITHUB_OUTPUT"
+          exit "$status"
+      - name: Record potential unused code without hiding findings
+        if: always()
+        run: |
+          set +e
+          vulture candidates/EU26-21/hybrid_1 candidates/EU26-21/corrected_applied candidates/EU26-21/tests \
+            --min-confidence 90 > "${RUNNER_TEMP}/quality/vulture.txt" 2>&1
+          printf '%s\n' "$?" > "${RUNNER_TEMP}/quality/vulture.exit-code"
+          cat "${RUNNER_TEMP}/quality/vulture.txt"
+          exit 0
+      - name: Record dependency vulnerabilities in frozen environment
+        if: always()
+        run: |
+          set +e
+          pip-audit -r candidates/EU26-21/hybrid_1/requirements.txt -f json \
+            -o "${RUNNER_TEMP}/quality/pip-audit.json"
+          printf '%s\n' "$?" > "${RUNNER_TEMP}/quality/pip-audit.exit-code"
+          pip-audit -r candidates/EU26-21/hybrid_1/requirements.txt \
+            2>&1 | tee "${RUNNER_TEMP}/quality/pip-audit.txt" || true
+          exit 0
+      - name: Write audit status
+        if: always()
+        env:
+          TEST_EXIT: ${{ steps.tests.outputs.exit_code }}
+          RUFF_EXIT: ${{ steps.ruff.outputs.exit_code }}
+          BANDIT_EXIT: ${{ steps.bandit.outputs.exit_code }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          root = Path(os.environ['RUNNER_TEMP']) / 'quality'
+          def read_code(name):
+              path = root / name
+              return int(path.read_text().strip()) if path.exists() else None
+          blocking = [
+              int(os.environ.get('TEST_EXIT') or -1),
+              int(os.environ.get('RUFF_EXIT') or -1),
+              int(os.environ.get('BANDIT_EXIT') or -1),
+          ]
+          payload = {
+              'schema': 'eu26-21-code-quality-v1',
+              'tests_exit_code': blocking[0],
+              'ruff_exit_code': blocking[1],
+              'bandit_high_severity_exit_code': blocking[2],
+              'vulture_exit_code': read_code('vulture.exit-code'),
+              'pip_audit_exit_code': read_code('pip-audit.exit-code'),
+              'blocking_pass': all(value == 0 for value in blocking),
+              'nonblocking_findings_preserved': True,
+          }
+          (root / 'status.json').write_text(
+              json.dumps(payload, indent=2, sort_keys=True) + '\n', encoding='utf-8'
+          )
+          print(json.dumps(payload, sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: eu26-21-code-quality-audit
+          path: ${{ runner.temp }}/quality
+          if-no-files-found: warn
+          retention-days: 90
