@@ -126,7 +126,9 @@ class StrictAuditValidationTests(unittest.TestCase):
 
     def test_nonhex_digest_is_rejected(self) -> None:
         row = valid_row(1)
-        row["active_indices_sha256"] = "z" * 64
+        bad_digest = "z" * 64
+        row["active_indices_sha256"] = bad_digest
+        row["old"]["active_indices_sha256"] = bad_digest
         with self.assertRaisesRegex(ValueError, "not hexadecimal"):
             validate_row_strict(row, 1, TARGETS)
 
