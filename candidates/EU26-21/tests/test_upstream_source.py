@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import os
 from pathlib import Path
 import random
 import sys
@@ -21,6 +22,15 @@ class UpstreamSourceTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
+        if not hasattr(cls, "upstream"):
+            configured = os.environ.get("EU26_21_UPSTREAM")
+            if configured:
+                cls.upstream = Path(configured).resolve()
+            else:
+                raise unittest.SkipTest(
+                    "pinned upstream path is required; set EU26_21_UPSTREAM "
+                    "or execute this file with the upstream argument"
+                )
         code_dir = cls.upstream / "code"
         if not (code_dir / "Evolution.py").is_file():
             raise RuntimeError(f"missing pinned Evolution.py under {code_dir}")
@@ -79,7 +89,10 @@ class UpstreamSourceTests(unittest.TestCase):
         self.assertEqual(len(population), 17)
         self.assertTrue(all(len(individual) == 41 for individual in population))
         self.assertTrue(
-            all(set(int(value) for value in individual) <= {0, 1} for individual in population)
+            all(
+                set(int(value) for value in individual) <= {0, 1}
+                for individual in population
+            )
         )
 
     def _run_identical_population(self, generations: int):
