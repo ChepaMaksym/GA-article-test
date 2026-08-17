@@ -1,130 +1,17 @@
-name: EU26-21 OLD vs Hybrid 1 thirty-seed comparison
+name: EU26-21 legacy OLD vs Hybrid 1 comparison v1 (manual only)
 
 on:
   workflow_dispatch:
-  push:
-    branches: [research/EU26-21-chcqx-census-old-first]
-    paths:
-      - 'candidates/EU26-21/hybrid_1/paired_comparison.py'
-      - 'candidates/EU26-21/hybrid_1/run_old_hybrid_comparison.py'
-      - 'candidates/EU26-21/hybrid_1/HYPOTHESES.md'
-      - 'candidates/EU26-21/tests/test_hybrid_1_paired_comparison.py'
-      - '.github/workflows/eu26-21-old-hybrid-30-seed.yml'
-  pull_request:
-    paths:
-      - 'candidates/EU26-21/hybrid_1/paired_comparison.py'
-      - 'candidates/EU26-21/hybrid_1/run_old_hybrid_comparison.py'
-      - 'candidates/EU26-21/hybrid_1/HYPOTHESES.md'
-      - 'candidates/EU26-21/tests/test_hybrid_1_paired_comparison.py'
-      - '.github/workflows/eu26-21-old-hybrid-30-seed.yml'
-
-concurrency:
-  group: eu26-21-old-hybrid-30-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
 
 permissions:
   contents: read
 
-env:
-  UPSTREAM_REPO: https://github.com/Ghaith81/Fast-Genetic-Algorithm-For-Feature-Selection.git
-  UPSTREAM_COMMIT: 6ac5a7ec77f8a7c096ab4d019254fcc897988fd6
-  PYTHONHASHSEED: '0'
-  MPLBACKEND: Agg
-  OMP_NUM_THREADS: '1'
-  OPENBLAS_NUM_THREADS: '1'
-  MKL_NUM_THREADS: '1'
-  NUMEXPR_NUM_THREADS: '1'
-
 jobs:
-  paired-unit:
-    name: Paired NFE and confidence-bound unit tests
+  retired:
     runs-on: ubuntu-24.04
-    timeout-minutes: 35
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.9'
-      - name: Install frozen experiment environment
-        run: python -m pip install -r candidates/EU26-21/hybrid_1/requirements.txt
-      - name: Compile comparison modules
-        run: >-
-          python -m py_compile
-          candidates/EU26-21/hybrid_1/paired_comparison.py
-          candidates/EU26-21/hybrid_1/run_old_hybrid_comparison.py
-          candidates/EU26-21/tests/test_hybrid_1_paired_comparison.py
-      - name: Run exact-NFE and decision tests
-        run: >-
-          python -m unittest
-          candidates/EU26-21/tests/test_hybrid_1_paired_comparison.py
-          -v
-
-  paired-thirty-seed:
-    name: Thirty paired Census seeds, exact NFE and BCa H1
-    needs: paired-unit
-    runs-on: ubuntu-24.04
-    timeout-minutes: 360
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.9'
-      - name: Install frozen experiment environment
-        run: python -m pip install -r candidates/EU26-21/hybrid_1/requirements.txt
-      - name: Fetch exact CHC-QX OLD snapshot
+      - name: Explain retirement
         run: |
-          git init "${RUNNER_TEMP}/chcqx"
-          git -C "${RUNNER_TEMP}/chcqx" remote add origin "$UPSTREAM_REPO"
-          git -C "${RUNNER_TEMP}/chcqx" fetch --depth=1 origin "$UPSTREAM_COMMIT"
-          git -C "${RUNNER_TEMP}/chcqx" checkout --detach FETCH_HEAD
-          test "$(git -C "${RUNNER_TEMP}/chcqx" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
-      - name: Run frozen OLD-vs-Hybrid 1 comparison
-        run: |
-          python candidates/EU26-21/hybrid_1/run_old_hybrid_comparison.py \
-            "${RUNNER_TEMP}/chcqx" \
-            --seed-start 1 \
-            --runs 30 \
-            --active-sample-size 14964 \
-            --initial-population 50 \
-            --h1-budget 400 \
-            --h3-budget 2500 \
-            --workers 4 \
-            --targets 0.945 0.946 0.947 \
-            --primary-target 0.946 \
-            --h1-margin 0.001 \
-            --bootstrap-resamples 50000 \
-            --output-dir "${RUNNER_TEMP}/eu26-21-old-hybrid-30-rows" \
-            --output-json "${RUNNER_TEMP}/eu26-21-old-hybrid-30.json" \
-            --enforce-protocol
-      - name: Print compact scientific verdict
-        if: always()
-        run: |
-          if test -f "${RUNNER_TEMP}/eu26-21-old-hybrid-30.json"; then
-            python - <<'PY'
-          import json
-          import os
-          from pathlib import Path
-          report = json.loads(
-              (Path(os.environ['RUNNER_TEMP']) / 'eu26-21-old-hybrid-30.json').read_text()
-          )
-          primary = report['h3']['target_reports']['0.946000']
-          print(json.dumps({
-              'claim_status': report['claim_status'],
-              'protocol_gates': report['protocol_gates'],
-              'h1_decision': report['h1']['decision'],
-              'h1_paired_difference': report['h1']['paired_hybrid_minus_old'],
-              'h2': report['h2'],
-              'h3_primary_decision': report['h3']['primary_decision'],
-              'h3_primary': primary,
-          }, sort_keys=True))
-          PY
-          fi
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: eu26-21-old-vs-hybrid-1-thirty-seed
-          path: |
-            ${{ runner.temp }}/eu26-21-old-hybrid-30.json
-            ${{ runner.temp }}/eu26-21-old-hybrid-30-rows
-          if-no-files-found: warn
-          retention-days: 30
+          echo 'This v1 workflow is retained only for provenance.'
+          echo 'It used asymmetric target-attainment semantics and is not a valid final experiment.'
+          echo 'Use eu26-21-old-hybrid-30-matrix.yml and the strict audit workflow instead.'
