@@ -8,12 +8,17 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from hybrid_1.aggregate_old_hybrid_v2_corrected import corrected_capped  # noqa: E402
+from hybrid_1.audit_validation import corrected_capped  # noqa: E402
 
 
 class AggregationGuardTests(unittest.TestCase):
+    """Regression tests for the guard used by the canonical matrix aggregator."""
+
     def test_first_initial_mask_is_valid_target_hit(self) -> None:
         self.assertEqual(corrected_capped(1, 2500), (1, True))
+
+    def test_middle_initial_mask_is_valid_target_hit(self) -> None:
+        self.assertEqual(corrected_capped(25, 2500), (25, True))
 
     def test_last_initial_mask_is_valid_target_hit(self) -> None:
         self.assertEqual(corrected_capped(50, 2500), (50, True))
@@ -25,6 +30,20 @@ class AggregationGuardTests(unittest.TestCase):
     def test_nonpositive_nfe_is_rejected(self) -> None:
         with self.assertRaises(ValueError):
             corrected_capped(0, 2500)
+        with self.assertRaises(ValueError):
+            corrected_capped(-1, 2500)
+
+    def test_bool_and_fractional_nfe_are_rejected(self) -> None:
+        with self.assertRaises(TypeError):
+            corrected_capped(True, 2500)
+        with self.assertRaises(TypeError):
+            corrected_capped(1.5, 2500)  # type: ignore[arg-type]
+
+    def test_invalid_budget_is_rejected(self) -> None:
+        with self.assertRaises(ValueError):
+            corrected_capped(1, 0)
+        with self.assertRaises(ValueError):
+            corrected_capped(1, -10)
 
 
 if __name__ == "__main__":
