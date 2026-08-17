@@ -15,6 +15,7 @@ permissions:
 
 env:
   UPSTREAM_COMMIT: '6ac5a7ec77f8a7c096ab4d019254fcc897988fd6'
+  UCI_ARCHIVE_URL: 'https://archive.ics.uci.edu/static/public/117/census%2Bincome%2Bkdd.zip'
   PYTHONHASHSEED: '0'
   MPLBACKEND: Agg
   OMP_NUM_THREADS: '1'
@@ -53,9 +54,63 @@ jobs:
           candidates/EU26-21/tests/test_corrected_applied.py
           -v
 
+  data-fixture:
+    name: Authenticate official UCI Census-Income test fixture
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Download current official UCI dataset archive
+        run: |
+          set -euo pipefail
+          mkdir -p "${RUNNER_TEMP}/uci"
+          curl --fail --location --retry 5 --retry-all-errors \
+            --user-agent 'EU26-21-reproducibility-audit/1.0' \
+            "${UCI_ARCHIVE_URL}" \
+            -o "${RUNNER_TEMP}/uci/census-income-kdd.zip"
+          unzip -t "${RUNNER_TEMP}/uci/census-income-kdd.zip"
+          unzip -Z1 "${RUNNER_TEMP}/uci/census-income-kdd.zip" \
+            | tee "${RUNNER_TEMP}/uci/zip-members.txt"
+          archive_member=$(
+            grep -E '(^|/)census\.tar\.gz$' "${RUNNER_TEMP}/uci/zip-members.txt" \
+              | head -n 1
+          )
+          test -n "$archive_member"
+          unzip -p "${RUNNER_TEMP}/uci/census-income-kdd.zip" "$archive_member" \
+            > "${RUNNER_TEMP}/uci/census.tar.gz"
+          tar -tzf "${RUNNER_TEMP}/uci/census.tar.gz" \
+            | tee "${RUNNER_TEMP}/uci/tar-members.txt"
+          test_member=$(
+            grep -E '(^|/)census-income\.test$' "${RUNNER_TEMP}/uci/tar-members.txt" \
+              | head -n 1
+          )
+          test -n "$test_member"
+          tar -xOzf "${RUNNER_TEMP}/uci/census.tar.gz" "$test_member" \
+            > "${RUNNER_TEMP}/uci/census-income.test"
+          test "$(wc -l < "${RUNNER_TEMP}/uci/census-income.test")" -eq 99762
+          printf '%s\n' "$UCI_ARCHIVE_URL" \
+            > "${RUNNER_TEMP}/uci/source-url.txt"
+          sha256sum "${RUNNER_TEMP}/uci/census-income-kdd.zip" \
+            > "${RUNNER_TEMP}/uci/archive.sha256"
+          sha256sum "${RUNNER_TEMP}/uci/census-income.test" \
+            > "${RUNNER_TEMP}/uci/test.sha256"
+          cat "${RUNNER_TEMP}/uci/archive.sha256"
+          cat "${RUNNER_TEMP}/uci/test.sha256"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: eu26-21-official-uci-test-fixture
+          path: |
+            ${{ runner.temp }}/uci/census-income.test
+            ${{ runner.temp }}/uci/source-url.txt
+            ${{ runner.temp }}/uci/archive.sha256
+            ${{ runner.temp }}/uci/test.sha256
+            ${{ runner.temp }}/uci/zip-members.txt
+            ${{ runner.temp }}/uci/tar-members.txt
+          if-no-files-found: error
+          retention-days: 90
+
   seed:
     name: Corrected paired seed ${{ matrix.seed }}
-    needs: unit-tests
+    needs: [unit-tests, data-fixture]
     runs-on: ubuntu-24.04
     timeout-minutes: 180
     strategy:
@@ -72,31 +127,23 @@ jobs:
         run: python -m pip install -r candidates/EU26-21/hybrid_1/requirements.txt
       - name: Fetch pinned OLD source
         run: |
-          git clone --filter=blob:none https://github.com/Ghaith81/Fast-Genetic-Algorithm-For-Feature-Selection.git "${RUNNER_TEMP}/upstream"
+          git clone --filter=blob:none \
+            https://github.com/Ghaith81/Fast-Genetic-Algorithm-For-Feature-Selection.git \
+            "${RUNNER_TEMP}/upstream"
           git -C "${RUNNER_TEMP}/upstream" checkout --detach "${UPSTREAM_COMMIT}"
           test "$(git -C "${RUNNER_TEMP}/upstream" rev-parse HEAD)" = "${UPSTREAM_COMMIT}"
-      - name: Fetch official UCI Census-Income test file
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: eu26-21-official-uci-test-fixture
+          path: ${{ runner.temp }}/uci
+      - name: Verify official UCI test fixture
         run: |
-          mkdir -p "${RUNNER_TEMP}/uci"
-          urls=(
-            'https://archive.ics.uci.edu/ml/machine-learning-databases/census-income-mld/census-income.test.gz'
-            'https://kdd.ics.uci.edu/databases/census-income/census-income.test.gz'
-          )
-          downloaded=0
-          for url in "${urls[@]}"; do
-            if curl --fail --location --retry 5 --retry-all-errors \
-              "$url" -o "${RUNNER_TEMP}/uci/census-income.test.gz"; then
-              downloaded=1
-              break
-            fi
-          done
-          test "$downloaded" -eq 1
-          gzip -t "${RUNNER_TEMP}/uci/census-income.test.gz"
-          gzip -dc "${RUNNER_TEMP}/uci/census-income.test.gz" \
-            > "${RUNNER_TEMP}/uci/census-income.test"
+          set -euo pipefail
           test "$(wc -l < "${RUNNER_TEMP}/uci/census-income.test")" -eq 99762
-          sha256sum "${RUNNER_TEMP}/uci/census-income.test" \
-            | tee "${RUNNER_TEMP}/uci/test.sha256"
+          cd "${RUNNER_TEMP}/uci"
+          sha256sum --check test.sha256
+          cat source-url.txt
+          cat test.sha256
       - name: Run one corrected paired seed
         id: experiment
         run: |
@@ -139,13 +186,14 @@ jobs:
           path: |
             ${{ runner.temp }}/corrected-seed
             ${{ runner.temp }}/uci/test.sha256
+            ${{ runner.temp }}/uci/source-url.txt
           if-no-files-found: warn
           retention-days: 90
 
   aggregate:
     name: Aggregate corrected applied evidence
-    if: always() && needs.unit-tests.result == 'success'
-    needs: [unit-tests, seed]
+    if: always() && needs.unit-tests.result == 'success' && needs.data-fixture.result == 'success'
+    needs: [unit-tests, data-fixture, seed]
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
