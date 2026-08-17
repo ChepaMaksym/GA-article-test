@@ -1,6 +1,8 @@
 # Corrected applied profile: modern independently audited environment.
 # Historical source-compatible OLD/Hybrid runs keep hybrid_1/requirements.txt.
-numpy==2.5.1
+# NumPy 2.5.x requires Python >=3.12; 2.4.6 is the compatible pin for the
+# Python 3.11 scientific runner used by this profile.
+numpy==2.4.6
 pandas==3.0.3
 scipy==1.18.0
 scikit-learn==1.9.0
