@@ -36,7 +36,25 @@ class CorrectedDataProtocolTests(unittest.TestCase):
 
     def test_binary_target_accepts_both_file_suffix_styles(self) -> None:
         series = pd.Series([" - 50000.", " 50000+.", "- 50000", "50000+"])
-        np.testing.assert_array_equal(_binary_target(series), np.array([0, 1, 0, 1]))
+        np.testing.assert_array_equal(
+            _binary_target(series),
+            np.array([0, 1, 0, 1], dtype=np.int8),
+        )
+
+    def test_binary_target_accepts_pinned_numeric_source_labels(self) -> None:
+        series = pd.Series([0, 1, 1, 0, 0.0, 1.0])
+        np.testing.assert_array_equal(
+            _binary_target(series),
+            np.array([0, 1, 1, 0, 0, 1], dtype=np.int8),
+        )
+
+    def test_binary_target_rejects_mixed_or_unknown_encodings(self) -> None:
+        with self.assertRaisesRegex(ValueError, "mixed numeric and textual"):
+            _binary_target(pd.Series([0, "50000+."]))
+        with self.assertRaisesRegex(ValueError, "unknown Census target"):
+            _binary_target(pd.Series(["not-a-label", "- 50000."]))
+        with self.assertRaisesRegex(ValueError, "missing values"):
+            _binary_target(pd.Series([0, None]))
 
     def test_weighted_metrics_change_when_population_weights_change(self) -> None:
         y_true = np.array([0, 0, 1, 1], dtype=int)
@@ -50,7 +68,10 @@ class CorrectedDataProtocolTests(unittest.TestCase):
             np.array([1.0, 1.0, 10.0, 1.0]),
         )
         self.assertNotEqual(unweighted["accuracy"], weighted["accuracy"])
-        self.assertGreater(weighted["positive_support"], unweighted["positive_support"])
+        self.assertGreater(
+            weighted["positive_support"],
+            unweighted["positive_support"],
+        )
         self.assertEqual(len(weighted["confusion_matrix"]), 2)
 
     def test_objective_penalizes_empty_mask_and_uses_40_bits(self) -> None:
@@ -93,24 +114,37 @@ class CorrectedDataProtocolTests(unittest.TestCase):
         self.assertEqual(second.features, [0, 1])
         self.assertIsNot(first.clf, second.clf)
 
-    def test_prepare_protocol_excludes_weight_and_uses_official_test(self) -> None:
+    def test_prepare_protocol_bridges_numeric_train_and_text_test(self) -> None:
         rng = np.random.default_rng(7)
 
-        def make_frame(rows: int) -> pd.DataFrame:
+        def make_frame(rows: int, *, numeric_target: bool) -> pd.DataFrame:
             data = np.empty((rows, 42), dtype=object)
             for column in range(42):
                 if column in (0, 5, 16, 17, 18, 24, 30, 39):
                     data[:, column] = rng.integers(1, 100, size=rows)
                 elif column == 41:
-                    labels = np.array([" - 50000.", " 50000+."] * ((rows + 1) // 2), dtype=object)
+                    if numeric_target:
+                        labels = np.array(
+                            [0, 1] * ((rows + 1) // 2),
+                            dtype=object,
+                        )
+                    else:
+                        labels = np.array(
+                            [" - 50000.", " 50000+."] * ((rows + 1) // 2),
+                            dtype=object,
+                        )
                     data[:, column] = labels[:rows]
                 else:
-                    data[:, column] = np.where(rng.random(rows) > 0.5, "a", "b")
+                    data[:, column] = np.where(
+                        rng.random(rows) > 0.5,
+                        "a",
+                        "b",
+                    )
             data[:, 24] = rng.integers(100, 1000, size=rows)
             return pd.DataFrame(data)
 
-        train = make_frame(100)
-        test = make_frame(40)
+        train = make_frame(100, numeric_target=True)
+        test = make_frame(40, numeric_target=False)
         with tempfile.TemporaryDirectory() as directory:
             train_path = Path(directory) / "train.csv"
             test_path = Path(directory) / "test.csv"
@@ -133,6 +167,8 @@ class CorrectedDataProtocolTests(unittest.TestCase):
         self.assertTrue(prepared.metadata["official_test_used"])
         self.assertFalse(prepared.metadata["instance_weight_as_predictor"])
         self.assertTrue(prepared.metadata["instance_weight_as_sample_weight"])
+        self.assertGreater(prepared.metadata["train_positive_count"], 0)
+        self.assertGreater(prepared.metadata["test_positive_count"], 0)
 
 
 class CorrectedAggregationTests(unittest.TestCase):
@@ -154,7 +190,17 @@ class CorrectedAggregationTests(unittest.TestCase):
         }
 
     @classmethod
-    def result(cls, value: float, count: int, *, reset=None, budget=None, workers=None, events=0, evaluations=400) -> dict:
+    def result(
+        cls,
+        value: float,
+        count: int,
+        *,
+        reset=None,
+        budget=None,
+        workers=None,
+        events=0,
+        evaluations=400,
+    ) -> dict:
         payload = {
             "official_test_metrics": {
                 "selected_feature_count": count,
@@ -163,31 +209,65 @@ class CorrectedAggregationTests(unittest.TestCase):
             }
         }
         if reset is not None:
-            payload.update({
-                "seed": 0,
-                "search_seed": 0,
-                "reset": reset,
-                "budget": budget,
-                "workers": workers,
-                "evaluations": evaluations,
-                "reset_events": events,
-            })
+            payload.update(
+                {
+                    "seed": 0,
+                    "search_seed": 0,
+                    "reset": reset,
+                    "budget": budget,
+                    "workers": workers,
+                    "evaluations": evaluations,
+                    "reset_events": events,
+                }
+            )
         return payload
 
     @classmethod
-    def row(cls, seed: int, old_value: float, hybrid_value: float, reset_value: float, no_reset_value: float) -> dict:
+    def row(
+        cls,
+        seed: int,
+        old_value: float,
+        hybrid_value: float,
+        reset_value: float,
+        no_reset_value: float,
+    ) -> dict:
         digest = "a" * 64
         old = cls.result(old_value, 6)
-        old.update({
-            "seed": seed,
-            "search_seed": seed + 1_000_003,
-            "active_nfe": 200,
-            "full_validation_nfe": 100,
-            "optimizer_nfe": 300,
-        })
-        h1 = cls.result(hybrid_value, 5, reset=True, budget=400, workers=4, evaluations=400)
-        reset = cls.result(reset_value, 4, reset=True, budget=2500, workers=1, events=2, evaluations=2499)
-        no_reset = cls.result(no_reset_value, 4, reset=False, budget=2500, workers=1, events=0, evaluations=2499)
+        old.update(
+            {
+                "seed": seed,
+                "search_seed": seed + 1_000_003,
+                "active_nfe": 200,
+                "full_validation_nfe": 100,
+                "optimizer_nfe": 300,
+            }
+        )
+        h1 = cls.result(
+            hybrid_value,
+            5,
+            reset=True,
+            budget=400,
+            workers=4,
+            evaluations=400,
+        )
+        reset = cls.result(
+            reset_value,
+            4,
+            reset=True,
+            budget=2500,
+            workers=1,
+            events=2,
+            evaluations=2499,
+        )
+        no_reset = cls.result(
+            no_reset_value,
+            4,
+            reset=False,
+            budget=2500,
+            workers=1,
+            events=0,
+            evaluations=2499,
+        )
         for result in (h1, reset, no_reset):
             result["seed"] = seed
             result["search_seed"] = seed + 1_000_003
@@ -218,19 +298,43 @@ class CorrectedAggregationTests(unittest.TestCase):
         }
 
     def test_scientific_h1_failure_is_reported_not_raised(self) -> None:
-        rows = [self.row(seed, 0.70, 0.68, 0.69, 0.69) for seed in range(1, 31)]
+        rows = [
+            self.row(seed, 0.70, 0.68, 0.69, 0.69)
+            for seed in range(1, 31)
+        ]
         report = evaluate(rows)
-        self.assertEqual(report["claim_status"], "PASS_PROTOCOL_RESULTS_AVAILABLE")
-        self.assertEqual(report["h1_corrected"]["decision"], "FAIL_NONINFERIORITY")
-        self.assertEqual(report["h2_corrected"]["decision"], "BLOCKED_BY_H1")
-        self.assertEqual(report["h8_reset_ablation"]["decision"], "NO_CLEAR_EFFECT")
+        self.assertEqual(
+            report["claim_status"],
+            "PASS_PROTOCOL_RESULTS_AVAILABLE",
+        )
+        self.assertEqual(
+            report["h1_corrected"]["decision"],
+            "FAIL_NONINFERIORITY",
+        )
+        self.assertEqual(
+            report["h2_corrected"]["decision"],
+            "BLOCKED_BY_H1",
+        )
+        self.assertEqual(
+            report["h8_reset_ablation"]["decision"],
+            "NO_CLEAR_EFFECT",
+        )
 
     def test_positive_h1_and_reset_effect_pass_without_tuning(self) -> None:
-        rows = [self.row(seed, 0.70, 0.7005, 0.705, 0.700) for seed in range(1, 31)]
+        rows = [
+            self.row(seed, 0.70, 0.7005, 0.705, 0.700)
+            for seed in range(1, 31)
+        ]
         report = evaluate(rows)
-        self.assertEqual(report["h1_corrected"]["decision"], "PASS_CONFIDENCE_BOUND")
+        self.assertEqual(
+            report["h1_corrected"]["decision"],
+            "PASS_CONFIDENCE_BOUND",
+        )
         self.assertEqual(report["h2_corrected"]["decision"], "PASS")
-        self.assertEqual(report["h8_reset_ablation"]["decision"], "POSITIVE_CONFIDENCE")
+        self.assertEqual(
+            report["h8_reset_ablation"]["decision"],
+            "POSITIVE_CONFIDENCE",
+        )
 
 
 if __name__ == "__main__":
