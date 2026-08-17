@@ -1,7 +1,7 @@
 # Corrected applied methodology amendment
 
-Date frozen: **2026-08-17**, before inspection of any corrected-profile seed
-outcome.
+Date frozen: **2026-08-17**, before inspection of any valid corrected-profile
+seed outcome.
 
 ## Why this additional track exists
 
@@ -14,18 +14,41 @@ applied conclusion:
    H1 used accuracy only.
 2. UCI states that raw column 24 is an instance weight and must not be supplied
    to a classifier as a predictive variable.
-3. The public source used only `census-income.data` and created a contiguous
-   60/20/20 split instead of using the official `census-income.test` file.
+3. The public source used only its checked-in `census-income.data` and created a
+   contiguous 60/20/20 split instead of using the official UCI test file.
 4. The 30-seed OLD-versus-Hybrid result compared complete search layers and did
    not isolate reset on Census.
 
 The corrected applied track addresses those issues without altering the
 historical source-reproduction claims.
 
+## Representation-compatibility amendment
+
+The first corrected runner draft combined the upstream repository's checked-in
+training file with the official UCI test file. Before any corrected optimizer
+row completed, inspection showed that the upstream training file is already
+fully numerically encoded, while the official UCI file retains raw categorical
+values. Fitting an encoder on the former and transforming the latter would map
+most test categories to the unknown sentinel and invalidate the applied result.
+
+Therefore the final corrected profile uses **both official UCI files extracted
+from one authenticated official archive**:
+
+```text
+census-income.data
+census-income.test
+```
+
+The pinned upstream repository supplies only `Evolution.py` and its CHC
+semantics. It supplies no corrected-profile data. The invalid pre-outcome run is
+retained as an implementation/protocol failure; it generated no scientific
+result and was not used to select parameters.
+
 ## Frozen data protocol
 
-- Source training file: `census-income.data`, 199,523 rows.
-- Final held-out file: official UCI `census-income.test`, 99,762 rows.
+- Official UCI training file: `census-income.data`, 199,523 rows.
+- Official UCI held-out file: `census-income.test`, 99,762 rows.
+- Both files are extracted from the same authenticated current UCI ZIP archive.
 - Raw file layout: 41 inputs plus one binary target.
 - Raw index 24 (`instance weight`) is removed from the feature mask.
 - Corrected mask dimension: 40.
@@ -40,16 +63,16 @@ historical source-reproduction claims.
   encoding; unseen validation/test values map to `-1`.
 - The official test file is never used during feature-mask optimization.
 
-The changing stratified split means the 30-seed uncertainty now includes both
-search randomness and train/validation split variability. The official test set
-remains fixed.
+The changing stratified split means the 30-seed uncertainty includes both search
+randomness and train/validation split variability. The official test set remains
+fixed.
 
 ## Frozen optimizer protocol
 
 For every seed `1..30`:
 
 - OLD and all Hybrid variants receive the same 50 initial 40-bit masks.
-- OLD uses the pinned public source CHC semantics on the corrected objective.
+- OLD uses the pinned public-source CHC semantics on the corrected objective.
 - Hybrid H1 uses reset self-adjusting `(1+(lambda,lambda))`, budget 400, four
   ordered evaluation workers.
 - Reset ablation uses Hybrid reset and Hybrid no-reset, each with budget 2,500
@@ -123,7 +146,7 @@ to the reset transition.
 
 The corrected track may support:
 
-- a weight-aware, official-test, balanced-metric comparison;
+- a weight-aware, official-train/test, balanced-metric comparison;
 - an applied Hybrid-versus-OLD conclusion for this frozen protocol;
 - a reset-specific paired Census result.
 
