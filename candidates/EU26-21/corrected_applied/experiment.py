@@ -1,9 +1,10 @@
 """One-seed corrected applied OLD/Hybrid experiment.
 
-The source-compatible OLD reproduction remains frozen elsewhere.  This module
-runs a new, explicitly amended applied profile with the official UCI test file,
-instance-weight exclusion, weighted balanced-accuracy optimization, and a
-paired 30-seed reset/no-reset ablation.
+The source-compatible OLD reproduction remains frozen elsewhere. This module
+runs a new, explicitly amended applied profile with both official UCI Census-
+Income files, instance-weight exclusion, weighted balanced-accuracy
+optimization, and a paired 30-seed reset/no-reset ablation. The pinned upstream
+repository supplies only the CHC implementation, never corrected-profile data.
 """
 from __future__ import annotations
 
@@ -55,14 +56,12 @@ class OldCorrectedResult:
     official_test_metrics: Dict[str, Any]
 
 
-
 def _git(root: Path, *arguments: str) -> str:
     return subprocess.check_output(
         ["git", "-C", str(root), *arguments],
         text=True,
         stderr=subprocess.STDOUT,
     ).strip()
-
 
 
 def load_upstream_evolution(upstream: Path):
@@ -85,15 +84,15 @@ def load_upstream_evolution(upstream: Path):
     return module.Evolution, creator
 
 
-
 def _mask_digest(masks: Sequence[Mask]) -> str:
     return hashlib.sha256(
         np.asarray(masks, dtype=np.uint8).tobytes(order="C")
     ).hexdigest()
 
 
-
-def _objective(prepared: PreparedCorrectedCensus) -> WeightedBalancedFeatureObjective:
+def _objective(
+    prepared: PreparedCorrectedCensus,
+) -> WeightedBalancedFeatureObjective:
     active = prepared.active_instances
     return WeightedBalancedFeatureObjective(
         x_active=prepared.x_train[active],
@@ -103,7 +102,6 @@ def _objective(prepared: PreparedCorrectedCensus) -> WeightedBalancedFeatureObje
         y_validation=prepared.y_validation,
         weight_validation=prepared.weight_validation,
     )
-
 
 
 def run_old_corrected(
@@ -116,7 +114,7 @@ def run_old_corrected(
     chunk_generations: int = 10,
     outer_no_change_limit: int = 2,
 ) -> OldCorrectedResult:
-    """Run the source CHC search on the corrected weighted objective."""
+    """Run the pinned source CHC search on the corrected weighted objective."""
 
     if chunk_generations < 1 or outer_no_change_limit < 1:
         raise ValueError("OLD stopping parameters must be positive")
@@ -211,9 +209,11 @@ def run_old_corrected(
         optimizer_nfe=optimizer_nfe,
         chunks=chunks,
         final_distance=int(distance),
-        official_test_metrics=evaluate_mask_on_official_test(prepared, best_mask),
+        official_test_metrics=evaluate_mask_on_official_test(
+            prepared,
+            best_mask,
+        ),
     )
-
 
 
 def _hybrid_result(
@@ -245,23 +245,26 @@ def _hybrid_result(
         "evaluations": int(result.evaluations),
         "generations": int(result.generations),
         "reset_events": int(result.reset_events),
-        "validation_weighted_balanced_accuracy": float(result.best_fitness[0]),
+        "validation_weighted_balanced_accuracy": float(
+            result.best_fitness[0]
+        ),
         "selected_mask": list(result.best_mask),
         "official_test_metrics": metrics,
     }
 
 
-
 def run_corrected_seed(
     upstream: Path,
+    official_train_path: Path,
     official_test_path: Path,
     *,
     seed: int,
 ) -> Dict[str, Any]:
+    """Run one corrected seed using only official UCI data files."""
+
     evolution, deap_creator = load_upstream_evolution(upstream)
-    train_path = upstream.resolve() / "data" / "census-income.data"
     prepared = prepare_corrected_census(
-        train_path,
+        official_train_path,
         official_test_path,
         seed=seed,
         active_sample_size=ACTIVE_SAMPLE_SIZE,
@@ -269,11 +272,16 @@ def run_corrected_seed(
     initial_masks = source_density_population(
         INITIAL_POPULATION,
         PREDICTIVE_DIMENSION,
-        np.random.default_rng(seed + SEARCH_SEED_OFFSET + INITIAL_MASK_SEED_OFFSET),
+        np.random.default_rng(
+            seed + SEARCH_SEED_OFFSET + INITIAL_MASK_SEED_OFFSET
+        ),
     )
 
     baseline_mask = tuple([1] * PREDICTIVE_DIMENSION)
-    baseline_metrics = evaluate_mask_on_official_test(prepared, baseline_mask)
+    baseline_metrics = evaluate_mask_on_official_test(
+        prepared,
+        baseline_mask,
+    )
     old = run_old_corrected(
         prepared,
         evolution=evolution,
@@ -323,12 +331,12 @@ def run_corrected_seed(
     }
 
 
-
 def main() -> None:
     import argparse
 
     parser = argparse.ArgumentParser()
     parser.add_argument("upstream", type=Path)
+    parser.add_argument("official_train", type=Path)
     parser.add_argument("official_test", type=Path)
     parser.add_argument("--seed", type=int, required=True)
     parser.add_argument("--output-json", type=Path, required=True)
@@ -336,6 +344,7 @@ def main() -> None:
 
     row = run_corrected_seed(
         args.upstream,
+        args.official_train,
         args.official_test,
         seed=args.seed,
     )
@@ -344,15 +353,35 @@ def main() -> None:
         json.dumps(row, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )
-    print(json.dumps({
-        "seed": row["seed"],
-        "official_test_sha256": row["protocol"]["official_test_file_sha256"],
-        "old_weighted_balanced_accuracy": row["old"]["official_test_metrics"]["weighted"]["balanced_accuracy"],
-        "hybrid_h1_weighted_balanced_accuracy": row["hybrid_h1"]["official_test_metrics"]["weighted"]["balanced_accuracy"],
-        "reset_weighted_balanced_accuracy": row["hybrid_reset"]["official_test_metrics"]["weighted"]["balanced_accuracy"],
-        "no_reset_weighted_balanced_accuracy": row["hybrid_no_reset"]["official_test_metrics"]["weighted"]["balanced_accuracy"],
-        "reset_events": row["hybrid_reset"]["reset_events"],
-    }, sort_keys=True))
+    print(
+        json.dumps(
+            {
+                "seed": row["seed"],
+                "official_train_sha256": row["protocol"][
+                    "train_file_sha256"
+                ],
+                "official_test_sha256": row["protocol"][
+                    "official_test_file_sha256"
+                ],
+                "old_weighted_balanced_accuracy": row["old"][
+                    "official_test_metrics"
+                ]["weighted"]["balanced_accuracy"],
+                "hybrid_h1_weighted_balanced_accuracy": row["hybrid_h1"][
+                    "official_test_metrics"
+                ]["weighted"]["balanced_accuracy"],
+                "reset_weighted_balanced_accuracy": row["hybrid_reset"][
+                    "official_test_metrics"
+                ]["weighted"]["balanced_accuracy"],
+                "no_reset_weighted_balanced_accuracy": row[
+                    "hybrid_no_reset"
+                ]["official_test_metrics"]["weighted"][
+                    "balanced_accuracy"
+                ],
+                "reset_events": row["hybrid_reset"]["reset_events"],
+            },
+            sort_keys=True,
+        )
+    )
 
 
 if __name__ == "__main__":
