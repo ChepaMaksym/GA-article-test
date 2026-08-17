@@ -19,25 +19,9 @@ on:
       - 'candidates/EU26-21/tests/test_hybrid_1_workers.py'
       - 'candidates/EU26-21/tests/test_hybrid_1_census_synthetic.py'
       - '.github/workflows/eu26-21-hybrid-1.yml'
-  pull_request:
-    paths:
-      - 'candidates/EU26-21/hybrid_1/core.py'
-      - 'candidates/EU26-21/hybrid_1/benchmarks.py'
-      - 'candidates/EU26-21/hybrid_1/census.py'
-      - 'candidates/EU26-21/hybrid_1/run_jump_campaign.py'
-      - 'candidates/EU26-21/hybrid_1/run_census_campaign.py'
-      - 'candidates/EU26-21/hybrid_1/run_census_hybrid.py'
-      - 'candidates/EU26-21/hybrid_1/run_census_worker_matrix.py'
-      - 'candidates/EU26-21/hybrid_1/requirements.txt'
-      - 'candidates/EU26-21/tests/test_hybrid_1_core.py'
-      - 'candidates/EU26-21/tests/test_hybrid_1_core_semantics_extended.py'
-      - 'candidates/EU26-21/tests/test_hybrid_1_jump.py'
-      - 'candidates/EU26-21/tests/test_hybrid_1_workers.py'
-      - 'candidates/EU26-21/tests/test_hybrid_1_census_synthetic.py'
-      - '.github/workflows/eu26-21-hybrid-1.yml'
 
 concurrency:
-  group: eu26-21-hybrid-1-${{ github.event.pull_request.number || github.ref }}
+  group: eu26-21-hybrid-1-${{ github.ref_name }}
   cancel-in-progress: true
 
 permissions:
