@@ -188,7 +188,7 @@ def audit(root: Path) -> Dict[str, object]:
             "UCI_ARCHIVE_URL",
             "train.sha256",
             "test.sha256",
-            "predictive_dimension",
+            "corrected_applied.experiment",
         )
     )
     critical["C17_CORRECTED_SECURE_PRESERVES_SCIENTIFIC_FAILURES"] = all(
