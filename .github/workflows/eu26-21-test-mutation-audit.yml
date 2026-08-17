@@ -10,16 +10,9 @@ on:
       - 'candidates/EU26-21/tests/test_hybrid_1_core.py'
       - 'candidates/EU26-21/tests/test_hybrid_1_core_semantics_extended.py'
       - '.github/workflows/eu26-21-test-mutation-audit.yml'
-  pull_request:
-    paths:
-      - 'candidates/EU26-21/hybrid_1/core.py'
-      - 'candidates/EU26-21/hybrid_1/mutation_sensitivity_audit.py'
-      - 'candidates/EU26-21/tests/test_hybrid_1_core.py'
-      - 'candidates/EU26-21/tests/test_hybrid_1_core_semantics_extended.py'
-      - '.github/workflows/eu26-21-test-mutation-audit.yml'
 
 concurrency:
-  group: eu26-21-test-mutation-audit-${{ github.event.pull_request.number || github.ref }}
+  group: eu26-21-test-mutation-audit-${{ github.ref_name }}
   cancel-in-progress: true
 
 permissions:
