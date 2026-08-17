@@ -9,15 +9,9 @@ on:
       - 'candidates/EU26-21/tests/test_source_campaign.py'
       - 'candidates/EU26-21/tests/test_upstream_source.py'
       - '.github/workflows/eu26-21-old-validation.yml'
-  pull_request:
-    paths:
-      - 'candidates/EU26-21/old/**'
-      - 'candidates/EU26-21/tests/test_source_campaign.py'
-      - 'candidates/EU26-21/tests/test_upstream_source.py'
-      - '.github/workflows/eu26-21-old-validation.yml'
 
 concurrency:
-  group: eu26-21-old-${{ github.event.pull_request.number || github.ref }}
+  group: eu26-21-old-${{ github.ref_name }}
   cancel-in-progress: true
 
 permissions:
