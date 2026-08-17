@@ -17,15 +17,17 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           fetch-depth: 0
-      - name: Materialize reviewed corrected-profile files
+      - name: Materialize reviewed corrected-profile code and tests
         run: |
           set -euo pipefail
           tar -xzf .bootstrap/eu26-21-corrected-payload.tar.gz
+          # GitHub App tokens cannot modify workflow files. The canonical
+          # experiment workflow is added separately through the GitHub API.
+          rm -f .github/workflows/eu26-21-corrected-applied-matrix.yml
           rm -f .bootstrap/eu26-21-corrected-payload.tar.gz
           rmdir .bootstrap 2>/dev/null || true
-          rm -f .github/workflows/eu26-21-materialize-corrected.yml
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "EU26-21: materialize corrected applied experiment"
+          git commit -m "EU26-21: materialize corrected applied code and tests"
           git push origin HEAD:research/EU26-21-chcqx-census-old-first
