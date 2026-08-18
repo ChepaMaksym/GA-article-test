@@ -18,6 +18,7 @@ permissions:
   contents: read
   actions: read
   issues: write
+  pull-requests: write
 
 env:
   SOURCE_RUN_ID: '32049437836'
@@ -38,6 +39,7 @@ jobs:
     timeout-minutes: 45
     steps:
       - name: Announce traceable corrected replay run
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -189,6 +191,7 @@ jobs:
           retention-days: 90
 
       - name: Publish traceable corrected result to PR 19
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
