@@ -1,6 +1,15 @@
 # Hybrid 1 - CHC-QX Census objective with reset self-adjusting lambda control
 
-Status: `PASS_EXTENDED_30_SEED_H1_H2_H3`.
+Source-compatible status:
+
+```text
+H1 quality non-inferiority: PASS_CONFIDENCE_BOUND
+H2 composite search efficiency: SUPPORTED_SOURCE_COMPATIBLE_ONLY
+H3 logical-NFE efficiency: PASS_CONFIDENCE_BOUND
+```
+
+The source-compatible conclusion is not transferred to the corrected
+official-UCI profile, where C-H1 is `FAIL_NONINFERIORITY`.
 
 ## What is hybridized
 
@@ -13,7 +22,7 @@ Status: `PASS_EXTENDED_30_SEED_H1_H2_H3`.
 
 Only the feature-mask search layer changes. Data encoding, the author-source
 60/20/20 split, train-only normalization, active sample, Decision Tree,
-validation-only optimization, and held-out test remain frozen.
+validation-only optimization, and held-out test remain frozen in this profile.
 
 ## Algorithm
 
@@ -39,39 +48,74 @@ Fitness is:
 
 Accuracy therefore dominates. Sparsity can only decide an accuracy tie.
 
-## Final 30-seed applied result
+## Thesis-level H2 - source-compatible search efficiency
+
+The academically precise H2 is:
+
+> **Under the frozen source-compatible protocol, Hybrid 1 has higher search
+> efficiency than OLD CHC-QX if it preserves predictive quality within the
+> predeclared non-inferiority margin, does not increase the typical selected-
+> feature count, and reaches the matched validation target with fewer logical
+> fitness evaluations.**
+
+Formally:
+
+```text
+H2 = quality preservation AND subset compactness AND logical-NFE economy
+```
 
 The paired experiment used seeds `1..30`, one fixed 14,964-instance active
 sample size, identical 50-mask initial populations per seed, a budget of 400
-for H1, and a budget/censoring horizon of 2,500 for H3.
+for quality/subset analysis, and a budget/censoring horizon of 2,500 for exact
+first-hit NFE.
 
-- H1 confidence-bound non-inferiority: **PASS**;
-- H2 smaller/equal feature subsets: **PASS**;
-- H3 at least 20% fewer logical NFE: **PASS confidence-bound**.
-
-Primary numbers:
+### H2a - quality preservation
 
 ```text
 OLD median test accuracy: 94.9367%
 Hybrid median test accuracy: 94.9016%
-paired median difference: -0.0263 percentage point
-95% BCa interval: -0.0677 to -0.0013 percentage point
+paired median Hybrid - OLD: -0.0263125 percentage point
+95% BCa: [-0.0676607, -0.0012530] percentage point
 non-inferiority margin: -0.10 percentage point
-
-OLD median selected features: 5.5
-Hybrid median selected features: 5.0
-paired median difference: -1 feature
-
-validation target: 0.946
-OLD median capped NFE: 319.0
-Hybrid median capped NFE: 141.5
-paired median NFE reduction: 55.50%
-95% BCa interval: 34.91% to 64.97%
+baseline gains: 30/30
+result: PASS_CONFIDENCE_BOUND
 ```
 
-The correct claim is **efficiency plus non-inferiority**, not accuracy
-superiority. Full provenance, tables, confidence intervals, and the aggregation
-correction are in `EXTENDED_30_SEED_RESULTS.md`.
+This is non-inferiority, not accuracy superiority.
+
+### H2b - subset compactness
+
+```text
+OLD median selected features: 5.5
+Hybrid median selected features: 5.0
+paired median Hybrid - OLD: -1 feature
+fewer / equal / more pairs: 16 / 7 / 7
+result: PASS
+```
+
+### H2c - logical-NFE economy at validation target 0.946
+
+```text
+OLD reached: 29/30
+Hybrid reached: 30/30
+OLD median capped NFE: 319.0
+Hybrid median capped NFE: 141.5
+paired median NFE reduction: 55.4990%
+95% BCa: [34.9110%, 64.9701%]
+Hybrid faster: 26/30 pairs
+result: PASS_CONFIDENCE_BOUND
+```
+
+All three components passed. Therefore:
+
+```text
+H2 = SUPPORTED_SOURCE_COMPATIBLE_ONLY
+```
+
+The formal definition, claim boundary, and machine-readable evidence are in:
+
+- `H2_SOURCE_COMPATIBLE_EFFICIENCY.md`;
+- `h2_source_compatible_evidence.csv`.
 
 ## Files
 
@@ -80,15 +124,17 @@ correction are in `EXTENDED_30_SEED_RESULTS.md`.
 - `census.py` - validation-only Census objective and source-protocol bridge;
 - `paired_comparison_v2.py` - exact paired OLD/Hybrid data and NFE protocol;
 - `run_old_hybrid_seed_v2.py` - isolated paired seed runner;
-- `aggregate_old_hybrid_v2_corrected.py` - immutable 30-row BCa aggregation;
+- `aggregate_old_hybrid_v2.py` - canonical strict 30-row aggregation;
 - `run_jump_campaign.py` - reset-vs-no-reset Jump experiment;
 - `run_census_hybrid.py` - one applied Hybrid 1 run;
 - `run_census_worker_matrix.py` - exact 1/2/4-worker invariance check;
-- `HYPOTHESES.md` - frozen hypotheses and gates;
+- `HYPOTHESES.md` - frozen experiment-level gates;
+- `H2_SOURCE_COMPATIBLE_EFFICIENCY.md` - thesis-level H2 synthesis;
+- `h2_source_compatible_evidence.csv` - H2 evidence table;
 - `AMENDMENT_30_SEED_V2.md` - pre-outcome first-hit and confidence amendment;
 - `EXECUTION_MATRIX_30_SEED.md` - seed-parallel execution amendment;
 - `RESULTS.md` - consolidated evidence;
-- `EXTENDED_30_SEED_RESULTS.md` - final H1-H3 report.
+- `EXTENDED_30_SEED_RESULTS.md` - final source-compatible report.
 
 Tests live in `../tests/test_hybrid_1_*.py`.
 
@@ -100,44 +146,38 @@ Tests live in `../tests/test_hybrid_1_*.py`.
 - `V4_JUMP` - meaningful local-optimum improvement: PASS;
 - `V5_ONEMAX` - no-regression control: PASS;
 - `V6_CENSUS_SMOKE` - data boundary, subset, budget, held-out test: PASS;
-- `V7_CENSUS_CAMPAIGN` - paired applied H1-H3: PASS.
+- `V7_CENSUS_CAMPAIGN` - paired source-compatible experiment: PASS.
 
-## Reproduction examples
+## Provenance
 
-```bash
-python candidates/EU26-21/hybrid_1/run_jump_campaign.py \
-  --n 20 --k 3 --budget 10000 --seed-start 101 --runs 50 \
-  --campaign-workers 4 --enforce
+```text
+immutable paired seed run: 31934321927
+corrected aggregation run: 31934816828
+final artifact id: 9260332711
+artifact sha256:
+8efc217b690f1c3e6698cb9aa0f55207d93f10e6390087c6e9f425d935bea21a
 ```
 
-The final paired seed execution is defined by:
+The canonical source-compatible matrix is defined by:
 
 ```text
 .github/workflows/eu26-21-old-hybrid-30-matrix.yml
 ```
 
-The immutable 30 seed artifacts were aggregated by:
-
-```text
-.github/workflows/eu26-21-old-hybrid-aggregate-only.yml
-```
-
 ## Current claim boundary
 
-Supported statement:
+Supported:
 
-```text
-Under the frozen 30-seed paired Census-Income protocol, Hybrid 1 is
-confidence-bound non-inferior to reproduced OLD CHC-QX within a 0.10
-percentage-point accuracy margin, selects one fewer feature by paired median,
-and reaches validation target 0.946 with 55.5% fewer logical objective
-evaluations by paired median; the 95% BCa lower bound for the NFE reduction is
-34.9%.
-```
+> Under the frozen source-compatible 30-seed protocol, Hybrid 1 satisfies the
+> joint H2 search-efficiency criterion: quality is preserved within the 0.10
+> percentage-point non-inferiority margin, the paired median subset contains
+> one fewer feature, and validation target 0.946 is reached with a 55.5% paired
+> median reduction in logical NFE; the lower 95% BCa bound is 34.9%.
 
 Not supported:
 
-```text
-Hybrid 1 is more accurate than OLD, or reset alone caused the full Census NFE
-improvement.
-```
+- Hybrid 1 is more accurate than OLD;
+- the H2 conclusion applies to the corrected official-UCI profile;
+- reset alone caused the complete Census NFE difference;
+- logical NFE is equivalent to wall-clock speedup;
+- the result generalizes to other datasets or classifiers.
