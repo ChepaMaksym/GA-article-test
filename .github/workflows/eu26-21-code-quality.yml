@@ -33,6 +33,25 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
+      - name: Announce traceable quality audit run
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          cat > "${RUNNER_TEMP}/eu26-21-quality-start.md" <<EOF
+          <!-- eu26-21-quality-audit-start -->
+          ## EU26-21 complete quality audit started
+
+          ```text
+          run: ${run_url}
+          head: ${GITHUB_SHA}
+          ```
+          EOF
+          gh api \
+            "repos/${GITHUB_REPOSITORY}/issues/19/comments" \
+            --method POST \
+            -F "body=@${RUNNER_TEMP}/eu26-21-quality-start.md"
+
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
