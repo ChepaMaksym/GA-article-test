@@ -41,20 +41,28 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
-          cat > "${RUNNER_TEMP}/eu26-21-secure-reaggregate-start.md" <<EOF
-          <!-- eu26-21-secure-reaggregate-start -->
-          ## Corrected applied secure reaggregation started
+          python - <<'PY' > "${RUNNER_TEMP}/eu26-21-secure-reaggregate-start.md"
+          import os
 
-          ```text
-          run: ${run_url}
-          head: ${GITHUB_SHA}
-          source run: ${SOURCE_RUN_ID}
-          source artifact: ${SOURCE_ARTIFACT_ID}
-          source artifact sha256: ${SOURCE_ARTIFACT_SHA256}
-          optimizer rerun: false
-          ```
-          EOF
+          run_url = '{0}/{1}/actions/runs/{2}'.format(
+              os.environ['GITHUB_SERVER_URL'],
+              os.environ['GITHUB_REPOSITORY'],
+              os.environ['GITHUB_RUN_ID'],
+          )
+          print('<!-- eu26-21-secure-reaggregate-start -->')
+          print('## Corrected applied secure reaggregation started')
+          print()
+          print('```text')
+          print('run: {0}'.format(run_url))
+          print('head: {0}'.format(os.environ['GITHUB_SHA']))
+          print('source run: {0}'.format(os.environ['SOURCE_RUN_ID']))
+          print('source artifact: {0}'.format(os.environ['SOURCE_ARTIFACT_ID']))
+          print('source artifact sha256: {0}'.format(
+              os.environ['SOURCE_ARTIFACT_SHA256']
+          ))
+          print('optimizer rerun: false')
+          print('```')
+          PY
           gh api \
             "repos/${GITHUB_REPOSITORY}/issues/19/comments" \
             --method POST \
