@@ -14,6 +14,7 @@ sys.path.insert(0, str(REPO_ROOT / "candidates" / "EU26-21"))
 from hybrid_1.ci_audit import (  # noqa: E402
     AUDIT_WORKFLOW,
     CANONICAL_MATRIX,
+    CORRECTED_REAGGREGATE_WORKFLOW,
     CORRECTED_SECURE_WORKFLOW,
     HYBRID_WORKFLOW,
     MUTATION_WORKFLOW,
@@ -31,6 +32,7 @@ AUDITED_FILES = (
     OLD_WORKFLOW,
     HYBRID_WORKFLOW,
     CORRECTED_SECURE_WORKFLOW,
+    CORRECTED_REAGGREGATE_WORKFLOW,
     QUALITY_WORKFLOW,
     "candidates/EU26-21/hybrid_1/aggregate_old_hybrid_v2.py",
 )
@@ -147,6 +149,44 @@ class CiAuditTests(unittest.TestCase):
             self.assertFalse(
                 report["critical_gates"][
                     "C20_QUALITY_WORKFLOW_RUNS_COMPLETE_AUDIT"
+                ]
+            )
+
+    def test_secure_reaggregate_source_artifact_is_immutable(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self._copy_audited_files(root)
+            workflow_path = root / CORRECTED_REAGGREGATE_WORKFLOW
+            text = workflow_path.read_text(encoding="utf-8")
+            text = text.replace(
+                "9297184026",
+                "1",
+            )
+            workflow_path.write_text(text, encoding="utf-8")
+            report = audit(root)
+            self.assertFalse(report["pass"])
+            self.assertFalse(
+                report["critical_gates"][
+                    "C22_SECURE_REAGGREGATE_USES_IMMUTABLE_ROWS_ONLY"
+                ]
+            )
+
+    def test_secure_reaggregate_cannot_claim_optimizer_rerun(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self._copy_audited_files(root)
+            workflow_path = root / CORRECTED_REAGGREGATE_WORKFLOW
+            text = workflow_path.read_text(encoding="utf-8")
+            text = text.replace(
+                "optimizer_rerun': False",
+                "optimizer_rerun': True",
+            )
+            workflow_path.write_text(text, encoding="utf-8")
+            report = audit(root)
+            self.assertFalse(report["pass"])
+            self.assertFalse(
+                report["critical_gates"][
+                    "C22_SECURE_REAGGREGATE_USES_IMMUTABLE_ROWS_ONLY"
                 ]
             )
 
