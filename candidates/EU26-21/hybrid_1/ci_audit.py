@@ -22,6 +22,9 @@ HYBRID_WORKFLOW = ".github/workflows/eu26-21-hybrid-1.yml"
 CORRECTED_SECURE_WORKFLOW = (
     ".github/workflows/eu26-21-corrected-applied-secure-matrix.yml"
 )
+CORRECTED_REAGGREGATE_WORKFLOW = (
+    ".github/workflows/eu26-21-corrected-secure-reaggregate.yml"
+)
 QUALITY_WORKFLOW = ".github/workflows/eu26-21-code-quality.yml"
 RETIRED_WORKFLOWS = (
     ".github/workflows/eu26-21-old-hybrid-30-seed.yml",
@@ -92,6 +95,9 @@ def audit(root: Path) -> Dict[str, object]:
         OLD_WORKFLOW: _read(root, OLD_WORKFLOW),
         HYBRID_WORKFLOW: _read(root, HYBRID_WORKFLOW),
         CORRECTED_SECURE_WORKFLOW: _read(root, CORRECTED_SECURE_WORKFLOW),
+        CORRECTED_REAGGREGATE_WORKFLOW: _read(
+            root, CORRECTED_REAGGREGATE_WORKFLOW
+        ),
         QUALITY_WORKFLOW: _read(root, QUALITY_WORKFLOW),
     }
     matrix = workflows[CANONICAL_MATRIX]
@@ -100,6 +106,7 @@ def audit(root: Path) -> Dict[str, object]:
     old_workflow = workflows[OLD_WORKFLOW]
     hybrid_workflow = workflows[HYBRID_WORKFLOW]
     corrected = workflows[CORRECTED_SECURE_WORKFLOW]
+    reaggregate = workflows[CORRECTED_REAGGREGATE_WORKFLOW]
     quality = workflows[QUALITY_WORKFLOW]
 
     critical["C0_MATRIX_IS_PUSH_ONLY"] = _push_only(matrix)
@@ -223,6 +230,33 @@ def audit(root: Path) -> Dict[str, object]:
             "Enforce blocking quality gates after preserving all reports",
         )
     )
+    critical["C21_SECURE_REAGGREGATE_IS_PUSH_ONLY_AND_PINNED"] = (
+        _push_only(reaggregate) and _all_actions_pinned(reaggregate)
+    )
+    critical["C22_SECURE_REAGGREGATE_USES_IMMUTABLE_ROWS_ONLY"] = all(
+        token in reaggregate
+        for token in (
+            "SOURCE_RUN_ID: '32049437836'",
+            "SOURCE_ARTIFACT_ID: '9297184026'",
+            "SOURCE_ARTIFACT_SHA256: "
+            "'13d2f691eefb46067d3cdffbad4c22c032c429ce91600a33addbd3f5887bbdeb'",
+            "name: eu26-21-corrected-applied-secure-final",
+            "test \"$count\" -eq 30",
+            "python -m corrected_applied.secure_cli",
+            "seed_rows_regenerated': False",
+            "optimizer_rerun': False",
+        )
+    )
+    critical["C23_SECURE_REAGGREGATE_PUBLISHES_TRACEABLE_EVIDENCE"] = all(
+        token in reaggregate
+        for token in (
+            "issues: write",
+            "<!-- eu26-21-secure-reaggregate -->",
+            "GITHUB_RUN_ID",
+            "eu26-21-corrected-secure-reaggregated-final",
+            "source artifact sha256",
+        )
+    )
 
     for relative, text in workflows.items():
         mutable = [
@@ -237,7 +271,7 @@ def audit(root: Path) -> Dict[str, object]:
             )
 
     return {
-        "schema": "eu26-21-ci-audit-v4",
+        "schema": "eu26-21-ci-audit-v5",
         "critical_gates": critical,
         "warnings": warnings,
         "pass": all(critical.values()),
