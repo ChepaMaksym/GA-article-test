@@ -10,9 +10,14 @@ on:
       - 'candidates/EU26-21/corrected_applied/secure_cli.py'
       - 'candidates/EU26-21/corrected_applied/secure_plots.py'
 
+concurrency:
+  group: eu26-21-corrected-secure-reaggregate-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
   actions: read
+  issues: write
 
 env:
   SOURCE_RUN_ID: '32049437836'
@@ -151,3 +156,52 @@ jobs:
             ${{ runner.temp }}/immutable-secure/corrected-rows
           if-no-files-found: warn
           retention-days: 90
+
+      - name: Publish traceable corrected result to PR 19
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python - <<'PY' > "${RUNNER_TEMP}/strict-final/pr-comment.md"
+          import json
+          import os
+          from pathlib import Path
+
+          report_path = Path(os.environ['RUNNER_TEMP']) / 'strict-final' / 'corrected-secure-report.json'
+          report = json.loads(report_path.read_text())
+          h1 = report['h1_corrected']
+          interval = h1['paired_hybrid_minus_old']
+          h8 = report['h8_reset_ablation']
+          reset_interval = h8['paired_reset_minus_no_reset']
+          run_url = '{0}/{1}/actions/runs/{2}'.format(
+              os.environ['GITHUB_SERVER_URL'],
+              os.environ['GITHUB_REPOSITORY'],
+              os.environ['GITHUB_RUN_ID'],
+          )
+          print('<!-- eu26-21-secure-reaggregate -->')
+          print('## Corrected applied secure reaggregation')
+          print()
+          print('The immutable 30-seed ledger was strictly revalidated without rerunning any optimizer.')
+          print()
+          print('```text')
+          print('run: {0}'.format(run_url))
+          print('source run: {0}'.format(os.environ['SOURCE_RUN_ID']))
+          print('source artifact: {0}'.format(os.environ['SOURCE_ARTIFACT_ID']))
+          print('source artifact sha256: {0}'.format(os.environ['SOURCE_ARTIFACT_SHA256']))
+          print('secure audit: {0}'.format(report['secure_audit_status']))
+          print('C-H1: {0}'.format(h1['decision']))
+          print('Hybrid H1 - OLD median: {0:.4f} percentage point'.format(interval['point_median'] * 100.0))
+          print('95% BCa: [{0:.4f}, {1:.4f}] percentage point'.format(
+              interval['two_sided_95_lower'] * 100.0,
+              interval['two_sided_95_upper'] * 100.0,
+          ))
+          print('C-H2: {0}'.format(report['h2_corrected']['decision']))
+          print('C-H8 reset ablation: {0}'.format(h8['decision']))
+          print('Reset - no reset median: {0:.4f} percentage point'.format(
+              reset_interval['point_median'] * 100.0,
+          ))
+          print('```')
+          PY
+          gh api \
+            "repos/${GITHUB_REPOSITORY}/issues/19/comments" \
+            --method POST \
+            -F "body=@${RUNNER_TEMP}/strict-final/pr-comment.md"
