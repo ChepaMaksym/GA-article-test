@@ -1,6 +1,6 @@
 # Scientific novelty and claim boundary
 
-Date checked: **2026-08-17**.
+Date checked: **2026-08-18**.
 
 ## What is not new
 
@@ -35,6 +35,62 @@ verification of existing research lines:
    balanced metrics, varies the train/validation split, and includes a paired
    reset/no-reset Census ablation.
 
+## Thesis-level H2 - source-compatible search efficiency
+
+The thesis-level H2 is a **joint efficiency hypothesis**, not an accuracy-
+superiority hypothesis:
+
+> Under the frozen source-compatible protocol, Hybrid 1 has higher search
+> efficiency than OLD CHC-QX if it preserves predictive quality within the
+> predeclared non-inferiority margin, does not increase the typical selected-
+> feature count, and reaches the matched validation target with fewer logical
+> fitness evaluations.
+
+Formally:
+
+```text
+H2 = quality preservation AND subset compactness AND logical-NFE economy
+```
+
+The immutable 30-seed evidence gives:
+
+```text
+quality preservation:
+paired median Hybrid - OLD = -0.0263125 percentage point
+95% BCa = [-0.0676607, -0.0012530] percentage point
+margin = -0.10 percentage point
+result = PASS_CONFIDENCE_BOUND
+
+subset compactness:
+OLD median = 5.5 features
+Hybrid median = 5.0 features
+paired median Hybrid - OLD = -1 feature
+result = PASS
+
+logical-NFE economy at validation target 0.946:
+OLD median capped NFE = 319.0
+Hybrid median capped NFE = 141.5
+paired median reduction = 55.4990%
+95% BCa = [34.9110%, 64.9701%]
+result = PASS_CONFIDENCE_BOUND
+```
+
+Therefore:
+
+```text
+H2 = SUPPORTED_SOURCE_COMPATIBLE_ONLY
+```
+
+The supported claim is **search efficiency with quality preservation**, not
+higher predictive accuracy. The complete definition and machine-readable data
+are stored in:
+
+- `hybrid_1/H2_SOURCE_COMPATIBLE_EFFICIENCY.md`;
+- `hybrid_1/h2_source_compatible_evidence.csv`.
+
+H2 must always be qualified as source-compatible. It does not override the
+corrected official-UCI outcome, where C-H1 is `FAIL_NONINFERIORITY`.
+
 ## Literature-search result
 
 Exact-phrase and component searches performed on 2026-08-17 found CHC-QX,
@@ -65,7 +121,10 @@ A suitable statement is:
 > parameter control to the CHC-QX/QX feature-selection setting. Its additional
 > methodological contribution is a paired logical-NFE protocol with local-
 > optimum controls, worker-invariance verification, deliberate-mutant test
-> sensitivity, and a corrected official-UCI weight-aware validation track.
+> sensitivity, and a corrected official-UCI weight-aware validation track. In
+> the source-compatible profile the hybrid satisfies the joint H2 search-
+> efficiency criterion, while the corrected profile establishes the boundary
+> beyond which that positive conclusion does not transfer.
 
 ## Forbidden or unsupported claims
 
@@ -75,6 +134,8 @@ Do not claim that:
 - reset or `(1+(lambda,lambda))` was invented in this project;
 - Hybrid is more accurate unless a corresponding confidence interval supports
   superiority;
+- the H2 source-compatible result applies to the corrected official-UCI
+  profile;
 - all OLD-versus-Hybrid efficiency is caused only by reset;
 - logical NFE is equivalent to wall-clock speedup;
 - public CHC-QX source is identical to the printed paper;
