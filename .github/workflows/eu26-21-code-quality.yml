@@ -37,16 +37,22 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
-          cat > "${RUNNER_TEMP}/eu26-21-quality-start.md" <<EOF
-          <!-- eu26-21-quality-audit-start -->
-          ## EU26-21 complete quality audit started
+          python - <<'PY' > "${RUNNER_TEMP}/eu26-21-quality-start.md"
+          import os
 
-          ```text
-          run: ${run_url}
-          head: ${GITHUB_SHA}
-          ```
-          EOF
+          run_url = '{0}/{1}/actions/runs/{2}'.format(
+              os.environ['GITHUB_SERVER_URL'],
+              os.environ['GITHUB_REPOSITORY'],
+              os.environ['GITHUB_RUN_ID'],
+          )
+          print('<!-- eu26-21-quality-audit-start -->')
+          print('## EU26-21 complete quality audit started')
+          print()
+          print('```text')
+          print('run: {0}'.format(run_url))
+          print('head: {0}'.format(os.environ['GITHUB_SHA']))
+          print('```')
+          PY
           gh api \
             "repos/${GITHUB_REPOSITORY}/issues/19/comments" \
             --method POST \
