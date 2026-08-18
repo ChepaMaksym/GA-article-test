@@ -10,8 +10,13 @@ on:
       - 'candidates/EU26-21/tests/**'
       - '.github/workflows/eu26-21-code-quality.yml'
 
+concurrency:
+  group: eu26-21-code-quality-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
+  issues: write
 
 env:
   UPSTREAM_COMMIT: '6ac5a7ec77f8a7c096ab4d019254fcc897988fd6'
@@ -197,3 +202,38 @@ jobs:
           test "${RUFF_CRITICAL_EXIT:-1}" -eq 0
           test "${BANDIT_EXIT:-1}" -eq 0
           test "${PIP_SECURE_EXIT:-1}" -eq 0
+      - name: Publish traceable quality result to PR 19
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python - <<'PY' > "${RUNNER_TEMP}/quality/pr-comment.md"
+          import json
+          import os
+          from pathlib import Path
+
+          status = json.loads(
+              (Path(os.environ['RUNNER_TEMP']) / 'quality' / 'status.json').read_text()
+          )
+          run_url = '{0}/{1}/actions/runs/{2}'.format(
+              os.environ['GITHUB_SERVER_URL'],
+              os.environ['GITHUB_REPOSITORY'],
+              os.environ['GITHUB_RUN_ID'],
+          )
+          print('<!-- eu26-21-quality-audit -->')
+          print('## EU26-21 complete quality audit')
+          print()
+          print('```text')
+          print('run: {0}'.format(run_url))
+          print('head: {0}'.format(os.environ['GITHUB_SHA']))
+          print('blocking pass: {0}'.format(status['blocking_pass']))
+          for name, code in sorted(status['blocking_exit_codes'].items()):
+              print('{0}: {1}'.format(name, code))
+          print('nonblocking findings preserved: {0}'.format(
+              status['nonblocking_findings_preserved']
+          ))
+          print('```')
+          PY
+          gh api \
+            "repos/${GITHUB_REPOSITORY}/issues/19/comments" \
+            --method POST \
+            -F "body=@${RUNNER_TEMP}/quality/pr-comment.md"
