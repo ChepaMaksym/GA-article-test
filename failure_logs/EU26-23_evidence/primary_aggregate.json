@@ -1,0 +1,27 @@
+{
+  "candidate": "EU26-23",
+  "profile": "old_primary_cleanroom_cpp",
+  "row_count": 30,
+  "seeds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
+  "reported_mean": 448.68,
+  "reproduced_mean": 441.92107972516686,
+  "median": 444.07717381207965,
+  "sample_sd": 4.148652740896095,
+  "minimum": 428.6580549245608,
+  "maximum": 447.4335232098904,
+  "absolute_relative_mean_error": 0.015064010597381529,
+  "relative_error_limit": 0.05,
+  "bootstrap": {
+    "method": "BCa mean",
+    "resamples": 50000,
+    "seed": 2623,
+    "confidence": 0.95,
+    "lower": 440.1827934628145,
+    "upper": 443.1632439467796,
+    "bias_z0": -0.03309353280602721,
+    "acceleration": -0.037365381247679325
+  },
+  "reported_mean_inside_bca": false,
+  "mean_error_pass": true,
+  "V8_OLD_NUMERIC": "FAIL"
+}
