@@ -1,124 +1,62 @@
-# USA26-09 - adaptive HGA for min-max mTSP, OLD first
+# USA26-09 - adaptive HGA for min-max mTSP, reconstructed OLD first
 
-## Final status
+## Current status
 
 ```text
-OLD compatibility gate: PASS_OLD_COMPATIBILITY
-HYBRID joint gate: PASS_HYBRID
-worker invariance 1/2/4: PASS
-reset stress mechanism: PASS_RESET_EXERCISED
-cross-machine GitHub matrix: PENDING_CURRENT_HEAD_CI
-master-thesis evidence status: READY_AFTER_CI
+first binary-bundle publication: SUPERSEDED_TRANSPORT_RERUN_REQUIRED
+reconstructed source tree: FROZEN_BEFORE_CONFIRMATORY_V2
+fresh OLD seeds 3001..3030: NOT_RUN
+fresh HYBRID seeds 3001..3030: BLOCKED_BY_OLD
+cross-machine current-head CI: PENDING
+master thesis: BLOCKED_BY_FRESH_RESULTS_AND_CI
+PR #19 numerical evidence used: false
 ```
 
-This branch is a new candidate cycle created directly from the verified PR #8 base. No numerical row, figure, implementation, or scientific decision from PR #19 is used as evidence.
+The candidate is Mahmoudinazlou and Kwon, *A hybrid genetic algorithm for the
+min-max Multiple Traveling Salesman Problem*, Computers & Operations Research
+162 (2024) 106455, DOI `10.1016/j.cor.2023.106455`.
 
-## Candidate
+The author-linked Julia repository is pinned at
+`Sasanm88/m-TSP@7d9fa1f63dfae44506f33a43aaa812793bebc065`. Because it has no
+project-wide license file, this candidate contains an independent clean-room
+Python implementation and no copied upstream code or data bytes.
 
-Sasan Mahmoudinazlou and Changhyun Kwon, *A hybrid genetic algorithm for the min-max Multiple Traveling Salesman Problem*, Computers & Operations Research 162 (2024) 106455, DOI `10.1016/j.cor.2023.106455`.
+## Objective
 
-The study satisfies the candidate filter:
-
-- 2024 journal publication;
-- qualifying United States affiliation at the University of South Florida;
-- 49 decision loci in the frozen 50-node instance, well above the >10 requirement;
-- non-physical, combinatorial min-max routing;
-- synthetic uniform benchmarks and public TSPLIB families;
-- an explicit in-run adaptive local-search controller;
-- author-linked Julia source at commit `7d9fa1f63dfae44506f33a43aaa812793bebc065`.
-
-The upstream repository has no project-wide license file. Therefore this branch contains an independent clean-room Python implementation and no copied upstream source or data bytes.
-
-## Problem and objective
-
-For a customer set partitioned into `m` depot-returning tours, the objective is
+For `m` depot-returning tours, minimize the longest tour:
 
 ```text
 minimize max_r C(T_r)
 ```
 
-where `C(T_r)` is the length of route `r`. A permutation chromosome is evaluated by an exact dynamic split that finds the best contiguous `m`-route partition for that permutation.
+A permutation chromosome is evaluated by an exact dynamic contiguous Split.
 
 ## OLD adaptive formula
 
-The published HGA selects one of four intra-route moves using improvement counts:
-
 ```text
-w_i(0) = 100
-p_i(g) = w_i(g) / sum_j w_j(g)
-w_i(g+1) = w_i(g) + 1  if move i produces a strict improvement
-w_i(g+1) = w_i(g)      otherwise
+w_i(0)=100
+p_i(g)=w_i(g)/sum_j w_j(g)
+w_i(g+1)=w_i(g)+1 after a strict improvement by operator i
 ```
 
-The four frozen moves are Reinsert, Exchange, Or-opt2, and Or-opt3. Thus OLD adapts **which local operator** is used, while its search effort per generated child remains fixed.
+The four moves are Reinsert, Exchange, Or-opt2 and Or-opt3. OLD uses fixed
+education effort.
 
 ## HYBRID formula
 
-HYBRID retains the OLD adaptive roulette and adds the verified reset self-adjusting `(1+(lambda,lambda))` control:
+Only after the fresh OLD gate passes, HYBRID may use:
 
 ```text
-p_g = lambda_g / n
-c_g = 1 / lambda_g
-offspring_g = round_half_up(lambda_g)
+p_g=lambda_g/n
+c_g=1/lambda_g
+offspring_g=round_half_up(lambda_g)
 
-strict success: lambda_{g+1} = max(lambda_g / F, 1)
-failure:        lambda_{g+1} = min(lambda_g * F^(1/4), n)
-failure at cap: lambda_{g+1} = 1
-F = 1.5
+success:        lambda_{g+1}=max(lambda_g/F,1)
+failure:        lambda_{g+1}=min(lambda_g*F^(1/4),n)
+failure at cap: lambda_{g+1}=1
+F=1.5
 ```
 
-In the permutation domain, `p_g` controls the number of exact permutation edits, `c_g` controls biased order mixing, and `round(lambda_g)` controls the candidate count. This transfer preserves valid permutations and leaves the objective, instance, initial population, seed ledger, and logical evaluation budget unchanged.
-
-## Frozen protocol
-
-- instance: 50 nodes, 49 customers, 10 salesmen;
-- coordinates: uniform `[0,1]^2`, seed `20240809`;
-- instance SHA-256: `ff4bab102b3587246c5d8df898232939f9ea9a77e25e582fda906b32c47bf8d6`;
-- pilot seeds: `1001..1005`, excluded from inference;
-- confirmatory seeds: `2001..2030`;
-- budget: 1500 logical split evaluations per method and seed;
-- matched target: `1.830`;
-- same initial-population digest within every OLD/HYBRID pair.
-
-The paper reports `1.82` for the Set-I `N=50, m=10` HGA average. Exact historical replay is impossible because the 100 instance seeds and ten per-instance search seeds are not published. The OLD decision is therefore explicitly a **published-cell compatibility gate**, not an exact author-seed replay.
-
-## Results
-
-```text
-OLD median final objective:       1.8290005
-HYBRID median final objective:    1.8288548
-paired median HYBRID - OLD:      -0.0001457
-95% paired bootstrap:            [-0.0020580, 0.0000000]
-
-OLD target coverage:             16/30
-HYBRID target coverage:          28/30
-
-OLD median capped logical NFE:   1432.5
-HYBRID median capped logical NFE: 423.5
-paired median NFE reduction:     49.6597%
-95% paired bootstrap:            [34.3333%, 72.7667%]
-```
-
-Final preregistered decision:
-
-```text
-quality non-inferiority: PASS
-coverage:                PASS
-logical-NFE efficiency:  PASS
-joint HYBRID gate:       PASS_HYBRID
-```
-
-## Claim boundary
-
-The supported claim is a paired improvement in **search efficiency with preserved final quality on one frozen synthetic 50-node profile**. The branch does not claim:
-
-- exact historical Table-2 reproduction;
-- global superiority over all mTSP algorithms;
-- wall-clock speedup from logical NFE alone;
-- that reset alone caused the primary improvement;
-- transfer to all instance sizes, salesmen counts, or TSPLIB families;
-- permission to reuse unlicensed upstream source code.
-
-See `SCIENTIFIC_NOVELTY_AND_CLAIMS.md`, `HYBRID_RESULTS.md`, and `PROFESSOR_FORTIFICATION_UA.md`.
-
-The complete executable source, tests, retained rows, tables, and figures are preserved in the SHA-authenticated `usa26-09-reproducibility-bundle.zip`; see `BUNDLE_MANIFEST.md`.
+See `preregistration/AMENDMENT_001_RECONSTRUCTION.md` and
+`preregistration/protocol_v2.json`. The fresh confirmatory ledger is
+`3001..3030`; earlier `2001..2030` results are outcome-exposed and superseded.

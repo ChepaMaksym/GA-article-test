@@ -1,4 +1,4 @@
-name: USA26-09 OLD and HYBRID validation
+name: USA26-09 source-tree preconfirmatory validation
 
 on:
   workflow_dispatch:
@@ -22,33 +22,9 @@ env:
   OPENBLAS_NUM_THREADS: '1'
   MKL_NUM_THREADS: '1'
   NUMEXPR_NUM_THREADS: '1'
-  BUNDLE_SHA256: '9da9cb8896965434a7da112c6a1a7dc4ea4249d79497f1f0f69e4ed35c2ca984'
 
 jobs:
-  announce:
-    name: Announce traceable USA26-09 validation
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Publish run start to PR 21
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        shell: bash
-        run: |
-          cat > "$RUNNER_TEMP/usa26-09-start.md" <<EOF
-          <!-- usa26-09-validation-start -->
-          ## USA26-09 validation started
-
-          ```text
-          run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
-          head: ${GITHUB_SHA}
-          event: ${GITHUB_EVENT_NAME}
-          ```
-          EOF
-          gh api "repos/${GITHUB_REPOSITORY}/issues/21/comments" \
-            --method POST -F "body=@$RUNNER_TEMP/usa26-09-start.md" || true
-
   cross-platform:
-    needs: announce
     name: ${{ matrix.os }} / Python ${{ matrix.python }} / workers ${{ matrix.workers }}
     strategy:
       fail-fast: false
@@ -70,135 +46,25 @@ jobs:
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
           python-version: ${{ matrix.python }}
-      - name: Authenticate and extract candidate bundle
-        shell: bash
-        run: |
-          python - <<'PY2'
-          import hashlib, os, zipfile
-          from pathlib import Path
-          bundle = Path('candidates/USA26-09/usa26-09-reproducibility-bundle.zip')
-          observed = hashlib.sha256(bundle.read_bytes()).hexdigest()
-          expected = os.environ['BUNDLE_SHA256']
-          if observed != expected:
-              raise SystemExit(f'bundle SHA mismatch: {observed} != {expected}')
-          dest = Path(os.environ['RUNNER_TEMP']) / 'usa26-09-source'
-          dest.mkdir(parents=True, exist_ok=True)
-          with zipfile.ZipFile(bundle) as archive:
-              archive.extractall(dest)
-          print(dest)
-          PY2
-      - name: Install candidate
+      - name: Install reconstructed candidate
         shell: bash
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -e "$RUNNER_TEMP/usa26-09-source[test]"
+          python -m pip install -e 'candidates/USA26-09/implementation[test]'
           python -m pip check
-      - name: Run complete tests
+      - name: Complete tests
         shell: bash
-        run: python -m pytest "$RUNNER_TEMP/usa26-09-source/tests" -q
-      - name: Run authenticated worker profile
+        run: python -m pytest candidates/USA26-09/implementation/tests -q
+      - name: Pilot-only worker profile
         shell: bash
         run: |
-          mkdir -p "$RUNNER_TEMP/usa26-09-profile"
-          cd "$RUNNER_TEMP/usa26-09-source"
-          python scripts/ci_profile.py \
-            --workers "${{ matrix.workers }}" \
-            --output "$RUNNER_TEMP/usa26-09-profile/profile.json"
+          mkdir -p "${RUNNER_TEMP}/usa26-09"
+          cd candidates/USA26-09/implementation
+          python scripts/ci_profile.py --workers '${{ matrix.workers }}' --output "${RUNNER_TEMP}/usa26-09/profile.json"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: usa26-09-${{ matrix.os }}-py${{ matrix.python }}-w${{ matrix.workers }}
-          path: ${{ runner.temp }}/usa26-09-profile
+          path: ${{ runner.temp }}/usa26-09
           if-no-files-found: error
           retention-days: 90
-
-  load-profiles:
-    needs: announce
-    name: Low, medium, and high logical-NFE loads
-    runs-on: ubuntu-24.04
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
-      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
-        with:
-          python-version: '3.13'
-      - name: Authenticate, extract and install
-        shell: bash
-        run: |
-          python - <<'PY2'
-          import hashlib, os, zipfile
-          from pathlib import Path
-          bundle = Path('candidates/USA26-09/usa26-09-reproducibility-bundle.zip')
-          observed = hashlib.sha256(bundle.read_bytes()).hexdigest()
-          if observed != os.environ['BUNDLE_SHA256']:
-              raise SystemExit('bundle SHA mismatch')
-          dest = Path(os.environ['RUNNER_TEMP']) / 'usa26-09-source'
-          dest.mkdir(parents=True, exist_ok=True)
-          with zipfile.ZipFile(bundle) as archive:
-              archive.extractall(dest)
-          PY2
-          python -m pip install -e "$RUNNER_TEMP/usa26-09-source[test]"
-      - name: Verify retained load report and rerun smoke loads
-        shell: bash
-        run: |
-          cd "$RUNNER_TEMP/usa26-09-source"
-          python - <<'PY2'
-          import json, os
-          from pathlib import Path
-          from usa2609.experiment import paired_summary, run_campaign, scientific_digest
-          retained = json.loads(Path('results/load_profiles/report.json').read_text())
-          assert retained['status'] == 'PASS_LOAD_PROFILES'
-          output = []
-          for budget in (300, 750, 1500):
-              rows = run_campaign(range(2001, 2004), budget, 1.830, 4, 20240809)
-              output.append({
-                  'budget': budget,
-                  'digest': scientific_digest(rows),
-                  'summary': paired_summary(rows, 1.830),
-              })
-          Path(os.environ['RUNNER_TEMP']).joinpath('usa26-09-load-smoke.json').write_text(
-              json.dumps(output, indent=2, sort_keys=True)
-          )
-          PY2
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-        if: always()
-        with:
-          name: usa26-09-load-profiles
-          path: ${{ runner.temp }}/usa26-09-load-smoke.json
-          if-no-files-found: error
-          retention-days: 90
-  finalize:
-    name: Publish and enforce USA26-09 validation result
-    if: always()
-    needs: [cross-platform, load-profiles]
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Publish final status to PR 21
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CROSS_RESULT: ${{ needs.cross-platform.result }}
-          LOAD_RESULT: ${{ needs.load-profiles.result }}
-        shell: bash
-        run: |
-          cat > "$RUNNER_TEMP/usa26-09-final.md" <<EOF
-          <!-- usa26-09-validation-final -->
-          ## USA26-09 validation result
-
-          ```text
-          run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
-          head: ${GITHUB_SHA}
-          cross-platform: ${CROSS_RESULT}
-          load-profiles: ${LOAD_RESULT}
-          ```
-          EOF
-          gh api "repos/${GITHUB_REPOSITORY}/issues/21/comments" \
-            --method POST -F "body=@$RUNNER_TEMP/usa26-09-final.md" || true
-      - name: Enforce all required jobs
-        env:
-          CROSS_RESULT: ${{ needs.cross-platform.result }}
-          LOAD_RESULT: ${{ needs.load-profiles.result }}
-        shell: bash
-        run: |
-          test "$CROSS_RESULT" = success
-          test "$LOAD_RESULT" = success
-
