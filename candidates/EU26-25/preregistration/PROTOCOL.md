@@ -84,8 +84,12 @@ else:
     omega_next = int(max(b * omega - 1, 1))
 ```
 
-The interior comparison is strict. Equality at `diff=-0.05` or `diff=+0.05`
-therefore takes an update branch.
+The source comparison is strict. In exact real arithmetic a difference equal to
+`+/-0.05` would take an update branch. Under the actual paper cadence of 100
+registrations, however, the relevant executable fractions are 0.38 and 0.48;
+IEEE-754 evaluates their differences from 0.43 as approximately
+`+/-0.04999999999999999`, so both take the unchanged branch. Tests must retain
+this implementation-level numeric witness rather than silently idealising it.
 
 With the paper config:
 
@@ -96,9 +100,9 @@ penalty_decrease = 0.85
 update interval = 100 registrations
 ```
 
-Tests must cover below, equal-lower, interior, equal-upper, above, `+1`, `-1`,
-integer truncation, clipping to `[1,1000]`, update cadence, history clearing and
-separate capacity/time-warp histories.
+Tests must cover below, discrete 38% boundary, interior, discrete 48% boundary,
+above, `+1`, `-1`, integer truncation, clipping to `[1,1000]`, update cadence,
+history clearing and separate capacity/time-warp histories.
 
 ## OLD acceptance rule
 
