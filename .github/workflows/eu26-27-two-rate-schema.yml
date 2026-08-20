@@ -1,0 +1,53 @@
+name: EU26-27 two-rate OLD profile schema
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/EU26-27-agsemo-old-first
+    paths:
+      - 'candidates/EU26-27/tools/inspect_two_rate_profile.py'
+      - '.github/workflows/eu26-27-two-rate-schema.yml'
+  pull_request:
+    branches:
+      - research/EU26-07-reset-jump-verification
+    paths:
+      - 'candidates/EU26-27/tools/inspect_two_rate_profile.py'
+      - '.github/workflows/eu26-27-two-rate-schema.yml'
+
+concurrency:
+  group: eu26-27-two-rate-schema-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  schema:
+    name: Authenticate fallback two-rate profile without outcomes
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Inspect the selected two-rate CSV schema
+        env:
+          EU2627_TWO_RATE_DIR: ${{ runner.temp }}/eu26-27-two-rate
+        run: |
+          python candidates/EU26-27/tools/inspect_two_rate_profile.py
+      - name: Publish summary
+        if: always()
+        run: |
+          test -f "${RUNNER_TEMP}/eu26-27-two-rate/summary.md"
+          cat "${RUNNER_TEMP}/eu26-27-two-rate/summary.md" >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: eu26-27-two-rate-profile-schema
+          path: |
+            ${{ runner.temp }}/eu26-27-two-rate/two_rate_schema.json
+            ${{ runner.temp }}/eu26-27-two-rate/summary.md
+          if-no-files-found: error
+          retention-days: 90
