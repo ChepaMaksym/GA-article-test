@@ -6,13 +6,15 @@ on:
     branches:
       - research/EU26-27-agsemo-old-first
     paths:
-      - 'candidates/EU26-27/**'
+      - 'candidates/EU26-27/tools/audit_zenodo.py'
+      - 'candidates/EU26-27/preregistration/ELIGIBILITY_AND_ARTIFACT_GATE.md'
       - '.github/workflows/eu26-27-zenodo-audit.yml'
   pull_request:
     branches:
       - research/EU26-07-reset-jump-verification
     paths:
-      - 'candidates/EU26-27/**'
+      - 'candidates/EU26-27/tools/audit_zenodo.py'
+      - 'candidates/EU26-27/preregistration/ELIGIBILITY_AND_ARTIFACT_GATE.md'
       - '.github/workflows/eu26-27-zenodo-audit.yml'
 
 concurrency:

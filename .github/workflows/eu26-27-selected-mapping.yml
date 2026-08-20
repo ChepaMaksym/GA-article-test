@@ -1,0 +1,53 @@
+name: EU26-27 selected parser mapping
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/EU26-27-agsemo-old-first
+    paths:
+      - 'candidates/EU26-27/tools/extract_selected_mapping.py'
+      - '.github/workflows/eu26-27-selected-mapping.yml'
+  pull_request:
+    branches:
+      - research/EU26-07-reset-jump-verification
+    paths:
+      - 'candidates/EU26-27/tools/extract_selected_mapping.py'
+      - '.github/workflows/eu26-27-selected-mapping.yml'
+
+concurrency:
+  group: eu26-27-selected-mapping-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  mapping:
+    name: Expose headers and parser source without outcomes
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Authenticate and inspect selected mapping
+        env:
+          EU2627_MAPPING_DIR: ${{ runner.temp }}/eu26-27-mapping
+        run: |
+          python candidates/EU26-27/tools/extract_selected_mapping.py
+      - name: Publish non-outcome summary
+        if: always()
+        run: |
+          test -f "${RUNNER_TEMP}/eu26-27-mapping/summary.md"
+          cat "${RUNNER_TEMP}/eu26-27-mapping/summary.md" >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: eu26-27-selected-mapping
+          path: |
+            ${{ runner.temp }}/eu26-27-mapping/mapping.json
+            ${{ runner.temp }}/eu26-27-mapping/summary.md
+          if-no-files-found: error
+          retention-days: 90
