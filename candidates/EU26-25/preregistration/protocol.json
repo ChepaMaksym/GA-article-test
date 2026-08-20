@@ -1,0 +1,68 @@
+{
+  "candidate_id": "EU26-25",
+  "date_frozen": "2026-08-20",
+  "paper": {
+    "title": "PyVRP: a high-performance VRP solver package",
+    "doi": "10.1287/ijoc.2023.0055",
+    "artifact_doi": "10.1287/ijoc.2023.0055.cd"
+  },
+  "source": {
+    "artifact_repository": "INFORMSJoC/2023.0055",
+    "artifact_commit": "7ed6a24a0f4275da53c68e3db9ef5af197017111",
+    "release": "0.5.0",
+    "release_commit": "d4799a810a8cf7d16ea2c8871204bdfb3a896d06",
+    "config_path": "configs/initial_submission_ijoc_cvrp.toml",
+    "config_blob": "4685819a98e61f624b9fec03b405d023a81e5852",
+    "penalty_source_blob": "b2e0f5ccc7bd55a1f4581f9d2a6cbd5c8eb01bdb",
+    "license": "MIT"
+  },
+  "instance": {
+    "repository": "PyVRP/Instances",
+    "commit": "7474b068a8effa7f39448b241314b615c9271525",
+    "path": "CVRP/X-n101-k25.vrp",
+    "git_blob": "ad4539d0b70cd60178601d7b3515d08945fdb3ad",
+    "customers": 100,
+    "bks": 27591
+  },
+  "old": {
+    "profile": "old_iteration_120k",
+    "seeds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    "max_iterations": 120000,
+    "round_func": "dimacs",
+    "instance_format": "vrplib",
+    "collect_statistics_instrumentation": true,
+    "acceptance": {
+      "complete_rows": 10,
+      "feasible_rows": 10,
+      "bks_rows": 10,
+      "mean_cost": 27591.0,
+      "population_sd": 0.0,
+      "first_hit_required": true,
+      "repeatability_required": true,
+      "worker_equivalence_required": true,
+      "portability_smoke_required": true
+    },
+    "success_label": "PASS_SOURCE_NATIVE_ITERATION_NORMALISED_ENDPOINT",
+    "failure_label": "REJECTED_OLD_REPRODUCTION"
+  },
+  "portability": {
+    "seeds": [901, 902],
+    "max_iterations": 2000,
+    "os": ["ubuntu-24.04", "macos-14", "windows-2022"],
+    "python": "3.11",
+    "workers": [1, 2, 4]
+  },
+  "hybrid": {
+    "status": "BLOCKED_BY_OLD",
+    "exploratory_seeds": [101, 102, 103, 104, 105, 106, 107, 108, 109, 110],
+    "confirmatory_seeds": [1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010, 1011, 1012, 1013, 1014, 1015, 1016, 1017, 1018, 1019, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028, 1029, 1030],
+    "primary_target": 27591,
+    "secondary_target_multipliers": [1.01, 1.005, 1.0],
+    "minimum_bks_coverage": 24,
+    "minimum_iteration_reduction": 0.20,
+    "bootstrap_resamples": 50000,
+    "bootstrap_seed": 26025,
+    "executable_allowed": false
+  },
+  "pr19_evidence_used": false
+}
