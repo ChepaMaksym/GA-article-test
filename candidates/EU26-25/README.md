@@ -59,8 +59,12 @@ else:
     omega_next = int(max(b * omega - 1, 1))
 ```
 
-The interior test is strict. Therefore equality at either `+/-0.05` performs an
-update rather than taking the unchanged branch.
+The source comparison is strict in real-number notation. Operationally, the
+paper configuration observes feasible fractions in steps of `1/100`. IEEE-754
+computes `0.43-0.38` and `0.48-0.43` as approximately
+`0.04999999999999999`; therefore the actual 38% and 48% states take the
+unchanged branch. The fixed-tape tests preserve both the literal source formula
+and this executable floating-point boundary witness.
 
 This adaptive locus is explicitly a constraint-penalty controller. It is not
 misrepresented as adaptive crossover or mutation.
