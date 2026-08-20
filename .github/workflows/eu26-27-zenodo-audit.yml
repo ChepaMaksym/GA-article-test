@@ -8,6 +8,12 @@ on:
     paths:
       - 'candidates/EU26-27/**'
       - '.github/workflows/eu26-27-zenodo-audit.yml'
+  pull_request:
+    branches:
+      - research/EU26-07-reset-jump-verification
+    paths:
+      - 'candidates/EU26-27/**'
+      - '.github/workflows/eu26-27-zenodo-audit.yml'
 
 concurrency:
   group: eu26-27-zenodo-audit-${{ github.ref }}
