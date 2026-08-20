@@ -1,0 +1,40 @@
+{
+  "candidate_id": "EU26-25",
+  "paper": {
+    "doi": "10.1287/ijoc.2023.0055",
+    "artifact_doi": "10.1287/ijoc.2023.0055.cd"
+  },
+  "research_snapshot": {
+    "repository": "INFORMSJoC/2023.0055",
+    "commit": "7ed6a24a0f4275da53c68e3db9ef5af197017111",
+    "readme_blob": "a681b7cf33a4fe68cf8c843efc8cc46e46ee3468",
+    "config_blob": "4685819a98e61f624b9fec03b405d023a81e5852",
+    "penalty_manager_blob": "b2e0f5ccc7bd55a1f4581f9d2a6cbd5c8eb01bdb",
+    "license": "MIT"
+  },
+  "release": {
+    "repository": "PyVRP/PyVRP",
+    "tag": "v0.5.0",
+    "commit": "d4799a810a8cf7d16ea2c8871204bdfb3a896d06",
+    "pyproject_blob": "f779c8e1176c0e220fa88aec5c8bf4f8cc96487c",
+    "genetic_algorithm_blob": "380945d0c68d4853bc63989ef5e410bab46e1008",
+    "penalty_manager_blob": "e1c8dcb3d4a23be4251437dcab639e5f17821859",
+    "statistics_blob": "82a2606ea3ab9527894b5d37db5c1bb06f9ba273",
+    "cli_blob": "d2f17a1afd83acee2afb880797c234507b9f5e4e",
+    "license_blob": "b6ca35fd2dec7135a7448ccd2316b698da7d6af2"
+  },
+  "instance": {
+    "repository": "PyVRP/Instances",
+    "commit": "7474b068a8effa7f39448b241314b615c9271525",
+    "path": "CVRP/X-n101-k25.vrp",
+    "git_blob": "ad4539d0b70cd60178601d7b3515d08945fdb3ad",
+    "license_blob": "cd431ce48bc129c6ed72ef428e4bd6dc04e645c7",
+    "license": "MIT"
+  },
+  "runtime_policy": {
+    "scientific_replay": "build exact research snapshot on Python 3.11",
+    "portability_smoke": "install pyvrp==0.5.0 wheel and record wheel hash",
+    "moving_branches_allowed": false,
+    "unverified_fallback_version_allowed": false
+  }
+}
