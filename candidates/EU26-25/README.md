@@ -44,27 +44,36 @@ dimensions.
 ## OLD adaptive mechanism
 
 PyVRP 0.5.0 is a hybrid genetic search with adaptive feasibility penalties.
-For a constraint penalty `omega`, feasible fraction `f`, target `xi=0.43`,
-tolerance `delta=0.05`, increase factor `1.25`, and decrease factor `0.85`,
-the released manager applies every 100 registrations:
+For integer penalty `omega`, feasible fraction `f`, target `xi=0.43`, tolerance
+`delta=0.05`, increase factor `a=1.25`, and decrease factor `b=0.85`, the exact
+released update every 100 registrations is:
 
 ```text
-if f < xi - delta:
-    omega_next = clip(1.25 * omega)
-elif f > xi + delta:
-    omega_next = clip(0.85 * omega)
-else:
+diff = xi - f
+
+if -delta < diff < delta:
     omega_next = omega
+elif diff > 0:
+    omega_next = int(min(a * omega + 1, 1000))
+else:
+    omega_next = int(max(b * omega - 1, 1))
 ```
+
+The interior test is strict. Therefore equality at either `+/-0.05` performs an
+update rather than taking the unchanged branch.
 
 This adaptive locus is explicitly a constraint-penalty controller. It is not
 misrepresented as adaptive crossover or mutation.
 
-The frozen paper configuration is copied byte-for-byte from
-`configs/initial_submission_ijoc_cvrp.toml`. Its main GA values are population
+The frozen source configuration is authenticated as blob
+`4685819a98e61f624b9fec03b405d023a81e5852`. Its main GA values are population
 25, generation size 40, 4 elites, repair probability 0.50, repair booster 12,
 20,000 iterations without improvement before restart, and the published local
 search operator set including SWAP*.
+
+The executable copy changes only `collect_statistics=false` to `true`. That
+one-field instrumentation amendment is explicit and is not described as
+byte-identical to the source config.
 
 ## Reproduction profile
 
@@ -81,9 +90,9 @@ instance format: vrplib
 source: exact research snapshot / PyVRP 0.5.0
 ```
 
-Instrumentation changes only `collect_statistics` from false to true. It adds
-no random draw and does not change selection, crossover, local search,
-penalties, repair, restart, or replacement.
+Statistics collection adds observation only. It adds no random draw and does
+not change selection, crossover, local search, penalties, repair, restart, or
+replacement.
 
 The claim ceiling is therefore
 `PASS_SOURCE_NATIVE_ITERATION_NORMALISED_ENDPOINT`, not literal historical CPU
@@ -132,5 +141,5 @@ run on untouched confirmatory seeds paired with OLD.
 
 At the present stage this branch claims only candidate selection,
 preregistration and source/formula authentication. It does not claim OLD
-reproduction, HYBRID improvement, fewer iterations, faster wall clock time,
+reproduction, HYBRID improvement, fewer iterations, faster wall-clock time,
 scientific novelty, or a completed master thesis.
