@@ -1,0 +1,197 @@
+name: EU26-25 publish OLD gate evidence
+
+on:
+  workflow_run:
+    workflows:
+      - EU26-25 PyVRP OLD-first validation
+    types:
+      - completed
+
+permissions:
+  actions: read
+  contents: write
+
+concurrency:
+  group: eu26-25-publish-${{ github.event.workflow_run.id }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: >-
+      github.event.workflow_run.head_branch ==
+      'research/EU26-25-pyvrp-cvrp-old-first'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RUN_ID: ${{ github.event.workflow_run.id }}
+      RUN_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+      RUN_HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+      TARGET_BRANCH: research/EU26-25-pyvrp-cvrp-old-first
+    steps:
+      - name: Checkout exact evidence-producing head
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          fetch-depth: 0
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.11"
+
+      - name: Download retained workflow artifacts
+        id: download
+        continue-on-error: true
+        shell: bash
+        run: |
+          mkdir -p downloaded
+          gh run download "$RUN_ID" \
+            --repo "${{ github.repository }}" \
+            --dir downloaded
+          find downloaded -type f -maxdepth 4 -print | sort
+
+      - name: Build compact immutable status
+        if: always()
+        shell: bash
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          import shutil
+          from pathlib import Path
+
+          run_id = int(os.environ["RUN_ID"])
+          conclusion = os.environ.get("RUN_CONCLUSION")
+          head_sha = os.environ["RUN_HEAD_SHA"]
+          root = Path("downloaded")
+          target = Path("candidates/EU26-25/results")
+          target.mkdir(parents=True, exist_ok=True)
+
+          def locate(name: str):
+              matches = sorted(root.rglob(name))
+              return matches[0] if len(matches) == 1 else None
+
+          final_path = locate("old_final_gate.json")
+          old_path = locate("old_summary.json")
+          formula_path = locate("formula_report.json")
+          repeat_path = locate("repeat_report.json")
+          worker_path = locate("worker_report.json")
+
+          if final_path:
+              final = json.loads(final_path.read_text())
+              decision = final.get("decision", "BLOCKED_INVALID_FINAL_REPORT")
+              hybrid_status = final.get("hybrid_status", "BLOCKED")
+              shutil.copy2(final_path, target / "old_final_gate.json")
+          else:
+              final = None
+              decision = "BLOCKED_CI_INFRASTRUCTURE"
+              hybrid_status = "BLOCKED_NOT_CREATED"
+
+          compact = {
+              "candidate_id": "EU26-25",
+              "workflow_run_id": run_id,
+              "workflow_conclusion": conclusion,
+              "evidence_head_sha": head_sha,
+              "decision": decision,
+              "hybrid_status": hybrid_status,
+              "artifact_download_step_succeeded": os.environ.get(
+                  "DOWNLOAD_OUTCOME", "unknown"
+              ),
+              "available_reports": {
+                  "final": final_path is not None,
+                  "old_summary": old_path is not None,
+                  "formula": formula_path is not None,
+                  "repeatability": repeat_path is not None,
+                  "worker_load": worker_path is not None,
+              },
+              "pr19_evidence_used": False,
+          }
+
+          copied = []
+          for path, name in [
+              (old_path, "old_summary.json"),
+              (formula_path, "formula_report.json"),
+              (repeat_path, "repeat_report.json"),
+              (worker_path, "worker_report.json"),
+          ]:
+              if path:
+                  shutil.copy2(path, target / name)
+                  copied.append(name)
+
+          for file in sorted(target.glob("*.json")):
+              compact.setdefault("sha256", {})[file.name] = hashlib.sha256(
+                  file.read_bytes()
+              ).hexdigest()
+
+          (target / "old_workflow_status.json").write_text(
+              json.dumps(compact, indent=2, sort_keys=True) + "\n"
+          )
+
+          gates = final.get("gates", {}) if final else {}
+          failed = final.get("failed_gates", []) if final else [
+              "final OLD artifact unavailable"
+          ]
+          lines = [
+              "# EU26-25 OLD status",
+              "",
+              f"- Workflow run: `{run_id}`",
+              f"- Evidence head: `{head_sha}`",
+              f"- Workflow conclusion: `{conclusion}`",
+              f"- Decision: `{decision}`",
+              f"- HYBRID: `{hybrid_status}`",
+              "- PR #19 evidence used: `false`",
+              "",
+              "## Conjunctive gates",
+              "",
+          ]
+          if gates:
+              lines.extend(
+                  f"- `{name}`: `{'PASS' if value else 'FAIL'}`"
+                  for name, value in sorted(gates.items())
+              )
+          else:
+              lines.append("- Final gate could not be evaluated because retained evidence was incomplete.")
+          lines += ["", "## Failed or blocked gates", ""]
+          lines.extend(f"- `{item}`" for item in failed)
+          lines += [
+              "",
+              "## Claim boundary",
+              "",
+              "No executable HYBRID is authorised unless the decision is exactly",
+              "`PASS_OLD_FULL_ENGINEERING_GATE`. A CI/infrastructure block is not",
+              "relabelled as a scientific rejection. An OLD numerical failure is not",
+              "repaired by changing seeds, targets, tolerances or budgets.",
+              "",
+          ]
+          (target / "OLD_STATUS.md").write_text("\n".join(lines))
+          PY
+        env:
+          DOWNLOAD_OUTCOME: ${{ steps.download.outcome }}
+
+      - name: Commit retained status to the candidate branch
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- \
+            candidates/EU26-25/results/OLD_STATUS.md \
+            candidates/EU26-25/results/old_workflow_status.json
+          for file in \
+            old_final_gate.json \
+            old_summary.json \
+            formula_report.json \
+            repeat_report.json \
+            worker_report.json; do
+            if test -f "candidates/EU26-25/results/$file"; then
+              git add -- "candidates/EU26-25/results/$file"
+            fi
+          done
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git commit -m "EU26-25 retain OLD gate evidence [skip ci]"
+          git push origin "HEAD:$TARGET_BRANCH"
