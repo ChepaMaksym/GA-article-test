@@ -46,7 +46,7 @@ maximum iterations: 120000 per seed
 rounding: dimacs
 instance format: vrplib
 collect_statistics: true, instrumentation only
-other config: exact initial_submission_ijoc_cvrp.toml
+other config fields: exact initial_submission_ijoc_cvrp.toml
 ```
 
 ### P2 - portability smoke
@@ -70,16 +70,22 @@ excluded from the scientific digest.
 
 ## Formula gates
 
-For the released penalty controller:
+For integer penalty `omega`, feasible fraction `f`, target `xi`, tolerance
+`delta=0.05`, increase `a`, and decrease `b`, the released transition is:
 
 ```text
-lower = target_feasible - 0.05
-upper = target_feasible + 0.05
+diff = xi - f
 
-f < lower  -> penalty * penalty_increase
-f > upper  -> penalty * penalty_decrease
-otherwise  -> unchanged
+if -delta < diff < delta:
+    omega_next = omega
+elif diff > 0:
+    omega_next = int(min(a * omega + 1, 1000))
+else:
+    omega_next = int(max(b * omega - 1, 1))
 ```
+
+The interior comparison is strict. Equality at `diff=-0.05` or `diff=+0.05`
+therefore takes an update branch.
 
 With the paper config:
 
@@ -90,8 +96,9 @@ penalty_decrease = 0.85
 update interval = 100 registrations
 ```
 
-Tests must cover below, equal-lower, interior, equal-upper, above, zero count,
-clipping and separate capacity/time-warp histories.
+Tests must cover below, equal-lower, interior, equal-upper, above, `+1`, `-1`,
+integer truncation, clipping to `[1,1000]`, update cadence, history clearing and
+separate capacity/time-warp histories.
 
 ## OLD acceptance rule
 
