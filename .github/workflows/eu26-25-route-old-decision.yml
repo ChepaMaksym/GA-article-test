@@ -1,0 +1,94 @@
+name: EU26-25 route OLD decision
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/EU26-25-pyvrp-cvrp-old-first
+    paths:
+      - candidates/EU26-25/results/old_workflow_status.json
+      - .github/workflows/eu26-25-route-old-decision.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: eu26-25-route-old-decision
+  cancel-in-progress: true
+
+jobs:
+  route:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout current candidate branch
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+        with:
+          ref: research/EU26-25-pyvrp-cvrp-old-first
+          fetch-depth: 0
+
+      - name: Emit exactly one fail-closed state marker
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          status_path = Path("candidates/EU26-25/results/old_workflow_status.json")
+          state_dir = Path(".research_state/EU26-25")
+          state_dir.mkdir(parents=True, exist_ok=True)
+          for old in state_dir.glob("*.json"):
+              old.unlink()
+
+          if not status_path.is_file():
+              state = {
+                  "candidate_id": "EU26-25",
+                  "state": "WAITING_FOR_OLD_EVIDENCE",
+                  "hybrid_allowed": False,
+                  "pr19_evidence_used": False,
+              }
+              name = "WAITING.json"
+          else:
+              status = json.loads(status_path.read_text())
+              decision = status.get("decision")
+              if decision == "PASS_OLD_FULL_ENGINEERING_GATE":
+                  state_name = "HYBRID_READY"
+                  name = "HYBRID_READY.json"
+                  allowed = True
+              elif decision == "REJECTED_OLD_REPRODUCTION":
+                  state_name = "REJECTED"
+                  name = "REJECTED.json"
+                  allowed = False
+              else:
+                  state_name = "CI_BLOCKED"
+                  name = "CI_BLOCKED.json"
+                  allowed = False
+              state = {
+                  "candidate_id": "EU26-25",
+                  "state": state_name,
+                  "hybrid_allowed": allowed,
+                  "old_decision": decision,
+                  "old_workflow_run_id": status.get("workflow_run_id"),
+                  "old_evidence_head_sha": status.get("evidence_head_sha"),
+                  "old_status_sha256": __import__("hashlib").sha256(
+                      status_path.read_bytes()
+                  ).hexdigest(),
+                  "pr19_evidence_used": False,
+              }
+          (state_dir / name).write_text(json.dumps(state, indent=2, sort_keys=True) + "\n")
+          print(json.dumps(state, indent=2, sort_keys=True))
+          PY
+
+      - name: Commit routed state
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- .research_state/EU26-25
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git commit -m "EU26-25 route immutable OLD decision"
+          git pull --rebase origin research/EU26-25-pyvrp-cvrp-old-first
+          git push origin HEAD:research/EU26-25-pyvrp-cvrp-old-first
