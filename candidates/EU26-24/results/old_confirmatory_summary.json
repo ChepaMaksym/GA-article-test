@@ -1,0 +1,47 @@
+{
+  "algorithm": "OLD_LOGNORMAL_PREFERENDUS",
+  "anchor_basin_match": 10,
+  "campaign_digest": "9e745f23e12f71f80f96938f0ebd8d2ae91dd48e7ba26dbdc3655b01b0209ebc",
+  "candidate_id": "EU26-24",
+  "complete": 30,
+  "criteria": {
+    "co2_tolerance": true,
+    "cost_tolerance": true,
+    "duration_tolerance": true,
+    "fleet_tolerance": true,
+    "minimum_anchor_match": false,
+    "minimum_complete": true,
+    "minimum_vessel_match": true,
+    "preference_tolerance": true
+  },
+  "decision": "REJECTED_OLD_REPRODUCTION",
+  "failed_criteria": [
+    "minimum_anchor_match"
+  ],
+  "feasible": 30,
+  "hybrid_status": "BLOCKED_NOT_CREATED",
+  "median": {
+    "co2_tonnes": 7135.0,
+    "fleet_objective": 0.04375,
+    "generations": 38.0,
+    "installation_cost_eur": 10460923.51830519,
+    "logical_nfe": 57000.0,
+    "phi": 21.91131640184474,
+    "preference_scores": [
+      42.81303410291313,
+      37.39623885187217,
+      97.34751490381984,
+      14.992578890832094
+    ],
+    "project_duration_days": 91.0
+  },
+  "pr19_evidence_used": false,
+  "profile": "source_compatible",
+  "rows": 30,
+  "seed_ledger": [
+    2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
+    2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020,
+    2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030
+  ],
+  "vessel_match": 30
+}
