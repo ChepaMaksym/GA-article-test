@@ -1,13 +1,41 @@
-# Scientific novelty - preregistered claim frame
+# Scientific novelty and claim boundary - USA26-09 rejection
 
-The intended incremental contribution is a dual-level adaptive HGA for min-max
-mTSP: OLD adapts **which** local move is selected, while the transferred
-self-adjusting lambda controller adapts **how much** mutation, crossover bias,
-and candidate multiplicity are used.
+## Final status
 
-No positive numerical novelty claim is currently authorized. It becomes
-eligible only if the fresh v2 OLD gate and joint HYBRID gate pass.
+```text
+CONCEPTUAL_NOVELTY_ONLY
+EMPIRICAL_NOVELTY_NOT_ESTABLISHED
+```
 
-Forbidden wording includes universal superiority, wall-clock speedup from NFE,
-reset-only causality, exact historical Table-2 replay, and any use of PR #19 as
-USA26-09 numerical evidence.
+The potentially interesting idea was dual-level adaptation: the OLD
+success-weighted roulette would adapt **which** local operator is selected,
+while a transferred self-adjusting lambda controller would adapt **how much**
+search effort is generated.
+
+This idea is not promoted to a scientific result for USA26-09 because:
+
+1. the reconstructed OLD is not equivalent to the paper HGA;
+2. the published endpoint and reconstructed statistic are incomparable;
+3. HYBRID received variable uncounted surrogate effort;
+4. no valid fresh OLD-first paired campaign remains.
+
+## Safe wording
+
+> Запропоновано формальну гіпотезу двошарової адаптації permutation HGA.
+> На кандидатові USA26-09 числове твердження про покращення не сформовано,
+> оскільки професорський аудит відхилив OLD endpoint mapping і budget
+> equivalence до етапу HYBRID.
+
+## Forbidden wording
+
+Do not state that USA26-09:
+
+- reproduced the published HGA;
+- improved quality or efficiency;
+- reduced iterations or logical NFE by a confirmed percentage;
+- demonstrated reset-specific benefit;
+- passed cross-machine validation;
+- supports a master-thesis novelty claim.
+
+See `PROFESSOR_AUDIT_TEMP.md` for the complete problem ledger and defence
+phrases.

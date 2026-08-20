@@ -1,14 +1,12 @@
-# USA26-09 - adaptive HGA for min-max mTSP, reconstructed OLD first
+# USA26-09 - rejected min-max mTSP candidate
 
-## Current status
+## Final decision
 
 ```text
-first binary-bundle publication: SUPERSEDED_TRANSPORT_RERUN_REQUIRED
-reconstructed source tree: FROZEN_BEFORE_CONFIRMATORY_V2
-fresh OLD seeds 3001..3030: NOT_RUN
-fresh HYBRID seeds 3001..3030: BLOCKED_BY_OLD
-cross-machine current-head CI: PENDING
-master thesis: BLOCKED_BY_FRESH_RESULTS_AND_CI
+USA26-09: REJECTED_INVALID_PUBLISHED_ENDPOINT_MAPPING
+OLD: FAIL_METHOD_AND_ENDPOINT_EQUIVALENCE
+HYBRID: BLOCKED_NOT_AUTHORIZED
+MASTER THESIS: BLOCKED
 PR #19 numerical evidence used: false
 ```
 
@@ -16,47 +14,32 @@ The candidate is Mahmoudinazlou and Kwon, *A hybrid genetic algorithm for the
 min-max Multiple Traveling Salesman Problem*, Computers & Operations Research
 162 (2024) 106455, DOI `10.1016/j.cor.2023.106455`.
 
-The author-linked Julia repository is pinned at
-`Sasanm88/m-TSP@7d9fa1f63dfae44506f33a43aaa812793bebc065`. Because it has no
-project-wide license file, this candidate contains an independent clean-room
-Python implementation and no copied upstream code or data bytes.
+## Why the candidate is rejected
 
-## Objective
+The published `HGA-avg=1.82` cell for Set I, `N=50`, `m=10` is an average over
+100 independently generated uniform instances, with HGA executed ten times for
+each instance. The reconstructed protocol used one fixed instance and 30 search
+seeds, then compared its median to the published multi-instance mean.
 
-For `m` depot-returning tours, minimize the longest tour:
+The fixed instance also has nearest-neighbor Split objective
+`1.8288547696784496` before HGA evidence is considered. Therefore proximity to
+`1.82` cannot validate the reconstructed OLD.
 
-```text
-minimize max_r C(T_r)
-```
+The source-tree OLD further omits material paper components: variable
+`mu/lambda` population control, diversity sorting, Similar Tour Crossover,
+intersection removal, enrichment, 100/1000-step adaptive education,
+diversification and the published stopping rule. It is a useful experimental
+optimizer, but not a reproduction of Algorithm 1.
 
-A permutation chromosome is evaluated by an exact dynamic contiguous Split.
+HYBRID is not evaluated because OLD failed. Its variable amount of uncounted
+surrogate proposal search would also make logical-NFE comparison unfair without
+a complete effort ledger.
 
-## OLD adaptive formula
+## Cleanup
 
-```text
-w_i(0)=100
-p_i(g)=w_i(g)/sum_j w_j(g)
-w_i(g+1)=w_i(g)+1 after a strict improvement by operator i
-```
+Executable USA26-09 implementation and candidate workflow are removed from the
+accepted evidence surface. The source manifest, rejection documents and
+`PROFESSOR_AUDIT_TEMP.md` remain for auditability.
 
-The four moves are Reinsert, Exchange, Or-opt2 and Or-opt3. OLD uses fixed
-education effort.
-
-## HYBRID formula
-
-Only after the fresh OLD gate passes, HYBRID may use:
-
-```text
-p_g=lambda_g/n
-c_g=1/lambda_g
-offspring_g=round_half_up(lambda_g)
-
-success:        lambda_{g+1}=max(lambda_g/F,1)
-failure:        lambda_{g+1}=min(lambda_g*F^(1/4),n)
-failure at cap: lambda_{g+1}=1
-F=1.5
-```
-
-See `preregistration/AMENDMENT_001_RECONSTRUCTION.md` and
-`preregistration/protocol_v2.json`. The fresh confirmatory ledger is
-`3001..3030`; earlier `2001..2030` results are outcome-exposed and superseded.
+The next candidate must branch directly from
+`research/EU26-07-reset-jump-verification`, not from this rejected branch.

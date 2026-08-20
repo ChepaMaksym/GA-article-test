@@ -1,25 +1,12 @@
 {
+  "schema": "usa26-09-rejected-source-manifest-v3",
+  "status": "REJECTED_EXECUTABLE_SOURCE_REMOVED",
   "base_commit": "e981c13bc4763b26f2e00da9c30047fc38eb9a29",
-  "files": [
-    {"bytes": 393, "path": "src/usa2609/__init__.py", "sha256": "8aeaf990a1271553bd666910ab01ff9a1c38211e3ad373a767c3ea1447fa166a"},
-    {"bytes": 4618, "path": "src/usa2609/core.py", "sha256": "ad2c06eb00da5bf1ca37ecc2e8f89f5d51322a8cbaa1b583bb7f2ceb494e4274"},
-    {"bytes": 2837, "path": "src/usa2609/controls.py", "sha256": "7274d547e19ea80c2b5e2d3d6d8f5cc8be1cdb3a8f21bfee9fbcc5f10daf7836"},
-    {"bytes": 5910, "path": "src/usa2609/operators.py", "sha256": "04690aecda0c8434958df5048b8455f516676cf66804394bef8bc57b6adef7ce"},
-    {"bytes": 8743, "path": "src/usa2609/runners.py", "sha256": "2667c43c70199cae19d90d391cc7267cf8ccd1dea7d0eae8f1f5d007fc2c2702"},
-    {"bytes": 717, "path": "src/usa2609/optimizer.py", "sha256": "6f314656f541a01ee78239d52ad36654aea9e388dac5d23ef60e96322e1bbdcc"},
-    {"bytes": 5879, "path": "src/usa2609/experiment.py", "sha256": "ed2d72bc2ed2e7a74b264cd2686bed44236e3769d41e1e050c62f87c01f0bebe"},
-    {"bytes": 614, "path": "tests/test_core.py", "sha256": "09eb0492884fd07b6d037a7deab1554e291a516c5769f06ddfc7f5e1d3470805"},
-    {"bytes": 973, "path": "tests/test_controls.py", "sha256": "d34df6308fd39691932dd0dbafa62547365d7773a3a0e9652407461fb2ec246d"},
-    {"bytes": 599, "path": "tests/test_determinism.py", "sha256": "6c7cbde5053ad73d041f4805857435624655c59c26b7732d58de1ef16aef6e0b"},
-    {"bytes": 295, "path": "tests/test_workers.py", "sha256": "043c762b2d6e78624f60a1346264869171c55ef1158ca7b885a8a0b3126564ab"},
-    {"bytes": 750, "path": "scripts/ci_profile.py", "sha256": "7329e86e9aae1997e75739440015afa05e245d051bd902aad2b70c43c4f1ded5"},
-    {"bytes": 377, "path": "pyproject.toml", "sha256": "ceb9fb79bf54c3f5197609c1920d74805479176c62a37f087a6c29a5bfaaca97"},
-    {"bytes": 22, "path": "requirements.txt", "sha256": "7d1ee6f2ad6b17ee21328ef8f16bc9364bdaeb1a1f379709f524ae8eb9a05a86"},
-    {"bytes": 3069, "path": "preregistration/AMENDMENT_001_RECONSTRUCTION.md", "sha256": "eea3dd7055b757f70e398693779e15ad38af62edf236740eed84ac639ffdddfc"},
-    {"bytes": 1338, "path": "preregistration/protocol_v2.json", "sha256": "9eafcb59e8f8172424e82763a993ff6284d5a44d7fc6c69ad84bf0f4b28a5000"}
-  ],
-  "schema": "usa26-09-source-manifest-v2",
-  "status": "FROZEN_BEFORE_CONFIRMATORY_V2",
+  "rejected_source_commit": "52aecb848723365c8d515df601957a8b191926c1",
+  "upstream_reference_commit": "7d9fa1f63dfae44506f33a43aaa812793bebc065",
   "upstream_bytes_copied": false,
-  "upstream_reference_commit": "7d9fa1f63dfae44506f33a43aaa812793bebc065"
+  "reason": "invalid published endpoint mapping, incomplete HGA semantics, and unequal uncounted surrogate effort",
+  "accepted_executable_files": [],
+  "historical_source_manifest_retained_in_git_history": true,
+  "pr19_numerical_evidence_used": false
 }
