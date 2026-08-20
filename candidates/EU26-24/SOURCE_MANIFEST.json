@@ -1,0 +1,80 @@
+{
+  "candidate_id": "EU26-24",
+  "source_policy": "reference-only clean-room implementation",
+  "paper": {
+    "doi": "10.1080/15732479.2023.2297891",
+    "arxiv_pdf": "https://arxiv.org/pdf/2304.07168",
+    "arxiv_version": "v3",
+    "pages": 32,
+    "relevant_pages_zero_based": [10, 18, 19, 20, 21, 22, 23, 30, 31]
+  },
+  "upstream": {
+    "repository": "https://github.com/TUDelft-Odesys/Preferendus",
+    "commit": "5b2e5c337b0b06cd4cf1c208de4c0679d64a2fe4",
+    "license": "Apache-2.0",
+    "files": [
+      {
+        "path": "Design application - floating wind farm installation design.py",
+        "blob": "40c93570741e41a9d7dd4b1030a1cb03f4582471",
+        "use": "problem, objectives, preferences, constraints, published runner settings"
+      },
+      {
+        "path": "preferendus/algorithm.py",
+        "blob": "52cd003b1d1d2ab765d49a2937ad44b1db64c519",
+        "use": "OLD loop and log-normal mutation controller"
+      },
+      {
+        "path": "preferendus/_nextgen.py",
+        "blob": "acf6cc3a68ed59f5212896e3d3280e4b450de9b0",
+        "use": "selection, crossover and mutation semantics"
+      },
+      {
+        "path": "preferendus/_decoder.py",
+        "blob": "e00be76755dc9ee1b30d13ee419b0278924d484d",
+        "use": "24-bit real decoding"
+      },
+      {
+        "path": "preferendus/_constraints.py",
+        "blob": "e3aefd560e5c5e92f373c12717baa19c804fc010",
+        "use": "CND constraint ranking"
+      },
+      {
+        "path": "preferendus/weighted_minmax/algorithm.py",
+        "blob": "6318da4d2e198bdc8e1af2b3c5dd630b2c8efc83",
+        "use": "weighted min-max objective"
+      }
+    ]
+  },
+  "known_divergences": [
+    {
+      "id": "D1_FLEET_EXPONENT",
+      "paper": "product p_i^x_i",
+      "source": "product p_i^(x_i^2)",
+      "published_table_consistency": "source",
+      "evidence": "0.7*0.5^4=0.04375, reported as 0.04 for [1,0,2]"
+    },
+    {
+      "id": "D2_GA_ADAPTATION_DISCLOSURE",
+      "paper": "Appendix describes inter-generational modifications but not the log-normal mutation equation",
+      "source": "r_mut_next=r_mut*exp(tau*Z)",
+      "handling": "source-compatible primary plus explicit printed-paper limitation"
+    },
+    {
+      "id": "D3_SEEDS",
+      "paper": "historical seeds not enumerated",
+      "source": "global NumPy RNG without a historical ledger",
+      "handling": "auditor seed ledger; no historical-seed claim"
+    },
+    {
+      "id": "D4_ELITISM_ORDER",
+      "paper": "not specified",
+      "source": "elite extraction uses the last unique scores despite minimization",
+      "handling": "preserve in source-compatible OLD; test corrected order only as forbidden sensitivity until preregistered"
+    }
+  ],
+  "custody": {
+    "vendored_upstream_bytes": false,
+    "source_native_historical_environment_claimed": false,
+    "historical_seed_reproduction_claimed": false
+  }
+}

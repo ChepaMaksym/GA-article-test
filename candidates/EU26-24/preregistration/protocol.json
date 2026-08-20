@@ -1,0 +1,105 @@
+{
+  "candidate_id": "EU26-24",
+  "status": "PREREGISTERED_OLD_ONLY",
+  "hybrid_status": "BLOCKED_BY_OLD",
+  "frozen_at": "2026-08-20",
+  "base_branch": "research/EU26-07-reset-jump-verification",
+  "base_sha": "e981c13bc4763b26f2e00da9c30047fc38eb9a29",
+  "paper": {
+    "title": "Socio-technical systems integration and design: a multi-objective optimisation method based on integrative preference maximisation",
+    "doi": "10.1080/15732479.2023.2297891",
+    "arxiv": "2304.07168v3",
+    "publication_year": 2023,
+    "region": "EU",
+    "applied_case": "floating wind turbine installation design"
+  },
+  "upstream": {
+    "repository": "TUDelft-Odesys/Preferendus",
+    "commit": "5b2e5c337b0b06cd4cf1c208de4c0679d64a2fe4",
+    "license": "Apache-2.0",
+    "blobs": {
+      "application": "40c93570741e41a9d7dd4b1030a1cb03f4582471",
+      "ga": "52cd003b1d1d2ab765d49a2937ad44b1db64c519",
+      "next_generation": "acf6cc3a68ed59f5212896e3d3280e4b450de9b0",
+      "decoder": "e00be76755dc9ee1b30d13ee419b0278924d484d",
+      "constraints": "e3aefd560e5c5e92f373c12717baa19c804fc010",
+      "minmax": "6318da4d2e198bdc8e1af2b3c5dd630b2c8efc83"
+    }
+  },
+  "dimension": {
+    "decoded_variables": 5,
+    "integer_loci": 3,
+    "bits_per_real_variable": 24,
+    "real_variables": 2,
+    "mutable_loci": 51,
+    "threshold_pass": true
+  },
+  "old": {
+    "profile": "source_compatible",
+    "population": 1500,
+    "max_generations": 400,
+    "max_stall": 20,
+    "crossover_probability": 0.8,
+    "mutation_rate_order": 4,
+    "elitism_percentage": 10,
+    "constraint_handler": "CND",
+    "weights": [0.3, 0.35, 0.15, 0.2],
+    "mutation_formula": {
+      "tau": "R^(-1/q)",
+      "initial": "r_mut=tau",
+      "update": "r_mut_next=r_mut*exp(tau*Z), Z~N(0,1)"
+    },
+    "published_endpoint": {
+      "variables": [1, 0, 2, 2.2, 8.0],
+      "project_duration_days": 91,
+      "installation_cost_eur": 10450000,
+      "fleet_objective": 0.04,
+      "co2_tonnes": 7135,
+      "preference_scores": [43, 38, 97, 15]
+    },
+    "confirmatory_seeds": {
+      "start": 2001,
+      "end": 2030,
+      "count": 30
+    },
+    "acceptance": {
+      "minimum_complete": 24,
+      "minimum_vessel_match": 24,
+      "minimum_anchor_match": 24,
+      "diameter_lower_inclusive": 2.15,
+      "diameter_upper_exclusive": 2.25,
+      "length_lower_inclusive": 7.95,
+      "duration_tolerance_days": 0.5,
+      "cost_tolerance_eur": 50000,
+      "fleet_tolerance": 0.005,
+      "co2_tolerance_tonnes": 25,
+      "preference_tolerance_points": 2
+    }
+  },
+  "seed_sets": {
+    "old_pilot": [101, 110],
+    "hybrid_exploration": [1001, 1020],
+    "confirmatory": [2001, 2030]
+  },
+  "hybrid": {
+    "allowed_after_old_pass": true,
+    "formula_source": "PR #8",
+    "p": "lambda/n",
+    "c": "1/lambda",
+    "update": {
+      "success": "max(lambda/F,1)",
+      "failed_at_cap_reset": "1",
+      "otherwise": "min(lambda*F^(1/4),n)"
+    },
+    "confirmatory_quality_margin_relative": 0.005,
+    "confirmatory_nfe_reduction_lower_bca": 0.15,
+    "executable_present": false
+  },
+  "claim_limits": [
+    "NO_PR19_EVIDENCE",
+    "NO_OLD_PASS_BEFORE_NUMERIC_GATE",
+    "NO_HYBRID_BEFORE_OLD_PASS",
+    "NO_WALL_CLOCK_SPEEDUP_FROM_NFE",
+    "NO_MASTER_THESIS_BEFORE_NEW_OLD_AND_HYBRID_PASS"
+  ]
+}
