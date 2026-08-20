@@ -1,0 +1,47 @@
+{
+  "schema": "usa26-09-protocol-v2",
+  "date_frozen": "2026-08-20",
+  "status": "PRECONFIRMATORY_RECONSTRUCTION_FROZEN",
+  "superseded_seed_ledger": [2001, 2030],
+  "pilot_seed_ledger": [1001, 1005],
+  "confirmatory_seed_ledger": [3001, 3030],
+  "instance": {
+    "generator": "numpy.default_rng.uniform_0_1",
+    "seed": 20240809,
+    "n_nodes": 50,
+    "n_customers": 49,
+    "salesmen": 10
+  },
+  "population_size": 40,
+  "logical_nfe_budget": 1500,
+  "matched_target": 1.83,
+  "published_old_anchor": 1.82,
+  "old_gate": {
+    "complete_rows": 30,
+    "median_final_max": 1.84,
+    "absolute_anchor_gap_max": 0.02,
+    "worker_profiles": [1, 2, 4]
+  },
+  "hybrid_gate": {
+    "quality_noninferiority_margin": 0.01,
+    "minimum_hybrid_coverage": 24,
+    "coverage_not_below_old": true,
+    "minimum_nfe_reduction_ci_lower": 0.20,
+    "bootstrap_resamples": 20000
+  },
+  "lambda": {
+    "factor": 1.5,
+    "reset": true,
+    "mutation_probability": "lambda/n",
+    "crossover_probability": "1/lambda",
+    "offspring_rounding": "nearest_half_up",
+    "education_proposals": "max(4, round_half_up(lambda))"
+  },
+  "claim_boundary": {
+    "exact_historical_table_replay": false,
+    "wall_clock_speedup": false,
+    "reset_only_causality": false,
+    "universal_mtsp_superiority": false,
+    "pr19_numerical_evidence_used": false
+  }
+}
