@@ -1,0 +1,798 @@
+name: EU26-25 prepare gated HYBRID branch
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/EU26-25-pyvrp-cvrp-old-first
+    paths:
+      - .research_state/EU26-25/HYBRID_READY.json
+      - .github/workflows/eu26-25-prepare-hybrid.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: eu26-25-prepare-hybrid
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    runs-on: ubuntu-24.04
+    outputs:
+      ready: ${{ steps.check.outputs.ready }}
+    steps:
+      - name: Checkout OLD candidate branch
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+        with:
+          ref: research/EU26-25-pyvrp-cvrp-old-first
+
+      - name: Verify immutable OLD permission marker
+        id: check
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          path = Path('.research_state/EU26-25/HYBRID_READY.json')
+          ready = False
+          if path.is_file():
+              data = json.loads(path.read_text())
+              ready = (
+                  data.get('candidate_id') == 'EU26-25'
+                  and data.get('state') == 'HYBRID_READY'
+                  and data.get('hybrid_allowed') is True
+                  and data.get('old_decision') == 'PASS_OLD_FULL_ENGINEERING_GATE'
+                  and data.get('pr19_evidence_used') is False
+              )
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+              fh.write(f"ready={'true' if ready else 'false'}\n")
+          print(json.dumps({'ready': ready}, indent=2))
+          PY
+
+  prepare:
+    needs: gate
+    if: needs.gate.outputs.ready == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      OLD_BRANCH: research/EU26-25-pyvrp-cvrp-old-first
+      HYBRID_BRANCH: research/EU26-25-pyvrp-hybrid
+    steps:
+      - name: Checkout authorised OLD head
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+        with:
+          ref: research/EU26-25-pyvrp-cvrp-old-first
+          fetch-depth: 0
+
+      - name: Refuse to overwrite an existing HYBRID branch
+        shell: bash
+        run: |
+          if git ls-remote --exit-code --heads origin "$HYBRID_BRANCH" >/dev/null 2>&1; then
+            echo "HYBRID branch already exists; refusing implicit overwrite" >&2
+            exit 1
+          fi
+          git switch -c "$HYBRID_BRANCH"
+
+      - name: Generate source-compatible HYBRID wrapper and tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p candidates/EU26-25/hybrid/tests
+          mkdir -p candidates/EU26-25/hybrid/results
+
+          cat > candidates/EU26-25/hybrid/adaptive_repair.py <<'PY'
+          from __future__ import annotations
+
+          import copy
+          import dataclasses
+          import hashlib
+          import importlib
+          import inspect
+          import json
+          from dataclasses import dataclass
+          from typing import Any
+
+          from pyvrp import GeneticAlgorithm
+
+          SOURCE_GENETIC_ALGORITHM = GeneticAlgorithm
+          LAST_RUN: dict[str, Any] = {}
+          CONTEXT: dict[str, Any] = {
+              "mode": "old",
+              "mapping": "sum_pc_clipped",
+              "lambda0": 2.0,
+              "factor": 1.5,
+          }
+
+
+          def _replace_params(params: Any, **updates: Any) -> Any:
+              if dataclasses.is_dataclass(params):
+                  return dataclasses.replace(params, **updates)
+              if hasattr(params, "_replace"):
+                  return params._replace(**updates)
+              cloned = copy.copy(params)
+              for name, value in updates.items():
+                  setattr(cloned, name, value)
+              return cloned
+
+
+          def _num_clients(data: Any) -> int:
+              value = getattr(data, "num_clients")
+              return int(value() if callable(value) else value)
+
+
+          def repair_probability(mapping: str, lam: float, n: int) -> tuple[float, float, float]:
+              if n <= 1 or not 1.0 <= lam <= float(n):
+                  raise ValueError("lambda must be in [1,n] with n > 1")
+              p = min(1.0, lam / n)
+              c = min(1.0, 1.0 / lam)
+              if mapping == "sum_pc_clipped":
+                  value = min(1.0, p + c)
+              elif mapping == "c_only":
+                  value = c
+              elif mapping == "max_pc":
+                  value = max(p, c)
+              elif mapping == "p_only":
+                  value = p
+              else:
+                  raise ValueError(f"unknown mapping: {mapping}")
+              return value, p, c
+
+
+          @dataclass
+          class LambdaState:
+              n: int
+              value: float = 2.0
+              factor: float = 1.5
+
+              def __post_init__(self) -> None:
+                  if self.n <= 1:
+                      raise ValueError("n must exceed one")
+                  if not 1.0 <= self.value <= self.n:
+                      raise ValueError("lambda0 must lie in [1,n]")
+                  if self.factor <= 1.0:
+                      raise ValueError("factor must exceed one")
+
+              def update(self, success: bool) -> dict[str, Any]:
+                  before = self.value
+                  reset = False
+                  if success:
+                      self.value = max(1.0, self.value / self.factor)
+                  elif self.value >= self.n:
+                      self.value = 1.0
+                      reset = True
+                  else:
+                      self.value = min(
+                          float(self.n), self.value * self.factor ** 0.25
+                      )
+                  return {
+                      "lambda_before": before,
+                      "lambda_after": self.value,
+                      "success": bool(success),
+                      "reset": reset,
+                  }
+
+
+          def _initial_digest(args: tuple[Any, ...], kwargs: dict[str, Any]) -> str:
+              signature = inspect.signature(SOURCE_GENETIC_ALGORITHM.__init__)
+              bound = signature.bind_partial(None, *args, **kwargs)
+              initial = bound.arguments.get("initial_solutions")
+              if initial is None:
+                  raise RuntimeError("cannot bind source initial_solutions")
+              payload = json.dumps(
+                  [str(solution) for solution in initial],
+                  separators=(",", ":"),
+                  ensure_ascii=True,
+              ).encode()
+              return hashlib.sha256(payload).hexdigest()
+
+
+          class RecordingOldGeneticAlgorithm(SOURCE_GENETIC_ALGORITHM):
+              def __init__(self, *args: Any, **kwargs: Any):
+                  self._initial_solutions_sha256 = _initial_digest(args, kwargs)
+                  super().__init__(*args, **kwargs)
+
+              def run(self, stop: Any, collect_stats: bool = True):
+                  global LAST_RUN
+                  result = super().run(stop, collect_stats)
+                  LAST_RUN = {
+                      "mode": "old",
+                      "initial_solutions_sha256": self._initial_solutions_sha256,
+                      "trace": [],
+                  }
+                  return result
+
+
+          class AdaptiveStop:
+              def __init__(
+                  self,
+                  base_stop: Any,
+                  algorithm: SOURCE_GENETIC_ALGORITHM,
+                  n: int,
+                  mapping: str,
+                  lambda0: float,
+                  factor: float,
+              ):
+                  self.base_stop = base_stop
+                  self.algorithm = algorithm
+                  self.mapping = mapping
+                  self.state = LambdaState(n=n, value=lambda0, factor=factor)
+                  self.previous_best: float | None = None
+                  self.calls = 0
+                  self.trace: list[dict[str, Any]] = []
+
+              def __call__(self, best_cost: float) -> bool:
+                  best = float(best_cost)
+                  transition = {
+                      "lambda_before": self.state.value,
+                      "lambda_after": self.state.value,
+                      "success": None,
+                      "reset": False,
+                  }
+                  if self.previous_best is not None:
+                      transition = self.state.update(best < self.previous_best)
+
+                  value, p_value, c_value = repair_probability(
+                      self.mapping, self.state.value, self.state.n
+                  )
+                  self.algorithm._params = _replace_params(
+                      self.algorithm._params, repair_probability=value
+                  )
+                  stopped = bool(self.base_stop(best_cost))
+                  self.trace.append(
+                      {
+                          "call": self.calls,
+                          "best_cost": best,
+                          **transition,
+                          "p": p_value,
+                          "c": c_value,
+                          "repair_probability": value,
+                          "stopped": stopped,
+                      }
+                  )
+                  self.previous_best = (
+                      best
+                      if self.previous_best is None
+                      else min(self.previous_best, best)
+                  )
+                  self.calls += 1
+                  return stopped
+
+
+          class ResetRepairGeneticAlgorithm(SOURCE_GENETIC_ALGORITHM):
+              def __init__(self, *args: Any, **kwargs: Any):
+                  self._initial_solutions_sha256 = _initial_digest(args, kwargs)
+                  super().__init__(*args, **kwargs)
+                  data = getattr(self, "_data", None)
+                  if data is None:
+                      signature = inspect.signature(SOURCE_GENETIC_ALGORITHM.__init__)
+                      bound = signature.bind_partial(None, *args, **kwargs)
+                      data = bound.arguments.get("data")
+                  self._hybrid_n = _num_clients(data)
+
+              def run(self, stop: Any, collect_stats: bool = True):
+                  global LAST_RUN
+                  wrapped = AdaptiveStop(
+                      stop,
+                      self,
+                      self._hybrid_n,
+                      str(CONTEXT["mapping"]),
+                      float(CONTEXT["lambda0"]),
+                      float(CONTEXT["factor"]),
+                  )
+                  result = super().run(wrapped, collect_stats)
+                  LAST_RUN = {
+                      "mode": "hybrid",
+                      "mapping": CONTEXT["mapping"],
+                      "lambda0": CONTEXT["lambda0"],
+                      "factor": CONTEXT["factor"],
+                      "initial_solutions_sha256": self._initial_solutions_sha256,
+                      "trace": list(wrapped.trace),
+                  }
+                  return result
+
+
+          def install(
+              mode: str,
+              mapping: str = "sum_pc_clipped",
+              lambda0: float = 2.0,
+              factor: float = 1.5,
+          ) -> None:
+              global LAST_RUN
+              if mode not in {"old", "hybrid"}:
+                  raise ValueError("mode must be old or hybrid")
+              CONTEXT.update(
+                  mode=mode,
+                  mapping=mapping,
+                  lambda0=float(lambda0),
+                  factor=float(factor),
+              )
+              LAST_RUN = {}
+              model_module = importlib.import_module("pyvrp.Model")
+              model_module.GeneticAlgorithm = (
+                  RecordingOldGeneticAlgorithm
+                  if mode == "old"
+                  else ResetRepairGeneticAlgorithm
+              )
+          PY
+
+          cat > candidates/EU26-25/hybrid/run_method.py <<'PY'
+          from __future__ import annotations
+
+          import argparse
+          import csv
+          import hashlib
+          import importlib.metadata
+          import inspect
+          import json
+          import math
+          import os
+          import platform
+          import sys
+          from pathlib import Path
+          from time import perf_counter
+
+          sys.path.insert(0, str(Path(__file__).resolve().parent))
+          import adaptive_repair
+
+
+          def git_blob_sha(data: bytes) -> str:
+              return hashlib.sha1(f"blob {len(data)}\0".encode() + data).hexdigest()
+
+
+          def sha256(path: Path) -> str:
+              return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+          def finite_cost(value: float) -> float | None:
+              value = float(value)
+              return value if math.isfinite(value) else None
+
+
+          def main() -> int:
+              parser = argparse.ArgumentParser()
+              parser.add_argument("--method", choices=("old", "hybrid"), required=True)
+              parser.add_argument("--variant", default="old")
+              parser.add_argument("--mapping", default="sum_pc_clipped")
+              parser.add_argument("--lambda0", type=float, default=2.0)
+              parser.add_argument("--factor", type=float, default=1.5)
+              parser.add_argument("--instance", type=Path, required=True)
+              parser.add_argument("--config", type=Path, required=True)
+              parser.add_argument("--seed", type=int, required=True)
+              parser.add_argument("--max-iterations", type=int, required=True)
+              parser.add_argument("--profile", required=True)
+              parser.add_argument("--bks", type=int, default=27591)
+              parser.add_argument("--output", type=Path, required=True)
+              parser.add_argument("--curve-output", type=Path)
+              parser.add_argument("--trace-output", type=Path)
+              parser.add_argument("--source-commit", required=True)
+              parser.add_argument("--expected-instance-blob", required=True)
+              parser.add_argument("--expected-penalty-blob", required=True)
+              args = parser.parse_args()
+
+              args.output.parent.mkdir(parents=True, exist_ok=True)
+              started = perf_counter()
+              try:
+                  from pyvrp import PenaltyManager
+
+                  version = importlib.metadata.version("pyvrp")
+                  if version != "0.5.0":
+                      raise RuntimeError(f"expected pyvrp 0.5.0, found {version}")
+                  instance_blob = git_blob_sha(args.instance.read_bytes())
+                  if instance_blob != args.expected_instance_blob:
+                      raise RuntimeError("instance blob mismatch")
+                  penalty_path = Path(inspect.getsourcefile(PenaltyManager) or "")
+                  penalty_blob = git_blob_sha(penalty_path.read_bytes())
+                  allowed = {
+                      token.strip()
+                      for token in args.expected_penalty_blob.split(",")
+                      if token.strip()
+                  }
+                  if penalty_blob not in allowed:
+                      raise RuntimeError(
+                          f"PenaltyManager blob {penalty_blob} not in {sorted(allowed)}"
+                      )
+
+                  adaptive_repair.install(
+                      args.method,
+                      mapping=args.mapping,
+                      lambda0=args.lambda0,
+                      factor=args.factor,
+                  )
+                  from pyvrp.cli import solve
+
+                  result = solve(
+                      instance=args.instance,
+                      seed=args.seed,
+                      is_rounded=True,
+                      config_loc=args.config,
+                      instance_format="vrplib",
+                      round_func="dimacs",
+                      max_iterations=args.max_iterations,
+                  )
+                  costs = [finite_cost(item.best_cost) for item in result.stats.feas_stats]
+                  if len(costs) != result.num_iterations:
+                      raise RuntimeError("statistics length does not match iterations")
+
+                  targets = {
+                      "bks_1_01": 1.01 * args.bks,
+                      "bks_1_005": 1.005 * args.bks,
+                      "bks": float(args.bks),
+                  }
+                  first_hit = {
+                      name: next(
+                          (
+                              idx
+                              for idx, value in enumerate(costs, start=1)
+                              if value is not None and value <= target
+                          ),
+                          None,
+                      )
+                      for name, target in targets.items()
+                  }
+
+                  run_info = adaptive_repair.LAST_RUN
+                  initial_digest = run_info.get("initial_solutions_sha256")
+                  if not initial_digest:
+                      raise RuntimeError("initial solution digest was not captured")
+                  trace = list(run_info.get("trace", []))
+                  if args.method == "hybrid" and len(trace) != result.num_iterations + 1:
+                      raise RuntimeError(
+                          f"lambda trace length {len(trace)} != iterations+1"
+                      )
+
+                  if args.curve_output:
+                      args.curve_output.parent.mkdir(parents=True, exist_ok=True)
+                      with args.curve_output.open("w", newline="") as fh:
+                          writer = csv.DictWriter(
+                              fh, fieldnames=["iteration", "best_feasible_cost"]
+                          )
+                          writer.writeheader()
+                          for idx, value in enumerate(costs, start=1):
+                              if idx == 1 or idx % 100 == 0 or idx == len(costs):
+                                  writer.writerow(
+                                      {"iteration": idx, "best_feasible_cost": value}
+                                  )
+
+                  if args.trace_output and args.method == "hybrid":
+                      args.trace_output.parent.mkdir(parents=True, exist_ok=True)
+                      fields = [
+                          "call",
+                          "best_cost",
+                          "lambda_before",
+                          "lambda_after",
+                          "success",
+                          "reset",
+                          "p",
+                          "c",
+                          "repair_probability",
+                          "stopped",
+                      ]
+                      with args.trace_output.open("w", newline="") as fh:
+                          writer = csv.DictWriter(fh, fieldnames=fields)
+                          writer.writeheader()
+                          for row in trace:
+                              if (
+                                  row["call"] == 0
+                                  or row["call"] % 100 == 0
+                                  or row["success"] is True
+                                  or row["reset"] is True
+                                  or row["stopped"] is True
+                              ):
+                                  writer.writerow({name: row.get(name) for name in fields})
+
+                  reset_count = sum(bool(row.get("reset")) for row in trace)
+                  success_count = sum(row.get("success") is True for row in trace)
+                  mean_repair = (
+                      sum(float(row["repair_probability"]) for row in trace) / len(trace)
+                      if trace
+                      else None
+                  )
+                  best = result.best
+                  canonical = {
+                      "candidate_id": "EU26-25",
+                      "profile": args.profile,
+                      "method": args.method,
+                      "variant": args.variant,
+                      "mapping": args.mapping if args.method == "hybrid" else None,
+                      "lambda0": args.lambda0 if args.method == "hybrid" else None,
+                      "factor": args.factor if args.method == "hybrid" else None,
+                      "source_commit": args.source_commit,
+                      "source_version": version,
+                      "instance_git_blob": instance_blob,
+                      "config_sha256": sha256(args.config),
+                      "penalty_manager_git_blob": penalty_blob,
+                      "seed": args.seed,
+                      "max_iterations": args.max_iterations,
+                      "completed_iterations": int(result.num_iterations),
+                      "final_cost": int(result.cost()),
+                      "feasible": bool(best.is_feasible()),
+                      "num_clients": int(best.num_clients()),
+                      "num_routes": int(best.num_routes()),
+                      "initial_solutions_sha256": initial_digest,
+                      "first_hit": first_hit,
+                      "solution_sha256": hashlib.sha256(str(best).encode()).hexdigest(),
+                      "lambda_summary": {
+                          "trace_calls": len(trace),
+                          "successes": success_count,
+                          "resets": reset_count,
+                          "final_lambda": trace[-1]["lambda_after"] if trace else None,
+                          "mean_repair_probability": mean_repair,
+                      },
+                  }
+                  digest = hashlib.sha256(
+                      json.dumps(
+                          canonical, sort_keys=True, separators=(",", ":")
+                      ).encode()
+                  ).hexdigest()
+                  row = {
+                      **canonical,
+                      "scientific_digest": digest,
+                      "runtime_seconds": perf_counter() - started,
+                      "python": platform.python_version(),
+                      "platform": platform.platform(),
+                      "machine": platform.machine(),
+                      "pid": os.getpid(),
+                      "complete": True,
+                      "error": None,
+                  }
+                  args.output.write_text(json.dumps(row, indent=2, sort_keys=True) + "\n")
+                  print(json.dumps(row, sort_keys=True))
+                  return 0
+              except Exception as exc:
+                  failure = {
+                      "candidate_id": "EU26-25",
+                      "profile": args.profile,
+                      "method": args.method,
+                      "variant": args.variant,
+                      "seed": args.seed,
+                      "max_iterations": args.max_iterations,
+                      "complete": False,
+                      "error": f"{type(exc).__name__}: {exc}",
+                      "runtime_seconds": perf_counter() - started,
+                      "python": platform.python_version(),
+                      "platform": platform.platform(),
+                  }
+                  args.output.write_text(
+                      json.dumps(failure, indent=2, sort_keys=True) + "\n"
+                  )
+                  print(json.dumps(failure, sort_keys=True))
+                  return 1
+
+
+          if __name__ == "__main__":
+              raise SystemExit(main())
+          PY
+
+          cat > candidates/EU26-25/hybrid/run_batch_method.py <<'PY'
+          from __future__ import annotations
+
+          import argparse
+          import json
+          import subprocess
+          import sys
+          from concurrent.futures import ThreadPoolExecutor, as_completed
+          from pathlib import Path
+
+
+          def main() -> int:
+              parser = argparse.ArgumentParser()
+              parser.add_argument("--method", choices=("old", "hybrid"), required=True)
+              parser.add_argument("--variant", default="old")
+              parser.add_argument("--mapping", default="sum_pc_clipped")
+              parser.add_argument("--lambda0", type=float, default=2.0)
+              parser.add_argument("--factor", type=float, default=1.5)
+              parser.add_argument("--instance", type=Path, required=True)
+              parser.add_argument("--config", type=Path, required=True)
+              parser.add_argument("--seeds", required=True)
+              parser.add_argument("--workers", type=int, choices=(1, 2, 4), required=True)
+              parser.add_argument("--max-iterations", type=int, required=True)
+              parser.add_argument("--profile", required=True)
+              parser.add_argument("--output-dir", type=Path, required=True)
+              parser.add_argument("--source-commit", required=True)
+              parser.add_argument("--expected-instance-blob", required=True)
+              parser.add_argument("--expected-penalty-blob", required=True)
+              args = parser.parse_args()
+
+              seeds = [int(token) for token in args.seeds.split(",") if token.strip()]
+              if not seeds or len(set(seeds)) != len(seeds):
+                  raise SystemExit("invalid seed ledger")
+              args.output_dir.mkdir(parents=True, exist_ok=True)
+              runner = Path(__file__).with_name("run_method.py")
+
+              def run(seed: int) -> dict:
+                  output = args.output_dir / f"{args.method}_{seed}.json"
+                  cmd = [
+                      sys.executable,
+                      str(runner),
+                      "--method", args.method,
+                      "--variant", args.variant,
+                      "--mapping", args.mapping,
+                      "--lambda0", str(args.lambda0),
+                      "--factor", str(args.factor),
+                      "--instance", str(args.instance),
+                      "--config", str(args.config),
+                      "--seed", str(seed),
+                      "--max-iterations", str(args.max_iterations),
+                      "--profile", args.profile,
+                      "--output", str(output),
+                      "--source-commit", args.source_commit,
+                      "--expected-instance-blob", args.expected_instance_blob,
+                      "--expected-penalty-blob", args.expected_penalty_blob,
+                  ]
+                  completed = subprocess.run(cmd, capture_output=True, text=True)
+                  if not output.is_file():
+                      output.write_text(json.dumps({
+                          "candidate_id": "EU26-25",
+                          "profile": args.profile,
+                          "method": args.method,
+                          "variant": args.variant,
+                          "seed": seed,
+                          "complete": False,
+                          "error": "runner produced no JSON",
+                          "returncode": completed.returncode,
+                      }, indent=2, sort_keys=True) + "\n")
+                  row = json.loads(output.read_text())
+                  row["batch_worker_count"] = args.workers
+                  row["runner_returncode"] = completed.returncode
+                  output.write_text(json.dumps(row, indent=2, sort_keys=True) + "\n")
+                  return row
+
+              rows = []
+              with ThreadPoolExecutor(max_workers=args.workers) as pool:
+                  futures = [pool.submit(run, seed) for seed in seeds]
+                  for future in as_completed(futures):
+                      rows.append(future.result())
+              rows.sort(key=lambda row: int(row["seed"]))
+              report = {
+                  "candidate_id": "EU26-25",
+                  "profile": args.profile,
+                  "method": args.method,
+                  "variant": args.variant,
+                  "workers": args.workers,
+                  "seeds": [row["seed"] for row in rows],
+                  "complete": all(row.get("complete") is True for row in rows),
+                  "scientific_digests": [row.get("scientific_digest") for row in rows],
+              }
+              (args.output_dir / "batch_report.json").write_text(
+                  json.dumps(report, indent=2, sort_keys=True) + "\n"
+              )
+              print(json.dumps(report, indent=2, sort_keys=True))
+              return 0 if report["complete"] else 1
+
+
+          if __name__ == "__main__":
+              raise SystemExit(main())
+          PY
+
+          cat > candidates/EU26-25/hybrid/tests/test_adaptive_repair.py <<'PY'
+          from __future__ import annotations
+
+          import unittest
+
+          from adaptive_repair import LambdaState, repair_probability
+
+
+          class FormulaTests(unittest.TestCase):
+              def test_sum_mapping_anchor(self):
+                  value, p, c = repair_probability("sum_pc_clipped", 2.0, 100)
+                  self.assertAlmostEqual(p, 0.02)
+                  self.assertAlmostEqual(c, 0.5)
+                  self.assertAlmostEqual(value, 0.52)
+
+              def test_mapping_anchors(self):
+                  self.assertAlmostEqual(repair_probability("c_only", 2, 100)[0], 0.5)
+                  self.assertAlmostEqual(repair_probability("p_only", 2, 100)[0], 0.02)
+                  self.assertAlmostEqual(repair_probability("max_pc", 10, 100)[0], 0.1)
+
+              def test_success_shrinks_lambda(self):
+                  state = LambdaState(n=100, value=9, factor=1.5)
+                  row = state.update(True)
+                  self.assertAlmostEqual(state.value, 6)
+                  self.assertFalse(row["reset"])
+
+              def test_failure_grows_lambda(self):
+                  state = LambdaState(n=100, value=9, factor=1.5)
+                  state.update(False)
+                  self.assertAlmostEqual(state.value, 9 * 1.5 ** 0.25)
+
+              def test_reset_occurs_only_after_failure_at_cap(self):
+                  state = LambdaState(n=100, value=99.9, factor=1.5)
+                  first = state.update(False)
+                  self.assertEqual(state.value, 100)
+                  self.assertFalse(first["reset"])
+                  second = state.update(False)
+                  self.assertEqual(state.value, 1)
+                  self.assertTrue(second["reset"])
+
+              def test_invalid_domains_fail_closed(self):
+                  with self.assertRaises(ValueError):
+                      repair_probability("sum_pc_clipped", 0, 100)
+                  with self.assertRaises(ValueError):
+                      repair_probability("unknown", 2, 100)
+                  with self.assertRaises(ValueError):
+                      LambdaState(n=1)
+
+
+          if __name__ == "__main__":
+              unittest.main()
+          PY
+
+          cat > candidates/EU26-25/hybrid/HYBRID_PROTOCOL.md <<'MD'
+          # EU26-25 HYBRID protocol
+
+          This file is created only after the committed OLD decision is
+          `PASS_OLD_FULL_ENGINEERING_GATE`.
+
+          The source PyVRP selection, crossover, local search, penalty manager,
+          population, restart, replacement, objective, instance and iteration budget
+          remain unchanged. A wrapper updates only the existing
+          `repair_probability` before the next source generation.
+
+          The transferred PR #8 state is:
+
+          ```text
+          p_g = lambda_g / n
+          c_g = 1 / lambda_g
+
+          success: lambda <- max(1, lambda / 1.5)
+          failure: lambda <- min(n, lambda * 1.5^(1/4))
+          failure while lambda=n: lambda <- 1
+          ```
+
+          Outcome-blind exploration uses seeds 101..110 and 40,000 iterations for:
+
+          ```text
+          sum_pc_clipped with lambda0 in {1,2,4}
+          c_only with lambda0 in {1,2}
+          max_pc with lambda0=2
+          ```
+
+          The mapping `sum_pc_clipped` is
+          `repair_probability=min(1,p_g+c_g)`. The other mappings are named
+          sensitivity variants. Selection ranks BKS coverage, median capped BKS
+          first-hit iteration, median capped 1.005-BKS first hit, final cost, and
+          lexical label, in that order.
+
+          Only the selected variant enters untouched paired confirmatory seeds
+          1001..1030 at 120,000 iterations. The confirmatory hypotheses, BCa settings,
+          margins and targets remain those frozen in the OLD preregistration.
+
+          Logical iterations are the primary efficiency unit. Wall-clock time is
+          retained only as machine-dependent engineering metadata.
+          MD
+
+          cat > candidates/EU26-25/hybrid/README.md <<'MD'
+          # EU26-25 reset self-adjusting repair HYBRID
+
+          This directory was created by a gate that authenticated the complete OLD
+          result. It contains no result from PR #19.
+
+          `adaptive_repair.py` does not copy or replace PyVRP's generation method. It
+          wraps the source stopping boundary, updates the immutable parameter object,
+          and delegates each generation to the exact PyVRP 0.5.0 implementation.
+          Consequently the intended intervention is isolated to the probability of the
+          existing repair call.
+
+          The HYBRID is not considered successful until the untouched 30-seed paired
+          confirmation passes quality, BKS-coverage, iteration-efficiency,
+          worker-equivalence and multi-OS gates.
+          MD
+
+          python -m py_compile \
+            candidates/EU26-25/hybrid/adaptive_repair.py \
+            candidates/EU26-25/hybrid/run_method.py \
+            candidates/EU26-25/hybrid/run_batch_method.py \
+            candidates/EU26-25/hybrid/tests/test_adaptive_repair.py
+
+      - name: Commit source-only HYBRID branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- candidates/EU26-25/hybrid
+          git commit -m "EU26-25 add OLD-gated HYBRID source and protocol"
+          git push -u origin "$HYBRID_BRANCH"
