@@ -11,4 +11,4 @@
 9. Generate convergence and mutation-strength plots only from the frozen campaign.
 10. HYBRID design is written after OLD verification, not before.
 
-Current status: implementation committed; waiting for CI trigger/verification.
+Current status: implementation committed; CI verification pending.
