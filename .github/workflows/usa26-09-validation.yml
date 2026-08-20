@@ -14,6 +14,7 @@ concurrency:
 
 permissions:
   contents: read
+  issues: write
 
 env:
   PYTHONHASHSEED: '0'
@@ -24,7 +25,30 @@ env:
   BUNDLE_SHA256: '9da9cb8896965434a7da112c6a1a7dc4ea4249d79497f1f0f69e4ed35c2ca984'
 
 jobs:
+  announce:
+    name: Announce traceable USA26-09 validation
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Publish run start to PR 21
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          cat > "$RUNNER_TEMP/usa26-09-start.md" <<EOF
+          <!-- usa26-09-validation-start -->
+          ## USA26-09 validation started
+
+          ```text
+          run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
+          head: ${GITHUB_SHA}
+          event: ${GITHUB_EVENT_NAME}
+          ```
+          EOF
+          gh api "repos/${GITHUB_REPOSITORY}/issues/21/comments" \
+            --method POST -F "body=@$RUNNER_TEMP/usa26-09-start.md" || true
+
   cross-platform:
+    needs: announce
     name: ${{ matrix.os }} / Python ${{ matrix.python }} / workers ${{ matrix.workers }}
     strategy:
       fail-fast: false
@@ -89,6 +113,7 @@ jobs:
           retention-days: 90
 
   load-profiles:
+    needs: announce
     name: Low, medium, and high logical-NFE loads
     runs-on: ubuntu-24.04
     timeout-minutes: 30
@@ -142,3 +167,38 @@ jobs:
           path: ${{ runner.temp }}/usa26-09-load-smoke.json
           if-no-files-found: error
           retention-days: 90
+  finalize:
+    name: Publish and enforce USA26-09 validation result
+    if: always()
+    needs: [cross-platform, load-profiles]
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Publish final status to PR 21
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CROSS_RESULT: ${{ needs.cross-platform.result }}
+          LOAD_RESULT: ${{ needs.load-profiles.result }}
+        shell: bash
+        run: |
+          cat > "$RUNNER_TEMP/usa26-09-final.md" <<EOF
+          <!-- usa26-09-validation-final -->
+          ## USA26-09 validation result
+
+          ```text
+          run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
+          head: ${GITHUB_SHA}
+          cross-platform: ${CROSS_RESULT}
+          load-profiles: ${LOAD_RESULT}
+          ```
+          EOF
+          gh api "repos/${GITHUB_REPOSITORY}/issues/21/comments" \
+            --method POST -F "body=@$RUNNER_TEMP/usa26-09-final.md" || true
+      - name: Enforce all required jobs
+        env:
+          CROSS_RESULT: ${{ needs.cross-platform.result }}
+          LOAD_RESULT: ${{ needs.load-profiles.result }}
+        shell: bash
+        run: |
+          test "$CROSS_RESULT" = success
+          test "$LOAD_RESULT" = success
+
