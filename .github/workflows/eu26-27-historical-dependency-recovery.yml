@@ -32,6 +32,19 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+
+          check_blob() {
+            repo="$1"
+            path="$2"
+            expected="$3"
+            observed="$(git -C "$repo" hash-object "$path")"
+            printf 'IDENTITY %s/%s observed=%s expected=%s\n' "$repo" "$path" "$observed" "$expected"
+            if [ "$observed" != "$expected" ]; then
+              echo "IDENTITY_MISMATCH: $repo/$path" >&2
+              exit 1
+            fi
+          }
+
           git config --global url."https://github.com/".insteadOf "git@github.com:"
           mkdir -p upstream
           git clone --filter=blob:none https://github.com/FurongYe/GSEMO.git upstream/GSEMO
@@ -41,18 +54,22 @@ jobs:
           git -C upstream/IOHexperimenter submodule sync --recursive
           git -C upstream/IOHexperimenter submodule update --init --recursive
 
-          test "$(git -C upstream/GSEMO rev-parse HEAD)" = "$GSEMO_SHA"
-          test "$(git -C upstream/IOHexperimenter rev-parse HEAD)" = "$IOH_SHA"
+          observed_gsemo="$(git -C upstream/GSEMO rev-parse HEAD)"
+          observed_ioh="$(git -C upstream/IOHexperimenter rev-parse HEAD)"
+          echo "GSEMO_HEAD observed=$observed_gsemo expected=$GSEMO_SHA"
+          echo "IOH_HEAD observed=$observed_ioh expected=$IOH_SHA"
+          test "$observed_gsemo" = "$GSEMO_SHA"
+          test "$observed_ioh" = "$IOH_SHA"
 
-          test "$(git -C upstream/GSEMO hash-object src/gsemo.hpp)" = "2693144bcfccff902343a02c6c8e48d7dd263257"
-          test "$(git -C upstream/GSEMO hash-object src/main.cpp)" = "22025e4680da85c98e3bb5ea30db8334ca25dff3"
-          test "$(git -C upstream/GSEMO hash-object src/problems.cpp)" = "cd9b520253e3b0b0390e35bf4fb86d4249c204de"
+          check_blob upstream/GSEMO src/gsemo.hpp 2693144bcfccff902343a02c6c8e48d7dd263257
+          check_blob upstream/GSEMO src/main.cpp 22025e4680da85c98e3bb5ea30db8334ca25dff3
+          check_blob upstream/GSEMO src/problems.cpp cd9b520253e3b0b0390e35bf4fb86d4249c204de
 
-          test "$(git -C upstream/IOHexperimenter hash-object include/ioh/common/random.hpp)" = "b032b0b6df43083d58ff287b2112958ddc3d572e"
-          test "$(git -C upstream/IOHexperimenter hash-object include/ioh/problem/constraints.hpp)" = "b64d88fac38a7e3a1c4be7c35d9557f4d4a1074a"
-          test "$(git -C upstream/IOHexperimenter hash-object include/ioh/problem/problem.hpp)" = "43be38b4ca0c26f8cffe3aefabd211d75bf25fd7"
-          test "$(git -C upstream/IOHexperimenter hash-object include/ioh/problem/single.hpp)" = "d9f4143424bd20abac6f9922a89ec7e5fd642a17"
-          test "$(git -C upstream/IOHexperimenter hash-object include/ioh/problem/pbo.hpp)" = "1d74dbf2d12612c18ad425e167baeede6c178705"
+          check_blob upstream/IOHexperimenter include/ioh/common/random.hpp b032b0b6df43083d58ff287b2112958ddc3d572e
+          check_blob upstream/IOHexperimenter include/ioh/problem/constraints.hpp b64d88fac38a7e3a1c4be7c35d9557f4d4a1074a
+          check_blob upstream/IOHexperimenter include/ioh/problem/problem.hpp 43be38b4ca0c26f8cffe3aefabd211d75bf25fd7
+          check_blob upstream/IOHexperimenter include/ioh/problem/single.hpp d9f4143424bd20abac6f9922a89ec7e5fd642a17
+          check_blob upstream/IOHexperimenter include/ioh/problem/pbo.hpp 1d74dbf2d12612c18ad425e167baeede6c178705
 
           rm -rf upstream/GSEMO/include upstream/GSEMO/external
           cp -R upstream/IOHexperimenter/include upstream/GSEMO/include
