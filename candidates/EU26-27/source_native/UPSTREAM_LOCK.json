@@ -1,11 +1,12 @@
 {
-  "schema": "eu26-27-source-native-old-v1",
+  "schema": "eu26-27-source-native-old-v2",
   "research_tag": "RESEARCH_2",
   "old_mode": "single_source_native_author_implementation",
   "gsemo": {
     "repository": "https://github.com/FurongYe/GSEMO",
     "commit": "fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380",
     "commit_message": "submission preparation",
+    "commit_date": "2023-05-01",
     "source_blobs": {
       "CMakeLists.txt": "1e2cb211fc0cc36f9837232b0dee69aa5c1dab9c",
       "src/gsemo.hpp": "2693144bcfccff902343a02c6c8e48d7dd263257",
@@ -16,9 +17,13 @@
     "use": "fetched at exact SHA for source-native execution; not copied as project-owned source"
   },
   "iohexperimenter": {
-    "repository": "https://github.com/FurongYe/IOHexperimenter",
-    "commit": "d35fffe510b958aa2658c0b39ed7dd2d84c5553b",
-    "status": "paper-era dependency candidate; exact historical identity must be accepted only if source-native replay matches Zenodo"
+    "repository": "https://github.com/IOHprofiler/IOHexperimenter",
+    "release": "v0.3.9",
+    "commit": "f223c682dff0749067d00b870f83ad754f7d96f5",
+    "release_date": "2023-03-13",
+    "version_blob": "940ac09aa677de91fee3cd51b88b8f0521d96cc0",
+    "selection_basis": "latest public IOHexperimenter release before the 2023-05-01 GSEMO paper-era commit; its legacy IntegerSingleObjective/wrap_function API matches the author GSEMO source",
+    "outcome_blind": true
   },
   "profile": {
     "problem_id": 1,
