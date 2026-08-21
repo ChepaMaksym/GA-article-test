@@ -13,6 +13,7 @@ author repository: PASS_FurongYe/GSEMO
 paper-era author commit: PASS_fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380
 OLD implementation: SINGLE_SOURCE_NATIVE_AUTHOR_CODE
 IOHexperimenter dependency: PINNED_OFFICIAL_v0.3.9_f223c682
+publication anchor: CORRECTED_TABLE1_TWORATE_HV_61624
 OLD 100-run raw replay: CI_RUNNING
 HYBRID: BLOCKED_UNTIL_PASS_SOURCE_NATIVE_OLD
 PR #19 numerical evidence used: false
@@ -77,6 +78,22 @@ adaptation, a 100000-FE budget and 100 sequential runs from the author's single
 `seed(10)` RNG stream. The generated prefix `TwoRateL10P1HV` matches the
 authenticated Zenodo member `csv/om/TwoRateL10P1HVOneMaxD100.csv`.
 
+## Correct publication anchor
+
+The paper's Table 1 reports, for the profile matching this OLD:
+
+```text
+OneMinMax / two-rate GSEMO / HV / lambda=10: 61 624 FE
+```
+
+The authenticated Zenodo raw endpoint mean is `61623.78 FE`, which rounds to
+`61624 FE`.
+
+A previous freeze incorrectly used `61618 FE`. That value belongs to **AGSEMO
+in Table 2**, a different algorithm. The correction changes only the mislabeled
+publication anchor. It does not change source code, data, seed, budget, command,
+raw matrix, or the exact-replay pass criterion.
+
 ## OLD pass rule
 
 `PASS_SOURCE_NATIVE_OLD` requires all of:
@@ -86,8 +103,8 @@ authenticated Zenodo member `csv/om/TwoRateL10P1HVOneMaxD100.csv`.
 3. exactly 100 complete source-native runs;
 4. exact 101×100 first-hit matrix equality with Zenodo;
 5. exact 100-run endpoint-vector equality;
-6. Zenodo raw mean consistent with the published rounded `61618 FE`;
-7. SHA-256-bound JSON and SVG evidence;
+6. Zenodo raw mean consistent with the matching paper Table 1 value `61624 FE`;
+7. SHA-256-bound JSON, raw logger output and SVG evidence;
 8. professor fail-closed review.
 
 The build is smoke-tested on Ubuntu, macOS and Windows. The historical OLD
@@ -95,13 +112,35 @@ batch is intentionally not parallelized because splitting the author's single
 global RNG stream across workers would change the experiment rather than
 reproduce it.
 
+## Recovery results already established
+
+The recovery process is fail-closed and is not allowed to optimize numerical
+agreement:
+
+- nine distinct paper-era GSEMO source generations were checked; none exactly
+  reproduced the Zenodo raw trajectory;
+- a January-2023 compatible IOHexperimenter core state was checked and produced
+  0/100 complete runs, ruling out that early dependency state;
+- GCC9 and GCC10 both execute the final source but do not exactly reproduce the
+  Zenodo matrix;
+- the secondary, provenance-frozen GCC11–GCC13 matrix is the remaining compiler
+  recovery check; exact raw equality is the only positive outcome.
+
 ## Professor boundary
 
-CI success alone is not a scientific PASS. If exact source-native replay does
-not match Zenodo, the historical environment remains unresolved and HYBRID is
-prohibited. No tolerance, seed, aggregation or subset may be changed after
-observing the result.
+CI execution success alone is not a scientific PASS. If exact source-native
+replay does not match Zenodo after the justified recovery axes are exhausted,
+the historical environment remains unresolved and HYBRID is prohibited. No
+tolerance, seed, aggregation or subset may be changed after observing the
+result.
 
-If `PASS_SOURCE_NATIVE_OLD` is reached, Stage 2 may introduce the preregistered
-HYBRID modification to this single baseline and then test equal-budget quality,
-efficiency, load profiles, graphs and academic claim boundaries.
+If `PASS_SOURCE_NATIVE_OLD` is reached, Stage 2 may introduce the separately
+preregistered HYBRID modification to this single baseline and then test
+equal-budget quality, efficiency, load profiles, graphs and academic claim
+boundaries.
+
+If it is not reached, the thesis-ready result is a reproducibility limitation,
+not a fabricated HYBRID performance claim: public source, public data and the
+published profile can be authenticated, while the exact historical stochastic
+trajectory cannot be reconstructed from the publicly preserved environment
+information.
