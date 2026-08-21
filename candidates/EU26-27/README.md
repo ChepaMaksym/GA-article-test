@@ -1,31 +1,87 @@
 # EU26-27 - self-adaptive GSEMO OLD-first candidate
 
-## Current status
+Research tag: `RESEARCH_2`
+
+## Final audited status
 
 ```text
-candidate identity: PASS_PRELIMINARY
+candidate identity: PASS
 EU affiliation: PASS_LEIDEN_UNIVERSITY_NETHERLANDS
 dimension: PASS_N_100
-adaptive formulas: PASS_PRINTED_ALGORITHMS
-Zenodo record: AUDIT_RUNNING
-author source revision: NOT_YET_PINNED
-OLD numeric profile: BLOCKED_BY_ARTIFACT_AUDIT
-HYBRID: BLOCKED_BY_OLD
+printed adaptive formulas: PASS
+Zenodo artifact authentication: PASS
+selected schema/parser mapping: PASS
+100-run raw endpoint availability: PASS
+independent clean-room OLD distributional compatibility: FAIL
+mandatory exact author implementation revision: FAIL
+OLD: REJECTED
+HYBRID: BLOCKED_NOT_AUTHORIZED
+PR #22: CLOSED_NOT_MERGED
 PR #19 numerical evidence used: false
 ```
+
+This README supersedes the earlier `AUDIT_RUNNING` wording. The final decision is fail-closed.
 
 ## Candidate
 
 Furong Ye, Frank Neumann, Jacob de Nobel, Aneta Neumann and Thomas Bäck,
 *What Performance Indicators to Use for Self-Adaptation in Multi-Objective
-Evolutionary Algorithms*, GECCO 2024, DOI
-`10.1145/3638529.3654073`. The open preprint is arXiv `2303.04611`.
+Evolutionary Algorithms*, GECCO 2024, DOI `10.1145/3638529.3654073`, open
+preprint `arXiv:2303.04611`.
 
-The study evaluates 100-dimensional binary multi-objective problems
-OneMinMax, LOTZ and COCZ in 100 independent runs. Jacob de Nobel and Thomas
-Bäck are affiliated with Leiden University, Netherlands.
+The study evaluates 100-dimensional binary multi-objective problems OneMinMax,
+LOTZ and COCZ in 100 independent runs. The EU-affiliation gate is satisfied by
+Leiden University, Netherlands.
 
-## Paper formulas admitted for audit
+## What passed
+
+- Zenodo record `7880836` and the selected raw-result member were authenticated;
+- selected result schema and parser mapping passed;
+- the frozen two-rate GSEMO / OneMinMax / `n=100` / `lambda=10` profile exposes
+  100 complete raw runs;
+- formula, OneMinMax objective, hypervolume, archive, negative-control,
+  effort-accounting and deterministic test kernels were implemented;
+- several Linux/macOS/Windows smoke jobs completed successfully;
+- the raw endpoint recomputes to mean `61623.78` and median `57717.5` function
+  evaluations in the audited workflow.
+
+These facts do not establish OLD reproduction.
+
+## Decisive OLD failures
+
+### 1. Independent distributional compatibility failed
+
+The full OLD workflow run `32413804943` reported for workers=1:
+
+```text
+raw runs: 100
+raw median FE: 57717.5
+independent runs: 100
+independent median FE: 119601.0
+median ratio: 2.072179148438515
+95% interval for ratio: [1.9015896717026757, 2.3347756733466567]
+empirical Kolmogorov distance: 0.74
+ratio gate: FAIL
+Kolmogorov gate: FAIL
+status: FAIL_OLD_DISTRIBUTIONAL_COMPATIBILITY
+```
+
+The 100-run campaign therefore does not reproduce the selected raw-result
+distribution under the clean-room implementation. Proximity of the raw mean to
+a paper-level displayed value is not used to override this failure.
+
+### 2. Preregistered source-provenance gate failed
+
+Before outcomes were read, the eligibility contract required either algorithm
+source-code members in the artifact or an exact author implementation revision.
+The retained audit found result artifacts but no exact implementation revision
+that can close this gate. Weakening this requirement after seeing results would
+be post-hoc criterion modification.
+
+Either failure is sufficient to reject OLD. Together they make the decision
+unambiguous.
+
+## OLD formulas retained as research context
 
 Static GSEMO uses conditional standard bit mutation
 
@@ -46,50 +102,42 @@ winner from higher-rate half:
     r <- min(2r, n/4) otherwise
 ```
 
-Log-normal GSEMO samples, for every offspring,
+Log-normal and variance-controlled variants are retained only as literature and
+formula context; no positive OLD claim is derived from them in this branch.
+
+## HYBRID status
+
+No valid executable HYBRID result exists for EU26-27. The project rule is:
 
 ```text
-p' = (1 + ((1-p)/p) * exp(0.22 * N(0,1)))^(-1)
-p' in [1/(4n), 1/2],
+PASS_OLD -> preregister HYBRID -> run paired evidence
+FAIL_OLD -> HYBRID remains blocked
 ```
 
-and inherits the rate of the best offspring.
+Because OLD failed, transferring the PR #8 reset self-adjusting
+`(1+(lambda,lambda))` controller is not scientifically authorized for this
+candidate. There is no HYBRID quality, iteration, NFE, worker or wall-clock
+improvement claim.
 
-Variance-controlled GSEMO samples
+## Scientific novelty boundary - Research 2
 
-```text
-ell ~ min{N_{>0}(r, F^c r(1-r/n)), n}, F = 0.98,
-```
+`RESEARCH_2` identifies the second thesis research line / candidate-improvement
+cycle, not a positive result label.
 
-sets `r` to the winning mutation strength and increments `c` while `r`
-remains unchanged.
+The intended novelty hypothesis was to compare an OLD self-adaptive
+multi-objective mutation-control mechanism with a separately preregistered
+reset self-adjusting search-control layer under equal objective and effort
+budgets. EU26-27 does not validate that hypothesis because OLD did not pass.
 
-The paper's final AGSEMO combines problem-extreme and non-extreme adaptation.
-Its complete source transition and raw labels must be authenticated before
-choosing a numerical OLD profile.
+The defensible contribution of EU26-27 is methodological: it demonstrates an
+artifact-first, outcome-blind rejection workflow that prevents a numerically or
+conceptually attractive hybrid from being promoted when source provenance or
+independent reproduction fails.
 
-## Candidate admission rule
+## Repository decision
 
-The candidate is admitted to implementation only if the Zenodo record
-`10.5281/zenodo.7880836` and an author source provide all of:
+PR #22 is closed without merge. The next candidate must branch directly from
+`research/EU26-07-reset-jump-verification`, not from EU26-27.
 
-1. machine-readable per-run results for an exact `n=100`, 100-run cell;
-2. unambiguous algorithm/problem/offspring-size labels;
-3. a legal file license and immutable checksums;
-4. sufficient source semantics to implement the selected algorithm without
-   outcome-informed assumptions;
-5. a numerical endpoint recomputable from raw rows;
-6. a frozen seed or run-order policy for independent OLD verification.
-
-If any mandatory item fails, executable files are not added and EU26-27 is
-rejected before HYBRID.
-
-## HYBRID boundary
-
-No executable HYBRID exists. After a full OLD pass, a separately preregistered
-comparison may transfer the verified reset self-adjusting
-`(1+(lambda,lambda))` control from PR #8. It must use identical objective
-budgets and record objective evaluations, offspring evaluations, cache
-statistics, mutation/crossover work, workers, machine profile and wall-clock
-diagnostics. The exact mapping is frozen only after the OLD source semantics
-are authenticated and before any HYBRID outcome is viewed.
+See `SCIENTIFIC_NOVELTY_AND_PLAN.md` for the Research-2 plan and the comparison
+with PR #17 and PR #19.
