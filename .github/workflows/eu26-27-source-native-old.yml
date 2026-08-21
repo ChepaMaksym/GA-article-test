@@ -22,6 +22,10 @@ concurrency:
 permissions:
   contents: read
 
+env:
+  GSEMO_SHA: fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380
+  IOH_SHA: f223c682dff0749067d00b870f83ad754f7d96f5
+
 jobs:
   build-smoke:
     name: Author OLD build / ${{ matrix.os }}
@@ -37,19 +41,21 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
 
-      - name: Checkout exact author OLD and paper-era dependency candidate
+      - name: Checkout exact author OLD and outcome-blind paper-era IOH release
         run: |
           set -euo pipefail
           git config --global url."https://github.com/".insteadOf "git@github.com:"
           mkdir -p upstream
           git clone --filter=blob:none https://github.com/FurongYe/GSEMO.git upstream/GSEMO
-          git -C upstream/GSEMO checkout --detach fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380
-          git clone --filter=blob:none https://github.com/FurongYe/IOHexperimenter.git upstream/IOHexperimenter
-          git -C upstream/IOHexperimenter checkout --detach d35fffe510b958aa2658c0b39ed7dd2d84c5553b
+          git -C upstream/GSEMO checkout --detach "$GSEMO_SHA"
+          git clone --filter=blob:none https://github.com/IOHprofiler/IOHexperimenter.git upstream/IOHexperimenter
+          git -C upstream/IOHexperimenter checkout --detach "$IOH_SHA"
           git -C upstream/IOHexperimenter submodule sync --recursive
           git -C upstream/IOHexperimenter submodule update --init --recursive
-          test "$(git -C upstream/GSEMO rev-parse HEAD)" = "fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380"
-          test "$(git -C upstream/IOHexperimenter rev-parse HEAD)" = "d35fffe510b958aa2658c0b39ed7dd2d84c5553b"
+          test "$(git -C upstream/GSEMO rev-parse HEAD)" = "$GSEMO_SHA"
+          test "$(git -C upstream/IOHexperimenter rev-parse HEAD)" = "$IOH_SHA"
+          test "$(cat upstream/IOHexperimenter/VERSION)" = "0.3.9"
+          test "$(git -C upstream/IOHexperimenter hash-object VERSION)" = "940ac09aa677de91fee3cd51b88b8f0521d96cc0"
           test "$(git -C upstream/GSEMO hash-object src/gsemo.hpp)" = "2693144bcfccff902343a02c6c8e48d7dd263257"
           test "$(git -C upstream/GSEMO hash-object src/main.cpp)" = "22025e4680da85c98e3bb5ea30db8334ca25dff3"
           test "$(git -C upstream/GSEMO hash-object src/problems.cpp)" = "cd9b520253e3b0b0390e35bf4fb86d4249c204de"
@@ -66,13 +72,7 @@ jobs:
       - name: Build exact author source
         run: |
           set -euo pipefail
-          CLUTCHLOG="$GITHUB_WORKSPACE/upstream/GSEMO/external/clutchlog"
-          if [ "$RUNNER_OS" = "Windows" ]; then
-            EXTRA_CXX="/I$CLUTCHLOG"
-          else
-            EXTRA_CXX="-I$CLUTCHLOG"
-          fi
-          cmake -S upstream/GSEMO -B upstream/GSEMO/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="$EXTRA_CXX"
+          cmake -S upstream/GSEMO -B upstream/GSEMO/build -DCMAKE_BUILD_TYPE=Release
           cmake --build upstream/GSEMO/build --config Release --parallel 2
           BIN="$(find upstream/GSEMO/build -type f \( -name gsemo -o -name gsemo.exe \) | head -n 1)"
           test -n "$BIN"
@@ -110,11 +110,15 @@ jobs:
           git config --global url."https://github.com/".insteadOf "git@github.com:"
           mkdir -p upstream
           git clone --filter=blob:none https://github.com/FurongYe/GSEMO.git upstream/GSEMO
-          git -C upstream/GSEMO checkout --detach fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380
-          git clone --filter=blob:none https://github.com/FurongYe/IOHexperimenter.git upstream/IOHexperimenter
-          git -C upstream/IOHexperimenter checkout --detach d35fffe510b958aa2658c0b39ed7dd2d84c5553b
+          git -C upstream/GSEMO checkout --detach "$GSEMO_SHA"
+          git clone --filter=blob:none https://github.com/IOHprofiler/IOHexperimenter.git upstream/IOHexperimenter
+          git -C upstream/IOHexperimenter checkout --detach "$IOH_SHA"
           git -C upstream/IOHexperimenter submodule sync --recursive
           git -C upstream/IOHexperimenter submodule update --init --recursive
+          test "$(git -C upstream/GSEMO rev-parse HEAD)" = "$GSEMO_SHA"
+          test "$(git -C upstream/IOHexperimenter rev-parse HEAD)" = "$IOH_SHA"
+          test "$(cat upstream/IOHexperimenter/VERSION)" = "0.3.9"
+          test "$(git -C upstream/IOHexperimenter hash-object VERSION)" = "940ac09aa677de91fee3cd51b88b8f0521d96cc0"
           test "$(git -C upstream/GSEMO hash-object src/gsemo.hpp)" = "2693144bcfccff902343a02c6c8e48d7dd263257"
           test "$(git -C upstream/GSEMO hash-object src/main.cpp)" = "22025e4680da85c98e3bb5ea30db8334ca25dff3"
           test "$(git -C upstream/GSEMO hash-object src/problems.cpp)" = "cd9b520253e3b0b0390e35bf4fb86d4249c204de"
@@ -131,8 +135,7 @@ jobs:
       - name: Build exact source
         run: |
           set -euo pipefail
-          CLUTCHLOG="$GITHUB_WORKSPACE/upstream/GSEMO/external/clutchlog"
-          cmake -S upstream/GSEMO -B upstream/GSEMO/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-I$CLUTCHLOG"
+          cmake -S upstream/GSEMO -B upstream/GSEMO/build -DCMAKE_BUILD_TYPE=Release
           cmake --build upstream/GSEMO/build --config Release --parallel 2
           BIN="$(find upstream/GSEMO/build -type f -name gsemo | head -n 1)"
           test -n "$BIN"
@@ -152,8 +155,8 @@ jobs:
           python candidates/EU26-27/source_native/compare_source_native_old.py \
             --author-output-root source-native-run \
             --output-dir evidence/source-native-old \
-            --gsemo-sha fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380 \
-            --ioh-sha d35fffe510b958aa2658c0b39ed7dd2d84c5553b
+            --gsemo-sha "$GSEMO_SHA" \
+            --ioh-sha "$IOH_SHA"
 
       - name: Publish professor-readable result
         if: always()
