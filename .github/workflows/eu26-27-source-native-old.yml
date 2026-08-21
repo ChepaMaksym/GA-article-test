@@ -1,0 +1,165 @@
+name: EU26-27 source-native OLD
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - research/EU26-07-reset-jump-verification
+    paths:
+      - 'candidates/EU26-27/source_native/**'
+      - '.github/workflows/eu26-27-source-native-old.yml'
+  push:
+    branches:
+      - research/EU26-27-agsemo-recovery
+    paths:
+      - 'candidates/EU26-27/source_native/**'
+      - '.github/workflows/eu26-27-source-native-old.yml'
+
+concurrency:
+  group: eu26-27-source-native-old-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build-smoke:
+    name: Author OLD build / ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-14, windows-2022]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 35
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      - name: Checkout exact author OLD and paper-era dependency candidate
+        run: |
+          set -euo pipefail
+          mkdir -p upstream
+          git clone --filter=blob:none https://github.com/FurongYe/GSEMO.git upstream/GSEMO
+          git -C upstream/GSEMO checkout --detach fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380
+          git clone --filter=blob:none https://github.com/FurongYe/IOHexperimenter.git upstream/IOHexperimenter
+          git -C upstream/IOHexperimenter checkout --detach d35fffe510b958aa2658c0b39ed7dd2d84c5553b
+          git -C upstream/IOHexperimenter submodule update --init --recursive
+          test "$(git -C upstream/GSEMO rev-parse HEAD)" = "fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380"
+          test "$(git -C upstream/IOHexperimenter rev-parse HEAD)" = "d35fffe510b958aa2658c0b39ed7dd2d84c5553b"
+          test "$(git -C upstream/GSEMO hash-object src/gsemo.hpp)" = "2693144bcfccff902343a02c6c8e48d7dd263257"
+          test "$(git -C upstream/GSEMO hash-object src/main.cpp)" = "22025e4680da85c98e3bb5ea30db8334ca25dff3"
+          test "$(git -C upstream/GSEMO hash-object src/problems.cpp)" = "cd9b520253e3b0b0390e35bf4fb86d4249c204de"
+
+      - name: Rehydrate historical absolute dependency symlinks without modifying algorithm source
+        run: |
+          set -euo pipefail
+          test "$(git -C upstream/GSEMO show HEAD:include)" = "/home/jacob/code/IOHexperimenter/include/"
+          test "$(git -C upstream/GSEMO show HEAD:external)" = "/home/jacob/code/IOHexperimenter/external/"
+          rm upstream/GSEMO/include upstream/GSEMO/external
+          cp -R upstream/IOHexperimenter/include upstream/GSEMO/include
+          cp -R upstream/IOHexperimenter/external upstream/GSEMO/external
+
+      - name: Build exact author source
+        run: |
+          set -euo pipefail
+          cmake -S upstream/GSEMO -B upstream/GSEMO/build -DCMAKE_BUILD_TYPE=Release
+          cmake --build upstream/GSEMO/build --config Release --parallel 2
+          BIN="$(find upstream/GSEMO/build -type f \( -name gsemo -o -name gsemo.exe \) | head -n 1)"
+          test -n "$BIN"
+          echo "AUTHOR_BIN=$BIN" >> "$GITHUB_ENV"
+
+      - name: One-run source-native smoke
+        run: |
+          set -euo pipefail
+          mkdir source-smoke
+          cd source-smoke
+          "$GITHUB_WORKSPACE/$AUTHOR_BIN" 1 100 TwoRate 10 1 1 100000 1 > stdout.txt
+          test -n "$(find . -type f | head -n 1)"
+
+      - name: Assert author source remains byte-identical after build
+        run: |
+          set -euo pipefail
+          test "$(git -C upstream/GSEMO hash-object src/gsemo.hpp)" = "2693144bcfccff902343a02c6c8e48d7dd263257"
+          test "$(git -C upstream/GSEMO hash-object src/main.cpp)" = "22025e4680da85c98e3bb5ea30db8334ca25dff3"
+          test "$(git -C upstream/GSEMO hash-object src/problems.cpp)" = "cd9b520253e3b0b0390e35bf4fb86d4249c204de"
+
+  full-replay:
+    name: 100-run author OLD vs Zenodo
+    needs: build-smoke
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+
+      - name: Checkout exact frozen upstreams
+        run: |
+          set -euo pipefail
+          mkdir -p upstream
+          git clone --filter=blob:none https://github.com/FurongYe/GSEMO.git upstream/GSEMO
+          git -C upstream/GSEMO checkout --detach fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380
+          git clone --filter=blob:none https://github.com/FurongYe/IOHexperimenter.git upstream/IOHexperimenter
+          git -C upstream/IOHexperimenter checkout --detach d35fffe510b958aa2658c0b39ed7dd2d84c5553b
+          git -C upstream/IOHexperimenter submodule update --init --recursive
+          test "$(git -C upstream/GSEMO hash-object src/gsemo.hpp)" = "2693144bcfccff902343a02c6c8e48d7dd263257"
+          test "$(git -C upstream/GSEMO hash-object src/main.cpp)" = "22025e4680da85c98e3bb5ea30db8334ca25dff3"
+          test "$(git -C upstream/GSEMO hash-object src/problems.cpp)" = "cd9b520253e3b0b0390e35bf4fb86d4249c204de"
+
+      - name: Rehydrate historical dependency paths
+        run: |
+          set -euo pipefail
+          test "$(git -C upstream/GSEMO show HEAD:include)" = "/home/jacob/code/IOHexperimenter/include/"
+          test "$(git -C upstream/GSEMO show HEAD:external)" = "/home/jacob/code/IOHexperimenter/external/"
+          rm upstream/GSEMO/include upstream/GSEMO/external
+          cp -R upstream/IOHexperimenter/include upstream/GSEMO/include
+          cp -R upstream/IOHexperimenter/external upstream/GSEMO/external
+
+      - name: Build exact source
+        run: |
+          set -euo pipefail
+          cmake -S upstream/GSEMO -B upstream/GSEMO/build -DCMAKE_BUILD_TYPE=Release
+          cmake --build upstream/GSEMO/build --config Release --parallel 2
+          BIN="$(find upstream/GSEMO/build -type f -name gsemo | head -n 1)"
+          test -n "$BIN"
+          echo "AUTHOR_BIN=$BIN" >> "$GITHUB_ENV"
+
+      - name: Run the author's frozen 100-run OLD batch
+        run: |
+          set -euo pipefail
+          mkdir source-native-run
+          cd source-native-run
+          "$GITHUB_WORKSPACE/$AUTHOR_BIN" 1 100 TwoRate 10 1 1 100000 100 > stdout.txt
+          test -n "$(find . -name '*.json' -type f | head -n 1)"
+
+      - name: Compare source-native raw trajectory with Zenodo and published mean
+        run: |
+          set -euo pipefail
+          python candidates/EU26-27/source_native/compare_source_native_old.py \
+            --author-output-root source-native-run \
+            --output-dir evidence/source-native-old \
+            --gsemo-sha fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380 \
+            --ioh-sha d35fffe510b958aa2658c0b39ed7dd2d84c5553b
+
+      - name: Publish professor-readable result
+        if: always()
+        run: |
+          test -f evidence/source-native-old/summary.md
+          cat evidence/source-native-old/summary.md >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: eu26-27-source-native-old-evidence
+          path: |
+            evidence/source-native-old/report.json
+            evidence/source-native-old/summary.md
+            evidence/source-native-old/SHA256SUMS.json
+            evidence/source-native-old/endpoint_ecdf.svg
+            evidence/source-native-old/run_by_run.svg
+            source-native-run/stdout.txt
+          if-no-files-found: error
+          retention-days: 90
