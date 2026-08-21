@@ -94,7 +94,7 @@ RNG: author's IOHexperimenter global stream seeded once with 10
 No OLD run is split across workers because parallelizing this one global RNG
 stream changes the historical experiment.
 
-## Reference artifact
+## Reference artifact and corrected publication anchor
 
 ```text
 Zenodo record: 7880836
@@ -102,8 +102,19 @@ archive: csv.zip
 member: csv/om/TwoRateL10P1HVOneMaxD100.csv
 front rows: 101
 runs: 100
-published rounded mean endpoint: 61618 FE
+Zenodo endpoint mean: 61623.78 FE
+paper Table 1, matching profile: 61624 FE
 ```
+
+The matching paper row is **OneMinMax / two-rate GSEMO / HV / lambda=10**.
+Table 1 reports `61 624` FE as the average over 100 runs. The Zenodo raw mean
+`61623.78` rounds to that value.
+
+A previous project freeze incorrectly used `61618 FE`. That number is from
+**AGSEMO in Table 2**, not from the frozen TwoRate+HV OLD. This correction is a
+profile-identity repair based on the paper's algorithm/table labels; it does
+not alter the exact Zenodo matrix, source, seed, budget, command, or raw-replay
+criterion.
 
 The run endpoint is the maximum `First_hit_j` across all 101 Pareto points. The
 primary source-native comparison retains the complete 101×100 first-hit matrix,
@@ -118,7 +129,7 @@ not only an aggregate.
 3. 100/100 complete sequential source-native runs;
 4. exact 101×100 first-hit matrix equality with Zenodo;
 5. exact 100-run endpoint-vector equality with Zenodo;
-6. Zenodo raw mean within ±1 FE of published rounded `61618`;
+6. Zenodo raw mean within ±1 FE of the matching paper Table 1 value `61624`;
 7. SHA-256-bound report and SVG evidence;
 8. professor review of source identity, accounting and claim limits.
 
@@ -130,8 +141,12 @@ environment.
 
 Ubuntu, macOS and Windows compile the same author source and execute one-run
 smokes. This tests portability of the reconstructed build environment. The
-canonical 100-run historical replay runs sequentially on Ubuntu and is the only
-job used for exact Zenodo equality.
+historical OLD batch is intentionally not parallelized because splitting the
+author's single global RNG stream would change the experiment.
+
+Historical compiler/runtime recovery is allowed only as a provenance-driven
+attempt to reconstruct the missing developer environment. Exact raw equality,
+not aggregate closeness, remains the selection rule.
 
 ## HYBRID prohibition
 
