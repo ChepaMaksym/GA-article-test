@@ -36,7 +36,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        gcc: ['7', '8', '9', '10']
+        # Outcome-blind historical window. GCC 9-13 covers the libstdc++
+        # generations plausibly used by a Linux research workstation during
+        # the 2020-2023 implementation/data-generation period. GCC 7/8 were
+        # already probed and are source-incompatible with the frozen C++17 tree.
+        gcc: ['9', '10', '11', '12', '13']
 
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
@@ -74,6 +78,7 @@ jobs:
           set -euo pipefail
           mkdir -p "env-runs/gcc${GCC_MAJOR}" "env-bin/gcc${GCC_MAJOR}"
           docker pull "gcc:${GCC_MAJOR}"
+          docker image inspect "gcc:${GCC_MAJOR}" --format '{{index .RepoDigests 0}}' > "env-runs/gcc${GCC_MAJOR}/compiler-image.txt"
           docker run --rm \
             -e GCC_MAJOR="$GCC_MAJOR" \
             -v "$GITHUB_WORKSPACE:/work" \
@@ -127,6 +132,7 @@ jobs:
             evidence/historical-gcc${{ matrix.gcc }}/summary.md
             evidence/historical-gcc${{ matrix.gcc }}/SHA256SUMS.json
             env-runs/gcc${{ matrix.gcc }}/compiler.txt
+            env-runs/gcc${{ matrix.gcc }}/compiler-image.txt
             env-runs/gcc${{ matrix.gcc }}/stdout.txt
             env-runs/gcc${{ matrix.gcc }}/**/*.json
             env-runs/gcc${{ matrix.gcc }}/**/*.dat
