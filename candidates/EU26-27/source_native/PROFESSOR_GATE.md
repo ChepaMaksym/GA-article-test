@@ -21,17 +21,20 @@ No project reimplementation may substitute for it in the OLD decision.
    `lambda=10`, `p=1`, HV, budget `100000`, runs `100`?
 5. **Raw equivalence** — Does the generated 101×100 first-hit matrix match the
    authenticated Zenodo matrix exactly, not merely in mean/median?
-6. **Published endpoint** — Does the raw-data mean agree with the published
-   rounded value `61618 FE` under the predeclared ±1 FE formatting tolerance?
-7. **Accounting** — Are first-hit values objective-evaluation indices produced
+6. **Published endpoint identity** — Does the Zenodo raw mean agree with the
+   matching paper Table 1 row, **OneMinMax / two-rate / HV / lambda=10 =
+   `61624 FE`**, under the predeclared ±1 FE formatting tolerance?
+7. **Anchor audit** — Is `61618 FE` explicitly excluded from this OLD gate
+   because it belongs to **AGSEMO in Table 2**, not TwoRate+HV in Table 1?
+8. **Accounting** — Are first-hit values objective-evaluation indices produced
    by the original logger, with no alternate NFE definition introduced by the
    project?
-8. **CI honesty** — Are cross-OS jobs treated as build/smoke portability only,
+9. **CI honesty** — Are cross-OS jobs treated as build/smoke portability only,
    while the historical sequential RNG batch remains unchanged?
-9. **Graph provenance** — Are ECDF and run-by-run figures generated only from
+10. **Graph provenance** — Are ECDF and run-by-run figures generated only from
    the immutable comparison report and bound by SHA-256?
-10. **Claim boundary** — Is HYBRID blocked unless every mandatory OLD gate
-    passes on the current head?
+11. **Claim boundary** — Is HYBRID blocked unless every mandatory OLD gate
+   passes on the current head?
 
 ## Fail-closed decision
 
@@ -40,7 +43,7 @@ PASS_SOURCE_NATIVE_OLD
     only if exact first-hit matrix == Zenodo
     AND exact endpoint vector == Zenodo
     AND 100/100 runs complete
-    AND published rounded mean is consistent
+    AND Zenodo raw mean is consistent with matching Table 1 value 61624 FE
     AND source/blob identity checks pass
 
 otherwise
@@ -51,6 +54,21 @@ otherwise
 No post-hoc tolerance widening, seed replacement, alternate aggregation,
 partial-run selection or manual graph editing is admissible.
 
+## Corrected publication anchor
+
+The article reports two nearby but different values for different algorithms:
+
+```text
+Table 1: OneMinMax, two-rate GSEMO, HV, lambda=10 -> 61 624 FE
+Table 2: OneMinMax, AGSEMO, lambda=10             -> 61 618 FE
+```
+
+The frozen OLD command generates `TwoRateL10P1HV`, so Table 1 is the only
+profile-compatible publication anchor. The authenticated Zenodo endpoint mean
+is `61623.78 FE`, which rounds to `61624 FE`. Correcting the earlier AGSEMO
+anchor is a profile-identity correction, not a numerical relaxation: the exact
+raw matrix and endpoint equality requirements remain unchanged.
+
 ## Academic interpretation
 
 An exact source-native replay demonstrates reproducibility of the published
@@ -59,6 +77,14 @@ constitute new scientific novelty. Novelty can only enter in Stage 2, where a
 new hybrid controller is introduced under a separately frozen protocol and
 shown to improve a preregistered efficiency/quality criterion relative to this
 single OLD baseline.
+
+If exact replay cannot be recovered despite source- and provenance-grounded
+environment reconstruction, the thesis may report a reproducibility limitation:
+the public source, public raw artifact and documented seed/profile are
+individually identifiable but insufficient to reconstruct the exact historical
+stochastic trajectory without additional environment provenance. Such a
+finding does not authorize a HYBRID performance comparison against a falsely
+claimed reproduced OLD.
 
 ## Wording to avoid
 
@@ -75,6 +101,8 @@ Do not write:
 Preferred wording after a successful OLD gate:
 
 > The unchanged paper-era author implementation reproduced the authenticated
-> Zenodo first-hit matrix for the frozen OneMinMax configuration. This result
-> establishes a source-native baseline for the subsequent preregistered hybrid
-> experiment; it is not itself the contribution claimed as scientific novelty.
+> Zenodo first-hit matrix for the frozen OneMinMax TwoRate+HV configuration.
+> The corresponding Zenodo mean (61623.78 FE) is consistent with the paper's
+> Table 1 value (61624 FE). This establishes a source-native baseline for the
+> subsequent preregistered hybrid experiment; it is not itself the contribution
+> claimed as scientific novelty.
