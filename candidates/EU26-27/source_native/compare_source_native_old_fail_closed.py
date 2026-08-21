@@ -11,6 +11,11 @@ import compare_source_native_old as old
 
 BUDGET_FE = 100000
 CENSORED_ENDPOINT_FE = BUDGET_FE + 1
+# Paper Table 1, OneMinMax, two-rate GSEMO, HV, lambda=10.
+# The earlier 61618 anchor belongs to AGSEMO in Table 2 and is not this OLD.
+PUBLISHED_MEAN_FE = 61624.0
+PUBLISHED_MEAN_TOL = 1.0
+PUBLISHED_ANCHOR = "FOGA23 Table 1: OneMinMax two-rate GSEMO + HV, lambda=10"
 
 
 def source_first_hits_fail_closed(
@@ -18,9 +23,9 @@ def source_first_hits_fail_closed(
 ) -> tuple[list[list[int]], list[int], list[int], dict[int, int]]:
     """Extract first hits without discarding incomplete runs.
 
-    Missing Pareto points stay at -1 in the raw source matrix.  For endpoint
+    Missing Pareto points stay at -1 in the raw source matrix. For endpoint
     distribution summaries only, an incomplete run is right-censored at
-    BUDGET_FE + 1.  Exact-replay gates are always false when any source cell is
+    BUDGET_FE + 1. Exact-replay gates are always false when any source cell is
     missing; censoring is never treated as a successful endpoint.
     """
     matrix: list[list[int]] = [[-1 for _ in range(old.RUNS)] for _ in range(old.DIMENSION + 1)]
@@ -141,7 +146,7 @@ def main() -> int:
     source_complete_only_mean = statistics.fmean(complete_source_endpoints) if complete_source_endpoints else None
     source_complete_only_median = statistics.median(complete_source_endpoints) if complete_source_endpoints else None
 
-    paper_raw_ok = abs(reference_mean - old.PUBLISHED_MEAN_FE) <= old.PUBLISHED_MEAN_TOL
+    paper_raw_ok = abs(reference_mean - PUBLISHED_MEAN_FE) <= PUBLISHED_MEAN_TOL
     exact_matrix = diff["exact_mismatch_count"] == 0
     exact_endpoints = not endpoint_mismatches
     decision = (
@@ -154,7 +159,7 @@ def main() -> int:
     old.write_run_scatter_svg(output / "run_by_run.svg", reference_endpoints, source_endpoints_censored)
 
     report = {
-        "schema": "eu26-27-source-native-old-report-v3-fail-closed",
+        "schema": "eu26-27-source-native-old-report-v4-anchor-corrected",
         "decision": decision,
         "research_tag": "RESEARCH_2",
         "old_implementation": "FurongYe/GSEMO exact paper-era source",
@@ -184,9 +189,14 @@ def main() -> int:
             "runs": len(reference_endpoints),
             "mean_fe": reference_mean,
             "median_fe": reference_median,
-            "published_mean_fe": old.PUBLISHED_MEAN_FE,
-            "published_mean_tolerance": old.PUBLISHED_MEAN_TOL,
+            "published_mean_fe": PUBLISHED_MEAN_FE,
+            "published_mean_tolerance": PUBLISHED_MEAN_TOL,
+            "published_anchor": PUBLISHED_ANCHOR,
             "published_raw_alignment": paper_raw_ok,
+            "anchor_correction_note": (
+                "61618 FE is AGSEMO in paper Table 2. The OLD profile verified here is "
+                "two-rate GSEMO using HV, whose paper Table 1 mean is 61624 FE."
+            ),
         },
         "source_native": {
             "runs": old.RUNS,
@@ -245,9 +255,11 @@ def main() -> int:
         f"observed first-hit mismatches: {diff['observed_mismatch_count']}",
         f"exact first-hit matrix: {exact_matrix}",
         f"exact endpoint vector: {exact_endpoints}",
-        f"published {old.PUBLISHED_MEAN_FE:.0f} alignment of Zenodo raw mean: {paper_raw_ok}",
+        f"published {PUBLISHED_MEAN_FE:.0f} alignment of Zenodo raw mean: {paper_raw_ok}",
         "```",
         "",
+        "Paper anchor: Table 1 OneMinMax two-rate GSEMO + HV, lambda=10 = 61624 FE.",
+        "The 61618 FE value belongs to AGSEMO in Table 2 and is not the OLD profile.",
         "Censoring is descriptive only and cannot satisfy the exact replay gate.",
         "HYBRID is authorized only when the decision is PASS_SOURCE_NATIVE_OLD.",
     ]
