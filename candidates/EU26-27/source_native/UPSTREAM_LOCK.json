@@ -1,0 +1,53 @@
+{
+  "schema": "eu26-27-source-native-old-v1",
+  "research_tag": "RESEARCH_2",
+  "old_mode": "single_source_native_author_implementation",
+  "gsemo": {
+    "repository": "https://github.com/FurongYe/GSEMO",
+    "commit": "fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380",
+    "commit_message": "submission preparation",
+    "source_blobs": {
+      "CMakeLists.txt": "1e2cb211fc0cc36f9837232b0dee69aa5c1dab9c",
+      "src/gsemo.hpp": "2693144bcfccff902343a02c6c8e48d7dd263257",
+      "src/main.cpp": "22025e4680da85c98e3bb5ea30db8334ca25dff3",
+      "src/problems.cpp": "cd9b520253e3b0b0390e35bf4fb86d4249c204de"
+    },
+    "root_license_present": false,
+    "use": "fetched at exact SHA for source-native execution; not copied as project-owned source"
+  },
+  "iohexperimenter": {
+    "repository": "https://github.com/FurongYe/IOHexperimenter",
+    "commit": "d35fffe510b958aa2658c0b39ed7dd2d84c5553b",
+    "status": "paper-era dependency candidate; exact historical identity must be accepted only if source-native replay matches Zenodo"
+  },
+  "profile": {
+    "problem_id": 1,
+    "problem": "OneMinMax",
+    "dimension": 100,
+    "algorithm": "TwoRate",
+    "lambda": 10,
+    "p_cli": 1,
+    "initial_pm": 0.01,
+    "adapt_metric": 1,
+    "adapt_metric_name": "HV",
+    "budget": 100000,
+    "runs": 100,
+    "global_rng_seed": 10,
+    "expected_experiment_prefix": "TwoRateL10P1HV"
+  },
+  "reference": {
+    "zenodo_record": 7880836,
+    "archive": "csv.zip",
+    "member": "csv/om/TwoRateL10P1HVOneMaxD100.csv",
+    "published_mean_fe": 61618.0,
+    "published_mean_rounding_tolerance": 1.0
+  },
+  "pass_rule": {
+    "source_runs": 100,
+    "all_front_points_found": true,
+    "exact_first_hit_matrix_match": true,
+    "exact_endpoint_vector_match": true,
+    "raw_mean_matches_published_rounded_value": true
+  },
+  "hybrid": "BLOCKED_UNTIL_PASS_SOURCE_NATIVE_OLD"
+}
