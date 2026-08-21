@@ -40,11 +40,13 @@ jobs:
       - name: Checkout exact author OLD and paper-era dependency candidate
         run: |
           set -euo pipefail
+          git config --global url."https://github.com/".insteadOf "git@github.com:"
           mkdir -p upstream
           git clone --filter=blob:none https://github.com/FurongYe/GSEMO.git upstream/GSEMO
           git -C upstream/GSEMO checkout --detach fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380
           git clone --filter=blob:none https://github.com/FurongYe/IOHexperimenter.git upstream/IOHexperimenter
           git -C upstream/IOHexperimenter checkout --detach d35fffe510b958aa2658c0b39ed7dd2d84c5553b
+          git -C upstream/IOHexperimenter submodule sync --recursive
           git -C upstream/IOHexperimenter submodule update --init --recursive
           test "$(git -C upstream/GSEMO rev-parse HEAD)" = "fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380"
           test "$(git -C upstream/IOHexperimenter rev-parse HEAD)" = "d35fffe510b958aa2658c0b39ed7dd2d84c5553b"
@@ -99,11 +101,13 @@ jobs:
       - name: Checkout exact frozen upstreams
         run: |
           set -euo pipefail
+          git config --global url."https://github.com/".insteadOf "git@github.com:"
           mkdir -p upstream
           git clone --filter=blob:none https://github.com/FurongYe/GSEMO.git upstream/GSEMO
           git -C upstream/GSEMO checkout --detach fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380
           git clone --filter=blob:none https://github.com/FurongYe/IOHexperimenter.git upstream/IOHexperimenter
           git -C upstream/IOHexperimenter checkout --detach d35fffe510b958aa2658c0b39ed7dd2d84c5553b
+          git -C upstream/IOHexperimenter submodule sync --recursive
           git -C upstream/IOHexperimenter submodule update --init --recursive
           test "$(git -C upstream/GSEMO hash-object src/gsemo.hpp)" = "2693144bcfccff902343a02c6c8e48d7dd263257"
           test "$(git -C upstream/GSEMO hash-object src/main.cpp)" = "22025e4680da85c98e3bb5ea30db8334ca25dff3"
