@@ -15,11 +15,11 @@ permissions:
 
 env:
   GSEMO_SHA: fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380
-  IOH_SHA: 8f72d8f8cd3e7a746c35f446bc65c60965deb0be
+  IOH_SHA: 8d21f4f6b46844d037c6a8740db2a56a1c940e0f
 
 jobs:
   d01-historical-dependency:
-    name: D01 historical IOH core
+    name: D01 compatible old IOH core
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
@@ -67,7 +67,7 @@ jobs:
 
           check_blob upstream/IOHexperimenter include/ioh/common/random.hpp b032b0b6df43083d58ff287b2112958ddc3d572e
           check_blob upstream/IOHexperimenter include/ioh/problem/constraints.hpp b64d88fac38a7e3a1c4be7c35d9557f4d4a1074a
-          check_blob upstream/IOHexperimenter include/ioh/problem/problem.hpp 43be38b4ca0c26f8cffe3aefabd211d75bf25fd7
+          check_blob upstream/IOHexperimenter include/ioh/problem/problem.hpp 8ee2fa46233a7730267bd10edc50f33aef46100c
           check_blob upstream/IOHexperimenter include/ioh/problem/single.hpp d9f4143424bd20abac6f9922a89ec7e5fd642a17
           check_blob upstream/IOHexperimenter include/ioh/problem/pbo.hpp 1d74dbf2d12612c18ad425e167baeede6c178705
 
@@ -112,7 +112,7 @@ jobs:
           test "$(git -C upstream/GSEMO hash-object src/problems.cpp)" = "cd9b520253e3b0b0390e35bf4fb86d4249c204de"
           test "$(git -C upstream/IOHexperimenter hash-object include/ioh/common/random.hpp)" = "b032b0b6df43083d58ff287b2112958ddc3d572e"
           test "$(git -C upstream/IOHexperimenter hash-object include/ioh/problem/constraints.hpp)" = "b64d88fac38a7e3a1c4be7c35d9557f4d4a1074a"
-          test "$(git -C upstream/IOHexperimenter hash-object include/ioh/problem/problem.hpp)" = "43be38b4ca0c26f8cffe3aefabd211d75bf25fd7"
+          test "$(git -C upstream/IOHexperimenter hash-object include/ioh/problem/problem.hpp)" = "8ee2fa46233a7730267bd10edc50f33aef46100c"
           test "$(git -C upstream/IOHexperimenter hash-object include/ioh/problem/single.hpp)" = "d9f4143424bd20abac6f9922a89ec7e5fd642a17"
 
       - name: Diagnose exact authenticated Zenodo replay
@@ -122,7 +122,7 @@ jobs:
           python candidates/EU26-27/source_native/diagnose_historical_environment.py \
             --author-output-root dependency-run \
             --output-dir evidence/dependency-d01 \
-            --compiler-label GCC10-D01 \
+            --compiler-label GCC10-D01-8d21f4f \
             --gsemo-sha "$GSEMO_SHA" \
             --ioh-sha "$IOH_SHA"
           cat evidence/dependency-d01/summary.md >> "$GITHUB_STEP_SUMMARY"
@@ -131,7 +131,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: eu26-27-historical-dependency-d01
+          name: eu26-27-historical-dependency-d01-8d21f4f
           if-no-files-found: warn
           retention-days: 90
           path: |
