@@ -14,6 +14,18 @@ The author GSEMO repository stores `include` as a developer-local symlink to:
 
 so the actual experiment dependency was a local Jacob de Nobel IOHexperimenter checkout, not a pinned release.
 
+## Correction trail before numerical outcome
+
+The first dependency preregistration named `8f72d8f8cd3e7a746c35f446bc65c60965deb0be` as D01. Its CI job stopped at the **identity gate before build and before any OLD numerical run**. The immutable checkout proved that this commit still has:
+
+```text
+include/ioh/common/random.hpp = b916f4e7e1a96ef739a89602b468f839b4fad491
+```
+
+which is the old `gen` API, not the `GENERATOR` symbol required by the frozen GSEMO source. Therefore `8f72d8f...` is `SOURCE_INCOMPATIBLE / NO_NUMERICAL_OUTCOME` and is removed from the executable dependency candidates without using any result data.
+
+The next public commit in the same Jan-06 transition, `8d21f4f6b46844d037c6a8740db2a56a1c940e0f`, has the required `GENERATOR` RNG while retaining the pre-Jan-11 problem/constraint core. Jan-10 commit `41dfe4edfc19b8bda765e707aa61e4174a7a18a5` has the same critical core fingerprint, so running both would duplicate one dependency state.
+
 ## Outcome-blind dependency reduction
 
 The GSEMO source requires both:
@@ -21,14 +33,15 @@ The GSEMO source requires both:
 - `ioh::problem::IntegerSingleObjective`;
 - `ioh::common::random::GENERATOR`.
 
-Public IOHexperimenter history gives two relevant core states after those requirements become satisfiable:
+The public history reduces to two executable core states:
 
-### D01 — 2023-01-06 historical core state
+### D01 — compatible old-core state — UNTESTED
 
-Commit:
+Representative commit:
 
 ```text
-8f72d8f8cd3e7a746c35f446bc65c60965deb0be
+8d21f4f6b46844d037c6a8740db2a56a1c940e0f
+2023-01-06
 ```
 
 Critical blobs:
@@ -36,14 +49,14 @@ Critical blobs:
 ```text
 include/ioh/common/random.hpp       b032b0b6df43083d58ff287b2112958ddc3d572e
 include/ioh/problem/constraints.hpp b64d88fac38a7e3a1c4be7c35d9557f4d4a1074a
-include/ioh/problem/problem.hpp     43be38b4ca0c26f8cffe3aefabd211d75bf25fd7
+include/ioh/problem/problem.hpp     8ee2fa46233a7730267bd10edc50f33aef46100c
 include/ioh/problem/single.hpp      d9f4143424bd20abac6f9922a89ec7e5fd642a17
 include/ioh/problem/pbo.hpp         1d74dbf2d12612c18ad425e167baeede6c178705
 ```
 
-This is the earliest inspected mainline state with the `GENERATOR` RNG symbol and explicit single-objective API required by the author GSEMO while retaining the earlier problem/constraint semantics.
+`41dfe4edfc19b8bda765e707aa61e4174a7a18a5` has the same critical fingerprint and is therefore not a separate hypothesis.
 
-### D02 — 2023-01-11 through v0.3.9 core state — ALREADY TESTED
+### D02 — Jan-11 through v0.3.9 core state — ALREADY TESTED
 
 By commit:
 
@@ -61,7 +74,7 @@ include/ioh/problem/single.hpp      730a131422100e0a0be25d298acd228073c7ae3a
 include/ioh/problem/pbo.hpp         1d74dbf2d12612c18ad425e167baeede6c178705
 ```
 
-Those same core blobs are present at v0.3.9 commit `f223c682dff0749067d00b870f83ad754f7d96f5`, which has already failed exact OLD replay. Re-running every intervening unrelated commit would therefore be outcome fishing rather than a dependency hypothesis.
+Those same core blobs are present at v0.3.9 commit `f223c682dff0749067d00b870f83ad754f7d96f5`, which has already failed exact OLD replay. Re-running every intervening unrelated commit would be outcome fishing rather than a dependency hypothesis.
 
 ## Frozen D01 discovery experiment
 
@@ -75,7 +88,7 @@ with source blobs verified before and after execution.
 
 Environment:
 
-- IOHexperimenter D01: `8f72d8f8cd3e7a746c35f446bc65c60965deb0be`;
+- IOHexperimenter D01: `8d21f4f6b46844d037c6a8740db2a56a1c940e0f`;
 - Docker GCC10 image, with digest recorded in evidence;
 - command: `./gsemo 1 100 TwoRate 10 1 1 100000 100`;
 - 100 sequential runs under the author's one global RNG stream seeded once with 10;
