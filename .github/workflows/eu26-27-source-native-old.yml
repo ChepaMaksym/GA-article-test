@@ -132,6 +132,16 @@ jobs:
           cp -R upstream/IOHexperimenter/include upstream/GSEMO/include
           cp -R upstream/IOHexperimenter/external upstream/GSEMO/external
 
+      - name: Record compiler/runtime identity
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/source-native-old
+          {
+            c++ --version || true
+            cmake --version || true
+            uname -a || true
+          } > evidence/source-native-old/runtime.txt
+
       - name: Build exact source
         run: |
           set -euo pipefail
@@ -152,7 +162,7 @@ jobs:
       - name: Compare source-native raw trajectory with Zenodo and published mean
         run: |
           set -euo pipefail
-          python candidates/EU26-27/source_native/compare_source_native_old.py \
+          python candidates/EU26-27/source_native/compare_source_native_old_fail_closed.py \
             --author-output-root source-native-run \
             --output-dir evidence/source-native-old \
             --gsemo-sha "$GSEMO_SHA" \
@@ -174,6 +184,9 @@ jobs:
             evidence/source-native-old/SHA256SUMS.json
             evidence/source-native-old/endpoint_ecdf.svg
             evidence/source-native-old/run_by_run.svg
+            evidence/source-native-old/runtime.txt
             source-native-run/stdout.txt
+            source-native-run/**/*.json
+            source-native-run/**/*.dat
           if-no-files-found: error
           retention-days: 90
