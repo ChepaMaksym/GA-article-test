@@ -66,7 +66,13 @@ jobs:
       - name: Build exact author source
         run: |
           set -euo pipefail
-          cmake -S upstream/GSEMO -B upstream/GSEMO/build -DCMAKE_BUILD_TYPE=Release
+          CLUTCHLOG="$GITHUB_WORKSPACE/upstream/GSEMO/external/clutchlog"
+          if [ "$RUNNER_OS" = "Windows" ]; then
+            EXTRA_CXX="/I$CLUTCHLOG"
+          else
+            EXTRA_CXX="-I$CLUTCHLOG"
+          fi
+          cmake -S upstream/GSEMO -B upstream/GSEMO/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="$EXTRA_CXX"
           cmake --build upstream/GSEMO/build --config Release --parallel 2
           BIN="$(find upstream/GSEMO/build -type f \( -name gsemo -o -name gsemo.exe \) | head -n 1)"
           test -n "$BIN"
@@ -125,7 +131,8 @@ jobs:
       - name: Build exact source
         run: |
           set -euo pipefail
-          cmake -S upstream/GSEMO -B upstream/GSEMO/build -DCMAKE_BUILD_TYPE=Release
+          CLUTCHLOG="$GITHUB_WORKSPACE/upstream/GSEMO/external/clutchlog"
+          cmake -S upstream/GSEMO -B upstream/GSEMO/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-I$CLUTCHLOG"
           cmake --build upstream/GSEMO/build --config Release --parallel 2
           BIN="$(find upstream/GSEMO/build -type f -name gsemo | head -n 1)"
           test -n "$BIN"
