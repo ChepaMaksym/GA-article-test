@@ -4,13 +4,14 @@ import argparse
 import csv
 import hashlib
 import json
-import math
 import os
 import statistics
+import urllib.error
+import urllib.parse
 import urllib.request
 import zipfile
 from pathlib import Path
-from typing import Any
+from typing import Any, Iterable
 
 ZENODO_RECORD = 7880836
 REFERENCE_MEMBER = "csv/om/TwoRateL10P1HVOneMaxD100.csv"
@@ -18,6 +19,7 @@ PUBLISHED_MEAN_FE = 61618.0
 PUBLISHED_MEAN_TOL = 1.0
 DIMENSION = 100
 RUNS = 100
+USER_AGENT = "EU26-27-source-native-old/2.0"
 
 
 def sha256_bytes(data: bytes) -> str:
@@ -32,14 +34,22 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def md5_file(path: Path) -> str:
+    digest = hashlib.md5(usedforsecurity=False)
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
 def fetch_json(url: str) -> dict[str, Any]:
-    req = urllib.request.Request(url, headers={"User-Agent": "EU26-27-source-native-old/1.0"})
+    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT, "Accept": "application/json"})
     with urllib.request.urlopen(req, timeout=120) as response:
         return json.loads(response.read().decode("utf-8"))
 
 
 def download(url: str, destination: Path) -> None:
-    req = urllib.request.Request(url, headers={"User-Agent": "EU26-27-source-native-old/1.0"})
+    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT, "Accept": "application/octet-stream"})
     with urllib.request.urlopen(req, timeout=120) as response, destination.open("wb") as out:
         while True:
             block = response.read(1024 * 1024)
@@ -48,34 +58,119 @@ def download(url: str, destination: Path) -> None:
             out.write(block)
 
 
-def download_reference(work: Path) -> tuple[Path, str]:
+def iter_zenodo_files(record: dict[str, Any]) -> Iterable[dict[str, Any]]:
+    """Support both legacy list and InvenioRDM entries-style file payloads."""
+    raw = record.get("files")
+    if isinstance(raw, list):
+        for item in raw:
+            if isinstance(item, dict):
+                yield item
+        return
+    if isinstance(raw, dict):
+        entries = raw.get("entries")
+        if isinstance(entries, dict):
+            for item in entries.values():
+                if isinstance(item, dict):
+                    yield item
+            return
+        if isinstance(entries, list):
+            for item in entries:
+                if isinstance(item, dict):
+                    yield item
+            return
+    raise RuntimeError("Zenodo record has an unsupported files schema")
+
+
+def zenodo_file_key(item: dict[str, Any]) -> str | None:
+    for field in ("key", "filename", "name"):
+        value = item.get(field)
+        if isinstance(value, str) and value:
+            return value
+    return None
+
+
+def candidate_download_urls(item: dict[str, Any]) -> list[str]:
+    key = zenodo_file_key(item)
+    links = item.get("links") or {}
+    candidates: list[str] = []
+    if isinstance(links, dict):
+        for field in ("content", "download", "self"):
+            value = links.get(field)
+            if isinstance(value, str) and value.startswith("https://"):
+                candidates.append(value)
+    direct = item.get("download")
+    if isinstance(direct, str) and direct.startswith("https://"):
+        candidates.append(direct)
+    if key:
+        encoded = urllib.parse.quote(key, safe="")
+        candidates.extend(
+            [
+                f"https://zenodo.org/api/records/{ZENODO_RECORD}/files/{encoded}/content",
+                f"https://zenodo.org/records/{ZENODO_RECORD}/files/{encoded}?download=1",
+            ]
+        )
+    unique: list[str] = []
+    for value in candidates:
+        if value not in unique:
+            unique.append(value)
+    return unique
+
+
+def verify_download(path: Path, item: dict[str, Any]) -> tuple[bool, str]:
+    size = item.get("size")
+    if size is not None:
+        try:
+            expected_size = int(size)
+        except (TypeError, ValueError):
+            return False, f"invalid declared size {size!r}"
+        if path.stat().st_size != expected_size:
+            return False, f"size {path.stat().st_size} != {expected_size}"
+    checksum = item.get("checksum")
+    if isinstance(checksum, str) and checksum.startswith("md5:"):
+        expected_md5 = checksum.split(":", 1)[1].lower()
+        observed_md5 = md5_file(path)
+        if observed_md5 != expected_md5:
+            return False, f"MD5 {observed_md5} != {expected_md5}"
+    if not zipfile.is_zipfile(path):
+        return False, "downloaded payload is not a ZIP archive"
+    return True, "ok"
+
+
+def download_reference(work: Path) -> tuple[Path, str, str]:
     record = fetch_json(f"https://zenodo.org/api/records/{ZENODO_RECORD}")
     if int(record.get("id", -1)) != ZENODO_RECORD:
         raise RuntimeError("Zenodo record identity mismatch")
+
     csv_item = None
-    for item in record.get("files", []):
-        if item.get("key") == "csv.zip":
+    for item in iter_zenodo_files(record):
+        if zenodo_file_key(item) == "csv.zip":
             csv_item = item
             break
     if csv_item is None:
         raise RuntimeError("Zenodo csv.zip is absent")
-    url = (csv_item.get("links") or {}).get("content") or (csv_item.get("links") or {}).get("download")
-    if not isinstance(url, str) or not url.startswith("https://"):
-        raise RuntimeError("Zenodo csv.zip has no HTTPS download URL")
+
+    urls = candidate_download_urls(csv_item)
+    if not urls:
+        raise RuntimeError("Zenodo csv.zip has no candidate HTTPS download URL")
+
     archive = work / "zenodo-csv.zip"
-    download(url, archive)
-    expected_size = int(csv_item["size"])
-    if archive.stat().st_size != expected_size:
-        raise RuntimeError("Zenodo csv.zip size mismatch")
-    checksum = csv_item.get("checksum")
-    if isinstance(checksum, str) and checksum.startswith("md5:"):
-        md5 = hashlib.md5(usedforsecurity=False)
-        with archive.open("rb") as stream:
-            for chunk in iter(lambda: stream.read(1024 * 1024), b""):
-                md5.update(chunk)
-        if md5.hexdigest() != checksum.split(":", 1)[1].lower():
-            raise RuntimeError("Zenodo csv.zip MD5 mismatch")
-    return archive, sha256_file(archive)
+    failures: list[str] = []
+    for index, url in enumerate(urls, start=1):
+        if archive.exists():
+            archive.unlink()
+        try:
+            download(url, archive)
+        except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, OSError) as exc:
+            failures.append(f"candidate {index}: fetch failed: {type(exc).__name__}: {exc}")
+            continue
+        valid, reason = verify_download(archive, csv_item)
+        if valid:
+            return archive, sha256_file(archive), url
+        failures.append(f"candidate {index}: rejected payload: {reason}")
+
+    if archive.exists():
+        archive.unlink()
+    raise RuntimeError("all Zenodo csv.zip candidates failed validation: " + " | ".join(failures))
 
 
 def read_reference(archive: Path) -> tuple[list[list[int]], list[int], str]:
@@ -93,7 +188,7 @@ def read_reference(archive: Path) -> tuple[list[list[int]], list[int], str]:
             if key not in row:
                 raise RuntimeError(f"reference column missing: {key}")
             matrix[point_index][run] = int(float(row[key]))
-    endpoints = []
+    endpoints: list[int] = []
     for run in range(RUNS):
         values = [matrix[i][run] for i in range(DIMENSION + 1)]
         if any(value < 0 for value in values):
@@ -180,35 +275,38 @@ def source_first_hits(runs: list[list[tuple[int, int, int]]]) -> tuple[list[list
             matrix[point][run_index] = evaluation
             seen.add(point)
         if len(seen) != DIMENSION + 1:
-            missing = (DIMENSION + 1) - len(seen)
-            raise RuntimeError(f"author run {run_index} incomplete: {missing} Pareto points missing")
+            raise RuntimeError(
+                f"author run {run_index} incomplete: {(DIMENSION + 1) - len(seen)} Pareto points missing"
+            )
     endpoints = [max(matrix[p][r] for p in range(DIMENSION + 1)) for r in range(RUNS)]
     return matrix, endpoints
 
 
 def matrix_diff(a: list[list[int]], b: list[list[int]]) -> dict[str, Any]:
-    mismatches = []
+    examples = []
+    count = 0
     max_abs = 0
     for point in range(DIMENSION + 1):
         for run in range(RUNS):
             av = a[point][run]
             bv = b[point][run]
             if av != bv:
+                count += 1
                 max_abs = max(max_abs, abs(av - bv))
-                if len(mismatches) < 25:
-                    mismatches.append({"point_index": point, "run": run, "source": av, "reference": bv})
-    count = sum(1 for point in range(DIMENSION + 1) for run in range(RUNS) if a[point][run] != b[point][run])
-    return {"mismatch_count": count, "max_abs_difference": max_abs, "examples": mismatches}
+                if len(examples) < 25:
+                    examples.append({"point_index": point, "run": run, "source": av, "reference": bv})
+    return {"mismatch_count": count, "max_abs_difference": max_abs, "examples": examples}
 
 
 def ecdf_points(values: list[int]) -> list[tuple[float, float]]:
     ordered = sorted(values)
-    n = len(ordered)
-    return [(float(value), (index + 1) / n) for index, value in enumerate(ordered)]
+    return [(float(value), (index + 1) / len(ordered)) for index, value in enumerate(ordered)]
 
 
-def svg_polyline(points: list[tuple[float, float]], x0: float, y0: float, width: float, height: float,
-                 xmin: float, xmax: float, ymin: float, ymax: float) -> str:
+def svg_polyline(
+    points: list[tuple[float, float]], x0: float, y0: float, width: float, height: float,
+    xmin: float, xmax: float, ymin: float, ymax: float,
+) -> str:
     if xmax <= xmin:
         xmax = xmin + 1
     if ymax <= ymin:
@@ -222,10 +320,8 @@ def svg_polyline(points: list[tuple[float, float]], x0: float, y0: float, width:
 
 
 def write_ecdf_svg(path: Path, reference: list[int], source: list[int]) -> None:
-    width, height = 900, 560
-    margin = 70
-    xmin = float(min(reference + source))
-    xmax = float(max(reference + source))
+    width, height, margin = 900, 560, 70
+    xmin, xmax = float(min(reference + source)), float(max(reference + source))
     ref = svg_polyline(ecdf_points(reference), margin, margin, width - 2 * margin, height - 2 * margin, xmin, xmax, 0.0, 1.0)
     src = svg_polyline(ecdf_points(source), margin, margin, width - 2 * margin, height - 2 * margin, xmin, xmax, 0.0, 1.0)
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">
@@ -244,22 +340,23 @@ def write_ecdf_svg(path: Path, reference: list[int], source: list[int]) -> None:
 
 
 def write_run_scatter_svg(path: Path, reference: list[int], source: list[int]) -> None:
-    width, height = 700, 650
-    margin = 70
+    width, height, margin = 700, 650, 70
     values = reference + source
     lo, hi = float(min(values)), float(max(values))
     span = max(1.0, hi - lo)
     lo -= 0.03 * span
     hi += 0.03 * span
+
     def xy(x: float, y: float) -> tuple[float, float]:
         sx = margin + (x - lo) / (hi - lo) * (width - 2 * margin)
         sy = margin + (hi - y) / (hi - lo) * (height - 2 * margin)
         return sx, sy
+
     x1, y1 = xy(lo, lo)
     x2, y2 = xy(hi, hi)
     circles = []
-    for r, s in zip(reference, source):
-        x, y = xy(float(r), float(s))
+    for reference_value, source_value in zip(reference, source):
+        x, y = xy(float(reference_value), float(source_value))
         circles.append(f'<circle cx="{x:.2f}" cy="{y:.2f}" r="3" fill="#1f77b4" fill-opacity="0.65"/>')
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">
 <rect width="100%" height="100%" fill="white"/>
@@ -288,15 +385,16 @@ def main() -> int:
     work = output / "work"
     work.mkdir(exist_ok=True)
 
-    archive, archive_sha = download_reference(work)
+    archive, archive_sha, archive_url = download_reference(work)
     reference_matrix, reference_endpoints, reference_member_sha = read_reference(archive)
     source_runs, source_info = parse_author_runs(Path(args.author_output_root).resolve())
     source_matrix, source_endpoints = source_first_hits(source_runs)
 
     diff = matrix_diff(source_matrix, reference_matrix)
     endpoint_mismatches = [
-        {"run": i, "source": s, "reference": r, "difference": s - r}
-        for i, (s, r) in enumerate(zip(source_endpoints, reference_endpoints)) if s != r
+        {"run": i, "source": source_value, "reference": reference_value, "difference": source_value - reference_value}
+        for i, (source_value, reference_value) in enumerate(zip(source_endpoints, reference_endpoints))
+        if source_value != reference_value
     ]
     reference_mean = statistics.fmean(reference_endpoints)
     source_mean = statistics.fmean(source_endpoints)
@@ -311,7 +409,7 @@ def main() -> int:
     write_run_scatter_svg(output / "run_by_run.svg", reference_endpoints, source_endpoints)
 
     report = {
-        "schema": "eu26-27-source-native-old-report-v1",
+        "schema": "eu26-27-source-native-old-report-v2",
         "decision": decision,
         "research_tag": "RESEARCH_2",
         "old_implementation": "FurongYe/GSEMO exact paper-era source",
@@ -321,6 +419,7 @@ def main() -> int:
         "reference": {
             "zenodo_record": ZENODO_RECORD,
             "member": REFERENCE_MEMBER,
+            "download_url_used": archive_url,
             "archive_sha256": archive_sha,
             "member_sha256": reference_member_sha,
             "runs": len(reference_endpoints),
@@ -343,13 +442,11 @@ def main() -> int:
         "endpoint_mismatch_examples": endpoint_mismatches[:25],
         "claim_boundary": {
             "hybrid_authorized": decision == "PASS_SOURCE_NATIVE_OLD",
-            "wall_clock_claim": false if False else False,
+            "wall_clock_claim": False,
             "worker_parallelism_claim": False,
-            "note": "Author OLD is a sequential global-RNG batch; parallel-worker equivalence is not claimed because parallelizing it changes the historical random stream."
-        }
+            "note": "Author OLD is a sequential global-RNG batch; parallel-worker equivalence is not claimed because parallelizing it changes the historical random stream.",
+        },
     }
-    # Python has no lowercase JSON booleans in source; normalize the one field explicitly.
-    report["claim_boundary"]["wall_clock_claim"] = False
 
     report_path = output / "report.json"
     report_path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -361,7 +458,9 @@ def main() -> int:
     (output / "SHA256SUMS.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
     summary = [
-        "# EU26-27 source-native OLD", "", "```text",
+        "# EU26-27 source-native OLD",
+        "",
+        "```text",
         f"decision: {decision}",
         f"reference mean FE: {reference_mean:.6f}",
         f"source mean FE: {source_mean:.6f}",
@@ -370,7 +469,8 @@ def main() -> int:
         f"exact first-hit matrix: {exact_matrix}",
         f"exact endpoint vector: {exact_endpoints}",
         f"published 61618 alignment: {paper_raw_ok}",
-        "```", "",
+        "```",
+        "",
         "HYBRID is authorized only when the decision is PASS_SOURCE_NATIVE_OLD.",
     ]
     (output / "summary.md").write_text("\n".join(summary) + "\n", encoding="utf-8")
