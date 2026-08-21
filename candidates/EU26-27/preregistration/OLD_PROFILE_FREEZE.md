@@ -1,120 +1,120 @@
-# EU26-27 OLD profile freeze — two-rate GSEMO on OneMinMax
+# EU26-27 OLD profile freeze — single source-native author baseline
 
-Date frozen: 2026-08-20
+Date revised: 2026-08-21
+Research tag: `RESEARCH_2`
 
-## Why AGSEMO was not selected
+This freeze supersedes the earlier independent-reimplementation profile after
+the exact public author repository was discovered. There is now **one OLD
+implementation only**: the unchanged paper-era author code.
 
-The first preregistered preference, AGSEMO, is not admitted to executable OLD
-work. Zenodo record `7880836` contains complete AGSEMO result files but no
-source code, and printed Algorithm 5 does not resolve all rate-inheritance and
-extreme-point transition semantics without additional assumptions.
-
-The preregistered fallback order therefore selects the first fully specified
-profile:
+## Frozen source
 
 ```text
-algorithm: two-rate GSEMO
-indicator: hypervolume contribution
+repository: FurongYe/GSEMO
+commit: fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380
+message: submission preparation
+```
+
+Critical source blobs:
+
+```text
+CMakeLists.txt     1e2cb211fc0cc36f9837232b0dee69aa5c1dab9c
+src/gsemo.hpp      2693144bcfccff902343a02c6c8e48d7dd263257
+src/main.cpp       22025e4680da85c98e3bb5ea30db8334ca25dff3
+src/problems.cpp   cd9b520253e3b0b0390e35bf4fb86d4249c204de
+```
+
+The upstream repository has no root license in the frozen tree, so its source
+is fetched at the exact SHA in CI rather than copied into this project as
+project-owned code.
+
+## Historical dependency candidate
+
+The author tree contains absolute symlinks to a local IOHexperimenter checkout.
+CI reconstructs these paths from
+
+```text
+FurongYe/IOHexperimenter
+d35fffe510b958aa2658c0b39ed7dd2d84c5553b
+```
+
+without modifying the GSEMO algorithm source. This dependency identity is
+accepted only if the resulting source-native batch exactly reproduces Zenodo;
+a build alone is insufficient.
+
+## Frozen experiment command
+
+From the author's `src/main.cpp`:
+
+```text
+./gsemo problem_id dimension algorithm lambda p adapt_metric budget runs
+random::seed(10)  # once before all runs
+```
+
+The selected OLD is exactly
+
+```text
+./gsemo 1 100 TwoRate 10 1 1 100000 100
+```
+
+Configuration:
+
+```text
 problem: OneMinMax
 n: 100
-paper offspring size: 10
-initial rate multiplier r: 1
-raw member: csv/om/TwoRateL10P1HVOneMaxD100.csv
+algorithm: TwoRate
+lambda: 10
+initial mutation probability: 1/100
+adaptation metric: hypervolume contribution
+budget: 100000 FE per run
+runs: 100 sequential runs
+RNG: author's IOHexperimenter global stream seeded once with 10
 ```
 
-No numerical token from the selected CSV was read before this freeze.
+No run is split across workers. Parallelizing the batch would alter the frozen
+source semantics and is therefore forbidden in OLD.
 
-## Benchmark and archive
-
-For a bit string `x in {0,1}^n`, maximize
+## Reference artifact
 
 ```text
-f1(x) = |x|_1
-f2(x) = n - |x|_1.
+Zenodo record: 7880836
+archive: csv.zip
+member: csv/om/TwoRateL10P1HVOneMaxD100.csv
+front rows: 101
+runs: 100
+published rounded mean endpoint: 61618 FE
 ```
 
-The exact Pareto front has 101 objective points for `n=100`. The GSEMO archive
-contains at most one representative for every objective pair. An offspring is
-inserted if its objective pair is not already represented; on OneMinMax no two
-distinct objective pairs dominate one another.
+For each run, the endpoint is the maximum `First_hit_j` across all 101 Pareto
+front rows. The comparison also retains the complete 101×100 first-hit matrix.
 
-## Frozen two-rate transition
+## PASS gate
 
-Start with one uniformly random bit string and `r=1`. Every generation creates
-10 offspring. For each offspring, select a parent uniformly from the archive
-present at the start of the generation.
+`PASS_SOURCE_NATIVE_OLD` requires:
 
-- first five offspring: conditional standard bit mutation with `p=r/(2n)`;
-- last five offspring: conditional standard bit mutation with `p=2r/n`;
-- conditional mutation resamples until at least one bit is flipped;
-- all ten objective evaluations count against the budget;
-- all ten offspring are passed to the archive update.
+1. exact GSEMO commit and critical source blob hashes before and after build;
+2. successful source build with the frozen dependency candidate;
+3. 100/100 complete source-native runs;
+4. exact equality of the generated 101×100 first-hit matrix with Zenodo;
+5. exact equality of all 100 run endpoints with Zenodo;
+6. raw Zenodo mean within ±1 FE of the published rounded value 61618;
+7. generated report and SVG evidence bound by SHA-256;
+8. professor fail-closed review passes.
 
-The adaptation winner maximizes the one-generation hypervolume contribution
-relative to the pre-generation archive. Hypervolume uses maximization and
-reference point `(-1,-1)`. Ties are resolved uniformly.
+There is no adjustable statistical tolerance for the source-native raw replay.
+A mismatch of even one first-hit cell means `FAIL_SOURCE_NATIVE_OLD` and the
+dependency/environment remains unresolved.
 
-For a lower-rate winner:
+## Portability CI
 
-```text
-r <- max(r/2, 1/2) with probability 3/4
-r <- min(2r, n/4) otherwise.
-```
-
-For a higher-rate winner:
-
-```text
-r <- max(r/2, 1/2) with probability 1/4
-r <- min(2r, n/4) otherwise.
-```
-
-The initial solution counts as one objective evaluation. A generation is not
-started unless its complete ten-offspring evaluation block fits the remaining
-budget.
-
-## Raw endpoint — frozen before outcomes
-
-The authenticated selected CSV has four metadata columns followed by 100 pairs
-`found_j, First_hit_j`, and 101 data rows after its header. For run `j`, define
-
-```text
-complete_j = all 101 found_j entries indicate success
-T_j = max over the 101 First_hit_j entries, if complete_j.
-```
-
-`T_j` is the number of objective evaluations required to discover the complete
-OneMinMax Pareto front. The primary retained-artifact statistic is the median
-of the 100 finite `T_j` values. Mean, standard deviation, quartiles and all 100
-values are retained as diagnostics but cannot replace the primary statistic.
-
-## Independent OLD campaign
-
-- independent seeds: integers `270001..270100`;
-- random generator: NumPy `PCG64DXSM`, pinned by the environment lock;
-- maximum objective evaluations per run: `2,000,000`;
-- target: all 101 Pareto objective points;
-- same algorithm and accounting for every worker profile;
-- required worker profiles: 1, 2 and 4;
-- required OS profiles: Linux, macOS and Windows.
-
-## Acceptance gates
-
-1. selected archive and member hashes match the authenticated schema artifacts;
-2. parser re-aggregation yields exactly 100 run endpoints and 101 front rows;
-3. source/formula fixed-tape, objective, archive, indicator, tie and accounting
-   tests pass;
-4. all 100 independent OLD runs complete within the frozen budget;
-5. exact scientific digest is identical for 1, 2 and 4 workers;
-6. the 95% bootstrap interval for
-   `median(T_independent) / median(T_raw)` lies wholly within `[0.90, 1.10]`;
-7. the two-sample empirical Kolmogorov distance is at most `0.20`;
-8. all required cross-machine CI jobs and the artifact binder pass.
-
-Passing these gates authorizes only
-`PASS_OLD_DISTRIBUTIONAL_COMPATIBILITY`. It is not exact historical seed replay.
-Failure of any mandatory gate rejects EU26-27 and prohibits HYBRID.
+Ubuntu, macOS and Windows jobs compile the same frozen author source and perform
+a one-run smoke. These jobs test build portability only. Exact raw equality is
+judged on the canonical Ubuntu source-native 100-run batch because the
+historical experiment is a single sequential RNG stream.
 
 ## HYBRID prohibition
 
-No executable HYBRID file, result, graph or positive novelty claim may be added
-until all OLD gates above pass on the current commit.
+HYBRID remains `BLOCKED_NOT_AUTHORIZED` until the current commit reaches
+`PASS_SOURCE_NATIVE_OLD`. No HYBRID code, improvement percentage or positive
+novelty claim may use the rejected independent reconstruction from PR #22/early
+PR #23.
