@@ -3,19 +3,18 @@
 Date revised: 2026-08-21
 Research tag: `RESEARCH_2`
 
-This freeze supersedes the earlier independent-reimplementation profile after
-the exact public author repository was discovered. There is now **one OLD
-implementation only**: the unchanged paper-era author code.
+There is one OLD implementation only: the unchanged paper-era author code.
 
-## Frozen source
+## Frozen author source
 
 ```text
 repository: FurongYe/GSEMO
 commit: fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380
+date: 2023-05-01
 message: submission preparation
 ```
 
-Critical source blobs:
+Critical blobs:
 
 ```text
 CMakeLists.txt     1e2cb211fc0cc36f9837232b0dee69aa5c1dab9c
@@ -24,34 +23,55 @@ src/main.cpp       22025e4680da85c98e3bb5ea30db8334ca25dff3
 src/problems.cpp   cd9b520253e3b0b0390e35bf4fb86d4249c204de
 ```
 
-The upstream repository has no root license in the frozen tree, so its source
-is fetched at the exact SHA in CI rather than copied into this project as
-project-owned code.
+The author repository has no root license at the frozen revision. CI therefore
+fetches and executes the exact upstream SHA rather than copying it into this
+project as project-owned source.
 
-## Historical dependency candidate
+## Outcome-blind historical dependency resolution
 
-The author tree contains absolute symlinks to a local IOHexperimenter checkout.
-CI reconstructs these paths from
+The GSEMO tree records absolute symlinks to a developer-local
+IOHexperimenter checkout but not its commit. Dependency selection is therefore
+based on chronology and source API before any source-native numerical outcome
+is observed.
+
+Rejected dependency candidate:
 
 ```text
 FurongYe/IOHexperimenter
 d35fffe510b958aa2658c0b39ed7dd2d84c5553b
 ```
 
-without modifying the GSEMO algorithm source. This dependency identity is
-accepted only if the resulting source-native batch exactly reproduces Zenodo;
-a build alone is insufficient.
+It is source-incompatible with the frozen GSEMO commit: compilation shows that
+its API no longer provides the legacy `IntegerSingleObjective` and
+`wrap_function` interfaces used directly by `src/problems.cpp`. This rejection
+occurred before a 100-run OLD result existed.
+
+Frozen replacement:
+
+```text
+repository: IOHprofiler/IOHexperimenter
+release: v0.3.9
+commit: f223c682dff0749067d00b870f83ad754f7d96f5
+release date: 2023-03-13
+VERSION: 0.3.9
+VERSION blob: 940ac09aa677de91fee3cd51b88b8f0521d96cc0
+```
+
+`v0.3.9` is the latest public IOHexperimenter release before the 2023-05-01
+GSEMO submission commit. Its release-era API is compatible with the legacy
+problem types expected by GSEMO. No candidate dependency may be changed after
+source-native outcome inspection merely to improve numerical agreement.
 
 ## Frozen experiment command
 
-From the author's `src/main.cpp`:
+The author's `src/main.cpp` defines
 
 ```text
 ./gsemo problem_id dimension algorithm lambda p adapt_metric budget runs
 random::seed(10)  # once before all runs
 ```
 
-The selected OLD is exactly
+The single OLD profile is exactly
 
 ```text
 ./gsemo 1 100 TwoRate 10 1 1 100000 100
@@ -71,8 +91,8 @@ runs: 100 sequential runs
 RNG: author's IOHexperimenter global stream seeded once with 10
 ```
 
-No run is split across workers. Parallelizing the batch would alter the frozen
-source semantics and is therefore forbidden in OLD.
+No OLD run is split across workers because parallelizing this one global RNG
+stream changes the historical experiment.
 
 ## Reference artifact
 
@@ -85,36 +105,36 @@ runs: 100
 published rounded mean endpoint: 61618 FE
 ```
 
-For each run, the endpoint is the maximum `First_hit_j` across all 101 Pareto
-front rows. The comparison also retains the complete 101×100 first-hit matrix.
+The run endpoint is the maximum `First_hit_j` across all 101 Pareto points. The
+primary source-native comparison retains the complete 101×100 first-hit matrix,
+not only an aggregate.
 
-## PASS gate
+## Fail-closed PASS gate
 
-`PASS_SOURCE_NATIVE_OLD` requires:
+`PASS_SOURCE_NATIVE_OLD` requires all of:
 
-1. exact GSEMO commit and critical source blob hashes before and after build;
-2. successful source build with the frozen dependency candidate;
-3. 100/100 complete source-native runs;
-4. exact equality of the generated 101×100 first-hit matrix with Zenodo;
-5. exact equality of all 100 run endpoints with Zenodo;
-6. raw Zenodo mean within ±1 FE of the published rounded value 61618;
-7. generated report and SVG evidence bound by SHA-256;
-8. professor fail-closed review passes.
+1. exact GSEMO and IOHexperimenter commits and frozen blob/version checks;
+2. successful build without modifying GSEMO algorithm source;
+3. 100/100 complete sequential source-native runs;
+4. exact 101×100 first-hit matrix equality with Zenodo;
+5. exact 100-run endpoint-vector equality with Zenodo;
+6. Zenodo raw mean within ±1 FE of published rounded `61618`;
+7. SHA-256-bound report and SVG evidence;
+8. professor review of source identity, accounting and claim limits.
 
-There is no adjustable statistical tolerance for the source-native raw replay.
-A mismatch of even one first-hit cell means `FAIL_SOURCE_NATIVE_OLD` and the
-dependency/environment remains unresolved.
+There is no adjustable numerical tolerance for raw source-native replay. A
+single first-hit mismatch means `FAIL_SOURCE_NATIVE_OLD` for the frozen
+environment.
 
-## Portability CI
+## CI/CD interpretation
 
-Ubuntu, macOS and Windows jobs compile the same frozen author source and perform
-a one-run smoke. These jobs test build portability only. Exact raw equality is
-judged on the canonical Ubuntu source-native 100-run batch because the
-historical experiment is a single sequential RNG stream.
+Ubuntu, macOS and Windows compile the same author source and execute one-run
+smokes. This tests portability of the reconstructed build environment. The
+canonical 100-run historical replay runs sequentially on Ubuntu and is the only
+job used for exact Zenodo equality.
 
 ## HYBRID prohibition
 
-HYBRID remains `BLOCKED_NOT_AUTHORIZED` until the current commit reaches
-`PASS_SOURCE_NATIVE_OLD`. No HYBRID code, improvement percentage or positive
-novelty claim may use the rejected independent reconstruction from PR #22/early
-PR #23.
+HYBRID remains `BLOCKED_NOT_AUTHORIZED` until the current source-native OLD gate
+passes. Rejected reconstruction numbers from PR #22 or early PR #23 are not
+admissible as Research 2 evidence.
