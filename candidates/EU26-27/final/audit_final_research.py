@@ -73,7 +73,7 @@ def main() -> int:
     )
     assert_text(
         CANDIDATE / "hybrid_v3" / "RESULTS.md",
-        ("INDEPENDENT_H1_FAIL", "H1: FAIL", "32573546704", "9476099058"),
+        ("T3_H1_FAIL", "H1: FAIL", "32573546704", "9476099058"),
     )
 
     v3_test = (CANDIDATE / "hybrid_v3" / "test_hybrid_v3.py").read_text()
