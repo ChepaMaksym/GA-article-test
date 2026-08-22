@@ -1,0 +1,80 @@
+{
+  "schema": "eu26-27-source-native-old-v3-paper-faithful",
+  "research_tag": "RESEARCH_2",
+  "old_mode": "single_source_native_author_implementation",
+  "gsemo": {
+    "repository": "https://github.com/FurongYe/GSEMO",
+    "commit": "fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380",
+    "commit_message": "submission preparation",
+    "commit_date": "2023-05-01",
+    "source_blobs": {
+      "CMakeLists.txt": "1e2cb211fc0cc36f9837232b0dee69aa5c1dab9c",
+      "src/gsemo.hpp": "2693144bcfccff902343a02c6c8e48d7dd263257",
+      "src/main.cpp": "22025e4680da85c98e3bb5ea30db8334ca25dff3",
+      "src/problems.cpp": "cd9b520253e3b0b0390e35bf4fb86d4249c204de"
+    },
+    "root_license_present": false,
+    "use": "fetched at exact SHA for source-native execution; not copied as project-owned source"
+  },
+  "iohexperimenter": {
+    "repository": "https://github.com/IOHprofiler/IOHexperimenter",
+    "release": "v0.3.9",
+    "commit": "f223c682dff0749067d00b870f83ad754f7d96f5",
+    "release_date": "2023-03-13",
+    "version_blob": "940ac09aa677de91fee3cd51b88b8f0521d96cc0",
+    "selection_basis": "paper-era public release compatible with the frozen author GSEMO source and verified by exact raw replay",
+    "outcome_blind_initial_selection": true
+  },
+  "paper": {
+    "title": "Towards Self-adaptive Mutation in Evolutionary Multi-Objective Algorithms",
+    "venue": "FOGA 2023",
+    "stop_semantics": "function evaluations until the entire Pareto front is obtained",
+    "explicit_100000_fe_cap_in_experimental_setup": false
+  },
+  "profile": {
+    "problem_id": 1,
+    "problem": "OneMinMax",
+    "dimension": 100,
+    "algorithm": "TwoRate",
+    "lambda": 10,
+    "p_cli": 1,
+    "initial_pm": 0.01,
+    "adapt_metric": 1,
+    "adapt_metric_name": "HV",
+    "runs": 100,
+    "global_rng_seed": 10,
+    "execution_order": "100 sequential runs in one author global RNG stream",
+    "safety_cap_fe": 10000000,
+    "safety_cap_is_published_budget": false,
+    "expected_experiment_prefix": "TwoRateL10P1HV"
+  },
+  "reference": {
+    "zenodo_record": 7880836,
+    "archive": "csv.zip",
+    "member": "csv/om/TwoRateL10P1HVOneMaxD100.csv",
+    "published_mean_fe": 61624.0,
+    "authenticated_raw_mean_fe": 61623.78,
+    "max_authenticated_endpoint_fe": 131875,
+    "published_mean_rounding_tolerance": 1.0,
+    "nearby_excluded_anchor": {
+      "value": 61618.0,
+      "belongs_to": "AGSEMO Table 2, not TwoRate+HV OLD"
+    }
+  },
+  "pass_rule": {
+    "source_runs": 100,
+    "all_front_points_found": true,
+    "safety_cap_non_binding": true,
+    "exact_first_hit_matrix_match": true,
+    "exact_endpoint_vector_match": true,
+    "raw_mean_matches_published_rounded_value": true
+  },
+  "verified_result": {
+    "decision": "PASS_SOURCE_NATIVE_OLD",
+    "evidence_run": 32565217851,
+    "complete_runs": 100,
+    "matrix_mismatches": 0,
+    "endpoint_mismatches": 0
+  },
+  "hybrid": "AUTHORIZED_FOR_SEPARATE_PREREGISTERED_STAGE"
+}

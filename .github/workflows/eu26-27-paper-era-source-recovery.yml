@@ -1,0 +1,165 @@
+name: EU26-27 paper-era source recovery
+
+on:
+  pull_request:
+    branches:
+      - research/EU26-07-reset-jump-verification
+    paths:
+      - '.github/workflows/eu26-27-paper-era-source-recovery.yml'
+      - 'candidates/EU26-27/preregistration/PAPER_ERA_SOURCE_RECOVERY.md'
+      - 'candidates/EU26-27/source_native/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  IOH_SHA: f223c682dff0749067d00b870f83ad754f7d96f5
+
+jobs:
+  source-revision-discovery:
+    name: Paper-era source / ${{ matrix.label }}
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: S01
+            gsemo_sha: c96da79a25a11a0ff93b99cf2027ac7750ea0430
+            gsemo_blob: 52f5b2fe4d9d396508445eacd479a07eeea4ea36
+            main_blob: 673290675b6523902ea0a6a6f4e80005c692c67b
+          - label: S02
+            gsemo_sha: 4b0a812dc3c13c46bb9ac741b3837c620154205b
+            gsemo_blob: 9dbb189cc973259dfecda4a9361acecb08743eed
+            main_blob: 673290675b6523902ea0a6a6f4e80005c692c67b
+          - label: S03
+            gsemo_sha: 518d6c0c9cad2fe0ae320d5aab75c88a24fe18ea
+            gsemo_blob: f4c15978403b457e5c8e9aa42151c257456108ce
+            main_blob: 673290675b6523902ea0a6a6f4e80005c692c67b
+          - label: S04
+            gsemo_sha: 5046331456a2a15218d44e6146d9d69ab8c77595
+            gsemo_blob: ab4b99327ebd0309bfc7ec3ad731f9b37165f4c2
+            main_blob: 673290675b6523902ea0a6a6f4e80005c692c67b
+          - label: S05
+            gsemo_sha: 81da3b13a31b2970a79b7fc184aa1de2ead31e7a
+            gsemo_blob: 863ce132325ae928cac543c12508c0088babcc3b
+            main_blob: 673290675b6523902ea0a6a6f4e80005c692c67b
+          - label: S06
+            gsemo_sha: b2e8c325074297dc3a8f60e30d2d8c09b038bbb3
+            gsemo_blob: 601d30c45f3a5769a24edf949c378cdb48c90591
+            main_blob: 673290675b6523902ea0a6a6f4e80005c692c67b
+          - label: S07
+            gsemo_sha: fc87136e655275307fa4a222b9574445c0f08812
+            gsemo_blob: 218aed78fea38155e9643b45a9d1f278065cfbe4
+            main_blob: 673290675b6523902ea0a6a6f4e80005c692c67b
+          - label: S08
+            gsemo_sha: 78d0d39539a2362ca37e6569f18698427d52422a
+            gsemo_blob: 6965a2c20f84d6f51243278aba045eb257a9bfd4
+            main_blob: 673290675b6523902ea0a6a6f4e80005c692c67b
+          - label: S09
+            gsemo_sha: fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380
+            gsemo_blob: 2693144bcfccff902343a02c6c8e48d7dd263257
+            main_blob: 22025e4680da85c98e3bb5ea30db8334ca25dff3
+
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+
+      - name: Fetch exact paper-era source and frozen IOH
+        shell: bash
+        env:
+          GSEMO_SHA: ${{ matrix.gsemo_sha }}
+          GSEMO_BLOB: ${{ matrix.gsemo_blob }}
+          MAIN_BLOB: ${{ matrix.main_blob }}
+        run: |
+          set -euo pipefail
+          git config --global url."https://github.com/".insteadOf "git@github.com:"
+          mkdir -p upstream
+          git clone --filter=blob:none https://github.com/FurongYe/GSEMO.git upstream/GSEMO
+          git -C upstream/GSEMO checkout --detach "$GSEMO_SHA"
+          git clone --filter=blob:none https://github.com/IOHprofiler/IOHexperimenter.git upstream/IOHexperimenter
+          git -C upstream/IOHexperimenter checkout --detach "$IOH_SHA"
+          git -C upstream/IOHexperimenter submodule sync --recursive
+          git -C upstream/IOHexperimenter submodule update --init --recursive
+          test "$(git -C upstream/GSEMO rev-parse HEAD)" = "$GSEMO_SHA"
+          test "$(git -C upstream/IOHexperimenter rev-parse HEAD)" = "$IOH_SHA"
+          test "$(cat upstream/IOHexperimenter/VERSION)" = "0.3.9"
+          test "$(git -C upstream/GSEMO hash-object src/gsemo.hpp)" = "$GSEMO_BLOB"
+          test "$(git -C upstream/GSEMO hash-object src/main.cpp)" = "$MAIN_BLOB"
+          rm -rf upstream/GSEMO/include upstream/GSEMO/external
+          cp -R upstream/IOHexperimenter/include upstream/GSEMO/include
+          cp -R upstream/IOHexperimenter/external upstream/GSEMO/external
+
+      - name: Run frozen 100-run OLD under GCC10
+        shell: bash
+        env:
+          LABEL: ${{ matrix.label }}
+        run: |
+          set -euo pipefail
+          mkdir -p "source-runs/$LABEL" "source-bin/$LABEL"
+          docker pull gcc:10
+          docker image inspect gcc:10 --format '{{index .RepoDigests 0}}' > "source-runs/$LABEL/compiler-image.txt"
+          docker run --rm \
+            -e LABEL="$LABEL" \
+            -v "$GITHUB_WORKSPACE:/work" \
+            -w /work \
+            gcc:10 \
+            bash -lc '
+              set -euo pipefail
+              g++ --version | tee "/work/source-runs/$LABEL/compiler.txt"
+              g++ -std=c++17 -O3 -DNDEBUG \
+                -I/work/upstream/GSEMO/include \
+                -I/work/upstream/GSEMO/src \
+                -I/work/upstream/GSEMO/external/fmt/include \
+                -I/work/upstream/GSEMO/external/cxxopts/include \
+                -I/work/upstream/GSEMO/external/json/include \
+                /work/upstream/GSEMO/src/problems.cpp \
+                /work/upstream/GSEMO/src/main.cpp \
+                -o "/work/source-bin/$LABEL/gsemo"
+              cd "/work/source-runs/$LABEL"
+              "/work/source-bin/$LABEL/gsemo" 1 100 TwoRate 10 1 1 100000 100 > stdout.txt
+              test -n "$(find . -name "*.json" -type f | head -n 1)"
+            '
+
+      - name: Verify source identity after execution
+        shell: bash
+        env:
+          GSEMO_BLOB: ${{ matrix.gsemo_blob }}
+          MAIN_BLOB: ${{ matrix.main_blob }}
+        run: |
+          set -euo pipefail
+          test "$(git -C upstream/GSEMO hash-object src/gsemo.hpp)" = "$GSEMO_BLOB"
+          test "$(git -C upstream/GSEMO hash-object src/main.cpp)" = "$MAIN_BLOB"
+
+      - name: Diagnose exact Zenodo replay
+        shell: bash
+        env:
+          LABEL: ${{ matrix.label }}
+          GSEMO_SHA: ${{ matrix.gsemo_sha }}
+        run: |
+          set -euo pipefail
+          python candidates/EU26-27/source_native/diagnose_historical_environment.py \
+            --author-output-root "source-runs/$LABEL" \
+            --output-dir "evidence/source-recovery-$LABEL" \
+            --compiler-label "GCC10-$LABEL" \
+            --gsemo-sha "$GSEMO_SHA" \
+            --ioh-sha "$IOH_SHA"
+          cat "evidence/source-recovery-$LABEL/summary.md" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload discovery evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: eu26-27-source-recovery-${{ matrix.label }}
+          if-no-files-found: warn
+          retention-days: 90
+          path: |
+            evidence/source-recovery-${{ matrix.label }}/**
+            source-runs/${{ matrix.label }}/compiler.txt
+            source-runs/${{ matrix.label }}/compiler-image.txt
+            source-runs/${{ matrix.label }}/stdout.txt
+            source-runs/${{ matrix.label }}/**/*.json
+            source-runs/${{ matrix.label }}/**/*.dat
