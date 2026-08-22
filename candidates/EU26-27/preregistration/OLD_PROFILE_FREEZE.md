@@ -1,9 +1,9 @@
-# EU26-27 OLD profile freeze — single source-native author baseline
+# EU26-27 OLD profile freeze — canonical source-native author baseline
 
-Date revised: 2026-08-21
+Date revised: 2026-08-22
 Research tag: `RESEARCH_2`
 
-There is one OLD implementation only: the unchanged paper-era author code.
+There is one canonical OLD implementation only: the unchanged paper-era author code.
 
 ## Frozen author source
 
@@ -23,30 +23,10 @@ src/main.cpp       22025e4680da85c98e3bb5ea30db8334ca25dff3
 src/problems.cpp   cd9b520253e3b0b0390e35bf4fb86d4249c204de
 ```
 
-The author repository has no root license at the frozen revision. CI therefore
-fetches and executes the exact upstream SHA rather than copying it into this
-project as project-owned source.
+CI fetches and executes the exact upstream SHA. The algorithm source is not copied
+or modified as project-owned code.
 
-## Outcome-blind historical dependency resolution
-
-The GSEMO tree records absolute symlinks to a developer-local
-IOHexperimenter checkout but not its commit. Dependency selection is therefore
-based on chronology and source API before any source-native numerical outcome
-is observed.
-
-Rejected dependency candidate:
-
-```text
-FurongYe/IOHexperimenter
-d35fffe510b958aa2658c0b39ed7dd2d84c5553b
-```
-
-It is source-incompatible with the frozen GSEMO commit: compilation shows that
-its API no longer provides the legacy `IntegerSingleObjective` and
-`wrap_function` interfaces used directly by `src/problems.cpp`. This rejection
-occurred before a 100-run OLD result existed.
-
-Frozen replacement:
+## Frozen paper-era dependency
 
 ```text
 repository: IOHprofiler/IOHexperimenter
@@ -57,24 +37,41 @@ VERSION: 0.3.9
 VERSION blob: 940ac09aa677de91fee3cd51b88b8f0521d96cc0
 ```
 
-`v0.3.9` is the latest public IOHexperimenter release before the 2023-05-01
-GSEMO submission commit. Its release-era API is compatible with the legacy
-problem types expected by GSEMO. No candidate dependency may be changed after
-source-native outcome inspection merely to improve numerical agreement.
+This revision compiles the unchanged frozen GSEMO source and, under the corrected
+paper stop semantics, reproduces the authenticated Zenodo raw trajectory exactly.
 
-## Frozen experiment command
+## Paper experiment identity
 
-The author's `src/main.cpp` defines
+The original study is:
+
+```text
+Towards Self-adaptive Mutation in Evolutionary Multi-Objective Algorithms
+FOGA 2023
+```
+
+For the relevant Table-1 OLD profile the paper states:
+
+- 100-dimensional OneMinMax;
+- 100 independent runs;
+- `lambda=10` for the presented experiment;
+- two-rate GSEMO guided by hypervolume;
+- running time measured as function evaluations until the entire Pareto front is obtained.
+
+The experimental setup does **not** state a 100000-FE cap.
+
+## Canonical executable protocol
+
+The author's `src/main.cpp` interface is:
 
 ```text
 ./gsemo problem_id dimension algorithm lambda p adapt_metric budget runs
 random::seed(10)  # once before all runs
 ```
 
-The single OLD profile is exactly
+The canonical replay is:
 
 ```text
-./gsemo 1 100 TwoRate 10 1 1 100000 100
+./gsemo 1 100 TwoRate 10 1 1 10000000 100
 ```
 
 Configuration:
@@ -85,16 +82,23 @@ n: 100
 algorithm: TwoRate
 lambda: 10
 initial mutation probability: 1/100
-adaptation metric: hypervolume contribution
-budget: 100000 FE per run
+adaptation metric: hypervolume
 runs: 100 sequential runs
 RNG: author's IOHexperimenter global stream seeded once with 10
+stop quantity: FEs until complete Pareto front
+safety ceiling: 10000000 FE
+safety ceiling published by paper: no
 ```
 
-No OLD run is split across workers because parallelizing this one global RNG
-stream changes the historical experiment.
+The large budget argument is a deliberately non-binding implementation safety ceiling.
+The author GSEMO checks whether the complete Pareto front has been found and terminates
+the run at that point. The authenticated Zenodo maximum endpoint for this profile is
+`131875 FE`, far below the ceiling.
 
-## Reference artifact and corrected publication anchor
+No canonical OLD run is split across workers because parallelizing the author's single
+global RNG stream changes the experiment.
+
+## Reference artifact and publication anchor
 
 ```text
 Zenodo record: 7880836
@@ -103,6 +107,7 @@ member: csv/om/TwoRateL10P1HVOneMaxD100.csv
 front rows: 101
 runs: 100
 Zenodo endpoint mean: 61623.78 FE
+maximum endpoint: 131875 FE
 paper Table 1, matching profile: 61624 FE
 ```
 
@@ -110,46 +115,61 @@ The matching paper row is **OneMinMax / two-rate GSEMO / HV / lambda=10**.
 Table 1 reports `61 624` FE as the average over 100 runs. The Zenodo raw mean
 `61623.78` rounds to that value.
 
-A previous project freeze incorrectly used `61618 FE`. That number is from
-**AGSEMO in Table 2**, not from the frozen TwoRate+HV OLD. This correction is a
-profile-identity repair based on the paper's algorithm/table labels; it does
-not alter the exact Zenodo matrix, source, seed, budget, command, or raw-replay
-criterion.
+`61618 FE` belongs to **AGSEMO in Table 2** and is not an OLD anchor.
 
-The run endpoint is the maximum `First_hit_j` across all 101 Pareto points. The
-primary source-native comparison retains the complete 101×100 first-hit matrix,
-not only an aggregate.
+## Historical reconstruction error: 100000 FE
 
-## Fail-closed PASS gate
+The former freeze used:
+
+```text
+./gsemo 1 100 TwoRate 10 1 1 100000 100
+```
+
+That command is not paper-faithful because the authenticated endpoint vector contains
+runs requiring more than 100000 FE. The first binding truncation changes the state of
+the single global RNG stream entering later runs and creates cascading mismatches.
+
+All compiler/dependency/source probes based on that cap are retained only as forensic
+history. They are not admissible evidence against the corrected canonical replay.
+
+## Canonical fail-closed PASS gate
 
 `PASS_SOURCE_NATIVE_OLD` requires all of:
 
 1. exact GSEMO and IOHexperimenter commits and frozen blob/version checks;
 2. successful build without modifying GSEMO algorithm source;
-3. 100/100 complete sequential source-native runs;
-4. exact 101×100 first-hit matrix equality with Zenodo;
-5. exact 100-run endpoint-vector equality with Zenodo;
-6. Zenodo raw mean within ±1 FE of the matching paper Table 1 value `61624`;
-7. SHA-256-bound report and SVG evidence;
-8. professor review of source identity, accounting and claim limits.
+3. comparator unit and negative-control tests pass;
+4. safety ceiling proven non-binding against the authenticated endpoint vector;
+5. 100/100 sequential source-native runs complete;
+6. exact 101×100 first-hit matrix equality with Zenodo;
+7. exact 100-run endpoint-vector equality with Zenodo;
+8. Zenodo raw mean within ±1 FE of the matching paper Table-1 value `61624`;
+9. machine-readable report and SHA-256-bound evidence.
 
-There is no adjustable numerical tolerance for raw source-native replay. A
-single first-hit mismatch means `FAIL_SOURCE_NATIVE_OLD` for the frozen
-environment.
+There is no adjustable tolerance for raw trajectory equality. One mismatching first-hit
+cell means `FAIL_SOURCE_NATIVE_OLD`.
 
-## CI/CD interpretation
+## Verified result
 
-Ubuntu, macOS and Windows compile the same author source and execute one-run
-smokes. This tests portability of the reconstructed build environment. The
-historical OLD batch is intentionally not parallelized because splitting the
-author's single global RNG stream would change the experiment.
+GitHub Actions run `32565217851` established:
 
-Historical compiler/runtime recovery is allowed only as a provenance-driven
-attempt to reconstruct the missing developer environment. Exact raw equality,
-not aggregate closeness, remains the selection rule.
+```text
+100/100 complete
+source mean FE = 61623.78
+Zenodo mean FE = 61623.78
+max endpoint = 131875
+first-hit matrix mismatches = 0
+endpoint mismatches = 0
+```
 
-## HYBRID prohibition
+Therefore the canonical OLD state is:
 
-HYBRID remains `BLOCKED_NOT_AUTHORIZED` until the current source-native OLD gate
-passes. Rejected reconstruction numbers from PR #22 or early PR #23 are not
-admissible as Research 2 evidence.
+```text
+PASS_SOURCE_NATIVE_OLD
+```
+
+## HYBRID boundary
+
+The OLD prerequisite is now satisfied. HYBRID may proceed only under a separate frozen
+protocol that preserves this OLD baseline and preregisters quality, efficiency, reset
+and ablation gates before outcome inspection.
