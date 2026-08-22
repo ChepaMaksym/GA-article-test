@@ -1,0 +1,220 @@
+name: EU26-27 HYBRID v3 capped confirmatory
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - research/EU26-27-hybrid-rollback-v2
+    paths:
+      - 'candidates/EU26-27/hybrid_v3/**'
+      - '.github/workflows/eu26-27-hybrid-v3.yml'
+  push:
+    branches:
+      - research/EU26-27-hybrid-capped-v3
+    paths:
+      - 'candidates/EU26-27/hybrid_v3/**'
+      - '.github/workflows/eu26-27-hybrid-v3.yml'
+
+concurrency:
+  group: eu26-27-hybrid-v3-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  GSEMO_SHA: fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380
+  IOH_SHA: f223c682dff0749067d00b870f83ad754f7d96f5
+  SAFETY_CAP_FE: '10000000'
+
+jobs:
+  confirmatory:
+    name: development selection + independent holdout
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+
+      - name: Run preregistered v3 controller/selection tests
+        run: |
+          set -euo pipefail
+          cd candidates/EU26-27/hybrid_v3
+          python test_hybrid_v3.py
+
+      - name: Assert independent v3 holdout ledger
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv
+          from pathlib import Path
+          rows = list(csv.DictReader(Path('candidates/EU26-27/hybrid_v3/holdout_seeds.csv').read_text().splitlines()))
+          seeds = [int(row['seed']) for row in rows]
+          assert seeds == list(range(29001, 29031))
+          retired = set(range(27001, 27031)) | set(range(28001, 28031))
+          assert set(seeds).isdisjoint(retired)
+          PY
+
+      - name: Checkout exact OLD source and paper-era dependency
+        run: |
+          set -euo pipefail
+          git config --global url."https://github.com/".insteadOf "git@github.com:"
+          mkdir -p upstream
+          git clone --filter=blob:none https://github.com/FurongYe/GSEMO.git upstream/GSEMO
+          git -C upstream/GSEMO checkout --detach "$GSEMO_SHA"
+          git clone --filter=blob:none https://github.com/IOHprofiler/IOHexperimenter.git upstream/IOHexperimenter
+          git -C upstream/IOHexperimenter checkout --detach "$IOH_SHA"
+          git -C upstream/IOHexperimenter submodule sync --recursive
+          git -C upstream/IOHexperimenter submodule update --init --recursive
+          test "$(git -C upstream/GSEMO rev-parse HEAD)" = "$GSEMO_SHA"
+          test "$(git -C upstream/IOHexperimenter rev-parse HEAD)" = "$IOH_SHA"
+          test "$(git -C upstream/GSEMO hash-object src/gsemo.hpp)" = "2693144bcfccff902343a02c6c8e48d7dd263257"
+          test "$(git -C upstream/GSEMO hash-object src/main.cpp)" = "22025e4680da85c98e3bb5ea30db8334ca25dff3"
+
+      - name: Rehydrate historical dependency paths
+        run: |
+          set -euo pipefail
+          test "$(git -C upstream/GSEMO show HEAD:include)" = "/home/jacob/code/IOHexperimenter/include/"
+          test "$(git -C upstream/GSEMO show HEAD:external)" = "/home/jacob/code/IOHexperimenter/external/"
+          rm upstream/GSEMO/include upstream/GSEMO/external
+          cp -R upstream/IOHexperimenter/include upstream/GSEMO/include
+          cp -R upstream/IOHexperimenter/external upstream/GSEMO/external
+
+      - name: Apply preregistered additive v3 patch
+        run: |
+          set -euo pipefail
+          python candidates/EU26-27/hybrid_v3/patch_upstream.py upstream/GSEMO
+          git -C upstream/GSEMO diff --check
+          git -C upstream/GSEMO diff -- src/gsemo.hpp src/main.cpp > hybrid-v3.patch
+          grep -q 'HybridCapped' upstream/GSEMO/src/gsemo.hpp
+          for cap in 15 20 30 40 60 100; do
+            grep -q "HybridCap${cap}" upstream/GSEMO/src/gsemo.hpp
+          done
+          grep -q 'experiment_seed' upstream/GSEMO/src/main.cpp
+
+      - name: Build patched research executable
+        run: |
+          set -euo pipefail
+          cmake -S upstream/GSEMO -B upstream/GSEMO/build -DCMAKE_BUILD_TYPE=Release
+          cmake --build upstream/GSEMO/build --config Release --parallel 2
+          BIN="$(find upstream/GSEMO/build -type f -name gsemo | head -n 1)"
+          test -n "$BIN"
+          echo "AUTHOR_BIN=$BIN" >> "$GITHUB_ENV"
+
+      - name: Regression — patched TwoRate exactly reproduces canonical OLD
+        run: |
+          set -euo pipefail
+          mkdir -p old-regression-run evidence/hybrid-v3-old-regression
+          (
+            cd old-regression-run
+            "$GITHUB_WORKSPACE/$AUTHOR_BIN" 1 100 TwoRate 10 1 1 "$SAFETY_CAP_FE" 100 > stdout.txt
+          )
+          python candidates/EU26-27/source_native/compare_source_native_old_fail_closed.py \
+            --author-output-root old-regression-run \
+            --output-dir evidence/hybrid-v3-old-regression \
+            --gsemo-sha "$GSEMO_SHA" \
+            --ioh-sha "$IOH_SHA" \
+            --safety-cap-fe "$SAFETY_CAP_FE"
+
+      - name: Smoke all frozen cap profiles
+        run: |
+          set -euo pipefail
+          for cap in 15 20 30 40 60 100; do
+            algorithm="HybridCap${cap}"
+            mkdir -p "smoke/$algorithm"
+            (
+              cd "smoke/$algorithm"
+              "$GITHUB_WORKSPACE/$AUTHOR_BIN" 1 20 "$algorithm" 10 1 1 200000 1 28001 > stdout.txt
+            )
+            test -n "$(find "smoke/$algorithm" -name '*.dat' -type f | head -n 1)"
+          done
+
+      - name: Run frozen development grid on retired v2 seeds
+        run: |
+          set -euo pipefail
+          for seed in $(seq 28001 28030); do
+            out="development-runs/OLD/seed-$seed"
+            mkdir -p "$out"
+            (
+              cd "$out"
+              "$GITHUB_WORKSPACE/$AUTHOR_BIN" 1 100 TwoRate 10 1 1 "$SAFETY_CAP_FE" 1 "$seed" > stdout.txt
+            )
+            for cap in 15 20 30 40 60 100; do
+              out="development-runs/CAP${cap}/seed-$seed"
+              mkdir -p "$out"
+              (
+                cd "$out"
+                "$GITHUB_WORKSPACE/$AUTHOR_BIN" 1 100 "HybridCap${cap}" 10 1 1 "$SAFETY_CAP_FE" 1 "$seed" > stdout.txt
+              )
+            done
+          done
+
+      - name: Select cap deterministically before holdout
+        run: |
+          set -euo pipefail
+          python candidates/EU26-27/hybrid_v3/select_cap.py \
+            --runs-root development-runs \
+            --output evidence/hybrid-v3-development
+          cat evidence/hybrid-v3-development/summary.md >> "$GITHUB_STEP_SUMMARY"
+          SELECTED_ALGO="$(python -c "import json; print(json.load(open('evidence/hybrid-v3-development/selected_cap.json'))['selected_algorithm'])")"
+          test -n "$SELECTED_ALGO"
+          echo "SELECTED_ALGO=$SELECTED_ALGO" >> "$GITHUB_ENV"
+
+      - name: Run independent 30-seed OLD / selected-v3 holdout
+        run: |
+          set -euo pipefail
+          test -f evidence/hybrid-v3-development/selected_cap.json
+          tail -n +2 candidates/EU26-27/hybrid_v3/holdout_seeds.csv | while IFS=, read -r run seed; do
+            for profile in OLD V3; do
+              if [ "$profile" = "OLD" ]; then
+                algorithm=TwoRate
+              else
+                algorithm="$SELECTED_ALGO"
+              fi
+              out="holdout-runs/$profile/seed-$seed"
+              mkdir -p "$out"
+              (
+                cd "$out"
+                "$GITHUB_WORKSPACE/$AUTHOR_BIN" 1 100 "$algorithm" 10 1 1 "$SAFETY_CAP_FE" 1 "$seed" > stdout.txt
+              )
+            done
+          done
+
+      - name: Analyze preregistered v3 holdout hypothesis
+        run: |
+          set -euo pipefail
+          python candidates/EU26-27/hybrid_v3/analyze_holdout.py \
+            --runs-root holdout-runs \
+            --seeds candidates/EU26-27/hybrid_v3/holdout_seeds.csv \
+            --selection evidence/hybrid-v3-development/selected_cap.json \
+            --output evidence/hybrid-v3-confirmatory
+          cat evidence/hybrid-v3-confirmatory/summary.md >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: eu26-27-hybrid-v3-evidence
+          path: |
+            candidates/EU26-27/hybrid_v3/preregistration/PROTOCOL.md
+            candidates/EU26-27/hybrid_v3/holdout_seeds.csv
+            hybrid-v3.patch
+            evidence/hybrid-v3-old-regression/report.json
+            evidence/hybrid-v3-old-regression/summary.md
+            evidence/hybrid-v3-development/selected_cap.json
+            evidence/hybrid-v3-development/development_endpoints.csv
+            evidence/hybrid-v3-development/summary.md
+            evidence/hybrid-v3-confirmatory/report.json
+            evidence/hybrid-v3-confirmatory/summary.md
+            evidence/hybrid-v3-confirmatory/paired_endpoints.csv
+            evidence/hybrid-v3-confirmatory/paired_fe.svg
+            development-runs/**/*.dat
+            development-runs/**/stdout.txt
+            holdout-runs/**/*.dat
+            holdout-runs/**/stdout.txt
+          if-no-files-found: warn
+          retention-days: 90
