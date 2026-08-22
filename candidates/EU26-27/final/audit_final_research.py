@@ -75,6 +75,14 @@ def main() -> int:
         CANDIDATE / "hybrid_v3" / "RESULTS.md",
         ("T3_H1_FAIL", "H1: FAIL", "32573546704", "9476099058"),
     )
+    assert_text(
+        FINAL / "CAUSAL_VALIDITY.md",
+        (
+            "interaction between that controller and the unchanged TwoRate mutation adaptation",
+            "effect of adding the specified offspring-count controller to the exact-reproduced TwoRate GSEMO system",
+            "lambda has an effect independent of mutation adaptation",
+        ),
+    )
 
     v3_test = (CANDIDATE / "hybrid_v3" / "test_hybrid_v3.py").read_text()
     require("import analyze_holdout as holdout" in v3_test, "v3 tests do not exercise the real holdout analyzer")
@@ -105,6 +113,7 @@ def main() -> int:
         "hybrid_v1": "FAIL",
         "hybrid_v2": "FAIL",
         "hybrid_v3": "FAIL",
+        "causal_attribution": "SYSTEM_INTERACTION_NOT_ISOLATED_LAMBDA_EFFECT",
         "seed_ledgers": {"v1": v1, "v2": v2, "v3": v3},
         "workflows_checked": [p.name for p in relevant],
     }
