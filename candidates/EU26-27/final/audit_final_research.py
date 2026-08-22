@@ -80,7 +80,7 @@ def main() -> int:
         (
             "interaction between that controller and the unchanged TwoRate mutation adaptation",
             "effect of adding the specified offspring-count controller to the exact-reproduced TwoRate GSEMO system",
-            "lambda has an effect independent of mutation adaptation",
+            "effect independent of mutation adaptation",
         ),
     )
 
