@@ -14,6 +14,14 @@
 
 6. **Eiben, A. E.; Michalewicz, Z.; Schoenauer, M.; Smith, J. E.** *Parameter Control in Evolutionary Algorithms.* In: Lobo, F. G.; Lima, C. F.; Michalewicz, Z. (eds.), *Parameter Setting in Evolutionary Algorithms*, Studies in Computational Intelligence 54, Springer, 2007, pp. 19–46. DOI: **10.1007/978-3-540-69432-8_2**.
 
+7. **López-Ibáñez, M.; Branke, J.; Paquete, L.** *Reproducibility in Evolutionary Computation.* ACM Transactions on Evolutionary Learning and Optimization, 2021. DOI: **10.1145/3466624**. Core methodology reference for versioned artifacts, precise seeds, raw measurements, executable analysis and presentation code, and reproducible parameter-setting procedures.
+
+8. **de Nobel, J.; Ye, F.; Vermetten, D.; Wang, H.; Doerr, C.; Bäck, T.** *IOHexperimenter: Benchmarking Platform for Iterative Optimization Heuristics.* arXiv:2111.04077, 2021. Describes the experimentation/logging platform used by the source implementation and its role in granular optimization-process logging.
+
+9. **Doerr, C.; Wang, H.; Ye, F.; van Rijn, S.; Bäck, T.** *IOHprofiler: A Benchmarking and Profiling Tool for Iterative Optimization Heuristics.* arXiv:1810.05281, 2018. Describes fixed-target/fixed-budget performance analysis and parameter tracking for iterative optimization heuristics.
+
+10. **García, S.; Molina, D.; Lozano, M.; Herrera, F.** *A General Framework for Statistical Performance Comparison of Evolutionary Computation Algorithms.* Information Sciences, 178(14), 2008, pp. 2870–2879. DOI: **10.1016/j.ins.2008.03.007**. Relevant background for bootstrap-based distribution-free comparison of stochastic evolutionary algorithms.
+
 ## Terminology policy for the thesis
 
 The source paper uses the phrase “self-adaptive mutation”. The thesis preserves that wording when describing the source paper. For the thesis' own added `lambda` mechanisms, the stricter Eiben taxonomy is used: because `lambda` is updated from an explicit observed success signal rather than encoded and inherited as part of the evolving representation, the new mechanism is described primarily as **adaptive / feedback-based parameter control** or **self-adjusting population-size control**, not silently relabeled as classical self-adaptation.
@@ -62,6 +70,22 @@ Does **not** imply:
 - one taxonomy label makes an algorithm empirically better;
 - our specific feedback signal or multiplicative law is optimal.
 
+### EC reproducibility literature
+May support the thesis design choice to retain:
+- exact source/version identities;
+- random seed ledgers;
+- raw measurements rather than summaries only;
+- preprocessing/algorithm/analysis/presentation code;
+- reproducible parameter-development procedure.
+
+It does **not** establish correctness of our numerical results by itself; those are established by the repository evidence and independent gates.
+
+### IOHprofiler / IOHexperimenter
+May support:
+- why granular logging of iterative optimization is useful;
+- the role of fixed-target/fixed-budget measurements and tracking adaptive parameters;
+- provenance of the experimentation infrastructure used by the source implementation.
+
 ## Repository/source references used as experimental objects
 
 - FurongYe/GSEMO exact revision: `fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380`.
@@ -70,10 +94,8 @@ Does **not** imply:
 
 ## Additional literature still to add before final thesis
 
-- canonical source for GSEMO / Global SEMO definition;
-- bootstrap/statistical comparison reference appropriate for stochastic optimization experiments;
-- reproducibility recommendations for evolutionary computation;
-- hypervolume indicator reference;
-- IOHprofiler / IOHexperimenter methodology reference.
+- canonical source for the classic GSEMO definition/runtime baseline;
+- primary hypervolume-indicator reference;
+- optional recent review of statistical tests in evolutionary/swarm computation.
 
 These entries must be searched and verified before being cited in the final manuscript; placeholder bibliographic metadata must not be invented.
