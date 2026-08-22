@@ -2,7 +2,7 @@
 
 Research tag: `RESEARCH_2`
 
-## Current scientific status
+## Final scientific status
 
 ```text
 candidate identity: PASS
@@ -12,16 +12,16 @@ Zenodo raw data: PASS_AUTHENTICATED
 author repository: PASS_FurongYe/GSEMO
 paper-era author commit: PASS_fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380
 OLD implementation: SINGLE_SOURCE_NATIVE_AUTHOR_CODE
-IOHexperimenter dependency: PINNED_OFFICIAL_v0.3.9_f223c682
-publication anchor: CORRECTED_TABLE1_TWORATE_HV_61624
-OLD 100-run raw replay: CI_RUNNING
-HYBRID: BLOCKED_UNTIL_PASS_SOURCE_NATIVE_OLD
+publication anchor: PASS_TABLE1_TWORATE_HV_61624
+historical environment recovery: EXHAUSTED_JUSTIFIED_AXES
+OLD: FAIL_SOURCE_NATIVE_OLD
+HYBRID: BLOCKED_NOT_AUTHORIZED
 PR #19 numerical evidence used: false
 ```
 
-## One OLD only
+## Frozen OLD
 
-The only scientific OLD is the exact public author implementation:
+The scientific OLD is the exact public author implementation:
 
 ```text
 FurongYe/GSEMO
@@ -29,118 +29,92 @@ commit fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380
 2023-05-01, message: submission preparation
 ```
 
-The repository is fetched at that exact SHA in CI. Critical algorithm blobs are
-checked before and after build. Because the frozen upstream tree has no root
-license, its source bytes are not copied into this repository as project-owned
-source; the pinned checkout is the original code executed by OLD.
-
-## Historical dependency resolution
-
-The GSEMO tree contains absolute developer symlinks to a local
-IOHexperimenter checkout but does not record its commit. The first candidate,
-`FurongYe/IOHexperimenter@d35fffe...`, was rejected before any OLD outcome was
-produced because it failed source compatibility: it no longer exposed the
-`IntegerSingleObjective`/legacy `wrap_function` API required by GSEMO.
-
-The replacement was selected from release chronology and API compatibility,
-not numerical outcomes:
-
-```text
-IOHprofiler/IOHexperimenter
-release: v0.3.9
-commit: f223c682dff0749067d00b870f83ad754f7d96f5
-release date: 2023-03-13
-GSEMO commit date: 2023-05-01
-```
-
-`v0.3.9` is the latest public IOHexperimenter release before the frozen GSEMO
-submission commit. CI reconstructs GSEMO's historical `include` and `external`
-paths from that exact release without modifying `src/gsemo.hpp`, `src/main.cpp`
-or `src/problems.cpp`.
-
-## Frozen source-native command
-
-The author's `src/main.cpp` defines
-
-```text
-./gsemo problem_id dimension algorithm lambda p adapt_metric budget runs
-```
-
-and seeds the global IOHexperimenter RNG once with `10` before the complete run
-batch. The OLD command is fixed as
+Frozen command:
 
 ```text
 ./gsemo 1 100 TwoRate 10 1 1 100000 100
 ```
 
-meaning OneMinMax `n=100`, TwoRate, `lambda=10`, initial `p=1/n`, hypervolume
-adaptation, a 100000-FE budget and 100 sequential runs from the author's single
-`seed(10)` RNG stream. The generated prefix `TwoRateL10P1HV` matches the
-authenticated Zenodo member `csv/om/TwoRateL10P1HVOneMaxD100.csv`.
+This is OneMinMax `n=100`, TwoRate, `lambda=10`, initial `pm=1/100`,
+hypervolume adaptation, 100000 FE and 100 sequential runs from the author's
+single global IOHexperimenter RNG stream seeded once with `10`.
 
-## Correct publication anchor
-
-The paper's Table 1 reports, for the profile matching this OLD:
+The matching publication anchor is paper Table 1:
 
 ```text
-OneMinMax / two-rate GSEMO / HV / lambda=10: 61 624 FE
+OneMinMax / two-rate GSEMO / HV / lambda=10: 61624 FE
+Authenticated Zenodo raw endpoint mean:             61623.78 FE
 ```
 
-The authenticated Zenodo raw endpoint mean is `61623.78 FE`, which rounds to
-`61624 FE`.
+The earlier `61618 FE` value belongs to AGSEMO in Table 2 and is not used by
+this OLD.
 
-A previous freeze incorrectly used `61618 FE`. That value belongs to **AGSEMO
-in Table 2**, a different algorithm. The correction changes only the mislabeled
-publication anchor. It does not change source code, data, seed, budget, command,
-raw matrix, or the exact-replay pass criterion.
+## Preregistered pass rule
 
-## OLD pass rule
+`PASS_SOURCE_NATIVE_OLD` required all of:
 
-`PASS_SOURCE_NATIVE_OLD` requires all of:
-
-1. exact upstream commits and critical blob hashes;
+1. exact upstream source identity;
 2. successful build of unchanged author algorithm source;
 3. exactly 100 complete source-native runs;
-4. exact 101×100 first-hit matrix equality with Zenodo;
+4. exact 101x100 first-hit matrix equality with authenticated Zenodo data;
 5. exact 100-run endpoint-vector equality;
-6. Zenodo raw mean consistent with the matching paper Table 1 value `61624 FE`;
-7. SHA-256-bound JSON, raw logger output and SVG evidence;
-8. professor fail-closed review.
+6. matching paper Table-1 endpoint alignment;
+7. fail-closed evidence and review.
 
-The build is smoke-tested on Ubuntu, macOS and Windows. The historical OLD
-batch is intentionally not parallelized because splitting the author's single
-global RNG stream across workers would change the experiment rather than
-reproduce it.
+No tolerance, subset, seed, aggregation, source revision, compiler or dependency
+was selected because it happened to move an aggregate closer to Zenodo.
 
-## Recovery results already established
+## Final recovery audit
 
-The recovery process is fail-closed and is not allowed to optimize numerical
-agreement:
+The publicly recoverable historical axes were exhausted without an exact raw
+replay.
 
-- nine distinct paper-era GSEMO source generations were checked; none exactly
-  reproduced the Zenodo raw trajectory;
-- a January-2023 compatible IOHexperimenter core state was checked and produced
-  0/100 complete runs, ruling out that early dependency state;
-- GCC9 and GCC10 both execute the final source but do not exactly reproduce the
-  Zenodo matrix;
-- the secondary, provenance-frozen GCC11–GCC13 matrix is the remaining compiler
-  recovery check; exact raw equality is the only positive outcome.
+| Recovery axis | Result | Complete runs | Censored mean FE | Exact matrix | Exact endpoint |
+|---|---|---:|---:|---|---|
+| final GSEMO + IOH v0.3.9 + GCC9 | NO_EXACT_MATCH | 97/100 | 58909.58 | false | false |
+| final GSEMO + IOH v0.3.9 + GCC10 | NO_EXACT_MATCH | 97/100 | 58909.58 | false | false |
+| final GSEMO + IOH v0.3.9 + GCC11 | NO_EXACT_MATCH | 96/100 | 59467.99 | false | false |
+| final GSEMO + IOH v0.3.9 + GCC12 | NO_EXACT_MATCH | 96/100 | 59467.99 | false | false |
+| final GSEMO + IOH v0.3.9 + GCC13 | NO_EXACT_MATCH | 96/100 | 59467.99 | false | false |
+| early compatible IOH core `8d21f4f...` + GCC10 | NO_EXACT_MATCH | 0/100 | 100001.00 | false | false |
+| nine unique paper-era GSEMO source generations | NO_EXACT_MATCH | varied | varied | false | false |
 
-## Professor boundary
+For GCC9/GCC10 the incomplete runs are `[16, 56, 80]`. For GCC11-GCC13
+they are `[46, 55, 68, 76]`. The early compatible IOH state leaves all 100
+runs incomplete. GCC7/GCC8 are source-build incompatible and therefore cannot
+serve as historical executable environments.
 
-CI execution success alone is not a scientific PASS. If exact source-native
-replay does not match Zenodo after the justified recovery axes are exhausted,
-the historical environment remains unresolved and HYBRID is prohibited. No
-tolerance, seed, aggregation or subset may be changed after observing the
-result.
+The source-generation sweep covered the distinct paper-era `src/gsemo.hpp`
+generations rather than repeatedly testing commits with identical algorithm
+blobs. None reproduced the authenticated Zenodo trajectory.
 
-If `PASS_SOURCE_NATIVE_OLD` is reached, Stage 2 may introduce the separately
-preregistered HYBRID modification to this single baseline and then test
-equal-budget quality, efficiency, load profiles, graphs and academic claim
-boundaries.
+## Evidence workflows
 
-If it is not reached, the thesis-ready result is a reproducibility limitation,
-not a fabricated HYBRID performance claim: public source, public data and the
-published profile can be authenticated, while the exact historical stochastic
-trajectory cannot be reconstructed from the publicly preserved environment
-information.
+```text
+paper-era source recovery:        run 32476003177
+final-head source recovery:       run 32480506999
+historical dependency recovery:   run 32480506993
+historical compiler recovery:     run 32480506994
+canonical source-native OLD:      run 32480506997 (scientific gate failed)
+```
+
+A green recovery job means the diagnostic executed and retained its evidence;
+it does not mean scientific equality. The scientific decision is determined by
+exact raw equality.
+
+## Final decision
+
+```text
+EU26-27 = FAIL_SOURCE_NATIVE_OLD
+HYBRID = BLOCKED_NOT_AUTHORIZED
+```
+
+The public paper profile, author source and Zenodo data are identifiable, but
+the exact historical stochastic trajectory cannot be reconstructed from the
+publicly preserved source/dependency/compiler information under the frozen
+gate. Running a HYBRID against a baseline that failed this gate would invalidate
+the OLD -> HYBRID comparison, so no EU26-27 HYBRID result is created.
+
+This rejection does not alter the project-level HYBRID hypothesis. The next
+candidate must start from the verified PR #8 base, pass an independent OLD gate,
+and only then receive the preregistered PR #8 reset self-adjusting controller.
