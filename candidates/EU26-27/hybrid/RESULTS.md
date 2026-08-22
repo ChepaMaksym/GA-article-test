@@ -1,10 +1,31 @@
-# EU26-27 HYBRID v1 — confirmatory result
+# EU26-27 HYBRID v1 — reset-control transfer result
 
-Date: 2026-08-22
-Workflow: `EU26-27 HYBRID confirmatory`
-Run: `32571460043`
-Artifact: `9475506328`
+Date: 2026-08-22  
+Study type: **source-grounded mechanism transfer**, not source-paper numerical reproduction.
+
+Workflow: `EU26-27 HYBRID confirmatory`  
+Run: `32571460043`  
+Artifact: `9475506328`  
 Artifact SHA-256: `5ebd8d33ea5da63463427b2a821e3aa8a2c7e208903bd90dc70c0334daa9e8d0`
+
+## Source grounding
+
+The transferred `lambda`-control idea is grounded in two prior research lines:
+
+1. Hevia Fajardo & Sudholt, *Theoretical and Empirical Analysis of Parameter Control Mechanisms in the (1+(lambda,lambda)) Genetic Algorithm*, DOI `10.1145/3564755`. Their `Jump_k` analysis shows that uncontrolled `lambda` growth can be harmful, smaller caps can be beneficial, and reset to 1 can cycle the controller through parameter space.
+2. Doerr, El Hadri & Pinard, *The (1+(lambda,lambda)) Global SEMO Algorithm*, DOI `10.1145/3512290.3528868`. They analyze one-fifth-inspired dynamic parameters in discrete multi-objective optimization and prove improved asymptotic runtime for their algorithm on OneMinMax.
+
+Our experiment does **not** execute either source algorithm. It keeps the exact-reproduced TwoRate mutation-rate controller unchanged and transfers the success-based rule only to offspring count, with strict hypervolume improvement as the success signal. Therefore the valid question is external transfer, not reproduction of the source performance result.
+
+## Hypotheses
+
+### T1-H1 — transfer benefit
+
+> Reset-based adaptive offspring-count control reduces paired FE to complete Pareto-front discovery relative to exact-reproduced OLD.
+
+### T1-H2 — reset-specific contribution
+
+> Reset reduces paired FE relative to the same transferred controller without reset.
 
 ## Gate audit
 
@@ -19,6 +40,8 @@ Artifact SHA-256: `5ebd8d33ea5da63463427b2a821e3aa8a2c7e208903bd90dc70c0334daa9e
 - HYBRID_NO_RESET smoke: PASS
 - confirmatory completion: 30/30 for every profile
 
+Workflow completion establishes execution validity only; hypothesis status is determined by the frozen paired statistics below.
+
 ## Frozen paired result
 
 | Profile | Median FE | Mean FE |
@@ -27,32 +50,48 @@ Artifact SHA-256: `5ebd8d33ea5da63463427b2a821e3aa8a2c7e208903bd90dc70c0334daa9e
 | HYBRID_RESET | 62,489.0 | 64,208.00 |
 | HYBRID_NO_RESET | 57,912.5 | 62,574.47 |
 
-Primary H1 used the preregistered paired median relative FE reduction
+Primary T1-H1 used the preregistered paired median relative FE reduction
 `(FE_OLD - FE_HYBRID_RESET)/FE_OLD` with 50,000 deterministic bootstrap
 resamples (`seed=27027`).
 
 ```text
-H1 median relative reduction: -20.237076%
-H1 95% percentile-bootstrap CI: [-32.412176%, +4.934754%]
-H1: FAIL
+T1-H1 median relative reduction: -20.237076%
+T1-H1 95% percentile-bootstrap CI: [-32.412176%, +4.934754%]
+T1-H1: FAIL
 ```
 
-Reset-specific secondary comparison:
+Reset-specific comparison:
 
 ```text
-H2 median relative reduction NO_RESET -> RESET: -2.388751%
-H2 95% percentile-bootstrap CI: [-15.523548%, +10.684546%]
-H2: NO_CLEAR_EFFECT
+T1-H2 median relative reduction NO_RESET -> RESET: -2.388751%
+T1-H2 95% percentile-bootstrap CI: [-15.523548%, +10.684546%]
+T1-H2: NO_CLEAR_EFFECT
 ```
 
-The result does not support an efficiency-improvement claim for v1. It is kept as negative evidence and its thresholds/seeds are not reused to tune a replacement formula.
+The result does not support an FE-efficiency improvement claim for this transferred reset controller.
 
-## Diagnostic observation (not a new confirmatory claim)
+## Agreement with the source literature
 
-HYBRID_RESET beat OLD on 12/30 paired seeds and lost on 18/30. The benefit was concentrated in several expensive OLD runs while many easy OLD runs became more costly. This motivates a *new* baseline-preserving refinement, but no v1 seed may be reused as confirmatory evidence for that refinement.
+Agreement class: **MECHANISM_TRANSFER_WITH_PERFORMANCE_NONREPLICATION**.
 
-## Literature boundary
+The source mechanism is validly identified and the transferred controller is executed as intended. However, the favorable reset/dynamic-parameter performance reported in the source settings does not transfer to this TwoRate GSEMO experiment. This must not be described as a failed reproduction of Hevia Fajardo & Sudholt or Doerr et al., because algorithm, controlled role and success signal differ.
 
-Dynamic one-fifth-inspired `lambda` control in discrete multi-objective optimization is prior art: Doerr, El Hadri and Pinard (GECCO 2022) proposed a self-adjusting `(1+(lambda,lambda))` Global SEMO and proved an `O(n^2)` OneMinMax runtime. Therefore this project must not claim to be the first adaptive-population MOEA.
+A weaker qualitative observation is consistent with the literature's warning about harmful `lambda` growth: HYBRID_RESET beat OLD on 12/30 paired seeds and lost on 18/30, with several expensive OLD runs improving while many easier runs became more costly. This observation is diagnostic, not a new confirmatory hypothesis.
 
-Bassin and Buzdalov (GECCO 2019 / arXiv:1904.07284) showed that ordinary one-fifth population-size adaptation can degrade performance when its assumptions are violated and proposed rollbacks to damp harmful parameter growth. That is the literature-grounded basis for the next, independently preregistered refinement.
+## Scientific claim boundary
+
+Supported:
+
+- the reset mechanism was source-grounded and correctly transferred;
+- the exact OLD baseline remained intact under regression;
+- T1-H1 failed and T1-H2 had no clear effect under the frozen protocol;
+- the result is evidence about the external validity of the transferred controller.
+
+Not supported:
+
+- numerical reproduction of either source paper;
+- improvement of TwoRate GSEMO by reset;
+- a reset-specific causal explanation for any seed-level improvements;
+- universal conclusions beyond the frozen OneMinMax profile.
+
+The v1 seed ledger is retired from future confirmation and may be used only as explicitly labeled development/diagnostic evidence.
