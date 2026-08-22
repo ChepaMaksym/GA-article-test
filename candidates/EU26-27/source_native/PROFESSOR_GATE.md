@@ -1,108 +1,111 @@
-# Professor gate — EU26-27 single source-native OLD
+# Professor gate — EU26-27 canonical OLD
 
 Research tag: `RESEARCH_2`
 
 ## Scope
 
-The only OLD implementation under scientific evaluation is the frozen author
-repository `FurongYe/GSEMO@fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380`.
-No project reimplementation may substitute for it in the OLD decision.
+The only scientific OLD is the unchanged author implementation
+`FurongYe/GSEMO@fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380` with the frozen
+paper-era IOHexperimenter dependency. A project reimplementation is not substituted
+for the OLD decision.
 
-## Questions that must be answered before PASS
+## Paper identity
 
-1. **Source identity** — Are the exact author commit and critical algorithm
-   blobs authenticated before and after build?
-2. **Dependency identity** — Does the selected paper-era IOHexperimenter
-   revision compile the unchanged author source and reproduce the retained raw
-   artifact? If not, dependency identity remains unresolved.
-3. **Experimental unit** — Are exactly 100 sequential runs generated from the
-   author's one-time `random::seed(10)` stream?
-4. **Problem identity** — Is the command exactly OneMinMax `n=100`, TwoRate,
-   `lambda=10`, `p=1`, HV, budget `100000`, runs `100`?
-5. **Raw equivalence** — Does the generated 101×100 first-hit matrix match the
-   authenticated Zenodo matrix exactly, not merely in mean/median?
-6. **Published endpoint identity** — Does the Zenodo raw mean agree with the
-   matching paper Table 1 row, **OneMinMax / two-rate / HV / lambda=10 =
-   `61624 FE`**, under the predeclared ±1 FE formatting tolerance?
-7. **Anchor audit** — Is `61618 FE` explicitly excluded from this OLD gate
-   because it belongs to **AGSEMO in Table 2**, not TwoRate+HV in Table 1?
-8. **Accounting** — Are first-hit values objective-evaluation indices produced
-   by the original logger, with no alternate NFE definition introduced by the
-   project?
-9. **CI honesty** — Are cross-OS jobs treated as build/smoke portability only,
-   while the historical sequential RNG batch remains unchanged?
-10. **Graph provenance** — Are ECDF and run-by-run figures generated only from
-   the immutable comparison report and bound by SHA-256?
-11. **Claim boundary** — Is HYBRID blocked unless every mandatory OLD gate
-   passes on the current head?
+The matching original study is *Towards Self-adaptive Mutation in Evolutionary
+Multi-Objective Algorithms* (FOGA 2023). For the relevant experiment the paper uses
+100-dimensional OneMinMax, 100 independent runs and reports average function
+evaluations required to obtain the entire Pareto front. The matching Table-1 profile is
+two-rate GSEMO using hypervolume with `lambda=10`, reported as `61624 FE`.
 
-## Fail-closed decision
+The paper's experimental setup does not state a 100000-FE cap.
+
+## Questions and verified answers
+
+1. **Source identity** — exact author commit and critical blobs authenticated before
+   and after build: **PASS**.
+2. **Dependency identity** — IOHexperimenter `v0.3.9` / commit
+   `f223c682dff0749067d00b870f83ad754f7d96f5`: **PASS**.
+3. **Experimental unit** — exactly 100 sequential runs from the author's one-time
+   `random::seed(10)` stream: **PASS**.
+4. **Problem identity** — OneMinMax `n=100`, TwoRate, `lambda=10`, `p=1`, HV:
+   **PASS**.
+5. **Stop semantics** — FEs until the entire Pareto front is obtained, with a
+   non-binding `10000000` implementation safety ceiling: **PASS**.
+6. **Safety ceiling** — authenticated maximum endpoint is `131875 FE`, therefore the
+   ceiling is non-binding: **PASS**.
+7. **Raw equivalence** — generated 101×100 first-hit matrix equals authenticated
+   Zenodo exactly: **PASS, 0 mismatches**.
+8. **Endpoint vector** — all 100 run endpoints equal Zenodo exactly: **PASS,
+   0 mismatches**.
+9. **Published endpoint identity** — Zenodo/raw source mean `61623.78 FE` agrees with
+   Table 1 `61624 FE`: **PASS**.
+10. **Anchor audit** — `61618 FE` is excluded from OLD because it belongs to AGSEMO
+    in Table 2: **PASS**.
+11. **Comparator controls** — complete, missing-cell, single-value mutation,
+    run-endpoint and non-binding-cap tests: **PASS**.
+12. **CI honesty** — cross-OS jobs are portability build/smoke checks; the canonical
+    historical batch remains sequential: **PASS**.
+
+## Canonical decision
 
 ```text
 PASS_SOURCE_NATIVE_OLD
-    only if exact first-hit matrix == Zenodo
-    AND exact endpoint vector == Zenodo
-    AND 100/100 runs complete
-    AND Zenodo raw mean is consistent with matching Table 1 value 61624 FE
-    AND source/blob identity checks pass
-
-otherwise
-    FAIL_SOURCE_NATIVE_OLD
-    HYBRID = BLOCKED_NOT_AUTHORIZED
 ```
 
-No post-hoc tolerance widening, seed replacement, alternate aggregation,
-partial-run selection or manual graph editing is admissible.
-
-## Corrected publication anchor
-
-The article reports two nearby but different values for different algorithms:
+Verified replay evidence from GitHub Actions run `32565217851`:
 
 ```text
-Table 1: OneMinMax, two-rate GSEMO, HV, lambda=10 -> 61 624 FE
-Table 2: OneMinMax, AGSEMO, lambda=10             -> 61 618 FE
+complete source runs: 100/100
+source mean FE: 61623.78
+Zenodo mean FE: 61623.78
+max Zenodo endpoint FE: 131875
+exact first-hit matrix: True
+matrix mismatches: 0
+exact endpoint vector: True
+endpoint mismatches: 0
 ```
 
-The frozen OLD command generates `TwoRateL10P1HV`, so Table 1 is the only
-profile-compatible publication anchor. The authenticated Zenodo endpoint mean
-is `61623.78 FE`, which rounds to `61624 FE`. Correcting the earlier AGSEMO
-anchor is a profile-identity correction, not a numerical relaxation: the exact
-raw matrix and endpoint equality requirements remain unchanged.
+## Why the former rejection is invalid
+
+The earlier reconstruction imposed `budget=100000`. That ceiling becomes binding for
+an authenticated run whose endpoint is `131875 FE`. Because the author seeds one global
+RNG stream once for the whole sequential batch, truncating that run changes the RNG
+state entering later runs. Later mismatches are therefore a consequence of a changed
+experiment, not evidence that the paper source is irreproducible.
+
+The earlier 100k recovery matrix remains diagnostic history only.
 
 ## Academic interpretation
 
-An exact source-native replay demonstrates reproducibility of the published
-experimental artifact for the frozen environment. It does **not** by itself
-constitute new scientific novelty. Novelty can only enter in Stage 2, where a
-new hybrid controller is introduced under a separately frozen protocol and
-shown to improve a preregistered efficiency/quality criterion relative to this
-single OLD baseline.
+The OLD result establishes an unusually strong baseline: exact source-native
+reproduction of the authenticated raw experimental trajectory, not merely aggregate
+agreement. This validates OLD as the control condition for Stage 2.
 
-If exact replay cannot be recovered despite source- and provenance-grounded
-environment reconstruction, the thesis may report a reproducibility limitation:
-the public source, public raw artifact and documented seed/profile are
-individually identifiable but insufficient to reconstruct the exact historical
-stochastic trajectory without additional environment provenance. Such a
-finding does not authorize a HYBRID performance comparison against a falsely
-claimed reproduced OLD.
+It is **not** itself the scientific novelty. Novelty must come from the separately
+frozen HYBRID controller and evidence that it improves a preregistered efficiency
+criterion without unacceptable quality degradation.
 
-## Wording to avoid
+## Claims allowed now
+
+Preferred wording:
+
+> The unchanged paper-era author implementation exactly reproduced the authenticated
+> Zenodo 101×100 first-hit matrix for the OneMinMax TwoRate+HV configuration. The
+> source-native mean of 61623.78 function evaluations equals the Zenodo raw mean and
+> is consistent with the paper's Table-1 value of 61624. This establishes the OLD
+> baseline for the subsequent preregistered hybrid experiment.
 
 Do not write:
 
-- “the algorithm is universally reproduced”;
-- “cross-platform identical results” unless raw equality is actually shown;
-- “workers 1/2/4 reproduce OLD” — parallelizing the historical global RNG
-  stream changes the source experiment;
+- “10,000,000 FE is the paper budget”;
+- “100,000 FE is the paper budget”;
+- “cross-platform stochastic equality” based only on build/smoke tests;
+- “workers 1/2/4 reproduce the historical OLD”;
 - “HYBRID improves the paper” before the HYBRID primary gate passes;
-- “first in the world” or other priority claims without a dedicated literature
-  review.
+- “OLD reproduction is the scientific novelty”.
 
-Preferred wording after a successful OLD gate:
+## HYBRID boundary
 
-> The unchanged paper-era author implementation reproduced the authenticated
-> Zenodo first-hit matrix for the frozen OneMinMax TwoRate+HV configuration.
-> The corresponding Zenodo mean (61623.78 FE) is consistent with the paper's
-> Table 1 value (61624 FE). This establishes a source-native baseline for the
-> subsequent preregistered hybrid experiment; it is not itself the contribution
-> claimed as scientific novelty.
+OLD no longer blocks Stage 2. HYBRID is authorized to begin, but its protocol,
+metrics, machines/workers/load matrix and ablations must be frozen before its outcomes
+are inspected.
