@@ -1,4 +1,4 @@
-name: EU26-27 source-native OLD
+name: EU26-27 canonical source-native OLD
 
 on:
   workflow_dispatch:
@@ -6,17 +6,21 @@ on:
     branches:
       - research/EU26-07-reset-jump-verification
     paths:
-      - 'candidates/EU26-27/source_native/**'
+      - 'candidates/EU26-27/source_native/compare_source_native_old.py'
+      - 'candidates/EU26-27/source_native/compare_source_native_old_fail_closed.py'
+      - 'candidates/EU26-27/source_native/test_compare_source_native_old.py'
       - '.github/workflows/eu26-27-source-native-old.yml'
   push:
     branches:
       - research/EU26-27-agsemo-recovery
     paths:
-      - 'candidates/EU26-27/source_native/**'
+      - 'candidates/EU26-27/source_native/compare_source_native_old.py'
+      - 'candidates/EU26-27/source_native/compare_source_native_old_fail_closed.py'
+      - 'candidates/EU26-27/source_native/test_compare_source_native_old.py'
       - '.github/workflows/eu26-27-source-native-old.yml'
 
 concurrency:
-  group: eu26-27-source-native-old-${{ github.ref }}
+  group: eu26-27-canonical-old-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
@@ -25,10 +29,24 @@ permissions:
 env:
   GSEMO_SHA: fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380
   IOH_SHA: f223c682dff0749067d00b870f83ad754f7d96f5
+  SAFETY_CAP_FE: '10000000'
 
 jobs:
+  comparator-tests:
+    name: Canonical OLD comparator tests
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Run fail-closed unit and negative controls
+        run: |
+          set -euo pipefail
+          python candidates/EU26-27/source_native/test_compare_source_native_old.py
+
   build-smoke:
-    name: Author OLD build / ${{ matrix.os }}
+    name: Exact author OLD build / ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
@@ -41,7 +59,7 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
 
-      - name: Checkout exact author OLD and outcome-blind paper-era IOH release
+      - name: Checkout exact author OLD and paper-era IOH
         run: |
           set -euo pipefail
           git config --global url."https://github.com/".insteadOf "git@github.com:"
@@ -60,7 +78,7 @@ jobs:
           test "$(git -C upstream/GSEMO hash-object src/main.cpp)" = "22025e4680da85c98e3bb5ea30db8334ca25dff3"
           test "$(git -C upstream/GSEMO hash-object src/problems.cpp)" = "cd9b520253e3b0b0390e35bf4fb86d4249c204de"
 
-      - name: Rehydrate historical absolute dependency symlinks without modifying algorithm source
+      - name: Rehydrate historical dependency paths without modifying algorithm source
         run: |
           set -euo pipefail
           test "$(git -C upstream/GSEMO show HEAD:include)" = "/home/jacob/code/IOHexperimenter/include/"
@@ -83,10 +101,10 @@ jobs:
           set -euo pipefail
           mkdir source-smoke
           cd source-smoke
-          "$GITHUB_WORKSPACE/$AUTHOR_BIN" 1 100 TwoRate 10 1 1 100000 1 > stdout.txt
+          "$GITHUB_WORKSPACE/$AUTHOR_BIN" 1 100 TwoRate 10 1 1 "$SAFETY_CAP_FE" 1 > stdout.txt
           test -n "$(find . -type f | head -n 1)"
 
-      - name: Assert author source remains byte-identical after build
+      - name: Assert author source remains byte-identical after build and smoke
         run: |
           set -euo pipefail
           test "$(git -C upstream/GSEMO hash-object src/gsemo.hpp)" = "2693144bcfccff902343a02c6c8e48d7dd263257"
@@ -94,10 +112,13 @@ jobs:
           test "$(git -C upstream/GSEMO hash-object src/problems.cpp)" = "cd9b520253e3b0b0390e35bf4fb86d4249c204de"
 
   full-replay:
-    name: 100-run author OLD vs Zenodo
-    needs: build-smoke
+    name: 100-run author OLD to Pareto completion vs Zenodo
+    needs: [comparator-tests, build-smoke]
     runs-on: ubuntu-24.04
     timeout-minutes: 90
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
@@ -151,24 +172,25 @@ jobs:
           test -n "$BIN"
           echo "AUTHOR_BIN=$BIN" >> "$GITHUB_ENV"
 
-      - name: Run the author's frozen 100-run OLD batch
+      - name: Run the author's frozen 100-run OLD batch to paper stop condition
         run: |
           set -euo pipefail
           mkdir source-native-run
           cd source-native-run
-          "$GITHUB_WORKSPACE/$AUTHOR_BIN" 1 100 TwoRate 10 1 1 100000 100 > stdout.txt
+          "$GITHUB_WORKSPACE/$AUTHOR_BIN" 1 100 TwoRate 10 1 1 "$SAFETY_CAP_FE" 100 > stdout.txt
           test -n "$(find . -name '*.json' -type f | head -n 1)"
 
-      - name: Compare source-native raw trajectory with Zenodo and published mean
+      - name: Compare exact raw trajectory with authenticated Zenodo data
         run: |
           set -euo pipefail
           python candidates/EU26-27/source_native/compare_source_native_old_fail_closed.py \
             --author-output-root source-native-run \
             --output-dir evidence/source-native-old \
             --gsemo-sha "$GSEMO_SHA" \
-            --ioh-sha "$IOH_SHA"
+            --ioh-sha "$IOH_SHA" \
+            --safety-cap-fe "$SAFETY_CAP_FE"
 
-      - name: Publish professor-readable result
+      - name: Publish professor-readable canonical result
         if: always()
         run: |
           test -f evidence/source-native-old/summary.md
@@ -177,7 +199,7 @@ jobs:
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: eu26-27-source-native-old-evidence
+          name: eu26-27-canonical-old-evidence
           path: |
             evidence/source-native-old/report.json
             evidence/source-native-old/summary.md
