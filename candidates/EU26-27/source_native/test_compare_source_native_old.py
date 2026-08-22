@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+# Canonical OLD comparator controls. Touching this file intentionally binds the
+# final cleaned PR head to the canonical source-native OLD workflow.
+
 import unittest
 
 import compare_source_native_old_fail_closed as candidate
