@@ -1,0 +1,160 @@
+name: EU26-27 final research binder
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - research/EU26-07-reset-jump-verification
+    paths:
+      - 'candidates/EU26-27/**'
+      - '.github/workflows/eu26-27-final-research-binder.yml'
+  push:
+    branches:
+      - research/EU26-27-hybrid-capped-v3
+    paths:
+      - 'candidates/EU26-27/**'
+      - '.github/workflows/eu26-27-final-research-binder.yml'
+
+concurrency:
+  group: eu26-27-final-binder-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  GSEMO_SHA: fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380
+  IOH_SHA: f223c682dff0749067d00b870f83ad754f7d96f5
+
+jobs:
+  integrity-and-tests:
+    name: Final syntax, unit, negative and evidence audit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+
+      - name: Compile every EU26-27 Python module
+        run: |
+          set -euo pipefail
+          python -m compileall -q candidates/EU26-27
+
+      - name: Canonical OLD comparator unit and negative controls
+        run: |
+          set -euo pipefail
+          python candidates/EU26-27/source_native/test_compare_source_native_old.py
+
+      - name: HYBRID v1 unit/statistical controls
+        run: |
+          set -euo pipefail
+          cd candidates/EU26-27/hybrid
+          python test_hybrid.py
+
+      - name: HYBRID v2 rollback/ablation controls
+        run: |
+          set -euo pipefail
+          cd candidates/EU26-27/hybrid_v2
+          python test_hybrid_v2.py
+
+      - name: HYBRID v3 real-module parser/selection/fail-closed controls
+        run: |
+          set -euo pipefail
+          cd candidates/EU26-27/hybrid_v3
+          python test_hybrid_v3.py
+
+      - name: Final fail-closed research evidence binder
+        run: |
+          set -euo pipefail
+          python candidates/EU26-27/final/audit_final_research.py | tee final-audit.json
+          grep -q 'PASS_FINAL_RESEARCH_INTEGRITY_AUDIT' final-audit.json
+
+      - name: Publish final professor report
+        if: always()
+        run: |
+          cat candidates/EU26-27/final/FINAL_RESEARCH_REPORT.md >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: eu26-27-final-research-binder
+          path: |
+            candidates/EU26-27/final/FINAL_EVIDENCE.json
+            candidates/EU26-27/final/FINAL_RESEARCH_REPORT.md
+            final-audit.json
+          if-no-files-found: error
+          retention-days: 90
+
+  source-patch-build-smoke:
+    name: Frozen source identity + final v3 patch build/smoke
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+
+      - name: Checkout exact frozen upstreams
+        run: |
+          set -euo pipefail
+          git config --global url."https://github.com/".insteadOf "git@github.com:"
+          mkdir -p upstream
+          git clone --filter=blob:none https://github.com/FurongYe/GSEMO.git upstream/GSEMO
+          git -C upstream/GSEMO checkout --detach "$GSEMO_SHA"
+          git clone --filter=blob:none https://github.com/IOHprofiler/IOHexperimenter.git upstream/IOHexperimenter
+          git -C upstream/IOHexperimenter checkout --detach "$IOH_SHA"
+          git -C upstream/IOHexperimenter submodule sync --recursive
+          git -C upstream/IOHexperimenter submodule update --init --recursive
+          test "$(git -C upstream/GSEMO rev-parse HEAD)" = "$GSEMO_SHA"
+          test "$(git -C upstream/IOHexperimenter rev-parse HEAD)" = "$IOH_SHA"
+          test "$(git -C upstream/GSEMO hash-object src/gsemo.hpp)" = "2693144bcfccff902343a02c6c8e48d7dd263257"
+          test "$(git -C upstream/GSEMO hash-object src/main.cpp)" = "22025e4680da85c98e3bb5ea30db8334ca25dff3"
+
+      - name: Rehydrate frozen dependency paths
+        run: |
+          set -euo pipefail
+          test "$(git -C upstream/GSEMO show HEAD:include)" = "/home/jacob/code/IOHexperimenter/include/"
+          test "$(git -C upstream/GSEMO show HEAD:external)" = "/home/jacob/code/IOHexperimenter/external/"
+          rm upstream/GSEMO/include upstream/GSEMO/external
+          cp -R upstream/IOHexperimenter/include upstream/GSEMO/include
+          cp -R upstream/IOHexperimenter/external upstream/GSEMO/external
+
+      - name: Apply final frozen v3 patch fail-closed
+        run: |
+          set -euo pipefail
+          python candidates/EU26-27/hybrid_v3/patch_upstream.py upstream/GSEMO
+          git -C upstream/GSEMO diff --check
+          grep -q 'HybridCapped' upstream/GSEMO/src/gsemo.hpp
+          grep -q 'HybridCap20' upstream/GSEMO/src/gsemo.hpp
+          grep -q 'TwoRate<SolutionType>::adapt(pareto_front, new_population);' upstream/GSEMO/src/gsemo.hpp
+
+      - name: Build final patched executable
+        run: |
+          set -euo pipefail
+          cmake -S upstream/GSEMO -B upstream/GSEMO/build -DCMAKE_BUILD_TYPE=Release
+          cmake --build upstream/GSEMO/build --config Release --parallel 2
+          BIN="$(find upstream/GSEMO/build -type f -name gsemo | head -n 1)"
+          test -n "$BIN"
+          echo "BIN=$BIN" >> "$GITHUB_ENV"
+
+      - name: Smoke ordinary TwoRate and selected HybridCap20
+        run: |
+          set -euo pipefail
+          for spec in 'TwoRate 10' 'HybridCap20 29001'; do
+            set -- $spec
+            algorithm="$1"
+            seed="$2"
+            out="smoke-$algorithm"
+            mkdir -p "$out"
+            (
+              cd "$out"
+              "$GITHUB_WORKSPACE/$BIN" 1 20 "$algorithm" 10 1 1 200000 1 "$seed" > stdout.txt
+            )
+            test -n "$(find "$out" -name '*.dat' -type f | head -n 1)"
+          done
