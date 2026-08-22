@@ -6,6 +6,7 @@ on:
     branches:
       - research/EU26-07-reset-jump-verification
     paths:
+      - 'candidates/EU26-27/source_native/UPSTREAM_LOCK.json'
       - 'candidates/EU26-27/source_native/compare_source_native_old.py'
       - 'candidates/EU26-27/source_native/compare_source_native_old_fail_closed.py'
       - 'candidates/EU26-27/source_native/test_compare_source_native_old.py'
@@ -14,6 +15,7 @@ on:
     branches:
       - research/EU26-27-agsemo-recovery
     paths:
+      - 'candidates/EU26-27/source_native/UPSTREAM_LOCK.json'
       - 'candidates/EU26-27/source_native/compare_source_native_old.py'
       - 'candidates/EU26-27/source_native/compare_source_native_old_fail_closed.py'
       - 'candidates/EU26-27/source_native/test_compare_source_native_old.py'
