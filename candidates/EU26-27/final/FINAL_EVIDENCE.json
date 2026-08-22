@@ -1,0 +1,65 @@
+{
+  "schema": "eu26-27-final-research-evidence-v1",
+  "study": "TwoRate GSEMO exact reproduction and source-grounded offspring-count control transfer",
+  "base_pr": 26,
+  "source_study": {
+    "title": "Towards Self-adaptive Mutation in Evolutionary Multi-Objective Algorithms",
+    "venue": "FOGA 2023",
+    "profile": "OneMinMax n=100 / TwoRate / HV / lambda=10",
+    "paper_mean_fe": 61624.0
+  },
+  "old": {
+    "status": "PASS_EXACT_REPRODUCTION",
+    "workflow_run": 32565217851,
+    "artifact_id": 9474001673,
+    "artifact_sha256": "26a3fa177ab7e5cf6bc7d972bd96de2b2c7d5f2abf171ebbf21f9770073e267b",
+    "source_mean_fe": 61623.78,
+    "authenticated_mean_fe": 61623.78,
+    "complete_runs": 100,
+    "matrix_shape": [101, 100],
+    "matrix_mismatches": 0,
+    "endpoint_mismatches": 0,
+    "maximum_endpoint_fe": 131875
+  },
+  "hybrid_v1": {
+    "hypothesis": "reset-based success control of offspring count reduces paired FE relative to OLD",
+    "workflow_run": 32571460043,
+    "artifact_id": 9475506328,
+    "artifact_sha256": "5ebd8d33ea5da63463427b2a821e3aa8a2c7e208903bd90dc70c0334daa9e8d0",
+    "seeds": "27001..27030",
+    "paired_median_relative_fe_reduction": -0.20237076,
+    "ci95": [-0.32412176, 0.04934754],
+    "status": "FAIL",
+    "reset_ablation_status": "NO_CLEAR_EFFECT"
+  },
+  "hybrid_v2": {
+    "hypothesis": "rollback control reduces paired FE relative to OLD",
+    "workflow_run": 32572161500,
+    "artifact_id": 9475683444,
+    "artifact_sha256": "085a477d5594e4fedb465c5817ebf3e4c3183165456f5ea7a3205388481a2ef3",
+    "seeds": "28001..28030",
+    "paired_median_relative_fe_reduction": 0.01575182,
+    "ci95": [-0.14390699, 0.19145964],
+    "status": "FAIL",
+    "rollback_ablation_status": "NO_CLEAR_EFFECT"
+  },
+  "hybrid_v3": {
+    "development_seeds": "28001..28030 retired development only",
+    "holdout_seeds": "29001..29030",
+    "selected_cap": 20,
+    "development_paired_median_relative_fe_reduction": 0.15358279,
+    "workflow_run": 32573546704,
+    "artifact_id": 9476099058,
+    "artifact_sha256": "10dabff61802e9482d339742800949cacb25aad4298f87c35ad91b57d279bc98",
+    "holdout_paired_median_relative_fe_reduction": -0.01263559,
+    "ci95": [-0.15884593, 0.13258223],
+    "status": "FAIL"
+  },
+  "seed_policy": {
+    "v1": "retired after confirmation",
+    "v2": "retired after confirmation; later development-only for v3",
+    "v3": "retired after independent confirmation",
+    "future_confirmatory_reuse_forbidden": true
+  },
+  "final_claim": "Exact OLD reproduction is established; none of the three tested source-grounded offspring-count transfer hypotheses established an independent FE-efficiency gain on the frozen OneMinMax testbed."
+}
