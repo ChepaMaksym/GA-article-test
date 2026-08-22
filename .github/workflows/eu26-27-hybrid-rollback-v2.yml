@@ -1,0 +1,180 @@
+name: EU26-27 HYBRID v2 rollback confirmatory
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - research/EU26-27-hybrid-reset-controller
+    paths:
+      - 'candidates/EU26-27/hybrid_v2/**'
+      - '.github/workflows/eu26-27-hybrid-rollback-v2.yml'
+  push:
+    branches:
+      - research/EU26-27-hybrid-rollback-v2
+    paths:
+      - 'candidates/EU26-27/hybrid_v2/**'
+      - '.github/workflows/eu26-27-hybrid-rollback-v2.yml'
+
+concurrency:
+  group: eu26-27-hybrid-v2-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  GSEMO_SHA: fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380
+  IOH_SHA: f223c682dff0749067d00b870f83ad754f7d96f5
+  SAFETY_CAP_FE: '10000000'
+
+jobs:
+  confirmatory:
+    name: OLD regression + rollback holdout
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+
+      - name: Run preregistered v2 controller/statistics tests
+        run: |
+          set -euo pipefail
+          cd candidates/EU26-27/hybrid_v2
+          python test_hybrid_v2.py
+
+      - name: Assert v2 holdout is disjoint from retired v1 seeds
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv
+          from pathlib import Path
+          seeds = {int(r['seed']) for r in csv.DictReader(Path('candidates/EU26-27/hybrid_v2/seeds.csv').read_text().splitlines())}
+          old = set(range(27001,27031))
+          assert len(seeds) == 30
+          assert seeds.isdisjoint(old)
+          assert seeds == set(range(28001,28031))
+          PY
+
+      - name: Checkout exact OLD source and paper-era dependency
+        run: |
+          set -euo pipefail
+          git config --global url."https://github.com/".insteadOf "git@github.com:"
+          mkdir -p upstream
+          git clone --filter=blob:none https://github.com/FurongYe/GSEMO.git upstream/GSEMO
+          git -C upstream/GSEMO checkout --detach "$GSEMO_SHA"
+          git clone --filter=blob:none https://github.com/IOHprofiler/IOHexperimenter.git upstream/IOHexperimenter
+          git -C upstream/IOHexperimenter checkout --detach "$IOH_SHA"
+          git -C upstream/IOHexperimenter submodule sync --recursive
+          git -C upstream/IOHexperimenter submodule update --init --recursive
+          test "$(git -C upstream/GSEMO rev-parse HEAD)" = "$GSEMO_SHA"
+          test "$(git -C upstream/IOHexperimenter rev-parse HEAD)" = "$IOH_SHA"
+          test "$(git -C upstream/GSEMO hash-object src/gsemo.hpp)" = "2693144bcfccff902343a02c6c8e48d7dd263257"
+          test "$(git -C upstream/GSEMO hash-object src/main.cpp)" = "22025e4680da85c98e3bb5ea30db8334ca25dff3"
+
+      - name: Rehydrate historical dependency paths
+        run: |
+          set -euo pipefail
+          test "$(git -C upstream/GSEMO show HEAD:include)" = "/home/jacob/code/IOHexperimenter/include/"
+          test "$(git -C upstream/GSEMO show HEAD:external)" = "/home/jacob/code/IOHexperimenter/external/"
+          rm upstream/GSEMO/include upstream/GSEMO/external
+          cp -R upstream/IOHexperimenter/include upstream/GSEMO/include
+          cp -R upstream/IOHexperimenter/external upstream/GSEMO/external
+
+      - name: Apply independently preregistered rollback patch
+        run: |
+          set -euo pipefail
+          python candidates/EU26-27/hybrid_v2/patch_upstream.py upstream/GSEMO
+          git -C upstream/GSEMO diff --check
+          git -C upstream/GSEMO diff -- src/gsemo.hpp src/main.cpp > hybrid-v2.patch
+          grep -q 'HybridRollback' upstream/GSEMO/src/gsemo.hpp
+          grep -q 'HybridFloor' upstream/GSEMO/src/gsemo.hpp
+          grep -q 'experiment_seed' upstream/GSEMO/src/main.cpp
+
+      - name: Build patched research executable
+        run: |
+          set -euo pipefail
+          cmake -S upstream/GSEMO -B upstream/GSEMO/build -DCMAKE_BUILD_TYPE=Release
+          cmake --build upstream/GSEMO/build --config Release --parallel 2
+          BIN="$(find upstream/GSEMO/build -type f -name gsemo | head -n 1)"
+          test -n "$BIN"
+          echo "AUTHOR_BIN=$BIN" >> "$GITHUB_ENV"
+
+      - name: Regression — patched TwoRate exactly reproduces canonical OLD
+        run: |
+          set -euo pipefail
+          mkdir -p old-regression-run evidence/hybrid-v2-old-regression
+          (
+            cd old-regression-run
+            "$GITHUB_WORKSPACE/$AUTHOR_BIN" 1 100 TwoRate 10 1 1 "$SAFETY_CAP_FE" 100 > stdout.txt
+          )
+          python candidates/EU26-27/source_native/compare_source_native_old_fail_closed.py \
+            --author-output-root old-regression-run \
+            --output-dir evidence/hybrid-v2-old-regression \
+            --gsemo-sha "$GSEMO_SHA" \
+            --ioh-sha "$IOH_SHA" \
+            --safety-cap-fe "$SAFETY_CAP_FE"
+
+      - name: Smoke HYBRID_ROLLBACK and HYBRID_FLOOR
+        run: |
+          set -euo pipefail
+          for algorithm in HybridRollback HybridFloor; do
+            mkdir -p "smoke/$algorithm"
+            (
+              cd "smoke/$algorithm"
+              "$GITHUB_WORKSPACE/$AUTHOR_BIN" 1 20 "$algorithm" 10 1 1 200000 1 28001 > stdout.txt
+            )
+            test -n "$(find "smoke/$algorithm" -name '*.dat' -type f | head -n 1)"
+          done
+
+      - name: Run frozen 30-seed OLD / HYBRID_ROLLBACK / HYBRID_FLOOR holdout
+        run: |
+          set -euo pipefail
+          tail -n +2 candidates/EU26-27/hybrid_v2/seeds.csv | while IFS=, read -r run seed; do
+            for profile in OLD HYBRID_ROLLBACK HYBRID_FLOOR; do
+              case "$profile" in
+                OLD) algorithm=TwoRate ;;
+                HYBRID_ROLLBACK) algorithm=HybridRollback ;;
+                HYBRID_FLOOR) algorithm=HybridFloor ;;
+              esac
+              out="paired-runs-v2/$profile/seed-$seed"
+              mkdir -p "$out"
+              (
+                cd "$out"
+                "$GITHUB_WORKSPACE/$AUTHOR_BIN" 1 100 "$algorithm" 10 1 1 "$SAFETY_CAP_FE" 1 "$seed" > stdout.txt
+              )
+            done
+          done
+
+      - name: Analyze preregistered v2 holdout hypotheses
+        run: |
+          set -euo pipefail
+          python candidates/EU26-27/hybrid_v2/analyze_paired.py \
+            --runs-root paired-runs-v2 \
+            --seeds candidates/EU26-27/hybrid_v2/seeds.csv \
+            --output evidence/hybrid-v2-confirmatory
+          cat evidence/hybrid-v2-confirmatory/summary.md >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: eu26-27-hybrid-v2-confirmatory-evidence
+          path: |
+            candidates/EU26-27/hybrid_v2/preregistration/PROTOCOL.md
+            candidates/EU26-27/hybrid_v2/seeds.csv
+            hybrid-v2.patch
+            evidence/hybrid-v2-old-regression/report.json
+            evidence/hybrid-v2-old-regression/summary.md
+            evidence/hybrid-v2-confirmatory/report.json
+            evidence/hybrid-v2-confirmatory/summary.md
+            evidence/hybrid-v2-confirmatory/paired_endpoints.csv
+            evidence/hybrid-v2-confirmatory/paired_fe.svg
+            paired-runs-v2/**/*.json
+            paired-runs-v2/**/*.dat
+            paired-runs-v2/**/stdout.txt
+          if-no-files-found: warn
+          retention-days: 90
