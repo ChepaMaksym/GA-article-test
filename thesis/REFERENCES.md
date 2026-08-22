@@ -10,6 +10,14 @@
 
 4. **Bassin, A. O.; Buzdalov, M. V.; Shalyto, A. A.** *The “One-Fifth Rule” with Rollbacks for Self-Adjustment of the Population Size in the (1+(lambda,lambda)) Genetic Algorithm.* Automatic Control and Computer Sciences, 55(7), 2021, pp. 885–902. DOI: **10.3103/S0146411621070208**. A related open journal version appeared in Modeling and Analysis of Information Systems 27(4), pp. 488–508, DOI **10.18255/1818-1015-2020-4-488-508**.
 
+5. **Eiben, A. E.; Hinterding, R.; Michalewicz, Z.** *Parameter Control in Evolutionary Algorithms.* IEEE Transactions on Evolutionary Computation, 3(2), 1999, pp. 124–141. DOI: **10.1109/4235.771166**. Canonical terminology/taxonomy reference separating parameter tuning from parameter control and distinguishing deterministic, adaptive and self-adaptive mechanisms.
+
+6. **Eiben, A. E.; Michalewicz, Z.; Schoenauer, M.; Smith, J. E.** *Parameter Control in Evolutionary Algorithms.* In: Lobo, F. G.; Lima, C. F.; Michalewicz, Z. (eds.), *Parameter Setting in Evolutionary Algorithms*, Studies in Computational Intelligence 54, Springer, 2007, pp. 19–46. DOI: **10.1007/978-3-540-69432-8_2**.
+
+## Terminology policy for the thesis
+
+The source paper uses the phrase “self-adaptive mutation”. The thesis preserves that wording when describing the source paper. For the thesis' own added `lambda` mechanisms, the stricter Eiben taxonomy is used: because `lambda` is updated from an explicit observed success signal rather than encoded and inherited as part of the evolving representation, the new mechanism is described primarily as **adaptive / feedback-based parameter control** or **self-adjusting population-size control**, not silently relabeled as classical self-adaptation.
+
 ## Reference-to-claim boundary
 
 ### Ye et al.
@@ -44,6 +52,16 @@ Does **not** imply:
 - rollback must help TwoRate GSEMO;
 - our v2 should pass. In fact our preregistered v2 H1 failed.
 
+### Eiben et al.
+May support:
+- the distinction between parameter tuning and on-line parameter control;
+- the traditional deterministic/adaptive/self-adaptive taxonomy;
+- the claim that strategy parameters such as mutation rate and population size are part of an executable EA specification and materially influence behavior.
+
+Does **not** imply:
+- one taxonomy label makes an algorithm empirically better;
+- our specific feedback signal or multiplicative law is optimal.
+
 ## Repository/source references used as experimental objects
 
 - FurongYe/GSEMO exact revision: `fbe1d3ed3064dedd85ba3c5eaf78fe4ea3d6b380`.
@@ -53,7 +71,6 @@ Does **not** imply:
 ## Additional literature still to add before final thesis
 
 - canonical source for GSEMO / Global SEMO definition;
-- survey/taxonomy of parameter control in evolutionary algorithms;
 - bootstrap/statistical comparison reference appropriate for stochastic optimization experiments;
 - reproducibility recommendations for evolutionary computation;
 - hypervolume indicator reference;
