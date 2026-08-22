@@ -95,7 +95,7 @@ jobs:
       - name: Regression — patched TwoRate still exactly reproduces canonical OLD
         run: |
           set -euo pipefail
-          mkdir old-regression-run evidence/hybrid-old-regression
+          mkdir -p old-regression-run evidence/hybrid-old-regression
           (
             cd old-regression-run
             "$GITHUB_WORKSPACE/$AUTHOR_BIN" 1 100 TwoRate 10 1 1 "$SAFETY_CAP_FE" 100 > stdout.txt
