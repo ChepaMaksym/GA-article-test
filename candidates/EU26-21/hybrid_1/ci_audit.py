@@ -257,6 +257,23 @@ def audit(root: Path) -> Dict[str, object]:
             "source artifact sha256",
         )
     )
+    critical["C24_QUALITY_PR_TELEMETRY_IS_NONBLOCKING"] = all(
+        token in quality
+        for token in (
+            "- name: Announce traceable quality audit run\n"
+            "        continue-on-error: true",
+            "- name: Publish traceable quality result to PR 19\n"
+            "        if: always()\n"
+            "        continue-on-error: true",
+        )
+    )
+    critical["C25_RETIRED_HYBRID_STAYS_ABSENT"] = all(
+        token in old_workflow
+        for token in (
+            "'candidates/EU26-21/hybrid/**'",
+            "test ! -e candidates/EU26-21/hybrid",
+        )
+    )
 
     for relative, text in workflows.items():
         mutable = [
@@ -271,7 +288,7 @@ def audit(root: Path) -> Dict[str, object]:
             )
 
     return {
-        "schema": "eu26-21-ci-audit-v5",
+        "schema": "eu26-21-ci-audit-v6",
         "critical_gates": critical,
         "warnings": warnings,
         "pass": all(critical.values()),

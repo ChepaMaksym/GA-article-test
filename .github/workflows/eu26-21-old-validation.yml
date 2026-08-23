@@ -6,6 +6,8 @@ on:
     branches: [research/EU26-21-chcqx-census-old-first]
     paths:
       - 'candidates/EU26-21/old/**'
+      - 'candidates/EU26-21/hybrid/**'
+      - 'candidates/EU26-21/hybrid_1/requirements.txt'
       - 'candidates/EU26-21/tests/test_source_campaign.py'
       - 'candidates/EU26-21/tests/test_upstream_source.py'
       - '.github/workflows/eu26-21-old-validation.yml'
@@ -29,7 +31,7 @@ env:
 
 jobs:
   old-contract:
-    name: OLD provenance, artifact, and retired-placeholder gate
+    name: OLD provenance and artifact gate
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -46,11 +48,8 @@ jobs:
           test "$(git -C "${RUNNER_TEMP}/chcqx" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
       - name: Authenticate source, data, and executed notebook endpoint
         run: python candidates/EU26-21/old/source_audit.py "${RUNNER_TEMP}/chcqx"
-      - name: Enforce documentation-only retired hybrid placeholder
-        run: |
-          test -f candidates/EU26-21/hybrid/README.md
-          count=$(find candidates/EU26-21/hybrid -type f ! -name README.md | wc -l)
-          test "$count" -eq 0
+      - name: Enforce that the retired hybrid placeholder stays absent
+        run: test ! -e candidates/EU26-21/hybrid
 
   source-unit:
     name: Pinned CHC adaptive fixed-tape and campaign tests

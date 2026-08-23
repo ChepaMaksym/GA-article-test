@@ -7,8 +7,9 @@ on:
     paths:
       - 'candidates/EU26-21/hybrid_1/**'
       - 'candidates/EU26-21/corrected_applied/**'
+      - 'candidates/EU26-21/old/**'
       - 'candidates/EU26-21/tests/**'
-      - '.github/workflows/eu26-21-code-quality.yml'
+      - '.github/workflows/eu26-21-*.yml'
 
 concurrency:
   group: eu26-21-code-quality-${{ github.ref }}
@@ -34,6 +35,7 @@ jobs:
     timeout-minutes: 45
     steps:
       - name: Announce traceable quality audit run
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -228,6 +230,8 @@ jobs:
           test "${BANDIT_EXIT:-1}" -eq 0
           test "${PIP_SECURE_EXIT:-1}" -eq 0
       - name: Publish traceable quality result to PR 19
+        if: always()
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
