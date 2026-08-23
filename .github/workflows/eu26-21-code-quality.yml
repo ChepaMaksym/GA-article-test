@@ -5,6 +5,7 @@ on:
   push:
     branches: [research/EU26-21-chcqx-census-old-first]
     paths:
+      - 'candidates/EU26-21/common_bridge/**'
       - 'candidates/EU26-21/hybrid_1/**'
       - 'candidates/EU26-21/corrected_applied/**'
       - 'candidates/EU26-21/old/**'

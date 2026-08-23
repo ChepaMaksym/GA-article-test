@@ -10,11 +10,19 @@ Corrected official-UCI protocol: PASS_PROTOCOL_RESULTS_AVAILABLE
 Corrected C-H1: FAIL_NONINFERIORITY
 Corrected C-H2: BLOCKED_BY_H1
 Corrected C-H8 reset ablation: NO_CLEAR_EFFECT
+Prospective common-objective bridge: PROTOCOL_FROZEN_NO_OUTCOMES
 PR state: open draft, not merged
 ```
 
-EU26-21 now contains two explicitly separated evidence profiles. They answer
-different scientific questions and must not be collapsed into one result.
+EU26-21 retains two explicitly separated completed evidence profiles. They
+answer different scientific questions and must not be collapsed into one
+result.
+
+A third, prospective bridge profile is frozen under
+[`common_bridge/PROTOCOL.md`](common_bridge/PROTOCOL.md). It will compare the
+harmonized pinned-source CHC feature-mask search with reset-disabled
+`(1+(lambda,lambda))` search under one evaluator and an exact 400-call budget.
+No seed `41001..41030` outcome existed when that protocol was frozen.
 
 ## Source papers
 

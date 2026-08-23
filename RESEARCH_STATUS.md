@@ -21,6 +21,7 @@ EU26-21 для CHC-QX, Census-Income і Hybrid 1 у гілці
 | Corrected C-H1 | Завершено | `FAIL_NONINFERIORITY` |
 | Corrected C-H2 | Завершено | `BLOCKED_BY_H1` |
 | Corrected C-H8 reset ablation | Завершено | `NO_CLEAR_EFFECT` |
+| EU26-21 common-objective bridge | Protocol frozen | Нові seeds `41001..41030`, outcomes відсутні |
 | Strict immutable replay / complete quality audit | Запущено | Lightweight control workflows, optimizer не перезапускається |
 | PR #19 | Відкритий draft | Merge не виконано |
 
@@ -184,3 +185,10 @@ objectives або rows. Він має лише:
 Після цього corrected висновок не змінюється залежно від його знака:
 `FAIL_NONINFERIORITY`, `BLOCKED_BY_H1` і `NO_CLEAR_EFFECT` мають залишитися
 частиною фінального звіту.
+
+Ця заборона змінювати старі seeds, rows і decisions стосується завершених
+source-compatible та corrected profiles. Окремий user-authorized prospective
+common-objective bridge зафіксовано до реалізації та до будь-якого перегляду
+нових outcomes. Він використовує неперетинний ledger `41001..41030`, не
+перезаписує попередні artifacts і не називає гармонізований CHC search повним
+друкованим CHC-QX.
