@@ -20,6 +20,9 @@ EXPECTED_TEST_SHA256 = (
 EXPECTED_ARCHIVE_SHA256 = (
     "54fd206becffcfaf099544c3938c681d64a65709800c94c00a4fba0a00df10c9"
 )
+PROTOCOL_CONTENT_FREEZE_COMMIT_SHA = (
+    "939914a33d21709526ef12538170ce806b45e3a3"
+)
 
 
 def _require(condition: bool, message: str) -> None:
@@ -286,8 +289,13 @@ def validate(protocol_path: Path, document_path: Path) -> dict[str, Any]:
         "PASS_JOINT_BRIDGE_CLAIM",
         "negative or null hypothesis decision is a valid scientific result",
     )
+    normalized_document = re.sub(r"\s+", " ", document)
     for token in required_document_tokens:
-        _require(token in document, f"protocol document lost required boundary: {token}")
+        normalized_token = re.sub(r"\s+", " ", token)
+        _require(
+            normalized_token in normalized_document,
+            f"protocol document lost required boundary: {token}",
+        )
 
     github_sha = os.environ.get("GITHUB_SHA", "")
     if os.environ.get("GITHUB_ACTIONS") == "true":
@@ -299,7 +307,8 @@ def validate(protocol_path: Path, document_path: Path) -> dict[str, Any]:
         "protocol_id": protocol["protocol_id"],
         "protocol_sha256": _sha256(protocol_path),
         "document_sha256": _sha256(document_path),
-        "freeze_commit_sha": github_sha or None,
+        "protocol_content_freeze_commit_sha": PROTOCOL_CONTENT_FREEZE_COMMIT_SHA,
+        "validated_commit_sha": github_sha or None,
         "seed_count": len(pairing["seed_ledger"]),
         "pass": True,
     }
