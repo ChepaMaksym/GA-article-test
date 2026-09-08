@@ -1,10 +1,15 @@
-name: EU26-21 common bridge protected 30-paired campaign
+name: EU26-21 common bridge SHA-bound 30-paired campaign
 
 on:
+  # Registration-only event for this draft-PR workflow. All jobs are guarded
+  # behind the manual authorize job; push never downloads data or runs searches.
+  push:
+    branches: [research/EU26-21-chcqx-census-old-first]
+    paths: ['.github/workflows/eu26-21-common-bridge-30-paired.yml']
   workflow_dispatch:
     inputs:
       expected_sha:
-        description: Exact 40-hex commit referenced by the protected evidence tag
+        description: Exact 40-hex commit referenced by the evidence tag
         required: true
         type: string
 
@@ -34,7 +39,8 @@ env:
 
 jobs:
   authorize:
-    name: Enforce protected tag and immutable implementation SHA
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    name: Enforce evidence tag and immutable implementation SHA
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:

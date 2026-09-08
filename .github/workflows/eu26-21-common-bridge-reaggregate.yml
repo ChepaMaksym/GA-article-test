@@ -1,6 +1,10 @@
 name: EU26-21 common bridge immutable evidence reaggregation
 
 on:
+  # Register without execution on this draft branch; the job is manual-only.
+  push:
+    branches: [research/EU26-21-chcqx-census-old-first]
+    paths: ['.github/workflows/eu26-21-common-bridge-reaggregate.yml']
   workflow_dispatch:
     inputs:
       source_run_id:
@@ -36,6 +40,7 @@ env:
 
 jobs:
   reaggregate:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     name: Fetch only immutable source artifacts and reaggregate
     runs-on: ubuntu-24.04
     timeout-minutes: 60

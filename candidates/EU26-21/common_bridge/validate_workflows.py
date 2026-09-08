@@ -162,9 +162,21 @@ def _require_dispatch_only(text: str, label: str) -> str:
     )
     _forbid_tokens(
         trigger,
-        ("push:", "pull_request:", "schedule:", "repository_dispatch:"),
+        ("pull_request:", "schedule:", "repository_dispatch:"),
         label,
     )
+    # GitHub does not initially register a dispatch-only file introduced in a
+    # draft branch (API 404). A self-file push event registers it, but all real
+    # work must remain guarded behind an explicit manual job.
+    if "push:" in trigger:
+        _require("branches: [research/EU26-21-chcqx-census-old-first]" in trigger,
+                 f"{label} registration escaped the PR19 branch")
+        job = "authorize" if label == "protected campaign" else "reaggregate"
+        path = WORKFLOW_PATHS["campaign" if job == "authorize" else "reaggregate"]
+        _require(f"paths: ['{path.as_posix()}']" in trigger,
+                 f"{label} registration path is not self-file-only")
+        guard = f"  {job}:\n    if: " + "${{ github.event_name == 'workflow_dispatch' }}"
+        _require(guard in text, f"{label} permits execution outside manual dispatch")
     return trigger
 
 
@@ -277,6 +289,8 @@ def _validate_campaign(text: str) -> None:
             "upstream.tar.gz",
             "merge-multiple: false",
             "needs: [authorize, fixture, seed]",
+            "needs: authorize",
+            "needs: [authorize, fixture]",
             "common_bridge/run_seed.py",
             "--official-train",
             "--official-test",

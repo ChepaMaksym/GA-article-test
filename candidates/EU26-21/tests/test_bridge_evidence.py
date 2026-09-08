@@ -242,6 +242,21 @@ class RunnerArtifactRoundTripTests(unittest.TestCase):
 
 
 class LeakageAndInputTests(unittest.TestCase):
+    def test_registration_push_cannot_authorize_scientific_execution(self) -> None:
+        repository = ROOT.parents[1]
+        guard = "    if: ${{ github.event_name == 'workflow_dispatch' }}\n"
+        for key, label in (("campaign", "protected campaign"),
+                           ("reaggregate", "reaggregation")):
+            text = (repository / validate_workflows.WORKFLOW_PATHS[key]).read_text()
+            with self.subTest(workflow=key):
+                validate_workflows._require_dispatch_only(text, label)
+                with self.assertRaisesRegex(ValueError, "outside manual dispatch"):
+                    validate_workflows._require_dispatch_only(text.replace(guard, ""), label)
+                with self.assertRaisesRegex(ValueError, "escaped the PR19 branch"):
+                    validate_workflows._require_dispatch_only(
+                        text.replace("branches: [research/EU26-21-chcqx-census-old-first]",
+                                     "branches: [main]"), label)
+
     def test_workflow_action_blocks_stop_at_job_boundaries(self) -> None:
         action = validate_workflows.UPLOAD_ARTIFACT
         text = ("jobs:\n  fixture:\n    steps:\n      - uses: " + action +

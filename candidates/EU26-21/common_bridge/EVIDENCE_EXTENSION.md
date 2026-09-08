@@ -59,6 +59,14 @@ workflow context, not an input echoed as evidence, supplies workflow identity.
 [GitHub context reference](https://docs.github.com/en/actions/reference/workflows-and-actions/contexts),
 [rerun semantics](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/re-run-workflows-and-jobs).
 
+The first pushed implementation returned HTTP 404 for the two new dispatch-only
+workflow identities. A registration-only `push` event is therefore restricted
+to each workflow's own file on the PR19 branch. The authorization/aggregation
+job requires `github.event_name == 'workflow_dispatch'`, and every campaign
+job depends on that authorization. Registration performs no dataset access,
+search, model training or statistical analysis. This is not authorization for
+automatic scientific campaigns or for changes to the repository's default branch.
+
 ## Verification boundary
 
 All execution is CI-only. The lightweight CI tests use explicitly synthetic
