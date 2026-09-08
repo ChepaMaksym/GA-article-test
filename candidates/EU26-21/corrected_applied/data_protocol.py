@@ -20,7 +20,7 @@ from dataclasses import dataclass
 import hashlib
 import math
 from pathlib import Path
-from typing import Any, Dict, Optional, Sequence, Tuple
+from typing import Any, Callable, Dict, Optional, Sequence, Tuple
 
 import numpy as np
 import pandas as pd
@@ -139,6 +139,9 @@ class PreparedCorrectedCensus:
     active_instances: np.ndarray
     feature_names: Tuple[str, ...]
     metadata: Dict[str, Any]
+    # Retained fitted state is evidence only; it never changes search inputs.
+    preprocessor: Any = None
+    train_probe_raw: Any = None
 
 
 @dataclass(frozen=True)
@@ -476,6 +479,8 @@ def prepare_corrected_census(
         active_instances=active_index,
         feature_names=TRANSFORMED_FEATURE_NAMES,
         metadata=metadata,
+        preprocessor=preprocessor,
+        train_probe_raw=train_features_raw.iloc[train_index[:8]].copy(),
     )
 
 
@@ -558,6 +563,8 @@ def _metric_block(
 def evaluate_mask_on_official_test(
     prepared: PreparedCorrectedCensus,
     mask: Sequence[int],
+    *,
+    model_sink: Optional[Callable[[Any, np.ndarray], None]] = None,
 ) -> Dict[str, Any]:
     """Fit on corrected training data and report weighted and unweighted metrics."""
 
@@ -571,6 +578,8 @@ def evaluate_mask_on_official_test(
         prepared.y_train,
         sample_weight=prepared.weight_train,
     )
+    if model_sink is not None:
+        model_sink(model, selected)
     predicted = model.predict(prepared.x_test[:, selected])
     probability = model.predict_proba(prepared.x_test[:, selected])
     classes = [int(value) for value in model.classes_.tolist()]

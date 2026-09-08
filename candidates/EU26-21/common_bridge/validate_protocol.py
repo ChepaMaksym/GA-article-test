@@ -23,6 +23,12 @@ EXPECTED_ARCHIVE_SHA256 = (
 PROTOCOL_CONTENT_FREEZE_COMMIT_SHA = (
     "939914a33d21709526ef12538170ce806b45e3a3"
 )
+EXPECTED_PROTOCOL_SHA256 = (
+    "730cd436db59d23da7dab5e24c49bc7b28d65379136fad7fd2d2370e0a436205"
+)
+EXPECTED_DOCUMENT_SHA256 = (
+    "7bcfe905612274cadb4cf398c21c5417d1c8493ee0ae2c6c242a515f543708c9"
+)
 
 
 def _require(condition: bool, message: str) -> None:
@@ -35,6 +41,16 @@ def _sha256(path: Path) -> str:
 
 
 def validate(protocol_path: Path, document_path: Path) -> dict[str, Any]:
+    protocol_sha256 = _sha256(protocol_path)
+    document_sha256 = _sha256(document_path)
+    _require(
+        protocol_sha256 == EXPECTED_PROTOCOL_SHA256,
+        "protocol bytes differ from the frozen pre-implementation manifest",
+    )
+    _require(
+        document_sha256 == EXPECTED_DOCUMENT_SHA256,
+        "protocol document bytes differ from the frozen pre-implementation text",
+    )
     protocol = json.loads(protocol_path.read_text(encoding="utf-8"))
     document = document_path.read_text(encoding="utf-8")
 
@@ -305,8 +321,8 @@ def validate(protocol_path: Path, document_path: Path) -> dict[str, Any]:
         "schema": "eu26-21-common-wba-bridge-protocol-validation-v1",
         "study_id": protocol["study_id"],
         "protocol_id": protocol["protocol_id"],
-        "protocol_sha256": _sha256(protocol_path),
-        "document_sha256": _sha256(document_path),
+        "protocol_sha256": protocol_sha256,
+        "document_sha256": document_sha256,
         "protocol_content_freeze_commit_sha": PROTOCOL_CONTENT_FREEZE_COMMIT_SHA,
         "validated_commit_sha": github_sha or None,
         "seed_count": len(pairing["seed_ledger"]),

@@ -85,7 +85,7 @@ jobs:
         run: |
           set +e
           mkdir -p "${RUNNER_TEMP}/quality"
-          coverage run --source=candidates/EU26-21/hybrid_1,candidates/EU26-21/corrected_applied \
+          coverage run --source=candidates/EU26-21/hybrid_1,candidates/EU26-21/corrected_applied,candidates/EU26-21/common_bridge \
             -m unittest discover -s candidates/EU26-21/tests -p 'test_*.py' -v \
             2>&1 | tee "${RUNNER_TEMP}/quality/tests.log"
           status=${PIPESTATUS[0]}
@@ -102,6 +102,7 @@ jobs:
           ruff check \
             candidates/EU26-21/hybrid_1 \
             candidates/EU26-21/corrected_applied \
+            candidates/EU26-21/common_bridge \
             candidates/EU26-21/tests \
             --select E9,F63,F7,F82 \
             --output-format json \
@@ -116,6 +117,7 @@ jobs:
           ruff check \
             candidates/EU26-21/hybrid_1 \
             candidates/EU26-21/corrected_applied \
+            candidates/EU26-21/common_bridge \
             candidates/EU26-21/tests \
             --output-format json \
             --output-file "${RUNNER_TEMP}/quality/ruff-all.json"
@@ -123,6 +125,7 @@ jobs:
           ruff check \
             candidates/EU26-21/hybrid_1 \
             candidates/EU26-21/corrected_applied \
+            candidates/EU26-21/common_bridge \
             candidates/EU26-21/tests \
             2>&1 | tee "${RUNNER_TEMP}/quality/ruff-all.txt" || true
           exit 0
@@ -132,11 +135,11 @@ jobs:
         continue-on-error: true
         run: |
           set +e
-          bandit -r candidates/EU26-21/hybrid_1 candidates/EU26-21/corrected_applied \
+          bandit -r candidates/EU26-21/hybrid_1 candidates/EU26-21/corrected_applied candidates/EU26-21/common_bridge \
             -x candidates/EU26-21/tests -lll -ii -f json \
             -o "${RUNNER_TEMP}/quality/bandit.json"
           status=$?
-          bandit -r candidates/EU26-21/hybrid_1 candidates/EU26-21/corrected_applied \
+          bandit -r candidates/EU26-21/hybrid_1 candidates/EU26-21/corrected_applied candidates/EU26-21/common_bridge \
             -x candidates/EU26-21/tests -lll -ii \
             2>&1 | tee "${RUNNER_TEMP}/quality/bandit.txt" || true
           echo "exit_code=$status" >> "$GITHUB_OUTPUT"
@@ -145,7 +148,7 @@ jobs:
         if: always()
         run: |
           set +e
-          vulture candidates/EU26-21/hybrid_1 candidates/EU26-21/corrected_applied candidates/EU26-21/tests \
+          vulture candidates/EU26-21/hybrid_1 candidates/EU26-21/corrected_applied candidates/EU26-21/common_bridge candidates/EU26-21/tests \
             --min-confidence 90 > "${RUNNER_TEMP}/quality/vulture.txt" 2>&1
           printf '%s\n' "$?" > "${RUNNER_TEMP}/quality/vulture.exit-code"
           cat "${RUNNER_TEMP}/quality/vulture.txt"
@@ -214,9 +217,9 @@ jobs:
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: eu26-21-code-quality-audit
+          name: eu26-21-code-quality-audit-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/quality
-          if-no-files-found: warn
+          if-no-files-found: error
           retention-days: 90
       - name: Enforce blocking quality gates after preserving all reports
         if: always()

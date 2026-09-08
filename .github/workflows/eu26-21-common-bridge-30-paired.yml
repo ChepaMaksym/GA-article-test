@@ -1,0 +1,398 @@
+name: EU26-21 common bridge protected 30-paired campaign
+
+on:
+  workflow_dispatch:
+    inputs:
+      expected_sha:
+        description: Exact 40-hex commit referenced by the protected evidence tag
+        required: true
+        type: string
+
+concurrency:
+  group: eu26-21-common-bridge-30-paired-${{ inputs.expected_sha }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  PROTECTED_REF: refs/tags/eu26-21-common-bridge-evidence-v1
+  CONTENT_FREEZE_COMMIT: 939914a33d21709526ef12538170ce806b45e3a3
+  PROTOCOL_SHA256: 730cd436db59d23da7dab5e24c49bc7b28d65379136fad7fd2d2370e0a436205
+  UPSTREAM_REPOSITORY: https://github.com/Ghaith81/Fast-Genetic-Algorithm-For-Feature-Selection.git
+  UPSTREAM_COMMIT: 6ac5a7ec77f8a7c096ab4d019254fcc897988fd6
+  UCI_ARCHIVE_URL: https://archive.ics.uci.edu/static/public/117/census%2Bincome%2Bkdd.zip
+  UCI_ARCHIVE_SHA256: 54fd206becffcfaf099544c3938c681d64a65709800c94c00a4fba0a00df10c9
+  UCI_TRAIN_SHA256: 3676a81db7d3528f3f8b9f3c699d0f0aa28db45e6e994fa0b8ed38327539ee86
+  UCI_TEST_SHA256: 98402b1ab879573d0a7f38a699a40258080e25e33d3401e7bf9c96d3fa0fab8c
+  PYTHONHASHSEED: '0'
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  NUMEXPR_NUM_THREADS: '1'
+
+jobs:
+  authorize:
+    name: Enforce protected tag and immutable implementation SHA
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Validate dispatch identity
+        env:
+          EXPECTED_SHA: ${{ inputs.expected_sha }}
+          BRIDGE_WORKFLOW_SHA: ${{ github.workflow_sha }}
+          REF_PROTECTION_CONFIGURED: ${{ github.ref_protected }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import os
+          import re
+
+          expected = os.environ["EXPECTED_SHA"]
+          actual = os.environ["GITHUB_SHA"]
+          ref = os.environ["GITHUB_REF"]
+          protected = os.environ["PROTECTED_REF"]
+          if re.fullmatch(r"[0-9a-f]{40}", expected) is None:
+              raise SystemExit("expected_sha must be exactly 40 lowercase hex characters")
+          if actual != expected:
+              raise SystemExit(f"github.sha {actual} != expected_sha {expected}")
+          if os.environ["BRIDGE_WORKFLOW_SHA"] != expected:
+              raise SystemExit("workflow revision differs from expected_sha")
+          if ref != protected:
+              raise SystemExit(f"dispatch ref {ref} != protected evidence ref {protected}")
+          print(f"authorized SHA-bound {ref} at {expected}; protection={os.environ['REF_PROTECTION_CONFIGURED']}")
+          PY
+
+  fixture:
+    name: Fetch and authenticate UCI data and pinned upstream once
+    needs: authorize
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    outputs:
+      artifact_id: ${{ steps.fixture_upload.outputs.artifact-id }}
+    steps:
+      - name: Download and verify the official UCI archive exactly once
+        run: |
+          set -euo pipefail
+          fixture="${RUNNER_TEMP}/common-bridge-fixture"
+          mkdir -p "$fixture"
+          curl --fail --location --retry 5 --retry-all-errors --user-agent 'EU26-21-common-bridge/1.0' "$UCI_ARCHIVE_URL" -o "$fixture/census-income-kdd.zip"
+          cd "$fixture"
+          printf '%s  %s\n' "$UCI_ARCHIVE_SHA256" census-income-kdd.zip > archive.sha256
+          sha256sum --check archive.sha256
+          python - <<'PY'
+          from io import BytesIO
+          from pathlib import Path, PurePosixPath
+          import tarfile
+          import zipfile
+
+          root = Path.cwd()
+          with zipfile.ZipFile(root / "census-income-kdd.zip") as outer:
+              candidates = [
+                  name
+                  for name in outer.namelist()
+                  if PurePosixPath(name).name == "census.tar.gz"
+              ]
+              if len(candidates) != 1:
+                  raise SystemExit(f"expected one census.tar.gz member, found {candidates}")
+              tar_bytes = outer.read(candidates[0])
+          with tarfile.open(fileobj=BytesIO(tar_bytes), mode="r:gz") as archive:
+              members = {
+                  PurePosixPath(member.name).name: member
+                  for member in archive.getmembers()
+                  if member.isfile()
+                  and PurePosixPath(member.name).name
+                  in {"census-income.data", "census-income.test"}
+              }
+              if set(members) != {"census-income.data", "census-income.test"}:
+                  raise SystemExit(f"official data members missing: {sorted(members)}")
+              for name, member in members.items():
+                  stream = archive.extractfile(member)
+                  if stream is None:
+                      raise SystemExit(f"cannot extract {member.name}")
+                  (root / name).write_bytes(stream.read())
+          PY
+          printf '%s  %s\n' "$UCI_TRAIN_SHA256" census-income.data > train.sha256
+          printf '%s  %s\n' "$UCI_TEST_SHA256" census-income.test > test.sha256
+          sha256sum --check train.sha256
+          sha256sum --check test.sha256
+          test "$(wc -l < census-income.data)" -eq 199523
+          test "$(wc -l < census-income.test)" -eq 99762
+          printf '%s\n' "$UCI_ARCHIVE_URL" > source-url.txt
+      - name: Fetch and archive the pinned upstream Git checkout once
+        run: |
+          set -euo pipefail
+          fixture="${RUNNER_TEMP}/common-bridge-fixture"
+          git clone --no-tags "$UPSTREAM_REPOSITORY" "${RUNNER_TEMP}/upstream"
+          git -C "${RUNNER_TEMP}/upstream" checkout --detach "$UPSTREAM_COMMIT"
+          test "$(git -C "${RUNNER_TEMP}/upstream" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
+          tar -czf "$fixture/upstream.tar.gz" -C "$RUNNER_TEMP" upstream
+          cd "$fixture"
+          sha256sum upstream.tar.gz > upstream.tar.sha256
+          printf '%s\n' "$UPSTREAM_COMMIT" > upstream.commit
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        id: fixture_upload
+        with:
+          name: eu26-21-common-bridge-fixture-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/common-bridge-fixture
+          if-no-files-found: error
+          retention-days: 90
+
+  seed:
+    name: Paired common bridge seed ${{ matrix.seed }}
+    needs: [authorize, fixture]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        seed: [41001, 41002, 41003, 41004, 41005, 41006, 41007, 41008, 41009, 41010, 41011, 41012, 41013, 41014, 41015, 41016, 41017, 41018, 41019, 41020, 41021, 41022, 41023, 41024, 41025, 41026, 41027, 41028, 41029, 41030]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ inputs.expected_sha }}
+          persist-credentials: false
+      - name: Verify the exact checked-out implementation
+        env:
+          EXPECTED_SHA: ${{ inputs.expected_sha }}
+        run: test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Install the frozen corrected bridge environment
+        run: |
+          python -m pip install -r candidates/EU26-21/corrected_applied/requirements.txt
+          python -m pip check
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          artifact-ids: ${{ needs.fixture.outputs.artifact_id }}
+          path: ${{ runner.temp }}/common-bridge-fixture
+      - name: Verify and restore authenticated fixtures
+        run: |
+          set -euo pipefail
+          fixture="${RUNNER_TEMP}/common-bridge-fixture"
+          cd "$fixture"
+          sha256sum --check archive.sha256
+          sha256sum --check train.sha256
+          sha256sum --check test.sha256
+          sha256sum --check upstream.tar.sha256
+          test "$(cat upstream.commit)" = "$UPSTREAM_COMMIT"
+          tar -xzf upstream.tar.gz -C "$RUNNER_TEMP"
+          test "$(git -C "${RUNNER_TEMP}/upstream" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
+      - name: Run both search arms for one protected paired seed
+        env:
+          EXPECTED_SHA: ${{ inputs.expected_sha }}
+          BRIDGE_WORKFLOW_SHA: ${{ github.workflow_sha }}
+          PYTHONPATH: ${{ github.workspace }}/candidates/EU26-21
+        run: |
+          set -euo pipefail
+          seed='${{ matrix.seed }}'
+          output="${RUNNER_TEMP}/common-bridge-seed-$seed"
+          artifact_name="eu26-21-common-bridge-seed-$seed-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          protocol='candidates/EU26-21/common_bridge/protocol.json'
+          config='candidates/EU26-21/common_bridge/config.json'
+          requirements='candidates/EU26-21/corrected_applied/requirements.txt'
+          test "$(sha256sum "$protocol" | awk '{print $1}')" = "$PROTOCOL_SHA256"
+          protocol_sha="$PROTOCOL_SHA256"
+          config_sha=$(sha256sum "$config" | awk '{print $1}')
+          requirements_sha=$(sha256sum "$requirements" | awk '{print $1}')
+          mkdir -p "$output"
+          args=(
+            --protocol "$protocol"
+            --config "$config"
+            --upstream "${RUNNER_TEMP}/upstream"
+            --official-train "${RUNNER_TEMP}/common-bridge-fixture/census-income.data"
+            --official-test "${RUNNER_TEMP}/common-bridge-fixture/census-income.test"
+            --seed "$seed"
+            --expected-sha "$EXPECTED_SHA"
+            --expected-protocol-sha256 "$protocol_sha"
+            --expected-config-sha256 "$config_sha"
+            --expected-requirements-sha256 "$requirements_sha"
+            --output-dir "$output"
+            --artifact-name "$artifact_name"
+          )
+          python candidates/EU26-21/common_bridge/run_seed.py "${args[@]}"
+          test -s "$output/seed-$seed.json"
+          test -s "$output/seed-$seed-chc-trace.json"
+          test -s "$output/seed-$seed-lambda-trace.json"
+          test -s "$output/seed-$seed-status.json"
+          test -s "$output/seed-$seed-manifest.json"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: eu26-21-common-bridge-seed-${{ matrix.seed }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/common-bridge-seed-${{ matrix.seed }}
+          if-no-files-found: error
+          retention-days: 90
+
+  aggregate:
+    name: Aggregate complete paired evidence without rerunning searches
+    if: ${{ always() && needs.authorize.result == 'success' && needs.fixture.result == 'success' && needs.seed.result == 'success' }}
+    needs: [authorize, fixture, seed]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ inputs.expected_sha }}
+          persist-credentials: false
+      - name: Verify the exact checked-out implementation
+        env:
+          EXPECTED_SHA: ${{ inputs.expected_sha }}
+        run: test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Install the frozen corrected bridge environment
+        run: |
+          python -m pip install -r candidates/EU26-21/corrected_applied/requirements.txt
+          python -m pip check
+      - name: Snapshot the exact 30 source artifact IDs and digests
+        id: snapshot
+        env:
+          EXPECTED_SHA: ${{ inputs.expected_sha }}
+          GH_TOKEN: ${{ github.token }}
+          BRIDGE_WORKFLOW_SHA: ${{ github.workflow_sha }}
+          PYTHONPATH: ${{ github.workspace }}/candidates/EU26-21
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          import re
+          import time
+          from urllib.request import Request, urlopen
+          from common_bridge.artifact_selection import select_seed_artifacts
+
+          repository = os.environ["GITHUB_REPOSITORY"]
+          run_id = int(os.environ["GITHUB_RUN_ID"])
+          run_attempt = int(os.environ["GITHUB_RUN_ATTEMPT"])
+          expected_sha = os.environ["EXPECTED_SHA"]
+          headers = {
+              "Accept": "application/vnd.github+json",
+              "Authorization": f"Bearer {os.environ['GH_TOKEN']}",
+              "X-GitHub-Api-Version": "2022-11-28",
+          }
+
+          def fetch_all_artifacts():
+              available = []
+              page = 1
+              while True:
+                  url = (
+                      f"{os.environ['GITHUB_API_URL']}/repos/{repository}/"
+                      f"actions/runs/{run_id}/artifacts?per_page=100&page={page}"
+                  )
+                  with urlopen(Request(url, headers=headers), timeout=60) as response:
+                      payload = json.load(response)
+                  batch = payload.get("artifacts")
+                  if not isinstance(batch, list):
+                      raise SystemExit("GitHub artifact API returned no artifact list")
+                  available.extend(batch)
+                  if len(batch) < 100:
+                      return available
+                  page += 1
+
+          for snapshot_attempt in range(1, 7):
+              try:
+                  entries, attempt_history = select_seed_artifacts(
+                      fetch_all_artifacts(), run_id=run_id, run_attempt=run_attempt
+                  )
+                  break
+              except (ValueError, OSError) as error:
+                  if snapshot_attempt == 6:
+                      raise SystemExit(f"artifact snapshot failed after retries: {error}") from error
+                  time.sleep(10)
+          ledger = {
+              "schema": "eu26-21-common-bridge-source-artifact-ledger-v1",
+              "repository": repository,
+              "source_run_id": run_id,
+              "source_run_attempt": run_attempt,
+              "source_head_sha": expected_sha,
+              "source_ref": os.environ["GITHUB_REF"],
+              "source_workflow_sha": os.environ["BRIDGE_WORKFLOW_SHA"],
+              "source_workflow_path": (
+                  ".github/workflows/eu26-21-common-bridge-30-paired.yml"
+              ),
+              "artifacts": entries,
+              "attempt_history": attempt_history,
+          }
+          target = (
+              Path(os.environ["RUNNER_TEMP"])
+              / "common-bridge-source-artifact-ledger.json"
+          )
+          target.write_text(
+              json.dumps(ledger, indent=2, sort_keys=True) + "\n",
+              encoding="utf-8",
+          )
+          print(json.dumps(ledger, sort_keys=True))
+          with Path(os.environ["GITHUB_OUTPUT"]).open("a", encoding="utf-8") as output:
+              output.write("artifact_ids=" + ",".join(str(item["id"]) for item in entries) + "\n")
+          PY
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          artifact-ids: ${{ steps.snapshot.outputs.artifact_ids }}
+          path: ${{ runner.temp }}/common-bridge-seed-artifacts
+          merge-multiple: false
+      - name: Verify 30 isolated per-seed artifact directories
+        run: |
+          set -euo pipefail
+          root="${RUNNER_TEMP}/common-bridge-seed-artifacts"
+          test "$(find "$root" -mindepth 1 -maxdepth 1 -type d | wc -l)" -eq 30
+          for seed in $(seq 41001 41030); do
+            name=$(python -c 'import json,sys; data=json.load(open(sys.argv[1])); print(next(item["name"] for item in data["artifacts"] if item["seed"] == int(sys.argv[2])))' "${RUNNER_TEMP}/common-bridge-source-artifact-ledger.json" "$seed")
+            dir="$root/$name"
+            test -s "$dir/seed-$seed.json"
+            test -s "$dir/seed-$seed-chc-trace.json"
+            test -s "$dir/seed-$seed-lambda-trace.json"
+            test -s "$dir/seed-$seed-status.json"
+            test -s "$dir/seed-$seed-manifest.json"
+          done
+      - name: Aggregate protocol-valid rows and keep negative decisions green
+        env:
+          EXPECTED_SHA: ${{ inputs.expected_sha }}
+          BRIDGE_WORKFLOW_SHA: ${{ github.workflow_sha }}
+          PYTHONPATH: ${{ github.workspace }}/candidates/EU26-21
+        run: |
+          set -euo pipefail
+          protocol='candidates/EU26-21/common_bridge/protocol.json'
+          config='candidates/EU26-21/common_bridge/config.json'
+          requirements='candidates/EU26-21/corrected_applied/requirements.txt'
+          test "$(sha256sum "$protocol" | awk '{print $1}')" = "$PROTOCOL_SHA256"
+          protocol_sha="$PROTOCOL_SHA256"
+          config_sha=$(sha256sum "$config" | awk '{print $1}')
+          requirements_sha=$(sha256sum "$requirements" | awk '{print $1}')
+          output="${RUNNER_TEMP}/common-bridge-final"
+          mkdir -p "$output"
+          args=(
+            "${RUNNER_TEMP}/common-bridge-seed-artifacts"
+            --protocol "$protocol"
+            --expected-protocol-sha256 "$protocol_sha"
+            --expected-config-sha256 "$config_sha"
+            --expected-requirements-sha256 "$requirements_sha"
+            --expected-content-freeze-commit "$CONTENT_FREEZE_COMMIT"
+            --expected-implementation-sha "$EXPECTED_SHA"
+            --expected-run-id "$GITHUB_RUN_ID"
+            --expected-run-attempt "$GITHUB_RUN_ATTEMPT"
+            --expected-ref "$GITHUB_REF"
+            --expected-workflow-sha "$BRIDGE_WORKFLOW_SHA"
+            --source-artifact-ledger "${RUNNER_TEMP}/common-bridge-source-artifact-ledger.json"
+            --output-dir "$output"
+          )
+          python -m common_bridge.aggregate "${args[@]}"
+          test -s "$output/report.json"
+          test -s "$output/report.md"
+          test -s "$output/canonical-ledger.json"
+          test -s "$output/aggregate-status.json"
+          test -s "$output/aggregate-manifest.json"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: eu26-21-common-bridge-final-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/common-bridge-final
+            ${{ runner.temp }}/common-bridge-source-artifact-ledger.json
+          if-no-files-found: error
+          retention-days: 90

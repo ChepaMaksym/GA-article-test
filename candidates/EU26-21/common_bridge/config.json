@@ -1,0 +1,71 @@
+{
+  "schema": "eu26-21-common-bridge-config-v1",
+  "protocol_id": "EU26-21-COMMON-WBA-BSF-AUC-400-V1",
+  "dimension": 40,
+  "seed_ledger": {
+    "first": 41001,
+    "last": 41030,
+    "count": 30
+  },
+  "rng": {
+    "search_seed_offset": 1000003,
+    "initial_mask_seed_offset": 1000102,
+    "chc_stream": "python_random.Random",
+    "lambda_stream": "numpy.random.default_rng",
+    "initial_mask_stream": "numpy.random.default_rng"
+  },
+  "budget": {
+    "dimension": 40,
+    "objective_calls": 400,
+    "initial_population_calls": 50,
+    "objective_cache": false,
+    "duplicates_consume_calls": true,
+    "terminal_exact_tie_rule": "earliest_objective_call"
+  },
+  "objective": {
+    "primary": "validation_weighted_balanced_accuracy",
+    "secondary": "negative_selected_feature_fraction",
+    "comparison": "lexicographic",
+    "auc_calls": [
+      1,
+      400
+    ],
+    "descriptive_auc_calls": [
+      51,
+      400
+    ]
+  },
+  "source": {
+    "upstream_commit": "6ac5a7ec77f8a7c096ab4d019254fcc897988fd6",
+    "upstream_evolution_path": "code/Evolution.py",
+    "upstream_evolution_blob_sha1": "05b0d8afc02faee688e5d1ff8e24531ae41307c7"
+  },
+  "arms": {
+    "chc_harmonized": {
+      "algorithm_id": "harmonized_pinned_source_chc_feature_mask_search",
+      "initial_distance": 10,
+      "hux": "pinned_source_HUX",
+      "cataclysmic_mutation_probability": 0.3333333333333333,
+      "population_exact_tie_rule": "stable_first_in_parent_plus_offspring_order",
+      "terminal_rule": "fresh_offspring_prefix_and_no_partial_population_update"
+    },
+    "lambda_no_reset": {
+      "algorithm_id": "self_adjusting_one_plus_lambda_lambda_no_reset",
+      "lambda_initial": 1.0,
+      "lambda_min": 1.0,
+      "lambda_max": 40.0,
+      "update_factor": 1.5,
+      "offspring_rounding": "nearest_integer_half_up",
+      "search_exact_tie_rule": "uniform_using_arm_local_numpy_rng",
+      "reset": false,
+      "workers": 1,
+      "terminal_rule": "paired_mutant_crossover_tail_truncated_to_remaining_even_budget"
+    }
+  },
+  "schemas": {
+    "row": "eu26-21-common-bridge-row-v1",
+    "trace": "eu26-21-common-bridge-trace-v1",
+    "status": "eu26-21-common-bridge-seed-status-v1",
+    "manifest": "eu26-21-common-bridge-seed-manifest-v1"
+  }
+}

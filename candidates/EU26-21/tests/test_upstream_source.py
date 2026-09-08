@@ -59,6 +59,24 @@ class UpstreamSourceTests(unittest.TestCase):
             0,
         )
 
+    def test_common_bridge_hux_matches_actual_pinned_operator_and_rng_state(self) -> None:
+        sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+        from common_bridge.search import _pinned_source_hux
+
+        for dimension in (2, 8, 40):
+            for seed in range(12):
+                first = tuple((index + seed) % 2 for index in range(dimension))
+                second = tuple(1-bit for bit in first)
+                random.seed(seed)
+                source = self.Evolution.HUX(
+                    self.creator.Individual(first), self.creator.Individual(second), fixed=True,
+                )
+                source_state = random.getstate()
+                local = random.Random(seed)
+                actual = _pinned_source_hux(first, second, local)
+                self.assertEqual(actual, tuple(tuple(child) for child in source))
+                self.assertEqual(local.getstate(), source_state)
+
     def test_fixed_hux_swaps_half_the_differing_loci_per_child(self) -> None:
         parent_a = self.creator.Individual([0, 0, 0, 0, 1, 1, 1, 1])
         parent_b = self.creator.Individual([1, 1, 1, 1, 0, 0, 0, 0])
