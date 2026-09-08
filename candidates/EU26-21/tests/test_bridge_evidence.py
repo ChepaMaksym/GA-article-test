@@ -25,7 +25,7 @@ from sklearn.preprocessing import StandardScaler
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from common_bridge import aggregate, model_evidence, run_seed, search  # noqa: E402
+from common_bridge import aggregate, model_evidence, run_seed, search, validate_workflows  # noqa: E402
 from common_bridge.artifact_selection import select_seed_artifacts  # noqa: E402
 from corrected_applied.data_protocol import (  # noqa: E402
     PreparedCorrectedCensus, TRANSFORMED_FEATURE_NAMES,
@@ -242,6 +242,16 @@ class RunnerArtifactRoundTripTests(unittest.TestCase):
 
 
 class LeakageAndInputTests(unittest.TestCase):
+    def test_workflow_action_blocks_stop_at_job_boundaries(self) -> None:
+        action = validate_workflows.UPLOAD_ARTIFACT
+        text = ("jobs:\n  fixture:\n    steps:\n      - uses: " + action +
+                "\n        with:\n          name: fixture\n  seed:\n    name: ${{ matrix.seed }}\n"
+                "    steps:\n      - uses: " + action + "\n        with:\n          name: seed\n")
+        blocks = validate_workflows._action_blocks(text, action)
+        self.assertEqual(len(blocks), 2)
+        self.assertNotIn("matrix.seed", blocks[0])
+        self.assertTrue(validate_workflows.validate(ROOT.parents[1])["pass"])
+
     def test_objective_cannot_access_test_and_ignores_test_label_changes(self) -> None:
         data = prepared_fixture(41001)
         class NoTestAccess:

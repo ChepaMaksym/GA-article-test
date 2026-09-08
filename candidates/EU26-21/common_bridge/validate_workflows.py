@@ -83,8 +83,12 @@ def _action_blocks(text: str, action: str) -> list[str]:
         end = len(lines)
         for cursor in range(index + 1, len(lines)):
             candidate = lines[cursor]
+            candidate_indent = len(candidate) - len(candidate.lstrip())
+            if candidate.strip() and not candidate.lstrip().startswith("#") and candidate_indent < indentation:
+                end = cursor
+                break
             if (
-                len(candidate) - len(candidate.lstrip()) == indentation
+                candidate_indent == indentation
                 and candidate.lstrip().startswith("- ")
             ):
                 end = cursor
