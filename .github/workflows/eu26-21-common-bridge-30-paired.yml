@@ -22,7 +22,7 @@ permissions:
   actions: read
 
 env:
-  PROTECTED_REF: refs/tags/eu26-21-common-bridge-evidence-v1
+  PROTECTED_REF: refs/tags/eu26-21-common-bridge-evidence-v2
   CONTENT_FREEZE_COMMIT: 939914a33d21709526ef12538170ce806b45e3a3
   PROTOCOL_SHA256: 730cd436db59d23da7dab5e24c49bc7b28d65379136fad7fd2d2370e0a436205
   UPSTREAM_REPOSITORY: https://github.com/Ghaith81/Fast-Genetic-Algorithm-For-Feature-Selection.git
@@ -175,6 +175,7 @@ jobs:
         with:
           artifact-ids: ${{ needs.fixture.outputs.artifact_id }}
           path: ${{ runner.temp }}/common-bridge-fixture
+          merge-multiple: true
       - name: Verify and restore authenticated fixtures
         run: |
           set -euo pipefail

@@ -242,6 +242,12 @@ class RunnerArtifactRoundTripTests(unittest.TestCase):
 
 
 class LeakageAndInputTests(unittest.TestCase):
+    def test_fixture_flattening_does_not_flatten_seed_evidence(self) -> None:
+        text = (ROOT.parents[1] / validate_workflows.WORKFLOW_PATHS["campaign"]).read_text()
+        validate_workflows._validate_campaign(text)
+        with self.assertRaisesRegex(ValueError, "single fixture ID"):
+            validate_workflows._validate_campaign(text.replace("merge-multiple: true", "merge-multiple: false"))
+
     def test_registration_push_cannot_authorize_scientific_execution(self) -> None:
         repository = ROOT.parents[1]
         guard = "    if: ${{ github.event_name == 'workflow_dispatch' }}\n"

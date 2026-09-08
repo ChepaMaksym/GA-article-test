@@ -59,6 +59,26 @@ jobs:
           candidates/EU26-21/tests/test_bridge_evidence.py
           candidates/EU26-21/tests/test_bridge_statistics.py
           -v
+      - name: Create a synthetic fixture-layout probe
+        run: |
+          mkdir -p "${RUNNER_TEMP}/fixture-layout-input"
+          printf 'synthetic-layout-only\n' > "${RUNNER_TEMP}/fixture-layout-input/archive.sha256"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        id: fixture_probe
+        with:
+          name: eu26-21-fixture-layout-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/fixture-layout-input
+          if-no-files-found: error
+          retention-days: 1
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          artifact-ids: ${{ steps.fixture_probe.outputs.artifact-id }}
+          path: ${{ runner.temp }}/fixture-layout-output
+          merge-multiple: true
+      - name: Verify actual immutable-ID artifact extraction layout
+        run: |
+          test -s "${RUNNER_TEMP}/fixture-layout-output/archive.sha256"
+          cmp "${RUNNER_TEMP}/fixture-layout-input/archive.sha256" "${RUNNER_TEMP}/fixture-layout-output/archive.sha256"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:

@@ -32,7 +32,7 @@ ALLOWED_ACTIONS = {
     UPLOAD_ARTIFACT,
     DOWNLOAD_ARTIFACT,
 }
-PROTECTED_REF = "refs/tags/eu26-21-common-bridge-evidence-v1"
+PROTECTED_REF = "refs/tags/eu26-21-common-bridge-evidence-v2"
 EXPECTED_SEEDS = list(range(41001, 41031))
 WORKFLOW_PATHS = {
     "ci": Path(".github/workflows/eu26-21-common-bridge-ci.yml"),
@@ -336,6 +336,13 @@ def _validate_campaign(text: str) -> None:
         for block in _action_blocks(text, UPLOAD_ARTIFACT)
         if "matrix.seed" in block
     ]
+    downloads = _action_blocks(text, DOWNLOAD_ARTIFACT)
+    fixture_downloads = [block for block in downloads if "needs.fixture.outputs.artifact_id" in block]
+    seed_downloads = [block for block in downloads if "steps.snapshot.outputs.artifact_ids" in block]
+    _require(len(fixture_downloads) == 1 and "merge-multiple: true" in fixture_downloads[0],
+             "single fixture ID must extract directly into the fixture directory")
+    _require(len(seed_downloads) == 1 and "merge-multiple: false" in seed_downloads[0],
+             "seed evidence downloads must remain isolated")
     _require(
         len(seed_uploads) == 1,
         "campaign must define one per-seed upload step",

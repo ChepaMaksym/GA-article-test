@@ -29,7 +29,7 @@ permissions:
   actions: read
 
 env:
-  PROTECTED_REF: refs/tags/eu26-21-common-bridge-evidence-v1
+  PROTECTED_REF: refs/tags/eu26-21-common-bridge-evidence-v2
   CONTENT_FREEZE_COMMIT: 939914a33d21709526ef12538170ce806b45e3a3
   PROTOCOL_SHA256: 730cd436db59d23da7dab5e24c49bc7b28d65379136fad7fd2d2370e0a436205
   PYTHONHASHSEED: '0'
