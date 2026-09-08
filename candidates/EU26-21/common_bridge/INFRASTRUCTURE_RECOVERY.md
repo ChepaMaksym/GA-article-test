@@ -13,8 +13,10 @@ Seed job `101954385190` failed at `Verify and restore authenticated fixtures`:
 single artifact ID was extracted into an additional artifact-name directory.
 The optimizer step was skipped. This is infrastructure-invalid evidence,
 not a negative scientific result. No scientific seed outcome was inspected.
-The complete original matrix is retained; its step statuses must confirm
-that all 30 optimizer steps were skipped before a replacement is dispatched.
+The complete original matrix is retained. GitHub's jobs API, inspected after
+the run completed, reports 33 completed jobs, 30 paired seed jobs and exactly
+30 skipped `Run both search arms for one protected paired seed` steps. Thus
+no optimizer ran in this attempt. This check preceded replacement dispatch.
 
 The fixed input artifact was `10042814144`, SHA-256
 `d29f25b6467e2b7e701811d354b3340eabf5972c4956fd8badebe3be2f14cee2`.
@@ -32,5 +34,5 @@ The original tag will never be moved. Recovery uses a new exact-SHA tag,
 `eu26-21-common-bridge-evidence-v2`, after its own green CI. Scientific protocol
 and configuration bytes, search/evaluator implementation, data hashes,
 seed ledger `41001..41030`, 400-call budgets, bootstrap seed and decision
-thresholds are unchanged. Replacement run/SHA and the original all-skipped
-optimizer ledger will be added when verified through GitHub Actions.
+thresholds are unchanged. Replacement run/SHA will be added when verified
+through GitHub Actions.
