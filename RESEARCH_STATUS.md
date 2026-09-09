@@ -23,6 +23,7 @@ EU26-21 для CHC-QX, Census-Income і Hybrid 1 у гілці
 | Corrected C-H8 reset ablation | Завершено | `NO_CLEAR_EFFECT` |
 | EU26-21 common-objective bridge | Завершено, 30/30 пар | `FAIL_NONINFERIORITY`; AUC/sparsity claims заблоковані quality gate |
 | Strict immutable replay / complete quality audit | Завершено | 112 tests PASS на research SHA; bridge та історичні artifacts переагреговані без optimizer rerun |
+| Фінальний науковий звіт і візуалізації | Завершено | 117 tests PASS на reporting SHA; CI сформував 30-row CSV, таблиці, два графіки та hash manifest |
 | PR #19 | Відкритий draft | Merge не виконано |
 
 ## EU26-21 - окремі історичні та новий профілі
@@ -43,13 +44,18 @@ EU26-21 має два історичні профілі й завершений 
 Парна test-WBA різниця lambda−CHC: медіана −0,013734 в.п.,
 95% BCa [−0,208726; +0,151807] в.п. Нижня межа не перевищує −0,10 в.п.,
 тому non-inferiority не підтверджено. Позитивна validation-AUC різниця та
-медіана −1 ознака не підміняють failed quality gate. Інтервал містить нуль:
+медіана парної різниці −1 ознака не підміняють failed quality gate. Інтервал містить нуль:
 це не доказ однозначної гіршості методу.
 
 Звіт, математична модель, перевірка related work та точні IDs/SHA-256:
 [магістерський науковий звіт](candidates/EU26-21/common_bridge/THESIS_REPORT_UK.md).
 Історичні архіви окремо перевірено в
 [34233480959](https://github.com/ChepaMaksym/GA-article-test/actions/runs/34233480959).
+Описовий фінальний пакет сформовано в
+[34315178330](https://github.com/ChepaMaksym/GA-article-test/actions/runs/34315178330),
+artifact [10089818679](https://github.com/ChepaMaksym/GA-article-test/actions/runs/34315178330/artifacts/10089818679).
+Reporting SHA `4a4bf9ebe5d1385689172fa5fc7a92ced2a5b91b` відокремлений від
+research SHA; жодної моделі або scientific decision повторно не обчислювали.
 
 ### Source-compatible профіль
 
@@ -193,8 +199,13 @@ outcomes cohort.
 Для EU26-21 завершено нову підтверджувальну кампанію та повторну перевірку
 трьох окремих профілів. Seeds, margins, budgets, objectives, rows і наукові
 рішення не змінюються. Залишено видимими negative/null outcomes і
-nonblocking historical lint findings. Описові таблиці й графіки формуються
-лише з уже зафіксованих artifacts через analysis-only CI.
+nonblocking historical lint findings та повідомлення `PYSEC-2024-110` у
+старому `scikit-learn==1.2.2`; modern corrected dependency gate зелений.
+Описові таблиці й графіки сформовано
+лише з уже зафіксованих artifacts через analysis-only CI. Звіт містить
+математичну модель, верифікацію, результати, обмеження та evidence links.
+Для інституційного оформлення повного рукопису лишаються потрібними вимоги
+кафедри й титульні реквізити; безстрокове сховище artifacts не налаштовано.
 
 Новий bridge не перезаписує історичні artifacts і не є повним друкованим
 CHC-QX. Фінальний науковий висновок залишається негативним щодо joint claim;

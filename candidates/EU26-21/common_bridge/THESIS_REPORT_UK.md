@@ -1,6 +1,6 @@
 # Перенесення самоналаштовуваного (1+(λ,λ)) GA до гармонізованого пошуку ознак CHC: модель, верифікація та межі застосовності
 
-Науковий звіт до магістерської роботи. Дата: 8 вересня 2026 року.
+Науковий звіт до магістерської роботи. Дата: 9 вересня 2026 року.
 Дослідження `EU26-21-CWB-01`, протокол `EU26-21-COMMON-WBA-BSF-AUC-400-V1`.
 Це завершений звіт про підтверджувальний експеримент, а не оформлений за
 невідомим шаблоном університету повний рукопис із титульною сторінкою.
@@ -17,7 +17,7 @@ CHC використовує спільні дані, objective, початко�
 Медіана парної різниці official-test weighted balanced accuracy становить
 −0,013734 в.п.; 95% BCa-інтервал — [−0,208726; +0,151807] в.п. Нижня межа
 не проходить зафіксований поріг. Позитивну різницю validation best-so-far AUC
-та меншу медіанну кількість ознак збережено як описові спостереження; вони
+та медіану парної різниці кількості ознак −1 збережено як описові спостереження; вони
 не є успішною спільною заявою про якість та ефективність. Результат обмежує
 підтримувані твердження про застосовність методу, але не доводить його
 однозначної гіршості: інтервал якості також містить нуль.
@@ -149,7 +149,17 @@ reload, повний синтетичний runner→30 пар→aggregate, не
 upload/download probe. Загальне coverage в quality-звіті — 61%; тести й
 огляд не оголошуються формальним доведенням відсутності всіх програмних помилок.
 Сім некритичних lint-зауважень у попередньому коді залишаються видимими;
-critical lint, security та dependency gates пройдено.
+critical lint, high-severity security та modern corrected dependency gates пройдено.
+Окремий неблокувальний аудит історичного середовища зберігає повідомлення
+`PYSEC-2024-110` для `scikit-learn==1.2.2`; зелений CI не означає, що це
+архівне середовище не має відомих вразливостей. Воно не підміняє modern
+corrected середовище нового bridge; історичні залежності не переписувалися.
+
+На reporting SHA `4a4bf9ebe5d1385689172fa5fc7a92ced2a5b91b` повний quality CI
+виконав 117 тестів, зокрема п'ять нових перевірок описового звіту; coverage —
+62%. Усі три blocking CI workflows зелені. Додаткові reporting-тести
+перевіряють цілісність входів і незмінність рішень, не додають нових
+експериментальних спостережень.
 
 Перший manual run `34192825801` мав дефект каталогу розпакування fixture.
 Усі 30 optimizer steps були skipped; жодного scientific row він не створив.
@@ -187,8 +197,40 @@ Lambda вибрав менше / стільки ж / більше ознак у 
 
 Машинні значення без округлення містяться в
 [перевіреному повторному звіті](evidence/reaggregated-report.json).
-Описові таблиці за групами, усі 30 рядків CSV і графіки готуються окремим
-analysis-only CI з тими самими immutable inputs; вони не змінюють наведені gates.
+
+### Описові результати за групами
+
+Окремий [analysis-only CI](https://github.com/ChepaMaksym/GA-article-test/actions/runs/34315178330)
+завершено успішно. Він перевірив 210 вхідних файлів тих самих 30 пар,
+хеш кожного зафіксованого report та збіг їхніх analysis, сформував таблицю, CSV та графіки
+без нового fitting, пошуку, bootstrap або зміни gates.
+
+Нижче наведено **окремі медіани груп**, скопійовані з CI-звіту. WBA має
+шкалу 0–1. Їхня різниця не замінює медіану парних різниць із основної таблиці.
+
+| Група | Terminal validation WBA | Official-test WBA | Ознаки | BSF-AUC | Calls |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| `chc_harmonized` | 0.711898 | 0.721729 | 29 | 0.705899 | 400 |
+| `lambda_no_reset` | 0.713090 | 0.720729 | 27.5 | 0.709385 | 400 |
+
+Значення 27.5 є медіаною 30 цілих розмірів масок, а не дробовим розміром
+будь-якої моделі. Таблиця описова: вона не встановлює переваги компактності.
+
+[Пакет фінальних таблиць і графіків](https://github.com/ChepaMaksym/GA-article-test/actions/runs/34315178330/artifacts/10089818679)
+містить:
+
+- `report.md` — вихідну таблицю з CI;
+- `paired-seeds.csv` — усі 30 пар із validation/test WBA, розміром маски,
+  BSF-AUC, calls та парними різницями;
+- `test-wba-differences.png` — точки всіх seed; лінія −0.001 є орієнтиром,
+  а не окремим NI-тестом для кожного seed;
+- `mean-bsf-trajectories.png` — середні validation BSF-траєкторії без
+  довірчих смуг; вони не є медіанним підтверджувальним контрастом;
+- `report-manifest.json` — походження входів, report SHA та хеші всіх
+  чотирьох вихідних файлів; наукові рішення збережено без перерахунку.
+
+Обидва сформовані в CI графіки переглянуто: осі, одиниці, легенди й
+позначення failed NI / blocked efficiency видимі. Жоден seed не вилучено.
 
 ## 6. Історичні результати: окремі профілі
 
@@ -245,11 +287,16 @@ official-test non-inferiority. Тому заяву про збереження �
 | Нова матриця 30/30 | [34233477859](https://github.com/ChepaMaksym/GA-article-test/actions/runs/34233477859) | [10059062582](https://github.com/ChepaMaksym/GA-article-test/actions/runs/34233477859/artifacts/10059062582) |
 | Перевірена reaggregation | [34234286460](https://github.com/ChepaMaksym/GA-article-test/actions/runs/34234286460) | [10059177769](https://github.com/ChepaMaksym/GA-article-test/actions/runs/34234286460/artifacts/10059177769) |
 | Два історичні архіви | [34233480959](https://github.com/ChepaMaksym/GA-article-test/actions/runs/34233480959) | [10058819094](https://github.com/ChepaMaksym/GA-article-test/actions/runs/34233480959/artifacts/10058819094) |
+| Reporting quality, 117 tests | [34314665908](https://github.com/ChepaMaksym/GA-article-test/actions/runs/34314665908) | Діагностика в run |
+| Фінальні таблиці, 30-row CSV та два графіки | [34315178330](https://github.com/ChepaMaksym/GA-article-test/actions/runs/34315178330) | [10089818679](https://github.com/ChepaMaksym/GA-article-test/actions/runs/34315178330/artifacts/10089818679) |
 
 Точний research SHA: `79c9b154206cdc3d318b90b598c7f0f48ca02b53`.
 Dispatch tag: `refs/tags/eu26-21-common-bridge-evidence-v2`.
 Protocol content-freeze commit: `939914a33d21709526ef12538170ce806b45e3a3`.
 Protocol SHA-256: `730cd436db59d23da7dab5e24c49bc7b28d65379136fad7fd2d2370e0a436205`.
+Окремий reporting implementation/workflow SHA:
+`4a4bf9ebe5d1385689172fa5fc7a92ced2a5b91b`.
+Остаточний документаційний коміт не змінює research або reporting SHA.
 
 SHA-256 ZIP-артефактів:
 
@@ -260,6 +307,8 @@ reaggregation 10059177769:
 01c0853d8c2a3ab3e82eb3415607435feb5e0a0d7e2dbf25f6d19e9e5e11ec69
 historical audit 10058819094:
 fb1f994a68472efe45ad5471d083dc57de94bfe07bda3a3fa186b6b55740f17b
+descriptive thesis evidence 10089818679:
+5d9da743b0819d13e4955ba52383b91c31752b2c8f61625714d82eaf68140dd9
 ```
 
 [Source ledger](evidence/source-artifact-ledger.json) фіксує всі 30 seed IDs,
@@ -267,7 +316,12 @@ fb1f994a68472efe45ad5471d083dc57de94bfe07bda3a3fa186b6b55740f17b
 збережено в `evidence/`. Їхній analysis однаковий; provenance reaggregation
 додатково включає перевірку ZIP-файлів, тому хеші повних ledger закономірно
 різні. Збіг наукових results не означає побайтової тотожності provenance.
+Індекс фінальної передачі, чотири output SHA-256 і точні посилання:
+[thesis-delivery.json](evidence/thesis-delivery.json).
 GitHub artifact retention обмежений; архіви слід зберігати до його завершення.
+Для описового пакета API повідомляє expiry `2026-12-08T05:30:50Z`;
+це не безстрокове архівування. Довгострокове інституційне сховище в цьому
+завданні не налаштовано.
 Downloaded joblib не слід відкривати як довірений executable pickle.
 
 Першоджерела та версіоновані пов'язані протоколи наведено в
