@@ -10,19 +10,31 @@ Corrected official-UCI protocol: PASS_PROTOCOL_RESULTS_AVAILABLE
 Corrected C-H1: FAIL_NONINFERIORITY
 Corrected C-H2: BLOCKED_BY_H1
 Corrected C-H8 reset ablation: NO_CLEAR_EFFECT
-Prospective common-objective bridge: PROTOCOL_FROZEN_NO_OUTCOMES
+Common-objective bridge: PASS_STRICT_EVIDENCE_VALIDATION_30_PAIRS
+Bridge quality: FAIL_NONINFERIORITY
+Bridge efficiency and sparsity claims: BLOCKED_BY_QUALITY_NONINFERIORITY
 PR state: open draft, not merged
 ```
 
-EU26-21 retains two explicitly separated completed evidence profiles. They
+EU26-21 retains three explicitly separated completed evidence profiles. They
 answer different scientific questions and must not be collapsed into one
 result.
 
-A third, prospective bridge profile is frozen under
-[`common_bridge/PROTOCOL.md`](common_bridge/PROTOCOL.md). It will compare the
-harmonized pinned-source CHC feature-mask search with reset-disabled
-`(1+(lambda,lambda))` search under one evaluator and an exact 400-call budget.
-No seed `41001..41030` outcome existed when that protocol was frozen.
+The third bridge profile was frozen under
+[`common_bridge/PROTOCOL.md`](common_bridge/PROTOCOL.md) before any seed
+`41001..41030` outcome. Its 30 pairs now compare harmonized pinned-source CHC
+with reset-disabled `(1+(lambda,lambda))` under one evaluator and exactly
+400 calls per arm. Quality non-inferiority was not established: paired test-WBA
+median difference -0.0001373392, 95% BCa [-0.0020872605, 0.0015180741],
+margin -0.001. The positive validation-AUC contrast is descriptive because
+the quality gate failed. This is valid negative scientific evidence, not CI failure.
+
+See the [Ukrainian thesis research report](common_bridge/THESIS_REPORT_UK.md),
+[verified machine report](common_bridge/evidence/reaggregated-report.json),
+[30-pair campaign](https://github.com/ChepaMaksym/GA-article-test/actions/runs/34233477859)
+and [immutable reaggregation](https://github.com/ChepaMaksym/GA-article-test/actions/runs/34234286460).
+Both historical archives were also separately authenticated and reaggregated
+in [run 34233480959](https://github.com/ChepaMaksym/GA-article-test/actions/runs/34233480959).
 
 ## Source papers
 

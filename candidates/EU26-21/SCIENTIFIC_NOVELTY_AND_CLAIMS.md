@@ -2,6 +2,13 @@
 
 Date re-audited: **2026-08-22**.
 
+Prospective follow-up completed **2026-09-08**: the new common-objective
+bridge has 30 valid pairs and authenticated reaggregation, but its strict
+quality non-inferiority gate fails. Validation-AUC and feature-count advantages
+are therefore not confirmed joint claims. The two historical profiles below
+remain unchanged; the third profile and updated contribution statement are
+in [the thesis research report](common_bridge/THESIS_REPORT_UK.md).
+
 ## Study classification
 
 This candidate is an **applied mechanism-transfer and external-validity study**. It contains two non-interchangeable validity profiles:

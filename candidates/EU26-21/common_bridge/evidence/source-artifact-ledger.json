@@ -1,0 +1,464 @@
+{
+  "artifacts": [
+    {
+      "digest": "sha256:9b663f34fdfba7bb5d492bba9696aee3071e3f9f5b1be0634e1da8655db7ea1f",
+      "id": 10058876579,
+      "name": "eu26-21-common-bridge-seed-41001-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41001
+    },
+    {
+      "digest": "sha256:3ad30684d3735e23f9e8ca5c31789962c9a19969a73f2f4bc4972a2fe5ead403",
+      "id": 10058875432,
+      "name": "eu26-21-common-bridge-seed-41002-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41002
+    },
+    {
+      "digest": "sha256:4a2dd2f5c8320d0892a2b317d48d815a76994c92ea6b11fbf1ffbf01beff501e",
+      "id": 10058868466,
+      "name": "eu26-21-common-bridge-seed-41003-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41003
+    },
+    {
+      "digest": "sha256:4c529f16ac302898303e75c16a08028ac644ede5618c9fe3d18e205c748b3976",
+      "id": 10058873281,
+      "name": "eu26-21-common-bridge-seed-41004-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41004
+    },
+    {
+      "digest": "sha256:b4bac6de09dc30e917c1256506d991d59f22e771f105d5ec8b5561f9c00f9d83",
+      "id": 10058872601,
+      "name": "eu26-21-common-bridge-seed-41005-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41005
+    },
+    {
+      "digest": "sha256:17e79ca707d454322a1d778577f13903f4956c98a5d14fb73556c709d768d8a5",
+      "id": 10058872604,
+      "name": "eu26-21-common-bridge-seed-41006-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41006
+    },
+    {
+      "digest": "sha256:570393c306f7bb6df208ffd5f5f88e169df55c9599d4e028e06819e4f84b3357",
+      "id": 10058871684,
+      "name": "eu26-21-common-bridge-seed-41007-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41007
+    },
+    {
+      "digest": "sha256:4af22c50db12bbaf5032686cc656fd5ed98c4eabdf931767f115b65903656492",
+      "id": 10058873620,
+      "name": "eu26-21-common-bridge-seed-41008-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41008
+    },
+    {
+      "digest": "sha256:dd241bcb2fdecdab96f5881ec3ad29675348ec187f4b2e1ee8d8b4e0b9cbb72e",
+      "id": 10058877403,
+      "name": "eu26-21-common-bridge-seed-41009-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41009
+    },
+    {
+      "digest": "sha256:4cb04ecce1d454bf1643a225dccc2ed5d9088a065659fac4764290f6df94d582",
+      "id": 10058893603,
+      "name": "eu26-21-common-bridge-seed-41010-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41010
+    },
+    {
+      "digest": "sha256:b7936dcbe816c2d54896fa14e6cfd353de13624f8be53ae3f8bde1396cc2a427",
+      "id": 10058929837,
+      "name": "eu26-21-common-bridge-seed-41011-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41011
+    },
+    {
+      "digest": "sha256:301c29e3afefb588131e0028760dc2fe42150751106ea4e3d7431e50edf541c4",
+      "id": 10058931129,
+      "name": "eu26-21-common-bridge-seed-41012-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41012
+    },
+    {
+      "digest": "sha256:b3d02307bd686634950cb9d80bef609fd71fd50468e21f576775d2f7dd50b6a1",
+      "id": 10058944207,
+      "name": "eu26-21-common-bridge-seed-41013-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41013
+    },
+    {
+      "digest": "sha256:773c0337f7ed63e6a4699da3acf8927dc477a51626b399811f7c1ad81634f60f",
+      "id": 10058943048,
+      "name": "eu26-21-common-bridge-seed-41014-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41014
+    },
+    {
+      "digest": "sha256:de2cb65de56aea28d38019fc38f2eb5d424a914abbbff72eb8b9d00f169f4a37",
+      "id": 10058937550,
+      "name": "eu26-21-common-bridge-seed-41015-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41015
+    },
+    {
+      "digest": "sha256:ca91cefd89a0ea6702d3ac7c7fd10f950c5a9252644f83439e95b02e6d9677fd",
+      "id": 10058947575,
+      "name": "eu26-21-common-bridge-seed-41016-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41016
+    },
+    {
+      "digest": "sha256:f2eeae8d0744f08e65b4a31aa91a7ee1fda3929e26c10f76d2f479be063f61e4",
+      "id": 10058946160,
+      "name": "eu26-21-common-bridge-seed-41017-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41017
+    },
+    {
+      "digest": "sha256:a0a3e9ae51c8cbe151b159c9640d58f9c88ff46561f4b4aee92a68ae9879a366",
+      "id": 10058962188,
+      "name": "eu26-21-common-bridge-seed-41018-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41018
+    },
+    {
+      "digest": "sha256:b143fc5402e30cd3e08cfaf34922c224954101d63e6f814a801c2bfa7a2cc90f",
+      "id": 10058947861,
+      "name": "eu26-21-common-bridge-seed-41019-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41019
+    },
+    {
+      "digest": "sha256:5d9e812c1a1148670e563d966750c1ae11f09cf31ee4c4beceb71f46e014dc97",
+      "id": 10058963829,
+      "name": "eu26-21-common-bridge-seed-41020-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41020
+    },
+    {
+      "digest": "sha256:5af15f26c3430b49af286db46e959ef1ffb3cee17b7d3ea0f486ef6d30f7db90",
+      "id": 10058994984,
+      "name": "eu26-21-common-bridge-seed-41021-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41021
+    },
+    {
+      "digest": "sha256:6dc5892748f6a319be4ce50a673d6dea740482a930562a7df64c17ac681f7aa5",
+      "id": 10058986435,
+      "name": "eu26-21-common-bridge-seed-41022-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41022
+    },
+    {
+      "digest": "sha256:772c0365d45e35fdcd5c1bb9f812db42032bc1f440edb024ed79d50a7deafa0a",
+      "id": 10058995246,
+      "name": "eu26-21-common-bridge-seed-41023-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41023
+    },
+    {
+      "digest": "sha256:8e6aa2b028fbfe9c1b6769d5f48786dcfe09a12855748c6b368e17439659a3f7",
+      "id": 10059006923,
+      "name": "eu26-21-common-bridge-seed-41024-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41024
+    },
+    {
+      "digest": "sha256:54320b69566c93d0428dd03d88050cabf4730ab2dee7889e2dad6b9a33c0cac9",
+      "id": 10059002849,
+      "name": "eu26-21-common-bridge-seed-41025-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41025
+    },
+    {
+      "digest": "sha256:452c066cd310d786473d293fc0723f78218acc0599433649fa9e21cb0502c095",
+      "id": 10059010926,
+      "name": "eu26-21-common-bridge-seed-41026-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41026
+    },
+    {
+      "digest": "sha256:79fc74388860013956377e18ea4d24496bfd5b25b478e4a1ebb2294085c40b13",
+      "id": 10059017779,
+      "name": "eu26-21-common-bridge-seed-41027-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41027
+    },
+    {
+      "digest": "sha256:ccb1a99d72c7da7d74270402c0930a0f0b5f58500d6204933f91b99737b40175",
+      "id": 10059016760,
+      "name": "eu26-21-common-bridge-seed-41028-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41028
+    },
+    {
+      "digest": "sha256:ccffb021da4376bc8f907ea0d8a08c861380cb9811f440d63e59ce133cb197b7",
+      "id": 10059031304,
+      "name": "eu26-21-common-bridge-seed-41029-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41029
+    },
+    {
+      "digest": "sha256:e585fc941d7b8176836e7e67515ceb1343a57387700381d90a69e996a2a251f3",
+      "id": 10059024656,
+      "name": "eu26-21-common-bridge-seed-41030-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41030
+    }
+  ],
+  "attempt_history": [
+    {
+      "digest": "sha256:9b663f34fdfba7bb5d492bba9696aee3071e3f9f5b1be0634e1da8655db7ea1f",
+      "id": 10058876579,
+      "name": "eu26-21-common-bridge-seed-41001-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41001,
+      "selected": true
+    },
+    {
+      "digest": "sha256:3ad30684d3735e23f9e8ca5c31789962c9a19969a73f2f4bc4972a2fe5ead403",
+      "id": 10058875432,
+      "name": "eu26-21-common-bridge-seed-41002-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41002,
+      "selected": true
+    },
+    {
+      "digest": "sha256:4a2dd2f5c8320d0892a2b317d48d815a76994c92ea6b11fbf1ffbf01beff501e",
+      "id": 10058868466,
+      "name": "eu26-21-common-bridge-seed-41003-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41003,
+      "selected": true
+    },
+    {
+      "digest": "sha256:4c529f16ac302898303e75c16a08028ac644ede5618c9fe3d18e205c748b3976",
+      "id": 10058873281,
+      "name": "eu26-21-common-bridge-seed-41004-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41004,
+      "selected": true
+    },
+    {
+      "digest": "sha256:b4bac6de09dc30e917c1256506d991d59f22e771f105d5ec8b5561f9c00f9d83",
+      "id": 10058872601,
+      "name": "eu26-21-common-bridge-seed-41005-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41005,
+      "selected": true
+    },
+    {
+      "digest": "sha256:17e79ca707d454322a1d778577f13903f4956c98a5d14fb73556c709d768d8a5",
+      "id": 10058872604,
+      "name": "eu26-21-common-bridge-seed-41006-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41006,
+      "selected": true
+    },
+    {
+      "digest": "sha256:570393c306f7bb6df208ffd5f5f88e169df55c9599d4e028e06819e4f84b3357",
+      "id": 10058871684,
+      "name": "eu26-21-common-bridge-seed-41007-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41007,
+      "selected": true
+    },
+    {
+      "digest": "sha256:4af22c50db12bbaf5032686cc656fd5ed98c4eabdf931767f115b65903656492",
+      "id": 10058873620,
+      "name": "eu26-21-common-bridge-seed-41008-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41008,
+      "selected": true
+    },
+    {
+      "digest": "sha256:dd241bcb2fdecdab96f5881ec3ad29675348ec187f4b2e1ee8d8b4e0b9cbb72e",
+      "id": 10058877403,
+      "name": "eu26-21-common-bridge-seed-41009-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41009,
+      "selected": true
+    },
+    {
+      "digest": "sha256:4cb04ecce1d454bf1643a225dccc2ed5d9088a065659fac4764290f6df94d582",
+      "id": 10058893603,
+      "name": "eu26-21-common-bridge-seed-41010-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41010,
+      "selected": true
+    },
+    {
+      "digest": "sha256:b7936dcbe816c2d54896fa14e6cfd353de13624f8be53ae3f8bde1396cc2a427",
+      "id": 10058929837,
+      "name": "eu26-21-common-bridge-seed-41011-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41011,
+      "selected": true
+    },
+    {
+      "digest": "sha256:301c29e3afefb588131e0028760dc2fe42150751106ea4e3d7431e50edf541c4",
+      "id": 10058931129,
+      "name": "eu26-21-common-bridge-seed-41012-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41012,
+      "selected": true
+    },
+    {
+      "digest": "sha256:b3d02307bd686634950cb9d80bef609fd71fd50468e21f576775d2f7dd50b6a1",
+      "id": 10058944207,
+      "name": "eu26-21-common-bridge-seed-41013-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41013,
+      "selected": true
+    },
+    {
+      "digest": "sha256:773c0337f7ed63e6a4699da3acf8927dc477a51626b399811f7c1ad81634f60f",
+      "id": 10058943048,
+      "name": "eu26-21-common-bridge-seed-41014-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41014,
+      "selected": true
+    },
+    {
+      "digest": "sha256:de2cb65de56aea28d38019fc38f2eb5d424a914abbbff72eb8b9d00f169f4a37",
+      "id": 10058937550,
+      "name": "eu26-21-common-bridge-seed-41015-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41015,
+      "selected": true
+    },
+    {
+      "digest": "sha256:ca91cefd89a0ea6702d3ac7c7fd10f950c5a9252644f83439e95b02e6d9677fd",
+      "id": 10058947575,
+      "name": "eu26-21-common-bridge-seed-41016-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41016,
+      "selected": true
+    },
+    {
+      "digest": "sha256:f2eeae8d0744f08e65b4a31aa91a7ee1fda3929e26c10f76d2f479be063f61e4",
+      "id": 10058946160,
+      "name": "eu26-21-common-bridge-seed-41017-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41017,
+      "selected": true
+    },
+    {
+      "digest": "sha256:a0a3e9ae51c8cbe151b159c9640d58f9c88ff46561f4b4aee92a68ae9879a366",
+      "id": 10058962188,
+      "name": "eu26-21-common-bridge-seed-41018-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41018,
+      "selected": true
+    },
+    {
+      "digest": "sha256:b143fc5402e30cd3e08cfaf34922c224954101d63e6f814a801c2bfa7a2cc90f",
+      "id": 10058947861,
+      "name": "eu26-21-common-bridge-seed-41019-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41019,
+      "selected": true
+    },
+    {
+      "digest": "sha256:5d9e812c1a1148670e563d966750c1ae11f09cf31ee4c4beceb71f46e014dc97",
+      "id": 10058963829,
+      "name": "eu26-21-common-bridge-seed-41020-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41020,
+      "selected": true
+    },
+    {
+      "digest": "sha256:5af15f26c3430b49af286db46e959ef1ffb3cee17b7d3ea0f486ef6d30f7db90",
+      "id": 10058994984,
+      "name": "eu26-21-common-bridge-seed-41021-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41021,
+      "selected": true
+    },
+    {
+      "digest": "sha256:6dc5892748f6a319be4ce50a673d6dea740482a930562a7df64c17ac681f7aa5",
+      "id": 10058986435,
+      "name": "eu26-21-common-bridge-seed-41022-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41022,
+      "selected": true
+    },
+    {
+      "digest": "sha256:772c0365d45e35fdcd5c1bb9f812db42032bc1f440edb024ed79d50a7deafa0a",
+      "id": 10058995246,
+      "name": "eu26-21-common-bridge-seed-41023-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41023,
+      "selected": true
+    },
+    {
+      "digest": "sha256:8e6aa2b028fbfe9c1b6769d5f48786dcfe09a12855748c6b368e17439659a3f7",
+      "id": 10059006923,
+      "name": "eu26-21-common-bridge-seed-41024-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41024,
+      "selected": true
+    },
+    {
+      "digest": "sha256:54320b69566c93d0428dd03d88050cabf4730ab2dee7889e2dad6b9a33c0cac9",
+      "id": 10059002849,
+      "name": "eu26-21-common-bridge-seed-41025-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41025,
+      "selected": true
+    },
+    {
+      "digest": "sha256:452c066cd310d786473d293fc0723f78218acc0599433649fa9e21cb0502c095",
+      "id": 10059010926,
+      "name": "eu26-21-common-bridge-seed-41026-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41026,
+      "selected": true
+    },
+    {
+      "digest": "sha256:79fc74388860013956377e18ea4d24496bfd5b25b478e4a1ebb2294085c40b13",
+      "id": 10059017779,
+      "name": "eu26-21-common-bridge-seed-41027-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41027,
+      "selected": true
+    },
+    {
+      "digest": "sha256:ccb1a99d72c7da7d74270402c0930a0f0b5f58500d6204933f91b99737b40175",
+      "id": 10059016760,
+      "name": "eu26-21-common-bridge-seed-41028-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41028,
+      "selected": true
+    },
+    {
+      "digest": "sha256:ccffb021da4376bc8f907ea0d8a08c861380cb9811f440d63e59ce133cb197b7",
+      "id": 10059031304,
+      "name": "eu26-21-common-bridge-seed-41029-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41029,
+      "selected": true
+    },
+    {
+      "digest": "sha256:e585fc941d7b8176836e7e67515ceb1343a57387700381d90a69e996a2a251f3",
+      "id": 10059024656,
+      "name": "eu26-21-common-bridge-seed-41030-34233477859-1",
+      "run_attempt": 1,
+      "seed": 41030,
+      "selected": true
+    }
+  ],
+  "repository": "ChepaMaksym/GA-article-test",
+  "schema": "eu26-21-common-bridge-source-artifact-ledger-v1",
+  "source_head_sha": "79c9b154206cdc3d318b90b598c7f0f48ca02b53",
+  "source_ref": "refs/tags/eu26-21-common-bridge-evidence-v2",
+  "source_run_attempt": 1,
+  "source_run_id": 34233477859,
+  "source_workflow_path": ".github/workflows/eu26-21-common-bridge-30-paired.yml",
+  "source_workflow_sha": "79c9b154206cdc3d318b90b598c7f0f48ca02b53"
+}

@@ -66,3 +66,31 @@ source-compatible and corrected evidence remains separate. A negative or null
 bridge outcome is reportable, not grounds to alter thresholds. Final tables,
 figures, run URLs, artifact IDs and digests are added only after the full
 scientific campaign and authenticated reaggregation have completed.
+
+## Independent theoretical review clarifications (2026-09-08)
+
+These are interpretive clarifications, not changes to the frozen protocol.
+The canonical source Algorithm 1 starts with one uniformly sampled bit string.
+The bridge instead evaluates 50 shared, nonempty source-density masks and
+selects the lambda parent uniformly among their lexicographic best masks.
+This initialization, the weighted lexicographic objective, the 400-call cap,
+the truncated last paired batch and the best-queried terminal mask are explicit
+adaptations. The complete optimizer is not a literal source Algorithm 1 replay.
+See [Hevia Fajardo and Sudholt, Section 2.1](https://mhevia.com/assets/pdf/journal_oplclga.pdf).
+
+The protocol's phrase `full printed CHC-QX/Algorithm 1 profile` has an imprecise
+algorithm-number reference: the applied paper's Algorithm 1 concerns active
+sampling; its complete CHC-QX pipeline is Algorithm 3. This does not change the
+comparator definition or execution. Frozen protocol bytes are retained and the
+reference is clarified here instead. See [Altarabichi et al., Section 4.2 and
+Algorithms 1-3](https://arxiv.org/pdf/2404.03996).
+
+Own algebraic observation: the shared first 50 calls imply, for every pair,
+`Delta AUC(1..400) = (350/400) * Delta AUC(51..400)`.
+Subtract the two 400-term sums: their first 50 terms cancel and the remaining
+350-term sum is exactly 350 times the tail mean. Thus the tail contrast merely
+rescales the primary contrast by `400/350`; it is not independent corroboration.
+In exact arithmetic, paired medians and BCa endpoints with identical resampling
+indices scale by the same positive factor. The confirmatory gate still uses
+only the frozen full-horizon AUC. Quality non-inferiority concerns the median
+paired difference over the specified seed/split distribution, not every seed.

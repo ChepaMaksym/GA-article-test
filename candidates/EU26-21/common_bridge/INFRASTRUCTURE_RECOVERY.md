@@ -34,5 +34,11 @@ The original tag will never be moved. Recovery uses a new exact-SHA tag,
 `eu26-21-common-bridge-evidence-v2`, after its own green CI. Scientific protocol
 and configuration bytes, search/evaluator implementation, data hashes,
 seed ledger `41001..41030`, 400-call budgets, bootstrap seed and decision
-thresholds are unchanged. Replacement run/SHA will be added when verified
-through GitHub Actions.
+thresholds are unchanged. Replacement
+[run 34233477859](https://github.com/ChepaMaksym/GA-article-test/actions/runs/34233477859)
+at SHA `79c9b154206cdc3d318b90b598c7f0f48ca02b53`, attempt 1, completed
+30/30 paired seed jobs and aggregation successfully. Reaggregation
+[34234286460](https://github.com/ChepaMaksym/GA-article-test/actions/runs/34234286460)
+authenticated all 30 artifacts without rerunning searches. Its scientific
+decision is `FAIL_JOINT_BRIDGE_CLAIM_QUALITY_NONINFERIORITY`; that negative
+decision caused no retries, exclusions or threshold changes.

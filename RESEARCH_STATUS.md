@@ -1,6 +1,6 @@
 # Стан дослідження
 
-Дата зрізу: 18 серпня 2026 року.
+Дата зрізу: 9 вересня 2026 року.
 
 ## Поточний етап
 
@@ -21,14 +21,35 @@ EU26-21 для CHC-QX, Census-Income і Hybrid 1 у гілці
 | Corrected C-H1 | Завершено | `FAIL_NONINFERIORITY` |
 | Corrected C-H2 | Завершено | `BLOCKED_BY_H1` |
 | Corrected C-H8 reset ablation | Завершено | `NO_CLEAR_EFFECT` |
-| EU26-21 common-objective bridge | Protocol frozen | Нові seeds `41001..41030`, outcomes відсутні |
-| Strict immutable replay / complete quality audit | Запущено | Lightweight control workflows, optimizer не перезапускається |
+| EU26-21 common-objective bridge | Завершено, 30/30 пар | `FAIL_NONINFERIORITY`; AUC/sparsity claims заблоковані quality gate |
+| Strict immutable replay / complete quality audit | Завершено | 112 tests PASS на research SHA; bridge та історичні artifacts переагреговані без optimizer rerun |
 | PR #19 | Відкритий draft | Merge не виконано |
 
-## EU26-21 - два окремі профілі
+## EU26-21 - окремі історичні та новий профілі
 
-EU26-21 навмисно має два валідаційні профілі. Їхні результати не можна
-об'єднувати або взаємозамінювати.
+EU26-21 має два історичні профілі й завершений новий common-objective bridge.
+Їхні результати не можна об'єднувати або взаємозамінювати.
+
+### Новий common-objective bridge
+
+За замороженим протоколом виконано 30 пар `41001..41030`, 40-бітні маски,
+400 calls на групу, спільний evaluator, reset off. Research SHA:
+`79c9b154206cdc3d318b90b598c7f0f48ca02b53`.
+Матриця [34233477859](https://github.com/ChepaMaksym/GA-article-test/actions/runs/34233477859)
+та незалежний від пошуку replay
+[34234286460](https://github.com/ChepaMaksym/GA-article-test/actions/runs/34234286460)
+завершилися успішно.
+
+Парна test-WBA різниця lambda−CHC: медіана −0,013734 в.п.,
+95% BCa [−0,208726; +0,151807] в.п. Нижня межа не перевищує −0,10 в.п.,
+тому non-inferiority не підтверджено. Позитивна validation-AUC різниця та
+медіана −1 ознака не підміняють failed quality gate. Інтервал містить нуль:
+це не доказ однозначної гіршості методу.
+
+Звіт, математична модель, перевірка related work та точні IDs/SHA-256:
+[магістерський науковий звіт](candidates/EU26-21/common_bridge/THESIS_REPORT_UK.md).
+Історичні архіви окремо перевірено в
+[34233480959](https://github.com/ChepaMaksym/GA-article-test/actions/runs/34233480959).
 
 ### Source-compatible профіль
 
@@ -169,26 +190,13 @@ outcomes cohort.
 
 ## Поточне рішення
 
-Для EU26-21 завершено основне наукове обчислення та зафіксовано обидва профілі.
-Наступний контрольний цикл не повинен змінювати seeds, margins, budgets,
-objectives або rows. Він має лише:
+Для EU26-21 завершено нову підтверджувальну кампанію та повторну перевірку
+трьох окремих профілів. Seeds, margins, budgets, objectives, rows і наукові
+рішення не змінюються. Залишено видимими negative/null outcomes і
+nonblocking historical lint findings. Описові таблиці й графіки формуються
+лише з уже зафіксованих artifacts через analysis-only CI.
 
-1. строго reaggregate immutable secure 30-row artifact через
-   `corrected_applied.secure_cli`;
-2. підтвердити exact environment, маски, index ledgers, weight exclusion і всі
-   п'ять figures;
-3. виконати complete tests/coverage/Ruff/Bandit/Vulture/dependency audit;
-4. зберегти nonblocking historical dependency findings;
-5. опублікувати exact workflow run IDs та artifact digests у PR #19;
-6. залишити PR draft і не виконувати merge на цьому етапі.
-
-Після цього corrected висновок не змінюється залежно від його знака:
-`FAIL_NONINFERIORITY`, `BLOCKED_BY_H1` і `NO_CLEAR_EFFECT` мають залишитися
-частиною фінального звіту.
-
-Ця заборона змінювати старі seeds, rows і decisions стосується завершених
-source-compatible та corrected profiles. Окремий user-authorized prospective
-common-objective bridge зафіксовано до реалізації та до будь-якого перегляду
-нових outcomes. Він використовує неперетинний ledger `41001..41030`, не
-перезаписує попередні artifacts і не називає гармонізований CHC search повним
-друкованим CHC-QX.
+Новий bridge не перезаписує історичні artifacts і не є повним друкованим
+CHC-QX. Фінальний науковий висновок залишається негативним щодо joint claim;
+його не виправляють підбором порогів або вилученням seed. PR19 лишається draft,
+merge без окремої вказівки не виконується.
