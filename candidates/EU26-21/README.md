@@ -1,6 +1,9 @@
-# EU26-21 - CHC-QX Census-Income and Hybrid 1
+# EU26-21: CHC-QX, дані Census-Income та Hybrid 1
 
-## Current status
+## Поточний стан
+
+Нижче наведено незмінені машинні статуси перевірок. Їхню інтерпретацію
+подано після блоку.
 
 ```text
 OLD public-source reproduction: PASS_SOURCE_NUMERIC_ALIGNMENT
@@ -16,61 +19,70 @@ Bridge efficiency and sparsity claims: BLOCKED_BY_QUALITY_NONINFERIORITY
 PR state: open draft, not merged
 ```
 
-EU26-21 retains three explicitly separated completed evidence profiles. They
-answer different scientific questions and must not be collapsed into one
-result.
+У дослідженні EU26-21 завершено три експерименти за різними протоколами.
+Вони відповідають на різні наукові питання, тому їхні результати
+розглядають окремо.
 
-The third bridge profile was frozen under
-[`common_bridge/PROTOCOL.md`](common_bridge/PROTOCOL.md) before any seed
-`41001..41030` outcome. Its 30 pairs now compare harmonized pinned-source CHC
-with reset-disabled `(1+(lambda,lambda))` under one evaluator and exactly
-400 calls per arm. Quality non-inferiority was not established: paired test-WBA
-median difference -0.0001373392, 95% BCa [-0.0020872605, 0.0015180741],
-margin -0.001. The positive validation-AUC contrast is descriptive because
-the quality gate failed. This is valid negative scientific evidence, not CI failure.
+Третій, гармонізований протокол
+[`common_bridge/PROTOCOL.md`](common_bridge/PROTOCOL.md) зафіксовано до
+отримання результатів для початкових значень генератора `41001..41030`.
+У 30 парах порівняно CHC на основі зафіксованого авторського коду та
+`(1+(lambda,lambda))` без скидання параметра. Обидва методи використовують
+спільну процедуру оцінювання й рівно 400 викликів цільової функції на групу.
+Це порівняння пошукових компонентів, а не повної процедури CHC-QX.
 
-See the [Ukrainian thesis research report](common_bridge/THESIS_REPORT_UK.md),
-[verified machine report](common_bridge/evidence/reaggregated-report.json),
-[30-pair campaign](https://github.com/ChepaMaksym/GA-article-test/actions/runs/34233477859)
-and [immutable reaggregation](https://github.com/ChepaMaksym/GA-article-test/actions/runs/34234286460).
-Both historical archives were also separately authenticated and reaggregated
-in [run 34233480959](https://github.com/ChepaMaksym/GA-article-test/actions/runs/34233480959).
+Збереження якості в межах допустимого погіршення (non-inferiority, NI)
+не підтверджено. Медіана парної різниці зваженої збалансованої точності
+(WBA) на тестовій вибірці становить -0.0001373392; довірчий 95% BCa-інтервал —
+[-0.0020872605, 0.0015180741] за допустимої межі -0.001. Значення наведено
+на шкалі 0–1. Додатна різниця валідаційної AUC є описовим результатом,
+оскільки критерій якості не виконано. Непідтвердження гіпотези є
+науковим результатом, а не збоєм CI.
 
-## Source papers
+Основні матеріали:
+[український науковий звіт](common_bridge/THESIS_REPORT_UK.md),
+[перевірений машинозчитуваний звіт](common_bridge/evidence/reaggregated-report.json),
+[серія з 30 пар](https://github.com/ChepaMaksym/GA-article-test/actions/runs/34233477859)
+і [повторна агрегація незмінених даних](https://github.com/ChepaMaksym/GA-article-test/actions/runs/34234286460).
+Обидва історичні архіви перевірено й переагреговано окремо в
+[запуску 34233480959](https://github.com/ChepaMaksym/GA-article-test/actions/runs/34233480959).
 
-Applied OLD baseline:
+## Першоджерела
+
+Прикладна основа базового методу OLD:
 
 Mohammed Ghaith Altarabichi, Sławomir Nowaczyk, Sepideh Pashami, and Peyman
 Sheikholharam Mashhadi, **Fast Genetic Algorithm for feature selection - A
 qualitative approximation approach**, Expert Systems with Applications 211
 (2023) 118528, DOI `10.1016/j.eswa.2022.118528`.
 
-Parameter-control reference for Hybrid 1:
+Теоретична основа керування параметрами Hybrid 1:
 
 Mario Alejandro Hevia Fajardo and Dirk Sudholt, **Theoretical and Empirical
 Analysis of Parameter Control Mechanisms in the `(1+(lambda,lambda))` Genetic
 Algorithm**, ACM Transactions on Evolutionary Learning and Optimization 2(4),
 DOI `10.1145/3564755`.
 
-The literal printed-paper/public-source reconciliation remains incomplete and is
-not silently treated as solved. The applied historical OLD reference is the
-verified pinned public-source CHC-QX profile.
+Відповідність між друкованим описом і відкритим кодом установлено
+не повністю. Історичний базовий метод OLD визначено перевіреною,
+зафіксованою версією відкритої реалізації CHC-QX.
 
-## Profile A - source-compatible reproduction and comparison
+## Протокол A: відтворення й порівняння за умов вихідної реалізації
 
-This profile preserves the upstream encoded Census data, the historical 41-bit
-representation, the source-oriented 60/20/20 split, the accuracy objective, and
-the public-source CHC behavior.
+Протокол зберігає закодовані дані Census з авторської реалізації,
+історичне 41-бітне подання, поділ 60/20/20, звичайну точність
+класифікації як цільову функцію та поведінку відкритого коду CHC.
+Надалі цей протокол позначено як source-compatible.
 
-Pinned repository:
+Зафіксований репозиторій і коміт:
 
 ```text
 Ghaith81/Fast-Genetic-Algorithm-For-Feature-Selection
 commit 6ac5a7ec77f8a7c096ab4d019254fcc897988fd6
 ```
 
-Hybrid 1 replaces only the binary feature-mask optimizer with reset
-self-adjusting `(1+(lambda,lambda))` search:
+Hybrid 1 замінює лише оптимізатор бінарної маски ознак на
+самоналаштовуваний пошук `(1+(lambda,lambda))` зі скиданням параметра:
 
 ```text
 m = round_half_up(lambda)
@@ -81,17 +93,17 @@ failure -> grow by F^(1/4)
 failure at lambda=41 -> reset to 1
 ```
 
-Fitness is lexicographic:
+Цільову функцію порівнюють лексикографічно:
 
 ```text
 (validation accuracy, -selected_feature_fraction)
 ```
 
-Accuracy always dominates sparsity.
+Якість має пріоритет; кількість ознак враховують лише за однакової якості.
 
-### Mechanism controls
+### Перевірки механізмів
 
-Jump confirmation:
+Результати перевірки на Jump:
 
 ```text
 reset successes: 27/50
@@ -101,21 +113,22 @@ success ratio: 3.375x
 solved-run median NFE with reset: 32.1% lower
 ```
 
-OneMax controls and exact 1/2/4-worker scientific-signature tests also pass.
+Перевірки на OneMax також пройдено. За 1, 2 та 4 паралельних виконавців
+підтверджено точний збіг сигнатур наукових результатів.
 
-### Source-compatible 30-seed H1-H3
+### Перевірка H1–H3 за 30 парних початкових значень генератора
 
-Frozen paired protocol:
+Наперед зафіксований парний протокол:
 
-- seeds `1..30`;
-- active size 14,964;
-- identical 50 initial masks within each OLD/Hybrid pair;
-- H1 budget 400;
-- H3 budget/censoring horizon 2,500;
-- validation targets 0.945, 0.946, and 0.947;
-- primary target 0.946;
-- logical-NFE instrumentation;
-- 50,000 deterministic paired-median BCa resamples.
+- початкові значення генератора `1..30`;
+- активна вибірка з 14 964 спостережень;
+- 50 однакових початкових масок у кожній парі OLD/Hybrid;
+- бюджет H1 — 400;
+- бюджет і межа цензурування H3 — 2 500;
+- цільові значення валідаційної якості — 0.945, 0.946 та 0.947;
+- основне цільове значення — 0.946;
+- облік логічних викликів цільової функції (NFE);
+- 50 000 відтворюваних бутстреп-реплік BCa для медіани парних різниць.
 
 H1:
 
@@ -128,7 +141,7 @@ margin: -0.10 percentage point
 result: PASS_CONFIDENCE_BOUND
 ```
 
-This supports historical-profile non-inferiority, not accuracy superiority.
+Результат підтверджує NI в межах історичного протоколу, але не вищу точність.
 
 H2:
 
@@ -139,7 +152,7 @@ paired median difference: -1 feature
 result: PASS
 ```
 
-H3 at validation target 0.946:
+H3 за цільової валідаційної якості 0.946:
 
 ```text
 OLD reached: 29/30
@@ -151,10 +164,11 @@ paired median relative reduction: 55.50%
 result: PASS_CONFIDENCE_BOUND
 ```
 
-Logical NFE means wrapper-objective calls, not wall-clock time. The complete
-search layers are compared; reset alone is not claimed as the sole cause.
+Логічні NFE — це виклики обгорткової цільової функції, а не час виконання.
+Порівнюються пошукові компоненти в цілому. Скидання параметра не
+визначено як єдину причину відмінності.
 
-Immutable source-compatible evidence:
+Зафіксовані матеріали протоколу, сумісного з вихідною реалізацією:
 
 ```text
 30-seed run: 31934321927
@@ -163,23 +177,27 @@ final artifact: 9260332711
 artifact SHA-256: 8efc217b690f1c3e6698cb9aa0f55207d93f10e6390087c6e9f425d935bea21a
 ```
 
-No seed row was regenerated during the aggregation correction.
+Під час виправлення агрегації жодного запису окремого запуску не
+створювали повторно.
 
-## Profile B - corrected official-UCI applied validation
+## Протокол B: виправлена прикладна перевірка на офіційних даних UCI
 
-This additional profile addresses applied-validity limitations of the historical
-source-compatible experiment:
+Цей протокол усуває частину обмежень прикладної обґрунтованості
+історичного експерименту:
 
-- official raw `census-income.data` is used for model development;
-- official raw `census-income.test` is the final held-out set;
-- raw instance-weight index 24 is excluded from the predictive mask;
-- the search space has 40 predictive bits rather than 41 inputs;
-- instance weights are supplied to model fitting and weighted metrics;
-- weighted balanced accuracy replaces accuracy as the primary objective;
-- 30 stratified train/validation splits vary across paired seeds;
-- a reset/no-reset Census ablation is run at equal budget and sequential order.
+- офіційний вихідний файл `census-income.data` використовують для
+  розроблення моделей;
+- офіційний файл `census-income.test` є відкладеною фінальною тестовою вибіркою;
+- стовпець ваг спостережень з індексом 24 виключено з маски предикторів;
+- простір пошуку містить 40 предикторних бітів замість 41 входу;
+- ваги спостережень застосовують під час навчання й обчислення зважених показників;
+- основною цільовою функцією стала WBA замість звичайної точності;
+- використано 30 стратифікованих поділів на навчальну й валідаційну частини,
+  різних між парами;
+- варіанти зі скиданням і без скидання параметра порівнюють на Census
+  послідовно, за однакового бюджету.
 
-Protocol fingerprint:
+Основні параметри протоколу:
 
 ```text
 training rows: 199,523
@@ -190,14 +208,14 @@ C-H1 non-inferiority margin: -0.10 percentage point
 bootstrap: paired median BCa, 50,000 resamples
 ```
 
-Dataset hashes:
+Хеші файлів даних:
 
 ```text
 train: 3676a81db7d3528f3f8b9f3c699d0f0aa28db45e6e994fa0b8ed38327539ee86
 test: 98402b1ab879573d0a7f38a699a40258080e25e33d3401e7bf9c96d3fa0fab8c
 ```
 
-Immutable secure evidence:
+Зафіксовані матеріали перевірки:
 
 ```text
 secure matrix run: 32049437836
@@ -206,7 +224,7 @@ artifact SHA-256: 13d2f691eefb46067d3cdffbad4c22c032c429ce91600a33addbd3f5887bbd
 seed rows: 30/30
 ```
 
-### Corrected C-H1
+### C-H1 за виправленим протоколом
 
 ```text
 Hybrid H1 - corrected OLD paired median: -0.3580 percentage point
@@ -215,20 +233,20 @@ preregistered margin: -0.10 percentage point
 result: FAIL_NONINFERIORITY
 ```
 
-The complete interval is below the margin. The corrected profile therefore does
-not support weighted balanced-accuracy non-inferiority.
+Увесь інтервал розташований нижче допустимої межі. Отже, виправлений
+протокол не підтверджує NI для зваженої збалансованої точності.
 
-### Corrected C-H2
+### C-H2 за виправленим протоколом
 
 ```text
 paired median Hybrid H1 - corrected OLD feature count: -1 feature
 result: BLOCKED_BY_H1
 ```
 
-The smaller subset is retained descriptively, but the preregistered joint claim
-is blocked because C-H1 failed.
+Меншу кількість ознак наведено описово. Наперед визначений спільний
+висновок про перевагу не допускається, оскільки критерій C-H1 не виконано.
 
-### Corrected C-H8 reset ablation
+### C-H8: перевірка внеску скидання параметра
 
 ```text
 reset - no-reset paired median: 0.0000 percentage point
@@ -238,33 +256,33 @@ total reset events: 49
 result: NO_CLEAR_EFFECT
 ```
 
-Reset was exercised in every run, but the interval includes zero and provides no
-clear positive or negative official-test effect.
+Скидання відбувалося в кожному запуску. Однак інтервал містить нуль,
+тому чіткого додатного або від'ємного ефекту на офіційній тестовій
+вибірці не встановлено.
 
-## Combined interpretation
+## Узагальнена інтерпретація історичних протоколів A та B
 
-Supported:
+Реалізація є відтворюваною й виконує критерії H1–H3 за історичним
+протоколом, сумісним із вихідним кодом. За виправленим протоколом на
+офіційних даних UCI з урахуванням ваг і 30 поділів вибірки Hybrid H1
+не виконує наперед визначеного критерію NI для WBA. Медіана парної
+різниці кількості ознак від'ємна, проте висновок про перевагу за цим
+показником не допускається через невиконання C-H1. Скидання параметра
+відбувалося, але його чіткого парного ефекту на офіційній тестовій
+вибірці Census не встановлено.
 
-```text
-The implementation is reproducible and shows favorable H1-H3 behavior under the
-historical source-compatible profile. Under the corrected official-UCI,
-weight-aware, 30-split profile, Hybrid H1 does not meet the preregistered
-weighted balanced-accuracy non-inferiority margin. It selects a slightly smaller
-paired-median subset, but that conditional claim is blocked by C-H1. Reset is
-active but has no clear paired official-test effect in the Census ablation.
-```
+Наявні результати не підтверджують вищої якості або NI за виправленим
+протоколом, окремої переваги скидання на Census чи тотожності друкованого
+Algorithm 1 і відкритого коду. Вони також не обґрунтовують універсальної
+застосовності або скорочення часу виконання лише на підставі логічних NFE.
 
-Not supported:
+Новий гармонізований протокол розглянуто окремо на початку документа
+та в [науковому звіті](common_bridge/THESIS_REPORT_UK.md). Наведені
+історичні висновки не замінюють його результатів.
 
-```text
-corrected quality superiority; corrected non-inferiority; a reset-specific
-Census improvement; identity between printed Algorithm 1 and public code;
-universal generalization; or wall-clock speedup inferred from logical NFE.
-```
+## Матеріали перевірки та навігація
 
-## Evidence and entry points
-
-Source-compatible profile:
+Протокол, сумісний із вихідною реалізацією:
 
 - `old/SOURCE_STATUS.md`;
 - `old/PAPER_SOURCE_DIVERGENCES.md`;
@@ -272,7 +290,7 @@ Source-compatible profile:
 - `hybrid_1/EXTENDED_30_SEED_RESULTS.md`;
 - `hybrid_1/TEST_AND_CI_AUDIT.md`.
 
-Corrected applied profile:
+Виправлений прикладний протокол:
 
 - `corrected_applied/README.md`;
 - `corrected_applied/METHODOLOGY_AMENDMENT.md`;
@@ -281,7 +299,7 @@ Corrected applied profile:
 - `corrected_applied/secure_aggregate.py`;
 - `corrected_applied/secure_plots.py`.
 
-Canonical control workflows:
+Основні процеси перевірки GitHub Actions:
 
 - `.github/workflows/eu26-21-corrected-secure-reaggregate.yml`;
 - `.github/workflows/eu26-21-code-quality.yml`.

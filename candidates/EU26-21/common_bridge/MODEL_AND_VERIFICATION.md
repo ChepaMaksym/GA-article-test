@@ -1,96 +1,128 @@
-# Mathematical model, verification and thesis claims
+# Математична модель, верифікація та межі висновків
 
-The bridge studies transfer of an established self-adjusting search mechanism,
-not invention of `(1+(lambda,lambda))` GA. Its comparator is harmonized CHC
-feature-mask search, not the complete printed CHC-QX instance-selection and
-evolution-control pipeline. Sources: [Hevia Fajardo and Sudholt (2022)](https://mhevia.com/assets/pdf/journal_oplclga.pdf)
-and [Altarabichi et al. (2023)](https://arxiv.org/pdf/2404.03996).
+Дослідження стосується перенесення відомого механізму самоналаштовуваного
+пошуку, а не розроблення нового `(1+(lambda,lambda))` GA. Методом порівняння
+є пошук бінарної маски ознак CHC за спільними умовами оцінювання. Повну
+процедуру CHC-QX із відбором спостережень і керуванням еволюційним пошуком
+не відтворено. Першоджерела:
+[Hevia Fajardo та Sudholt (2022)](https://mhevia.com/assets/pdf/journal_oplclga.pdf)
+і [Altarabichi та співавтори (2023)](https://arxiv.org/pdf/2404.03996).
 
-## Model and elementary invariants
+## Модель та основні інваріанти
 
-For `z in {0,1}^40`, nonempty-mask fitness is the lexicographic pair
-`(WBA_validation(h_z), -sum(z)/40)`; the frozen empty-mask shortcut is `(0,-1)`.
-The search classifier is fitted on the common active training sample. The
-terminal classifier is refitted on the internal training partition after the
-validation-only terminal mask and both traces are frozen.
+Для непорожньої маски `z in {0,1}^40` цільова функція є лексикографічною
+парою `(WBA_validation(h_z), -sum(z)/40)`. Для порожньої маски протокол
+задає значення `(0,-1)`. WBA позначає зважену збалансовану точність:
+якість має пріоритет над кількістю ознак.
 
-Lambda state is `(parent, parent_fitness, lambda, call_counter, RNG_state)`.
-CHC state includes population, distance, mask history, counter and RNG state.
-Fixed inputs and isolated RNG streams determine the transitions.
+Під час пошуку класифікатор навчають на спільній активній навчальній
+вибірці. Фінальну маску обирають лише за валідаційними оцінками.
+Після збереження цієї маски та обох траєкторій пошуку класифікатор
+повторно навчають на внутрішній навчальній частині даних.
 
-With `F=1.5`, a strict success sets `lambda'=max(1,lambda/F)`; otherwise
-`lambda'=min(40,lambda*F^(1/4))`. Induction from `lambda=1` gives bounds `[1,40]`,
-so `p=lambda/40` and `c=1/lambda` remain valid probabilities. Mutation flips
-distinct positions; crossover chooses parental alleles, preserving binary
-masks. The common terminal best only changes on strict lexicographic
-improvement, so its primary best-so-far trajectory cannot decrease. Each
-objective invocation has one ledger record; guarded batches and the frozen
-terminal-prefix rules prevent exceeding 400 calls.
+Стан алгоритму `(1+(λ,λ))` задається кортежем
+`(parent, parent_fitness, lambda, call_counter, RNG_state)`: батьківською
+маскою, її оцінкою, параметром λ, лічильником викликів і станом генератора
+псевдовипадкових чисел. Стан CHC містить популяцію, поріг відстані,
+історію масок, лічильник і стан генератора. Зафіксовані вхідні дані й
+окремі потоки випадкових чисел визначають переходи між станами.
 
-Own algebraic interpretation, conditional on a state whose updates are not
-clipped: with strict-success probability `s`, expected log-lambda increment is
-`(1-5s)*log(F)/4`. Zero drift is at `s=1/5`. This is a feedback interpretation,
-not a novel convergence theorem or a guarantee for feature-selection fitness.
-No lower bound on improvement probabilities or preserved surrogate ranking is
-established for the new landscape. Thus source runtime theorems are not
-asserted to transfer.
+За `F=1.5` строгий успіх задає `lambda'=max(1,lambda/F)`; інакше
+`lambda'=min(40,lambda*F^(1/4))`. Індукція з `lambda=1` дає межі
+`[1,40]`, тому `p=lambda/40` і `c=1/lambda` залишаються допустимими
+ймовірностями. Мутація змінює різні позиції маски, а схрещування обирає
+значення бітів із батьківських векторів. Обидва оператори зберігають
+бінарність масок.
 
-## Claim-to-check map
+Спільне для обох методів правило збереження найкращого рішення допускає
+оновлення лише за строгого лексикографічного покращення. Тому траєкторія
+найкращої досягнутої WBA не спадає. Кожному виклику цільової функції
+відповідає один запис журналу. Перевірки розміру пакетів і зафіксовані
+правила обробки неповного останнього пакета обмежують витрати 400 викликами.
 
-| Claim | Implementation boundary | CI evidence |
+Алгебраїчна інтерпретація зворотного зв'язку застосовна до стану, в якому
+жодне з двох можливих оновлень не обрізається граничним значенням. Якщо
+ймовірність строгого успіху дорівнює `s`, математичне сподівання приросту
+логарифма λ становить `(1-5s)*log(F)/4`. Нульовий дрейф досягається за
+`s=1/5`. Це пояснення керування, а не нова теорема збіжності чи гарантія
+ефективності для цільової функції відбору ознак. Для цієї задачі не
+встановлено нижньої межі ймовірності покращення або збереження
+ранжування рішень наближеною моделлю. Отже, перенесення теорем
+першоджерела про час пошуку не стверджується.
+
+## Відповідність властивостей реалізації та перевірок
+
+Усі наведені перевірки виконуються в GitHub Actions, а не локально.
+
+| Властивість | Компонент реалізації | Перевірка в CI |
 | --- | --- | --- |
-| Binary masks and exact call unit | `search.BudgetLedger` | Reject coercible nonintegers; duplicates still count; cap and earliest tie tests |
-| Lambda control and valid offspring | `search.run_lambda_no_reset` | Independent transcript update, parent, mutant-distance, crossover-allele and paired-tail checks |
-| Harmonized CHC semantics | `search.run_harmonized_chc` | Pinned-source HUX/RNG comparison; stable population, history, distance and partial-prefix checks |
-| No test-driven mask choice | `run_seed` and validation-only objective | Poisoned test access; both trace files exist before terminal evaluation; changed test inputs cannot affect objective |
-| Reproducible terminal models | `model_evidence.evaluate_and_persist` | Exact preprocessing/prediction/probability round trip on a non-test training probe |
-| Complete authenticated observations | runner, source ledger and aggregator | 30 pairs, seven files each, hashes, schema, attempt identity, missing/duplicate/corrupt inputs |
-| Statistical decision correctness | `aggregate` | Independent nonconstant BCa reference, strict gate boundaries, negative-result CLI success |
+| Бінарні маски та однакова одиниця витрат | `search.BudgetLedger` | Відхилення нецілих значень навіть за можливості перетворення типу; облік повторних масок; межа бюджету й вибір ранішої маски за рівності оцінок |
+| Керування λ та допустимі нащадки | `search.run_lambda_no_reset` | Незалежна перевірка журналу оновлень, батьківської маски, відстані мутанта, бітів після схрещування та неповної останньої пари фаз |
+| Відповідність гармонізованого CHC заданим правилам | `search.run_harmonized_chc` | Зіставлення HUX і стану RNG із зафіксованим кодом авторів; перевірка стабільного порядку популяції, історії, відстані та частково виконаного пакета |
+| Вибір маски без тестових даних | `run_seed` і цільова функція лише за валідацією | Штучна заборона доступу до тесту; збереження обох траєкторій до фінального оцінювання; незмінність цільової функції за зміни тестових даних |
+| Відтворюваність фінальних моделей | `model_evidence.evaluate_and_persist` | Точний збіг попередньої обробки, прогнозів і ймовірностей після збереження та завантаження на контрольних навчальних рядках |
+| Повнота й підтверджене походження спостережень | Засіб запуску, реєстр джерел та агрегатор | 30 пар по сім файлів; хеші, схема, ідентифікація спроб; відхилення відсутніх, дубльованих і пошкоджених входів |
+| Коректність статистичного рішення | `aggregate` | Незалежний еталон BCa для непостійних даних; строгі пороги критеріїв; успішне технічне завершення за негативного наукового результату |
 
-## Scientific interpretation remains conditional
+## Умови інтерпретації
 
-Quality requires the lower paired 95% BCa endpoint above `-0.001`; only then may
-a positive lower AUC endpoint support efficiency. Failure of the quality gate
-blocks a joint efficiency or subset-size advantage. AUC is mean best-so-far
-validation WBA per logical call, not ROC-AUC or elapsed time.
+Збереження якості в межах допустимого погіршення (non-inferiority, NI)
+підтверджується, лише якщо нижня межа парного 95% BCa-інтервалу перевищує
+`-0.001`. Тільки після виконання цієї умови додатна нижня межа інтервалу
+різниці AUC може підтвердити пошукову перевагу. Невиконання критерію
+якості не дозволяє робити спільний висновок про ефективність або
+перевагу за кількістю ознак. AUC тут є середньою найкращою досягнутою
+валідаційною WBA за логічними викликами, а не ROC-AUC чи тривалістю виконання.
 
-Thirty seeds on Census with one fixed official test file provide conditional
-seed/split replication, not cross-dataset validation. Bootstrap replication
-does not increase the number of seed pairs. Without a fixed-lambda ablation,
-the two-arm experiment does not isolate adaptation itself as the causal factor.
-Reset is disabled; CHC cataclysmic restarts are not lambda resets.
+Тридцять початкових значень генератора на даних Census зі спільним
+офіційним тестовим файлом характеризують варіацію пошуку й поділу даних.
+Вони не замінюють перевірки на інших наборах даних. Бутстреп-репліки
+не збільшують кількості пар. Без порівняння з фіксованим λ двогруповий
+експеримент не відокремлює причинного внеску самоналаштування.
+Скидання λ вимкнене; катаклізмічні перезапуски CHC є іншою операцією.
 
-The thesis should report proposed integration, verified implementation,
-prespecified tests, all outcomes, uncertainty and limitations. Historical
-source-compatible and corrected evidence remains separate. A negative or null
-bridge outcome is reportable, not grounds to alter thresholds. Final tables,
-figures, run URLs, artifact IDs and digests are added only after the full
-scientific campaign and authenticated reaggregation have completed.
+У звіті слід розрізняти запропоновану інтеграцію, програмну верифікацію,
+наперед визначені статистичні критерії, результати та їх обмеження.
+Історичні дані за протоколом, сумісним із вихідною реалізацією, і за
+виправленим протоколом аналізують окремо. Негативний результат або
+невиявлений ефект не є підставою для зміни порогів. Таблиці, графіки,
+посилання на запуски, ідентифікатори пакетів і хеші документують після
+завершення всієї серії експериментів та перевіреної повторної агрегації.
 
-## Independent theoretical review clarifications (2026-09-08)
+## Уточнення за результатами незалежного теоретичного огляду (2026-09-08)
 
-These are interpretive clarifications, not changes to the frozen protocol.
-The canonical source Algorithm 1 starts with one uniformly sampled bit string.
-The bridge instead evaluates 50 shared, nonempty source-density masks and
-selects the lambda parent uniformly among their lexicographic best masks.
-This initialization, the weighted lexicographic objective, the 400-call cap,
-the truncated last paired batch and the best-queried terminal mask are explicit
-adaptations. The complete optimizer is not a literal source Algorithm 1 replay.
-See [Hevia Fajardo and Sudholt, Section 2.1](https://mhevia.com/assets/pdf/journal_oplclga.pdf).
+Наведені уточнення стосуються інтерпретації й не змінюють зафіксованого
+протоколу. Канонічний Algorithm 1 починається з одного рівномірно
+випадкового бітового вектора. Гармонізований експеримент натомість
+оцінює 50 спільних непорожніх масок, згенерованих за правилом щільності
+вихідної реалізації. Батьківську маску `(1+(λ,λ))` обирають рівномірно
+серед лексикографічно найкращих масок цієї групи.
 
-The protocol's phrase `full printed CHC-QX/Algorithm 1 profile` has an imprecise
-algorithm-number reference: the applied paper's Algorithm 1 concerns active
-sampling; its complete CHC-QX pipeline is Algorithm 3. This does not change the
-comparator definition or execution. Frozen protocol bytes are retained and the
-reference is clarified here instead. See [Altarabichi et al., Section 4.2 and
-Algorithms 1-3](https://arxiv.org/pdf/2404.03996).
+Така ініціалізація, зважена лексикографічна цільова функція, межа
+400 викликів, скорочений останній парний пакет і вибір найкращої
+оціненої фінальної маски є явними модифікаціями. Реалізація не є
+буквальним відтворенням Algorithm 1 першоджерела. Див.
+[Hevia Fajardo та Sudholt, розділ 2.1](https://mhevia.com/assets/pdf/journal_oplclga.pdf).
 
-Own algebraic observation: the shared first 50 calls imply, for every pair,
+Вислів протоколу `full printed CHC-QX/Algorithm 1 profile` містить
+неточне посилання на номер алгоритму. У прикладній статті Algorithm 1
+описує активне формування вибірки, а повну процедуру CHC-QX наведено
+як Algorithm 3. Це уточнення не змінює методу порівняння або виконання
+експерименту. Байти зафіксованого протоколу збережено; виправлення
+посилання пояснено в цьому документі. Див.
+[Altarabichi та співавтори, розділ 4.2 та Algorithms 1–3](https://arxiv.org/pdf/2404.03996).
+
+Алгебраїчна властивість спільної ініціалізації: для кожної пари
 `Delta AUC(1..400) = (350/400) * Delta AUC(51..400)`.
-Subtract the two 400-term sums: their first 50 terms cancel and the remaining
-350-term sum is exactly 350 times the tail mean. Thus the tail contrast merely
-rescales the primary contrast by `400/350`; it is not independent corroboration.
-In exact arithmetic, paired medians and BCa endpoints with identical resampling
-indices scale by the same positive factor. The confirmatory gate still uses
-only the frozen full-horizon AUC. Quality non-inferiority concerns the median
-paired difference over the specified seed/split distribution, not every seed.
+Після віднімання двох сум із 400 доданків перші 50 доданків
+скорочуються. Сума решти 350 доданків дорівнює середньому значенню
+відповідної кінцевої ділянки, помноженому на 350. Отже, різниця для
+викликів 51–400 лише масштабує основну різницю в `400/350` разів
+і не є незалежним підтвердженням.
+
+У точній арифметиці медіани парних різниць і межі BCa-інтервалів за
+однакових індексів повторної вибірки масштабуються тим самим додатним
+множником. Підтверджувальний критерій використовує лише зафіксовану
+AUC повної траєкторії. NI стосується медіани парної різниці за заданим
+розподілом початкових станів і поділів вибірки, а не кожного запуску
+окремо.
