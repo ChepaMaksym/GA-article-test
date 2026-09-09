@@ -1,0 +1,219 @@
+name: EU26-21 independent test and CI verification audit
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [research/EU26-21-chcqx-census-old-first]
+    paths:
+      - 'candidates/EU26-21/**'
+      - '.github/workflows/eu26-21-*.yml'
+
+concurrency:
+  group: eu26-21-verification-audit-${{ github.ref_name }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  SOURCE_RUN_ID: '31934321927'
+  EVIDENCE_COMMIT: 6a9e9faba1fe4e7691fbb88cec1e5d2e84232a04
+  PYTHONHASHSEED: '0'
+  MPLBACKEND: Agg
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  NUMEXPR_NUM_THREADS: '1'
+
+jobs:
+  unit-negative-tests:
+    name: Independent positive, negative, and failure-reporting tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.9'
+      - name: Install frozen test environment
+        run: python -m pip install -r candidates/EU26-21/hybrid_1/requirements.txt
+      - name: Compile implementation, audit code, and all Hybrid 1 tests
+        run: >-
+          python -m py_compile
+          candidates/EU26-21/hybrid_1/*.py
+          candidates/EU26-21/tests/test_hybrid_1_*.py
+      - name: Run every Hybrid 1 test by discovery
+        run: >-
+          python -m unittest discover
+          -s candidates/EU26-21/tests
+          -p 'test_hybrid_1_*.py'
+          -v
+
+  ci-topology-audit:
+    name: Workflow triggers, retirement, action pinning, and failure semantics
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11'
+      - name: Run static CI audit
+        run: |
+          python candidates/EU26-21/hybrid_1/ci_audit.py \
+            --root . \
+            --output-json "${RUNNER_TEMP}/ci-audit.json" \
+            --enforce
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: eu26-21-ci-topology-audit
+          path: ${{ runner.temp }}/ci-audit.json
+          if-no-files-found: warn
+          retention-days: 90
+
+  immutable-row-revalidation:
+    name: Recompute H1-H3 from immutable 30 seed rows
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.9'
+      - name: Install frozen analysis environment
+        run: python -m pip install -r candidates/EU26-21/hybrid_1/requirements.txt
+      - name: Test strict validator and canonical first-hit guard
+        run: >-
+          python -m unittest
+          candidates/EU26-21/tests/test_hybrid_1_aggregation_guard.py
+          candidates/EU26-21/tests/test_hybrid_1_audit_validation.py
+          candidates/EU26-21/tests/test_hybrid_1_paired_comparison_v2.py
+          -v
+      - name: Download immutable seed artifacts from the completed matrix
+        id: download
+        continue-on-error: true
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+          pattern: eu26-21-old-hybrid-v2-seed-*
+          path: ${{ runner.temp }}/paired-rows
+          merge-multiple: true
+      - name: Recompute strict report without rerunning either optimizer
+        run: |
+          set +e
+          mkdir -p "${RUNNER_TEMP}/paired-rows"
+          set -o pipefail
+          python candidates/EU26-21/hybrid_1/aggregate_old_hybrid_v2.py \
+            "${RUNNER_TEMP}/paired-rows" \
+            --output-json "${RUNNER_TEMP}/immutable-audited-report.json" \
+            --enforce-protocol \
+            2>&1 | tee "${RUNNER_TEMP}/immutable-audit.log"
+          status=${PIPESTATUS[0]}
+          count=$(find "${RUNNER_TEMP}/paired-rows" -type f -name 'seed-*.json' | wc -l)
+          python - "$status" "$count" <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          import sys
+          payload = {
+              'schema': 'eu26-21-immutable-audit-status-v1',
+              'source_run_id': 31934321927,
+              'aggregator_exit_code': int(sys.argv[1]),
+              'seed_json_count': int(sys.argv[2]),
+              'expected_seed_json_count': 30,
+          }
+          (Path(os.environ['RUNNER_TEMP']) / 'immutable-audit-status.json').write_text(
+              json.dumps(payload, indent=2, sort_keys=True) + '\n'
+          )
+          print(json.dumps(payload, sort_keys=True))
+          PY
+          exit "$status"
+      - name: Print immutable scientific decisions or the failure trace
+        if: always()
+        run: |
+          if test -f "${RUNNER_TEMP}/immutable-audited-report.json"; then
+            python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          report = json.loads(
+              (Path(os.environ['RUNNER_TEMP']) / 'immutable-audited-report.json').read_text()
+          )
+          print(json.dumps({
+              'claim_status': report['claim_status'],
+              'audit_status': report['audit_status'],
+              'h1': report['h1']['decision'],
+              'h2': report['h2']['decision'],
+              'h3': report['h3']['primary_decision'],
+              'protocol_gates': report['protocol_gates'],
+              'audit_gates': report['audit_gates'],
+          }, sort_keys=True))
+          PY
+          else
+            cat "${RUNNER_TEMP}/immutable-audit-status.json" || true
+            tail -n 100 "${RUNNER_TEMP}/immutable-audit.log" || true
+          fi
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: eu26-21-immutable-row-revalidation
+          path: |
+            ${{ runner.temp }}/immutable-audited-report.json
+            ${{ runner.temp }}/immutable-audit-status.json
+            ${{ runner.temp }}/immutable-audit.log
+          if-no-files-found: warn
+          retention-days: 90
+
+  evidence-code-fingerprint:
+    name: Prove current scientific row-generation code matches evidence commit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+      - name: Compare scientific code with the immutable matrix commit
+        run: |
+          set +e
+          git cat-file -e "${EVIDENCE_COMMIT}^{commit}"
+          git diff --no-ext-diff --exit-code "$EVIDENCE_COMMIT" HEAD -- \
+            candidates/EU26-21/hybrid_1/core.py \
+            candidates/EU26-21/hybrid_1/benchmarks.py \
+            candidates/EU26-21/hybrid_1/census.py \
+            candidates/EU26-21/hybrid_1/paired_comparison.py \
+            candidates/EU26-21/hybrid_1/paired_comparison_v2.py \
+            candidates/EU26-21/hybrid_1/run_old_hybrid_comparison_v2.py \
+            candidates/EU26-21/hybrid_1/run_old_hybrid_seed_v2.py \
+            candidates/EU26-21/hybrid_1/requirements.txt \
+            > "${RUNNER_TEMP}/scientific-code.diff" 2>&1
+          status=$?
+          python - "$status" <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          import sys
+          payload = {
+              'schema': 'eu26-21-evidence-code-fingerprint-v1',
+              'evidence_commit': os.environ['EVIDENCE_COMMIT'],
+              'diff_exit_code': int(sys.argv[1]),
+              'matches': int(sys.argv[1]) == 0,
+          }
+          (Path(os.environ['RUNNER_TEMP']) / 'fingerprint-status.json').write_text(
+              json.dumps(payload, indent=2, sort_keys=True) + '\n'
+          )
+          print(json.dumps(payload, sort_keys=True))
+          PY
+          exit "$status"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: eu26-21-evidence-code-fingerprint
+          path: |
+            ${{ runner.temp }}/fingerprint-status.json
+            ${{ runner.temp }}/scientific-code.diff
+          if-no-files-found: warn
+          retention-days: 90

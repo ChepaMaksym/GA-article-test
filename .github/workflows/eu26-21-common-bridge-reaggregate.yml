@@ -1,0 +1,212 @@
+name: EU26-21 common bridge immutable evidence reaggregation
+
+on:
+  # Register without execution on this draft branch; the job is manual-only.
+  push:
+    branches: [research/EU26-21-chcqx-census-old-first]
+    paths: ['.github/workflows/eu26-21-common-bridge-reaggregate.yml']
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: Campaign workflow run containing the exact 30 source artifacts
+        required: true
+        type: string
+      expected_sha:
+        description: Exact protected implementation SHA recorded by the source campaign
+        required: true
+        type: string
+      artifact_ledger_json:
+        description: Exact JSON ledger with 30 source artifact IDs, names, and SHA-256 digests
+        required: true
+        type: string
+
+concurrency:
+  group: eu26-21-common-bridge-reaggregate-${{ inputs.source_run_id }}-${{ github.run_id }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  PROTECTED_REF: refs/tags/eu26-21-common-bridge-evidence-v2
+  CONTENT_FREEZE_COMMIT: 939914a33d21709526ef12538170ce806b45e3a3
+  PROTOCOL_SHA256: 730cd436db59d23da7dab5e24c49bc7b28d65379136fad7fd2d2370e0a436205
+  PYTHONHASHSEED: '0'
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  NUMEXPR_NUM_THREADS: '1'
+
+jobs:
+  reaggregate:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    name: Fetch only immutable source artifacts and reaggregate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Validate protected identity and exact 30-artifact input ledger
+        env:
+          EXPECTED_SHA_INPUT: ${{ inputs.expected_sha }}
+          SOURCE_RUN_ID_INPUT: ${{ inputs.source_run_id }}
+          ARTIFACT_LEDGER_JSON: ${{ inputs.artifact_ledger_json }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          import re
+
+          expected_sha = os.environ["EXPECTED_SHA_INPUT"]
+          source_run_id_text = os.environ["SOURCE_RUN_ID_INPUT"]
+          if re.fullmatch(r"[0-9a-f]{40}", expected_sha) is None:
+              raise SystemExit("expected_sha must be exactly 40 lowercase hex characters")
+          if os.environ["GITHUB_SHA"] != expected_sha:
+              raise SystemExit("the dispatch commit does not equal expected_sha")
+          if os.environ["GITHUB_REF"] != os.environ["PROTECTED_REF"]:
+              raise SystemExit("reaggregation must run from the protected evidence tag")
+          if re.fullmatch(r"[1-9][0-9]*", source_run_id_text) is None:
+              raise SystemExit("source_run_id must be a positive decimal integer")
+
+          ledger = json.loads(os.environ["ARTIFACT_LEDGER_JSON"])
+          if ledger.get("schema") != "eu26-21-common-bridge-source-artifact-ledger-v1":
+              raise SystemExit("unexpected source artifact ledger schema")
+          if ledger.get("repository") != os.environ["GITHUB_REPOSITORY"]:
+              raise SystemExit("source artifact repository mismatch")
+          source_run_id = int(source_run_id_text)
+          if ledger.get("source_run_id") != source_run_id:
+              raise SystemExit("source run ID mismatch")
+          attempt = ledger.get("source_run_attempt")
+          if isinstance(attempt, bool) or not isinstance(attempt, int) or attempt < 1:
+              raise SystemExit("source run attempt must be a positive integer")
+          if ledger.get("source_head_sha") != expected_sha:
+              raise SystemExit("source head SHA mismatch")
+          if ledger.get("source_workflow_sha") != expected_sha:
+              raise SystemExit("source workflow SHA mismatch")
+          if ledger.get("source_workflow_path") != (
+              ".github/workflows/eu26-21-common-bridge-30-paired.yml"
+          ):
+              raise SystemExit("source workflow path mismatch")
+          if ledger.get("source_ref") != os.environ["PROTECTED_REF"]:
+              raise SystemExit("source ref is not the protected evidence tag")
+
+          artifacts = ledger.get("artifacts")
+          if not isinstance(artifacts, list) or len(artifacts) != 30:
+              raise SystemExit("artifact ledger must contain exactly 30 entries")
+          expected_seeds = list(range(41001, 41031))
+          seeds = []
+          artifact_ids = []
+          for item in artifacts:
+              if not isinstance(item, dict):
+                  raise SystemExit("artifact entry must be an object")
+              seed = item.get("seed")
+              artifact_id = item.get("id")
+              name = item.get("name")
+              digest = item.get("digest")
+              if isinstance(seed, bool) or not isinstance(seed, int):
+                  raise SystemExit("artifact seed must be an integer")
+              if isinstance(artifact_id, bool) or not isinstance(artifact_id, int) or artifact_id < 1:
+                  raise SystemExit(f"invalid artifact ID for seed {seed}")
+              entry_attempt = item.get("run_attempt", attempt)
+              if type(entry_attempt) is not int or not 1 <= entry_attempt <= attempt:
+                  raise SystemExit("invalid per-seed run attempt")
+              expected_name = f"eu26-21-common-bridge-seed-{seed}-{source_run_id}-{entry_attempt}"
+              if name != expected_name:
+                  raise SystemExit(f"artifact name mismatch for seed {seed}")
+              if not isinstance(digest, str) or re.fullmatch(
+                  r"sha256:[0-9a-f]{64}", digest
+              ) is None:
+                  raise SystemExit(f"artifact digest mismatch for seed {seed}")
+              seeds.append(seed)
+              artifact_ids.append(artifact_id)
+          if sorted(seeds) != expected_seeds or len(set(seeds)) != 30:
+              raise SystemExit("artifact seed ledger is not exactly 41001..41030")
+          if len(set(artifact_ids)) != 30:
+              raise SystemExit("artifact IDs are not unique")
+
+          expected_path = Path(os.environ["RUNNER_TEMP"]) / "expected-source-artifacts.json"
+          expected_path.write_text(
+              json.dumps(ledger, indent=2, sort_keys=True) + "\n",
+              encoding="utf-8",
+          )
+          with Path(os.environ["GITHUB_ENV"]).open("a", encoding="utf-8") as stream:
+              stream.write(f"SOURCE_RUN_ID={source_run_id}\n")
+              stream.write(f"SOURCE_RUN_ATTEMPT={attempt}\n")
+              stream.write(f"SOURCE_REF={ledger['source_ref']}\n")
+              stream.write(f"SOURCE_WORKFLOW_SHA={ledger['source_workflow_sha']}\n")
+          print(f"validated {len(artifacts)} immutable artifact identities")
+          PY
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ inputs.expected_sha }}
+          persist-credentials: false
+      - name: Verify the exact checked-out implementation
+        env:
+          EXPECTED_SHA: ${{ inputs.expected_sha }}
+        run: test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Install only the frozen aggregation environment
+        run: |
+          python -m pip install -r candidates/EU26-21/corrected_applied/requirements.txt
+          python -m pip check
+      - name: Fetch and verify only the explicit source artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PYTHONPATH: ${{ github.workspace }}/candidates/EU26-21
+        run: >-
+          python -m common_bridge.fetch_source_artifacts
+          --repository "${GITHUB_REPOSITORY}"
+          --source-run-id "${SOURCE_RUN_ID}"
+          --artifact-ledger "${RUNNER_TEMP}/expected-source-artifacts.json"
+          --output-dir "${RUNNER_TEMP}/common-bridge-source-artifacts"
+          --metadata-output "${RUNNER_TEMP}/verified-source-artifacts.json"
+      - name: Reaggregate without executing a search or accessing a dataset
+        env:
+          EXPECTED_SHA: ${{ inputs.expected_sha }}
+          BRIDGE_WORKFLOW_SHA: ${{ github.workflow_sha }}
+          PYTHONPATH: ${{ github.workspace }}/candidates/EU26-21
+        run: |
+          set -euo pipefail
+          protocol='candidates/EU26-21/common_bridge/protocol.json'
+          config='candidates/EU26-21/common_bridge/config.json'
+          requirements='candidates/EU26-21/corrected_applied/requirements.txt'
+          test "$(sha256sum "$protocol" | awk '{print $1}')" = "$PROTOCOL_SHA256"
+          protocol_sha="$PROTOCOL_SHA256"
+          config_sha=$(sha256sum "$config" | awk '{print $1}')
+          requirements_sha=$(sha256sum "$requirements" | awk '{print $1}')
+          output="${RUNNER_TEMP}/common-bridge-reaggregated"
+          mkdir -p "$output"
+          args=(
+            "${RUNNER_TEMP}/common-bridge-source-artifacts"
+            --protocol "$protocol"
+            --expected-protocol-sha256 "$protocol_sha"
+            --expected-config-sha256 "$config_sha"
+            --expected-requirements-sha256 "$requirements_sha"
+            --expected-content-freeze-commit "$CONTENT_FREEZE_COMMIT"
+            --expected-implementation-sha "$EXPECTED_SHA"
+            --expected-run-id "$SOURCE_RUN_ID"
+            --expected-run-attempt "$SOURCE_RUN_ATTEMPT"
+            --expected-ref "$SOURCE_REF"
+            --expected-workflow-sha "$SOURCE_WORKFLOW_SHA"
+            --source-artifact-ledger "${RUNNER_TEMP}/verified-source-artifacts.json"
+            --output-dir "$output"
+          )
+          python -m common_bridge.aggregate "${args[@]}"
+          test -s "$output/report.json"
+          test -s "$output/report.md"
+          test -s "$output/canonical-ledger.json"
+          test -s "$output/aggregate-status.json"
+          test -s "$output/aggregate-manifest.json"
+          test -s "${RUNNER_TEMP}/verified-source-artifacts.json"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: eu26-21-common-bridge-reaggregate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/common-bridge-reaggregated
+            ${{ runner.temp }}/verified-source-artifacts.json
+          if-no-files-found: error
+          retention-days: 90

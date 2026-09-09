@@ -1,0 +1,229 @@
+{
+  "schema": "eu26-21-common-wba-bridge-protocol-v1",
+  "study_id": "EU26-21-CWB-01",
+  "protocol_id": "EU26-21-COMMON-WBA-BSF-AUC-400-V1",
+  "evidence_class": "prospective_confirmatory_followup_informed_by_retrospective_results",
+  "protocol_status": "FROZEN_BEFORE_ANY_41001_41030_OUTCOME",
+  "freeze": {
+    "date_utc": "2026-08-23",
+    "commit_binding": "git_commit_containing_this_manifest",
+    "protocol_sha256_binding": "sha256_of_this_file_recorded_by_ci_and_every_result",
+    "implementation_present_at_freeze": false,
+    "prospective_seed_outcomes_inspected_at_freeze": false
+  },
+  "source_studies": [
+    {
+      "role": "parameter_control_basis",
+      "title": "Theoretical and Empirical Analysis of Parameter Control Mechanisms in the (1+(lambda,lambda)) Genetic Algorithm",
+      "doi": "10.1145/3564755"
+    },
+    {
+      "role": "feature_selection_search_context",
+      "title": "Fast Genetic Algorithm for feature selection - A qualitative approximation approach",
+      "doi": "10.1016/j.eswa.2022.118528"
+    }
+  ],
+  "source_boundary": {
+    "comparator_id": "harmonized_pinned_source_chc_feature_mask_search",
+    "upstream_repository": "Ghaith81/Fast-Genetic-Algorithm-For-Feature-Selection",
+    "upstream_commit": "6ac5a7ec77f8a7c096ab4d019254fcc897988fd6",
+    "upstream_role": "operator_and_state_semantics_reference_only",
+    "printed_algorithm_1_equivalence": false,
+    "full_printed_chc_qx_profile": false,
+    "allowed_label": "harmonized pinned-source CHC feature-mask search",
+    "harmonization_deltas": [
+      "common_corrected_weighted_evaluator",
+      "fixed_400_objective_call_cap",
+      "common_initial_masks_and_order",
+      "no_learned_instance_selection_stage",
+      "no_source_chunk_and_full_validation_controller"
+    ]
+  },
+  "retrospective_context": {
+    "classification": "context_only_not_pooled",
+    "included_in_bridge_estimator": false,
+    "rows_reused": false,
+    "seed_overlap": false,
+    "source_compatible_status": "PASS_EXTENDED_30_SEED_H1_H2_H3",
+    "corrected_quality_status": "FAIL_NONINFERIORITY",
+    "corrected_subset_status": "BLOCKED_BY_H1",
+    "corrected_reset_status": "NO_CLEAR_EFFECT"
+  },
+  "data_protocol": {
+    "dataset": "UCI Census-Income KDD",
+    "archive_url": "https://archive.ics.uci.edu/static/public/117/census%2Bincome%2Bkdd.zip",
+    "archive_sha256": "54fd206becffcfaf099544c3938c681d64a65709800c94c00a4fba0a00df10c9",
+    "train_file": "census-income.data",
+    "train_rows": 199523,
+    "train_sha256": "3676a81db7d3528f3f8b9f3c699d0f0aa28db45e6e994fa0b8ed38327539ee86",
+    "test_file": "census-income.test",
+    "test_rows": 99762,
+    "test_sha256": "98402b1ab879573d0a7f38a699a40258080e25e33d3401e7bf9c96d3fa0fab8c",
+    "raw_column_count": 42,
+    "target_raw_index": 41,
+    "instance_weight_raw_index": 24,
+    "predictive_dimension": 40,
+    "instance_weight_as_predictor": false,
+    "instance_weight_as_sample_weight": true,
+    "validation_fraction": 0.2,
+    "active_sample_size": 14964,
+    "preprocessing_fit_scope": "internal_training_partition_only",
+    "classifier": "DecisionTreeClassifier(random_state=0)"
+  },
+  "pairing_and_rng": {
+    "run_count": 30,
+    "seed_ledger": [
+      41001,
+      41002,
+      41003,
+      41004,
+      41005,
+      41006,
+      41007,
+      41008,
+      41009,
+      41010,
+      41011,
+      41012,
+      41013,
+      41014,
+      41015,
+      41016,
+      41017,
+      41018,
+      41019,
+      41020,
+      41021,
+      41022,
+      41023,
+      41024,
+      41025,
+      41026,
+      41027,
+      41028,
+      41029,
+      41030
+    ],
+    "split_seed_formula": "2026081700 + seed",
+    "active_sample_seed_formula": "2026081800 + seed",
+    "search_seed_formula": "seed + 1000003",
+    "initial_mask_seed_formula": "seed + 1000102",
+    "initial_mask_generator": "source_density_population",
+    "arm_rng_isolation": true,
+    "arm_rng_streams": {
+      "chc_harmonized": "python_random_seeded_with_search_seed",
+      "lambda_no_reset": "numpy_default_rng_seeded_with_search_seed"
+    },
+    "shared_within_pair": [
+      "train_validation_split",
+      "active_indices",
+      "preprocessor",
+      "objective",
+      "50_initial_masks",
+      "initial_mask_order"
+    ]
+  },
+  "objective": {
+    "fitness": [
+      "validation_weighted_balanced_accuracy",
+      "negative_selected_feature_fraction"
+    ],
+    "comparison": "lexicographic",
+    "terminal_exact_tie_rule": "earliest_objective_call",
+    "test_data_used_during_search": false,
+    "empty_mask_fitness": [
+      0.0,
+      -1.0
+    ]
+  },
+  "budget": {
+    "call_unit": "logical_objective_invocation",
+    "objective_calls_per_arm_per_seed": 400,
+    "initial_population_calls": 50,
+    "early_stopping": false,
+    "objective_cache": false,
+    "duplicates_consume_calls": true,
+    "endpoint": "lexicographic_best_among_first_400_queried_masks",
+    "chc_terminal_rule": "evaluate_generated_fresh_offspring_prefix_through_call_400_then_skip_partial_generation_population_update",
+    "lambda_terminal_rule": "paired_mutant_crossover_tail_truncated_to_remaining_even_budget"
+  },
+  "arms": {
+    "chc_harmonized": {
+      "algorithm_id": "harmonized_pinned_source_chc_feature_mask_search",
+      "initial_distance": 10,
+      "fitness_arity": 2,
+      "selection_tie_break": "lexicographic_sparsity",
+      "population_exact_tie_rule": "stable_first_in_parent_plus_offspring_order",
+      "hux": "pinned_source_HUX",
+      "offspring_evaluation_order": "generated_fresh_offspring_list_order",
+      "partial_final_generation_population_update": false,
+      "cataclysmic_mutation_indpb": 0.3333333333333333,
+      "max_no_change": "infinity_until_budget",
+      "full_validation_controller": false
+    },
+    "lambda_no_reset": {
+      "algorithm_id": "self_adjusting_one_plus_lambda_lambda_no_reset",
+      "lambda_initial": 1.0,
+      "lambda_min": 1.0,
+      "lambda_max": 40.0,
+      "update_factor": 1.5,
+      "offspring_rounding": "nearest_integer_half_up",
+      "mutation_probability": "lambda / 40",
+      "crossover_probability": "1 / lambda",
+      "strict_success_update": "lambda / F",
+      "failure_update": "lambda * F^(1/4)",
+      "search_exact_tie_rule": "uniform_using_arm_local_numpy_rng",
+      "reset": false,
+      "required_reset_events": 0,
+      "workers": 1
+    }
+  },
+  "efficiency_estimand": {
+    "name": "normalized_area_under_best_so_far_validation_wba_calls_1_400",
+    "definition": "mean(max(primary_fitness[1..k]) for k=1..400)",
+    "range": [
+      0.0,
+      1.0
+    ],
+    "interpretation": "validation_anytime_efficiency_per_logical_objective_call",
+    "not_roc_auc": true,
+    "not_wall_clock": true,
+    "post_initial_calls_51_400_reported_descriptively": true
+  },
+  "official_test_policy": {
+    "role": "terminal_holdout_only",
+    "evaluations_per_seed_per_arm": 1,
+    "used_for_model_selection": false,
+    "fit_scope": "internal_80_percent_training_partition_only",
+    "primary_metric": "weighted_balanced_accuracy",
+    "aggregate_from_stored_metrics_only": true
+  },
+  "analysis_plan": {
+    "analysis_seed": 41031,
+    "bootstrap_method": "paired_median_BCa",
+    "bootstrap_resamples": 50000,
+    "two_sided_interval": 0.95,
+    "quality_difference": "lambda_no_reset_test_wba - chc_harmonized_test_wba",
+    "noninferiority_margin": -0.001,
+    "noninferiority_operator": "lower_95_bca_strictly_greater_than_margin",
+    "efficiency_difference": "lambda_no_reset_auc - chc_harmonized_auc",
+    "efficiency_operator": "lower_95_bca_strictly_greater_than_zero",
+    "decision_order": [
+      "quality_noninferiority",
+      "auc_superiority_if_quality_passes"
+    ],
+    "feature_count_role": "secondary_descriptive_after_quality_gate"
+  },
+  "claim_policy": {
+    "joint_pass": "PASS_JOINT_BRIDGE_CLAIM_only_if_quality_and_efficiency_pass",
+    "negative_result_is_protocol_success": true,
+    "forbidden_claims": [
+      "reset_benefit",
+      "wall_clock_speedup",
+      "literal_printed_chc_qx_reproduction",
+      "causal_superiority_of_lambda_adaptation_alone",
+      "cross_dataset_generality",
+      "worldwide_priority"
+    ]
+  }
+}

@@ -1,0 +1,272 @@
+name: EU26-21 code quality and dependency audit
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [research/EU26-21-chcqx-census-old-first]
+    paths:
+      - 'candidates/EU26-21/common_bridge/**'
+      - 'candidates/EU26-21/hybrid_1/**'
+      - 'candidates/EU26-21/corrected_applied/**'
+      - 'candidates/EU26-21/old/**'
+      - 'candidates/EU26-21/tests/**'
+      - '.github/workflows/eu26-21-*.yml'
+
+concurrency:
+  group: eu26-21-code-quality-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  issues: write
+
+env:
+  UPSTREAM_COMMIT: '6ac5a7ec77f8a7c096ab4d019254fcc897988fd6'
+  PYTHONHASHSEED: '0'
+  MPLBACKEND: Agg
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  NUMEXPR_NUM_THREADS: '1'
+
+jobs:
+  quality:
+    name: Tests, coverage, static analysis, unused code, dependency audit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - name: Announce traceable quality audit run
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python - <<'PY' > "${RUNNER_TEMP}/eu26-21-quality-start.md"
+          import os
+
+          run_url = '{0}/{1}/actions/runs/{2}'.format(
+              os.environ['GITHUB_SERVER_URL'],
+              os.environ['GITHUB_REPOSITORY'],
+              os.environ['GITHUB_RUN_ID'],
+          )
+          print('<!-- eu26-21-quality-audit-start -->')
+          print('## EU26-21 complete quality audit started')
+          print()
+          print('```text')
+          print('run: {0}'.format(run_url))
+          print('head: {0}'.format(os.environ['GITHUB_SHA']))
+          print('```')
+          PY
+          gh api \
+            "repos/${GITHUB_REPOSITORY}/issues/19/comments" \
+            --method POST \
+            -F "body=@${RUNNER_TEMP}/eu26-21-quality-start.md"
+
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Install modern corrected environment and audit tools
+        run: |
+          python -m pip install -r candidates/EU26-21/corrected_applied/requirements.txt
+          python -m pip install coverage==7.10.4 ruff==0.12.10 bandit==1.8.6 vulture==2.14 pip-audit==2.9.0
+          python -m pip check
+      - name: Fetch pinned source required by source-semantic tests
+        run: |
+          git clone --filter=blob:none \
+            https://github.com/Ghaith81/Fast-Genetic-Algorithm-For-Feature-Selection.git \
+            "${RUNNER_TEMP}/upstream"
+          git -C "${RUNNER_TEMP}/upstream" checkout --detach "${UPSTREAM_COMMIT}"
+          test "$(git -C "${RUNNER_TEMP}/upstream" rev-parse HEAD)" = "${UPSTREAM_COMMIT}"
+      - name: Run all EU26-21 tests under coverage
+        id: tests
+        continue-on-error: true
+        env:
+          EU26_21_UPSTREAM: ${{ runner.temp }}/upstream
+        run: |
+          set +e
+          mkdir -p "${RUNNER_TEMP}/quality"
+          coverage run --source=candidates/EU26-21/hybrid_1,candidates/EU26-21/corrected_applied,candidates/EU26-21/common_bridge \
+            -m unittest discover -s candidates/EU26-21/tests -p 'test_*.py' -v \
+            2>&1 | tee "${RUNNER_TEMP}/quality/tests.log"
+          status=${PIPESTATUS[0]}
+          coverage json -o "${RUNNER_TEMP}/quality/coverage.json" || true
+          coverage report -m | tee "${RUNNER_TEMP}/quality/coverage.txt" || true
+          echo "exit_code=$status" >> "$GITHUB_OUTPUT"
+          exit "$status"
+      - name: Ruff critical correctness gate
+        id: ruff_critical
+        if: always()
+        continue-on-error: true
+        run: |
+          set +e
+          ruff check \
+            candidates/EU26-21/hybrid_1 \
+            candidates/EU26-21/corrected_applied \
+            candidates/EU26-21/common_bridge \
+            candidates/EU26-21/tests \
+            --select E9,F63,F7,F82 \
+            --output-format json \
+            --output-file "${RUNNER_TEMP}/quality/ruff-critical.json"
+          status=$?
+          echo "exit_code=$status" >> "$GITHUB_OUTPUT"
+          exit "$status"
+      - name: Record complete Ruff findings
+        if: always()
+        run: |
+          set +e
+          ruff check \
+            candidates/EU26-21/hybrid_1 \
+            candidates/EU26-21/corrected_applied \
+            candidates/EU26-21/common_bridge \
+            candidates/EU26-21/tests \
+            --output-format json \
+            --output-file "${RUNNER_TEMP}/quality/ruff-all.json"
+          printf '%s\n' "$?" > "${RUNNER_TEMP}/quality/ruff-all.exit-code"
+          ruff check \
+            candidates/EU26-21/hybrid_1 \
+            candidates/EU26-21/corrected_applied \
+            candidates/EU26-21/common_bridge \
+            candidates/EU26-21/tests \
+            2>&1 | tee "${RUNNER_TEMP}/quality/ruff-all.txt" || true
+          exit 0
+      - name: Bandit high-severity audit of project code
+        id: bandit
+        if: always()
+        continue-on-error: true
+        run: |
+          set +e
+          bandit -r candidates/EU26-21/hybrid_1 candidates/EU26-21/corrected_applied candidates/EU26-21/common_bridge \
+            -x candidates/EU26-21/tests -lll -ii -f json \
+            -o "${RUNNER_TEMP}/quality/bandit.json"
+          status=$?
+          bandit -r candidates/EU26-21/hybrid_1 candidates/EU26-21/corrected_applied candidates/EU26-21/common_bridge \
+            -x candidates/EU26-21/tests -lll -ii \
+            2>&1 | tee "${RUNNER_TEMP}/quality/bandit.txt" || true
+          echo "exit_code=$status" >> "$GITHUB_OUTPUT"
+          exit "$status"
+      - name: Record potential unused code without hiding findings
+        if: always()
+        run: |
+          set +e
+          vulture candidates/EU26-21/hybrid_1 candidates/EU26-21/corrected_applied candidates/EU26-21/common_bridge candidates/EU26-21/tests \
+            --min-confidence 90 > "${RUNNER_TEMP}/quality/vulture.txt" 2>&1
+          printf '%s\n' "$?" > "${RUNNER_TEMP}/quality/vulture.exit-code"
+          cat "${RUNNER_TEMP}/quality/vulture.txt"
+          exit 0
+      - name: Audit modern corrected dependencies
+        id: pip_secure
+        if: always()
+        continue-on-error: true
+        run: |
+          set +e
+          pip-audit -r candidates/EU26-21/corrected_applied/requirements.txt \
+            -f json -o "${RUNNER_TEMP}/quality/pip-audit-corrected.json"
+          status=$?
+          pip-audit -r candidates/EU26-21/corrected_applied/requirements.txt \
+            2>&1 | tee "${RUNNER_TEMP}/quality/pip-audit-corrected.txt" || true
+          echo "exit_code=$status" >> "$GITHUB_OUTPUT"
+          exit "$status"
+      - name: Preserve historical frozen-environment vulnerability findings
+        if: always()
+        run: |
+          set +e
+          pip-audit -r candidates/EU26-21/hybrid_1/requirements.txt \
+            -f json -o "${RUNNER_TEMP}/quality/pip-audit-historical.json"
+          printf '%s\n' "$?" > "${RUNNER_TEMP}/quality/pip-audit-historical.exit-code"
+          pip-audit -r candidates/EU26-21/hybrid_1/requirements.txt \
+            2>&1 | tee "${RUNNER_TEMP}/quality/pip-audit-historical.txt" || true
+          exit 0
+      - name: Write complete audit status
+        if: always()
+        env:
+          TEST_EXIT: ${{ steps.tests.outputs.exit_code }}
+          RUFF_CRITICAL_EXIT: ${{ steps.ruff_critical.outputs.exit_code }}
+          BANDIT_EXIT: ${{ steps.bandit.outputs.exit_code }}
+          PIP_SECURE_EXIT: ${{ steps.pip_secure.outputs.exit_code }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          root = Path(os.environ['RUNNER_TEMP']) / 'quality'
+          def read_code(name):
+              path = root / name
+              return int(path.read_text().strip()) if path.exists() else None
+          blocking = {
+              'tests': int(os.environ.get('TEST_EXIT') or -1),
+              'ruff_critical': int(os.environ.get('RUFF_CRITICAL_EXIT') or -1),
+              'bandit_high_severity': int(os.environ.get('BANDIT_EXIT') or -1),
+              'corrected_dependency_audit': int(os.environ.get('PIP_SECURE_EXIT') or -1),
+          }
+          payload = {
+              'schema': 'eu26-21-code-quality-v2',
+              'blocking_exit_codes': blocking,
+              'blocking_pass': all(value == 0 for value in blocking.values()),
+              'ruff_all_exit_code': read_code('ruff-all.exit-code'),
+              'vulture_exit_code': read_code('vulture.exit-code'),
+              'historical_dependency_audit_exit_code': read_code(
+                  'pip-audit-historical.exit-code'
+              ),
+              'nonblocking_findings_preserved': True,
+          }
+          (root / 'status.json').write_text(
+              json.dumps(payload, indent=2, sort_keys=True) + '\n', encoding='utf-8'
+          )
+          print(json.dumps(payload, sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: eu26-21-code-quality-audit-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/quality
+          if-no-files-found: error
+          retention-days: 90
+      - name: Enforce blocking quality gates after preserving all reports
+        if: always()
+        env:
+          TEST_EXIT: ${{ steps.tests.outputs.exit_code }}
+          RUFF_CRITICAL_EXIT: ${{ steps.ruff_critical.outputs.exit_code }}
+          BANDIT_EXIT: ${{ steps.bandit.outputs.exit_code }}
+          PIP_SECURE_EXIT: ${{ steps.pip_secure.outputs.exit_code }}
+        run: |
+          test "${TEST_EXIT:-1}" -eq 0
+          test "${RUFF_CRITICAL_EXIT:-1}" -eq 0
+          test "${BANDIT_EXIT:-1}" -eq 0
+          test "${PIP_SECURE_EXIT:-1}" -eq 0
+      - name: Publish traceable quality result to PR 19
+        if: always()
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python - <<'PY' > "${RUNNER_TEMP}/quality/pr-comment.md"
+          import json
+          import os
+          from pathlib import Path
+
+          status = json.loads(
+              (Path(os.environ['RUNNER_TEMP']) / 'quality' / 'status.json').read_text()
+          )
+          run_url = '{0}/{1}/actions/runs/{2}'.format(
+              os.environ['GITHUB_SERVER_URL'],
+              os.environ['GITHUB_REPOSITORY'],
+              os.environ['GITHUB_RUN_ID'],
+          )
+          print('<!-- eu26-21-quality-audit -->')
+          print('## EU26-21 complete quality audit')
+          print()
+          print('```text')
+          print('run: {0}'.format(run_url))
+          print('head: {0}'.format(os.environ['GITHUB_SHA']))
+          print('blocking pass: {0}'.format(status['blocking_pass']))
+          for name, code in sorted(status['blocking_exit_codes'].items()):
+              print('{0}: {1}'.format(name, code))
+          print('nonblocking findings preserved: {0}'.format(
+              status['nonblocking_findings_preserved']
+          ))
+          print('```')
+          PY
+          gh api \
+            "repos/${GITHUB_REPOSITORY}/issues/19/comments" \
+            --method POST \
+            -F "body=@${RUNNER_TEMP}/quality/pr-comment.md"

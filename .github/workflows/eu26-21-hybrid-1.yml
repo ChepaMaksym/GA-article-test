@@ -1,0 +1,288 @@
+name: EU26-21 Hybrid 1 reset-lambda validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [research/EU26-21-chcqx-census-old-first]
+    paths:
+      - 'candidates/EU26-21/hybrid_1/core.py'
+      - 'candidates/EU26-21/hybrid_1/benchmarks.py'
+      - 'candidates/EU26-21/hybrid_1/census.py'
+      - 'candidates/EU26-21/hybrid_1/run_jump_campaign.py'
+      - 'candidates/EU26-21/hybrid_1/run_census_campaign.py'
+      - 'candidates/EU26-21/hybrid_1/run_census_hybrid.py'
+      - 'candidates/EU26-21/hybrid_1/run_census_worker_matrix.py'
+      - 'candidates/EU26-21/hybrid_1/requirements.txt'
+      - 'candidates/EU26-21/tests/test_hybrid_1_core.py'
+      - 'candidates/EU26-21/tests/test_hybrid_1_core_semantics_extended.py'
+      - 'candidates/EU26-21/tests/test_hybrid_1_jump.py'
+      - 'candidates/EU26-21/tests/test_hybrid_1_workers.py'
+      - 'candidates/EU26-21/tests/test_hybrid_1_census_synthetic.py'
+      - '.github/workflows/eu26-21-hybrid-1.yml'
+
+concurrency:
+  group: eu26-21-hybrid-1-${{ github.ref_name }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  UPSTREAM_REPO: https://github.com/Ghaith81/Fast-Genetic-Algorithm-For-Feature-Selection.git
+  UPSTREAM_COMMIT: 6ac5a7ec77f8a7c096ab4d019254fcc897988fd6
+  PYTHONHASHSEED: '0'
+  MPLBACKEND: Agg
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  NUMEXPR_NUM_THREADS: '1'
+
+jobs:
+  hybrid-unit:
+    name: Formula, fixed-tape, negative, Jump, OneMax, and worker tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.9'
+      - name: Install Hybrid 1 environment
+        run: python -m pip install -r candidates/EU26-21/hybrid_1/requirements.txt
+      - name: Require the frozen passing source OLD milestone
+        run: grep -q 'PASS_SOURCE_NUMERIC_ALIGNMENT' candidates/EU26-21/old/SOURCE_STATUS.md
+      - name: Compile scientific implementation and tests
+        run: >-
+          python -m py_compile
+          candidates/EU26-21/hybrid_1/core.py
+          candidates/EU26-21/hybrid_1/benchmarks.py
+          candidates/EU26-21/hybrid_1/census.py
+          candidates/EU26-21/tests/test_hybrid_1_core.py
+          candidates/EU26-21/tests/test_hybrid_1_core_semantics_extended.py
+          candidates/EU26-21/tests/test_hybrid_1_jump.py
+          candidates/EU26-21/tests/test_hybrid_1_workers.py
+          candidates/EU26-21/tests/test_hybrid_1_census_synthetic.py
+      - name: Run focused scientific tests
+        run: >-
+          python -m unittest
+          candidates/EU26-21/tests/test_hybrid_1_core.py
+          candidates/EU26-21/tests/test_hybrid_1_core_semantics_extended.py
+          candidates/EU26-21/tests/test_hybrid_1_jump.py
+          candidates/EU26-21/tests/test_hybrid_1_workers.py
+          candidates/EU26-21/tests/test_hybrid_1_census_synthetic.py
+          -v
+
+  jump-confirmation:
+    name: Jump local-optimum meaningful-improvement confirmation
+    needs: hybrid-unit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.9'
+      - run: python -m pip install numpy==1.23.5
+      - name: Run frozen 50-seed confirmation with four process workers
+        run: |
+          set -o pipefail
+          python candidates/EU26-21/hybrid_1/run_jump_campaign.py \
+            --n 20 \
+            --k 3 \
+            --budget 10000 \
+            --seed-start 101 \
+            --runs 50 \
+            --campaign-workers 4 \
+            --evaluation-workers 1 \
+            --output-json "${RUNNER_TEMP}/hybrid-1-jump.json" \
+            --enforce \
+            2>&1 | tee "${RUNNER_TEMP}/hybrid-1-jump.log"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: eu26-21-hybrid-1-jump-confirmation
+          path: |
+            ${{ runner.temp }}/hybrid-1-jump.json
+            ${{ runner.temp }}/hybrid-1-jump.log
+          if-no-files-found: warn
+          retention-days: 90
+
+  census-worker-matrix:
+    name: Census exact 1-2-4 evaluation-worker invariance
+    needs: hybrid-unit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.9'
+      - run: python -m pip install -r candidates/EU26-21/hybrid_1/requirements.txt
+      - name: Fetch exact CHC-QX OLD snapshot
+        run: |
+          git init "${RUNNER_TEMP}/chcqx"
+          git -C "${RUNNER_TEMP}/chcqx" remote add origin "$UPSTREAM_REPO"
+          git -C "${RUNNER_TEMP}/chcqx" fetch --depth=1 origin "$UPSTREAM_COMMIT"
+          git -C "${RUNNER_TEMP}/chcqx" checkout --detach FETCH_HEAD
+          test "$(git -C "${RUNNER_TEMP}/chcqx" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
+      - name: Freeze active sample once and compare 1-2-4 workers
+        run: |
+          set -o pipefail
+          python candidates/EU26-21/hybrid_1/run_census_worker_matrix.py \
+            "${RUNNER_TEMP}/chcqx" \
+            --seed 1 \
+            --budget 160 \
+            --output-json "${RUNNER_TEMP}/hybrid-1-census-workers.json" \
+            2>&1 | tee "${RUNNER_TEMP}/hybrid-1-census-workers.log"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: eu26-21-hybrid-1-census-worker-matrix
+          path: |
+            ${{ runner.temp }}/hybrid-1-census-workers.json
+            ${{ runner.temp }}/hybrid-1-census-workers.log
+          if-no-files-found: warn
+          retention-days: 90
+
+  census-smoke:
+    name: Applied Census Hybrid 1 seed 1 smoke
+    needs: [hybrid-unit, census-worker-matrix]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.9'
+      - run: python -m pip install -r candidates/EU26-21/hybrid_1/requirements.txt
+      - name: Fetch exact CHC-QX OLD snapshot
+        run: |
+          git init "${RUNNER_TEMP}/chcqx"
+          git -C "${RUNNER_TEMP}/chcqx" remote add origin "$UPSTREAM_REPO"
+          git -C "${RUNNER_TEMP}/chcqx" fetch --depth=1 origin "$UPSTREAM_COMMIT"
+          git -C "${RUNNER_TEMP}/chcqx" checkout --detach FETCH_HEAD
+          test "$(git -C "${RUNNER_TEMP}/chcqx" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
+      - name: Execute applied Hybrid 1 with four evaluation workers
+        run: |
+          set -o pipefail
+          python candidates/EU26-21/hybrid_1/run_census_hybrid.py \
+            "${RUNNER_TEMP}/chcqx" \
+            --seed 1 \
+            --budget 400 \
+            --workers 4 \
+            --initial-population 50 \
+            --output-json "${RUNNER_TEMP}/hybrid-1-census-seed1.json" \
+            2>&1 | tee "${RUNNER_TEMP}/hybrid-1-census-seed1.log"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: eu26-21-hybrid-1-census-seed1
+          path: |
+            ${{ runner.temp }}/hybrid-1-census-seed1.json
+            ${{ runner.temp }}/hybrid-1-census-seed1.log
+          if-no-files-found: warn
+          retention-days: 90
+
+  census-practical:
+    name: Ten-seed practical-budget H1-H2 regression campaign
+    needs: [hybrid-unit, census-worker-matrix]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 200
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.9'
+      - run: python -m pip install -r candidates/EU26-21/hybrid_1/requirements.txt
+      - name: Fetch exact CHC-QX OLD snapshot
+        run: |
+          git init "${RUNNER_TEMP}/chcqx"
+          git -C "${RUNNER_TEMP}/chcqx" remote add origin "$UPSTREAM_REPO"
+          git -C "${RUNNER_TEMP}/chcqx" fetch --depth=1 origin "$UPSTREAM_COMMIT"
+          git -C "${RUNNER_TEMP}/chcqx" checkout --detach FETCH_HEAD
+          test "$(git -C "${RUNNER_TEMP}/chcqx" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
+      - name: Run and enforce frozen ten-seed point gates
+        run: |
+          set -o pipefail
+          python candidates/EU26-21/hybrid_1/run_census_campaign.py \
+            "${RUNNER_TEMP}/chcqx" \
+            --seed-start 1 \
+            --runs 10 \
+            --budget 400 \
+            --workers 4 \
+            --initial-population 50 \
+            --bootstrap-resamples 20000 \
+            --output-json "${RUNNER_TEMP}/hybrid-1-census-final-400.json" \
+            --enforce-h1-h2 \
+            2>&1 | tee "${RUNNER_TEMP}/hybrid-1-census-final-400.log"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: eu26-21-hybrid-1-census-final-budget-400
+          path: |
+            ${{ runner.temp }}/hybrid-1-census-final-400.json
+            ${{ runner.temp }}/hybrid-1-census-final-400.log
+          if-no-files-found: warn
+          retention-days: 90
+
+  census-reset-effect:
+    name: Ten-seed reset-vs-no-reset high-budget ablation
+    needs: [hybrid-unit, census-worker-matrix]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 320
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.9'
+      - run: python -m pip install -r candidates/EU26-21/hybrid_1/requirements.txt
+      - name: Fetch exact CHC-QX OLD snapshot
+        run: |
+          git init "${RUNNER_TEMP}/chcqx"
+          git -C "${RUNNER_TEMP}/chcqx" remote add origin "$UPSTREAM_REPO"
+          git -C "${RUNNER_TEMP}/chcqx" fetch --depth=1 origin "$UPSTREAM_COMMIT"
+          git -C "${RUNNER_TEMP}/chcqx" checkout --detach FETCH_HEAD
+          test "$(git -C "${RUNNER_TEMP}/chcqx" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
+      - name: Run paired reset-effect campaign under equal high budgets
+        run: |
+          set -o pipefail
+          python candidates/EU26-21/hybrid_1/run_census_campaign.py \
+            "${RUNNER_TEMP}/chcqx" \
+            --seed-start 1 \
+            --runs 10 \
+            --budget 2500 \
+            --workers 4 \
+            --initial-population 50 \
+            --bootstrap-resamples 20000 \
+            --output-json "${RUNNER_TEMP}/hybrid-1-census-final-2500.json" \
+            2>&1 | tee "${RUNNER_TEMP}/hybrid-1-census-final-2500.log"
+      - name: Print reset effect even when the scientific effect is null
+        if: always()
+        run: |
+          if test -f "${RUNNER_TEMP}/hybrid-1-census-final-2500.json"; then
+            python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          report = json.loads(
+              (Path(os.environ['RUNNER_TEMP']) / 'hybrid-1-census-final-2500.json').read_text()
+          )
+          print(json.dumps({
+              'applied_claim_status': report['applied_claim_status'],
+              'reset_effect_status': report['reset_effect_status'],
+              'reset_activation': report['statistics']['reset_activation'],
+              'paired_reset_minus_no_reset': report['statistics']['paired_reset_minus_no_reset'],
+          }, sort_keys=True))
+          PY
+          else
+            tail -n 100 "${RUNNER_TEMP}/hybrid-1-census-final-2500.log" || true
+          fi
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: eu26-21-hybrid-1-census-final-budget-2500
+          path: |
+            ${{ runner.temp }}/hybrid-1-census-final-2500.json
+            ${{ runner.temp }}/hybrid-1-census-final-2500.log
+          if-no-files-found: warn
+          retention-days: 90

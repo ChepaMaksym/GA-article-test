@@ -1,0 +1,12 @@
+# Corrected applied profile: modern independently audited environment.
+# Historical source-compatible OLD/Hybrid runs keep hybrid_1/requirements.txt.
+# NumPy 2.5.x and SciPy 1.18.x require Python >=3.12. The pins below are the
+# compatible current releases for the Python 3.11 scientific runner.
+numpy==2.4.6
+pandas==3.0.3
+scipy==1.17.1
+scikit-learn==1.9.0
+matplotlib==3.11.1
+pillow==12.3.0
+deap==1.4.4
+pyswarms==1.3.0
