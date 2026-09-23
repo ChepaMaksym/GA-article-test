@@ -2,6 +2,13 @@
 
 Date re-audited: **2026-08-22**.
 
+Scope amendment, **2026-09-10**: the next stage now targets reproduction
+and diagnosis of stagnation and local-optimum escape, not a required
+efficiency improvement. See the [current research objective](RESEARCH_OBJECTIVE_UK.md)
+and [implementation audit](IMPLEMENTATION_AUDIT_2026-09-10_UK.md).
+The completed studies and their claims below remain historical. No new
+local-optimum campaign or contribution is claimed as completed.
+
 Prospective follow-up completed **2026-09-08**: the new common-objective
 bridge has 30 valid pairs and authenticated reaggregation, but its strict
 quality non-inferiority gate fails. Validation-AUC and feature-count advantages
