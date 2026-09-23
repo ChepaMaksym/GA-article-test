@@ -90,18 +90,17 @@ jobs:
           candidates/EU26-21/tests/test_hybrid_1_aggregation_guard.py
           candidates/EU26-21/tests/test_hybrid_1_audit_validation.py
           candidates/EU26-21/tests/test_hybrid_1_paired_comparison_v2.py
+          candidates/EU26-21/tests/test_restore_source_rows.py
           -v
-      - name: Download immutable seed artifacts from the completed matrix
-        id: download
-        continue-on-error: true
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ github.repository }}
-          run-id: ${{ env.SOURCE_RUN_ID }}
-          pattern: eu26-21-old-hybrid-v2-seed-*
-          path: ${{ runner.temp }}/paired-rows
-          merge-multiple: true
+      - name: Recover immutable rows from the pinned authenticated preservation archive
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PYTHONPATH: ${{ github.workspace }}/candidates/EU26-21
+        run: >-
+          python -m evidence_audit.restore_source_rows
+          --output-dir "${RUNNER_TEMP}/source-row-preservation"
+          --rows-dir "${RUNNER_TEMP}/paired-rows"
+          --status-json "${RUNNER_TEMP}/source-row-recovery-status.json"
       - name: Recompute strict report without rerunning either optimizer
         run: |
           set +e
@@ -154,6 +153,7 @@ jobs:
           }, sort_keys=True))
           PY
           else
+            cat "${RUNNER_TEMP}/source-row-recovery-status.json" || true
             cat "${RUNNER_TEMP}/immutable-audit-status.json" || true
             tail -n 100 "${RUNNER_TEMP}/immutable-audit.log" || true
           fi
@@ -165,6 +165,9 @@ jobs:
             ${{ runner.temp }}/immutable-audited-report.json
             ${{ runner.temp }}/immutable-audit-status.json
             ${{ runner.temp }}/immutable-audit.log
+            ${{ runner.temp }}/source-row-recovery-status.json
+            ${{ runner.temp }}/paired-rows
+            ${{ runner.temp }}/source-row-preservation
           if-no-files-found: warn
           retention-days: 90
 
