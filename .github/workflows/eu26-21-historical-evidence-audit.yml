@@ -1,0 +1,66 @@
+name: EU26-21 authenticate and preserve historical evidence
+
+on:
+  push:
+    branches: [research/EU26-21-chcqx-census-old-first]
+    paths: ['.github/workflows/eu26-21-historical-evidence-audit.yml']
+  workflow_dispatch:
+    inputs:
+      expected_sha:
+        description: Exact commit for this analysis-only audit
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: eu26-21-historical-evidence-audit-${{ github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      PYTHONHASHSEED: '0'
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      NUMEXPR_NUM_THREADS: '1'
+    steps:
+      - name: Require exact audit identity
+        env:
+          EXPECTED_SHA: ${{ inputs.expected_sha }}
+          WORKFLOW_SHA: ${{ github.workflow_sha }}
+        run: |
+          test "$GITHUB_SHA" = "$EXPECTED_SHA"
+          test "$WORKFLOW_SHA" = "$EXPECTED_SHA"
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ inputs.expected_sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Install fixed analysis dependencies and test ledger guards
+        run: |
+          python -m pip install -r candidates/EU26-21/corrected_applied/requirements.txt
+          python -m pip check
+          python -m unittest candidates/EU26-21/tests/test_historical_evidence.py -v
+      - name: Authenticate archive bytes and reaggregate each historical profile
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PYTHONPATH: ${{ github.workspace }}/candidates/EU26-21
+        run: >-
+          python -m evidence_audit.historical
+          --output-dir "${RUNNER_TEMP}/historical-evidence"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: eu26-21-historical-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/historical-evidence
+          if-no-files-found: error
+          retention-days: 90

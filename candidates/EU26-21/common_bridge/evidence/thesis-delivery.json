@@ -1,0 +1,99 @@
+{
+  "schema": "eu26-21-thesis-evidence-delivery-v1",
+  "record_type": "documentation index transcribed from completed GitHub Actions evidence",
+  "recorded_date": "2026-09-09",
+  "repository": "ChepaMaksym/GA-article-test",
+  "pull_request": 19,
+  "pull_request_state": "open_draft_no_merge",
+  "protocol_id": "EU26-21-COMMON-WBA-BSF-AUC-400-V1",
+  "protocol_sha256": "730cd436db59d23da7dab5e24c49bc7b28d65379136fad7fd2d2370e0a436205",
+  "research_sha": "79c9b154206cdc3d318b90b598c7f0f48ca02b53",
+  "source_run_id": 34233477859,
+  "independent_reaggregation_run_id": 34234286460,
+  "historical_audit_run_id": 34233480959,
+  "reporting_sha": "4a4bf9ebe5d1385689172fa5fc7a92ced2a5b91b",
+  "report_run_id": 34315178330,
+  "report_run_attempt": 1,
+  "report_run_conclusion": "success",
+  "report_run_url": "https://github.com/ChepaMaksym/GA-article-test/actions/runs/34315178330",
+  "artifact": {
+    "id": 10089818679,
+    "name": "eu26-21-thesis-evidence-34315178330-1",
+    "url": "https://github.com/ChepaMaksym/GA-article-test/actions/runs/34315178330/artifacts/10089818679",
+    "zip_sha256": "5d9da743b0819d13e4955ba52383b91c31752b2c8f61625714d82eaf68140dd9",
+    "api_size_in_bytes": 144188,
+    "api_expires_at": "2026-12-08T05:30:50Z"
+  },
+  "output_files": {
+    "mean-bsf-trajectories.png": {
+      "bytes": 63889,
+      "sha256": "50c87e3d9f1b12f1073b04f8e67c06bc6083f90db4b70c9fbd38b6f70fcb49d7"
+    },
+    "paired-seeds.csv": {
+      "bytes": 6478,
+      "sha256": "58e97c1c07d21007bcae9c3e28287ab46781e708341b5ab13f3880d9d9259ea4"
+    },
+    "report.md": {
+      "bytes": 1214,
+      "sha256": "c54402f2b5d85986db34eb5b878901225659e0a00ebee4d24305b5012188a13d"
+    },
+    "test-wba-differences.png": {
+      "bytes": 55243,
+      "sha256": "c1d76011ec933f4771b51370fa39f599defcffc169663d53617e0fde508c296c"
+    }
+  },
+  "seed_ledger": [
+    41001,
+    41002,
+    41003,
+    41004,
+    41005,
+    41006,
+    41007,
+    41008,
+    41009,
+    41010,
+    41011,
+    41012,
+    41013,
+    41014,
+    41015,
+    41016,
+    41017,
+    41018,
+    41019,
+    41020,
+    41021,
+    41022,
+    41023,
+    41024,
+    41025,
+    41026,
+    41027,
+    41028,
+    41029,
+    41030
+  ],
+  "input_file_count": 210,
+  "model_package_count_in_source_artifacts": 60,
+  "scientific_decisions_recomputed": false,
+  "scientific_decisions_changed": false,
+  "quality_decision": "FAIL_NONINFERIORITY",
+  "efficiency_claim": "BLOCKED_BY_QUALITY_NONINFERIORITY",
+  "subset_size_claim": "BLOCKED_BY_QUALITY_NONINFERIORITY",
+  "reporting_quality_ci": {
+    "run_id": 34314665908,
+    "tests_passed": 117,
+    "coverage_percent": 62,
+    "nonblocking_historical_findings": [
+      "7 lint findings",
+      "scikit-learn==1.2.2: PYSEC-2024-110"
+    ],
+    "modern_corrected_dependency_gate": "pass"
+  },
+  "delivery_limits": [
+    "This index is not a replacement for the strict source artifact ledger or CI report-manifest.json.",
+    "Artifact retention is finite; no permanent institutional archive was configured.",
+    "The Ukrainian scientific report is complete, but institution-specific title metadata and manuscript formatting requirements were not supplied."
+  ]
+}

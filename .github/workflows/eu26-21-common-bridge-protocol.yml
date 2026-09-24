@@ -1,0 +1,43 @@
+name: EU26-21 prospective common bridge protocol contract
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [research/EU26-21-chcqx-census-old-first]
+    paths:
+      - 'candidates/EU26-21/common_bridge/PROTOCOL.md'
+      - 'candidates/EU26-21/common_bridge/protocol.json'
+      - 'candidates/EU26-21/common_bridge/validate_protocol.py'
+      - '.github/workflows/eu26-21-common-bridge-protocol.yml'
+
+concurrency:
+  group: eu26-21-common-bridge-protocol-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  protocol-contract:
+    name: Freeze and validate prospective scientific contract
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11'
+      - name: Validate frozen protocol without executing an optimizer
+        run: >-
+          python candidates/EU26-21/common_bridge/validate_protocol.py
+          --protocol candidates/EU26-21/common_bridge/protocol.json
+          --document candidates/EU26-21/common_bridge/PROTOCOL.md
+          --output "${RUNNER_TEMP}/common-bridge-protocol-validation.json"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: eu26-21-common-bridge-protocol-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/common-bridge-protocol-validation.json
+          if-no-files-found: error
+          retention-days: 90

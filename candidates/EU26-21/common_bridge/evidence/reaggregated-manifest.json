@@ -1,0 +1,22 @@
+{
+  "files": {
+    "aggregate-status.json": {
+      "bytes": 402,
+      "sha256": "4295bf1c8f4eef23d628cf384a15da075ac17a9a3da5dedd4d89ed998e39666f"
+    },
+    "canonical-ledger.json": {
+      "bytes": 169212,
+      "sha256": "be53e06a0ecf8d992b64e7cfd3d07f06451d5f2be696b55dc309ea2c37a64ccf"
+    },
+    "report.json": {
+      "bytes": 6708,
+      "sha256": "372ac18ab11b614b43ef93514b7d07393e92a130905c3a8e214482df523d29bb"
+    },
+    "report.md": {
+      "bytes": 983,
+      "sha256": "9ab5dffa785743d0638dce60d8f47e5a99bb13f322510c060dc84f5c4bff81c3"
+    }
+  },
+  "schema": "eu26-21-common-bridge-aggregate-manifest-v1",
+  "self_hash_excluded": true
+}

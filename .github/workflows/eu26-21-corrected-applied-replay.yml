@@ -1,0 +1,134 @@
+name: EU26-21 aggregate immutable corrected applied rows
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [research/EU26-21-chcqx-census-old-first]
+    paths:
+      - '.github/workflows/eu26-21-corrected-applied-replay.yml'
+      - 'candidates/EU26-21/corrected_applied/aggregate.py'
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  SOURCE_RUN_ID: '32045473460'
+  PYTHONHASHSEED: '0'
+  MPLBACKEND: Agg
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  NUMEXPR_NUM_THREADS: '1'
+
+jobs:
+  aggregate:
+    name: Recompute corrected decisions from 30 immutable seed artifacts
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.9'
+      - name: Install frozen environment used by immutable seed run
+        run: python -m pip install -r candidates/EU26-21/hybrid_1/requirements.txt
+      - name: Download all immutable seed artifacts with bounded retries
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          downloaded=0
+          for attempt in 1 2 3 4 5; do
+            rm -rf "${RUNNER_TEMP}/corrected-rows"
+            mkdir -p "${RUNNER_TEMP}/corrected-rows"
+            if gh run download "${SOURCE_RUN_ID}" \
+              --repo "${GITHUB_REPOSITORY}" \
+              --pattern 'eu26-21-corrected-seed-*' \
+              --dir "${RUNNER_TEMP}/corrected-rows"; then
+              count=$(find "${RUNNER_TEMP}/corrected-rows" -type f -name 'seed-*.json' | wc -l)
+              if test "$count" -eq 30; then
+                downloaded=1
+                break
+              fi
+            fi
+            sleep $((attempt * 5))
+          done
+          test "$downloaded" -eq 1
+      - name: Verify complete immutable ledger
+        run: |
+          set -euo pipefail
+          count=$(find "${RUNNER_TEMP}/corrected-rows" -type f -name 'seed-*.json' | wc -l)
+          test "$count" -eq 30
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          rows = sorted((Path(os.environ['RUNNER_TEMP']) / 'corrected-rows').rglob('seed-*.json'))
+          seeds = sorted(json.loads(path.read_text())['seed'] for path in rows)
+          assert seeds == list(range(1, 31)), seeds
+          print({'seed_count': len(seeds), 'seeds': seeds})
+          PY
+      - name: Aggregate without rerunning any optimizer
+        env:
+          PYTHONPATH: ${{ github.workspace }}/candidates/EU26-21
+        run: |
+          set +e
+          set -o pipefail
+          mkdir -p "${RUNNER_TEMP}/corrected-final/plots"
+          python -m corrected_applied.aggregate \
+            "${RUNNER_TEMP}/corrected-rows" \
+            --output-json "${RUNNER_TEMP}/corrected-final/corrected-report.json" \
+            --output-csv "${RUNNER_TEMP}/corrected-final/corrected-seeds.csv" \
+            --plots-dir "${RUNNER_TEMP}/corrected-final/plots" \
+            2>&1 | tee "${RUNNER_TEMP}/corrected-final/aggregate.log"
+          status=${PIPESTATUS[0]}
+          python - "$status" <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          import sys
+          root = Path(os.environ['RUNNER_TEMP']) / 'corrected-final'
+          payload = {
+              'schema': 'eu26-21-corrected-replay-status-v1',
+              'source_run_id': 32045473460,
+              'aggregate_exit_code': int(sys.argv[1]),
+              'seed_rows_regenerated': False,
+          }
+          (root / 'status.json').write_text(json.dumps(payload, indent=2, sort_keys=True) + '\n')
+          print(json.dumps(payload, sort_keys=True))
+          PY
+          exit "$status"
+      - name: Print scientific result even when a hypothesis is negative
+        if: always()
+        run: |
+          if test -f "${RUNNER_TEMP}/corrected-final/corrected-report.json"; then
+            python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          report = json.loads((Path(os.environ['RUNNER_TEMP']) / 'corrected-final' / 'corrected-report.json').read_text())
+          print(json.dumps({
+              'claim_status': report['claim_status'],
+              'h1_corrected': report['h1_corrected'],
+              'h2_corrected': report['h2_corrected'],
+              'h8_reset_ablation': report['h8_reset_ablation'],
+              'metric_medians': {
+                  key: report['metrics'][key]['weighted']
+                  for key in ('baseline', 'old', 'hybrid_h1', 'hybrid_reset', 'hybrid_no_reset')
+              },
+          }, sort_keys=True))
+          PY
+          else
+            cat "${RUNNER_TEMP}/corrected-final/status.json" || true
+            tail -n 100 "${RUNNER_TEMP}/corrected-final/aggregate.log" || true
+          fi
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: eu26-21-corrected-applied-replay-final
+          path: |
+            ${{ runner.temp }}/corrected-final
+            ${{ runner.temp }}/corrected-rows
+          if-no-files-found: warn
+          retention-days: 90

@@ -1,0 +1,241 @@
+name: EU26-21 strictly reaggregate immutable secure rows
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [research/EU26-21-chcqx-census-old-first]
+    paths:
+      - '.github/workflows/eu26-21-corrected-secure-reaggregate.yml'
+      - 'candidates/EU26-21/corrected_applied/secure_aggregate.py'
+      - 'candidates/EU26-21/corrected_applied/secure_cli.py'
+      - 'candidates/EU26-21/corrected_applied/secure_plots.py'
+
+concurrency:
+  group: eu26-21-corrected-secure-reaggregate-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+  issues: write
+  pull-requests: write
+
+env:
+  SOURCE_RUN_ID: '32049437836'
+  SOURCE_ARTIFACT_ID: '9297184026'
+  SOURCE_ARTIFACT_SHA256: '13d2f691eefb46067d3cdffbad4c22c032c429ce91600a33addbd3f5887bbdeb'
+  ENVIRONMENT_PROFILE: corrected_secure_2026
+  PYTHONHASHSEED: '0'
+  MPLBACKEND: Agg
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  NUMEXPR_NUM_THREADS: '1'
+
+jobs:
+  aggregate:
+    name: Strictly validate and aggregate 30 immutable secure rows
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - name: Announce traceable corrected replay run
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python - <<'PY' > "${RUNNER_TEMP}/eu26-21-secure-reaggregate-start.md"
+          import os
+
+          run_url = '{0}/{1}/actions/runs/{2}'.format(
+              os.environ['GITHUB_SERVER_URL'],
+              os.environ['GITHUB_REPOSITORY'],
+              os.environ['GITHUB_RUN_ID'],
+          )
+          print('<!-- eu26-21-secure-reaggregate-start -->')
+          print('## Corrected applied secure reaggregation started')
+          print()
+          print('```text')
+          print('run: {0}'.format(run_url))
+          print('head: {0}'.format(os.environ['GITHUB_SHA']))
+          print('source run: {0}'.format(os.environ['SOURCE_RUN_ID']))
+          print('source artifact: {0}'.format(os.environ['SOURCE_ARTIFACT_ID']))
+          print('source artifact sha256: {0}'.format(
+              os.environ['SOURCE_ARTIFACT_SHA256']
+          ))
+          print('optimizer rerun: false')
+          print('```')
+          PY
+          gh api \
+            "repos/${GITHUB_REPOSITORY}/issues/19/comments" \
+            --method POST \
+            -F "body=@${RUNNER_TEMP}/eu26-21-secure-reaggregate-start.md"
+
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+
+      - name: Install and audit the modern corrected environment
+        run: |
+          python -m pip install -r candidates/EU26-21/corrected_applied/requirements.txt
+          python -m pip install pip-audit==2.9.0
+          python -m pip check
+          pip-audit -r candidates/EU26-21/corrected_applied/requirements.txt
+          PYTHONPATH="${GITHUB_WORKSPACE}/candidates/EU26-21" \
+            python -m corrected_applied.secure_cli --help >/dev/null
+
+      - name: Download the single immutable secure-final artifact
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+          name: eu26-21-corrected-applied-secure-final
+          path: ${{ runner.temp }}/immutable-secure
+
+      - name: Verify the immutable 30-seed input ledger
+        run: |
+          set -euo pipefail
+          count=$(find "${RUNNER_TEMP}/immutable-secure" -type f -name 'seed-*.json' | wc -l)
+          test "$count" -eq 30
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          root = Path(os.environ['RUNNER_TEMP']) / 'immutable-secure'
+          rows = sorted(root.rglob('seed-*.json'))
+          seeds = sorted(int(json.loads(path.read_text())['seed']) for path in rows)
+          assert seeds == list(range(1, 31)), seeds
+          print(json.dumps({
+              'source_run_id': int(os.environ['SOURCE_RUN_ID']),
+              'source_artifact_id': int(os.environ['SOURCE_ARTIFACT_ID']),
+              'source_artifact_sha256': os.environ['SOURCE_ARTIFACT_SHA256'],
+              'seed_count': len(seeds),
+              'seeds': seeds,
+          }, sort_keys=True))
+          PY
+
+      - name: Run strict secure aggregation without rerunning optimizers
+        env:
+          PYTHONPATH: ${{ github.workspace }}/candidates/EU26-21
+        run: |
+          set +e
+          set -o pipefail
+          mkdir -p "${RUNNER_TEMP}/strict-final/plots"
+          python -m corrected_applied.secure_cli \
+            "${RUNNER_TEMP}/immutable-secure" \
+            --environment-profile "$ENVIRONMENT_PROFILE" \
+            --output-json "${RUNNER_TEMP}/strict-final/corrected-secure-report.json" \
+            --output-csv "${RUNNER_TEMP}/strict-final/corrected-secure-seeds.csv" \
+            --plots-dir "${RUNNER_TEMP}/strict-final/plots" \
+            2>&1 | tee "${RUNNER_TEMP}/strict-final/aggregate.log"
+          status=${PIPESTATUS[0]}
+          python - "$status" <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          import sys
+
+          root = Path(os.environ['RUNNER_TEMP']) / 'strict-final'
+          payload = {
+              'schema': 'eu26-21-corrected-secure-reaggregate-status-v1',
+              'source_run_id': int(os.environ['SOURCE_RUN_ID']),
+              'source_artifact_id': int(os.environ['SOURCE_ARTIFACT_ID']),
+              'source_artifact_sha256': os.environ['SOURCE_ARTIFACT_SHA256'],
+              'aggregate_exit_code': int(sys.argv[1]),
+              'seed_rows_regenerated': False,
+              'optimizer_rerun': False,
+          }
+          (root / 'status.json').write_text(
+              json.dumps(payload, indent=2, sort_keys=True) + '\n',
+              encoding='utf-8',
+          )
+          print(json.dumps(payload, sort_keys=True))
+          PY
+          exit "$status"
+
+      - name: Print the corrected scientific decisions
+        if: always()
+        run: |
+          report="${RUNNER_TEMP}/strict-final/corrected-secure-report.json"
+          if test -f "$report"; then
+            python - "$report" <<'PY'
+          import json
+          from pathlib import Path
+          import sys
+
+          report = json.loads(Path(sys.argv[1]).read_text())
+          print(json.dumps({
+              'claim_status': report['claim_status'],
+              'secure_audit_status': report['secure_audit_status'],
+              'h1_corrected': report['h1_corrected'],
+              'h2_corrected': report['h2_corrected'],
+              'h8_reset_ablation': report['h8_reset_ablation'],
+              'secure_environment': report['secure_environment'],
+          }, sort_keys=True))
+          PY
+          else
+            cat "${RUNNER_TEMP}/strict-final/status.json" || true
+            tail -n 120 "${RUNNER_TEMP}/strict-final/aggregate.log" || true
+          fi
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: eu26-21-corrected-secure-reaggregated-final
+          path: |
+            ${{ runner.temp }}/strict-final
+            ${{ runner.temp }}/immutable-secure/corrected-rows
+          if-no-files-found: warn
+          retention-days: 90
+
+      - name: Publish traceable corrected result to PR 19
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python - <<'PY' > "${RUNNER_TEMP}/strict-final/pr-comment.md"
+          import json
+          import os
+          from pathlib import Path
+
+          report_path = Path(os.environ['RUNNER_TEMP']) / 'strict-final' / 'corrected-secure-report.json'
+          report = json.loads(report_path.read_text())
+          h1 = report['h1_corrected']
+          interval = h1['paired_hybrid_minus_old']
+          h8 = report['h8_reset_ablation']
+          reset_interval = h8['paired_reset_minus_no_reset']
+          run_url = '{0}/{1}/actions/runs/{2}'.format(
+              os.environ['GITHUB_SERVER_URL'],
+              os.environ['GITHUB_REPOSITORY'],
+              os.environ['GITHUB_RUN_ID'],
+          )
+          print('<!-- eu26-21-secure-reaggregate -->')
+          print('## Corrected applied secure reaggregation')
+          print()
+          print('The immutable 30-seed ledger was strictly revalidated without rerunning any optimizer.')
+          print()
+          print('```text')
+          print('run: {0}'.format(run_url))
+          print('source run: {0}'.format(os.environ['SOURCE_RUN_ID']))
+          print('source artifact: {0}'.format(os.environ['SOURCE_ARTIFACT_ID']))
+          print('source artifact sha256: {0}'.format(os.environ['SOURCE_ARTIFACT_SHA256']))
+          print('secure audit: {0}'.format(report['secure_audit_status']))
+          print('C-H1: {0}'.format(h1['decision']))
+          print('Hybrid H1 - OLD median: {0:.4f} percentage point'.format(interval['point_median'] * 100.0))
+          print('95% BCa: [{0:.4f}, {1:.4f}] percentage point'.format(
+              interval['two_sided_95_lower'] * 100.0,
+              interval['two_sided_95_upper'] * 100.0,
+          ))
+          print('C-H2: {0}'.format(report['h2_corrected']['decision']))
+          print('C-H8 reset ablation: {0}'.format(h8['decision']))
+          print('Reset - no reset median: {0:.4f} percentage point'.format(
+              reset_interval['point_median'] * 100.0,
+          ))
+          print('```')
+          PY
+          gh api \
+            "repos/${GITHUB_REPOSITORY}/issues/19/comments" \
+            --method POST \
+            -F "body=@${RUNNER_TEMP}/strict-final/pr-comment.md"
