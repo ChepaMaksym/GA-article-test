@@ -189,6 +189,10 @@ jobs:
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           artifact-ids: ${{ needs.fixture.outputs.artifact_id }}
+          merge-multiple: true
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ github.run_id }}
           path: ${{ runner.temp }}/fixture
       - name: Verify and unpack the pinned source
         run: |
@@ -255,6 +259,9 @@ jobs:
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           artifact-ids: ${{ steps.sources.outputs.artifact_ids }}
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ github.run_id }}
           path: ${{ runner.temp }}/cases
       - name: Validate completeness and freeze the eligible registry
         id: freeze
@@ -308,10 +315,18 @@ jobs:
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           artifact-ids: ${{ needs.fixture.outputs.artifact_id }}
+          merge-multiple: true
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ github.run_id }}
           path: ${{ runner.temp }}/fixture
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           artifact-ids: ${{ needs.freeze.outputs.artifact_id }}
+          merge-multiple: true
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ github.run_id }}
           path: ${{ runner.temp }}/registry
       - name: Use the exact case artifact ID from the frozen registry
         id: source
@@ -335,6 +350,10 @@ jobs:
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           artifact-ids: ${{ steps.source.outputs.artifact_id }}
+          merge-multiple: true
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ github.run_id }}
           path: ${{ runner.temp }}/cases
       - name: Run both variants from the same certified state
         run: >-
@@ -377,6 +396,10 @@ jobs:
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           artifact-ids: ${{ needs.freeze.outputs.artifact_id }}
+          merge-multiple: true
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ github.run_id }}
           path: ${{ runner.temp }}/registry
       - name: Bind all escape artifact IDs and source revisions
         env:
@@ -413,11 +436,17 @@ jobs:
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           artifact-ids: ${{ steps.sources.outputs.case_artifact_ids }}
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ github.run_id }}
           path: ${{ runner.temp }}/cases
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         if: ${{ needs.escape.result == 'success' }}
         with:
           artifact-ids: ${{ steps.sources.outputs.escape_artifact_ids }}
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ github.run_id }}
           path: ${{ runner.temp }}/escapes
       - name: Compute the registered case-cluster analysis and full report
         run: >-

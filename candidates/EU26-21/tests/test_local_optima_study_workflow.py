@@ -61,6 +61,16 @@ class StudyWorkflowTests(unittest.TestCase):
         self.assertIn("artifact-ids: ${{ steps.sources.outputs.case_artifact_ids }}", self.workflow)
         self.assertNotIn("pattern: eu26-21-local-case-", self.workflow)
 
+    def test_id_downloads_keep_single_sources_flat_and_retry_sources_accessible(self):
+        blocks = re.split(r"\n      - ", self.workflow)
+        downloads = [block for block in blocks if "uses: actions/download-artifact@" in block]
+        self.assertEqual(len(downloads), 8)
+        for block in downloads:
+            self.assertIn("github-token: ${{ github.token }}", block)
+            self.assertIn("run-id: ${{ github.run_id }}", block)
+            if "artifact-ids: ${{ needs." in block or "artifact-ids: ${{ steps.source.outputs.artifact_id }}" in block:
+                self.assertIn("merge-multiple: true", block)
+
 
 if __name__ == "__main__":
     unittest.main()
