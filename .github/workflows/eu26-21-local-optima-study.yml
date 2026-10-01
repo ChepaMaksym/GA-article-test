@@ -1,6 +1,6 @@
 name: EU26-21 prepared local optima and fixed lambda study
-# Authorized launch after all gates passed for f434ab6a1e5965ac0e7870ae2750906a7f43cb64.
-# Scientific implementation and frozen protocol are unchanged by this launch marker.
+# Authorized infrastructure restart after all gates passed for 46668643c738c9e996a26a2691bf8d7f279e06dc.
+# Same scientific files, seeds and protocol as run 36875597993; its CLI failure is retained separately.
 
 on:
   push:
