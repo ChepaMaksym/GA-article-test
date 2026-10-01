@@ -246,8 +246,9 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          set -euo pipefail
           gh api --paginate --slurp "repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts?per_page=100" \
-            --jq '{artifacts: [.[].artifacts[] | select(.name | startswith("eu26-21-local-case-"))]}' \
+            | jq '{artifacts: [.[].artifacts[] | select(.name | startswith("eu26-21-local-case-"))]}' \
             > "${RUNNER_TEMP}/case-attempt-ledger.json"
       - name: Select retry attempts by metadata, never by scientific outcome
         id: sources
@@ -407,9 +408,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          set -euo pipefail
           mkdir -p "${RUNNER_TEMP}/escapes"
           gh api --paginate --slurp "repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts?per_page=100" \
-            --jq '{artifacts: [.[].artifacts[] | select(.name | startswith("eu26-21-local-escape-"))]}' \
+            | jq '{artifacts: [.[].artifacts[] | select(.name | startswith("eu26-21-local-escape-"))]}' \
             > "${RUNNER_TEMP}/escape-attempt-ledger.json"
       - name: Select completed escape sources and retain frozen case IDs
         id: sources

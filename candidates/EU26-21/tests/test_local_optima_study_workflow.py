@@ -61,6 +61,27 @@ class StudyWorkflowTests(unittest.TestCase):
         self.assertIn("artifact-ids: ${{ steps.sources.outputs.case_artifact_ids }}", self.workflow)
         self.assertNotIn("pattern: eu26-21-local-case-", self.workflow)
 
+    def test_paginated_ledgers_use_external_jq_without_unsupported_gh_flags(self):
+        # gh api rejects --slurp combined with --jq; join shell continuations
+        # so this regression also catches flags placed on the following line.
+        logical_commands = re.sub(r"\\\r?\n\s*", " ", self.workflow)
+        commands = re.findall(r"gh api[^\r\n]*--slurp[^\r\n]*", logical_commands)
+        self.assertEqual(len(commands), 2)
+        for command, kind in zip(commands, ("case", "escape")):
+            gh_command, separator, jq_command = command.partition("|")
+            self.assertEqual(separator, "|")
+            self.assertIn("--paginate", gh_command)
+            self.assertNotRegex(gh_command, r"(?:^|\s)(?:--jq|-q)(?:\s|=|$)")
+            self.assertTrue(jq_command.lstrip().startswith("jq "))
+            self.assertIn("[.[].artifacts[]", jq_command)
+            self.assertIn(f'startswith("eu26-21-local-{kind}-")', jq_command)
+            self.assertIn(f"{kind}-attempt-ledger.json", jq_command)
+        blocks = re.split(r"\n      - ", self.workflow)
+        snapshots = [block for block in blocks if "gh api --paginate --slurp" in block]
+        self.assertEqual(len(snapshots), 2)
+        for block in snapshots:
+            self.assertIn("set -euo pipefail", block)
+
     def test_id_downloads_keep_single_sources_flat_and_retry_sources_accessible(self):
         blocks = re.split(r"\n      - ", self.workflow)
         downloads = [block for block in blocks if "uses: actions/download-artifact@" in block]
