@@ -1,4 +1,6 @@
 name: EU26-21 prepared local optima and fixed lambda study
+# Authorized launch after all gates passed for f434ab6a1e5965ac0e7870ae2750906a7f43cb64.
+# Scientific implementation and frozen protocol are unchanged by this launch marker.
 
 on:
   push:
