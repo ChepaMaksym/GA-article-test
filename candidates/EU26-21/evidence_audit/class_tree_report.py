@@ -328,9 +328,11 @@ def _plot_tree(bundle, description, output):
         if node["leaf"]:
             title = f"Листок: клас {node['prediction_class']}"
         elif node["encoding"] == "standardized_numeric":
-            title = f"{node['feature_name_uk']}\n≤ {node['threshold_original_numeric']:.4g}"
+            threshold_label = f"{node['threshold_original_numeric']:.3f}".rstrip("0").rstrip(".").replace(".", ",")
+            title = f"{node['feature_name_uk']}\n≤ {threshold_label}"
         else:
-            title = f"{node['feature_name_uk']}\nкод ≤ {node['threshold_processed']:.4g}"
+            threshold_label = f"{node['threshold_processed']:.3f}".rstrip("0").rstrip(".").replace(".", ",")
+            title = f"{node['feature_name_uk']}\nкод ≤ {threshold_label}"
         text = f"{title}\nНавчальних записів: {node['training_records']}"
         axis.text(x, y, text, ha="center", va="center", fontsize=9,
                   bbox={"boxstyle": "round,pad=0.6", "facecolor": "#deebf7", "edgecolor": "#52718d"})
