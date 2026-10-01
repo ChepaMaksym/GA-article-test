@@ -7,9 +7,11 @@ on:
       - '.github/workflows/eu26-21-thesis-evidence-report.yml'
       - 'candidates/EU26-21/evidence_audit/thesis_tables.py'
       - 'candidates/EU26-21/evidence_audit/adaptive_diagnostics.py'
+      - 'candidates/EU26-21/evidence_audit/class_tree_report.py'
       - 'candidates/EU26-21/evidence_audit/ADAPTIVE_DIAGNOSTICS_PLAN_UK.md'
       - 'candidates/EU26-21/tests/test_thesis_tables.py'
       - 'candidates/EU26-21/tests/test_adaptive_diagnostics.py'
+      - 'candidates/EU26-21/tests/test_class_tree_report.py'
   workflow_dispatch:
     inputs:
       expected_sha:
@@ -58,6 +60,7 @@ jobs:
           python -m pip check
           python -m unittest candidates/EU26-21/tests/test_thesis_tables.py -v
           python -m unittest candidates/EU26-21/tests/test_adaptive_diagnostics.py -v
+          python -m unittest candidates/EU26-21/tests/test_class_tree_report.py -v
       - name: Fetch only the 30 fixed campaign artifacts
         env:
           GH_TOKEN: ${{ github.token }}
@@ -82,6 +85,13 @@ jobs:
           --expected-ledger candidates/EU26-21/common_bridge/evidence/source-artifact-ledger.json
           --verified-ledger "${RUNNER_TEMP}/thesis-verified-source.json"
           --output-dir "${RUNNER_TEMP}/adaptive-diagnostics"
+      - name: Report both classes and authenticated saved tree excerpts without refitting
+        run: >-
+          python -m evidence_audit.class_tree_report
+          --rows-dir "${RUNNER_TEMP}/thesis-source"
+          --expected-ledger candidates/EU26-21/common_bridge/evidence/source-artifact-ledger.json
+          --verified-ledger "${RUNNER_TEMP}/thesis-verified-source.json"
+          --output-dir "${RUNNER_TEMP}/class-tree-report"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -89,6 +99,7 @@ jobs:
           path: |
             ${{ runner.temp }}/thesis-report
             ${{ runner.temp }}/adaptive-diagnostics
+            ${{ runner.temp }}/class-tree-report
             ${{ runner.temp }}/thesis-verified-source.json
             candidates/EU26-21/common_bridge/evidence/source-artifact-ledger.json
             candidates/EU26-21/common_bridge/evidence/campaign-report.json
