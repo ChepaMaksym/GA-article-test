@@ -15,6 +15,7 @@ sys.path.insert(0, str(ROOT))
 
 from corrected_applied.data_protocol import TRANSFORMED_FEATURE_NAMES  # noqa: E402
 from local_optima_study import aggregate, contract, run_case  # noqa: E402
+from local_optima_study.search import run_lambda_search  # noqa: E402
 
 
 def literal_trace(arm="lambda_adaptive", *, escape=False, exit_call=None):
@@ -213,6 +214,90 @@ class CertificationContractTests(unittest.TestCase):
             aggregate.validate_preparation(prep)
 
 
+class IndependentGenerationJournalTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        def objective(mask):
+            count = sum(mask)
+            return (0.5 + count / 100, -count / 40) if count else (0.0, -1.0)
+        masks = [[1] * (1 + index % 4) + [0] * (39 - index % 4) for index in range(50)]
+        cls.traces = {}
+        for mode in ("adaptive", "fixed1"):
+            cls.traces[(mode, False)] = run_lambda_search(objective, seed=11, mode=mode,
+                                                         budget=400, initial_masks=masks)
+            cls.traces[(mode, True)] = run_lambda_search(objective, seed=11, mode=mode,
+                budget=400, initial_parent=masks[3], initial_fitness=objective(masks[3]))
+
+    def reject_changed_generation(self, key, field, value):
+        trace = copy.deepcopy(self.traces[key])
+        trace["generation_trace"][0][field] = value
+        with self.assertRaises(ValueError):
+            aggregate.validate_lambda_generation_journal(trace, escape=key[1])
+
+    def test_real_synthetic_kernel_journals_pass_independent_checks(self):
+        for key, trace in self.traces.items():
+            with self.subTest(key=key):
+                aggregate.validate_search_trace(trace, escape=key[1])
+                aggregate.validate_lambda_generation_journal(trace, escape=key[1])
+
+    def test_adaptive_bounds_and_updates_rejected(self):
+        self.reject_changed_generation(("adaptive", True), "lambda_before", 41)
+        self.reject_changed_generation(("adaptive", False), "lambda_after", 41)
+
+    def test_registered_mutation_and_crossover_probabilities(self):
+        self.reject_changed_generation(("adaptive", True), "mutation_probability", 0.5)
+        self.reject_changed_generation(("adaptive", True), "crossover_probability", 0.5)
+
+    def test_unequal_phase_counts_rejected(self):
+        self.reject_changed_generation(("adaptive", True), "evaluated_offspring_count_per_phase", 2)
+
+    def test_mutation_distance_not_only_declared_strength(self):
+        trace = self.traces[("adaptive", True)]
+        wrong = (trace["generation_trace"][0]["mutation_strength"] + 1) % 41
+        self.reject_changed_generation(("adaptive", True), "mutation_strength", wrong)
+
+    def test_chosen_mutant_reference_not_redrawn(self):
+        trace = copy.deepcopy(self.traces[("adaptive", True)])
+        trace["generation_trace"][0]["selected_mutant_mask"][0] ^= 1
+        with self.assertRaises(ValueError):
+            aggregate.validate_lambda_generation_journal(trace, escape=True)
+
+    def test_crossover_must_preserve_agreeing_parent_mutant_bits(self):
+        trace = copy.deepcopy(self.traces[("fixed1", True)])
+        generation = trace["generation_trace"][0]
+        bit = next(index for index, value in enumerate(generation["parent_before"])
+                   if value == generation["selected_mutant_mask"][index])
+        record = trace["evaluations"][generation["calls_before"] + generation["evaluated_offspring_count_per_phase"]]
+        record["mask"][bit] ^= 1
+        count = sum(record["mask"])
+        record["fitness"] = [0.5 + count / 100, -count / 40] if count else [0.0, -1.0]
+        with self.assertRaises(ValueError):
+            aggregate.validate_lambda_generation_journal(trace, escape=True)
+
+    def test_candidate_pool_cannot_drop_duplicate_entries(self):
+        trace = self.traces[("fixed1", True)]
+        self.reject_changed_generation(("fixed1", True), "eligible_count",
+                                       trace["generation_trace"][0]["eligible_count"] + 1)
+
+    def test_success_and_no_reset_transition(self):
+        trace = self.traces[("adaptive", True)]
+        self.reject_changed_generation(("adaptive", True), "strict_success",
+                                       not trace["generation_trace"][0]["strict_success"])
+        self.reject_changed_generation(("adaptive", True), "reset_event", True)
+
+    def test_phase_reference_is_not_only_a_call_count(self):
+        trace = copy.deepcopy(self.traces[("adaptive", True)])
+        trace["evaluations"][0]["phase"] = "crossover"
+        with self.assertRaises(ValueError):
+            aggregate.validate_lambda_generation_journal(trace, escape=True)
+
+    def test_final_parent_and_lambda_state_rejected(self):
+        trace = copy.deepcopy(self.traces[("adaptive", True)])
+        trace["terminal_state"]["final_lambda"] += 1
+        with self.assertRaises(ValueError):
+            aggregate.validate_lambda_generation_journal(trace, escape=True)
+
+
 class ClusterAnalysisTests(unittest.TestCase):
     def test_no_cases_is_scientific_status_not_exception(self):
         result = aggregate.case_cluster_analysis([])
@@ -230,6 +315,16 @@ class ClusterAnalysisTests(unittest.TestCase):
                                                 + escape_case(42002, [(30, None)] * 5))
         self.assertEqual(result["unavailable_reason"], "constant_case_differences")
         self.assertFalse(result["advantage"])
+
+    def test_equal_integer_differences_do_not_invent_bootstrap_variance(self):
+        rows = escape_case(42001, [(20, 30), (20, 30), (20, None), (None, None), (None, None)])
+        rows += escape_case(42002, [(20, None)] + [(None, None)] * 4)
+        with mock.patch.object(aggregate, "bootstrap") as bootstrap_call:
+            result = aggregate.case_cluster_analysis(rows)
+        bootstrap_call.assert_not_called()
+        self.assertEqual([row["difference"] for row in result["cases"]], [0.2, 0.2])
+        self.assertEqual(result["status"], "INTERVAL_UNAVAILABLE")
+        self.assertEqual(result["unavailable_reason"], "constant_case_differences")
 
     def test_missing_repeat_rejected(self):
         with self.assertRaises(ValueError):

@@ -93,6 +93,129 @@ def validate_search_trace(trace: Mapping[str, Any], *, escape: bool = False) -> 
                     for row in trace["generation_trace"]), "fixed lambda generation changed")
 
 
+def validate_lambda_generation_journal(trace: Mapping[str, Any], *, escape: bool = False) -> None:
+    """Independently check recorded transitions; no evaluator or RNG replay.
+
+    Any tied maximizing mutant/candidate is permitted, but the selected mutant
+    must be the same recorded reference for crossover and final selection.
+    """
+    require(trace["arm"] in ESCAPE_ARMS, "generation journal is not a lambda arm")
+    records = trace["evaluations"]
+    cursor = 0 if escape else 50
+    state = trace["terminal_state"]
+    if escape:
+        parent, parent_score = mask_fitness(trace["initial"]["mask"], trace["initial"]["fitness"])
+        start_wba = parent_score[0]
+        require(state["initial_parent_index"] is None, "known-parent run selected a population parent")
+    else:
+        initial_index = state["initial_parent_index"]
+        require(type(initial_index) is int and 0 <= initial_index < 50, "invalid initial parent reference")
+        initial_scores = []
+        for index, record in enumerate(records[:50]):
+            require(record["phase"] == "initial_population" and record["phase_index"] == index
+                    and record["generation"] == 0, "initial phase call references mismatch")
+            initial_scores.append(mask_fitness(record["mask"], record["fitness"])[1])
+        parent, parent_score = mask_fitness(records[initial_index]["mask"], records[initial_index]["fitness"])
+        require(parent_score == max(initial_scores), "initial parent does not maximize initial fitness")
+        start_wba = None
+    lambda_real = 1.0
+    any_tail = False
+    generations = trace["generation_trace"]
+    require(generations, "lambda journal lacks its required generations")
+    for number, generation in enumerate(generations, 1):
+        require(generation["generation"] == number and generation["calls_before"] == cursor,
+                "generation numbering/call boundary mismatch")
+        require(type(generation["lambda_before"]) in (int, float)
+                and math.isfinite(generation["lambda_before"])
+                and 1 <= generation["lambda_before"] <= 40
+                and generation["lambda_before"] == lambda_real, "adaptive lambda bound/transition mismatch")
+        planned = math.floor(lambda_real + 0.5)
+        count = min(planned, (400 - cursor) // 2)
+        require(count > 0 and generation["planned_offspring_count_per_phase"] == planned
+                and generation["evaluated_offspring_count_per_phase"] == count,
+                "lambda phase counts differ from planned paired-tail rule")
+        require(generation["mutation_probability"] == lambda_real / 40
+                and generation["crossover_probability"] == 1 / lambda_real,
+                "tail counts changed lambda-based mutation/crossover probabilities")
+        require(tuple(generation["parent_before"]) == parent
+                and tuple(generation["parent_fitness_before"]) == parent_score,
+                "generation parent does not match preceding transition")
+        strength = generation["mutation_strength"]
+        require(type(strength) is int and 0 <= strength <= 40, "invalid shared mutation strength")
+        finish = cursor + 2 * count
+        require(generation["calls_after"] == finish and finish <= 400, "generation call total mismatch")
+        mutants, crossovers = records[cursor:cursor + count], records[cursor + count:finish]
+        require(len(mutants) == count and len(crossovers) == count, "mutation/crossover phases are not equally complete")
+        for phase, phase_records in (("mutation", mutants), ("crossover", crossovers)):
+            for index, record in enumerate(phase_records):
+                require(record["generation"] == number and record["phase"] == phase
+                        and record["phase_index"] == index, "generation phase/index reference mismatch")
+        mutant_values = [mask_fitness(record["mask"], record["fitness"]) for record in mutants]
+        require(all(sum(first != second for first, second in zip(mask, parent)) == strength
+                    for mask, _ in mutant_values), "mutants do not share the recorded Hamming strength")
+        chosen_index = generation["selected_mutant_index"]
+        require(type(chosen_index) is int and 0 <= chosen_index < count, "chosen mutant index invalid")
+        chosen_mask, chosen_score = mutant_values[chosen_index]
+        require(chosen_score == max(score for _, score in mutant_values), "chosen mutant is not a maximizing mutant")
+        require(tuple(generation["selected_mutant_mask"]) == chosen_mask
+                and tuple(generation["selected_mutant_fitness"]) == chosen_score,
+                "crossover/selection chosen-mutant reference was redrawn")
+        crossover_values = [mask_fitness(record["mask"], record["fitness"]) for record in crossovers]
+        if lambda_real == 1:
+            require(all(mask == chosen_mask for mask, _ in crossover_values),
+                    "unit crossover probability did not reproduce chosen mutant")
+        if lambda_real == 40:
+            require(strength == 40, "unit mutation probability did not flip every bit")
+        require(all(all(bit == parent[index] or bit == chosen_mask[index] for index, bit in enumerate(mask))
+                    for mask, _ in crossover_values), "crossover contains an allele outside parent/chosen mutant")
+        pool = [(chosen_mask, chosen_score, "mutation", chosen_index)] + [
+            (mask, score, "crossover", index) for index, (mask, score) in enumerate(crossover_values)]
+        eligible = [item for item in pool if item[0] != parent]
+        require(generation["eligible_count"] == len(eligible), "selection removed duplicates or retained parent copies")
+        candidate, candidate_score = mask_fitness(generation["candidate_mask"], generation["candidate_fitness"])
+        reference = (candidate, candidate_score, generation["candidate_phase"], generation["candidate_phase_index"])
+        if eligible:
+            require(reference in eligible and candidate_score == max(item[1] for item in eligible),
+                    "candidate is not a maximizing eligible pool reference")
+        else:
+            require(reference == (parent, parent_score, "parent", None), "empty eligible pool did not retain parent")
+        success, accepted = candidate_score > parent_score, candidate_score >= parent_score
+        after_parent, after_score = (candidate, candidate_score) if accepted else (parent, parent_score)
+        require(generation["strict_success"] is success and generation["accepted"] is accepted
+                and generation["parent_changed"] is (after_parent != parent), "acceptance/success transition mismatch")
+        require(tuple(generation["parent_after"]) == after_parent
+                and tuple(generation["parent_fitness_after"]) == after_score, "post-selection parent mismatch")
+        accepted_at = finish if accepted and eligible else None
+        require(generation["accepted_at_call"] == accepted_at, "acceptance call reference mismatch")
+        generation_records = mutants + crossovers
+        require(generation["first_strict_improvement_call"] == next(
+            (row["call"] for row in generation_records if tuple(row["fitness"]) > parent_score), None),
+            "first strict-generation improvement reference mismatch")
+        require(generation["first_higher_start_wba_call"] == next(
+            (row["call"] for row in generation_records if escape and row["fitness"][0] > start_wba), None),
+            "first higher-start-WBA reference mismatch")
+        expected_accepted_exit = bool(escape and accepted_at is not None and after_score[0] > start_wba)
+        require(generation["accepted_higher_start_wba"] is expected_accepted_exit, "accepted quality-exit flag mismatch")
+        if trace["arm"] == "lambda_fixed1":
+            lambda_after = 1.0
+        else:
+            lambda_after = max(1.0, lambda_real / 1.5) if success else min(40.0, lambda_real * 1.5 ** 0.25)
+        require(generation["lambda_after"] == lambda_after and generation["reset_event"] is False,
+                "lambda update differs from registered factor or enabled reset")
+        truncated = count < planned
+        require(generation["tail_truncated"] is truncated, "terminal paired-tail flag mismatch")
+        any_tail = any_tail or truncated
+        parent, parent_score, lambda_real, cursor = after_parent, after_score, lambda_after, finish
+    require(cursor == 400, "generation journal does not account for all 400 calls")
+    require(state["generation_count"] == len(generations) and state["final_lambda"] == lambda_real
+            and tuple(state["parent_mask"]) == parent and tuple(state["parent_fitness"]) == parent_score
+            and state["parent_mask_sha256"] == canonical_sha256(list(parent))
+            and state["tail_truncated"] is any_tail and state["workers"] == 1,
+            "terminal lambda/parent state differs from generation journal")
+    expected_phase = "paired_mutant_crossover_tail" if generations[-1]["tail_truncated"] else "complete_lambda_generation"
+    require(trace["termination_phase"] == expected_phase, "termination phase differs from final generation")
+
+
 def validate_preparation(preparation: Mapping[str, Any]) -> None:
     require(preparation["schema"] == "eu26-21-local-optima-preparation-v1", "preparation schema mismatch")
     require(preparation["dimension"] == 40, "certificate dimension mismatch")
@@ -253,6 +376,8 @@ def load_cases(cases_dir: Path, ledger_path: Path, *, expected_sha: str, source_
             require(trace["arm"] == arm and trace["seed"] == seed and trace["pairing"] == row["pairing"],
                     "comparison trace identity mismatch")
             validate_search_trace(trace)
+            if arm in ESCAPE_ARMS:
+                validate_lambda_generation_journal(trace)
             require(trace["terminal"] == row["arms"][arm]["terminal"], "comparison terminal differs from trace")
             normalized_first = [{"mask": record["mask"], "fitness": record.get("fitness", [
                 record.get("validation_weighted_balanced_accuracy"), record.get("negative_selected_feature_fraction")])}
@@ -389,6 +514,7 @@ def load_escapes(directory: Path, ledger_path: Path, *, registry: Mapping[str, A
             trace = read_json(trace_path)
             require(trace["arm"] == arm and trace["seed"] == row["search_seed"], "escape kernel identity mismatch")
             validate_search_trace(trace, escape=True)
+            validate_lambda_generation_journal(trace, escape=True)
             require(trace["initial"] == row["arms"][arm]["initial"] and trace["escape"] == row["arms"][arm]["escape"],
                     "escape summary differs from retained trace")
             require(canonical_sha256({"mask": trace["initial"]["mask"], "fitness": trace["initial"]["fitness"]})
@@ -412,11 +538,14 @@ def case_cluster_analysis(escapes: Sequence[Mapping[str, Any]]) -> dict[str, Any
     for seed in sorted(grouped):
         rows = grouped[seed]
         require(sorted(row["repeat"] for row in rows) == [1, 2, 3, 4, 5], "case lacks five unique paired repetitions")
-        rates, times = {}, {}
+        rates, times, success_counts = {}, {}, {}
         for arm in ESCAPE_ARMS:
-            rates[arm] = statistics.fmean(row["arms"][arm]["escape"]["first_exit_call"] is not None for row in rows)
+            success_counts[arm] = sum(row["arms"][arm]["escape"]["first_exit_call"] is not None for row in rows)
+            rates[arm] = success_counts[arm] / 5
             times[arm] = statistics.fmean(row["arms"][arm]["escape"]["restricted_calls"] for row in rows)
-        difference = rates["lambda_adaptive"] - rates["lambda_fixed1"]
+        # Equal integer success-count differences must remain exactly equal;
+        # subtracting rounded rates can invent spurious bootstrap variance.
+        difference = (success_counts["lambda_adaptive"] - success_counts["lambda_fixed1"]) / 5
         differences.append(difference)
         case_rows.append({"seed": seed, "adaptive_escape_rate": rates["lambda_adaptive"],
                           "fixed1_escape_rate": rates["lambda_fixed1"], "difference": difference,
@@ -463,6 +592,9 @@ def _make_plots(cases: Sequence[Mapping[str, Any]], analysis: Mapping[str, Any],
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
+    labels = {"chc_harmonized": "CHC", "lambda_adaptive": "Адаптивний",
+              "lambda_fixed1": "Фіксований λ=1", "full40": "Усі 40 ознак"}
+    scales = {"unweighted": "Кількість записів", "weighted": "Сума ваг"}
     selected = next(case for case in cases if case["row"]["seed"] == 42001)
     figure, axes = plt.subplots(2, 4, figsize=(13, 6), constrained_layout=True)
     for column, arm in enumerate(ALL_ARMS):
@@ -472,11 +604,11 @@ def _make_plots(cases: Sequence[Mapping[str, Any]], analysis: Mapping[str, Any],
             axis.imshow(matrix / matrix.sum(axis=1, keepdims=True), vmin=0, vmax=1, cmap="Blues")
             for y in range(2):
                 for x in range(2):
-                    value = f"{matrix[y, x]:.0f}" if scale == "unweighted" else f"{matrix[y, x]:.1f}"
+                    value = f"{matrix[y, x]:.0f}" if scale == "unweighted" else f"{matrix[y, x]:.1f}".replace(".", ",")
                     axis.text(x, y, value, ha="center", va="center")
-            axis.set(title=f"{arm}\n{scale}", xlabel="Predicted class", ylabel="True class",
+            axis.set(title=f"{labels[arm]}\n{scales[scale]}", xlabel="Прогнозований клас", ylabel="Фактичний клас",
                      xticks=[0, 1], yticks=[0, 1])
-    figure.suptitle("Seed 42001: record counts and weight sums, not pooled runs")
+    figure.suptitle("Пара 42001: кількість записів і суми ваг окремих моделей")
     figure.savefig(output / "confusion-matrices-42001.png", dpi=170)
     plt.close(figure)
     figure, axis = plt.subplots(figsize=(8, 4), constrained_layout=True)
@@ -484,11 +616,11 @@ def _make_plots(cases: Sequence[Mapping[str, Any]], analysis: Mapping[str, Any],
         trajectories = [np.asarray([row["best_so_far_weighted_balanced_accuracy"]
                                    for row in read_json(case["directory"] / case["row"]["arms"][arm]["trace"]["file"])["evaluations"]])
                         for case in cases]
-        axis.plot(range(1, 401), np.mean(trajectories, axis=0), label=arm)
-    axis.axhline(statistics.fmean(case["row"]["arms"]["full40"]["terminal"]["fitness"][0] for case in cases),
-                 label="full40 one-evaluation baseline", color="black", linestyle="--")
-    axis.set(xlabel="Logical objective call", ylabel="Mean best validation WBA",
-             title="New comparison: descriptive validation paths")
+        axis.plot(range(1, 401), np.mean(trajectories, axis=0), label=labels[arm])
+    axis.plot([1], [statistics.fmean(case["row"]["arms"]["full40"]["terminal"]["fitness"][0] for case in cases)],
+              marker="D", linestyle="None", label="Усі 40 ознак: одна оцінка", color="black")
+    axis.set(xlabel="Кількість оцінювань", ylabel="Середня найкраща валідаційна WBA",
+             title="Описове порівняння середніх валідаційних траєкторій")
     axis.legend(fontsize=8)
     figure.savefig(output / "comparison-trajectories.png", dpi=170)
     plt.close(figure)
@@ -498,20 +630,20 @@ def _make_plots(cases: Sequence[Mapping[str, Any]], analysis: Mapping[str, Any],
         figure, axis = plt.subplots(figsize=(9, 4), constrained_layout=True)
         center_wba = preparation["center_fitness"][0]
         axis.scatter(range(1, 41), [neighbor["fitness"][0] - center_wba
-                                  for neighbor in preparation["certificate"]["neighbors"]], label="One-bit neighbors")
+                                  for neighbor in preparation["certificate"]["neighbors"]], label="Однобітні сусіди")
         axis.axhline(0, color="black", linewidth=1)
-        axis.scatter([41], [preparation["witness"]["fitness"][0] - center_wba], color="red", label="Higher two-bit witness")
-        axis.set(xlabel="Neighbor position (last point: witness)", ylabel="Validation WBA minus center",
-                 title=f"Certified local maximum, case {eligible[0]['row']['seed']}")
+        axis.scatter([41], [preparation["witness"]["fitness"][0] - center_wba], color="red", label="Кращий двобітний свідок")
+        axis.set(xlabel="Позиція сусіда (1-40) або свідка (41)", ylabel="Валідаційна WBA мінус оцінка центру",
+                 title=f"Підтверджений локальний максимум, випадок {eligible[0]['row']['seed']}")
         axis.legend(fontsize=8)
         figure.savefig(output / "certified-neighborhood.png", dpi=170)
         plt.close(figure)
         rows = analysis["cases"]
         figure, axis = plt.subplots(figsize=(10, 4), constrained_layout=True)
-        axis.plot([row["seed"] for row in rows], [row["adaptive_escape_rate"] for row in rows], "o-", label="adaptive")
-        axis.plot([row["seed"] for row in rows], [row["fixed1_escape_rate"] for row in rows], "o-", label="fixed lambda=1")
-        axis.set(ylim=(-0.05, 1.05), xlabel="Prepared case seed", ylabel="Exit fraction among five repetitions",
-                 title="Each case contains five paired repetitions")
+        axis.plot([row["seed"] for row in rows], [row["adaptive_escape_rate"] for row in rows], "o-", label="Адаптивний")
+        axis.plot([row["seed"] for row in rows], [row["fixed1_escape_rate"] for row in rows], "o-", label="Фіксований λ=1")
+        axis.set(ylim=(-0.05, 1.05), xlabel="Початкове значення генератора випадку", ylabel="Частка виходів у п'яти повтореннях",
+                 title="П'ять парних повторень для кожного підготовленого випадку")
         axis.legend()
         figure.savefig(output / "escape-rates-by-case.png", dpi=170)
         plt.close(figure)
