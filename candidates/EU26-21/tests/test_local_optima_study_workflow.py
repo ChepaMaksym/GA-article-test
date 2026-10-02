@@ -50,15 +50,15 @@ class StudyWorkflowTests(unittest.TestCase):
             self.assertIn("python -m local_optima_study." + module, self.workflow)
         self.assertIn("--expected-protocol-sha256", self.workflow)
         self.assertIn("actions/runs/${GITHUB_RUN_ID}/artifacts", self.workflow)
-        self.assertIn("artifact-ids: ${{ needs.freeze.outputs.artifact_id }}", self.workflow)
+        self.assertIn('--artifact-ids "${{ needs.freeze.outputs.artifact_id }}"', self.workflow)
         self.assertIn("persist-credentials: false", self.workflow)
 
     def test_retries_preserve_raw_attempts_and_freeze_exact_source_ids(self):
         self.assertEqual(self.workflow.count("python -m local_optima_study.artifact_selection"), 2)
         self.assertIn("case-attempt-ledger.json", self.workflow)
         self.assertIn("escape-attempt-ledger.json", self.workflow)
-        self.assertIn("artifact-ids: ${{ steps.source.outputs.artifact_id }}", self.workflow)
-        self.assertIn("artifact-ids: ${{ steps.sources.outputs.case_artifact_ids }}", self.workflow)
+        self.assertIn('--artifact-ids "${{ steps.source.outputs.artifact_id }}"', self.workflow)
+        self.assertIn('--artifact-ids "${{ steps.sources.outputs.case_artifact_ids }}"', self.workflow)
         self.assertNotIn("pattern: eu26-21-local-case-", self.workflow)
 
     def test_paginated_ledgers_use_external_jq_without_unsupported_gh_flags(self):
@@ -84,13 +84,33 @@ class StudyWorkflowTests(unittest.TestCase):
 
     def test_id_downloads_keep_single_sources_flat_and_retry_sources_accessible(self):
         blocks = re.split(r"\n      - ", self.workflow)
-        downloads = [block for block in blocks if "uses: actions/download-artifact@" in block]
-        self.assertEqual(len(downloads), 8)
+        downloads = [block for block in blocks if "python .github/scripts/download_study_artifacts.py" in block]
+        self.assertEqual(len(downloads), 9)
+        self.assertNotIn("uses: actions/download-artifact@", self.workflow)
         for block in downloads:
-            self.assertIn("github-token: ${{ github.token }}", block)
-            self.assertIn("run-id: ${{ github.run_id }}", block)
-            if "artifact-ids: ${{ needs." in block or "artifact-ids: ${{ steps.source.outputs.artifact_id }}" in block:
-                self.assertIn("merge-multiple: true", block)
+            self.assertIn("GH_TOKEN: ${{ github.token }}", block)
+            self.assertIn('--repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"', block)
+            self.assertIn('--expected-sha "$EXPECTED_SHA"', block)
+            if ('--artifact-ids "${{ needs.' in block
+                    or '--artifact-ids "${{ steps.source.outputs.artifact_id }}"' in block
+                    or "--kind smoke" in block):
+                self.assertIn("--merge-multiple", block)
+            else:
+                self.assertNotIn("--merge-multiple", block)
+
+    def test_exact_id_transport_changes_trigger_preflight_and_critical_lint(self):
+        self.assertIn("- '.github/scripts/download_study_artifacts.py'", self.workflow)
+        self.assertIn(".github/scripts/download_study_artifacts.py candidates/EU26-21/local_optima_study", self.workflow)
+
+    def test_real_synthetic_transport_smoke_precedes_scientific_dispatch(self):
+        preflight = self.workflow.split("  preflight:", 1)[1].split("  dispatch:", 1)[0]
+        self.assertIn("eu26-21-local-smoke-${{ github.run_id }}-${{ github.run_attempt }}", preflight)
+        self.assertIn('--artifact-ids "${{ steps.transport_smoke.outputs.artifact-id }}"', preflight)
+        self.assertIn("--kind smoke", preflight)
+        self.assertIn("CI_ONLY_SYNTHETIC_ARTIFACT", preflight)
+        self.assertIn("synthetic transport payload mismatch", preflight)
+        self.assertNotIn("python -m local_optima_study.run_case", preflight)
+        self.assertNotIn("python -m local_optima_study.run_escape", preflight)
 
 
 if __name__ == "__main__":

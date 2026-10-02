@@ -8,6 +8,7 @@ on:
     paths:
       - 'candidates/EU26-21/local_optima_study/**'
       - 'candidates/EU26-21/tests/test_local_optima_study*.py'
+      - '.github/scripts/download_study_artifacts.py'
       - '.github/workflows/eu26-21-local-optima-study.yml'
   workflow_dispatch:
     inputs:
@@ -41,7 +42,7 @@ jobs:
   preflight:
     name: CI-only synthetic contract tests before any scientific execution
     runs-on: ubuntu-24.04
-    timeout-minutes: 45
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -74,7 +75,41 @@ jobs:
           PYTHONPATH: ${{ github.workspace }}/candidates/EU26-21
         run: |
           python -m unittest discover -s candidates/EU26-21/tests -p 'test_*.py' -v
-          ruff check candidates/EU26-21/local_optima_study candidates/EU26-21/tests --select E9,F63,F7,F82
+          ruff check .github/scripts/download_study_artifacts.py candidates/EU26-21/local_optima_study candidates/EU26-21/tests --select E9,F63,F7,F82
+      - name: Prepare tiny synthetic artifact for real exact-ID transport smoke
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          root = Path(os.environ['RUNNER_TEMP']) / 'study-transport-smoke-source'
+          root.mkdir()
+          (root / 'synthetic.txt').write_bytes(b'CI_ONLY_SYNTHETIC_ARTIFACT\n')
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        id: transport_smoke
+        with:
+          name: eu26-21-local-smoke-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/study-transport-smoke-source
+          if-no-files-found: error
+          retention-days: 7
+      - name: Authenticate real REST metadata, redirect and archive before science
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/download_study_artifacts.py
+          --artifact-ids "${{ steps.transport_smoke.outputs.artifact-id }}"
+          --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
+          --expected-sha "$EXPECTED_SHA" --kind smoke
+          --destination "${RUNNER_TEMP}/study-transport-smoke-downloaded" --merge-multiple
+      - name: Compare synthetic payload bytes after verified transport
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          root = Path(os.environ['RUNNER_TEMP']) / 'study-transport-smoke-downloaded'
+          if (root / 'synthetic.txt').read_bytes() != b'CI_ONLY_SYNTHETIC_ARTIFACT\n':
+              raise SystemExit('synthetic transport payload mismatch')
+          PY
 
   dispatch:
     # Only an explicit launch-marker commit can request the authorized campaign.
@@ -188,14 +223,15 @@ jobs:
         with:
           python-version: '3.11'
       - run: python -m pip install -r candidates/EU26-21/corrected_applied/requirements.txt
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
-        with:
-          artifact-ids: ${{ needs.fixture.outputs.artifact_id }}
-          merge-multiple: true
-          github-token: ${{ github.token }}
-          repository: ${{ github.repository }}
-          run-id: ${{ github.run_id }}
-          path: ${{ runner.temp }}/fixture
+      - name: Download authenticated fixture by exact REST artifact ID
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/download_study_artifacts.py
+          --artifact-ids "${{ needs.fixture.outputs.artifact_id }}"
+          --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
+          --expected-sha "$EXPECTED_SHA" --kind fixture
+          --destination "${RUNNER_TEMP}/fixture" --merge-multiple
       - name: Verify and unpack the pinned source
         run: |
           cd "${RUNNER_TEMP}/fixture"
@@ -225,7 +261,7 @@ jobs:
     name: Freeze all 30 case identities before escape outcomes
     needs: cases
     runs-on: ubuntu-24.04
-    timeout-minutes: 45
+    timeout-minutes: 90
     outputs:
       artifact_id: ${{ steps.upload.outputs.artifact-id }}
       registry_sha256: ${{ steps.freeze.outputs.registry_sha256 }}
@@ -259,13 +295,15 @@ jobs:
             --output-ledger "${RUNNER_TEMP}/case-ledger.json" \
             --output-ids "${RUNNER_TEMP}/case-artifact-ids.txt"
           echo "artifact_ids=$(cat "${RUNNER_TEMP}/case-artifact-ids.txt")" >> "$GITHUB_OUTPUT"
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
-        with:
-          artifact-ids: ${{ steps.sources.outputs.artifact_ids }}
-          github-token: ${{ github.token }}
-          repository: ${{ github.repository }}
-          run-id: ${{ github.run_id }}
-          path: ${{ runner.temp }}/cases
+      - name: Download every selected case by exact REST artifact ID
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/download_study_artifacts.py
+          --artifact-ids "${{ steps.sources.outputs.artifact_ids }}"
+          --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
+          --expected-sha "$EXPECTED_SHA" --kind case
+          --destination "${RUNNER_TEMP}/cases"
       - name: Validate completeness and freeze the eligible registry
         id: freeze
         run: |
@@ -315,22 +353,24 @@ jobs:
         with:
           python-version: '3.11'
       - run: python -m pip install -r candidates/EU26-21/corrected_applied/requirements.txt
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
-        with:
-          artifact-ids: ${{ needs.fixture.outputs.artifact_id }}
-          merge-multiple: true
-          github-token: ${{ github.token }}
-          repository: ${{ github.repository }}
-          run-id: ${{ github.run_id }}
-          path: ${{ runner.temp }}/fixture
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
-        with:
-          artifact-ids: ${{ needs.freeze.outputs.artifact_id }}
-          merge-multiple: true
-          github-token: ${{ github.token }}
-          repository: ${{ github.repository }}
-          run-id: ${{ github.run_id }}
-          path: ${{ runner.temp }}/registry
+      - name: Download authenticated fixture by exact REST artifact ID
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/download_study_artifacts.py
+          --artifact-ids "${{ needs.fixture.outputs.artifact_id }}"
+          --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
+          --expected-sha "$EXPECTED_SHA" --kind fixture
+          --destination "${RUNNER_TEMP}/fixture" --merge-multiple
+      - name: Download frozen registry by exact REST artifact ID
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/download_study_artifacts.py
+          --artifact-ids "${{ needs.freeze.outputs.artifact_id }}"
+          --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
+          --expected-sha "$EXPECTED_SHA" --kind registry
+          --destination "${RUNNER_TEMP}/registry" --merge-multiple
       - name: Use the exact case artifact ID from the frozen registry
         id: source
         env:
@@ -350,14 +390,15 @@ jobs:
           with open(os.environ['GITHUB_OUTPUT'],'a') as f:
               f.write('artifact_id='+str(rows[0]['source_artifact_id'])+'\n')
           PY
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
-        with:
-          artifact-ids: ${{ steps.source.outputs.artifact_id }}
-          merge-multiple: true
-          github-token: ${{ github.token }}
-          repository: ${{ github.repository }}
-          run-id: ${{ github.run_id }}
-          path: ${{ runner.temp }}/cases
+      - name: Download the immutable source case by exact REST artifact ID
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/download_study_artifacts.py
+          --artifact-ids "${{ steps.source.outputs.artifact_id }}"
+          --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
+          --expected-sha "$EXPECTED_SHA" --kind case
+          --destination "${RUNNER_TEMP}/cases" --merge-multiple
       - name: Run both variants from the same certified state
         run: >-
           python -m local_optima_study.run_escape
@@ -384,7 +425,7 @@ jobs:
     needs: [freeze, escape]
     if: ${{ always() && needs.freeze.result == 'success' && (needs.escape.result == 'success' || needs.escape.result == 'skipped') }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 60
+    timeout-minutes: 90
     env:
       PYTHONPATH: ${{ github.workspace }}/candidates/EU26-21
     steps:
@@ -396,14 +437,15 @@ jobs:
         with:
           python-version: '3.11'
       - run: python -m pip install -r candidates/EU26-21/corrected_applied/requirements.txt
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
-        with:
-          artifact-ids: ${{ needs.freeze.outputs.artifact_id }}
-          merge-multiple: true
-          github-token: ${{ github.token }}
-          repository: ${{ github.repository }}
-          run-id: ${{ github.run_id }}
-          path: ${{ runner.temp }}/registry
+      - name: Download frozen registry by exact REST artifact ID
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/download_study_artifacts.py
+          --artifact-ids "${{ needs.freeze.outputs.artifact_id }}"
+          --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
+          --expected-sha "$EXPECTED_SHA" --kind registry
+          --destination "${RUNNER_TEMP}/registry" --merge-multiple
       - name: Bind all escape artifact IDs and source revisions
         env:
           GH_TOKEN: ${{ github.token }}
@@ -437,21 +479,25 @@ jobs:
           with open(os.environ['GITHUB_OUTPUT'],'a') as f:
               f.write('case_artifact_ids='+','.join(ids)+'\n')
           PY
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
-        with:
-          artifact-ids: ${{ steps.sources.outputs.case_artifact_ids }}
-          github-token: ${{ github.token }}
-          repository: ${{ github.repository }}
-          run-id: ${{ github.run_id }}
-          path: ${{ runner.temp }}/cases
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+      - name: Download every frozen case by exact REST artifact ID
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/download_study_artifacts.py
+          --artifact-ids "${{ steps.sources.outputs.case_artifact_ids }}"
+          --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
+          --expected-sha "$EXPECTED_SHA" --kind case
+          --destination "${RUNNER_TEMP}/cases"
+      - name: Download every escape pair by exact REST artifact ID
         if: ${{ needs.escape.result == 'success' }}
-        with:
-          artifact-ids: ${{ steps.sources.outputs.escape_artifact_ids }}
-          github-token: ${{ github.token }}
-          repository: ${{ github.repository }}
-          run-id: ${{ github.run_id }}
-          path: ${{ runner.temp }}/escapes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/download_study_artifacts.py
+          --artifact-ids "${{ steps.sources.outputs.escape_artifact_ids }}"
+          --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
+          --expected-sha "$EXPECTED_SHA" --kind escape
+          --destination "${RUNNER_TEMP}/escapes"
       - name: Compute the registered case-cluster analysis and full report
         run: >-
           python -m local_optima_study.aggregate --report
