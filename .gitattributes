@@ -15,3 +15,7 @@
 
 # Retained evidence hashes cover the exact CSV bytes, including line endings.
 failure_logs/USA-001_evidence/*.csv -text
+
+# Frozen local-optima report manifests cover exact CI bytes, including CSV CRLF.
+candidates/EU26-21/local_optima_study/evidence/2026-10-02/** -text
+candidates/EU26-21/local_optima_study/evidence/2026-10-02/report/*.csv whitespace=cr-at-eol

@@ -1,0 +1,57 @@
+{
+  "files": {
+    "certified-neighborhood.png": {
+      "bytes": 64127,
+      "sha256": "c9f1d772cd6a86294afb853f75696d347e762d0e11c4033ca34c96f3caba1067"
+    },
+    "comparison-trajectories.png": {
+      "bytes": 73288,
+      "sha256": "090b039059d8161bbfa7e9986479dd56e0bf4fd23f2bf5a47ec2b3ffb81ddb7e"
+    },
+    "comparison.csv": {
+      "bytes": 9527,
+      "sha256": "0132b32cfd41fb526088a75b8a465746ef469ef23aa03b6fc8b2985a1b6a0508"
+    },
+    "confusion-matrices-42001.png": {
+      "bytes": 160406,
+      "sha256": "5cb795318880408b42d6de4fd1517659da2a77fcc4a4fb5ccedc3c386719d307"
+    },
+    "escape-case-clusters.csv": {
+      "bytes": 889,
+      "sha256": "57ac0ed7a676794736e3feeb8f23397127a8bbcfbbdaf56f5fc5bd3a05116bf7"
+    },
+    "escape-rates-by-case.png": {
+      "bytes": 143987,
+      "sha256": "6879a33791ae3e404ff954cb37680d3a932ddd76852ecc9725c3d149f2602833"
+    },
+    "escape-repetitions.csv": {
+      "bytes": 9336,
+      "sha256": "796492cc196b8ed05578bc028918c2018f68a9b8763d4a1b650e5e57c2ca3009"
+    },
+    "feature-ablations.csv": {
+      "bytes": 3893,
+      "sha256": "1dc8ec5e0033101d94c5d37ad59ff3afbfb00aa565fd2e4faa7dc82a583b7bb9"
+    },
+    "per-class-metrics.csv": {
+      "bytes": 49236,
+      "sha256": "a502af7b74ea31a9a96fd64d3a3352bc2e449333f9b64cf9707a126ea86fe268"
+    },
+    "prepared-cases.csv": {
+      "bytes": 2402,
+      "sha256": "3128ec0a2f096a2f37154b6b5bf5bb1494d32829b7130758be29cfde4503c6f3"
+    },
+    "report.md": {
+      "bytes": 2044,
+      "sha256": "3b5cea1f8cfd2599b1ebe9156fc90c4219b489762cb9ca6ceef2fd64f92f0aa1"
+    },
+    "summary.json": {
+      "bytes": 43194,
+      "sha256": "213307fd2783e0b90077f86ad0620e15501bac5850e5f3411c07e0b45e225fe0"
+    }
+  },
+  "implementation_sha": "97ffc89e36402711ba5d662869f2bd0783ff2a76",
+  "protocol_sha256": "8167f46a1adce8d759404d9577101befa183756ca92230e4ac3718c9f46d2ca7",
+  "registry_sha256": "ebcd7cf271620fbd0099fa7fbd79b4f2b8bc6f9951c700a9e25aaf86f06ab757",
+  "schema": "eu26-21-local-optima-report-manifest-v1",
+  "source_run_id": 37028835773
+}
