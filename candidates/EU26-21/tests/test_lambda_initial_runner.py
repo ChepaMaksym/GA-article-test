@@ -1,6 +1,8 @@
 """Six-arm fixtures and persistence barriers; run only in CI."""
 from __future__ import annotations
 
+import copy
+import csv
 from pathlib import Path
 import statistics
 import sys
@@ -138,6 +140,43 @@ class RunnerTests(unittest.TestCase):
                     artifact={"name": "eu26-21-lambda-case-43001-3-1", "id": 3}, source_run=3)
             self.assertEqual(result["row"], row)
             self.assertEqual(set(result["traces"]), set(contract.ALL_ARMS))
+
+    def test_complete_thirty_case_report_tables_preserve_all_arms_and_integer_masks(self):
+        from lambda_initial_study import aggregate
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            output = root / "case"
+            row, _, _ = self.fixture(output)
+            traces = {arm: contract.read_json(output / row["arms"][arm]["trace"]["file"])
+                      for arm in contract.ALL_ARMS}
+            cases = []
+            for seed in contract.CASE_SEEDS:
+                case_row = copy.deepcopy(row)
+                case_row["seed"] = seed
+                name = f"eu26-21-lambda-case-{seed}-3-1"
+                cases.append({"row": case_row, "traces": traces,
+                              "artifact": {"id": seed, "name": name},
+                              "manifest_sha256": "a" * 64})
+            sources = {"implementation_sha": "a" * 40, "source_run_id": 3}
+            report_output = root / "report"
+            with mock.patch.object(aggregate, "make_plots") as plots, \
+                 mock.patch.object(aggregate, "bootstrap", side_effect=AssertionError("constant differences are descriptive")):
+                result = aggregate.build_report(cases, sources, output=report_output, transport={"fixture": True})
+            plots.assert_called_once()
+            self.assertEqual(result["case_count"], 30)
+            self.assertEqual(result["arm_count"], 6)
+            self.assertEqual(result["counts"], {"logical_validation_calls": 72000,
+                "physical_validation_calls": 64500, "test_evaluations": 180})
+            with (report_output / "comparison.csv").open(encoding="utf-8", newline="") as stream:
+                records = list(csv.DictReader(stream))
+            self.assertEqual(len(records), 180)
+            self.assertEqual({record["arm"] for record in records}, set(contract.ALL_ARMS))
+            self.assertTrue(all(int(record["selected_features"]) == record["mask"].count("1") for record in records))
+            with (report_output / "trajectories.csv").open(encoding="utf-8", newline="") as stream:
+                self.assertEqual(sum(1 for _ in csv.DictReader(stream)), 72000)
+            with (report_output / "contrasts.csv").open(encoding="utf-8", newline="") as stream:
+                self.assertEqual(len(list(csv.DictReader(stream))), 14)
+            self.assertFalse(any(result["analysis"]["joint_search_advantage"].values()))
 
     def test_existing_output_not_overwritten_or_scientifically_evaluated(self):
         protocol = contract.validate_protocol(ROOT / "lambda_initial_study/protocol.json")

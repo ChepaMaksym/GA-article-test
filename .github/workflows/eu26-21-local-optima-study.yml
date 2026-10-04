@@ -47,6 +47,7 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           ref: ${{ env.EXPECTED_SHA }}
+          fetch-depth: 0
           persist-credentials: false
       - name: Bind exact implementation, workflow and pre-implementation protocol
         run: |

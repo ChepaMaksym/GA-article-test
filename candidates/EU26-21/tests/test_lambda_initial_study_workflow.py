@@ -197,6 +197,23 @@ class LambdaInitialWorkflowTests(unittest.TestCase):
         self.assertIn("eu26-21-lambda-initial-report-${{ github.run_id }}-${{ github.run_attempt }}", self.workflow)
         self.assertIn("retention-days: 90", self.workflow)
 
+    def test_all_workflows_discovering_new_contracts_have_registration_history(self):
+        # Authentic ancestor/blob checks must not be weakened for older jobs.
+        # All three full-discovery workflows need their first checkout history.
+        full_discovery = []
+        for path in sorted((ROOT / ".github/workflows").glob("eu26-21-*.yml")):
+            content = path.read_text(encoding="utf-8")
+            if "-p 'test_*.py'" not in content:
+                continue
+            full_discovery.append(path.name)
+            checkout = content.split("uses: actions/checkout@", 1)[1].split("- uses: actions/setup-python@", 1)[0]
+            with self.subTest(workflow=path.name):
+                self.assertIn("fetch-depth: 0", checkout)
+        self.assertEqual(set(full_discovery), {
+            "eu26-21-code-quality.yml", "eu26-21-local-optima-study.yml",
+            "eu26-21-lambda-initial-study.yml",
+        })
+
 
 class LambdaInitialTransportTests(unittest.TestCase):
     def test_three_new_kinds_accept_only_their_own_namespaces(self):
