@@ -37,7 +37,14 @@ extraction. `aggregate.py` checks complete manifests, traces, mask freezes,
 duplicate/call accounting, class metrics and source SHA before statistics.
 Downloaded joblib models are hashed, never deserialized in aggregation.
 
-Current state: implementation prepared, CI verification and the complete
-new campaign pending. No new scientific conclusion is recorded here yet.
+Implementation and authenticated transport verified on
+`2892737a00607e03c62528deeeec4bcd5659c4e0`: all 345 synthetic tests passed.
+The [new preflight](https://github.com/ChepaMaksym/GA-article-test/actions/runs/37217954946),
+[older full-test preflight](https://github.com/ChepaMaksym/GA-article-test/actions/runs/37217955009),
+[code-quality audit](https://github.com/ChepaMaksym/GA-article-test/actions/runs/37217955006)
+and [independent audit](https://github.com/ChepaMaksym/GA-article-test/actions/runs/37217954958)
+are green. Authorize the frozen 30-case campaign at the exact SHA of the
+launch commit, after its own unchanged synthetic preflight. No scientific
+outcomes have been inspected and no new conclusion is recorded here yet.
 PR19 remains draft; merge is not authorized. Word and local progress files
 are kept outside this repository.
