@@ -199,11 +199,16 @@ def validate_metadata(value: dict, *, artifact_id: int, run_id: int,
     require(isinstance(digest, str) and re.fullmatch(r"sha256:[0-9a-f]{64}", digest) is not None,
             "artifact SHA256 digest is missing or invalid")
     suffixes = {"smoke": "", "fixture": "", "registry": "", "case": r"(420(?:0[1-9]|[12][0-9]|30))-",
-                "escape": r"(420(?:0[1-9]|[12][0-9]|30))-([1-5])-"}
+                "escape": r"(420(?:0[1-9]|[12][0-9]|30))-([1-5])-",
+                "lambda-smoke": "", "lambda-fixture": "",
+                "lambda-case": r"(430(?:0[1-9]|[12][0-9]|30))-"}
     require(kind in suffixes, "invalid artifact kind")
+    namespace = ("eu26-21-lambda-case" if kind == "lambda-case" else
+                 "eu26-21-lambda-initial-" + kind.removeprefix("lambda-")
+                 if kind.startswith("lambda-") else "eu26-21-local-" + kind)
     name = value.get("name")
     require(isinstance(name, str)
-            and re.fullmatch(rf"eu26-21-local-{kind}-{suffixes[kind]}{run_id}-[1-9][0-9]*", name) is not None,
+            and re.fullmatch(rf"{namespace}-{suffixes[kind]}{run_id}-[1-9][0-9]*", name) is not None,
             "artifact name does not match the requested kind and run")
     return value
 
@@ -273,7 +278,8 @@ def extract_archive(path: Path, destination: Path) -> None:
 
 def download_artifacts(*, ids: list[int], repository: str, run_id: int,
                        expected_sha: str, kind: str, destination: Path,
-                       merge_multiple: bool = False, api=None) -> None:
+                       merge_multiple: bool = False, api=None,
+                       transport_ledger: Path | None = None) -> None:
     require(re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", repository) is not None,
             "invalid repository identifier")
     require(type(run_id) is int and run_id > 0
@@ -281,10 +287,16 @@ def download_artifacts(*, ids: list[int], repository: str, run_id: int,
     require(ids and all(type(value) is int and value > 0 for value in ids)
             and len(ids) == len(set(ids)), "requested artifact IDs are invalid or duplicated")
     require(not merge_multiple or len(ids) == 1, "flat extraction requires exactly one artifact ID")
+    if transport_ledger is not None:
+        require(not transport_ledger.exists() and not transport_ledger.is_symlink(),
+                "transport ledger would overwrite an existing path")
+        require(not transport_ledger.resolve().is_relative_to(destination.resolve()),
+                "transport ledger must remain outside extracted artifact contents")
     api = api or GitHubArtifactAPI(repository, os.environ.get("GH_TOKEN", ""))
     metadata = [validate_metadata(api.metadata(value), artifact_id=value, run_id=run_id,
                                  expected_sha=expected_sha, kind=kind) for value in ids]
     require(len({value["name"] for value in metadata}) == len(metadata), "duplicate artifact names")
+    verified = []
     with tempfile.TemporaryDirectory(prefix="study-artifact-download-") as temporary:
         for value in metadata:
             path = Path(temporary) / f"{value['id']}.zip"
@@ -292,7 +304,22 @@ def download_artifacts(*, ids: list[int], repository: str, run_id: int,
             verify_archive(path, value)
             target = destination if merge_multiple else destination / value["name"]
             extract_archive(path, target)
+            verified.append({
+                "id": value["id"], "name": value["name"], "digest": value["digest"],
+                "size_in_bytes": value["size_in_bytes"],
+                "verified_zip_sha256": value["digest"].removeprefix("sha256:"),
+                "verified_zip_bytes": value["size_in_bytes"],
+                "zip_verified_before_extraction": True,
+            })
             print(f"Authenticated artifact ID {value['id']} ({value['name']})")
+    if transport_ledger is not None:
+        transport_ledger.parent.mkdir(parents=True, exist_ok=True)
+        ledger = {"schema": "eu26-21-exact-id-transport-ledger-v1",
+                  "repository": repository, "source_run_id": run_id,
+                  "implementation_sha": expected_sha, "kind": kind,
+                  "complete": True, "artifacts": verified}
+        with transport_ledger.open("x", encoding="utf-8") as stream:
+            stream.write(json.dumps(ledger, sort_keys=True, indent=2, allow_nan=False) + "\n")
 
 
 def main() -> None:
@@ -301,9 +328,11 @@ def main() -> None:
     parser.add_argument("--repository", required=True)
     parser.add_argument("--run-id", type=int, required=True)
     parser.add_argument("--expected-sha", required=True)
-    parser.add_argument("--kind", choices=("smoke", "fixture", "registry", "case", "escape"), required=True)
+    parser.add_argument("--kind", choices=("smoke", "fixture", "registry", "case", "escape",
+                                          "lambda-smoke", "lambda-fixture", "lambda-case"), required=True)
     parser.add_argument("--destination", type=Path, required=True)
     parser.add_argument("--merge-multiple", action="store_true")
+    parser.add_argument("--transport-ledger", type=Path)
     args = parser.parse_args()
     require(os.environ.get("GITHUB_ACTIONS") == "true", "artifact download is CI-only")
     require(args.repository == os.environ.get("GITHUB_REPOSITORY")
@@ -313,7 +342,8 @@ def main() -> None:
             "artifact request differs from the exact workflow run and SHA")
     download_artifacts(ids=artifact_ids(args.artifact_ids), repository=args.repository,
                        run_id=args.run_id, expected_sha=args.expected_sha, kind=args.kind,
-                       destination=args.destination, merge_multiple=args.merge_multiple)
+                       destination=args.destination, merge_multiple=args.merge_multiple,
+                       transport_ledger=args.transport_ledger)
 
 
 if __name__ == "__main__":

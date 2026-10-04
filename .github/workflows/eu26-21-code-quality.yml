@@ -8,6 +8,7 @@ on:
       - 'candidates/EU26-21/common_bridge/**'
       - 'candidates/EU26-21/local_optima/**'
       - 'candidates/EU26-21/local_optima_study/**'
+      - 'candidates/EU26-21/lambda_initial_study/**'
       - 'candidates/EU26-21/evidence_audit/**'
       - 'candidates/EU26-21/hybrid_1/**'
       - 'candidates/EU26-21/corrected_applied/**'
@@ -88,7 +89,7 @@ jobs:
         run: |
           set +e
           mkdir -p "${RUNNER_TEMP}/quality"
-          coverage run --source=candidates/EU26-21/hybrid_1,candidates/EU26-21/corrected_applied,candidates/EU26-21/common_bridge,candidates/EU26-21/local_optima,candidates/EU26-21/local_optima_study,candidates/EU26-21/evidence_audit \
+          coverage run --source=candidates/EU26-21/hybrid_1,candidates/EU26-21/corrected_applied,candidates/EU26-21/common_bridge,candidates/EU26-21/local_optima,candidates/EU26-21/local_optima_study,candidates/EU26-21/lambda_initial_study,candidates/EU26-21/evidence_audit \
             -m unittest discover -s candidates/EU26-21/tests -p 'test_*.py' -v \
             2>&1 | tee "${RUNNER_TEMP}/quality/tests.log"
           status=${PIPESTATUS[0]}
@@ -108,6 +109,7 @@ jobs:
             candidates/EU26-21/common_bridge \
             candidates/EU26-21/local_optima \
             candidates/EU26-21/local_optima_study \
+            candidates/EU26-21/lambda_initial_study \
             candidates/EU26-21/evidence_audit \
             candidates/EU26-21/tests \
             --select E9,F63,F7,F82 \
@@ -126,6 +128,7 @@ jobs:
             candidates/EU26-21/common_bridge \
             candidates/EU26-21/local_optima \
             candidates/EU26-21/local_optima_study \
+            candidates/EU26-21/lambda_initial_study \
             candidates/EU26-21/evidence_audit \
             candidates/EU26-21/tests \
             --output-format json \
@@ -137,6 +140,7 @@ jobs:
             candidates/EU26-21/common_bridge \
             candidates/EU26-21/local_optima \
             candidates/EU26-21/local_optima_study \
+            candidates/EU26-21/lambda_initial_study \
             candidates/EU26-21/evidence_audit \
             candidates/EU26-21/tests \
             2>&1 | tee "${RUNNER_TEMP}/quality/ruff-all.txt" || true
@@ -147,11 +151,11 @@ jobs:
         continue-on-error: true
         run: |
           set +e
-          bandit -r candidates/EU26-21/hybrid_1 candidates/EU26-21/corrected_applied candidates/EU26-21/common_bridge candidates/EU26-21/local_optima candidates/EU26-21/local_optima_study candidates/EU26-21/evidence_audit \
+          bandit -r candidates/EU26-21/hybrid_1 candidates/EU26-21/corrected_applied candidates/EU26-21/common_bridge candidates/EU26-21/local_optima candidates/EU26-21/local_optima_study candidates/EU26-21/lambda_initial_study candidates/EU26-21/evidence_audit \
             -x candidates/EU26-21/tests -lll -ii -f json \
             -o "${RUNNER_TEMP}/quality/bandit.json"
           status=$?
-          bandit -r candidates/EU26-21/hybrid_1 candidates/EU26-21/corrected_applied candidates/EU26-21/common_bridge candidates/EU26-21/local_optima candidates/EU26-21/local_optima_study candidates/EU26-21/evidence_audit \
+          bandit -r candidates/EU26-21/hybrid_1 candidates/EU26-21/corrected_applied candidates/EU26-21/common_bridge candidates/EU26-21/local_optima candidates/EU26-21/local_optima_study candidates/EU26-21/lambda_initial_study candidates/EU26-21/evidence_audit \
             -x candidates/EU26-21/tests -lll -ii \
             2>&1 | tee "${RUNNER_TEMP}/quality/bandit.txt" || true
           echo "exit_code=$status" >> "$GITHUB_OUTPUT"
@@ -160,7 +164,7 @@ jobs:
         if: always()
         run: |
           set +e
-          vulture candidates/EU26-21/hybrid_1 candidates/EU26-21/corrected_applied candidates/EU26-21/common_bridge candidates/EU26-21/local_optima candidates/EU26-21/local_optima_study candidates/EU26-21/evidence_audit candidates/EU26-21/tests \
+          vulture candidates/EU26-21/hybrid_1 candidates/EU26-21/corrected_applied candidates/EU26-21/common_bridge candidates/EU26-21/local_optima candidates/EU26-21/local_optima_study candidates/EU26-21/lambda_initial_study candidates/EU26-21/evidence_audit candidates/EU26-21/tests \
             --min-confidence 90 > "${RUNNER_TEMP}/quality/vulture.txt" 2>&1
           printf '%s\n' "$?" > "${RUNNER_TEMP}/quality/vulture.exit-code"
           cat "${RUNNER_TEMP}/quality/vulture.txt"
