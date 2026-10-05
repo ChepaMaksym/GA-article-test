@@ -201,9 +201,14 @@ def validate_metadata(value: dict, *, artifact_id: int, run_id: int,
     suffixes = {"smoke": "", "fixture": "", "registry": "", "case": r"(420(?:0[1-9]|[12][0-9]|30))-",
                 "escape": r"(420(?:0[1-9]|[12][0-9]|30))-([1-5])-",
                 "lambda-smoke": "", "lambda-fixture": "",
-                "lambda-case": r"(430(?:0[1-9]|[12][0-9]|30))-"}
+                "lambda-case": r"(430(?:0[1-9]|[12][0-9]|30))-",
+                "qx-smoke": "", "qx-fixture": "", "qx-registry": "",
+                "qx-source-fixture": "", "qx-source-smoke": "",
+                "qx-preparation": r"(440(?:0[1-9]|[12][0-9]|30))-",
+                "qx-case": r"(440(?:0[1-9]|[12][0-9]|30))-"}
     require(kind in suffixes, "invalid artifact kind")
-    namespace = ("eu26-21-lambda-case" if kind == "lambda-case" else
+    namespace = ("eu26-21-" + kind if kind.startswith("qx-") else
+                 "eu26-21-lambda-case" if kind == "lambda-case" else
                  "eu26-21-lambda-initial-" + kind.removeprefix("lambda-")
                  if kind.startswith("lambda-") else "eu26-21-local-" + kind)
     name = value.get("name")
@@ -329,7 +334,10 @@ def main() -> None:
     parser.add_argument("--run-id", type=int, required=True)
     parser.add_argument("--expected-sha", required=True)
     parser.add_argument("--kind", choices=("smoke", "fixture", "registry", "case", "escape",
-                                          "lambda-smoke", "lambda-fixture", "lambda-case"), required=True)
+                                          "lambda-smoke", "lambda-fixture", "lambda-case",
+                                          "qx-smoke", "qx-fixture", "qx-registry",
+                                          "qx-source-fixture", "qx-source-smoke",
+                                          "qx-preparation", "qx-case"), required=True)
     parser.add_argument("--destination", type=Path, required=True)
     parser.add_argument("--merge-multiple", action="store_true")
     parser.add_argument("--transport-ledger", type=Path)
