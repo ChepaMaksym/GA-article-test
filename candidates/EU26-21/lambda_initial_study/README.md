@@ -43,8 +43,16 @@ The [new preflight](https://github.com/ChepaMaksym/GA-article-test/actions/runs/
 [older full-test preflight](https://github.com/ChepaMaksym/GA-article-test/actions/runs/37217955009),
 [code-quality audit](https://github.com/ChepaMaksym/GA-article-test/actions/runs/37217955006)
 and [independent audit](https://github.com/ChepaMaksym/GA-article-test/actions/runs/37217954958)
-are green. Authorize the frozen 30-case campaign at the exact SHA of the
-launch commit, after its own unchanged synthetic preflight. No scientific
-outcomes have been inspected and no new conclusion is recorded here yet.
+are green. The frozen campaign completed successfully on 4 October 2026
+at `ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32`: all 30 six-arm jobs and
+the complete-only aggregation passed, with no scientific-run retries.
+[Retained results and qualified conclusions](evidence/2026-10-04/README_UK.md)
+include both figures, all contrasts and exact source IDs/digests.
+
+No initial λ = 5, 10 or 20 significantly improved post-initialization AUC
+against initial λ = 1; initial λ = 40 had lower AUC. The separate secondary
+quality-preserving search criterion against CHC passed for initial λ = 5
+and 20 only. No test-accuracy superiority or universally optimal initial
+parameter is established. Historical negative conclusions remain unchanged.
 PR19 remains draft; merge is not authorized. Word and local progress files
 are kept outside this repository.
