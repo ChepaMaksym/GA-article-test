@@ -1,0 +1,74 @@
+{
+  "schema": "eu26-21-chc-qx-protocol-v1",
+  "protocol_id": "EU26-21-CHCQX-SOURCE-WBA-DIAG-V1",
+  "registered_date": "2026-10-05",
+  "evidence_class": "prospective_descriptive_followup",
+  "freeze": {"registration_commit": "separate_commit_before_implementation", "historical_parent_sha": "05b2514d0a17bb8165f7d0388a96e9771e339284", "new_outcomes_inspected": false, "historical_results_pooled": false},
+  "source": {
+    "upstream_commit": "6ac5a7ec77f8a7c096ab4d019254fcc897988fd6",
+    "blobs": {"code/Dataset.py": "18c8d417f7236ef0af3c8a35279a1914679cac74", "code/Evolution.py": "05b0d8afc02faee688e5d1ff8e24531ae41307c7", "code/Example.ipynb": "87d2ea5caada5278853553de2c73d2ec6083f9b6", "data/census-income.data": "e780a25c2dec3f1a10d65cca9ea05001a77b37b6", "results/results.csv": "4783d460d75bad4ee6a7ce1b191da9c5c0fc5e77"},
+    "reference_metric": "unweighted_accuracy", "reference_dimension": 41, "reference_split": "author_contiguous_60_20_20", "integration_seed": 1, "integration_is_table2_reproduction": false,
+    "controlled_masks": 10, "population": 50, "chunk_generations": 10, "outer_no_change": 2,
+    "lambda_basis": "Hevia_Fajardo_Sudholt_printed_Algorithm_1_DOI_10.1145/3564755",
+    "reused_kernel_revision": "05b2514d0a17bb8165f7d0388a96e9771e339284"
+  },
+  "data": {
+    "dataset": "UCI Census-Income (KDD)", "doi": "10.24432/C5N30T",
+    "archive_url": "https://archive.ics.uci.edu/static/public/117/census%2Bincome%2Bkdd.zip",
+    "archive_sha256": "54fd206becffcfaf099544c3938c681d64a65709800c94c00a4fba0a00df10c9",
+    "train_sha256": "3676a81db7d3528f3f8b9f3c699d0f0aa28db45e6e994fa0b8ed38327539ee86",
+    "test_sha256": "98402b1ab879573d0a7f38a699a40258080e25e33d3401e7bf9c96d3fa0fab8c",
+    "train_rows": 199523, "test_rows": 99762, "predictive_dimension": 40,
+    "weight_raw_index": 24, "target_raw_index": 41, "weight_is_predictor": false,
+    "validation_fraction": 0.2, "weighted_fit_and_metrics": true,
+    "preprocessing": "unchanged_corrected_train_fitted_preprocessor_without_test_arrays",
+    "classifier": "DecisionTreeClassifier(random_state=0)", "active_training_rows": "selected_and_frozen_not_fixed_14964"
+  },
+  "rng": {
+    "case_seeds": [44001,44002,44003,44004,44005,44006,44007,44008,44009,44010,44011,44012,44013,44014,44015,44016,44017,44018,44019,44020,44021,44022,44023,44024,44025,44026,44027,44028,44029,44030],
+    "split_seed": "2026081700 + seed", "selection_seed": "seed + 2000003", "initial_mask_seed": "seed + 3000003", "search_seed": "seed + 1000003",
+    "selection_and_initial_streams": "isolated_Python_Random_and_NumPy_RandomState_source_density",
+    "chc_stream": "isolated_Python_Random_and_NumPy_RandomState_persisted_between_chunks",
+    "lambda_streams": "separate_persistent_NumPy_default_rng_same_seed_for_adaptive_and_fixed1",
+    "reproducibility": "search_replays_frozen_selected_rows_not_live_timing"
+  },
+  "sampling": {
+    "q": 10, "controls": "source_density_redraw_until_nonempty", "sizes": "n//2_then_integer_halving_while_size_strictly_above_5000", "row_sampling": "without_replacement_fresh_at_each_size",
+    "criterion": "1-raw_spearman_rho+approx_time/full_time", "stop": "first_non_strict_improvement", "negative_rho_clamped": false,
+    "timer_scope": "sum_q_tree_fit_and_validation_prediction_on_prepared_data_and_fixed_masks",
+    "test_predictions": false, "invalid": "not_evaluable_no_fallback_no_seed_replacement",
+    "freeze_before_main": ["row_ids", "controls", "scores", "timings", "initial_masks", "initial_scores", "source_run_and_artifact_ids", "SHA256"]
+  },
+  "comparison": {
+    "search_arms": ["chc_qx", "lambda_adaptive_qx", "lambda_fixed1_qx"],
+    "shared_initial_masks": 50, "initial_density": "source_uniform_zero_probability_per_mask_allow_empty",
+    "initial_scores": "one_physical_evaluation_per_ordered_mask_logical_replay_in_each_arm",
+    "search_fitness": "scalar_validation_weighted_balanced_accuracy", "empty_score": 0.0,
+    "smaller_features_in_search_success": false, "terminal_tie": "full_WBA_then_fewer_features_then_earlier_full_query",
+    "initial_full_feature_checkpoint": false, "control_masks_seed_full_incumbent": false,
+    "final_masks_frozen_before_test": true, "test_calls_per_valid_arm": 1, "test_calls_max": 90
+  },
+  "search": {
+    "lambda_kernel": "local_optima/generation.py:run_generation", "initial_lambda": 1.0, "lambda_min": 1.0, "lambda_max": 40.0, "update_factor": 1.5, "reset": false,
+    "success": "strict_scalar_WBA_improvement", "acceptance": "non_strict_scalar_WBA", "fixed_applied_lambda": 1.0,
+    "initial_parent_tie": "uniform_arm_local_rng_among_maximal_scalar_scores", "chosen_mutant_reused": true,
+    "search_duplicates_cached": false, "chc_kernel": "pinned_author_Evolution.CHC", "chc_distance": 10, "chc_restart_probability": "1/3",
+    "chc_offspring_history": "reset_each_native_10_generation_call", "chunk_generations": 10,
+    "checkpoint_candidates": {"chc_qx": "current_population", "lambda_adaptive_qx": "current_parent", "lambda_fixed1_qx": "current_parent"},
+    "full_cache": "persistent_immutable_mask_identity", "full_fitness_feeds_search": false,
+    "outer_best_initial": 0.0, "outer_no_change": 2, "safety_max_chunks": 20,
+    "cap_order": "complete_last_checkpoint_then_natural_stop_has_priority_over_cap", "equal_objective_budget": false,
+    "no_full_winner": "explicit_not_evaluable_no_invented_final_mask"
+  },
+  "diagnostics": {
+    "snapshot": "end_first_whole_10_generation_chunk_without_strict_best_active_gain_else_terminal",
+    "chc_center_tie": "first_current_population_maximum", "lambda_center": "current_accepted_parent",
+    "neighbors": "all_40_single_bit_flips_in_ascending_bit_order", "independent_center_reevaluation": true,
+    "functions": ["active_training_validation_WBA", "full_internal_training_validation_WBA"],
+    "queries_per_arm": 82, "queries_max": 7380, "numerical_tolerance": 0.0,
+    "classification": ["neither_local", "approximate_only_false_local", "both_local", "full_only_local"],
+    "strict_and_plateau_separate": true, "feed_back_to_search": false, "two_bit_audit": false, "controlled_escape": false
+  },
+  "analysis": {"descriptive_only": true, "hypothesis_tests": false, "bootstrap": false, "claim_speed_superiority": false, "claim_escape_advantage": false, "claim_global_optimality": false, "unequal_trajectories_padded": false, "all_30_statuses_retained": true, "valid_denominators_explicit": true},
+  "execution": {"ci_only": true, "fail_fast": false, "max_parallel": 10, "job_timeout_minutes": 360, "aggregate_after_all_jobs": true, "retry": "same_seed_SHA_configuration_and_frozen_preparation_never_replace_scientific_cap", "PR19_draft": true, "merge": false, "push_word_or_local_progress": false}
+}
