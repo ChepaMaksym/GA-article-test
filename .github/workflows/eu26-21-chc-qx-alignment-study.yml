@@ -76,6 +76,7 @@ jobs:
       - name: CI-only unit, integration-fixture and workflow checks
         env:
           EU26_21_UPSTREAM: ${{ runner.temp }}/upstream
+          RUFF_CACHE_DIR: ${{ runner.temp }}/qx-ruff-cache
         run: |
           python -m pip check
           python -m unittest discover -s candidates/EU26-21/tests -p 'test_*.py' -v
@@ -88,6 +89,12 @@ jobs:
           if len(data['jobs']) != 9:
               raise SystemExit('unexpected QX workflow topology')
           PY
+      - name: Verify that tests and lint left the scientific checkout unchanged
+        run: |
+          set -euo pipefail
+          status="$(git status --porcelain=v1 --untracked-files=all)"
+          printf '%s\n' "$status"
+          test -z "$status"
       - name: Author outer-controller fixed RNG and clock replay gate
         run: >-
           python -m chc_qx_alignment_study.source_gate

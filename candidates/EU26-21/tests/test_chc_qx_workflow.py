@@ -114,6 +114,11 @@ class WorkflowTests(unittest.TestCase):
         for check in ('test "$GITHUB_SHA" = "$EXPECTED_SHA"', 'test "$STUDY_WORKFLOW_SHA" = "$EXPECTED_SHA"'):
             self.assertIn(check, self.workflow)
 
+    def test_preflight_caches_stay_outside_the_scientific_checkout(self):
+        self.assertIn("RUFF_CACHE_DIR: ${{ runner.temp }}/qx-ruff-cache", self.workflow)
+        self.assertIn("Verify that tests and lint left the scientific checkout unchanged", self.workflow)
+        self.assertIn('test -z "$status"', self.workflow)
+
     def test_two_complete_matrices_are_independent_and_bounded(self):
         self.assertEqual(self.workflow.count("fail-fast: false"), 2)
         self.assertEqual(self.workflow.count("max-parallel: 10"), 2)
