@@ -1,0 +1,66 @@
+{
+  "cases": [
+    {
+      "clock_reads": 195,
+      "constant_control_scores": false,
+      "error": null,
+      "evaluation_calls": 123,
+      "native_chunks": 3,
+      "seed": 1,
+      "selected_rows": 6000,
+      "trace_sha256": "d15b7a300353fccbab2264f6ba9623f77bbe9e78c8b0ac99ab2714723e22b778"
+    },
+    {
+      "clock_reads": 202,
+      "constant_control_scores": false,
+      "error": null,
+      "evaluation_calls": 126,
+      "native_chunks": 3,
+      "seed": 2,
+      "selected_rows": 6000,
+      "trace_sha256": "87e30f60f2d33ad81def48a7c944d85a5851c2831fe2f8c585f188de5fc00bde"
+    },
+    {
+      "clock_reads": 8,
+      "constant_control_scores": true,
+      "error": {
+        "message": "cannot access local variable 'selected_instances' where it is not associated with a value",
+        "type": "UnboundLocalError"
+      },
+      "evaluation_calls": 0,
+      "native_chunks": 0,
+      "seed": 1,
+      "selected_rows": 0,
+      "trace_sha256": "e26ab62ba6caf45d4c2a124f49e67aaf18249a46c3c30e9c24b48f8676e0d6e1"
+    }
+  ],
+  "classifier_training": false,
+  "fixture_scope": "synthetic_evaluator_real_pinned_native_CHC_no_classifier_training",
+  "historical_numeric_reproduction": false,
+  "provenance": {
+    "evolution_blob": "05b0d8afc02faee688e5d1ff8e24531ae41307c7",
+    "implementation_sha": "405eba461fa3c945f8b132bba1343e38a84df5b1",
+    "logging_configuration_sha256": "c351c338f4de76b07cdc8414e408fe8be659e23257b8518ddbedd02f9381e445",
+    "protocol_id": "EU26-21-CHCQX-SOURCE-WBA-DIAG-V1",
+    "protocol_sha256": "c51cbad33d2012b504312e70ff180f7f35cc58ffbd079882acf596b17710de40",
+    "registration_sha": "b5c46e603838c5fbc7e35b121f757421c222046f",
+    "run_attempt": 1,
+    "run_id": 37443128304,
+    "upstream_sha": "6ac5a7ec77f8a7c096ab4d019254fcc897988fd6",
+    "workflow_sha": "405eba461fa3c945f8b132bba1343e38a84df5b1"
+  },
+  "schema": "eu26-21-chc-qx-source-fixture-gate-v1",
+  "source_and_wrapper_compared": [
+    "masks_and_evaluation_scopes",
+    "selected_row_ids",
+    "controlled_masks",
+    "population_and_distance_per_native_chunk",
+    "persistent_full_archive",
+    "no_change_and_stop",
+    "approximate_fitness_unchanged_by_full_checkpoint",
+    "clock_read_tape",
+    "final_rng_states",
+    "degenerate_source_failure"
+  ],
+  "status": "PASS_SOURCE_CONTROLLER_EQUIVALENCE"
+}
