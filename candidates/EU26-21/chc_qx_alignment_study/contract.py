@@ -102,6 +102,7 @@ def implementation_inventory() -> dict[str, str]:
     paths += [CANDIDATE_DIRECTORY / item for item in REUSED_FILES]
     paths += list((REPOSITORY_ROOT / ".github" / "workflows").glob("eu26-21-chc-qx*.yml"))
     paths += [REPOSITORY_ROOT / ".github" / "scripts" / "download_study_artifacts.py"]
+    paths += [REPOSITORY_ROOT / ".github" / "scripts" / "qx-logging.json"]
     return {path.relative_to(REPOSITORY_ROOT).as_posix(): file_sha256(path)
             for path in sorted(paths)}
 

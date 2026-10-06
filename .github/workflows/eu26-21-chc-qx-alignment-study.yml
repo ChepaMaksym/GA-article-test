@@ -7,6 +7,7 @@ on:
       - 'candidates/EU26-21/chc_qx_alignment_study/**'
       - 'candidates/EU26-21/tests/test_chc_qx*.py'
       - '.github/scripts/download_study_artifacts.py'
+      - '.github/scripts/qx-logging.json'
       - '.github/workflows/eu26-21-chc-qx-alignment-study.yml'
   workflow_dispatch:
     inputs:
@@ -37,6 +38,7 @@ env:
   MKL_NUM_THREADS: '1'
   NUMEXPR_NUM_THREADS: '1'
   MPLBACKEND: Agg
+  LOG_CFG: ${{ github.workspace }}/.github/scripts/qx-logging.json
 
 jobs:
   preflight:

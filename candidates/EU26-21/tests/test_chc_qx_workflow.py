@@ -4,6 +4,7 @@ from __future__ import annotations
 import copy
 import hashlib
 import importlib.util
+import json
 from pathlib import Path
 import re
 import sys
@@ -118,6 +119,16 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("RUFF_CACHE_DIR: ${{ runner.temp }}/qx-ruff-cache", self.workflow)
         self.assertIn("Verify that tests and lint left the scientific checkout unchanged", self.workflow)
         self.assertIn('test -z "$status"', self.workflow)
+
+    def test_unused_source_pso_logger_cannot_create_a_report_file_in_checkout(self):
+        path = ROOT / ".github/scripts/qx-logging.json"
+        config = json.loads(path.read_text(encoding="utf-8"))
+        self.assertIn("LOG_CFG: ${{ github.workspace }}/.github/scripts/qx-logging.json", self.workflow)
+        self.assertIn("'.github/scripts/qx-logging.json'", self.workflow)
+        self.assertEqual(config["version"], 1)
+        self.assertFalse(config["disable_existing_loggers"])
+        self.assertEqual(config["root"]["handlers"], ["console"])
+        self.assertTrue(all(handler["class"] == "logging.StreamHandler" for handler in config["handlers"].values()))
 
     def test_two_complete_matrices_are_independent_and_bounded(self):
         self.assertEqual(self.workflow.count("fail-fast: false"), 2)

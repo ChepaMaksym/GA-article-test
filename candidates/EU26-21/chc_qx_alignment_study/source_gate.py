@@ -100,6 +100,8 @@ def authenticate(upstream: Path, expected_sha: str) -> dict[str, Any]:
         "run_attempt": int(os.environ["GITHUB_RUN_ATTEMPT"]),
         "upstream_sha": UPSTREAM_SHA,
         "evolution_blob": EVOLUTION_BLOB,
+        "logging_configuration_sha256": _digest_bytes(
+            (REPOSITORY_ROOT / ".github" / "scripts" / "qx-logging.json").read_bytes()),
     }
 
 
