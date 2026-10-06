@@ -1,0 +1,64 @@
+{
+  "schema": "eu26-21-lr-retained-source-v1",
+  "protocol_id": "EU26-21-LAMBDA-RESPONSE-LOW-START-V1",
+  "protocol_sha256": "49ebc9efd860c680e2026f94c9be2fd919abef9acfdbd5498c1a6669911f8cf1",
+  "registration_sha": "ab4a430c00856174957a5ab829ae2b688efbeeb8",
+  "scientific_sha": "8e447e98be672e1f2da64ee1869018924cdd65b6",
+  "source_run_id": 37466751636,
+  "source_run_attempt": 1,
+  "source_run_url": "https://github.com/ChepaMaksym/GA-article-test/actions/runs/37466751636",
+  "source_run_completed_at": "2026-10-06T13:18:59Z",
+  "report_artifact": {
+    "id": 11416341276,
+    "node_id": "MDg6QXJ0aWZhY3QxMTQxNjM0MTI3Ng==",
+    "name": "eu26-21-lr-report-37466751636-1",
+    "size_in_bytes": 1583713,
+    "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11416341276",
+    "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11416341276/zip",
+    "expired": false,
+    "digest": "sha256:89178cbec03c2badb783457b069322ef5d1957e866a5187e21c13a585defa4f3",
+    "created_at": "2026-10-06T13:18:56Z",
+    "updated_at": "2026-10-06T13:18:56Z",
+    "expires_at": "2027-01-04T12:54:52Z",
+    "workflow_run": {
+      "id": 37466751636,
+      "repository_id": 1196490034,
+      "head_repository_id": 1196490034,
+      "head_branch": "research/EU26-21-chcqx-census-old-first",
+      "head_sha": "8e447e98be672e1f2da64ee1869018924cdd65b6"
+    }
+  },
+  "registry_artifact": {
+    "id": 11414937233,
+    "node_id": "MDg6QXJ0aWZhY3QxMTQxNDkzNzIzMw==",
+    "name": "eu26-21-lr-registry-37466751636-1",
+    "size_in_bytes": 187437,
+    "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11414937233",
+    "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11414937233/zip",
+    "expired": false,
+    "digest": "sha256:f305a7f7692f0ee7d67947db12e4ed9b0866ac9698e84355fcfa1e860c0668ff",
+    "created_at": "2026-10-06T13:00:04Z",
+    "updated_at": "2026-10-06T13:00:04Z",
+    "expires_at": "2027-01-04T12:54:52Z",
+    "workflow_run": {
+      "id": 37466751636,
+      "repository_id": 1196490034,
+      "head_repository_id": 1196490034,
+      "head_branch": "research/EU26-21-chcqx-census-old-first",
+      "head_sha": "8e447e98be672e1f2da64ee1869018924cdd65b6"
+    }
+  },
+  "verified_report_zip": {
+    "bytes": 1583713,
+    "sha256": "89178cbec03c2badb783457b069322ef5d1957e866a5187e21c13a585defa4f3"
+  },
+  "report_manifest_sha256": "a7a0c8ab610ef4a7ecaf676b88db36526eb4fa064ca125da26ff4f6cb43ba5c1",
+  "registry_sha256": "d80cc88ebb207485cc89c84721ea61194c353f456f4d6d809c81580d06f47212",
+  "canonical_registry": "report/registry.json",
+  "excluded_duplicate": "registry/registry.json",
+  "retention": {
+    "raw_traces_and_models": "source_CI_artifacts_until_2027-01-04",
+    "models_deserialized_locally": false,
+    "scientific_computation_locally": false
+  }
+}

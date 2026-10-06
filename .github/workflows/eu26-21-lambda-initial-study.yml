@@ -1,0 +1,335 @@
+name: EU26-21 adaptive initial lambda sensitivity study
+
+on:
+  push:
+    branches: [research/EU26-21-chcqx-census-old-first]
+    paths:
+      - 'candidates/EU26-21/lambda_initial_study/**'
+      - 'candidates/EU26-21/tests/test_lambda_initial*.py'
+      - '.github/scripts/download_study_artifacts.py'
+      - '.github/workflows/eu26-21-lambda-initial-study.yml'
+  workflow_dispatch:
+    inputs:
+      expected_sha:
+        description: Exact green implementation and workflow SHA for the registered series
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: eu26-21-lambda-initial-${{ github.event_name }}-${{ github.sha }}
+  cancel-in-progress: false
+
+env:
+  EXPECTED_SHA: ${{ github.event_name == 'workflow_dispatch' && inputs.expected_sha || github.sha }}
+  STUDY_WORKFLOW_SHA: ${{ github.workflow_sha }}
+  PROTOCOL_SHA256: 8f96fbf91ae5e92b90409c3ba0492da2d13551bca0d49e273d299dd4ac1453b4
+  REGISTRATION_SHA: fdf093fd4b53ecf48a148d86b28c8ecee007e7aa
+  UPSTREAM_COMMIT: 6ac5a7ec77f8a7c096ab4d019254fcc897988fd6
+  PYTHONHASHSEED: '0'
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  NUMEXPR_NUM_THREADS: '1'
+  MPLBACKEND: Agg
+
+jobs:
+  preflight:
+    name: CI-only synthetic contracts and authenticated transport before science
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ env.EXPECTED_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Bind implementation, workflow and registered protocol ancestor
+        run: |
+          set -euo pipefail
+          [[ "$EXPECTED_SHA" =~ ^[0-9a-f]{40}$ ]]
+          test "$GITHUB_SHA" = "$EXPECTED_SHA"
+          test "$STUDY_WORKFLOW_SHA" = "$EXPECTED_SHA"
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+          git merge-base --is-ancestor "$REGISTRATION_SHA" "$EXPECTED_SHA"
+          printf '%s  %s\n' "$PROTOCOL_SHA256" candidates/EU26-21/lambda_initial_study/protocol.json | sha256sum --check
+          registered_digest="$(git show "${REGISTRATION_SHA}:candidates/EU26-21/lambda_initial_study/protocol.json" | sha256sum | cut -d ' ' -f 1)"
+          test "$registered_digest" = "$PROTOCOL_SHA256"
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Install the unchanged pinned environment and critical lint gate
+        run: |
+          python -m pip install -r candidates/EU26-21/corrected_applied/requirements.txt
+          python -m pip install ruff==0.12.10
+          python -m pip check
+      - name: Fetch admitted pinned CHC source for synthetic tests
+        run: |
+          set -euo pipefail
+          git clone --filter=blob:none https://github.com/Ghaith81/Fast-Genetic-Algorithm-For-Feature-Selection.git "${RUNNER_TEMP}/upstream"
+          git -C "${RUNNER_TEMP}/upstream" checkout --detach "$UPSTREAM_COMMIT"
+          test "$(git -C "${RUNNER_TEMP}/upstream" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
+      - name: Run all project tests without Census experiments
+        env:
+          EU26_21_UPSTREAM: ${{ runner.temp }}/upstream
+          PYTHONPATH: ${{ github.workspace }}/candidates/EU26-21
+        run: |
+          python -m unittest discover -s candidates/EU26-21/tests -p 'test_*.py' -v
+          ruff check .github/scripts/download_study_artifacts.py candidates/EU26-21/lambda_initial_study candidates/EU26-21/tests --select E9,F63,F7,F82
+      - name: Prepare tiny synthetic source for exact-ID transport smoke
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          root = Path(os.environ['RUNNER_TEMP']) / 'lambda-transport-smoke-source'
+          root.mkdir()
+          (root / 'synthetic.txt').write_bytes(b'CI_ONLY_SYNTHETIC_LAMBDA_ARTIFACT\n')
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        id: transport_smoke
+        with:
+          name: eu26-21-lambda-initial-smoke-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/lambda-transport-smoke-source
+          if-no-files-found: error
+          retention-days: 7
+      - name: Authenticate metadata, ZIP and extraction before scientific dispatch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/download_study_artifacts.py
+          --artifact-ids "${{ steps.transport_smoke.outputs.artifact-id }}"
+          --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
+          --expected-sha "$EXPECTED_SHA" --kind lambda-smoke
+          --destination "${RUNNER_TEMP}/lambda-transport-smoke-downloaded" --merge-multiple
+          --transport-ledger "${RUNNER_TEMP}/lambda-smoke-transport.json"
+      - name: Compare synthetic bytes and authenticated transport ledger
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          root = Path(os.environ['RUNNER_TEMP'])
+          if (root / 'lambda-transport-smoke-downloaded' / 'synthetic.txt').read_bytes() != b'CI_ONLY_SYNTHETIC_LAMBDA_ARTIFACT\n':
+              raise SystemExit('synthetic lambda transport payload mismatch')
+          ledger = json.loads((root / 'lambda-smoke-transport.json').read_text())
+          if ledger['complete'] is not True or len(ledger['artifacts']) != 1:
+              raise SystemExit('synthetic transport ledger incomplete')
+          if ledger['artifacts'][0]['zip_verified_before_extraction'] is not True:
+              raise SystemExit('synthetic archive was not authenticated before extraction')
+          PY
+
+  dispatch:
+    # A normal push runs contracts only; this distinct marker requests science.
+    if: ${{ github.event_name == 'push' && contains(github.event.head_commit.message, '[launch-lambda-initial]') }}
+    needs: preflight
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - name: Dispatch the authorized series at the exact green SHA
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = refs/heads/research/EU26-21-chcqx-census-old-first
+          test "$GITHUB_SHA" = "$EXPECTED_SHA"
+          gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/eu26-21-lambda-initial-study.yml/dispatches" \
+            --method POST -f ref=research/EU26-21-chcqx-census-old-first \
+            -f "inputs[expected_sha]=$EXPECTED_SHA"
+
+  authorize:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    needs: preflight
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Reject mismatched SHA-bound scientific dispatch
+        run: |
+          set -euo pipefail
+          [[ "$EXPECTED_SHA" =~ ^[0-9a-f]{40}$ ]]
+          test "$GITHUB_SHA" = "$EXPECTED_SHA"
+          test "$STUDY_WORKFLOW_SHA" = "$EXPECTED_SHA"
+
+  fixture:
+    needs: authorize
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    outputs:
+      artifact_id: ${{ steps.upload.outputs.artifact-id }}
+    steps:
+      - name: Download and authenticate the unchanged official data
+        run: |
+          set -euo pipefail
+          fixture="${RUNNER_TEMP}/lambda-initial-fixture"
+          mkdir -p "$fixture"
+          curl --fail --location --retry 5 --retry-all-errors \
+            'https://archive.ics.uci.edu/static/public/117/census%2Bincome%2Bkdd.zip' -o "$fixture/data.zip"
+          cd "$fixture"
+          printf '%s  %s\n' 54fd206becffcfaf099544c3938c681d64a65709800c94c00a4fba0a00df10c9 data.zip | sha256sum --check
+          python - <<'PY'
+          from io import BytesIO
+          from pathlib import Path, PurePosixPath
+          import tarfile, zipfile
+          root = Path.cwd()
+          with zipfile.ZipFile(root / 'data.zip') as archive:
+              names = [name for name in archive.namelist() if PurePosixPath(name).name == 'census.tar.gz']
+              if len(names) != 1:
+                  raise SystemExit('ambiguous official archive')
+              raw = archive.read(names[0])
+          wanted = {'census-income.data', 'census-income.test'}
+          with tarfile.open(fileobj=BytesIO(raw), mode='r:gz') as archive:
+              members = {PurePosixPath(member.name).name: member for member in archive.getmembers()
+                         if member.isfile() and PurePosixPath(member.name).name in wanted}
+              if set(members) != wanted:
+                  raise SystemExit('missing official data files')
+              for name, member in members.items():
+                  with archive.extractfile(member) as stream:
+                      (root / name).write_bytes(stream.read())
+          PY
+          printf '%s  %s\n' 3676a81db7d3528f3f8b9f3c699d0f0aa28db45e6e994fa0b8ed38327539ee86 census-income.data | sha256sum --check
+          printf '%s  %s\n' 98402b1ab879573d0a7f38a699a40258080e25e33d3401e7bf9c96d3fa0fab8c census-income.test | sha256sum --check
+      - name: Retain the pinned admitted CHC source
+        run: |
+          set -euo pipefail
+          git clone --no-tags https://github.com/Ghaith81/Fast-Genetic-Algorithm-For-Feature-Selection.git "${RUNNER_TEMP}/upstream"
+          git -C "${RUNNER_TEMP}/upstream" checkout --detach "$UPSTREAM_COMMIT"
+          test "$(git -C "${RUNNER_TEMP}/upstream" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
+          tar -czf "${RUNNER_TEMP}/lambda-initial-fixture/upstream.tar.gz" -C "$RUNNER_TEMP" upstream
+          cd "${RUNNER_TEMP}/lambda-initial-fixture"
+          sha256sum upstream.tar.gz > upstream.sha256
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        id: upload
+        with:
+          name: eu26-21-lambda-initial-fixture-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/lambda-initial-fixture
+          if-no-files-found: error
+          retention-days: 90
+
+  cases:
+    name: Six paired methods for seed ${{ matrix.seed }}
+    needs: fixture
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        seed: [43001,43002,43003,43004,43005,43006,43007,43008,43009,43010,43011,43012,43013,43014,43015,43016,43017,43018,43019,43020,43021,43022,43023,43024,43025,43026,43027,43028,43029,43030]
+    env:
+      PYTHONPATH: ${{ github.workspace }}/candidates/EU26-21
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ env.EXPECTED_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r candidates/EU26-21/corrected_applied/requirements.txt
+      - name: Download the authenticated fixture by exact ID
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/download_study_artifacts.py
+          --artifact-ids "${{ needs.fixture.outputs.artifact_id }}"
+          --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
+          --expected-sha "$EXPECTED_SHA" --kind lambda-fixture
+          --destination "${RUNNER_TEMP}/fixture" --merge-multiple
+      - name: Verify and unpack pinned CHC source
+        run: |
+          set -euo pipefail
+          cd "${RUNNER_TEMP}/fixture"
+          sha256sum --check upstream.sha256
+          tar -xzf upstream.tar.gz -C "$RUNNER_TEMP"
+      - name: Execute all six methods and freeze masks before terminal tests
+        run: >-
+          python -m lambda_initial_study.run_case
+          --expected-sha "$EXPECTED_SHA"
+          --upstream "${RUNNER_TEMP}/upstream"
+          --train "${RUNNER_TEMP}/fixture/census-income.data"
+          --test "${RUNNER_TEMP}/fixture/census-income.test"
+          --seed ${{ matrix.seed }} --output "${RUNNER_TEMP}/case"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: eu26-21-lambda-case-${{ matrix.seed }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/case
+          if-no-files-found: error
+          retention-days: 90
+
+  report:
+    name: Aggregate the complete 30-case six-arm campaign only
+    needs: cases
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      PYTHONPATH: ${{ github.workspace }}/candidates/EU26-21
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ env.EXPECTED_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r candidates/EU26-21/corrected_applied/requirements.txt
+      - name: Snapshot all matching source identities without outcome inspection
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api --paginate --slurp "repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts?per_page=100" \
+            | jq '{artifacts: [.[].artifacts[] | select(.name | startswith("eu26-21-lambda-case-"))]}' \
+            > "${RUNNER_TEMP}/case-attempt-ledger.json"
+      - name: Select exact sources by uploaded attempt, never by outcome
+        id: sources
+        run: |
+          set -euo pipefail
+          python -m lambda_initial_study.select_artifacts \
+            --api-metadata "${RUNNER_TEMP}/case-attempt-ledger.json" \
+            --run-id "$GITHUB_RUN_ID" --expected-sha "$EXPECTED_SHA" \
+            --output "${RUNNER_TEMP}/sources.json"
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          ledger = json.loads((Path(os.environ['RUNNER_TEMP']) / 'sources.json').read_text())
+          rows = ledger['artifacts']
+          if len(rows) != 30 or len({row['id'] for row in rows}) != 30:
+              raise SystemExit('source completeness is not 30/30')
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as stream:
+              stream.write('artifact_ids=' + ','.join(str(row['id']) for row in rows) + '\n')
+          PY
+      - name: Authenticate every selected source ZIP before extraction
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/download_study_artifacts.py
+          --artifact-ids "${{ steps.sources.outputs.artifact_ids }}"
+          --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
+          --expected-sha "$EXPECTED_SHA" --kind lambda-case
+          --destination "${RUNNER_TEMP}/cases"
+          --transport-ledger "${RUNNER_TEMP}/download-ledger.json"
+      - name: Validate all manifests and compute the registered analysis and plot
+        run: >-
+          python -m lambda_initial_study.aggregate
+          --expected-sha "$EXPECTED_SHA" --root "${RUNNER_TEMP}/cases"
+          --sources "${RUNNER_TEMP}/sources.json"
+          --download-ledger "${RUNNER_TEMP}/download-ledger.json"
+          --output "${RUNNER_TEMP}/report"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: eu26-21-lambda-initial-report-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/report
+            ${{ runner.temp }}/sources.json
+            ${{ runner.temp }}/case-attempt-ledger.json
+            ${{ runner.temp }}/download-ledger.json
+          if-no-files-found: error
+          retention-days: 90

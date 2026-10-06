@@ -1,0 +1,1215 @@
+{
+  "artifacts": [
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309505366/zip",
+      "created_at": "2026-10-04T16:56:42Z",
+      "digest": "sha256:6c03719cab9c2d1cca9119f515a42ebb1c14779a809b288bff286f49a335f724",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309505366,
+      "name": "eu26-21-lambda-case-43001-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTUwNTM2Ng==",
+      "size_in_bytes": 3952961,
+      "updated_at": "2026-10-04T16:56:42Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309505366",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309094273/zip",
+      "created_at": "2026-10-04T16:57:03Z",
+      "digest": "sha256:07f9dc40547b5b83abf19e6c779757080a88006d8eecd404b41b94d2577869f3",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309094273,
+      "name": "eu26-21-lambda-case-43002-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTA5NDI3Mw==",
+      "size_in_bytes": 3750745,
+      "updated_at": "2026-10-04T16:57:03Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309094273",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309381223/zip",
+      "created_at": "2026-10-04T16:56:02Z",
+      "digest": "sha256:af58dead761b4054537f2452aec52f40ded9b6a02339b1e53c74dd6f95962a0a",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309381223,
+      "name": "eu26-21-lambda-case-43003-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTM4MTIyMw==",
+      "size_in_bytes": 3544396,
+      "updated_at": "2026-10-04T16:56:02Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309381223",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309965250/zip",
+      "created_at": "2026-10-04T16:56:47Z",
+      "digest": "sha256:b31565f0fc055621b31f5638aeeb3e604c17c26fa9dfbf4c260dbca930b27e00",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309965250,
+      "name": "eu26-21-lambda-case-43004-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTk2NTI1MA==",
+      "size_in_bytes": 3953334,
+      "updated_at": "2026-10-04T16:56:47Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309965250",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309148807/zip",
+      "created_at": "2026-10-04T16:56:49Z",
+      "digest": "sha256:43f3668bfeb32f1d47f8cab4a77548529ef6038bc4df13260b708731ba59c526",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309148807,
+      "name": "eu26-21-lambda-case-43005-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTE0ODgwNw==",
+      "size_in_bytes": 3971796,
+      "updated_at": "2026-10-04T16:56:49Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309148807",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309530333/zip",
+      "created_at": "2026-10-04T16:56:18Z",
+      "digest": "sha256:25d6593d97cce1abed22852143843b19fcfa7d68e0a680c6bd4d7c5ab739fea8",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309530333,
+      "name": "eu26-21-lambda-case-43006-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTUzMDMzMw==",
+      "size_in_bytes": 3855713,
+      "updated_at": "2026-10-04T16:56:18Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309530333",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11308384705/zip",
+      "created_at": "2026-10-04T16:56:38Z",
+      "digest": "sha256:660880e7a5162baa06bbe2d41f422ba518322967b63793f9235c78502ff5e366",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11308384705,
+      "name": "eu26-21-lambda-case-43007-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwODM4NDcwNQ==",
+      "size_in_bytes": 3608717,
+      "updated_at": "2026-10-04T16:56:38Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11308384705",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309995143/zip",
+      "created_at": "2026-10-04T16:56:48Z",
+      "digest": "sha256:2270d1ac14a440d7494481f0ea0ebe59bcba307388465b8ffebfcc804933608e",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309995143,
+      "name": "eu26-21-lambda-case-43008-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTk5NTE0Mw==",
+      "size_in_bytes": 4051346,
+      "updated_at": "2026-10-04T16:56:48Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309995143",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309490787/zip",
+      "created_at": "2026-10-04T16:56:59Z",
+      "digest": "sha256:e2b6388d58286226617532d24d390d48986f4705d99d93389277e7f7b45c2c4b",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309490787,
+      "name": "eu26-21-lambda-case-43009-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTQ5MDc4Nw==",
+      "size_in_bytes": 3733834,
+      "updated_at": "2026-10-04T16:56:59Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309490787",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309575359/zip",
+      "created_at": "2026-10-04T16:56:59Z",
+      "digest": "sha256:30bdd597252411a443157cac8d9e0e164a25183f095a3e8e8c2f42ab62112c79",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309575359,
+      "name": "eu26-21-lambda-case-43010-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTU3NTM1OQ==",
+      "size_in_bytes": 3972397,
+      "updated_at": "2026-10-04T16:56:59Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309575359",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309471198/zip",
+      "created_at": "2026-10-04T16:58:09Z",
+      "digest": "sha256:c95d0c0e7312c009f47893062e50b598d6b2360821d1a4e08646238fe93c2547",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309471198,
+      "name": "eu26-21-lambda-case-43011-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTQ3MTE5OA==",
+      "size_in_bytes": 3696280,
+      "updated_at": "2026-10-04T16:58:09Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309471198",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309491059/zip",
+      "created_at": "2026-10-04T16:59:30Z",
+      "digest": "sha256:868b623da53a8ee47f71cc8f6b9d30335c12963e099967cb686fa7b0a980554c",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309491059,
+      "name": "eu26-21-lambda-case-43012-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTQ5MTA1OQ==",
+      "size_in_bytes": 3965215,
+      "updated_at": "2026-10-04T16:59:30Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309491059",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309520974/zip",
+      "created_at": "2026-10-04T16:58:59Z",
+      "digest": "sha256:1e5bc13c5a3291ee20e042b4ab57d16d22ae44b2a0df221d75c113ec717952b7",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309520974,
+      "name": "eu26-21-lambda-case-43013-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTUyMDk3NA==",
+      "size_in_bytes": 3456150,
+      "updated_at": "2026-10-04T16:58:59Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309520974",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309860625/zip",
+      "created_at": "2026-10-04T16:59:40Z",
+      "digest": "sha256:23344470b6180220143acd0284eb2aea329bc78a8620ce38bedd21c6f6562066",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309860625,
+      "name": "eu26-21-lambda-case-43014-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTg2MDYyNQ==",
+      "size_in_bytes": 3678407,
+      "updated_at": "2026-10-04T16:59:40Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309860625",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11310110221/zip",
+      "created_at": "2026-10-04T16:59:54Z",
+      "digest": "sha256:342cfaba61c07a5d0720462d68ac399ad7d9ce21c7185208ae174997d0dd9d03",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11310110221,
+      "name": "eu26-21-lambda-case-43015-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMxMDExMDIyMQ==",
+      "size_in_bytes": 3646796,
+      "updated_at": "2026-10-04T16:59:54Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11310110221",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11310080309/zip",
+      "created_at": "2026-10-04T17:00:26Z",
+      "digest": "sha256:1e84b73446de61074709899744b622646aa532ec5746ed3d543937ecc434cc6c",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11310080309,
+      "name": "eu26-21-lambda-case-43016-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMxMDA4MDMwOQ==",
+      "size_in_bytes": 3680959,
+      "updated_at": "2026-10-04T17:00:26Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11310080309",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309004893/zip",
+      "created_at": "2026-10-04T16:58:42Z",
+      "digest": "sha256:9fb1f63b3b2981b57fcb1d2339352ff3c812204a70b8914392a90a5d12afca7a",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309004893,
+      "name": "eu26-21-lambda-case-43017-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTAwNDg5Mw==",
+      "size_in_bytes": 3693920,
+      "updated_at": "2026-10-04T16:58:42Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309004893",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309073077/zip",
+      "created_at": "2026-10-04T16:59:17Z",
+      "digest": "sha256:ff6ffc52b0b0fc08291dbfe0cf04dc25959d67e9ac9788a5c3d4e632dea2c28e",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309073077,
+      "name": "eu26-21-lambda-case-43018-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTA3MzA3Nw==",
+      "size_in_bytes": 4051765,
+      "updated_at": "2026-10-04T16:59:17Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309073077",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309975367/zip",
+      "created_at": "2026-10-04T17:00:02Z",
+      "digest": "sha256:20601c18737913537d6f62fa24bed462007373da1107ae5404ee5b8bf1fbe8e4",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309975367,
+      "name": "eu26-21-lambda-case-43019-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTk3NTM2Nw==",
+      "size_in_bytes": 3865133,
+      "updated_at": "2026-10-04T17:00:02Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309975367",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309124464/zip",
+      "created_at": "2026-10-04T17:00:54Z",
+      "digest": "sha256:436c88473ede39ced51bac1635b1c8a9921bf42219f38e5d341fa362bcebb533",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309124464,
+      "name": "eu26-21-lambda-case-43020-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTEyNDQ2NA==",
+      "size_in_bytes": 3425063,
+      "updated_at": "2026-10-04T17:00:54Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309124464",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309173122/zip",
+      "created_at": "2026-10-04T17:01:22Z",
+      "digest": "sha256:e0589bb300c4b671dd7b8564a92a91f44e86a5e66d399834ea712fb08164502e",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309173122,
+      "name": "eu26-21-lambda-case-43021-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTE3MzEyMg==",
+      "size_in_bytes": 3875515,
+      "updated_at": "2026-10-04T17:01:22Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309173122",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309176893/zip",
+      "created_at": "2026-10-04T17:01:41Z",
+      "digest": "sha256:714f8c0d67d274ff1b4195fb7a6a4a546cc777ece62af5d8b9189add8038e268",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309176893,
+      "name": "eu26-21-lambda-case-43022-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTE3Njg5Mw==",
+      "size_in_bytes": 3741373,
+      "updated_at": "2026-10-04T17:01:41Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309176893",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309361026/zip",
+      "created_at": "2026-10-04T17:01:38Z",
+      "digest": "sha256:7fa3cebf54bfdf1e8a6545bc90f1d8c1429801f58c59128bcb58ffc78831d246",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309361026,
+      "name": "eu26-21-lambda-case-43023-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTM2MTAyNg==",
+      "size_in_bytes": 3513575,
+      "updated_at": "2026-10-04T17:01:38Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309361026",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309366800/zip",
+      "created_at": "2026-10-04T17:01:47Z",
+      "digest": "sha256:38b9126215ec9fdff1293b0db8adc5ac3c001a4929d3b63d1849389f48961a14",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309366800,
+      "name": "eu26-21-lambda-case-43024-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTM2NjgwMA==",
+      "size_in_bytes": 3570161,
+      "updated_at": "2026-10-04T17:01:47Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309366800",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309940954/zip",
+      "created_at": "2026-10-04T17:03:16Z",
+      "digest": "sha256:ef3c758bde8c18eb83196997f24ef1efc1605e89260f832651c64e0da23a8f31",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309940954,
+      "name": "eu26-21-lambda-case-43025-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTk0MDk1NA==",
+      "size_in_bytes": 3726345,
+      "updated_at": "2026-10-04T17:03:16Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309940954",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309561338/zip",
+      "created_at": "2026-10-04T17:02:37Z",
+      "digest": "sha256:f171ccf2613c303763e9de4ff222813daed7731c09cfa97f9abb7cb4c22b439d",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309561338,
+      "name": "eu26-21-lambda-case-43026-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTU2MTMzOA==",
+      "size_in_bytes": 3635474,
+      "updated_at": "2026-10-04T17:02:37Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309561338",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309411730/zip",
+      "created_at": "2026-10-04T17:02:01Z",
+      "digest": "sha256:4b77df0679493f055a145ee1ca3c4b21b383878b94d90d04fcbda137975a078b",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309411730,
+      "name": "eu26-21-lambda-case-43027-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTQxMTczMA==",
+      "size_in_bytes": 3996097,
+      "updated_at": "2026-10-04T17:02:01Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309411730",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309104867/zip",
+      "created_at": "2026-10-04T17:03:04Z",
+      "digest": "sha256:fa06e6472671f7595c0630cff2f533f74dd78397d513ffb0b39baa029dbd6757",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309104867,
+      "name": "eu26-21-lambda-case-43028-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTEwNDg2Nw==",
+      "size_in_bytes": 3708617,
+      "updated_at": "2026-10-04T17:03:04Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309104867",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11310100145/zip",
+      "created_at": "2026-10-04T17:03:12Z",
+      "digest": "sha256:79b0443122da3f38cd625c45a6382760b28bbbb3aabd51c05965d8ead43c85a8",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11310100145,
+      "name": "eu26-21-lambda-case-43029-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMxMDEwMDE0NQ==",
+      "size_in_bytes": 3633567,
+      "updated_at": "2026-10-04T17:03:12Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11310100145",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11310015807/zip",
+      "created_at": "2026-10-04T17:04:03Z",
+      "digest": "sha256:d2db8db935897b6bcfd0f404932beae407a284af11666eff8d49123ea3560fc8",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11310015807,
+      "name": "eu26-21-lambda-case-43030-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMxMDAxNTgwNw==",
+      "size_in_bytes": 3754764,
+      "updated_at": "2026-10-04T17:04:03Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11310015807",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    }
+  ],
+  "attempts": [
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11310110221/zip",
+      "created_at": "2026-10-04T16:59:54Z",
+      "digest": "sha256:342cfaba61c07a5d0720462d68ac399ad7d9ce21c7185208ae174997d0dd9d03",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11310110221,
+      "name": "eu26-21-lambda-case-43015-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMxMDExMDIyMQ==",
+      "size_in_bytes": 3646796,
+      "updated_at": "2026-10-04T16:59:54Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11310110221",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11310100145/zip",
+      "created_at": "2026-10-04T17:03:12Z",
+      "digest": "sha256:79b0443122da3f38cd625c45a6382760b28bbbb3aabd51c05965d8ead43c85a8",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11310100145,
+      "name": "eu26-21-lambda-case-43029-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMxMDEwMDE0NQ==",
+      "size_in_bytes": 3633567,
+      "updated_at": "2026-10-04T17:03:12Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11310100145",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11310080309/zip",
+      "created_at": "2026-10-04T17:00:26Z",
+      "digest": "sha256:1e84b73446de61074709899744b622646aa532ec5746ed3d543937ecc434cc6c",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11310080309,
+      "name": "eu26-21-lambda-case-43016-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMxMDA4MDMwOQ==",
+      "size_in_bytes": 3680959,
+      "updated_at": "2026-10-04T17:00:26Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11310080309",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11310015807/zip",
+      "created_at": "2026-10-04T17:04:03Z",
+      "digest": "sha256:d2db8db935897b6bcfd0f404932beae407a284af11666eff8d49123ea3560fc8",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11310015807,
+      "name": "eu26-21-lambda-case-43030-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMxMDAxNTgwNw==",
+      "size_in_bytes": 3754764,
+      "updated_at": "2026-10-04T17:04:03Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11310015807",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309995143/zip",
+      "created_at": "2026-10-04T16:56:48Z",
+      "digest": "sha256:2270d1ac14a440d7494481f0ea0ebe59bcba307388465b8ffebfcc804933608e",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309995143,
+      "name": "eu26-21-lambda-case-43008-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTk5NTE0Mw==",
+      "size_in_bytes": 4051346,
+      "updated_at": "2026-10-04T16:56:48Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309995143",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309975367/zip",
+      "created_at": "2026-10-04T17:00:02Z",
+      "digest": "sha256:20601c18737913537d6f62fa24bed462007373da1107ae5404ee5b8bf1fbe8e4",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309975367,
+      "name": "eu26-21-lambda-case-43019-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTk3NTM2Nw==",
+      "size_in_bytes": 3865133,
+      "updated_at": "2026-10-04T17:00:02Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309975367",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309965250/zip",
+      "created_at": "2026-10-04T16:56:47Z",
+      "digest": "sha256:b31565f0fc055621b31f5638aeeb3e604c17c26fa9dfbf4c260dbca930b27e00",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309965250,
+      "name": "eu26-21-lambda-case-43004-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTk2NTI1MA==",
+      "size_in_bytes": 3953334,
+      "updated_at": "2026-10-04T16:56:47Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309965250",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309940954/zip",
+      "created_at": "2026-10-04T17:03:16Z",
+      "digest": "sha256:ef3c758bde8c18eb83196997f24ef1efc1605e89260f832651c64e0da23a8f31",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309940954,
+      "name": "eu26-21-lambda-case-43025-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTk0MDk1NA==",
+      "size_in_bytes": 3726345,
+      "updated_at": "2026-10-04T17:03:16Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309940954",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309860625/zip",
+      "created_at": "2026-10-04T16:59:40Z",
+      "digest": "sha256:23344470b6180220143acd0284eb2aea329bc78a8620ce38bedd21c6f6562066",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309860625,
+      "name": "eu26-21-lambda-case-43014-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTg2MDYyNQ==",
+      "size_in_bytes": 3678407,
+      "updated_at": "2026-10-04T16:59:40Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309860625",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309575359/zip",
+      "created_at": "2026-10-04T16:56:59Z",
+      "digest": "sha256:30bdd597252411a443157cac8d9e0e164a25183f095a3e8e8c2f42ab62112c79",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309575359,
+      "name": "eu26-21-lambda-case-43010-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTU3NTM1OQ==",
+      "size_in_bytes": 3972397,
+      "updated_at": "2026-10-04T16:56:59Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309575359",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309561338/zip",
+      "created_at": "2026-10-04T17:02:37Z",
+      "digest": "sha256:f171ccf2613c303763e9de4ff222813daed7731c09cfa97f9abb7cb4c22b439d",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309561338,
+      "name": "eu26-21-lambda-case-43026-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTU2MTMzOA==",
+      "size_in_bytes": 3635474,
+      "updated_at": "2026-10-04T17:02:37Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309561338",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309530333/zip",
+      "created_at": "2026-10-04T16:56:18Z",
+      "digest": "sha256:25d6593d97cce1abed22852143843b19fcfa7d68e0a680c6bd4d7c5ab739fea8",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309530333,
+      "name": "eu26-21-lambda-case-43006-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTUzMDMzMw==",
+      "size_in_bytes": 3855713,
+      "updated_at": "2026-10-04T16:56:18Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309530333",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309520974/zip",
+      "created_at": "2026-10-04T16:58:59Z",
+      "digest": "sha256:1e5bc13c5a3291ee20e042b4ab57d16d22ae44b2a0df221d75c113ec717952b7",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309520974,
+      "name": "eu26-21-lambda-case-43013-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTUyMDk3NA==",
+      "size_in_bytes": 3456150,
+      "updated_at": "2026-10-04T16:58:59Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309520974",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309505366/zip",
+      "created_at": "2026-10-04T16:56:42Z",
+      "digest": "sha256:6c03719cab9c2d1cca9119f515a42ebb1c14779a809b288bff286f49a335f724",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309505366,
+      "name": "eu26-21-lambda-case-43001-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTUwNTM2Ng==",
+      "size_in_bytes": 3952961,
+      "updated_at": "2026-10-04T16:56:42Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309505366",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309491059/zip",
+      "created_at": "2026-10-04T16:59:30Z",
+      "digest": "sha256:868b623da53a8ee47f71cc8f6b9d30335c12963e099967cb686fa7b0a980554c",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309491059,
+      "name": "eu26-21-lambda-case-43012-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTQ5MTA1OQ==",
+      "size_in_bytes": 3965215,
+      "updated_at": "2026-10-04T16:59:30Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309491059",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309490787/zip",
+      "created_at": "2026-10-04T16:56:59Z",
+      "digest": "sha256:e2b6388d58286226617532d24d390d48986f4705d99d93389277e7f7b45c2c4b",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309490787,
+      "name": "eu26-21-lambda-case-43009-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTQ5MDc4Nw==",
+      "size_in_bytes": 3733834,
+      "updated_at": "2026-10-04T16:56:59Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309490787",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309471198/zip",
+      "created_at": "2026-10-04T16:58:09Z",
+      "digest": "sha256:c95d0c0e7312c009f47893062e50b598d6b2360821d1a4e08646238fe93c2547",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309471198,
+      "name": "eu26-21-lambda-case-43011-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTQ3MTE5OA==",
+      "size_in_bytes": 3696280,
+      "updated_at": "2026-10-04T16:58:09Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309471198",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309411730/zip",
+      "created_at": "2026-10-04T17:02:01Z",
+      "digest": "sha256:4b77df0679493f055a145ee1ca3c4b21b383878b94d90d04fcbda137975a078b",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309411730,
+      "name": "eu26-21-lambda-case-43027-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTQxMTczMA==",
+      "size_in_bytes": 3996097,
+      "updated_at": "2026-10-04T17:02:01Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309411730",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309381223/zip",
+      "created_at": "2026-10-04T16:56:02Z",
+      "digest": "sha256:af58dead761b4054537f2452aec52f40ded9b6a02339b1e53c74dd6f95962a0a",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309381223,
+      "name": "eu26-21-lambda-case-43003-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTM4MTIyMw==",
+      "size_in_bytes": 3544396,
+      "updated_at": "2026-10-04T16:56:02Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309381223",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309366800/zip",
+      "created_at": "2026-10-04T17:01:47Z",
+      "digest": "sha256:38b9126215ec9fdff1293b0db8adc5ac3c001a4929d3b63d1849389f48961a14",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309366800,
+      "name": "eu26-21-lambda-case-43024-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTM2NjgwMA==",
+      "size_in_bytes": 3570161,
+      "updated_at": "2026-10-04T17:01:47Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309366800",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309361026/zip",
+      "created_at": "2026-10-04T17:01:38Z",
+      "digest": "sha256:7fa3cebf54bfdf1e8a6545bc90f1d8c1429801f58c59128bcb58ffc78831d246",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309361026,
+      "name": "eu26-21-lambda-case-43023-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTM2MTAyNg==",
+      "size_in_bytes": 3513575,
+      "updated_at": "2026-10-04T17:01:38Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309361026",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309176893/zip",
+      "created_at": "2026-10-04T17:01:41Z",
+      "digest": "sha256:714f8c0d67d274ff1b4195fb7a6a4a546cc777ece62af5d8b9189add8038e268",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309176893,
+      "name": "eu26-21-lambda-case-43022-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTE3Njg5Mw==",
+      "size_in_bytes": 3741373,
+      "updated_at": "2026-10-04T17:01:41Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309176893",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309173122/zip",
+      "created_at": "2026-10-04T17:01:22Z",
+      "digest": "sha256:e0589bb300c4b671dd7b8564a92a91f44e86a5e66d399834ea712fb08164502e",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309173122,
+      "name": "eu26-21-lambda-case-43021-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTE3MzEyMg==",
+      "size_in_bytes": 3875515,
+      "updated_at": "2026-10-04T17:01:22Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309173122",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309148807/zip",
+      "created_at": "2026-10-04T16:56:49Z",
+      "digest": "sha256:43f3668bfeb32f1d47f8cab4a77548529ef6038bc4df13260b708731ba59c526",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309148807,
+      "name": "eu26-21-lambda-case-43005-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTE0ODgwNw==",
+      "size_in_bytes": 3971796,
+      "updated_at": "2026-10-04T16:56:49Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309148807",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309124464/zip",
+      "created_at": "2026-10-04T17:00:54Z",
+      "digest": "sha256:436c88473ede39ced51bac1635b1c8a9921bf42219f38e5d341fa362bcebb533",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309124464,
+      "name": "eu26-21-lambda-case-43020-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTEyNDQ2NA==",
+      "size_in_bytes": 3425063,
+      "updated_at": "2026-10-04T17:00:54Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309124464",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309104867/zip",
+      "created_at": "2026-10-04T17:03:04Z",
+      "digest": "sha256:fa06e6472671f7595c0630cff2f533f74dd78397d513ffb0b39baa029dbd6757",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309104867,
+      "name": "eu26-21-lambda-case-43028-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTEwNDg2Nw==",
+      "size_in_bytes": 3708617,
+      "updated_at": "2026-10-04T17:03:04Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309104867",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309094273/zip",
+      "created_at": "2026-10-04T16:57:03Z",
+      "digest": "sha256:07f9dc40547b5b83abf19e6c779757080a88006d8eecd404b41b94d2577869f3",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309094273,
+      "name": "eu26-21-lambda-case-43002-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTA5NDI3Mw==",
+      "size_in_bytes": 3750745,
+      "updated_at": "2026-10-04T16:57:03Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309094273",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309073077/zip",
+      "created_at": "2026-10-04T16:59:17Z",
+      "digest": "sha256:ff6ffc52b0b0fc08291dbfe0cf04dc25959d67e9ac9788a5c3d4e632dea2c28e",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309073077,
+      "name": "eu26-21-lambda-case-43018-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTA3MzA3Nw==",
+      "size_in_bytes": 4051765,
+      "updated_at": "2026-10-04T16:59:17Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309073077",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309004893/zip",
+      "created_at": "2026-10-04T16:58:42Z",
+      "digest": "sha256:9fb1f63b3b2981b57fcb1d2339352ff3c812204a70b8914392a90a5d12afca7a",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11309004893,
+      "name": "eu26-21-lambda-case-43017-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwOTAwNDg5Mw==",
+      "size_in_bytes": 3693920,
+      "updated_at": "2026-10-04T16:58:42Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11309004893",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11308384705/zip",
+      "created_at": "2026-10-04T16:56:38Z",
+      "digest": "sha256:660880e7a5162baa06bbe2d41f422ba518322967b63793f9235c78502ff5e366",
+      "expired": false,
+      "expires_at": "2027-01-02T16:52:16Z",
+      "id": 11308384705,
+      "name": "eu26-21-lambda-case-43007-37218359309-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTMwODM4NDcwNQ==",
+      "size_in_bytes": 3608717,
+      "updated_at": "2026-10-04T16:56:38Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11308384705",
+      "workflow_run": {
+        "head_branch": "research/EU26-21-chcqx-census-old-first",
+        "head_repository_id": 1196490034,
+        "head_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+        "id": 37218359309,
+        "repository_id": 1196490034
+      }
+    }
+  ],
+  "implementation_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+  "latest_artifact_still_requires_manifest_validation": true,
+  "protocol_sha256": "8f96fbf91ae5e92b90409c3ba0492da2d13551bca0d49e273d299dd4ac1453b4",
+  "raw_metadata_file_sha256": "cfb38d34b8883dce790305b5414ac12bfd9c8b89acee8767507659ae570291b1",
+  "raw_metadata_sha256": "e679504b24270de8fecb1d94d34752d77ecfc33963b4b0c3baac6de035c7be04",
+  "schema": "eu26-21-lambda-initial-source-ledger-v1",
+  "scientific_artifacts_opened": false,
+  "selection_policy": "highest_uploaded_attempt_per_seed_no_outcome_inspection",
+  "source_run_id": 37218359309
+}

@@ -1,0 +1,38 @@
+{
+  "classifier_training": true,
+  "environment": {
+    "packages": {
+      "deap": "1.3.3",
+      "matplotlib": "3.7.5",
+      "numpy": "1.23.5",
+      "pandas": "1.5.3",
+      "pyswarms": "1.3.0",
+      "scikit-learn": "1.2.2",
+      "scipy": "1.10.1"
+    },
+    "python_implementation": "CPython",
+    "python_version": "3.9.25",
+    "requirements_sha256": "b491d6cc1d22d47f32290a31c9712967322d6d93f899cad6cb4607a106ce8cf4"
+  },
+  "environment_sha256": "22ee3f3c0d2cc66bc20f405adadc6d6a00c85efcfab087e08f8f700fc64d5195",
+  "exact_historical_sample_size_or_mask_required": false,
+  "historical_numeric_gate_changed": false,
+  "provenance": {
+    "evolution_blob": "05b0d8afc02faee688e5d1ff8e24531ae41307c7",
+    "implementation_sha": "405eba461fa3c945f8b132bba1343e38a84df5b1",
+    "logging_configuration_sha256": "c351c338f4de76b07cdc8414e408fe8be659e23257b8518ddbedd02f9381e445",
+    "protocol_id": "EU26-21-CHCQX-SOURCE-WBA-DIAG-V1",
+    "protocol_sha256": "c51cbad33d2012b504312e70ff180f7f35cc58ffbd079882acf596b17710de40",
+    "registration_sha": "b5c46e603838c5fbc7e35b121f757421c222046f",
+    "run_attempt": 1,
+    "run_id": 37443128304,
+    "upstream_sha": "6ac5a7ec77f8a7c096ab4d019254fcc897988fd6",
+    "workflow_sha": "405eba461fa3c945f8b132bba1343e38a84df5b1"
+  },
+  "result_sha256": "bdac44019539aabbb030c0cb1ed02eda83487dcde24749fc0fac018c4749f307",
+  "schema": "eu26-21-chc-qx-source-integration-gate-v1",
+  "seed": 1,
+  "source_profile_known_limitations_retained": true,
+  "status": "PASS_SOURCE_INTEGRATION_SMOKE",
+  "table2_reproduction": false
+}

@@ -1,0 +1,521 @@
+name: EU26-21 prepared local optima and fixed lambda study
+# Authorized infrastructure restart after all gates passed for 858887eaabd9738e1cb108dc8f952c75ecefbdf6.
+# Same scientific files, seeds and protocol; runs 36875597993 and 36878702430 remain separate infrastructure evidence.
+
+on:
+  push:
+    branches: [research/EU26-21-chcqx-census-old-first]
+    paths:
+      - 'candidates/EU26-21/local_optima_study/**'
+      - 'candidates/EU26-21/tests/test_local_optima_study*.py'
+      - '.github/scripts/download_study_artifacts.py'
+      - '.github/workflows/eu26-21-local-optima-study.yml'
+  workflow_dispatch:
+    inputs:
+      expected_sha:
+        description: Exact implementation and workflow SHA for the frozen follow-up
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: eu26-21-local-optima-${{ github.event_name }}-${{ github.sha }}
+  cancel-in-progress: false
+
+env:
+  EXPECTED_SHA: ${{ github.event_name == 'workflow_dispatch' && inputs.expected_sha || github.sha }}
+  STUDY_WORKFLOW_SHA: ${{ github.workflow_sha }}
+  PROTOCOL_SHA256: 8167f46a1adce8d759404d9577101befa183756ca92230e4ac3718c9f46d2ca7
+  REGISTRATION_SHA: ee3073f565ee07978a6b58ab63e6061b396ba54c
+  UPSTREAM_COMMIT: 6ac5a7ec77f8a7c096ab4d019254fcc897988fd6
+  PYTHONHASHSEED: '0'
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  NUMEXPR_NUM_THREADS: '1'
+  MPLBACKEND: Agg
+
+jobs:
+  preflight:
+    name: CI-only synthetic contract tests before any scientific execution
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ env.EXPECTED_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Bind exact implementation, workflow and pre-implementation protocol
+        run: |
+          set -euo pipefail
+          [[ "$EXPECTED_SHA" =~ ^[0-9a-f]{40}$ ]]
+          test "$GITHUB_SHA" = "$EXPECTED_SHA"
+          test "$STUDY_WORKFLOW_SHA" = "$EXPECTED_SHA"
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+          printf '%s  %s\n' "$PROTOCOL_SHA256" candidates/EU26-21/local_optima_study/protocol.json | sha256sum --check
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Install pinned scientific environment and critical lint gate
+        run: |
+          python -m pip install -r candidates/EU26-21/corrected_applied/requirements.txt
+          python -m pip install ruff==0.12.10
+          python -m pip check
+      - name: Fetch the already admitted pinned CHC source for synthetic tests
+        run: |
+          git clone --filter=blob:none https://github.com/Ghaith81/Fast-Genetic-Algorithm-For-Feature-Selection.git "${RUNNER_TEMP}/upstream"
+          git -C "${RUNNER_TEMP}/upstream" checkout --detach "$UPSTREAM_COMMIT"
+          test "$(git -C "${RUNNER_TEMP}/upstream" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
+      - name: Run all project tests without Census experiments
+        env:
+          EU26_21_UPSTREAM: ${{ runner.temp }}/upstream
+          PYTHONPATH: ${{ github.workspace }}/candidates/EU26-21
+        run: |
+          python -m unittest discover -s candidates/EU26-21/tests -p 'test_*.py' -v
+          ruff check .github/scripts/download_study_artifacts.py candidates/EU26-21/local_optima_study candidates/EU26-21/tests --select E9,F63,F7,F82
+      - name: Prepare tiny synthetic artifact for real exact-ID transport smoke
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          root = Path(os.environ['RUNNER_TEMP']) / 'study-transport-smoke-source'
+          root.mkdir()
+          (root / 'synthetic.txt').write_bytes(b'CI_ONLY_SYNTHETIC_ARTIFACT\n')
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        id: transport_smoke
+        with:
+          name: eu26-21-local-smoke-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/study-transport-smoke-source
+          if-no-files-found: error
+          retention-days: 7
+      - name: Authenticate real REST metadata, redirect and archive before science
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/download_study_artifacts.py
+          --artifact-ids "${{ steps.transport_smoke.outputs.artifact-id }}"
+          --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
+          --expected-sha "$EXPECTED_SHA" --kind smoke
+          --destination "${RUNNER_TEMP}/study-transport-smoke-downloaded" --merge-multiple
+      - name: Compare synthetic payload bytes after verified transport
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          root = Path(os.environ['RUNNER_TEMP']) / 'study-transport-smoke-downloaded'
+          if (root / 'synthetic.txt').read_bytes() != b'CI_ONLY_SYNTHETIC_ARTIFACT\n':
+              raise SystemExit('synthetic transport payload mismatch')
+          PY
+
+  dispatch:
+    # Only an explicit launch-marker commit can request the authorized campaign.
+    # Normal pushes execute synthetic tests and never start a scientific matrix.
+    if: ${{ github.event_name == 'push' && contains(github.event.head_commit.message, '[launch-local-optima]') }}
+    needs: preflight
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - name: Dispatch the user-authorized matrix at this exact green SHA
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = refs/heads/research/EU26-21-chcqx-census-old-first
+          test "$GITHUB_SHA" = "$EXPECTED_SHA"
+          gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/eu26-21-local-optima-study.yml/dispatches" \
+            --method POST -f ref=research/EU26-21-chcqx-census-old-first \
+            -f "inputs[expected_sha]=$EXPECTED_SHA"
+
+  authorize:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    needs: preflight
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Reject mismatched SHA-bound dispatch
+        run: |
+          set -euo pipefail
+          [[ "$EXPECTED_SHA" =~ ^[0-9a-f]{40}$ ]]
+          test "$GITHUB_SHA" = "$EXPECTED_SHA"
+          test "$STUDY_WORKFLOW_SHA" = "$EXPECTED_SHA"
+
+  fixture:
+    needs: authorize
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    outputs:
+      artifact_id: ${{ steps.upload.outputs.artifact-id }}
+    steps:
+      - name: Download and authenticate the unchanged official data
+        run: |
+          set -euo pipefail
+          fixture="${RUNNER_TEMP}/local-optima-fixture"
+          mkdir -p "$fixture"
+          curl --fail --location --retry 5 --retry-all-errors \
+            'https://archive.ics.uci.edu/static/public/117/census%2Bincome%2Bkdd.zip' -o "$fixture/data.zip"
+          cd "$fixture"
+          printf '%s  %s\n' 54fd206becffcfaf099544c3938c681d64a65709800c94c00a4fba0a00df10c9 data.zip | sha256sum --check
+          python - <<'PY'
+          from io import BytesIO
+          from pathlib import Path, PurePosixPath
+          import tarfile
+          import zipfile
+          root = Path.cwd()
+          with zipfile.ZipFile(root/'data.zip') as z:
+              names = [n for n in z.namelist() if PurePosixPath(n).name == 'census.tar.gz']
+              if len(names) != 1:
+                  raise SystemExit('ambiguous official archive')
+              raw = z.read(names[0])
+          wanted = {'census-income.data','census-income.test'}
+          with tarfile.open(fileobj=BytesIO(raw),mode='r:gz') as t:
+              members = {PurePosixPath(m.name).name:m for m in t.getmembers()
+                         if m.isfile() and PurePosixPath(m.name).name in wanted}
+              if set(members) != wanted:
+                  raise SystemExit('missing official files')
+              for name,member in members.items():
+                  with t.extractfile(member) as f:
+                      (root/name).write_bytes(f.read())
+          PY
+          printf '%s  %s\n' 3676a81db7d3528f3f8b9f3c699d0f0aa28db45e6e994fa0b8ed38327539ee86 census-income.data | sha256sum --check
+          printf '%s  %s\n' 98402b1ab879573d0a7f38a699a40258080e25e33d3401e7bf9c96d3fa0fab8c census-income.test | sha256sum --check
+      - name: Retain the pinned CHC checkout
+        run: |
+          set -euo pipefail
+          git clone --no-tags https://github.com/Ghaith81/Fast-Genetic-Algorithm-For-Feature-Selection.git "${RUNNER_TEMP}/upstream"
+          git -C "${RUNNER_TEMP}/upstream" checkout --detach "$UPSTREAM_COMMIT"
+          test "$(git -C "${RUNNER_TEMP}/upstream" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
+          tar -czf "${RUNNER_TEMP}/local-optima-fixture/upstream.tar.gz" -C "$RUNNER_TEMP" upstream
+          cd "${RUNNER_TEMP}/local-optima-fixture"
+          sha256sum upstream.tar.gz > upstream.sha256
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        id: upload
+        with:
+          name: eu26-21-local-fixture-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/local-optima-fixture
+          if-no-files-found: error
+          retention-days: 90
+
+  cases:
+    name: Comparison and prepared case ${{ matrix.seed }}
+    needs: fixture
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        seed: [42001,42002,42003,42004,42005,42006,42007,42008,42009,42010,42011,42012,42013,42014,42015,42016,42017,42018,42019,42020,42021,42022,42023,42024,42025,42026,42027,42028,42029,42030]
+    env:
+      PYTHONPATH: ${{ github.workspace }}/candidates/EU26-21
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ env.EXPECTED_SHA }}
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r candidates/EU26-21/corrected_applied/requirements.txt
+      - name: Download authenticated fixture by exact REST artifact ID
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/download_study_artifacts.py
+          --artifact-ids "${{ needs.fixture.outputs.artifact_id }}"
+          --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
+          --expected-sha "$EXPECTED_SHA" --kind fixture
+          --destination "${RUNNER_TEMP}/fixture" --merge-multiple
+      - name: Verify and unpack the pinned source
+        run: |
+          cd "${RUNNER_TEMP}/fixture"
+          sha256sum --check upstream.sha256
+          tar -xzf upstream.tar.gz -C "$RUNNER_TEMP"
+      - name: Run comparisons and certification without outcome-based changes
+        run: >-
+          python -m local_optima_study.run_case
+          --protocol candidates/EU26-21/local_optima_study/protocol.json
+          --upstream "${RUNNER_TEMP}/upstream"
+          --official-train "${RUNNER_TEMP}/fixture/census-income.data"
+          --official-test "${RUNNER_TEMP}/fixture/census-income.test"
+          --seed ${{ matrix.seed }}
+          --expected-sha "$EXPECTED_SHA"
+          --expected-protocol-sha256 "$PROTOCOL_SHA256"
+          --output-dir "${RUNNER_TEMP}/case"
+          --artifact-name "eu26-21-local-case-${{ matrix.seed }}-${{ github.run_id }}-${{ github.run_attempt }}"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: eu26-21-local-case-${{ matrix.seed }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/case
+          if-no-files-found: error
+          retention-days: 90
+
+  freeze:
+    name: Freeze all 30 case identities before escape outcomes
+    needs: cases
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    outputs:
+      artifact_id: ${{ steps.upload.outputs.artifact-id }}
+      registry_sha256: ${{ steps.freeze.outputs.registry_sha256 }}
+      matrix: ${{ steps.freeze.outputs.matrix }}
+      eligible_count: ${{ steps.freeze.outputs.eligible_count }}
+    env:
+      PYTHONPATH: ${{ github.workspace }}/candidates/EU26-21
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ env.EXPECTED_SHA }}
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r candidates/EU26-21/corrected_applied/requirements.txt
+      - name: Snapshot source artifact IDs from this run only
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api --paginate --slurp "repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts?per_page=100" \
+            | jq '{artifacts: [.[].artifacts[] | select(.name | startswith("eu26-21-local-case-"))]}' \
+            > "${RUNNER_TEMP}/case-attempt-ledger.json"
+      - name: Select retry attempts by metadata, never by scientific outcome
+        id: sources
+        run: |
+          python -m local_optima_study.artifact_selection --kind case \
+            --raw-ledger "${RUNNER_TEMP}/case-attempt-ledger.json" \
+            --expected-sha "$EXPECTED_SHA" --source-run-id "$GITHUB_RUN_ID" \
+            --output-ledger "${RUNNER_TEMP}/case-ledger.json" \
+            --output-ids "${RUNNER_TEMP}/case-artifact-ids.txt"
+          echo "artifact_ids=$(cat "${RUNNER_TEMP}/case-artifact-ids.txt")" >> "$GITHUB_OUTPUT"
+      - name: Download every selected case by exact REST artifact ID
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/download_study_artifacts.py
+          --artifact-ids "${{ steps.sources.outputs.artifact_ids }}"
+          --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
+          --expected-sha "$EXPECTED_SHA" --kind case
+          --destination "${RUNNER_TEMP}/cases"
+      - name: Validate completeness and freeze the eligible registry
+        id: freeze
+        run: |
+          python -m local_optima_study.aggregate --freeze-cases \
+            --cases-dir "${RUNNER_TEMP}/cases" --case-ledger "${RUNNER_TEMP}/case-ledger.json" \
+            --expected-sha "$EXPECTED_SHA" --source-run-id "$GITHUB_RUN_ID" --output-dir "${RUNNER_TEMP}/registry"
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          root=Path(os.environ['RUNNER_TEMP'])/'registry'
+          matrix=json.loads((root/'matrix.json').read_text())
+          summary=json.loads((root/'freeze-summary.json').read_text())
+          digest=hashlib.sha256((root/'registry.json').read_bytes()).hexdigest()
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('registry_sha256='+digest+'\n')
+              f.write('eligible_count='+str(summary['eligible_count'])+'\n')
+              f.write('matrix='+json.dumps(matrix,separators=(',',':'))+'\n')
+          PY
+          cp "${RUNNER_TEMP}/case-ledger.json" "${RUNNER_TEMP}/registry/"
+          cp "${RUNNER_TEMP}/case-attempt-ledger.json" "${RUNNER_TEMP}/registry/"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        id: upload
+        with:
+          name: eu26-21-local-registry-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/registry
+          if-no-files-found: error
+          retention-days: 90
+
+  escape:
+    name: Paired escape seed ${{ matrix.seed }} repetition ${{ matrix.repeat }}
+    needs: [freeze, fixture]
+    if: ${{ needs.freeze.outputs.eligible_count != '0' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix: ${{ fromJSON(needs.freeze.outputs.matrix) }}
+    env:
+      PYTHONPATH: ${{ github.workspace }}/candidates/EU26-21
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ env.EXPECTED_SHA }}
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r candidates/EU26-21/corrected_applied/requirements.txt
+      - name: Download authenticated fixture by exact REST artifact ID
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/download_study_artifacts.py
+          --artifact-ids "${{ needs.fixture.outputs.artifact_id }}"
+          --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
+          --expected-sha "$EXPECTED_SHA" --kind fixture
+          --destination "${RUNNER_TEMP}/fixture" --merge-multiple
+      - name: Download frozen registry by exact REST artifact ID
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/download_study_artifacts.py
+          --artifact-ids "${{ needs.freeze.outputs.artifact_id }}"
+          --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
+          --expected-sha "$EXPECTED_SHA" --kind registry
+          --destination "${RUNNER_TEMP}/registry" --merge-multiple
+      - name: Use the exact case artifact ID from the frozen registry
+        id: source
+        env:
+          CASE_SEED: ${{ matrix.seed }}
+          REGISTRY_DIGEST: ${{ needs.freeze.outputs.registry_sha256 }}
+        run: |
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          path=Path(os.environ['RUNNER_TEMP'])/'registry'/'registry.json'
+          if hashlib.sha256(path.read_bytes()).hexdigest()!=os.environ['REGISTRY_DIGEST']:
+              raise SystemExit('registry digest mismatch')
+          rows=[row for row in json.loads(path.read_text())['cases']
+                if row['seed']==int(os.environ['CASE_SEED']) and row['eligible']]
+          if len(rows)!=1:
+              raise SystemExit('missing or duplicate frozen case')
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('artifact_id='+str(rows[0]['source_artifact_id'])+'\n')
+          PY
+      - name: Download the immutable source case by exact REST artifact ID
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/download_study_artifacts.py
+          --artifact-ids "${{ steps.source.outputs.artifact_id }}"
+          --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
+          --expected-sha "$EXPECTED_SHA" --kind case
+          --destination "${RUNNER_TEMP}/cases" --merge-multiple
+      - name: Run both variants from the same certified state
+        run: >-
+          python -m local_optima_study.run_escape
+          --protocol candidates/EU26-21/local_optima_study/protocol.json
+          --official-train "${RUNNER_TEMP}/fixture/census-income.data"
+          --official-test "${RUNNER_TEMP}/fixture/census-income.test"
+          --seed ${{ matrix.seed }} --repeat ${{ matrix.repeat }}
+          --registry "${RUNNER_TEMP}/registry/registry.json"
+          --registry-sha256 "${{ needs.freeze.outputs.registry_sha256 }}"
+          --cases-dir "${RUNNER_TEMP}/cases"
+          --expected-sha "$EXPECTED_SHA" --expected-protocol-sha256 "$PROTOCOL_SHA256"
+          --output-dir "${RUNNER_TEMP}/escape"
+          --artifact-name "eu26-21-local-escape-${{ matrix.seed }}-${{ matrix.repeat }}-${{ github.run_id }}-${{ github.run_attempt }}"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: eu26-21-local-escape-${{ matrix.seed }}-${{ matrix.repeat }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/escape
+          if-no-files-found: error
+          retention-days: 90
+
+  report:
+    name: Aggregate only the completed frozen campaign
+    needs: [freeze, escape]
+    if: ${{ always() && needs.freeze.result == 'success' && (needs.escape.result == 'success' || needs.escape.result == 'skipped') }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      PYTHONPATH: ${{ github.workspace }}/candidates/EU26-21
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ env.EXPECTED_SHA }}
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r candidates/EU26-21/corrected_applied/requirements.txt
+      - name: Download frozen registry by exact REST artifact ID
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/download_study_artifacts.py
+          --artifact-ids "${{ needs.freeze.outputs.artifact_id }}"
+          --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
+          --expected-sha "$EXPECTED_SHA" --kind registry
+          --destination "${RUNNER_TEMP}/registry" --merge-multiple
+      - name: Bind all escape artifact IDs and source revisions
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "${RUNNER_TEMP}/escapes"
+          gh api --paginate --slurp "repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts?per_page=100" \
+            | jq '{artifacts: [.[].artifacts[] | select(.name | startswith("eu26-21-local-escape-"))]}' \
+            > "${RUNNER_TEMP}/escape-attempt-ledger.json"
+      - name: Select completed escape sources and retain frozen case IDs
+        id: sources
+        env:
+          REGISTRY_DIGEST: ${{ needs.freeze.outputs.registry_sha256 }}
+        run: |
+          python -m local_optima_study.artifact_selection --kind escape \
+            --raw-ledger "${RUNNER_TEMP}/escape-attempt-ledger.json" \
+            --expected-sha "$EXPECTED_SHA" --source-run-id "$GITHUB_RUN_ID" \
+            --registry "${RUNNER_TEMP}/registry/registry.json" --registry-sha256 "$REGISTRY_DIGEST" \
+            --output-ledger "${RUNNER_TEMP}/escape-ledger.json" \
+            --output-ids "${RUNNER_TEMP}/escape-artifact-ids.txt"
+          echo "escape_artifact_ids=$(cat "${RUNNER_TEMP}/escape-artifact-ids.txt")" >> "$GITHUB_OUTPUT"
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          path=Path(os.environ['RUNNER_TEMP'])/'registry'/'registry.json'
+          if hashlib.sha256(path.read_bytes()).hexdigest()!=os.environ['REGISTRY_DIGEST']:
+              raise SystemExit('registry digest mismatch')
+          ids=[str(row['source_artifact_id']) for row in json.loads(path.read_text())['cases']]
+          if len(ids)!=30 or len(set(ids))!=30:
+              raise SystemExit('frozen case source completeness is not 30/30')
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('case_artifact_ids='+','.join(ids)+'\n')
+          PY
+      - name: Download every frozen case by exact REST artifact ID
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/download_study_artifacts.py
+          --artifact-ids "${{ steps.sources.outputs.case_artifact_ids }}"
+          --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
+          --expected-sha "$EXPECTED_SHA" --kind case
+          --destination "${RUNNER_TEMP}/cases"
+      - name: Download every escape pair by exact REST artifact ID
+        if: ${{ needs.escape.result == 'success' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/download_study_artifacts.py
+          --artifact-ids "${{ steps.sources.outputs.escape_artifact_ids }}"
+          --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
+          --expected-sha "$EXPECTED_SHA" --kind escape
+          --destination "${RUNNER_TEMP}/escapes"
+      - name: Compute the registered case-cluster analysis and full report
+        run: >-
+          python -m local_optima_study.aggregate --report
+          --cases-dir "${RUNNER_TEMP}/cases" --case-ledger "${RUNNER_TEMP}/registry/case-ledger.json"
+          --expected-sha "$EXPECTED_SHA" --source-run-id "$GITHUB_RUN_ID"
+          --registry "${RUNNER_TEMP}/registry/registry.json"
+          --registry-sha256 "${{ needs.freeze.outputs.registry_sha256 }}"
+          --escapes-dir "${RUNNER_TEMP}/escapes" --escape-ledger "${RUNNER_TEMP}/escape-ledger.json"
+          --output-dir "${RUNNER_TEMP}/report"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: eu26-21-local-report-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/report
+            ${{ runner.temp }}/registry
+            ${{ runner.temp }}/escape-ledger.json
+            ${{ runner.temp }}/escape-attempt-ledger.json
+          if-no-files-found: error
+          retention-days: 90

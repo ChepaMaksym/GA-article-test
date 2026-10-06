@@ -15,3 +15,19 @@
 
 # Retained evidence hashes cover the exact CSV bytes, including line endings.
 failure_logs/USA-001_evidence/*.csv -text
+
+# Frozen local-optima report manifests cover exact CI bytes, including CSV CRLF.
+candidates/EU26-21/local_optima_study/evidence/2026-10-02/** -text
+candidates/EU26-21/local_optima_study/evidence/2026-10-02/report/*.csv whitespace=cr-at-eol
+
+# Initial-lambda evidence retains the exact authenticated CI bytes.
+candidates/EU26-21/lambda_initial_study/evidence/2026-10-04/** -text
+candidates/EU26-21/lambda_initial_study/evidence/2026-10-04/report/*.csv whitespace=cr-at-eol
+
+# Source-QX evidence retains the exact authenticated CI bytes.
+candidates/EU26-21/chc_qx_alignment_study/evidence/2026-10-06/** -text
+candidates/EU26-21/chc_qx_alignment_study/evidence/2026-10-06/report/*.csv whitespace=cr-at-eol
+
+# Low-start lambda-response evidence retains exact authenticated CI bytes.
+candidates/EU26-21/lambda_response_study/evidence/** -text
+candidates/EU26-21/lambda_response_study/evidence/**/report/*.csv whitespace=cr-at-eol

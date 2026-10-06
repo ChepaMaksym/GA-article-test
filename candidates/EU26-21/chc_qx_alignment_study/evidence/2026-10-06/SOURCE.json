@@ -1,0 +1,147 @@
+{
+  "schema": "eu26-21-qx-retained-source-v1",
+  "protocol_id": "EU26-21-CHCQX-SOURCE-WBA-DIAG-V1",
+  "content_freeze_commit_sha": "b5c46e603838c5fbc7e35b121f757421c222046f",
+  "protocol_sha256": "c51cbad33d2012b504312e70ff180f7f35cc58ffbd079882acf596b17710de40",
+  "implementation_sha": "405eba461fa3c945f8b132bba1343e38a84df5b1",
+  "source_run_id": 37443128304,
+  "source_run_attempt": 1,
+  "source_run_conclusion": "success",
+  "source_run_url": "https://github.com/ChepaMaksym/GA-article-test/actions/runs/37443128304",
+  "source_run_completed_utc": "2026-10-06T09:59:57Z",
+  "all_30_case_jobs_completed_before_outcome_inspection": true,
+  "infrastructure_retries_in_scientific_run": 0,
+  "report_artifact_id": 11404330133,
+  "report_artifact_name": "eu26-21-qx-report-37443128304-1",
+  "report_artifact_sha256": "b1b5d81b5da8c6fd03b2fce8cfd901b40c36bd952a04529ffa21804c02edabc7",
+  "report_artifact_bytes": 6402294,
+  "report_artifact_expires_utc": "2027-01-04T09:27:55Z",
+  "report_manifest_sha256": "dde3309cb475fbb447b23f8e97a29b0e67008a2032b22d73d00a16298ac3fb44",
+  "registry_sha256": "1324315456602a8e244956686aaa2a019485bc3697c0ad86d43d2b582d61af17",
+  "registry_artifact_id": 11402735926,
+  "registry_artifact_sha256": "16dec83c36654f3386aa0fbf23c167d8a908639d024c80e06d79093d6e1f12d6",
+  "source_gate_artifacts": [
+    {
+      "phase": "fixture",
+      "artifact_id": 11402605346,
+      "artifact_name": "eu26-21-qx-source-fixture-37443128304-1",
+      "archive_sha256": "a21a22c0a2e1442a157f5183d4dc381ac3a85bdb6a3c0d32d7ac2f80fb37c210",
+      "archive_bytes": 1239
+    },
+    {
+      "phase": "smoke",
+      "artifact_id": 11402216851,
+      "artifact_name": "eu26-21-qx-source-smoke-37443128304-1",
+      "archive_sha256": "d306e6828689935258a475fe0a2a2eb47aae6423409d5b758790bfc38518a1ab",
+      "archive_bytes": 2059
+    }
+  ],
+  "report_files_preserved_exactly": true,
+  "original_preparation_bytes_preserved": true,
+  "scientific_recomputation_during_document_preparation": false,
+  "full_models_and_query_traces_retained_in_git": false,
+  "canonical_preparation_archive": "report/frozen-preparations.json.gz",
+  "historical_noninferiority_status": "FAIL_NONINFERIORITY_UNCHANGED",
+  "files": {
+    "artifact-api-metadata.json": {
+      "bytes": 60705,
+      "sha256": "39f26c0f1687048200c15cdf7290acc0a74fcef2fc7f13ebaa1322d76f53f4ac"
+    },
+    "registry/preparation-api-metadata.json": {
+      "bytes": 27689,
+      "sha256": "63a7744b0e3bc44cb6480f0f51c4130fc48472a392bb48eb8ace8318b46f8f16"
+    },
+    "registry/preparation-sources.json": {
+      "bytes": 55958,
+      "sha256": "cbf0f358ec09912a0407fa9ce7679cfd87932c897f8215af970c8f04aff7d26c"
+    },
+    "registry/preparation-transport.json": {
+      "bytes": 12161,
+      "sha256": "97df0412de21bd50412dcf2bb6c763ec8c78492fb6e0a481b4e18740fa0eadfb"
+    },
+    "registry/registry.json": {
+      "bytes": 14964,
+      "sha256": "1324315456602a8e244956686aaa2a019485bc3697c0ad86d43d2b582d61af17"
+    },
+    "registry/registry.sha256": {
+      "bytes": 80,
+      "sha256": "ddd150c00db48b21e5e3bc6a8d3febd1cc558e388edca8b35171f0c68fe2591e"
+    },
+    "report/adaptive-lambda.png": {
+      "bytes": 127956,
+      "sha256": "e4dad4bd9512e7efe353580258414ae3df474ccc1521a893155c7455f5163278"
+    },
+    "report/bit-feature-map.csv": {
+      "bytes": 1022,
+      "sha256": "33d2c06d026d92492bfd29439434957dce507109640f4dc173b8a4e630453529"
+    },
+    "report/cases.csv": {
+      "bytes": 19134,
+      "sha256": "edd3969b7f001dd0bb6aaafb0fda3c0a0658dfdb5f887478b14c428e82a3ea96"
+    },
+    "report/checkpoints.csv": {
+      "bytes": 34358,
+      "sha256": "70ff362d12cae832b4ce9a3a0c4002a993a31aa5c48d290f8751c7b4332c288a"
+    },
+    "report/class-metrics.csv": {
+      "bytes": 37058,
+      "sha256": "e2df39f38202329d967f7f8f0911148aa1470f1de0f5f3fd5c260911f1c01af7"
+    },
+    "report/frozen-preparations.json.gz": {
+      "bytes": 2912382,
+      "sha256": "4ecd5bec046277352cfde6127041981ff9c41443886efb02836a30d2f868717d"
+    },
+    "report/locality-types.png": {
+      "bytes": 62795,
+      "sha256": "6669581167af2bf12267e9c7f4c2274f267dfcefe9f35b7daaa3582dd4b8d924"
+    },
+    "report/one-bit-certificates.csv": {
+      "bytes": 907188,
+      "sha256": "60b4c90e8567b813fb274954836f03f14fb1f4d1444330dec789c4d913615b0d"
+    },
+    "report/report-manifest.json": {
+      "bytes": 7108,
+      "sha256": "dde3309cb475fbb447b23f8e97a29b0e67008a2032b22d73d00a16298ac3fb44"
+    },
+    "report/RESULTS_UK.md": {
+      "bytes": 2023,
+      "sha256": "014313113a889b44ce74009477847adc0a9936fc227e21a95748ec3ea0dd0ccd"
+    },
+    "report/search-and-full-checkpoints.png": {
+      "bytes": 172281,
+      "sha256": "2d8d13d979b1e48ebd7dc062f95945b7d20be969dd7f7a50e3945eea5789bad6"
+    },
+    "report/summary.json": {
+      "bytes": 8829,
+      "sha256": "1894acd00d9d1a99e5cd7fed1f366c0c5f1e6908ab82654c27c204e838cdc833"
+    },
+    "report-input/case-api-metadata.json": {
+      "bytes": 27534,
+      "sha256": "d8b65dfc7912157149195f0205a78f780d183cd603b7bd1ec451f1c9b3d99c47"
+    },
+    "report-input/case-sources.json": {
+      "bytes": 55641,
+      "sha256": "abe6576b2fa3f4d077c4da4b980db5fae9721b9a512b026980a46ffbf5b15b15"
+    },
+    "report-input/case-transport.json": {
+      "bytes": 12054,
+      "sha256": "774d5e43ebecb5d10cdb96d9c130e4d89edfb10521594f9d971c1c9d6f70b296"
+    },
+    "source-gates/fixture/source-gate-fixture.json": {
+      "bytes": 2324,
+      "sha256": "a3a679a7953318de298082221dbfdec5e91d01b7c13edc7c49ce129d8f62e40f"
+    },
+    "source-gates/smoke/source-gate-smoke.json": {
+      "bytes": 1567,
+      "sha256": "f2b1734b526c06c11e0addda48948b4f8ec9bc03a5467ac668e47fd977bb2987"
+    },
+    "source-gates/smoke/source-integration-seed1.json": {
+      "bytes": 1712,
+      "sha256": "bdac44019539aabbb030c0cb1ed02eda83487dcde24749fc0fac018c4749f307"
+    },
+    "source-gates/smoke/source-integration-seed1.log": {
+      "bytes": 29,
+      "sha256": "7ac3130750214a207a9bc042788c29ca66fc86ecaa6c0a791076ecf0609c436f"
+    }
+  }
+}

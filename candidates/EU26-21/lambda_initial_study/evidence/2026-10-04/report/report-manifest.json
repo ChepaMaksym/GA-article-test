@@ -1,0 +1,52 @@
+{
+  "files": {
+    "comparison.csv": {
+      "bytes": 25096,
+      "sha256": "cd08367154d443f8832dd0aa1960d363b3e280ac5b00ed97889045bf8450d2d7"
+    },
+    "contrasts.csv": {
+      "bytes": 1915,
+      "sha256": "74c2d2a0f1f86a8a1445e6b3407208cce4df3e5e3c54e39fc037e12534d927b4"
+    },
+    "initial-lambda-primary-intervals.png": {
+      "bytes": 59293,
+      "sha256": "0e8efd64fe4bf882ccc4b0593c625f834546bafcd6d4fdf469df144d7e782460"
+    },
+    "initial-lambda-trajectories.png": {
+      "bytes": 119858,
+      "sha256": "23cd64af3e8bc615578dac54695766d43f98a63997aa2426958115340ae1506a"
+    },
+    "lambda-generations.csv": {
+      "bytes": 390058,
+      "sha256": "a2e96e02a872c5a69ba7a0cec991e1a89dd5f5943fedb897a12b9ea1f6d390b0"
+    },
+    "per-class-metrics.csv": {
+      "bytes": 76922,
+      "sha256": "d2bf34faac3b9ea91df34f8acbdfd9bf7ab11a7a790a8acf9b75329273220404"
+    },
+    "report.md": {
+      "bytes": 3049,
+      "sha256": "be53058d7e4cf0c61df9c794713dda0f957f1cc81e397bdf17122fc5fe0b3447"
+    },
+    "source-ledger.json": {
+      "bytes": 55922,
+      "sha256": "9aae91325bd1c79a5b321ed7964df04c361ddf6e85fb216b5423f11d06f57a98"
+    },
+    "summary.json": {
+      "bytes": 41114,
+      "sha256": "5d4f19d57c0ce4d62d92137c3f382a3d5d42fa7d5c55871c2c628196450a3aa6"
+    },
+    "trajectories.csv": {
+      "bytes": 3366969,
+      "sha256": "15a209185a23c9808e791a86ee15ba8998b6732029ff48bc6881f94cd0e3f238"
+    },
+    "transport-ledger.json": {
+      "bytes": 12178,
+      "sha256": "3ef33ed5a8ac10e8f146975f0d133b383915726cdbad845ba3b18e04fb10fc21"
+    }
+  },
+  "implementation_sha": "ce7b9a24782ae3f97b0b3cb954eb7d8b989bfe32",
+  "protocol_sha256": "8f96fbf91ae5e92b90409c3ba0492da2d13551bca0d49e273d299dd4ac1453b4",
+  "schema": "eu26-21-lambda-initial-report-manifest-v1",
+  "source_run_id": 37218359309
+}

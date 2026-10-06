@@ -1,0 +1,533 @@
+name: EU26-21 source-QX alignment and natural-locality diagnostics
+
+on:
+  push:
+    branches: [research/EU26-21-chcqx-census-old-first]
+    paths:
+      - 'candidates/EU26-21/chc_qx_alignment_study/**'
+      - 'candidates/EU26-21/tests/test_chc_qx*.py'
+      - '.github/scripts/download_study_artifacts.py'
+      - '.github/scripts/qx-logging.json'
+      - '.github/workflows/eu26-21-chc-qx-alignment-study.yml'
+  workflow_dispatch:
+    inputs:
+      expected_sha:
+        description: Exact green implementation and workflow SHA
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: eu26-21-chc-qx-${{ github.event_name }}-${{ github.sha }}
+  cancel-in-progress: false
+
+env:
+  EXPECTED_SHA: ${{ github.event_name == 'workflow_dispatch' && inputs.expected_sha || github.sha }}
+  STUDY_WORKFLOW_SHA: ${{ github.workflow_sha }}
+  PROTOCOL_SHA256: c51cbad33d2012b504312e70ff180f7f35cc58ffbd079882acf596b17710de40
+  REGISTRATION_SHA: b5c46e603838c5fbc7e35b121f757421c222046f
+  UPSTREAM_COMMIT: 6ac5a7ec77f8a7c096ab4d019254fcc897988fd6
+  PYTHONPATH: ${{ github.workspace }}/candidates/EU26-21
+  PYTHONHASHSEED: '0'
+  PYTHONDONTWRITEBYTECODE: '1'
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  NUMEXPR_NUM_THREADS: '1'
+  MPLBACKEND: Agg
+  LOG_CFG: ${{ github.workspace }}/.github/scripts/qx-logging.json
+
+jobs:
+  preflight:
+    name: All contracts, author-controller equivalence and exact-ID transport
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ env.EXPECTED_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Authenticate protocol registration and exact workflow SHA
+        run: |
+          set -euo pipefail
+          [[ "$EXPECTED_SHA" =~ ^[0-9a-f]{40}$ ]]
+          test "$GITHUB_SHA" = "$EXPECTED_SHA"
+          test "$STUDY_WORKFLOW_SHA" = "$EXPECTED_SHA"
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+          git merge-base --is-ancestor "$REGISTRATION_SHA" "$EXPECTED_SHA"
+          printf '%s  %s\n' "$PROTOCOL_SHA256" candidates/EU26-21/chc_qx_alignment_study/protocol.json | sha256sum --check
+          registered_digest="$(git show "$REGISTRATION_SHA:candidates/EU26-21/chc_qx_alignment_study/protocol.json" | sha256sum | cut -d ' ' -f 1)"
+          test "$registered_digest" = "$PROTOCOL_SHA256"
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r candidates/EU26-21/corrected_applied/requirements.txt
+      - run: python -m pip install ruff==0.12.10 PyYAML==6.0.3
+      - name: Fetch the immutable author snapshot
+        run: |
+          set -euo pipefail
+          git init "$RUNNER_TEMP/upstream"
+          git -C "$RUNNER_TEMP/upstream" remote add origin https://github.com/Ghaith81/Fast-Genetic-Algorithm-For-Feature-Selection.git
+          git -C "$RUNNER_TEMP/upstream" fetch --depth=1 origin "$UPSTREAM_COMMIT"
+          git -C "$RUNNER_TEMP/upstream" checkout --detach FETCH_HEAD
+          test "$(git -C "$RUNNER_TEMP/upstream" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
+      - name: CI-only unit, integration-fixture and workflow checks
+        env:
+          EU26_21_UPSTREAM: ${{ runner.temp }}/upstream
+          RUFF_CACHE_DIR: ${{ runner.temp }}/qx-ruff-cache
+        run: |
+          python -m pip check
+          python -m unittest discover -s candidates/EU26-21/tests -p 'test_*.py' -v
+          ruff check candidates/EU26-21/chc_qx_alignment_study candidates/EU26-21/tests .github/scripts/download_study_artifacts.py --select E9,F63,F7,F82
+          python - <<'PY'
+          import yaml
+          from pathlib import Path
+          path = Path('.github/workflows/eu26-21-chc-qx-alignment-study.yml')
+          data = yaml.safe_load(path.read_text())
+          if len(data['jobs']) != 9:
+              raise SystemExit('unexpected QX workflow topology')
+          PY
+      - name: Verify that tests and lint left the scientific checkout unchanged
+        run: |
+          set -euo pipefail
+          status="$(git status --porcelain=v1 --untracked-files=all)"
+          printf '%s\n' "$status"
+          test -z "$status"
+      - name: Author outer-controller fixed RNG and clock replay gate
+        run: >-
+          python -m chc_qx_alignment_study.source_gate
+          --upstream "$RUNNER_TEMP/upstream" --expected-sha "$EXPECTED_SHA"
+          --phase fixture --output "$RUNNER_TEMP/source-fixture"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: eu26-21-qx-source-fixture-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/source-fixture
+          if-no-files-found: error
+          retention-days: 90
+      - name: Prepare a fictitious transport-only payload
+        run: |
+          mkdir -p "$RUNNER_TEMP/qx-transport"
+          printf 'CI_ONLY_FICTITIOUS_QX_TRANSPORT\n' > "$RUNNER_TEMP/qx-transport/synthetic.txt"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        id: transport
+        with:
+          name: eu26-21-qx-smoke-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/qx-transport
+          if-no-files-found: error
+          retention-days: 7
+      - name: Authenticate the fictitious ZIP before any science is authorized
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python .github/scripts/download_study_artifacts.py \
+            --artifact-ids "${{ steps.transport.outputs.artifact-id }}" \
+            --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID" \
+            --expected-sha "$EXPECTED_SHA" --kind qx-smoke \
+            --destination "$RUNNER_TEMP/qx-transport-replay" --merge-multiple
+          cmp "$RUNNER_TEMP/qx-transport/synthetic.txt" "$RUNNER_TEMP/qx-transport-replay/synthetic.txt"
+
+  dispatch:
+    if: ${{ github.event_name == 'push' && contains(github.event.head_commit.message, '[launch-chc-qx-alignment]') }}
+    needs: preflight
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - name: Dispatch only the exact green authorized SHA
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = refs/heads/research/EU26-21-chcqx-census-old-first
+          gh api "repos/$GITHUB_REPOSITORY/actions/workflows/eu26-21-chc-qx-alignment-study.yml/dispatches" \
+            --method POST -f ref=research/EU26-21-chcqx-census-old-first \
+            -f "inputs[expected_sha]=$EXPECTED_SHA"
+
+  authorize:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    needs: preflight
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Reject any mismatch between source and workflow revision
+        run: |
+          set -euo pipefail
+          [[ "$EXPECTED_SHA" =~ ^[0-9a-f]{40}$ ]]
+          test "$GITHUB_SHA" = "$EXPECTED_SHA"
+          test "$STUDY_WORKFLOW_SHA" = "$EXPECTED_SHA"
+
+  source_smoke:
+    name: Unchanged author Census profile, auditor seed 1, integration only
+    needs: authorize
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ env.EXPECTED_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.9'
+      - run: python -m pip install -r candidates/EU26-21/hybrid_1/requirements.txt
+      - name: Fetch the immutable author snapshot
+        run: |
+          set -euo pipefail
+          git init "$RUNNER_TEMP/upstream"
+          git -C "$RUNNER_TEMP/upstream" remote add origin https://github.com/Ghaith81/Fast-Genetic-Algorithm-For-Feature-Selection.git
+          git -C "$RUNNER_TEMP/upstream" fetch --depth=1 origin "$UPSTREAM_COMMIT"
+          git -C "$RUNNER_TEMP/upstream" checkout --detach FETCH_HEAD
+          test "$(git -C "$RUNNER_TEMP/upstream" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
+      - name: Authenticate source, data and notebook without rewriting old evidence
+        run: python candidates/EU26-21/old/source_audit.py "$RUNNER_TEMP/upstream"
+      - name: Execute one source-profile smoke, not the historical campaign
+        run: >-
+          python -m chc_qx_alignment_study.source_gate
+          --upstream "$RUNNER_TEMP/upstream" --expected-sha "$EXPECTED_SHA"
+          --phase real-smoke --output "$RUNNER_TEMP/source-smoke"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: eu26-21-qx-source-smoke-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/source-smoke
+          if-no-files-found: error
+          retention-days: 90
+
+  fixture:
+    name: Immutable official data fixture
+    needs: source_smoke
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    outputs:
+      artifact_id: ${{ steps.upload.outputs.artifact-id }}
+    steps:
+      - name: Download and hash official Census files
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/qx-fixture"
+          cd "$RUNNER_TEMP/qx-fixture"
+          curl --fail --location --retry 5 --retry-all-errors \
+            'https://archive.ics.uci.edu/static/public/117/census%2Bincome%2Bkdd.zip' -o data.zip
+          printf '%s  %s\n' 54fd206becffcfaf099544c3938c681d64a65709800c94c00a4fba0a00df10c9 data.zip | sha256sum --check
+          python - <<'PY'
+          from io import BytesIO
+          from pathlib import Path, PurePosixPath
+          import tarfile, zipfile
+          root = Path.cwd()
+          with zipfile.ZipFile(root / 'data.zip') as archive:
+              names = [name for name in archive.namelist() if PurePosixPath(name).name == 'census.tar.gz']
+              if len(names) != 1:
+                  raise SystemExit('ambiguous official archive')
+              raw = archive.read(names[0])
+          wanted = {'census-income.data', 'census-income.test'}
+          with tarfile.open(fileobj=BytesIO(raw), mode='r:gz') as archive:
+              members = {PurePosixPath(m.name).name: m for m in archive.getmembers()
+                         if m.isfile() and PurePosixPath(m.name).name in wanted}
+              if set(members) != wanted:
+                  raise SystemExit('missing official Census files')
+              for name, member in members.items():
+                  with archive.extractfile(member) as stream:
+                      (root / name).write_bytes(stream.read())
+          PY
+          printf '%s  %s\n' 3676a81db7d3528f3f8b9f3c699d0f0aa28db45e6e994fa0b8ed38327539ee86 census-income.data | sha256sum --check
+          printf '%s  %s\n' 98402b1ab879573d0a7f38a699a40258080e25e33d3401e7bf9c96d3fa0fab8c census-income.test | sha256sum --check
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        id: upload
+        with:
+          name: eu26-21-qx-fixture-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/qx-fixture
+          if-no-files-found: error
+          retention-days: 90
+
+  preparations:
+    name: Select and freeze training rows, seed ${{ matrix.seed }}
+    needs: fixture
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        seed: [44001,44002,44003,44004,44005,44006,44007,44008,44009,44010,44011,44012,44013,44014,44015,44016,44017,44018,44019,44020,44021,44022,44023,44024,44025,44026,44027,44028,44029,44030]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ env.EXPECTED_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r candidates/EU26-21/corrected_applied/requirements.txt
+      - name: Download the exact authenticated fixture
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/download_study_artifacts.py
+          --artifact-ids "${{ needs.fixture.outputs.artifact_id }}"
+          --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
+          --expected-sha "$EXPECTED_SHA" --kind qx-fixture
+          --destination "$RUNNER_TEMP/fixture" --merge-multiple
+      - name: Reject temporal re-preparation after a registry already exists
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          existing="$(gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts?per_page=100" \
+            | jq '[.[].artifacts[] | select(.name | startswith("eu26-21-qx-registry-"))] | length')"
+          if test "$existing" != 0; then
+            echo 'Frozen registry already exists. Rerun failed main jobs only; never rerun successful timed preparations.' >&2
+            exit 1
+          fi
+      - name: Prepare only training and validation data, never load test arrays
+        run: >-
+          python -m chc_qx_alignment_study.prepare
+          --train "$RUNNER_TEMP/fixture/census-income.data" --seed "${{ matrix.seed }}"
+          --expected-sha "$EXPECTED_SHA" --output "$RUNNER_TEMP/preparation"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: eu26-21-qx-preparation-${{ matrix.seed }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/preparation
+          if-no-files-found: error
+          retention-days: 90
+
+  registry:
+    name: Authenticate all 30 preparations before any main search
+    needs: preparations
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    outputs:
+      artifact_id: ${{ steps.upload.outputs.artifact-id }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ env.EXPECTED_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r candidates/EU26-21/corrected_applied/requirements.txt
+      - name: Record raw artifact metadata without inspecting scientific outcomes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/frozen-registry"
+          gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts?per_page=100" \
+            | jq '{artifacts: [.[].artifacts[] | select(.name | startswith("eu26-21-qx-preparation-"))]}' \
+            > "$RUNNER_TEMP/frozen-registry/preparation-api-metadata.json"
+      - name: Select exact uploaded source IDs by attempt, not scores
+        id: sources
+        run: |
+          python -m chc_qx_alignment_study.artifacts select \
+            --api-metadata "$RUNNER_TEMP/frozen-registry/preparation-api-metadata.json" \
+            --run-id "$GITHUB_RUN_ID" --expected-sha "$EXPECTED_SHA" --kind preparation \
+            --output "$RUNNER_TEMP/frozen-registry/preparation-sources.json"
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          rows = json.loads((Path(os.environ['RUNNER_TEMP']) / 'frozen-registry/preparation-sources.json').read_text())['artifacts']
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as stream:
+              stream.write('artifact_ids=' + ','.join(str(row['id']) for row in rows) + '\n')
+          PY
+      - name: Hash every selected ZIP before extracting preparations
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/download_study_artifacts.py
+          --artifact-ids "${{ steps.sources.outputs.artifact_ids }}"
+          --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
+          --expected-sha "$EXPECTED_SHA" --kind qx-preparation
+          --destination "$RUNNER_TEMP/preparations"
+          --transport-ledger "$RUNNER_TEMP/frozen-registry/preparation-transport.json"
+      - name: Freeze row sets, initialization and source provenance before search
+        run: |
+          python -m chc_qx_alignment_study.artifacts registry \
+            --root "$RUNNER_TEMP/preparations" \
+            --sources "$RUNNER_TEMP/frozen-registry/preparation-sources.json" \
+            --transport-ledger "$RUNNER_TEMP/frozen-registry/preparation-transport.json" \
+            --output "$RUNNER_TEMP/frozen-registry/registry.json"
+          cd "$RUNNER_TEMP/frozen-registry"
+          sha256sum registry.json > registry.sha256
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        id: upload
+        if: always()
+        with:
+          name: eu26-21-qx-registry-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/frozen-registry
+          if-no-files-found: error
+          retention-days: 90
+
+  cases:
+    name: Three QX methods and independent N1 certificates, seed ${{ matrix.seed }}
+    needs: [fixture, registry]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        seed: [44001,44002,44003,44004,44005,44006,44007,44008,44009,44010,44011,44012,44013,44014,44015,44016,44017,44018,44019,44020,44021,44022,44023,44024,44025,44026,44027,44028,44029,44030]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ env.EXPECTED_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r candidates/EU26-21/corrected_applied/requirements.txt
+      - name: Download the exact authenticated fixture
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/download_study_artifacts.py
+          --artifact-ids "${{ needs.fixture.outputs.artifact_id }}"
+          --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
+          --expected-sha "$EXPECTED_SHA" --kind qx-fixture
+          --destination "$RUNNER_TEMP/fixture" --merge-multiple
+      - name: Download the immutable pre-search registry
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/download_study_artifacts.py
+          --artifact-ids "${{ needs.registry.outputs.artifact_id }}"
+          --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
+          --expected-sha "$EXPECTED_SHA" --kind qx-registry
+          --destination "$RUNNER_TEMP/registry" --merge-multiple
+      - name: Fetch the immutable author snapshot
+        run: |
+          set -euo pipefail
+          git init "$RUNNER_TEMP/upstream"
+          git -C "$RUNNER_TEMP/upstream" remote add origin https://github.com/Ghaith81/Fast-Genetic-Algorithm-For-Feature-Selection.git
+          git -C "$RUNNER_TEMP/upstream" fetch --depth=1 origin "$UPSTREAM_COMMIT"
+          git -C "$RUNNER_TEMP/upstream" checkout --detach FETCH_HEAD
+          test "$(git -C "$RUNNER_TEMP/upstream" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
+      - name: Verify registry and choose this case's already frozen preparation ID
+        id: prepared
+        env:
+          CASE_SEED: ${{ matrix.seed }}
+        run: |
+          cd "$RUNNER_TEMP/registry"
+          sha256sum --check registry.sha256
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          registry = json.loads(Path('registry.json').read_text())
+          rows = [row for row in registry['cases'] if row['seed'] == int(os.environ['CASE_SEED'])]
+          if len(rows) != 1:
+              raise SystemExit('frozen seed entry missing or duplicated')
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as stream:
+              stream.write('artifact_id=' + str(rows[0]['source_artifact_id']) + '\n')
+          PY
+      - name: Replay the immutable training selection by exact artifact ID
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/download_study_artifacts.py
+          --artifact-ids "${{ steps.prepared.outputs.artifact_id }}"
+          --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
+          --expected-sha "$EXPECTED_SHA" --kind qx-preparation
+          --destination "$RUNNER_TEMP/prepared" --merge-multiple
+      - name: Search, freeze all terminal masks, certify neighborhoods, evaluate test once
+        run: >-
+          python -m chc_qx_alignment_study.run_case
+          --train "$RUNNER_TEMP/fixture/census-income.data"
+          --test "$RUNNER_TEMP/fixture/census-income.test"
+          --upstream "$RUNNER_TEMP/upstream" --seed "${{ matrix.seed }}"
+          --expected-sha "$EXPECTED_SHA"
+          --preparation "$RUNNER_TEMP/prepared/preparation.json"
+          --registry "$RUNNER_TEMP/registry/registry.json"
+          --output "$RUNNER_TEMP/case"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: eu26-21-qx-case-${{ matrix.seed }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/case
+          if-no-files-found: error
+          retention-days: 90
+
+  aggregate:
+    name: Complete-series proof validation and descriptive report
+    if: ${{ always() && needs.cases.result == 'success' && needs.registry.result == 'success' }}
+    needs: [cases, registry]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ env.EXPECTED_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r candidates/EU26-21/corrected_applied/requirements.txt
+      - name: Download the immutable pre-search registry
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/download_study_artifacts.py
+          --artifact-ids "${{ needs.registry.outputs.artifact_id }}"
+          --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
+          --expected-sha "$EXPECTED_SHA" --kind qx-registry
+          --destination "$RUNNER_TEMP/registry" --merge-multiple
+      - name: Preserve complete raw case-attempt metadata
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/report-input"
+          gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts?per_page=100" \
+            | jq '{artifacts: [.[].artifacts[] | select(.name | startswith("eu26-21-qx-case-"))]}' \
+            > "$RUNNER_TEMP/report-input/case-api-metadata.json"
+      - name: Select all 30 sources only after every case finished
+        id: sources
+        run: |
+          python -m chc_qx_alignment_study.artifacts select \
+            --api-metadata "$RUNNER_TEMP/report-input/case-api-metadata.json" \
+            --run-id "$GITHUB_RUN_ID" --expected-sha "$EXPECTED_SHA" --kind case \
+            --output "$RUNNER_TEMP/report-input/case-sources.json"
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          rows = json.loads((Path(os.environ['RUNNER_TEMP']) / 'report-input/case-sources.json').read_text())['artifacts']
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as stream:
+              stream.write('artifact_ids=' + ','.join(str(row['id']) for row in rows) + '\n')
+          PY
+      - name: Authenticate every case ZIP against its exact source metadata
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/download_study_artifacts.py
+          --artifact-ids "${{ steps.sources.outputs.artifact_ids }}"
+          --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
+          --expected-sha "$EXPECTED_SHA" --kind qx-case
+          --destination "$RUNNER_TEMP/cases"
+          --transport-ledger "$RUNNER_TEMP/report-input/case-transport.json"
+      - name: Validate masks, operators, counters, certificates and coverage before summarizing
+        run: >-
+          python -m chc_qx_alignment_study.aggregate
+          --expected-sha "$EXPECTED_SHA" --root "$RUNNER_TEMP/cases"
+          --registry "$RUNNER_TEMP/registry/registry.json"
+          --sources "$RUNNER_TEMP/report-input/case-sources.json"
+          --download-ledger "$RUNNER_TEMP/report-input/case-transport.json"
+          --output "$RUNNER_TEMP/report"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: eu26-21-qx-report-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/report
+            ${{ runner.temp }}/report-input
+            ${{ runner.temp }}/registry
+          if-no-files-found: error
+          retention-days: 90
