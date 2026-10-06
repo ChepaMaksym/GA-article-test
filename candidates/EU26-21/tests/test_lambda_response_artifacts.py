@@ -63,7 +63,8 @@ def sources(*, kind="preparation"):
 
 
 def transport(selected):
-    return {"complete": True, "source_run_id": RUN_ID, "implementation_sha": SHA,
+    return {"schema": "eu26-21-exact-id-transport-ledger-v1", "complete": True,
+            "source_run_id": RUN_ID, "implementation_sha": SHA,
             "kind": "lr-" + selected["kind"], "artifacts": [
                 {"id": row["id"], "name": row["name"], "digest": row["digest"], "size_in_bytes": 100,
                  "verified_zip_sha256": "b" * 64, "verified_zip_bytes": 100,

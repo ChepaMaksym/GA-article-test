@@ -118,7 +118,8 @@ def validate_sources(sources: dict, *, kind: str, expected_sha: str | None = Non
 
 def validate_transport(sources: dict, transport: dict) -> None:
     validate_sources(sources, kind=sources["kind"])
-    require(isinstance(transport, dict) and transport.get("complete") is True
+    require(isinstance(transport, dict) and transport.get("schema") == "eu26-21-exact-id-transport-ledger-v1"
+            and transport.get("complete") is True
             and transport.get("source_run_id") == sources["source_run_id"]
             and transport.get("implementation_sha") == sources["implementation_sha"]
             and transport.get("kind") == "lr-" + sources["kind"], "transport identity mismatch")

@@ -213,6 +213,7 @@ class LambdaInitialWorkflowTests(unittest.TestCase):
             "eu26-21-code-quality.yml", "eu26-21-local-optima-study.yml",
             "eu26-21-lambda-initial-study.yml",
             "eu26-21-chc-qx-alignment-study.yml",
+            "eu26-21-lambda-response-study.yml",
         })
 
 
