@@ -1,13 +1,44 @@
 # EU26-21 scientific novelty, source agreement, and claim boundary
 
+## Current claim boundary: 2026-10-06
+
+The dated August/September sections below describe historical profiles, not
+the current completion status. Subsequent studies are separate and are not
+pooled into those historical results:
+
+- The prepared-local-maximum study completed 25 admissible cases and 125 paired
+  repeats. Its registered adaptive-minus-fixed-one escape difference is
+  +20 percentage points, with a 95% case-cluster BCa interval [12.8, 30.4].
+  This concerns prepared states and that particular comparator, not general
+  feature-selection or test-quality superiority.
+- The source-QX descriptive study completed 30 cases. Selected states include
+  strict approximate-only one-bit maxima in 11 CHC, 13 adaptive and 2 fixed-one
+  cases. Those selected centers are not full-function one-bit maxima.
+  Different search costs and state selection prevent an escape-frequency
+  or superiority claim from those counts.
+- The low-start lambda-response study completed 30 cases, 120 searches and
+  2400 complete generations. Applied lambda matches the independent published
+  rule in every checked generation. It is an implementation-conformance result,
+  not a new controller or a predictive law for future quality.
+
+The defensible contribution is the reproducible integration, independently
+audited event/state evidence and empirical characterization of applicability
+limits. CHC-QX, the success-based lambda rule and surrogate false-optimum
+phenomena are prior work. Priority of the exact integration has not been
+established; no first-in-the-world, new-formula or universal-speed claim is made.
+Historical non-inferiority failure remains unchanged. See
+[current research status](../../RESEARCH_STATUS.md) and the
+[completed lambda-response report](lambda_response_study/evidence/2026-10-06/README_UK.md).
+
 Date re-audited: **2026-08-22**.
 
 Scope amendment, **2026-09-10**: the next stage now targets reproduction
 and diagnosis of stagnation and local-optimum escape, not a required
 efficiency improvement. See the [current research objective](RESEARCH_OBJECTIVE_UK.md)
 and [implementation audit](IMPLEMENTATION_AUDIT_2026-09-10_UK.md).
-The completed studies and their claims below remain historical. No new
-local-optimum campaign or contribution is claimed as completed.
+The completed studies and their claims below remain historical. As of that
+2026-09-10 amendment, no later local-optimum campaign was yet completed;
+the current completion status is stated separately above.
 
 Prospective follow-up completed **2026-09-08**: the new common-objective
 bridge has 30 valid pairs and authenticated reaggregation, but its strict

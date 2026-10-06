@@ -1,0 +1,280 @@
+{
+  "artifacts": [
+    {
+      "digest": "sha256:37a57861bdfe5c4070c4211107dea444186639a0177ed9d0386f923630d2b440",
+      "id": 11415188381,
+      "name": "eu26-21-lr-case-45001-37466751636-1",
+      "size_in_bytes": 1339725,
+      "verified_zip_bytes": 1339725,
+      "verified_zip_sha256": "37a57861bdfe5c4070c4211107dea444186639a0177ed9d0386f923630d2b440",
+      "zip_verified_before_extraction": true
+    },
+    {
+      "digest": "sha256:6295aff336d8b82e9f21ca5a00dfe0b3c0dfa10f87c5f0356efaffe6addc00da",
+      "id": 11415912753,
+      "name": "eu26-21-lr-case-45002-37466751636-1",
+      "size_in_bytes": 1335083,
+      "verified_zip_bytes": 1335083,
+      "verified_zip_sha256": "6295aff336d8b82e9f21ca5a00dfe0b3c0dfa10f87c5f0356efaffe6addc00da",
+      "zip_verified_before_extraction": true
+    },
+    {
+      "digest": "sha256:2166abe830d2e44f491262d4d95dd1b3a43f10c14df444c7ab3aee39e86c74b8",
+      "id": 11415612900,
+      "name": "eu26-21-lr-case-45003-37466751636-1",
+      "size_in_bytes": 1379748,
+      "verified_zip_bytes": 1379748,
+      "verified_zip_sha256": "2166abe830d2e44f491262d4d95dd1b3a43f10c14df444c7ab3aee39e86c74b8",
+      "zip_verified_before_extraction": true
+    },
+    {
+      "digest": "sha256:a9e7ffdf3ca970428ea5dec5afe911ec3b3af3afb9c93d589f69c9ada4925056",
+      "id": 11414738235,
+      "name": "eu26-21-lr-case-45004-37466751636-1",
+      "size_in_bytes": 1396336,
+      "verified_zip_bytes": 1396336,
+      "verified_zip_sha256": "a9e7ffdf3ca970428ea5dec5afe911ec3b3af3afb9c93d589f69c9ada4925056",
+      "zip_verified_before_extraction": true
+    },
+    {
+      "digest": "sha256:cd62c1b350ba0610770a378516e19dc1ca63a1b19b04ad2166376946e7e6d8e1",
+      "id": 11415907336,
+      "name": "eu26-21-lr-case-45005-37466751636-1",
+      "size_in_bytes": 1359259,
+      "verified_zip_bytes": 1359259,
+      "verified_zip_sha256": "cd62c1b350ba0610770a378516e19dc1ca63a1b19b04ad2166376946e7e6d8e1",
+      "zip_verified_before_extraction": true
+    },
+    {
+      "digest": "sha256:af0b673554851a194e8213ba5e5dcecdda22b25afcac10c6fe2e571f56005359",
+      "id": 11414688916,
+      "name": "eu26-21-lr-case-45006-37466751636-1",
+      "size_in_bytes": 1407163,
+      "verified_zip_bytes": 1407163,
+      "verified_zip_sha256": "af0b673554851a194e8213ba5e5dcecdda22b25afcac10c6fe2e571f56005359",
+      "zip_verified_before_extraction": true
+    },
+    {
+      "digest": "sha256:5b70d9e9c9c422c41f4334d0c19303a8f3c83ec9f3bcdac49b4c5f80908db9dc",
+      "id": 11414628758,
+      "name": "eu26-21-lr-case-45007-37466751636-1",
+      "size_in_bytes": 1403231,
+      "verified_zip_bytes": 1403231,
+      "verified_zip_sha256": "5b70d9e9c9c422c41f4334d0c19303a8f3c83ec9f3bcdac49b4c5f80908db9dc",
+      "zip_verified_before_extraction": true
+    },
+    {
+      "digest": "sha256:cc73f00114af5ab800d441e922f21e8c217d82abef7044cab8a92bbb61864ae3",
+      "id": 11415582829,
+      "name": "eu26-21-lr-case-45008-37466751636-1",
+      "size_in_bytes": 1313183,
+      "verified_zip_bytes": 1313183,
+      "verified_zip_sha256": "cc73f00114af5ab800d441e922f21e8c217d82abef7044cab8a92bbb61864ae3",
+      "zip_verified_before_extraction": true
+    },
+    {
+      "digest": "sha256:98459a5bebe8b7764a6f29c233e2a35a03a367064f6538c7acbd37e302f2fa9f",
+      "id": 11415928786,
+      "name": "eu26-21-lr-case-45009-37466751636-1",
+      "size_in_bytes": 1286723,
+      "verified_zip_bytes": 1286723,
+      "verified_zip_sha256": "98459a5bebe8b7764a6f29c233e2a35a03a367064f6538c7acbd37e302f2fa9f",
+      "zip_verified_before_extraction": true
+    },
+    {
+      "digest": "sha256:127b4633221d686190cc8f9f4f50bebca651fe0538d2cbcda33f15e65f8f769a",
+      "id": 11416120256,
+      "name": "eu26-21-lr-case-45010-37466751636-1",
+      "size_in_bytes": 1361441,
+      "verified_zip_bytes": 1361441,
+      "verified_zip_sha256": "127b4633221d686190cc8f9f4f50bebca651fe0538d2cbcda33f15e65f8f769a",
+      "zip_verified_before_extraction": true
+    },
+    {
+      "digest": "sha256:c0bb892832233443c341f29b7c52a2a14c2d2e102539b4671ded9d1cb924eef4",
+      "id": 11415708561,
+      "name": "eu26-21-lr-case-45011-37466751636-1",
+      "size_in_bytes": 1368673,
+      "verified_zip_bytes": 1368673,
+      "verified_zip_sha256": "c0bb892832233443c341f29b7c52a2a14c2d2e102539b4671ded9d1cb924eef4",
+      "zip_verified_before_extraction": true
+    },
+    {
+      "digest": "sha256:3011c99da4d70f0d04bead343b9273a383e197e69149d9ee1fffb7a5bc5f2026",
+      "id": 11415288953,
+      "name": "eu26-21-lr-case-45012-37466751636-1",
+      "size_in_bytes": 1257221,
+      "verified_zip_bytes": 1257221,
+      "verified_zip_sha256": "3011c99da4d70f0d04bead343b9273a383e197e69149d9ee1fffb7a5bc5f2026",
+      "zip_verified_before_extraction": true
+    },
+    {
+      "digest": "sha256:2fce9708a83db2f3f0fb55dbedae91f2dd19ab0612d1368b7dd704c9085fe34a",
+      "id": 11415939670,
+      "name": "eu26-21-lr-case-45013-37466751636-1",
+      "size_in_bytes": 1283167,
+      "verified_zip_bytes": 1283167,
+      "verified_zip_sha256": "2fce9708a83db2f3f0fb55dbedae91f2dd19ab0612d1368b7dd704c9085fe34a",
+      "zip_verified_before_extraction": true
+    },
+    {
+      "digest": "sha256:273795cf48a4fa03ffb7aac42db842d8315475b1373df019d0289e98586efbcd",
+      "id": 11414908980,
+      "name": "eu26-21-lr-case-45014-37466751636-1",
+      "size_in_bytes": 1318192,
+      "verified_zip_bytes": 1318192,
+      "verified_zip_sha256": "273795cf48a4fa03ffb7aac42db842d8315475b1373df019d0289e98586efbcd",
+      "zip_verified_before_extraction": true
+    },
+    {
+      "digest": "sha256:36be6d8157368399dee30cc4ef44f476a29ee090f8b300985ab88b4766da618b",
+      "id": 11416020993,
+      "name": "eu26-21-lr-case-45015-37466751636-1",
+      "size_in_bytes": 1306533,
+      "verified_zip_bytes": 1306533,
+      "verified_zip_sha256": "36be6d8157368399dee30cc4ef44f476a29ee090f8b300985ab88b4766da618b",
+      "zip_verified_before_extraction": true
+    },
+    {
+      "digest": "sha256:8cd8394ee70987fbe7082654cb3e2a992b2e3d2a1ceb8737e540372f866d00f1",
+      "id": 11415433573,
+      "name": "eu26-21-lr-case-45016-37466751636-1",
+      "size_in_bytes": 1430519,
+      "verified_zip_bytes": 1430519,
+      "verified_zip_sha256": "8cd8394ee70987fbe7082654cb3e2a992b2e3d2a1ceb8737e540372f866d00f1",
+      "zip_verified_before_extraction": true
+    },
+    {
+      "digest": "sha256:2a0be60ed16a8b5588630d9aefbd0b33e4a6ea7422c71f692dcca380030fed71",
+      "id": 11415962093,
+      "name": "eu26-21-lr-case-45017-37466751636-1",
+      "size_in_bytes": 1388233,
+      "verified_zip_bytes": 1388233,
+      "verified_zip_sha256": "2a0be60ed16a8b5588630d9aefbd0b33e4a6ea7422c71f692dcca380030fed71",
+      "zip_verified_before_extraction": true
+    },
+    {
+      "digest": "sha256:40afb9f86b463a3788b3f2e297a3846134cbfa5594157dc2b0203f2e7ee81ad3",
+      "id": 11415168888,
+      "name": "eu26-21-lr-case-45018-37466751636-1",
+      "size_in_bytes": 1376418,
+      "verified_zip_bytes": 1376418,
+      "verified_zip_sha256": "40afb9f86b463a3788b3f2e297a3846134cbfa5594157dc2b0203f2e7ee81ad3",
+      "zip_verified_before_extraction": true
+    },
+    {
+      "digest": "sha256:e73b042bfd04d182e3b6882809144619a0ef40b8c963ee92c6231acc26771e77",
+      "id": 11415239507,
+      "name": "eu26-21-lr-case-45019-37466751636-1",
+      "size_in_bytes": 1307578,
+      "verified_zip_bytes": 1307578,
+      "verified_zip_sha256": "e73b042bfd04d182e3b6882809144619a0ef40b8c963ee92c6231acc26771e77",
+      "zip_verified_before_extraction": true
+    },
+    {
+      "digest": "sha256:98bd91963b065dafddaead0b798163243b45f252f5b1b1c4046e95d66937c56f",
+      "id": 11415084034,
+      "name": "eu26-21-lr-case-45020-37466751636-1",
+      "size_in_bytes": 1394276,
+      "verified_zip_bytes": 1394276,
+      "verified_zip_sha256": "98bd91963b065dafddaead0b798163243b45f252f5b1b1c4046e95d66937c56f",
+      "zip_verified_before_extraction": true
+    },
+    {
+      "digest": "sha256:a614dd387719bbab1b497e57a3d87abba85c6dccee1a8e76a6e887fd5728c029",
+      "id": 11415159707,
+      "name": "eu26-21-lr-case-45021-37466751636-1",
+      "size_in_bytes": 1390689,
+      "verified_zip_bytes": 1390689,
+      "verified_zip_sha256": "a614dd387719bbab1b497e57a3d87abba85c6dccee1a8e76a6e887fd5728c029",
+      "zip_verified_before_extraction": true
+    },
+    {
+      "digest": "sha256:b3c86af02af17ba3c1742d9d30037aa9786b0c35fbd2f52a99a05c9d3a1dbff9",
+      "id": 11416051889,
+      "name": "eu26-21-lr-case-45022-37466751636-1",
+      "size_in_bytes": 1263375,
+      "verified_zip_bytes": 1263375,
+      "verified_zip_sha256": "b3c86af02af17ba3c1742d9d30037aa9786b0c35fbd2f52a99a05c9d3a1dbff9",
+      "zip_verified_before_extraction": true
+    },
+    {
+      "digest": "sha256:ec85dfe5398cb1aef3d44039cc6367b0c30e22d6c7f33873eb3bba98416e1f6a",
+      "id": 11416210625,
+      "name": "eu26-21-lr-case-45023-37466751636-1",
+      "size_in_bytes": 1329381,
+      "verified_zip_bytes": 1329381,
+      "verified_zip_sha256": "ec85dfe5398cb1aef3d44039cc6367b0c30e22d6c7f33873eb3bba98416e1f6a",
+      "zip_verified_before_extraction": true
+    },
+    {
+      "digest": "sha256:4c194989411b66712943307866aa67c7de593acfa30ed9dc464bf1ab0390f27e",
+      "id": 11415014816,
+      "name": "eu26-21-lr-case-45024-37466751636-1",
+      "size_in_bytes": 1277775,
+      "verified_zip_bytes": 1277775,
+      "verified_zip_sha256": "4c194989411b66712943307866aa67c7de593acfa30ed9dc464bf1ab0390f27e",
+      "zip_verified_before_extraction": true
+    },
+    {
+      "digest": "sha256:003a81cc3584cde766a2ce3c8a722c1a3c020fdbab65d8133431232cad41fc59",
+      "id": 11416565008,
+      "name": "eu26-21-lr-case-45025-37466751636-1",
+      "size_in_bytes": 1393295,
+      "verified_zip_bytes": 1393295,
+      "verified_zip_sha256": "003a81cc3584cde766a2ce3c8a722c1a3c020fdbab65d8133431232cad41fc59",
+      "zip_verified_before_extraction": true
+    },
+    {
+      "digest": "sha256:e985fc02639a8cc2e7eaee0e04a6d2917f74a9969fbcf6192750575a42d4584a",
+      "id": 11416595242,
+      "name": "eu26-21-lr-case-45026-37466751636-1",
+      "size_in_bytes": 1320404,
+      "verified_zip_bytes": 1320404,
+      "verified_zip_sha256": "e985fc02639a8cc2e7eaee0e04a6d2917f74a9969fbcf6192750575a42d4584a",
+      "zip_verified_before_extraction": true
+    },
+    {
+      "digest": "sha256:51fd6d56159902f39da2119695e32c6dc22ab060cf5957b14917b7377473f872",
+      "id": 11415884774,
+      "name": "eu26-21-lr-case-45027-37466751636-1",
+      "size_in_bytes": 1338873,
+      "verified_zip_bytes": 1338873,
+      "verified_zip_sha256": "51fd6d56159902f39da2119695e32c6dc22ab060cf5957b14917b7377473f872",
+      "zip_verified_before_extraction": true
+    },
+    {
+      "digest": "sha256:9a4c431f7c9e0552b4c4df01855de47cdd5f443c066a7844a5f56a05f0d01905",
+      "id": 11415559832,
+      "name": "eu26-21-lr-case-45028-37466751636-1",
+      "size_in_bytes": 1330354,
+      "verified_zip_bytes": 1330354,
+      "verified_zip_sha256": "9a4c431f7c9e0552b4c4df01855de47cdd5f443c066a7844a5f56a05f0d01905",
+      "zip_verified_before_extraction": true
+    },
+    {
+      "digest": "sha256:c647cc9693d7d3b48646507a28f3833a489d78bf38b0ff05b2b61d3e415214fc",
+      "id": 11416815317,
+      "name": "eu26-21-lr-case-45029-37466751636-1",
+      "size_in_bytes": 1304600,
+      "verified_zip_bytes": 1304600,
+      "verified_zip_sha256": "c647cc9693d7d3b48646507a28f3833a489d78bf38b0ff05b2b61d3e415214fc",
+      "zip_verified_before_extraction": true
+    },
+    {
+      "digest": "sha256:a0ce376622a4c027ecaea1c8235b02c173c3e342ba8823c69d92ae988edd267d",
+      "id": 11415394614,
+      "name": "eu26-21-lr-case-45030-37466751636-1",
+      "size_in_bytes": 1241506,
+      "verified_zip_bytes": 1241506,
+      "verified_zip_sha256": "a0ce376622a4c027ecaea1c8235b02c173c3e342ba8823c69d92ae988edd267d",
+      "zip_verified_before_extraction": true
+    }
+  ],
+  "complete": true,
+  "implementation_sha": "8e447e98be672e1f2da64ee1869018924cdd65b6",
+  "kind": "lr-case",
+  "repository": "ChepaMaksym/GA-article-test",
+  "schema": "eu26-21-exact-id-transport-ledger-v1",
+  "source_run_id": 37466751636
+}
