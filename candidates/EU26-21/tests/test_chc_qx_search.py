@@ -148,6 +148,46 @@ class StatefulSearchTests(unittest.TestCase):
                 self.assertEqual([(row["mask"], row["wba"], row["phase"]) for row in first["active_trace"]],
                                  [(row["mask"], row["wba"], row["phase"]) for row in second["active_trace"]])
 
+    def test_completed_chunk_progress_is_json_safe_and_does_not_change_search(self):
+        for arm in search.ARMS:
+            for maximum in (2, 3):
+                with self.subTest(arm=arm, max_chunks=maximum):
+                    source_args = {}
+                    if arm == "chc_qx":
+                        evolution, creator, _calls = _fake_source()
+                        source_args = {"evolution": evolution, "deap_creator": creator}
+                    expected = search.run_qx_search(**_arguments(
+                        arm=arm, max_chunks=maximum, **source_args,
+                    ))
+                    progress_rows = []
+
+                    def save_progress(progress):
+                        progress_rows.append(json.loads(json.dumps(progress, allow_nan=False)))
+                        # The detached callback payload must not change the incumbent.
+                        if progress["selected_mask"] is not None:
+                            progress["selected_mask"][0] = 9
+                        progress["best_full_wba"] = -1.0
+
+                    actual = search.run_qx_search(**_arguments(
+                        arm=arm, max_chunks=maximum,
+                        on_chunk_completed=save_progress, **source_args,
+                    ))
+                    self.assertEqual(actual, expected)
+                    self.assertEqual(len(progress_rows), actual["chunks"])
+                    for progress, checkpoint in zip(progress_rows, actual["checkpoints"]):
+                        self.assertEqual(progress["chunk"], checkpoint["chunk"])
+                        self.assertEqual(progress["generation"], checkpoint["generation"])
+                        for name in ("active_logical_calls", "active_physical_calls",
+                                     "full_calls", "checkpoint_visits", "no_change"):
+                            self.assertEqual(progress[name], checkpoint[name])
+                        self.assertEqual(progress["best_active_wba"], checkpoint["best_active"])
+                        self.assertEqual(progress["best_full_wba"], checkpoint["best_full"])
+                    self.assertTrue(all(row["stop_reason"] is None for row in progress_rows[:-1]))
+                    self.assertEqual(progress_rows[-1]["stop_reason"], actual["stop_reason"])
+                    self.assertEqual(progress_rows[-1]["censored"], maximum == 2)
+                    self.assertEqual(progress_rows[-1]["current_lambda"],
+                                     actual["terminal_state"]["final_lambda"])
+
     def test_full_fitness_does_not_replace_active_parent_score(self):
         result = search.run_qx_search(**_arguments(full_objective=lambda _mask: 0.9))
         self.assertEqual(result["full_validation_wba"], 0.9)
@@ -201,7 +241,7 @@ class StatefulSearchTests(unittest.TestCase):
             {"arm": "unknown"}, {"seed": True}, {"chunk_generations": 0},
             {"initial_scores": [(0.5, -0.5)] * 50}, {"initial_scores": [float("nan")] * 50},
             {"initial_masks": [(True,) + (0,) * 39] * 50}, {"initial_masks": [(0,) * 39] * 50},
-            {"initial_scores": [0.5] * 49}, {"max_chunks": 0},
+            {"initial_scores": [0.5] * 49}, {"max_chunks": 0}, {"on_chunk_completed": 0},
         ]
         for changes in invalid:
             with self.subTest(changes=changes):

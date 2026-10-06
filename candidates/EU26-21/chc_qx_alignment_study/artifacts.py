@@ -69,6 +69,21 @@ def validate_transport(sources: dict, transport: dict) -> None:
                 "source ZIP was not authenticated")
 
 
+def validate_upload_identity(manifest: dict, source: dict, *, kind: str,
+                             seed: int, expected_sha: str, run_id: int) -> None:
+    """Bind embedded provenance to the selected upload, including its attempt."""
+    provenance = manifest["provenance"]
+    require(type(provenance["run_attempt"]) is int and provenance["run_attempt"] > 0,
+            "embedded upload attempt invalid")
+    name = f"eu26-21-qx-{kind}-{seed}-{run_id}-{provenance['run_attempt']}"
+    require(source["name"] == manifest["artifact_name"] == name
+            and manifest["seed"] == seed and provenance["run_id"] == run_id
+            and provenance["implementation_sha"] == expected_sha
+            and source["workflow_run"]["id"] == run_id
+            and source["workflow_run"]["head_sha"] == expected_sha,
+            "selected upload and embedded source identity differ")
+
+
 def build_registry(root: Path, sources: dict, transport: dict) -> dict:
     require(sources["kind"] == "preparation", "registry requires preparation sources")
     validate_transport(sources, transport)
@@ -77,10 +92,13 @@ def build_registry(root: Path, sources: dict, transport: dict) -> dict:
         path = root / source["name"] / "preparation.json"
         require(path.is_file() and not path.is_symlink(), "missing preparation")
         manifest = verify_manifest(path.parent / "manifest.json", expected_sha=sources["implementation_sha"])
+        validate_upload_identity(manifest, source, kind="preparation", seed=seed,
+                                 expected_sha=sources["implementation_sha"], run_id=sources["source_run_id"])
         require(manifest["artifact_name"] == source["name"] and manifest["seed"] == seed
                 and manifest["row_file"] == "preparation.json", "preparation manifest identity mismatch")
         row = read_json(path)
         require(row["seed"] == seed and row["schema"] == "eu26-21-qx-preparation-v1"
+                and row["provenance"] == manifest["provenance"]
                 and row["provenance"]["protocol_id"] == PROTOCOL_ID
                 and row["provenance"]["implementation_sha"] == sources["implementation_sha"]
                 and row["provenance"]["protocol_sha256"] == PROTOCOL_SHA256,

@@ -12,7 +12,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[3]
 CANDIDATE = ROOT / "candidates/EU26-21"
 sys.path.insert(0, str(CANDIDATE))
-from chc_qx_alignment_study.artifacts import select_sources, validate_transport  # noqa: E402
+from chc_qx_alignment_study.artifacts import select_sources, validate_transport, validate_upload_identity  # noqa: E402
 from chc_qx_alignment_study.contract import CASE_SEEDS, PROTOCOL_SHA256  # noqa: E402
 
 SPEC = importlib.util.spec_from_file_location("qx_transport", ROOT / ".github/scripts/download_study_artifacts.py")
@@ -46,6 +46,15 @@ class MetadataSelectionTests(unittest.TestCase):
         self.raw["artifacts"].pop()
         with self.assertRaises(ValueError):
             select_sources(self.raw, run_id=RUN, expected_sha=SHA, kind="case")
+
+    def test_embedded_provenance_must_match_upload_attempt(self):
+        source = metadata(attempt=2)
+        manifest = {"seed": 44001, "artifact_name": source["name"],
+                    "provenance": {"run_id": RUN, "run_attempt": 2, "implementation_sha": SHA}}
+        validate_upload_identity(manifest, source, kind="case", seed=44001, expected_sha=SHA, run_id=RUN)
+        manifest["provenance"]["run_attempt"] = 1
+        with self.assertRaises(ValueError):
+            validate_upload_identity(manifest, source, kind="case", seed=44001, expected_sha=SHA, run_id=RUN)
 
     def test_duplicate_attempt_rejected(self):
         self.raw["artifacts"].append(metadata(identity=10101))

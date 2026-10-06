@@ -8,7 +8,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from chc_qx_alignment_study.aggregate import describe, validate_metrics  # noqa: E402
+from chc_qx_alignment_study.aggregate import describe, validate_metrics, record_consistent_scores  # noqa: E402
 from local_optima_study.contract import per_class_metrics  # noqa: E402
 
 
@@ -22,6 +22,14 @@ def fabricated_metrics():
 
 
 class DescriptiveAnalysisTests(unittest.TestCase):
+    def test_shared_objective_is_consistent_without_merging_two_training_scopes(self):
+        mask = [1] + [0] * 39
+        active, full = {}, {}
+        record_consistent_scores(active, [{"mask": mask, "wba": .6}] * 2)
+        record_consistent_scores(full, [{"mask": mask, "wba": .7}])
+        with self.assertRaises(ValueError):
+            record_consistent_scores(active, [{"mask": mask, "wba": .7}])
+
     def test_class_metrics_come_from_one_model_matrix(self):
         validate_metrics(fabricated_metrics())
 

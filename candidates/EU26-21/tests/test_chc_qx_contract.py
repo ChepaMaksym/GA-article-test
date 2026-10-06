@@ -90,14 +90,19 @@ class FrozenPreparationTests(unittest.TestCase):
     def fixture(self, directory):
         preparation = {"schema": contract.PREPARATION_SCHEMA, "seed": 44001, "status": "PASS_PREPARATION",
                        "provenance": {"implementation_sha": "a" * 40, "protocol_sha256": contract.PROTOCOL_SHA256,
+                                      "protocol_id": contract.PROTOCOL_ID, "workflow_sha": "a" * 40,
                                       "run_id": 3, "run_attempt": 1}}
         path = directory / "preparation.json"
         identity = contract.write_json(path, preparation)
         cases = [{"seed": seed, "status": "PASS_PREPARATION", "preparation": identity,
-                  "source_run_id": 3, "source_artifact_id": seed + 90000}
+                  "source_run_id": 3, "source_artifact_id": seed + 90000,
+                  "source_artifact_name": f"eu26-21-qx-preparation-{seed}-3-1",
+                  "source_artifact_digest": "sha256:" + "d" * 64}
                  for seed in contract.CASE_SEEDS]
         registry = {"schema": contract.REGISTRY_SCHEMA, "implementation_sha": "a" * 40,
-                    "protocol_sha256": contract.PROTOCOL_SHA256, "cases": cases}
+                    "protocol_id": contract.PROTOCOL_ID, "protocol_sha256": contract.PROTOCOL_SHA256,
+                    "source_run_id": 3, "all_30_accounted": True, "frozen_before_main_search": True,
+                    "cases": cases}
         registry_path = directory / "registry.json"
         contract.write_json(registry_path, registry)
         return path, registry_path, registry

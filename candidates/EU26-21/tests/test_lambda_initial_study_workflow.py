@@ -199,7 +199,7 @@ class LambdaInitialWorkflowTests(unittest.TestCase):
 
     def test_all_workflows_discovering_new_contracts_have_registration_history(self):
         # Authentic ancestor/blob checks must not be weakened for older jobs.
-        # All three full-discovery workflows need their first checkout history.
+        # Every full-discovery workflow needs its first checkout history.
         full_discovery = []
         for path in sorted((ROOT / ".github/workflows").glob("eu26-21-*.yml")):
             content = path.read_text(encoding="utf-8")
@@ -212,6 +212,7 @@ class LambdaInitialWorkflowTests(unittest.TestCase):
         self.assertEqual(set(full_discovery), {
             "eu26-21-code-quality.yml", "eu26-21-local-optima-study.yml",
             "eu26-21-lambda-initial-study.yml",
+            "eu26-21-chc-qx-alignment-study.yml",
         })
 
 

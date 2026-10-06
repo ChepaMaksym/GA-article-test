@@ -16,7 +16,7 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from chc_qx_alignment_study.reference import source_compatible_qx
 from chc_qx_alignment_study.source_gate import (
-    ClockTape, authenticate, fixture_gate, load_evolution, run_fixture,
+    ClockTape, authenticate, fixture_gate, load_evolution, run_fixture, source_smoke,
 )
 
 
@@ -114,6 +114,14 @@ class ControllerReferenceTests(unittest.TestCase):
             replay.time()
         with self.assertRaisesRegex(ValueError, "complete tape"):
             ClockTape(tape.tape).complete()
+
+    def test_real_source_smoke_rejects_modern_python_before_starting_training(self):
+        with patch("chc_qx_alignment_study.source_gate.sys.version_info", (3, 11, 0)), patch(
+            "chc_qx_alignment_study.source_gate.subprocess.check_call"
+        ) as external:
+            with self.assertRaisesRegex(ValueError, "Python 3.9"):
+                source_smoke(Path("unused"), Path("unused"))
+            external.assert_not_called()
 
 
 class PinnedSourceControllerTests(unittest.TestCase):

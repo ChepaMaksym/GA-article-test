@@ -27,6 +27,11 @@ def prepare_case(*, train: Path, seed: int, expected_sha: str, output: Path,
     protocol, provenance = authenticate(protocol_path=protocol_path, expected_sha=expected_sha)
     require(type(seed) is int and seed in CASE_SEEDS, "preparation seed outside registered ledger")
     require(file_sha256(train) == protocol["data"]["train_sha256"], "train data hash mismatch")
+    write_json(output / "execution-start.json", {
+        "schema": "eu26-21-qx-execution-start-v1", "seed": seed, "provenance": provenance,
+        "event": "authenticated_training_only_preparation_started",
+        "terminal_result_file": "preparation.json", "scientific_result": False,
+    })
     prepared = prepare_training(train, seed=seed)
     require(prepared.metadata["train_file_rows"] == protocol["data"]["train_rows"], "train row count mismatch")
     initial_masks = source_density_masks(50, seed=seed + 3000003, nonempty=False)

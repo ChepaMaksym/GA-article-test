@@ -16,10 +16,10 @@ import shutil
 import statistics
 
 from corrected_applied.data_protocol import TRANSFORMED_FEATURE_NAMES
-from chc_qx_alignment_study.artifacts import validate_transport
+from chc_qx_alignment_study.artifacts import validate_transport, validate_upload_identity
 from chc_qx_alignment_study.contract import (
     ALL_ARMS, CASE_SEEDS, CASE_SCHEMA, PROTOCOL_ID, PROTOCOL_SHA256, THIS_DIRECTORY,
-    authenticate, canonical_sha256, file_sha256, read_json, require,
+    authenticate, file_sha256, read_json, require,
     validate_mask, verify_manifest, write_json,
 )
 from local_optima_study.contract import per_class_metrics
@@ -29,7 +29,7 @@ from chc_qx_alignment_study.validate_evidence import validate_diagnostic, valida
 LABELS = {"chc_qx": "CHC із QX", "lambda_adaptive_qx": "Адаптивний λ із QX",
           "lambda_fixed1_qx": "Сталий λ=1 із QX"}
 CLASSES = ("neither_local", "approximate_only_false_local", "both_local", "full_only_local")
-CLASS_LABELS = {"neither_local": "Не максимум обох функцій",
+CLASS_LABELS = {"neither_local": "Не максимум жодної функції",
                 "approximate_only_false_local": "Хибний максимум наближення",
                 "both_local": "Максимум обох функцій", "full_only_local": "Лише повний максимум"}
 
@@ -57,9 +57,28 @@ def validate_metrics(metrics: dict) -> None:
                     for row in matrix for value in row), "test record counts invalid")
 
 
+def validate_counts(counts: dict, evaluations: list[dict]) -> None:
+    masks = [validate_mask(point["mask"]) for point in evaluations]
+    require(counts == {"physical_calls": len(masks),
+                       "actual_tree_fits": sum(bool(sum(mask)) for mask in masks),
+                       "unique_masks": len(set(masks)),
+                       "duplicate_queries": len(masks) - len(set(masks))},
+            "physical calls, actual fits or duplicate counters differ from the ledger")
+
+
+def record_consistent_scores(known: dict, evaluations: list[dict]) -> None:
+    for point in evaluations:
+        mask, score = validate_mask(point["mask"]), point["wba"]
+        require(mask not in known or known[mask] == score,
+                "same mask has conflicting deterministic scores within one evaluation scope")
+        known[mask] = score
+
+
 def validate_case(directory: Path, source: dict, registry: dict, registry_sha256: str,
                   *, expected_sha: str, seed: int, preparation: dict | None = None) -> tuple[dict, dict]:
     manifest = verify_manifest(directory / "manifest.json", expected_sha=expected_sha)
+    validate_upload_identity(manifest, source, kind="case", seed=seed,
+                             expected_sha=expected_sha, run_id=registry["source_run_id"])
     require(manifest["seed"] == seed and manifest["artifact_name"] == source["name"]
             and manifest["row_file"] == "case.json", "case manifest identity mismatch")
     row = read_json(directory / "case.json")
@@ -92,11 +111,16 @@ def validate_case(directory: Path, source: dict, registry: dict, registry_sha256
             and {key: freeze_id[key] for key in ("sha256", "bytes")} == manifest["files"][freeze_id["file"]],
             "terminal freeze identity mismatch")
     freeze = read_json(directory / freeze_id["file"])
-    require(freeze["test_evaluations_so_far"] == 0
+    require(freeze["schema"] == "eu26-21-qx-terminal-mask-freeze-v1"
+            and freeze["seed"] == seed and freeze["provenance"] == row["provenance"]
+            and freeze["preparation"] == row["preparation"]
+            and freeze["test_evaluations_so_far"] == 0
             and set(freeze["arms"]) == set(ALL_ARMS)
             and freeze["selected_by"] == "full_internal_training_validation_only",
             "terminal masks were not frozen before test")
-    traces = {}
+    require(set(row["models"]) == {arm for arm, item in row["arms"].items()
+                                  if item["selected_mask"] is not None}, "terminal model coverage mismatch")
+    traces, known_active, known_full = {}, {}, {}
     for arm in ALL_ARMS:
         summary = row["arms"][arm]
         trace_identity = summary["trace"]
@@ -104,7 +128,9 @@ def validate_case(directory: Path, source: dict, registry: dict, registry_sha256
                 and {key: trace_identity[key] for key in ("sha256", "bytes")} == manifest["files"][trace_identity["file"]],
                 "unlisted search trace or false trace identity")
         trace = read_json(directory / trace_identity["file"])
-        require(trace["arm"] == arm and trace["seed"] == seed, "search trace identity mismatch")
+        require(trace["arm"] == arm and trace["seed"] == seed
+                and trace["provenance"] == row["provenance"]
+                and trace["preparation"] == row["preparation"], "search trace identity mismatch")
         validate_search(trace, row["initial_masks"], row["initial_scores"])
         for key in ("selected_mask", "full_validation_wba", "active_logical_calls",
                     "active_physical_calls", "full_calls", "checkpoint_visits", "chunks",
@@ -120,7 +146,18 @@ def validate_case(directory: Path, source: dict, registry: dict, registry_sha256
         validate_diagnostic(diagnostic, trace["snapshot"])
         require(diagnostic["approximate"]["center_wba"] == trace["snapshot"]["active_wba"],
                 "independent center did not reproduce search WBA")
+        checkpoint = trace["checkpoints"][trace["snapshot"]["chunk"] - 1]
+        centers = [point for point in checkpoint["candidate_visits"]
+                   if point["mask"] == trace["snapshot"]["mask"]]
+        require(bool(centers) and all(point["wba"] == diagnostic["full"]["center_wba"] for point in centers),
+                "independent center did not reproduce full checkpoint WBA")
+        record_consistent_scores(known_active, trace["active_trace"] + diagnostic["approximate"]["evaluations"])
+        record_consistent_scores(known_full, trace["full_evaluations"] + diagnostic["full"]["evaluations"])
         counts = summary["counts"]
+        validate_counts(counts["active"], [point for point in trace["active_trace"] if point["physical"]])
+        validate_counts(counts["full_checkpoints"], trace["full_evaluations"])
+        validate_counts(counts["diagnostic_active"], diagnostic["approximate"]["evaluations"])
+        validate_counts(counts["diagnostic_full"], diagnostic["full"]["evaluations"])
         require(counts["active"]["physical_calls"] == trace["active_physical_calls"]
                 and counts["full_checkpoints"]["physical_calls"] == trace["full_calls"]
                 and counts["diagnostic_active"]["physical_calls"] == 41
@@ -135,10 +172,23 @@ def validate_case(directory: Path, source: dict, registry: dict, registry_sha256
             require(summary["test_evaluations"] == 1 and sum(summary["selected_mask"]) > 0,
                     "test mask/counter mismatch")
             validate_metrics(summary["test_metrics"])
+            model = row["models"][arm]
+            require(model["file"] == f"model-{arm}.joblib" and model["file"] in manifest["files"]
+                    and {key: model[key] for key in ("sha256", "bytes")} == manifest["files"][model["file"]]
+                    and model["seed"] == seed and model["arm"] == arm
+                    and model["mask"] == summary["selected_mask"]
+                    and model["selected_feature_names"] == [name for name, bit in
+                        zip(TRANSFORMED_FEATURE_NAMES, summary["selected_mask"]) if bit]
+                    and model["reload_verification"] == "PASS_EXACT_NON_TEST_PROBE"
+                    and model["test_access_during_reload"] is False,
+                    "terminal model identity, selected features or reload evidence mismatch")
         # This report-only expansion never rewrites the authenticated source row.
         summary["diagnostic"] = diagnostic
         traces[arm] = trace
     require(row["counts"]["shared_initial_physical_calls"] == 50
+            and row["counts"]["shared_initial_actual_tree_fits"] == sum(bool(sum(mask)) for mask in row["initial_masks"])
+            and row["counts"]["search_active_physical_calls"] == sum(item["active_physical_calls"] for item in row["arms"].values())
+            and row["counts"]["full_checkpoint_physical_calls"] == sum(item["full_calls"] for item in row["arms"].values())
             and row["counts"]["diagnostic_calls"] == 246
             and row["counts"]["test_evaluations"] == sum(a["test_evaluations"] for a in row["arms"].values()),
             "case accounting mismatch")
@@ -161,7 +211,9 @@ def describe(rows: list[dict]) -> dict:
         valid = [item for item in available if item["test_metrics"] is not None]
         result[arm] = {
             "method": LABELS[arm], "registered_cases": 30, "diagnostic_cases": len(available),
-            "valid_test_cases": len(valid), "not_evaluable_cases": 30 - len(available),
+            "valid_test_cases": len(valid), "not_evaluable_cases": 30 - len(valid),
+            "sampler_not_evaluable_cases": 30 - len(available),
+            "no_full_winner_cases": len(available) - len(valid),
             "classifications": dict(Counter(item["diagnostic"]["classification"] for item in available)),
             "strict_approximate_maxima": sum(item["diagnostic"]["approximate"]["strict_local_maximum"] for item in available),
             "plateau_approximate_maxima": sum(item["diagnostic"]["approximate"]["plateau_local_maximum"] for item in available),
@@ -205,17 +257,23 @@ def plots(directory: Path, rows: list[dict], traces: dict) -> None:
     plt.close(fig)
     fig, axes = plt.subplots(1, 3, figsize=(15, 5), sharey=True)
     for arm, ax in zip(ALL_ARMS, axes):
+        first = True
         for (seed, name), trace in traces.items():
             if name != arm:
                 continue
             points = trace["active_trace"]
             ax.step([point["call"] for point in points], [point["best_so_far_wba"] for point in points],
-                    where="post", color="tab:blue", alpha=.18)
+                    where="post", color="tab:blue", alpha=.18,
+                    label="Найкраща наближена WBA" if first else None)
             checks = trace["checkpoints"]
             ax.scatter([point["active_logical_calls"] for point in checks],
-                       [point["best_full"] for point in checks], s=9, color="tab:orange", alpha=.3)
+                       [point["best_full"] for point in checks], s=9, color="tab:orange", alpha=.3,
+                       label="Найкраща повна WBA" if first else None)
+            first = False
         ax.set_title(LABELS[arm])
         ax.set_xlabel("Логічні пошукові оцінювання")
+        if not first:
+            ax.legend(fontsize=8)
     axes[0].set_ylabel("Валідаційна WBA")
     fig.suptitle("Пошукові траєкторії та повні перевірки; без подовження завершених запусків")
     fig.tight_layout()
@@ -225,7 +283,8 @@ def plots(directory: Path, rows: list[dict], traces: dict) -> None:
     for (seed, name), trace in traces.items():
         if name == "lambda_adaptive_qx":
             gens = trace["generation_trace"]
-            ax.plot([point["generation"] for point in gens], [point["applied_lambda_after"] for point in gens], alpha=.3)
+            ax.plot([0] + [point["generation"] for point in gens],
+                    [1.0] + [point["applied_lambda_after"] for point in gens], alpha=.3)
     ax.set_xlabel("Завершене покоління")
     ax.set_ylabel("Застосоване λ")
     ax.set_title("Адаптація λ у природному пошуку")

@@ -267,10 +267,41 @@ def load_registered_preparation(preparation_path: Path, registry_path: Path, *,
     registry = read_json(registry_path)
     require(registry.get("schema") == REGISTRY_SCHEMA, "preparation registry schema mismatch")
     require(registry["implementation_sha"] == expected_sha
-            and registry["protocol_sha256"] == PROTOCOL_SHA256, "preparation registry identity mismatch")
+            and registry["protocol_id"] == PROTOCOL_ID
+            and registry["protocol_sha256"] == PROTOCOL_SHA256,
+            "preparation registry identity mismatch")
+    require(registry["all_30_accounted"] is True and registry["frozen_before_main_search"] is True,
+            "preparation registry was not completely frozen before search")
+    source_run_id = registry["source_run_id"]
+    require(type(source_run_id) is int and source_run_id > 0, "registry source run ID invalid")
     cases = registry["cases"]
     require(len(cases) == 30 and [item["seed"] for item in cases] == list(CASE_SEEDS),
             "preparation registry must contain all thirty seeds exactly once in order")
+    artifact_ids, artifact_names, attempts = set(), set(), {}
+    for item in cases:
+        require(type(item["source_run_id"]) is int and item["source_run_id"] == source_run_id,
+                "registry contains preparations from another source run")
+        artifact_id, name = item["source_artifact_id"], item["source_artifact_name"]
+        require(type(artifact_id) is int and artifact_id > 0 and artifact_id not in artifact_ids,
+                "registry source artifact IDs must be positive and unique")
+        require(isinstance(name, str) and name not in artifact_names,
+                "registry source artifact names must be unique")
+        match = re.fullmatch(r"eu26-21-qx-preparation-([1-9][0-9]*)-([1-9][0-9]*)-([1-9][0-9]*)", name)
+        require(match is not None, "registry source artifact name invalid")
+        named_seed, named_run, attempt = map(int, match.groups())
+        require(named_seed == item["seed"] and named_run == source_run_id,
+                "registry source artifact name seed/run mismatch")
+        require(isinstance(item["source_artifact_digest"], str)
+                and re.fullmatch(r"sha256:[0-9a-f]{64}", item["source_artifact_digest"]) is not None,
+                "registry source artifact digest invalid")
+        require(item["status"] in ("PASS_PREPARATION", "NOT_EVALUABLE_SAMPLER"),
+                "registry preparation status invalid")
+        require(type(item["preparation"]["bytes"]) is int and item["preparation"]["bytes"] > 0,
+                "registry preparation byte count invalid")
+        hex_digest(item["preparation"]["sha256"], "registry preparation hash")
+        artifact_ids.add(artifact_id)
+        artifact_names.add(name)
+        attempts[item["seed"]] = attempt
     entry = cases[seed - CASE_SEEDS[0]]
     identity = entry["preparation"]
     require(preparation_path.stat().st_size == identity["bytes"]
@@ -285,8 +316,14 @@ def load_registered_preparation(preparation_path: Path, registry_path: Path, *,
             and entry["status"] == preparation["status"], "preparation status mismatch")
     provenance = preparation["provenance"]
     require(provenance["implementation_sha"] == expected_sha
+            and provenance["workflow_sha"] == expected_sha
+            and provenance["protocol_id"] == PROTOCOL_ID
             and provenance["protocol_sha256"] == PROTOCOL_SHA256
-            and provenance["run_id"] == entry["source_run_id"], "preparation source provenance mismatch")
+            and type(provenance["run_id"]) is int
+            and provenance["run_id"] == entry["source_run_id"]
+            and type(provenance["run_attempt"]) is int
+            and provenance["run_attempt"] == attempts[seed],
+            "preparation source provenance or uploaded attempt mismatch")
     return preparation, {"registry_sha256": file_sha256(registry_path),
                          "preparation": dict(identity), "source_run_id": entry["source_run_id"],
                          "source_artifact_id": entry["source_artifact_id"]}

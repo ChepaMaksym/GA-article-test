@@ -94,17 +94,22 @@ def run_qx_search(
     chunk_generations: int = 10,
     no_change_limit: int = 2,
     max_chunks: int = 20,
+    on_chunk_completed: Callable[[dict[str, Any]], None] | None = None,
 ) -> dict[str, Any]:
     """Run one arm; all full scores remain outside its search transition.
 
     Ordered initialization was physically evaluated by the preparation stage.
     Here it costs 50 logical calls and zero physical calls. Subsequent active
     queries are never cached. Only immutable full-checkpoint masks are cached.
+    The optional callback receives detached JSON-safe progress only after a
+    complete checkpoint. Persistence callbacks must not consume random streams.
     """
     if arm not in ARMS:
         raise ValueError("unknown QX search arm")
     if not callable(active_objective) or not callable(full_objective):
         raise TypeError("both objectives must be callable")
+    if on_chunk_completed is not None and not callable(on_chunk_completed):
+        raise TypeError("on_chunk_completed must be callable or None")
     seed = _integer(seed, "seed", 0)
     chunk_generations = _integer(chunk_generations, "chunk_generations", 1)
     no_change_limit = _integer(no_change_limit, "no_change_limit", 1)
@@ -308,6 +313,25 @@ def run_qx_search(
                 "checkpoint_visits": checkpoint_visits,
                 "candidate_visits": visits,
             })
+            chunk_stop_reason = (
+                "full_no_change" if no_change >= no_change_limit
+                else "censored_safety_cap" if chunk == max_chunks else None
+            )
+            if on_chunk_completed is not None:
+                on_chunk_completed(_json_value({
+                    "schema": "eu26-21-chc-qx-progress-v1", "arm": arm, "seed": seed,
+                    "chunk": chunk, "generation": generation_count,
+                    "active_logical_calls": len(active_trace),
+                    "active_physical_calls": active_physical,
+                    "full_calls": len(full_evaluations),
+                    "checkpoint_visits": checkpoint_visits,
+                    "current_lambda": None if arm == "chc_qx" else lambda_real,
+                    "no_change": no_change, "best_active_wba": active_best,
+                    "best_full_wba": best_full,
+                    "selected_mask": None if selected_mask is None else list(selected_mask),
+                    "stop_reason": chunk_stop_reason,
+                    "censored": chunk_stop_reason == "censored_safety_cap",
+                }))
             # Natural stopping wins if the last allowed checkpoint satisfies both.
             if no_change >= no_change_limit:
                 outer_stop_reason = "full_no_change"

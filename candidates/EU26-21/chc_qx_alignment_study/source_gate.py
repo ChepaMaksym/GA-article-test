@@ -12,10 +12,12 @@ from contextlib import redirect_stdout
 import copy
 import hashlib
 import importlib
+from importlib.metadata import version as package_version
 import io
 import json
 import os
 from pathlib import Path
+import platform
 import random
 import subprocess
 import sys
@@ -384,6 +386,24 @@ def fixture_gate(upstream: Path) -> dict[str, Any]:
 
 def source_smoke(upstream: Path, output: Path) -> dict[str, Any]:
     _require(sys.version_info[:2] == (3, 9), "real source smoke requires Python 3.9 frozen environment")
+    requirements = REPOSITORY_ROOT / "candidates" / "EU26-21" / "hybrid_1" / "requirements.txt"
+    frozen_requirements = subprocess.check_output([
+        "git", "-C", str(REPOSITORY_ROOT), "show",
+        "05b2514d0a17bb8165f7d0388a96e9771e339284:candidates/EU26-21/hybrid_1/requirements.txt",
+    ])
+    _require(requirements.read_bytes() == frozen_requirements, "source-smoke requirements changed")
+    packages = {}
+    for raw in requirements.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if line and not line.startswith("#"):
+            name, expected_version = line.split("==")
+            actual_version = package_version(name)
+            _require(actual_version == expected_version, f"source-smoke package pin mismatch: {name}")
+            packages[name] = actual_version
+    environment = {"python_implementation": platform.python_implementation(),
+                   "python_version": platform.python_version(), "packages": packages,
+                   "requirements_sha256": _digest_bytes(frozen_requirements)}
+    _require(environment["python_implementation"] == "CPython", "source-smoke Python implementation differs")
     script = REPOSITORY_ROOT / "candidates" / "EU26-21" / "old" / "run_source_census.py"
     result_file = output / "source-integration-seed1.json"
     subprocess.check_call([sys.executable, str(script), str(upstream), "--seed", "1",
@@ -395,6 +415,7 @@ def source_smoke(upstream: Path, output: Path) -> dict[str, Any]:
     return {"schema": "eu26-21-chc-qx-source-integration-gate-v1",
             "status": "PASS_SOURCE_INTEGRATION_SMOKE", "seed": 1,
             "classifier_training": True,
+            "environment": environment, "environment_sha256": _digest(environment),
             "result_sha256": _digest_bytes(result_file.read_bytes()),
             "historical_numeric_gate_changed": False, "table2_reproduction": False,
             "source_profile_known_limitations_retained": True,

@@ -110,6 +110,11 @@ def run_case(*, train: Path, test: Path, upstream: Path, seed: int,
     require(type(seed) is int and seed in CASE_SEEDS, "case seed outside registered ledger")
     preparation, source = load_registered_preparation(preparation_path, registry_path, seed=seed, expected_sha=expected_sha)
     name = artifact_name or f"eu26-21-qx-case-{seed}-{provenance['run_id']}-{provenance['run_attempt']}"
+    write_json(output / "execution-start.json", {
+        "schema": "eu26-21-qx-execution-start-v1", "seed": seed, "provenance": provenance,
+        "preparation": source, "event": "authenticated_case_started",
+        "terminal_status_file": "status.json", "scientific_result": False,
+    })
     common = {"schema": CASE_SCHEMA, "seed": seed, "provenance": provenance,
               "protocol_id": PROTOCOL_ID, "protocol_sha256": PROTOCOL_SHA256,
               "artifact_name": name, "preparation": source,
@@ -142,11 +147,19 @@ def run_case(*, train: Path, test: Path, upstream: Path, seed: int,
     traces: dict[str, Any] = {}
     for arm in SEARCH_ARMS:
         active_counted, full_counted = CountedObjective(active), CountedObjective(full)
+        def record_progress(progress: dict[str, Any], current_arm: str = arm) -> None:
+            pending = output / f"progress-{current_arm}.pending.json"
+            write_json(pending, {
+                **progress, "provenance": provenance, "preparation": source,
+                "complete_case": False, "terminal_status_file": "status.json",
+            })
+            pending.replace(output / f"progress-{current_arm}.json")
         result = run_qx_search(
             arm=arm, initial_masks=masks, initial_scores=scores,
             active_objective=active_counted, full_objective=full_counted,
             seed=seed, evolution=evolution, deap_creator=deap_creator,
             chunk_generations=10, no_change_limit=2, max_chunks=20,
+            on_chunk_completed=record_progress,
         )
         require(result["active_physical_calls"] == active_counted.calls, "active physical ledger mismatch")
         require(result["active_logical_calls"] == active_counted.calls + 50, "active initialization replay mismatch")
