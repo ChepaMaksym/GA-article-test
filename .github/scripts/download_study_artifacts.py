@@ -205,9 +205,12 @@ def validate_metadata(value: dict, *, artifact_id: int, run_id: int,
                 "qx-smoke": "", "qx-fixture": "", "qx-registry": "",
                 "qx-source-fixture": "", "qx-source-smoke": "",
                 "qx-preparation": r"(440(?:0[1-9]|[12][0-9]|30))-",
-                "qx-case": r"(440(?:0[1-9]|[12][0-9]|30))-"}
+                "qx-case": r"(440(?:0[1-9]|[12][0-9]|30))-",
+                "lr-smoke": "", "lr-fixture": "", "lr-registry": "",
+                "lr-preparation": r"(450(?:0[1-9]|[12][0-9]|30))-",
+                "lr-case": r"(450(?:0[1-9]|[12][0-9]|30))-"}
     require(kind in suffixes, "invalid artifact kind")
-    namespace = ("eu26-21-" + kind if kind.startswith("qx-") else
+    namespace = ("eu26-21-" + kind if kind.startswith(("qx-", "lr-")) else
                  "eu26-21-lambda-case" if kind == "lambda-case" else
                  "eu26-21-lambda-initial-" + kind.removeprefix("lambda-")
                  if kind.startswith("lambda-") else "eu26-21-local-" + kind)
@@ -337,7 +340,8 @@ def main() -> None:
                                           "lambda-smoke", "lambda-fixture", "lambda-case",
                                           "qx-smoke", "qx-fixture", "qx-registry",
                                           "qx-source-fixture", "qx-source-smoke",
-                                          "qx-preparation", "qx-case"), required=True)
+                                          "qx-preparation", "qx-case", "lr-smoke", "lr-fixture",
+                                          "lr-registry", "lr-preparation", "lr-case"), required=True)
     parser.add_argument("--destination", type=Path, required=True)
     parser.add_argument("--merge-multiple", action="store_true")
     parser.add_argument("--transport-ledger", type=Path)
