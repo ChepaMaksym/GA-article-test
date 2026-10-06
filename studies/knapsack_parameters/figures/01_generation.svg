@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1230" viewBox="0 0 1000 1230">
+  <rect x="0" y="0" width="1000" height="1230" fill="#ffffff"/>
+  <text x="500" y="38" text-anchor="middle" font-family="Segoe UI" font-size="27" font-weight="bold" fill="#20354b">Одне покоління генетичного алгоритму</text>
+  <rect x="170" y="66" width="660" height="80" fill="#eaf0f6" stroke="#334e68" stroke-width="2"/>
+  <text x="500" y="100" text-anchor="middle" font-family="Segoe UI" font-size="23" fill="#20354b">Поточна популяція: N хромосом</text>
+  <text x="500" y="130" text-anchor="middle" font-family="Segoe UI" font-size="20" fill="#20354b">Кожна хромосома має n бітів</text>
+  <line x1="500" y1="146" x2="500" y2="175" stroke="#334e68" stroke-width="3"/>
+  <polygon points="492,168 508,168 500,181" fill="#334e68"/>
+  <rect x="170" y="182" width="660" height="75" fill="#eaf0f6" stroke="#334e68" stroke-width="2"/>
+  <text x="500" y="215" text-anchor="middle" font-family="Segoe UI" font-size="23" fill="#20354b">Зберегти одного найкращого представника</text>
+  <text x="500" y="244" text-anchor="middle" font-family="Segoe UI" font-size="20" fill="#20354b">Це еліта наступного покоління</text>
+  <line x1="500" y1="257" x2="500" y2="284" stroke="#334e68" stroke-width="3"/>
+  <polygon points="492,278 508,278 500,290" fill="#334e68"/>
+  <rect x="170" y="292" width="660" height="80" fill="#f6f8fa" stroke="#334e68" stroke-width="2"/>
+  <text x="500" y="326" text-anchor="middle" font-family="Segoe UI" font-size="23" fill="#20354b">Обрати двох батьків</text>
+  <text x="500" y="356" text-anchor="middle" font-family="Segoe UI" font-size="20" fill="#20354b">Два незалежні турніри по два кандидати</text>
+  <line x1="500" y1="372" x2="500" y2="399" stroke="#334e68" stroke-width="3"/>
+  <polygon points="492,393 508,393 500,405" fill="#334e68"/>
+  <rect x="170" y="407" width="660" height="80" fill="#f6f8fa" stroke="#334e68" stroke-width="2"/>
+  <text x="500" y="441" text-anchor="middle" font-family="Segoe UI" font-size="23" fill="#20354b">Схрещування з імовірністю p_c</text>
+  <text x="500" y="471" text-anchor="middle" font-family="Segoe UI" font-size="20" fill="#20354b">Інакше копія першого батька; створюється один нащадок</text>
+  <line x1="500" y1="487" x2="500" y2="514" stroke="#334e68" stroke-width="3"/>
+  <polygon points="492,508 508,508 500,520" fill="#334e68"/>
+  <rect x="170" y="522" width="660" height="80" fill="#f6f8fa" stroke="#334e68" stroke-width="2"/>
+  <text x="500" y="556" text-anchor="middle" font-family="Segoe UI" font-size="23" fill="#20354b">Незалежна побітова мутація</text>
+  <text x="500" y="586" text-anchor="middle" font-family="Segoe UI" font-size="20" fill="#20354b">Кожен біт змінюється з імовірністю p_m</text>
+  <line x1="500" y1="602" x2="500" y2="629" stroke="#334e68" stroke-width="3"/>
+  <polygon points="492,623 508,623 500,635" fill="#334e68"/>
+  <rect x="170" y="637" width="660" height="90" fill="#fff6e7" stroke="#8a6125" stroke-width="2"/>
+  <text x="500" y="671" text-anchor="middle" font-family="Segoe UI" font-size="23" fill="#20354b">Оцінити вагу, цінність і допустимість</text>
+  <text x="500" y="701" text-anchor="middle" font-family="Segoe UI" font-size="20" fill="#20354b">Зарахувати запит, записати кандидата та оновити рекорд</text>
+  <line x1="500" y1="727" x2="500" y2="754" stroke="#334e68" stroke-width="3"/>
+  <polygon points="492,748 508,748 500,760" fill="#334e68"/>
+  <rect x="170" y="762" width="660" height="80" fill="#f6f8fa" stroke="#334e68" stroke-width="2"/>
+  <text x="500" y="796" text-anchor="middle" font-family="Segoe UI" font-size="23" fill="#20354b">Зібрано N−1 нащадків?</text>
+  <text x="500" y="826" text-anchor="middle" font-family="Segoe UI" font-size="20" fill="#20354b">Ні: повторити відбір; так: сформувати нову популяцію</text>
+  <polyline points="170,802 100,802 100,332 165,332" fill="none" stroke="#334e68" stroke-width="3"/>
+  <polygon points="156,324 156,340 170,332" fill="#334e68"/>
+  <line x1="500" y1="842" x2="500" y2="869" stroke="#334e68" stroke-width="3"/>
+  <polygon points="492,863 508,863 500,875" fill="#334e68"/>
+  <rect x="170" y="877" width="660" height="85" fill="#eaf0f6" stroke="#334e68" stroke-width="2"/>
+  <text x="500" y="911" text-anchor="middle" font-family="Segoe UI" font-size="23" fill="#20354b">Нова популяція: одна еліта і N−1 нащадків</text>
+  <text x="500" y="941" text-anchor="middle" font-family="Segoe UI" font-size="20" fill="#20354b">Гірші неелітні набори також можуть залишитися</text>
+  <line x1="500" y1="962" x2="500" y2="989" stroke="#334e68" stroke-width="3"/>
+  <polygon points="492,983 508,983 500,995" fill="#334e68"/>
+  <rect x="170" y="997" width="660" height="90" fill="#fff6e7" stroke="#8a6125" stroke-width="2"/>
+  <text x="500" y="1031" text-anchor="middle" font-family="Segoe UI" font-size="23" fill="#20354b">Продовжувати до ліміту 5000 оцінювань</text>
+  <text x="500" y="1061" text-anchor="middle" font-family="Segoe UI" font-size="20" fill="#20354b">Залишок ліміту може перервати цикл створення нащадків</text>
+  <text x="500" y="1142" text-anchor="middle" font-family="Segoe UI" font-size="21" fill="#20354b">Неповне покоління не видається за завершене.</text>
+  <text x="500" y="1176" text-anchor="middle" font-family="Segoe UI" font-size="20" fill="#20354b">Навчальна схема, не графік експериментальних результатів.</text>
+</svg>

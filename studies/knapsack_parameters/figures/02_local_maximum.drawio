@@ -1,0 +1,19 @@
+<mxfile host="app.diagrams.net" compressed="false">
+  <diagram id="knapsack-local" name="Навчальний локальний максимум">
+    <mxGraphModel dx="1000" dy="760" grid="1" gridSize="10" page="1" pageWidth="1100" pageHeight="760">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="Навчальна задача, не результати KPLIB: місткість 10; А (вага 10, цінність 10), Б і В (вага 5, цінність 6 кожен)" style="text;whiteSpace=wrap;html=1;fontSize=22;" vertex="1" parent="1"><mxGeometry x="70" y="30" width="950" height="100" as="geometry"/></mxCell>
+        <mxCell id="center" value="Центр 100&#xa;Вага 10, цінність 10" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#eaf0f6;fontSize=24;" vertex="1" parent="1"><mxGeometry x="70" y="220" width="340" height="120" as="geometry"/></mxCell>
+        <mxCell id="better" value="Кращий набір 011&#xa;Вага 10, цінність 12" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e8f4eb;fontSize=24;" vertex="1" parent="1"><mxGeometry x="700" y="220" width="340" height="120" as="geometry"/></mxCell>
+        <mxCell id="jump" value="Три зміни бітів" style="endArrow=block;html=1;fontSize=20;" edge="1" parent="1" source="center" target="better"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="desc" value="Усі допустимі сусіди центра на відстані до двох бітів мають меншу цінність" style="text;whiteSpace=wrap;html=1;fontSize=21;" vertex="1" parent="1"><mxGeometry x="70" y="380" width="970" height="70" as="geometry"/></mxCell>
+        <mxCell id="empty" value="000&#xa;Вага 0, цінність 0" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff6e7;fontSize=22;" vertex="1" parent="1"><mxGeometry x="70" y="470" width="270" height="100" as="geometry"/></mxCell>
+        <mxCell id="b" value="010&#xa;Вага 5, цінність 6" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff6e7;fontSize=22;" vertex="1" parent="1"><mxGeometry x="420" y="470" width="270" height="100" as="geometry"/></mxCell>
+        <mxCell id="c" value="001&#xa;Вага 5, цінність 6" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff6e7;fontSize=22;" vertex="1" parent="1"><mxGeometry x="770" y="470" width="270" height="100" as="geometry"/></mxCell>
+        <mxCell id="note" value="Набори з додаванням до А недопустимі. Локальність визначено щодо конкретного сусідства, а не для всього простору." style="text;whiteSpace=wrap;html=1;fontSize=21;" vertex="1" parent="1"><mxGeometry x="70" y="620" width="970" height="80" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
