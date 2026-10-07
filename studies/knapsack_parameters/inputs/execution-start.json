@@ -1,0 +1,15 @@
+{
+  "phase": "SOURCE_AUDIT_ONLY",
+  "provenance": {
+    "artifact_name": "knapsack-feasibility-audit-37576847587-1",
+    "implementation_sha": "442eda9f77deb60c72e230b40e0922a764a3be21",
+    "protocol_id": "GA-KNAPSACK-FEASIBILITY-V1",
+    "protocol_sha256": "d60db58531f76f3068a9fe16d92b2978c284d206e4f840b07ece318a7d08252f",
+    "registration_commit_sha": "d08d3b17af959df2e2379094d3f5dcdd71efe3b2",
+    "run_attempt": 1,
+    "run_id": 37576847587,
+    "source_commit_sha": "c5bea0df8169749caaba5ce7dfcf21437aa1ca5c",
+    "workflow_sha": "442eda9f77deb60c72e230b40e0922a764a3be21"
+  },
+  "started_at": "2026-10-07T05:33:07.071803+00:00"
+}

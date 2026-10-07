@@ -1,0 +1,192 @@
+{
+  "excludes_self": true,
+  "files": [
+    {
+      "bytes": 190063,
+      "path": "data_manifest.json",
+      "sha256": "528fee8da7d7cb776fb851e6a05949133830e9533c4091cbb4e8698ac19fb0df"
+    },
+    {
+      "bytes": 591,
+      "path": "execution-progress.json",
+      "sha256": "d57142d569ac123c09d043e9720bdd954dd96118c9d134a98cac3b8c69fc7e40"
+    },
+    {
+      "bytes": 641,
+      "path": "execution-start.json",
+      "sha256": "d386d67dfd001e2f8a2c8c80a7de296aeb0b040dc901468b114059597b20868e"
+    },
+    {
+      "bytes": 636,
+      "path": "execution-status.json",
+      "sha256": "1e959e6d986b447aff197d0b6a42dab47d2d42f2885330495e99159cdff41d97"
+    },
+    {
+      "bytes": 794,
+      "path": "source/00Uncorrelated/n00100/R01000/s000.kp",
+      "sha256": "e05b24ea5b60e90ad38a2e4b46c87a73f197a5828b06b8bb298c9668ecfafed5"
+    },
+    {
+      "bytes": 786,
+      "path": "source/00Uncorrelated/n00100/R01000/s001.kp",
+      "sha256": "9b01e394f26a1bb1842c15aca9e81465bcc5355e950f48fa251f1cfaddaf6dd1"
+    },
+    {
+      "bytes": 789,
+      "path": "source/00Uncorrelated/n00100/R01000/s002.kp",
+      "sha256": "81ae3c04034a413f9aaa66efb9b0113a91512500e19d0c7d4ea86a5ba4324389"
+    },
+    {
+      "bytes": 791,
+      "path": "source/00Uncorrelated/n00100/R01000/s003.kp",
+      "sha256": "722322336d55c12c66575441f0066b10682388004a29d3944269ed8e978ad3f0"
+    },
+    {
+      "bytes": 786,
+      "path": "source/00Uncorrelated/n00100/R01000/s004.kp",
+      "sha256": "ee0ae1cede84d12279e4411e9da405f56f4dc374d516372a85dba35b01e44495"
+    },
+    {
+      "bytes": 792,
+      "path": "source/00Uncorrelated/n00100/R01000/s005.kp",
+      "sha256": "4eb5686d45a1ce6d3e04e4e9c8d265911c890ddc7cdc6b6e4d62891b6f21e68c"
+    },
+    {
+      "bytes": 789,
+      "path": "source/00Uncorrelated/n00100/R01000/s006.kp",
+      "sha256": "ce7f96cf9aea5f798be5590137ae67e591094c7b7e002785223950cfaea459d4"
+    },
+    {
+      "bytes": 785,
+      "path": "source/00Uncorrelated/n00100/R01000/s007.kp",
+      "sha256": "f8f778b9f266d9bd53a4f841c1fb8ccc7ee300ea994c2bb5561e827b0f8764e8"
+    },
+    {
+      "bytes": 791,
+      "path": "source/00Uncorrelated/n00100/R01000/s008.kp",
+      "sha256": "02ab99616ffd8ddc44e90889fa73ebd9d4f67dd27b84261ded6f721c42c2ce46"
+    },
+    {
+      "bytes": 780,
+      "path": "source/00Uncorrelated/n00100/R01000/s009.kp",
+      "sha256": "e90c1b3017295e9fd71c76c491770d0c4a0fe27d400f304c15701d0e5b6ed42f"
+    },
+    {
+      "bytes": 799,
+      "path": "source/01WeaklyCorrelated/n00100/R01000/s000.kp",
+      "sha256": "8ea58441d86fdb3be8cb4c14f5950b19b1a5ee5642a682afcb44835892471b40"
+    },
+    {
+      "bytes": 791,
+      "path": "source/01WeaklyCorrelated/n00100/R01000/s001.kp",
+      "sha256": "871d6ad9afddff417b1253c9e27fd2464bddc552bb9cbf7ceec93ac66ab6721d"
+    },
+    {
+      "bytes": 801,
+      "path": "source/01WeaklyCorrelated/n00100/R01000/s002.kp",
+      "sha256": "0990c1da25c8635d91d1e97e5b1eb3a8322406a849f0b6d579e4fd2360dad995"
+    },
+    {
+      "bytes": 794,
+      "path": "source/01WeaklyCorrelated/n00100/R01000/s003.kp",
+      "sha256": "d781506c8f4b895ad3a6e64e27dd40376c26710da4110abf7b704cfbc36d48e1"
+    },
+    {
+      "bytes": 796,
+      "path": "source/01WeaklyCorrelated/n00100/R01000/s004.kp",
+      "sha256": "f23af8d6616163f774ae0933ba35eb0fb609dff0d1df8307ac1a8ce0e6d3804e"
+    },
+    {
+      "bytes": 791,
+      "path": "source/01WeaklyCorrelated/n00100/R01000/s005.kp",
+      "sha256": "9adecea7744f3eff7ea71b7f4f07a019b9087806ad64c3980481e345662afc9d"
+    },
+    {
+      "bytes": 794,
+      "path": "source/01WeaklyCorrelated/n00100/R01000/s006.kp",
+      "sha256": "e9e8698afd0f2c6896852a4838d53e63790d7a372df2977fff413d4ec4d54906"
+    },
+    {
+      "bytes": 786,
+      "path": "source/01WeaklyCorrelated/n00100/R01000/s007.kp",
+      "sha256": "a72df7a783780872ead1bfd8c28eccfcd24879f55b9882a9c5c43dd0edec41e2"
+    },
+    {
+      "bytes": 794,
+      "path": "source/01WeaklyCorrelated/n00100/R01000/s008.kp",
+      "sha256": "d0ff2bcc7b2feffc21e3fb857518360ee2544153572b55d575a4e031ae767c3d"
+    },
+    {
+      "bytes": 779,
+      "path": "source/01WeaklyCorrelated/n00100/R01000/s009.kp",
+      "sha256": "235df9882d260a95eb0eba9ddaa826a5101344d35f2ce5507629128fa0e49d7c"
+    },
+    {
+      "bytes": 820,
+      "path": "source/02StronglyCorrelated/n00100/R01000/s000.kp",
+      "sha256": "a496027b76d6d559f423bb5041fe9b4e6d8aa220e5cee483ee0424b7540a3627"
+    },
+    {
+      "bytes": 808,
+      "path": "source/02StronglyCorrelated/n00100/R01000/s001.kp",
+      "sha256": "dd5ad922044a1fa17fb794013689e8773a2e0af428ff0cbfc70c54030a662639"
+    },
+    {
+      "bytes": 821,
+      "path": "source/02StronglyCorrelated/n00100/R01000/s002.kp",
+      "sha256": "f2097abbd8ebf77faeb6021de91236d032f3b251a5f3447d71f765dbd8b73d06"
+    },
+    {
+      "bytes": 813,
+      "path": "source/02StronglyCorrelated/n00100/R01000/s003.kp",
+      "sha256": "23ff06127f54e2e421d7dc1273391612f062d4e7a915cfc6b4f4107f3e44d495"
+    },
+    {
+      "bytes": 813,
+      "path": "source/02StronglyCorrelated/n00100/R01000/s004.kp",
+      "sha256": "e1c9dba909283fa81ec09235d23a98948630eb98a211c05c8669b7d46f419ca6"
+    },
+    {
+      "bytes": 813,
+      "path": "source/02StronglyCorrelated/n00100/R01000/s005.kp",
+      "sha256": "ceb5ace09ae6407396c48aeafd90fea2b20cb75d1883ec60b549314fdf90ce8b"
+    },
+    {
+      "bytes": 810,
+      "path": "source/02StronglyCorrelated/n00100/R01000/s006.kp",
+      "sha256": "4078c6f46e1049207f90467b0e660d42ac702f61189c41a63e575749af755bb8"
+    },
+    {
+      "bytes": 805,
+      "path": "source/02StronglyCorrelated/n00100/R01000/s007.kp",
+      "sha256": "03d15615f54bbb558b2996663fbf51b958e5bc6112ab05aaf9d66bceac0e2c68"
+    },
+    {
+      "bytes": 812,
+      "path": "source/02StronglyCorrelated/n00100/R01000/s008.kp",
+      "sha256": "3dfa196594052765ad9c63082d63fab355346164287c156e9b1d28e17e5231ce"
+    },
+    {
+      "bytes": 802,
+      "path": "source/02StronglyCorrelated/n00100/R01000/s009.kp",
+      "sha256": "c2f7a5b4f64adc6fe7e70d99ea9364be810a65de88e0594f7229c2d8541d8d51"
+    },
+    {
+      "bytes": 1309,
+      "path": "source/README.md",
+      "sha256": "0d2e97d7c4d132ed90a0abb77dfac546ea419dbbc3aaa8961e24ce6aead5deff"
+    }
+  ],
+  "provenance": {
+    "artifact_name": "knapsack-feasibility-audit-37576847587-1",
+    "implementation_sha": "442eda9f77deb60c72e230b40e0922a764a3be21",
+    "protocol_id": "GA-KNAPSACK-FEASIBILITY-V1",
+    "protocol_sha256": "d60db58531f76f3068a9fe16d92b2978c284d206e4f840b07ece318a7d08252f",
+    "registration_commit_sha": "d08d3b17af959df2e2379094d3f5dcdd71efe3b2",
+    "run_attempt": 1,
+    "run_id": 37576847587,
+    "source_commit_sha": "c5bea0df8169749caaba5ce7dfcf21437aa1ca5c",
+    "workflow_sha": "442eda9f77deb60c72e230b40e0922a764a3be21"
+  },
+  "schema_version": "knapsack-feasibility-files-v1"
+}

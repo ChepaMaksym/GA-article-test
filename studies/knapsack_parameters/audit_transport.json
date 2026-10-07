@@ -1,0 +1,36 @@
+{
+  "schema_version": "knapsack-feasibility-transport-v1",
+  "protocol_id": "GA-KNAPSACK-FEASIBILITY-V1",
+  "role": "SOURCE_AUDIT",
+  "run_url": "https://github.com/ChepaMaksym/GA-article-test/actions/runs/37576847587",
+  "implementation_sha": "442eda9f77deb60c72e230b40e0922a764a3be21",
+  "run_id": 37576847587,
+  "run_attempt": 1,
+  "artifact_api_metadata": {
+    "id": 11463057072,
+    "node_id": "MDg6QXJ0aWZhY3QxMTQ2MzA1NzA3Mg==",
+    "name": "knapsack-feasibility-audit-37576847587-1",
+    "size_in_bytes": 43710,
+    "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11463057072",
+    "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11463057072/zip",
+    "expired": false,
+    "digest": "sha256:a71895e564ac6c9d92e05f05cbe5d84984706c2dede991d9362cf0fe7381f9b9",
+    "created_at": "2026-10-07T05:33:13Z",
+    "updated_at": "2026-10-07T05:33:13Z",
+    "expires_at": "2027-01-05T05:32:53Z",
+    "workflow_run": {
+      "id": 37576847587,
+      "repository_id": 1196490034,
+      "head_repository_id": 1196490034,
+      "head_branch": "research/masters-ga-knapsack-parameters",
+      "head_sha": "442eda9f77deb60c72e230b40e0922a764a3be21"
+    }
+  },
+  "downloaded_zip_sha256": "a71895e564ac6c9d92e05f05cbe5d84984706c2dede991d9362cf0fe7381f9b9",
+  "downloaded_zip_bytes": 43710,
+  "member_manifest": "inputs/file_manifest.json",
+  "data_manifest_sha256": "528fee8da7d7cb776fb851e6a05949133830e9533c4091cbb4e8698ac19fb0df",
+  "source_originals_retained_in_git": true,
+  "zip_retained_in_git": false,
+  "notes_uk": "Хеш ZIP і хеші його внутрішніх файлів є різними ідентичностями. Архів локальний; вихідні байти й повний внутрішній маніфест збережено в Git."
+}

@@ -1,0 +1,19 @@
+{
+  "files_completed": 31,
+  "files_expected": 31,
+  "last_file": {
+    "attempts": [
+      {
+        "attempt": 1,
+        "bytes": 802,
+        "status": "DOWNLOADED"
+      }
+    ],
+    "bytes": 802,
+    "path": "source/02StronglyCorrelated/n00100/R01000/s009.kp",
+    "sha256": "c2f7a5b4f64adc6fe7e70d99ea9364be810a65de88e0594f7229c2d8541d8d51",
+    "source_path": "02StronglyCorrelated/n00100/R01000/s009.kp",
+    "status": "PASS_SOURCE",
+    "url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/02StronglyCorrelated/n00100/R01000/s009.kp"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "schema_version": "knapsack-feasibility-runtime-lock-v1",
+  "protocol_id": "GA-KNAPSACK-FEASIBILITY-V1",
+  "python_version": "3.12.14",
+  "implementation": "CPython",
+  "dependencies": "standard library only",
+  "audit_implementation_sha": "442eda9f77deb60c72e230b40e0922a764a3be21",
+  "audit_run_id": 37576847587,
+  "audit_run_attempt": 1,
+  "data_manifest_sha256": "528fee8da7d7cb776fb851e6a05949133830e9533c4091cbb4e8698ac19fb0df",
+  "source_commit_sha": "c5bea0df8169749caaba5ce7dfcf21437aa1ca5c",
+  "source_count": 31,
+  "instance_count": 30,
+  "scientific_python_patch_frozen": true,
+  "input_identity_frozen_before_scientific_implementation": true
+}
