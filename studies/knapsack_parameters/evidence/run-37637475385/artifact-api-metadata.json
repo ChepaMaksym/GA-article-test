@@ -1,0 +1,606 @@
+{
+  "artifacts": [
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11491201646/zip",
+      "created_at": "2026-10-07T14:32:53Z",
+      "digest": "sha256:af496b8fd2d7a49800bbcb63cefd19143377fd2577176dceb38c0afe1ee26ef3",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11491201646,
+      "name": "knapsack-feasibility-case-SC-s002-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ5MTIwMTY0Ng==",
+      "size_in_bytes": 56276,
+      "updated_at": "2026-10-07T14:32:53Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11491201646",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11491136478/zip",
+      "created_at": "2026-10-07T14:32:29Z",
+      "digest": "sha256:e57fada64e9d8ca9a93efc4800d0ca403fbdc05fecb2366cdbb4c5b750530161",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11491136478,
+      "name": "knapsack-feasibility-case-UC-s007-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ5MTEzNjQ3OA==",
+      "size_in_bytes": 58245,
+      "updated_at": "2026-10-07T14:32:29Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11491136478",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11491106444/zip",
+      "created_at": "2026-10-07T14:32:23Z",
+      "digest": "sha256:f2d7685e81801a1957dba1912aa45ab57236c3481ab47a72d423a6da12b2b414",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11491106444,
+      "name": "knapsack-feasibility-case-UC-s005-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ5MTEwNjQ0NA==",
+      "size_in_bytes": 58644,
+      "updated_at": "2026-10-07T14:32:23Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11491106444",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490981686/zip",
+      "created_at": "2026-10-07T14:33:06Z",
+      "digest": "sha256:dfff3ad9a7d796fbc22d849ffad436f82afae7666241b8431e902aee19eaf525",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11490981686,
+      "name": "knapsack-feasibility-case-SC-s006-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ5MDk4MTY4Ng==",
+      "size_in_bytes": 56369,
+      "updated_at": "2026-10-07T14:33:06Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490981686",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490946721/zip",
+      "created_at": "2026-10-07T14:32:35Z",
+      "digest": "sha256:b1dd297db9d8d654228e62d047c902e2564a87dc0ab0f22b3d0b25552efd5c60",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11490946721,
+      "name": "knapsack-feasibility-case-WC-s000-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ5MDk0NjcyMQ==",
+      "size_in_bytes": 58836,
+      "updated_at": "2026-10-07T14:32:35Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490946721",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490901806/zip",
+      "created_at": "2026-10-07T14:32:55Z",
+      "digest": "sha256:27d5477d623f0177a45210ff13d18809e32249fe9fd328fe6759996b2044721f",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11490901806,
+      "name": "knapsack-feasibility-case-SC-s004-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ5MDkwMTgwNg==",
+      "size_in_bytes": 56824,
+      "updated_at": "2026-10-07T14:32:55Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490901806",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490856583/zip",
+      "created_at": "2026-10-07T14:32:44Z",
+      "digest": "sha256:61ad6ef93269ee004a22c3e810411ccb2bae710851274ec3184d7bde892ea79f",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11490856583,
+      "name": "knapsack-feasibility-case-WC-s007-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ5MDg1NjU4Mw==",
+      "size_in_bytes": 58570,
+      "updated_at": "2026-10-07T14:32:44Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490856583",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490776646/zip",
+      "created_at": "2026-10-07T14:32:53Z",
+      "digest": "sha256:c423bbc832bfdc052ea2a08cbf2687c853298a2f748e3ade895e30bf873d7c3d",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11490776646,
+      "name": "knapsack-feasibility-case-WC-s009-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ5MDc3NjY0Ng==",
+      "size_in_bytes": 58742,
+      "updated_at": "2026-10-07T14:32:53Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490776646",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490746670/zip",
+      "created_at": "2026-10-07T14:32:25Z",
+      "digest": "sha256:6677f807d1f8d8fb3721bec3d0ee02f9dded0b0b46e2ac6c89600d920468fadf",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11490746670,
+      "name": "knapsack-feasibility-case-UC-s000-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ5MDc0NjY3MA==",
+      "size_in_bytes": 58295,
+      "updated_at": "2026-10-07T14:32:25Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490746670",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490711985/zip",
+      "created_at": "2026-10-07T14:33:31Z",
+      "digest": "sha256:1b261a3259503bee911cbdb510b9973868e1a920739e7e87d8d352c130415ac6",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11490711985,
+      "name": "knapsack-feasibility-case-SC-s007-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ5MDcxMTk4NQ==",
+      "size_in_bytes": 56571,
+      "updated_at": "2026-10-07T14:33:31Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490711985",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490696808/zip",
+      "created_at": "2026-10-07T14:32:46Z",
+      "digest": "sha256:99b46f5be1d04ba4a8ba5009b74f496c4112b86ae37b95380726e7377394cb76",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11490696808,
+      "name": "knapsack-feasibility-case-WC-s003-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ5MDY5NjgwOA==",
+      "size_in_bytes": 58887,
+      "updated_at": "2026-10-07T14:32:46Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490696808",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490691750/zip",
+      "created_at": "2026-10-07T14:32:30Z",
+      "digest": "sha256:c0cc60df8795c19b6bae21631ba4047e43091fe36030394d2a4f2f57124154dc",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11490691750,
+      "name": "knapsack-feasibility-case-UC-s006-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ5MDY5MTc1MA==",
+      "size_in_bytes": 58423,
+      "updated_at": "2026-10-07T14:32:30Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490691750",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490621745/zip",
+      "created_at": "2026-10-07T14:32:42Z",
+      "digest": "sha256:5fc2fd04af6a0553f3b6ca5dbb8838361a0dffe972caeeebc82c065d8bf108bd",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11490621745,
+      "name": "knapsack-feasibility-case-WC-s005-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ5MDYyMTc0NQ==",
+      "size_in_bytes": 58986,
+      "updated_at": "2026-10-07T14:32:42Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490621745",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490606601/zip",
+      "created_at": "2026-10-07T14:32:37Z",
+      "digest": "sha256:5a701d3c9f8f45043050df3893f7ca1efb4d04bca9d924ee538631feee73ffce",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11490606601,
+      "name": "knapsack-feasibility-case-WC-s002-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ5MDYwNjYwMQ==",
+      "size_in_bytes": 58692,
+      "updated_at": "2026-10-07T14:32:37Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490606601",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490531638/zip",
+      "created_at": "2026-10-07T14:32:29Z",
+      "digest": "sha256:40bba292cc607045732d407ae82c5462190fbae6eb16464cc37bfbcc073dda1e",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11490531638,
+      "name": "knapsack-feasibility-case-UC-s002-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ5MDUzMTYzOA==",
+      "size_in_bytes": 58480,
+      "updated_at": "2026-10-07T14:32:29Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490531638",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490396998/zip",
+      "created_at": "2026-10-07T14:33:01Z",
+      "digest": "sha256:d05ada1251efcf75895a4218a9bb0914dcd243a95acfb802aabd791aae16a48a",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11490396998,
+      "name": "knapsack-feasibility-case-SC-s003-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ5MDM5Njk5OA==",
+      "size_in_bytes": 55923,
+      "updated_at": "2026-10-07T14:33:01Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490396998",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490396987/zip",
+      "created_at": "2026-10-07T14:32:56Z",
+      "digest": "sha256:e2074dcc470a50b2df71a8bfa2f6d556aab0ef20d2c68741d45c69df58db7ce6",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11490396987,
+      "name": "knapsack-feasibility-case-SC-s001-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ5MDM5Njk4Nw==",
+      "size_in_bytes": 56376,
+      "updated_at": "2026-10-07T14:32:56Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490396987",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490156988/zip",
+      "created_at": "2026-10-07T14:32:41Z",
+      "digest": "sha256:a7a058fc8d41da1f0bb6eafce05f23927355c8cb96c675aebe48568f38afe84d",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11490156988,
+      "name": "knapsack-feasibility-case-WC-s004-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ5MDE1Njk4OA==",
+      "size_in_bytes": 58959,
+      "updated_at": "2026-10-07T14:32:41Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490156988",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490106737/zip",
+      "created_at": "2026-10-07T14:32:32Z",
+      "digest": "sha256:e54f35bf61deac4544b282054d291d6208423285aa782dfcab45b8f008393f75",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11490106737,
+      "name": "knapsack-feasibility-case-UC-s008-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ5MDEwNjczNw==",
+      "size_in_bytes": 58357,
+      "updated_at": "2026-10-07T14:32:32Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490106737",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11489718276/zip",
+      "created_at": "2026-10-07T14:32:58Z",
+      "digest": "sha256:5211e52cf304b2a73f583e78b63f727ea851797d2e07ba3db3547d645716d1c3",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11489718276,
+      "name": "knapsack-feasibility-case-SC-s009-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ4OTcxODI3Ng==",
+      "size_in_bytes": 56983,
+      "updated_at": "2026-10-07T14:32:58Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11489718276",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11489718240/zip",
+      "created_at": "2026-10-07T14:32:46Z",
+      "digest": "sha256:b2ebdea0f16d8b1ad313efa773008e363891d857b85fcf9ab36a63ebca9a6e02",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11489718240,
+      "name": "knapsack-feasibility-case-SC-s000-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ4OTcxODI0MA==",
+      "size_in_bytes": 56359,
+      "updated_at": "2026-10-07T14:32:46Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11489718240",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11489683601/zip",
+      "created_at": "2026-10-07T14:32:45Z",
+      "digest": "sha256:97ad84706421f2873a3a9aaf7d998a6affeac1a33538dc8407dd4e899bcab0eb",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11489683601,
+      "name": "knapsack-feasibility-case-WC-s006-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ4OTY4MzYwMQ==",
+      "size_in_bytes": 58752,
+      "updated_at": "2026-10-07T14:32:45Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11489683601",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11489683570/zip",
+      "created_at": "2026-10-07T14:32:31Z",
+      "digest": "sha256:af9353fc3d18c996087074c8494586cca84e3261bc9135186f776b82c4c1fae9",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11489683570,
+      "name": "knapsack-feasibility-case-UC-s003-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ4OTY4MzU3MA==",
+      "size_in_bytes": 58176,
+      "updated_at": "2026-10-07T14:32:31Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11489683570",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11489543682/zip",
+      "created_at": "2026-10-07T14:32:58Z",
+      "digest": "sha256:31f22dbfa7f5b697a3cac7c4ead33c535324ceb2f3cbe4689c7191de4a7823a6",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11489543682,
+      "name": "knapsack-feasibility-case-SC-s008-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ4OTU0MzY4Mg==",
+      "size_in_bytes": 56549,
+      "updated_at": "2026-10-07T14:32:58Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11489543682",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11489453495/zip",
+      "created_at": "2026-10-07T14:32:28Z",
+      "digest": "sha256:7ea0bb665b313debc12023f4427f1f0039d7ca72705e423bc5bcec255213c2b9",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11489453495,
+      "name": "knapsack-feasibility-case-UC-s009-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ4OTQ1MzQ5NQ==",
+      "size_in_bytes": 58415,
+      "updated_at": "2026-10-07T14:32:28Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11489453495",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11489428696/zip",
+      "created_at": "2026-10-07T14:33:02Z",
+      "digest": "sha256:ac2feae4242bc24f2b89e3b1f218e32f873b387b362efd83b66a8660758b0eeb",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11489428696,
+      "name": "knapsack-feasibility-case-SC-s005-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ4OTQyODY5Ng==",
+      "size_in_bytes": 56919,
+      "updated_at": "2026-10-07T14:33:02Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11489428696",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11489383421/zip",
+      "created_at": "2026-10-07T14:32:31Z",
+      "digest": "sha256:8421a3ad418bb6a58bad7a4b32b88254b49650469363595f4f019dc0955a4d4b",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11489383421,
+      "name": "knapsack-feasibility-case-UC-s001-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ4OTM4MzQyMQ==",
+      "size_in_bytes": 58447,
+      "updated_at": "2026-10-07T14:32:31Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11489383421",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11489378767/zip",
+      "created_at": "2026-10-07T14:32:43Z",
+      "digest": "sha256:4167725ebac90989a0667416e07db5713a7f9da359390e02b79973f78faf00be",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11489378767,
+      "name": "knapsack-feasibility-case-WC-s001-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ4OTM3ODc2Nw==",
+      "size_in_bytes": 58400,
+      "updated_at": "2026-10-07T14:32:43Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11489378767",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11489368577/zip",
+      "created_at": "2026-10-07T14:32:46Z",
+      "digest": "sha256:abcf4c04409e1f7c110ce6cc7b5131d57620bbf74eebaf86694fc220f126f7d2",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11489368577,
+      "name": "knapsack-feasibility-case-WC-s008-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ4OTM2ODU3Nw==",
+      "size_in_bytes": 58901,
+      "updated_at": "2026-10-07T14:32:46Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11489368577",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11489313509/zip",
+      "created_at": "2026-10-07T14:32:30Z",
+      "digest": "sha256:88f0ab20249a84795598cdc3d605e50b561767cd50d9bacad9aec7e0cf6ea110",
+      "expired": false,
+      "expires_at": "2027-01-05T14:31:58Z",
+      "id": 11489313509,
+      "name": "knapsack-feasibility-case-UC-s004-37637475385-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTQ4OTMxMzUwOQ==",
+      "size_in_bytes": 58594,
+      "updated_at": "2026-10-07T14:32:30Z",
+      "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11489313509",
+      "workflow_run": {
+        "head_branch": "research/masters-ga-knapsack-parameters",
+        "head_repository_id": 1196490034,
+        "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+        "id": 37637475385,
+        "repository_id": 1196490034
+      }
+    }
+  ],
+  "run_attempt": 1,
+  "source_run_id": 37637475385
+}

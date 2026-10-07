@@ -1,0 +1,309 @@
+{
+  "downloads": [
+    {
+      "artifact_id": 11490746670,
+      "bytes": 58295,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "UC-s000",
+      "name": "knapsack-feasibility-case-UC-s000-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "6677f807d1f8d8fb3721bec3d0ee02f9dded0b0b46e2ac6c89600d920468fadf",
+      "source_run_id": 37637475385
+    },
+    {
+      "artifact_id": 11489383421,
+      "bytes": 58447,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "UC-s001",
+      "name": "knapsack-feasibility-case-UC-s001-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "8421a3ad418bb6a58bad7a4b32b88254b49650469363595f4f019dc0955a4d4b",
+      "source_run_id": 37637475385
+    },
+    {
+      "artifact_id": 11490531638,
+      "bytes": 58480,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "UC-s002",
+      "name": "knapsack-feasibility-case-UC-s002-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "40bba292cc607045732d407ae82c5462190fbae6eb16464cc37bfbcc073dda1e",
+      "source_run_id": 37637475385
+    },
+    {
+      "artifact_id": 11489683570,
+      "bytes": 58176,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "UC-s003",
+      "name": "knapsack-feasibility-case-UC-s003-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "af9353fc3d18c996087074c8494586cca84e3261bc9135186f776b82c4c1fae9",
+      "source_run_id": 37637475385
+    },
+    {
+      "artifact_id": 11489313509,
+      "bytes": 58594,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "UC-s004",
+      "name": "knapsack-feasibility-case-UC-s004-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "88f0ab20249a84795598cdc3d605e50b561767cd50d9bacad9aec7e0cf6ea110",
+      "source_run_id": 37637475385
+    },
+    {
+      "artifact_id": 11491106444,
+      "bytes": 58644,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "UC-s005",
+      "name": "knapsack-feasibility-case-UC-s005-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "f2d7685e81801a1957dba1912aa45ab57236c3481ab47a72d423a6da12b2b414",
+      "source_run_id": 37637475385
+    },
+    {
+      "artifact_id": 11490691750,
+      "bytes": 58423,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "UC-s006",
+      "name": "knapsack-feasibility-case-UC-s006-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "c0cc60df8795c19b6bae21631ba4047e43091fe36030394d2a4f2f57124154dc",
+      "source_run_id": 37637475385
+    },
+    {
+      "artifact_id": 11491136478,
+      "bytes": 58245,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "UC-s007",
+      "name": "knapsack-feasibility-case-UC-s007-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "e57fada64e9d8ca9a93efc4800d0ca403fbdc05fecb2366cdbb4c5b750530161",
+      "source_run_id": 37637475385
+    },
+    {
+      "artifact_id": 11490106737,
+      "bytes": 58357,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "UC-s008",
+      "name": "knapsack-feasibility-case-UC-s008-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "e54f35bf61deac4544b282054d291d6208423285aa782dfcab45b8f008393f75",
+      "source_run_id": 37637475385
+    },
+    {
+      "artifact_id": 11489453495,
+      "bytes": 58415,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "UC-s009",
+      "name": "knapsack-feasibility-case-UC-s009-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "7ea0bb665b313debc12023f4427f1f0039d7ca72705e423bc5bcec255213c2b9",
+      "source_run_id": 37637475385
+    },
+    {
+      "artifact_id": 11490946721,
+      "bytes": 58836,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "WC-s000",
+      "name": "knapsack-feasibility-case-WC-s000-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "b1dd297db9d8d654228e62d047c902e2564a87dc0ab0f22b3d0b25552efd5c60",
+      "source_run_id": 37637475385
+    },
+    {
+      "artifact_id": 11489378767,
+      "bytes": 58400,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "WC-s001",
+      "name": "knapsack-feasibility-case-WC-s001-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "4167725ebac90989a0667416e07db5713a7f9da359390e02b79973f78faf00be",
+      "source_run_id": 37637475385
+    },
+    {
+      "artifact_id": 11490606601,
+      "bytes": 58692,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "WC-s002",
+      "name": "knapsack-feasibility-case-WC-s002-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "5a701d3c9f8f45043050df3893f7ca1efb4d04bca9d924ee538631feee73ffce",
+      "source_run_id": 37637475385
+    },
+    {
+      "artifact_id": 11490696808,
+      "bytes": 58887,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "WC-s003",
+      "name": "knapsack-feasibility-case-WC-s003-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "99b46f5be1d04ba4a8ba5009b74f496c4112b86ae37b95380726e7377394cb76",
+      "source_run_id": 37637475385
+    },
+    {
+      "artifact_id": 11490156988,
+      "bytes": 58959,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "WC-s004",
+      "name": "knapsack-feasibility-case-WC-s004-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "a7a058fc8d41da1f0bb6eafce05f23927355c8cb96c675aebe48568f38afe84d",
+      "source_run_id": 37637475385
+    },
+    {
+      "artifact_id": 11490621745,
+      "bytes": 58986,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "WC-s005",
+      "name": "knapsack-feasibility-case-WC-s005-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "5fc2fd04af6a0553f3b6ca5dbb8838361a0dffe972caeeebc82c065d8bf108bd",
+      "source_run_id": 37637475385
+    },
+    {
+      "artifact_id": 11489683601,
+      "bytes": 58752,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "WC-s006",
+      "name": "knapsack-feasibility-case-WC-s006-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "97ad84706421f2873a3a9aaf7d998a6affeac1a33538dc8407dd4e899bcab0eb",
+      "source_run_id": 37637475385
+    },
+    {
+      "artifact_id": 11490856583,
+      "bytes": 58570,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "WC-s007",
+      "name": "knapsack-feasibility-case-WC-s007-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "61ad6ef93269ee004a22c3e810411ccb2bae710851274ec3184d7bde892ea79f",
+      "source_run_id": 37637475385
+    },
+    {
+      "artifact_id": 11489368577,
+      "bytes": 58901,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "WC-s008",
+      "name": "knapsack-feasibility-case-WC-s008-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "abcf4c04409e1f7c110ce6cc7b5131d57620bbf74eebaf86694fc220f126f7d2",
+      "source_run_id": 37637475385
+    },
+    {
+      "artifact_id": 11490776646,
+      "bytes": 58742,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "WC-s009",
+      "name": "knapsack-feasibility-case-WC-s009-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "c423bbc832bfdc052ea2a08cbf2687c853298a2f748e3ade895e30bf873d7c3d",
+      "source_run_id": 37637475385
+    },
+    {
+      "artifact_id": 11489718240,
+      "bytes": 56359,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "SC-s000",
+      "name": "knapsack-feasibility-case-SC-s000-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "b2ebdea0f16d8b1ad313efa773008e363891d857b85fcf9ab36a63ebca9a6e02",
+      "source_run_id": 37637475385
+    },
+    {
+      "artifact_id": 11490396987,
+      "bytes": 56376,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "SC-s001",
+      "name": "knapsack-feasibility-case-SC-s001-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "e2074dcc470a50b2df71a8bfa2f6d556aab0ef20d2c68741d45c69df58db7ce6",
+      "source_run_id": 37637475385
+    },
+    {
+      "artifact_id": 11491201646,
+      "bytes": 56276,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "SC-s002",
+      "name": "knapsack-feasibility-case-SC-s002-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "af496b8fd2d7a49800bbcb63cefd19143377fd2577176dceb38c0afe1ee26ef3",
+      "source_run_id": 37637475385
+    },
+    {
+      "artifact_id": 11490396998,
+      "bytes": 55923,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "SC-s003",
+      "name": "knapsack-feasibility-case-SC-s003-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "d05ada1251efcf75895a4218a9bb0914dcd243a95acfb802aabd791aae16a48a",
+      "source_run_id": 37637475385
+    },
+    {
+      "artifact_id": 11490901806,
+      "bytes": 56824,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "SC-s004",
+      "name": "knapsack-feasibility-case-SC-s004-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "27d5477d623f0177a45210ff13d18809e32249fe9fd328fe6759996b2044721f",
+      "source_run_id": 37637475385
+    },
+    {
+      "artifact_id": 11489428696,
+      "bytes": 56919,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "SC-s005",
+      "name": "knapsack-feasibility-case-SC-s005-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "ac2feae4242bc24f2b89e3b1f218e32f873b387b362efd83b66a8660758b0eeb",
+      "source_run_id": 37637475385
+    },
+    {
+      "artifact_id": 11490981686,
+      "bytes": 56369,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "SC-s006",
+      "name": "knapsack-feasibility-case-SC-s006-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "dfff3ad9a7d796fbc22d849ffad436f82afae7666241b8431e902aee19eaf525",
+      "source_run_id": 37637475385
+    },
+    {
+      "artifact_id": 11490711985,
+      "bytes": 56571,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "SC-s007",
+      "name": "knapsack-feasibility-case-SC-s007-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "1b261a3259503bee911cbdb510b9973868e1a920739e7e87d8d352c130415ac6",
+      "source_run_id": 37637475385
+    },
+    {
+      "artifact_id": 11489543682,
+      "bytes": 56549,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "SC-s008",
+      "name": "knapsack-feasibility-case-SC-s008-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "31f22dbfa7f5b697a3cac7c4ead33c535324ceb2f3cbe4689c7191de4a7823a6",
+      "source_run_id": 37637475385
+    },
+    {
+      "artifact_id": 11489718276,
+      "bytes": 56983,
+      "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+      "instance_id": "SC-s009",
+      "name": "knapsack-feasibility-case-SC-s009-37637475385-1",
+      "run_attempt": 1,
+      "sha256": "5211e52cf304b2a73f583e78b63f727ea851797d2e07ba3db3547d645716d1c3",
+      "source_run_id": 37637475385
+    }
+  ],
+  "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+  "protocol_id": "GA-KNAPSACK-FEASIBILITY-V1",
+  "run_attempt": 1,
+  "schema_version": "knapsack-feasibility-case-transport-v1",
+  "source_run_id": 37637475385
+}

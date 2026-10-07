@@ -1,0 +1,50 @@
+{
+  "schema_version": "knapsack-feasibility-transport-v1",
+  "protocol_id": "GA-KNAPSACK-FEASIBILITY-V1",
+  "role": "COMPLETE_PREPARATION_REPORT",
+  "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+  "input_freeze_commit_sha": "58487fa3a541f194aeec5045f64a7d1641ae96be",
+  "implementation_tests": {
+    "commit_sha": "a165ab261983b8c18d5194ded42982191de37751",
+    "run_id": 37637263252,
+    "tests": 46,
+    "conclusion": "success"
+  },
+  "run_id": 37637475385,
+  "run_attempt": 1,
+  "run_url": "https://github.com/ChepaMaksym/GA-article-test/actions/runs/37637475385",
+  "artifact_api_metadata": {
+    "id": 11490302101,
+    "node_id": "MDg6QXJ0aWZhY3QxMTQ5MDMwMjEwMQ==",
+    "name": "knapsack-feasibility-report-37637475385-1",
+    "size_in_bytes": 1807144,
+    "url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490302101",
+    "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/11490302101/zip",
+    "expired": false,
+    "digest": "sha256:1d82b63fd03e7ce96a7b8827d226fd37c3cca533ea030a9ce68bd8a5d374c5d3",
+    "created_at": "2026-10-07T14:34:07Z",
+    "updated_at": "2026-10-07T14:34:07Z",
+    "expires_at": "2027-01-05T14:31:58Z",
+    "workflow_run": {
+      "id": 37637475385,
+      "repository_id": 1196490034,
+      "head_repository_id": 1196490034,
+      "head_branch": "research/masters-ga-knapsack-parameters",
+      "head_sha": "6d008b3444a22585dde2c25c0027779549fddc48"
+    }
+  },
+  "downloaded_zip_sha256": "1d82b63fd03e7ce96a7b8827d226fd37c3cca533ea030a9ce68bd8a5d374c5d3",
+  "downloaded_zip_bytes": 1807144,
+  "member_manifest": "evidence/run-37637475385/file_manifest.json",
+  "member_manifest_sha256": "59bde660367bd62abd57f6f251ee5ef3937af3351dcb7f09d3e62358380a1213",
+  "registry_sha256": "7e9b8fc893889426e2d3b57610e3a91c09263fcdff488cf15a2b84efe1bdc70f",
+  "source_artifact_ids_ledger": "evidence/run-37637475385/sources.json",
+  "case_zip_hashes_ledger": "evidence/run-37637475385/transport-ledger.json",
+  "case_members_retained_in_git": true,
+  "DP_tables_retained": false,
+  "GA_executed": false,
+  "scientific_retries": [],
+  "infrastructure_retries": [],
+  "decision": "MINIMUM_FEASIBILITY_MET",
+  "notes_uk": "ZIP збережено локально, не в Git. Повні компактні докази його внутрішніх файлів збережено без зміни байтів; Word і журнал поза робочим деревом Git."
+}

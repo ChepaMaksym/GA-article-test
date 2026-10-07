@@ -1,0 +1,50 @@
+{
+  "excludes_self": true,
+  "files": [
+    {
+      "bytes": 7572,
+      "path": "case.json",
+      "sha256": "00db6a1618da697e3270b79e9e72b996efa51314286c1746722eea156c4f194c"
+    },
+    {
+      "bytes": 92,
+      "path": "execution-progress.json",
+      "sha256": "8970ec408e2cd02b00e2a1467eb3309afa393eaa91cbb65354bc486a9a6a7bf8"
+    },
+    {
+      "bytes": 1227,
+      "path": "execution-start.json",
+      "sha256": "c164857feb7571673bcfd09cb830b50863da36deb017bbc56d31909c9ec71ab4"
+    },
+    {
+      "bytes": 1266,
+      "path": "execution-status.json",
+      "sha256": "50afb50fefc2691dce41128f27ec645955b53a2aedad88cbe7a01e130a3d1042"
+    },
+    {
+      "bytes": 237075,
+      "path": "neighbors.csv",
+      "sha256": "5fb35f5e87b900039177bcd183c827a30f13bf07567e643c1fd90059f11044b3"
+    }
+  ],
+  "provenance": {
+    "artifact_name": "knapsack-feasibility-case-SC-s007-37637475385-1",
+    "audit_transport_sha256": "bca9c99f50d8cd2c6a94f26b1f0de900fda2d4fec5b8e0401fc142804d110137",
+    "data_freeze_commit_sha": "58487fa3a541f194aeec5045f64a7d1641ae96be",
+    "data_manifest_sha256": "528fee8da7d7cb776fb851e6a05949133830e9533c4091cbb4e8698ac19fb0df",
+    "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+    "input_file_manifest_sha256": "b7dccfc9a9bad76b005f9515cc3f72cb4f594679857d0d67647bebb3509987ab",
+    "protocol_id": "GA-KNAPSACK-FEASIBILITY-V1",
+    "protocol_sha256": "d60db58531f76f3068a9fe16d92b2978c284d206e4f840b07ece318a7d08252f",
+    "python_version": "3.12.14",
+    "registration_commit_sha": "d08d3b17af959df2e2379094d3f5dcdd71efe3b2",
+    "run_attempt": 1,
+    "run_id": 37637475385,
+    "runtime_lock_sha256": "ca2fe9e18d3f96391b41a7b347a6ecc0a5e6e5322a4386bba5889a0e52cbd01a",
+    "source_audit_artifact_id": 11463057072,
+    "source_audit_run_id": 37576847587,
+    "source_commit_sha": "c5bea0df8169749caaba5ce7dfcf21437aa1ca5c",
+    "workflow_sha": "6d008b3444a22585dde2c25c0027779549fddc48"
+  },
+  "schema_version": "knapsack-feasibility-files-v1"
+}

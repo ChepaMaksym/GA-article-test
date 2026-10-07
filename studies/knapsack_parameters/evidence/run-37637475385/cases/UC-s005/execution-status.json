@@ -1,0 +1,24 @@
+{
+  "finished_at": "2026-10-07T14:32:22.381766+00:00",
+  "instance_id": "UC-s005",
+  "provenance": {
+    "artifact_name": "knapsack-feasibility-case-UC-s005-37637475385-1",
+    "audit_transport_sha256": "bca9c99f50d8cd2c6a94f26b1f0de900fda2d4fec5b8e0401fc142804d110137",
+    "data_freeze_commit_sha": "58487fa3a541f194aeec5045f64a7d1641ae96be",
+    "data_manifest_sha256": "528fee8da7d7cb776fb851e6a05949133830e9533c4091cbb4e8698ac19fb0df",
+    "implementation_sha": "6d008b3444a22585dde2c25c0027779549fddc48",
+    "input_file_manifest_sha256": "b7dccfc9a9bad76b005f9515cc3f72cb4f594679857d0d67647bebb3509987ab",
+    "protocol_id": "GA-KNAPSACK-FEASIBILITY-V1",
+    "protocol_sha256": "d60db58531f76f3068a9fe16d92b2978c284d206e4f840b07ece318a7d08252f",
+    "python_version": "3.12.14",
+    "registration_commit_sha": "d08d3b17af959df2e2379094d3f5dcdd71efe3b2",
+    "run_attempt": 1,
+    "run_id": 37637475385,
+    "runtime_lock_sha256": "ca2fe9e18d3f96391b41a7b347a6ecc0a5e6e5322a4386bba5889a0e52cbd01a",
+    "source_audit_artifact_id": 11463057072,
+    "source_audit_run_id": 37576847587,
+    "source_commit_sha": "c5bea0df8169749caaba5ce7dfcf21437aa1ca5c",
+    "workflow_sha": "6d008b3444a22585dde2c25c0027779549fddc48"
+  },
+  "status": "EXCLUDED_GLOBAL_CENTER"
+}
