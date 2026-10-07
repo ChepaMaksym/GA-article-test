@@ -1,0 +1,117 @@
+name: Knapsack preparation-only feasibility
+
+on:
+  push:
+    branches: [research/masters-ga-knapsack-parameters]
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: knapsack-feasibility-${{ github.sha }}-${{ github.run_attempt }}
+  cancel-in-progress: false
+
+env:
+  EXPECTED_SHA: ${{ github.sha }}
+  STUDY_WORKFLOW_SHA: ${{ github.workflow_sha }}
+  PYTHONDONTWRITEBYTECODE: '1'
+  PYTHONHASHSEED: '0'
+
+jobs:
+  phase:
+    name: Select explicit authorized stage
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      phase: ${{ steps.select.outputs.phase }}
+    steps:
+      - id: select
+        env:
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          python3 - <<'PY'
+          import os
+          markers = {phase: f'[knapsack:{phase}]' for phase in ('audit', 'tests', 'prepare')}
+          selected = [phase for phase, marker in markers.items() if marker in os.environ.get('COMMIT_MESSAGE', '')]
+          if len(selected) > 1:
+              raise SystemExit('Ambiguous stage markers; no study runs are allowed')
+          phase = selected[0] if selected else 'none'
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as target:
+              target.write(f'phase={phase}\n')
+          print(f'Selected stage: {phase}; no GA or statistics are authorized')
+          PY
+
+  audit:
+    name: Thirty pinned files and license audit only
+    needs: phase
+    if: needs.phase.outputs.phase == 'audit'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Authenticate preregistration before audit fixtures
+        run: |
+          python - <<'PY'
+          import os
+          from studies.knapsack_parameters.feasibility.data_audit import authenticate
+          authenticate(os.environ['EXPECTED_SHA'])
+          PY
+      - name: CI-only offline audit fixtures before any fetch
+        run: python -m unittest discover -s studies/knapsack_parameters/feasibility/tests -p 'test_data_audit.py' -v
+      - name: Fetch only pinned KPLIB source bytes
+        id: source_audit
+        run: >-
+          python -m studies.knapsack_parameters.feasibility.data_audit
+          --expected-sha "$EXPECTED_SHA"
+          --output "$RUNNER_TEMP/knapsack-audit"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always() && steps.source_audit.outcome != 'skipped'
+        with:
+          name: knapsack-feasibility-audit-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/knapsack-audit
+          if-no-files-found: error
+          retention-days: 90
+
+  tests:
+    name: CI-only structural fixtures
+    needs: phase
+    if: needs.phase.outputs.phase == 'tests'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Authenticate the exact scientific checkout
+        run: |
+          python - <<'PY'
+          import os
+          from studies.knapsack_parameters.feasibility.data_audit import authenticate
+          authenticate(os.environ['EXPECTED_SHA'])
+          PY
+      - run: python -m unittest discover -s studies/knapsack_parameters/feasibility/tests -p 'test_*.py' -v
+      - name: Reject files generated in the scientific checkout
+        run: test -z "$(git status --porcelain=v1 --untracked-files=all)"
+
+  prepare_not_yet_implemented:
+    name: Reject preparation before input-manifest freeze and implementation
+    needs: phase
+    if: needs.phase.outputs.phase == 'prepare'
+    runs-on: ubuntu-24.04
+    steps:
+      - run: |
+          echo 'Preparation is fail-closed until the separate input-manifest freeze and green implementation checks.'
+          exit 1
