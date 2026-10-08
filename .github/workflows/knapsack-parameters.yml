@@ -267,4 +267,3 @@ jobs:
           path: ${{ runner.temp }}/knapsack-ga-transport/sources.json
           retention-days: 90
           if-no-files-found: warn
-

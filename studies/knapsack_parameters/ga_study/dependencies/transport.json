@@ -1,0 +1,15 @@
+{
+  "schema_version": "ga-knapsack-environment-transport-v1",
+  "protocol_id": "GA-KNAPSACK-PARAMETERS-MAIN-V1",
+  "implementation_commit_sha": "9f0348fa85e92a75c51f0bf9f121bd45f1fccb18",
+  "run_id": 37790313257,
+  "run_attempt": 1,
+  "run_url": "https://github.com/ChepaMaksym/GA-article-test/actions/runs/37790313257",
+  "artifact_id": 11556745441,
+  "artifact_name": "knapsack-ga-lock-37790313257-1",
+  "zip_sha256": "de64d81583b492e3824fadea24cca0e25cc5fd89e99e745f8ff23d1a5f5251e1",
+  "requirements_lock_sha256": "6818e0e12843daa10947f7554cb3edd573d9f7cdbc33e63f98f9f3a068869017",
+  "environment_lock_sha256": "9907e3a46971303d8285b7ae160b5b8eafcab9942565d376bd038a92789745c6",
+  "resolution_only": true,
+  "scientific_experiments_performed": false
+}

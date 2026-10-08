@@ -22,3 +22,12 @@ studies/knapsack_parameters/evidence/** -text
 studies/knapsack_parameters/feasibility/*.py text eol=lf
 studies/knapsack_parameters/feasibility/tests/*.py text eol=lf
 .github/workflows/knapsack-feasibility.yml text eol=lf
+
+# The GA contract freezes wheel identities and byte-exact runtime metadata.
+studies/knapsack_parameters/ga_study/*.py text eol=lf
+studies/knapsack_parameters/ga_study/tests/*.py text eol=lf
+studies/knapsack_parameters/ga_study/dependencies/*.py text eol=lf
+studies/knapsack_parameters/ga_study/dependencies/requirements.in text eol=lf
+studies/knapsack_parameters/ga_study/dependencies/requirements.lock -text
+studies/knapsack_parameters/ga_study/dependencies/environment.lock.json -text
+.github/workflows/knapsack-parameters.yml text eol=lf
