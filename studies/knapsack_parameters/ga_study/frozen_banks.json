@@ -1,0 +1,19 @@
+{
+  "schema_version": "ga-knapsack-frozen-banks-v1",
+  "protocol_id": "GA-KNAPSACK-PARAMETERS-MAIN-V1",
+  "bank_count": 900,
+  "banks_manifest_sha256": "2880060bc6212bee872c6676fd00182a338a17a2e41b64f764c1ef26a3be0b1b",
+  "implementation_fingerprint": "6b1edead25775770c8c0ea7b7798599cc2ac38d721d8f1df6b59e57109e577d8",
+  "runtime_lock_sha256": "9907e3a46971303d8285b7ae160b5b8eafcab9942565d376bd038a92789745c6",
+  "implementation_commit_sha": "dbcd75839479b381f74899953b4b5ec55d236f45",
+  "artifact_id": 11557090502,
+  "artifact_name": "knapsack-ga-banks-37791749517-1",
+  "run_id": 37791749517,
+  "run_attempt": 1,
+  "run_url": "https://github.com/ChepaMaksym/GA-article-test/actions/runs/37791749517",
+  "zip_sha256": "d0a4d4412f740fb7447b5c74cd5c82aacafd65e620642947856d242ff5b64af2",
+  "zip_bytes": 2786866,
+  "physical_bank_evaluations": 45000,
+  "source_data_manifest_sha256": "528fee8da7d7cb776fb851e6a05949133830e9533c4091cbb4e8698ac19fb0df",
+  "source_registry_sha256": "7e9b8fc893889426e2d3b57610e3a91c09263fcdff488cf15a2b84efe1bdc70f"
+}

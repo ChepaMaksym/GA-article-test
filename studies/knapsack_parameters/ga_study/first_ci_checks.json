@@ -1,0 +1,13 @@
+{
+  "schema_version": "ga-knapsack-ci-checks-v1",
+  "protocol_id": "GA-KNAPSACK-PARAMETERS-MAIN-V1",
+  "implementation_commit_sha": "e29a0b0f1eece0d7a166fd29911f90c4648933b0",
+  "run_id": 37791533345,
+  "run_attempt": 1,
+  "job_id": 113359955143,
+  "run_url": "https://github.com/ChepaMaksym/GA-article-test/actions/runs/37791533345",
+  "test_count": 59,
+  "conclusion": "success",
+  "scope": "structural, independent replay, transport and statistical fixtures; not a scientific outcome",
+  "local_scientific_execution": false
+}
