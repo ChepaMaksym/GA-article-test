@@ -42,16 +42,29 @@ class RetainedMainEvidence(unittest.TestCase):
     def test_all_run_summaries_retained_without_replacement(self):
         identities = set()
         profiles = {"random": 0, "local": 0}
+        # The compact CI export intentionally omits the full replay verdict.
+        # Its byte identity is checked above; full verdicts stay in source jobs.
+        compact_fields = {
+            "instance_id", "start_profile", "repeat_seed", "configuration_id",
+            "mutation_numerator", "crossover_probability", "population_size",
+            "best_mask", "best_profit", "best_weight", "best_request",
+            "escape_event", "first_escape_request", "censored", "logical_requests",
+            "physical_evaluations", "invalid_request_count", "duplicate_count",
+            "complete_generations", "terminal_partial",
+        }
         with gzip.open(self.bundle / "run-summaries.jsonl.gz", "rt", encoding="utf-8") as stream:
             for line in stream:
                 row = json.loads(line)
+                self.assertEqual(set(row), compact_fields)
                 identity = (row["instance_id"], row["start_profile"], row["repeat_seed"], row["configuration_id"])
                 self.assertNotIn(identity, identities)
                 identities.add(identity)
                 profiles[row["start_profile"]] += 1
                 self.assertTrue(51001 <= row["repeat_seed"] <= 51030)
                 self.assertEqual(row["logical_requests"], 5000)
-                self.assertTrue(row["verified"])
+                self.assertEqual(row["physical_evaluations"], 5000 - row["population_size"])
+                self.assertEqual(len(row["best_mask"]), 100)
+                self.assertLessEqual(set(row["best_mask"]), {"0", "1"})
         self.assertEqual(len(identities), 35640)
         self.assertEqual(profiles, {"random": 24300, "local": 11340})
 
