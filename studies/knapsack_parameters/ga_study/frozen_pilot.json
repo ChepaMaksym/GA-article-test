@@ -1,0 +1,22 @@
+{
+  "schema_version": "ga-knapsack-frozen-pilot-v1",
+  "protocol_id": "GA-KNAPSACK-PARAMETERS-MAIN-V1",
+  "technical_status": "PASS_TECHNICAL",
+  "run_count": 162,
+  "projected_job_seconds": 237.71927107000005,
+  "projected_job_bytes": 120893550,
+  "implementation_fingerprint": "6b1edead25775770c8c0ea7b7798599cc2ac38d721d8f1df6b59e57109e577d8",
+  "runtime_lock_sha256": "9907e3a46971303d8285b7ae160b5b8eafcab9942565d376bd038a92789745c6",
+  "banks_manifest_sha256": "2880060bc6212bee872c6676fd00182a338a17a2e41b64f764c1ef26a3be0b1b",
+  "technical_result_sha256": "59647e8f8f6275d20daca708cac37767091a1809e2bdcb26d344104eccfc2a90",
+  "implementation_commit_sha": "bc8c9ee725f10d35a838f8701bd06eab319c8c65",
+  "artifact_id": 11557730499,
+  "artifact_name": "knapsack-ga-report-pilot-37792425058-1",
+  "run_id": 37792425058,
+  "run_attempt": 1,
+  "run_url": "https://github.com/ChepaMaksym/GA-article-test/actions/runs/37792425058",
+  "zip_sha256": "badaadf6b8a0a95d6f67532525c1305d5ac3cfb599133cce5d760cb6580faeab",
+  "zip_bytes": 2978,
+  "scientific_statistics_computed": false,
+  "all_evidence_verified": true
+}
