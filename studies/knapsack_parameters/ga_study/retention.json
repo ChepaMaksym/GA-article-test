@@ -1,0 +1,15 @@
+{
+  "schema_version": "ga-knapsack-retention-amendment-v1",
+  "date": "2026-10-08",
+  "authority": "later user instruction to remove redundant local evidence recoverable from CI",
+  "registered_scientific_methods_unchanged": true,
+  "compact_report_and_all_run_summaries_retained_in_git": true,
+  "source_run_artifact_ids_and_hashes_retained_in_git": true,
+  "word_and_figures_retained_locally": true,
+  "full_request_rng_logs_location": "90 explicitly identified GitHub Actions artifacts from run 37793424917",
+  "ci_artifacts_expire_at": "2027-01-06T14:33:20Z",
+  "expiry_is_not_a_permanent_archival_guarantee": true,
+  "local_temporary_zip_and_extracted_logs": "remove recoverably after document assembly and checks",
+  "after_ci_expiry": "compact numerical summaries remain; full objective/operator/RNG audit needs recovered raw artifacts or a separately authorized rerun",
+  "historical_preparation_and_protected_evidence_unchanged": true
+}

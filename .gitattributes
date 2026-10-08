@@ -31,3 +31,4 @@ studies/knapsack_parameters/ga_study/dependencies/requirements.in text eol=lf
 studies/knapsack_parameters/ga_study/dependencies/requirements.lock -text
 studies/knapsack_parameters/ga_study/dependencies/environment.lock.json -text
 .github/workflows/knapsack-parameters.yml text eol=lf
+studies/knapsack_parameters/ga_study/evidence/** -text

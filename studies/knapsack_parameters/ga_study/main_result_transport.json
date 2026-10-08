@@ -1,0 +1,20 @@
+{
+  "schema_version": "ga-knapsack-main-result-transport-v1",
+  "protocol_id": "GA-KNAPSACK-PARAMETERS-MAIN-V1",
+  "implementation_commit_sha": "5fe14fad17368dd94faa86cc0d6138361d3722cf",
+  "registration_commit_sha": "30a6a44e169458c70af0c215b754ab2b01f87953",
+  "run_id": 37793424917,
+  "run_attempt": 1,
+  "run_url": "https://github.com/ChepaMaksym/GA-article-test/actions/runs/37793424917",
+  "conclusion": "success",
+  "artifact_id": 11559828252,
+  "artifact_name": "knapsack-ga-report-run-37793424917-1",
+  "zip_bytes": 1861322,
+  "zip_sha256": "5893050e8142f0b52b25a78f547fb6805390e3d17049fdffed75f0659038d53e",
+  "report_data_sha256": "b536298ae84ea2663449fa49bea45d9b8ebcd50322ac8b31b986d9c6f7ae8beb",
+  "file_manifest_sha256": "3583fe289b65853b81869aa50fd7e4ddb1b5b89da353a8a22fe9043402fb424f",
+  "complete_matrix_jobs": 90,
+  "main_runs": 35640,
+  "logical_requests": 178200000,
+  "retained_bundle": "studies/knapsack_parameters/ga_study/evidence/run-37793424917"
+}
