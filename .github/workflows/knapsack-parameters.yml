@@ -1,0 +1,270 @@
+name: Registered knapsack GA parameter study
+
+on:
+  push:
+    branches: [research/masters-ga-knapsack-parameters]
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: knapsack-ga-${{ github.sha }}-${{ github.run_attempt }}
+  cancel-in-progress: false
+
+env:
+  EXPECTED_SHA: ${{ github.sha }}
+  STUDY_WORKFLOW_SHA: ${{ github.workflow_sha }}
+  PYTHONDONTWRITEBYTECODE: '1'
+  PYTHONHASHSEED: '0'
+  MPLBACKEND: Agg
+  OPENBLAS_NUM_THREADS: '1'
+  OMP_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+
+jobs:
+  phase:
+    name: Explicit authorized stage only
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      phase: ${{ steps.select.outputs.phase }}
+    steps:
+      - id: select
+        env:
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          python3 - <<'PY'
+          import os
+          phases = ('lock', 'tests', 'banks', 'pilot', 'run')
+          selected = [phase for phase in phases if f'[knapsack-ga:{phase}]' in os.environ.get('COMMIT_MESSAGE', '')]
+          if len(selected) > 1:
+              raise SystemExit('Ambiguous markers: scientific execution refused')
+          phase = selected[0] if selected else 'none'
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as target:
+              target.write(f'phase={phase}\n')
+          print(f'Authorized stage: {phase}')
+          PY
+
+  lock:
+    name: Resolve exact wheel hashes only
+    needs: phase
+    if: needs.phase.outputs.phase == 'lock'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - name: Freeze dependencies without scientific calculations
+        run: >-
+          python -m studies.knapsack_parameters.ga_study.dependencies.freeze_environment
+          --expected-sha "$EXPECTED_SHA" --output "$RUNNER_TEMP/knapsack-ga-lock"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: knapsack-ga-lock-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/knapsack-ga-lock
+          retention-days: 90
+          if-no-files-found: error
+
+  tests:
+    name: Independent CI-only structural and replay fixtures
+    needs: phase
+    if: contains(fromJSON('["tests","banks","pilot","run"]'), needs.phase.outputs.phase)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - name: Install only frozen wheels and authenticate numerical runtime
+        run: |
+          test -f studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+          python -m pip install --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+          python -m studies.knapsack_parameters.ga_study.contract --expected-sha "$EXPECTED_SHA"
+      - name: Run all prospective GA verification fixtures
+        run: python -m unittest discover -s studies/knapsack_parameters/ga_study/tests -p 'test_*.py' -v
+      - name: Require unchanged scientific checkout
+        run: test -z "$(git status --porcelain=v1 --untracked-files=all)"
+
+  banks:
+    name: Freeze 900 common initial banks only
+    needs: [phase, tests]
+    if: needs.phase.outputs.phase == 'banks'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - name: Install only frozen wheels and authenticate numerical runtime
+        run: |
+          test -f studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+          python -m pip install --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+          python -m studies.knapsack_parameters.ga_study.contract --expected-sha "$EXPECTED_SHA"
+      - name: Prepare banks; no GA execution
+        run: >-
+          python -m studies.knapsack_parameters.ga_study.banks
+          --expected-sha "$EXPECTED_SHA" --output "$RUNNER_TEMP/knapsack-ga-banks"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: knapsack-ga-banks-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/knapsack-ga-banks
+          retention-days: 90
+          if-no-files-found: error
+
+  pilot:
+    name: Technical pilot ${{ matrix.instance }}
+    needs: [phase, tests]
+    if: needs.phase.outputs.phase == 'pilot'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        instance: [UC-s000, WC-s001, SC-s005]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - name: Install only frozen wheels and authenticate numerical runtime
+        run: |
+          test -f studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+          python -m pip install --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+          python -m studies.knapsack_parameters.ga_study.contract --expected-sha "$EXPECTED_SHA"
+      - name: Run fixed technical pilot with independent replay
+        run: >-
+          python -m studies.knapsack_parameters.ga_study.runner
+          --stage pilot --instance '${{ matrix.instance }}'
+          --expected-sha "$EXPECTED_SHA" --output "$RUNNER_TEMP/knapsack-ga-job"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: knapsack-ga-pilot-${{ matrix.instance }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/knapsack-ga-job
+          retention-days: 90
+          if-no-files-found: error
+
+  run:
+    name: Main ${{ matrix.class_label }} ${{ matrix.index }} batch ${{ matrix.batch }}
+    needs: [phase, tests]
+    if: needs.phase.outputs.phase == 'run'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        class_label: [UC, WC, SC]
+        index: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        batch: [0, 1, 2]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - name: Install only frozen wheels and authenticate numerical runtime
+        run: |
+          test -f studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+          python -m pip install --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+          python -m studies.knapsack_parameters.ga_study.contract --expected-sha "$EXPECTED_SHA"
+      - name: Download only explicitly frozen banks and pilot; no latest selection
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: >-
+          python -m studies.knapsack_parameters.ga_study.transport frozen
+          --expected-sha "$EXPECTED_SHA" --output "$RUNNER_TEMP/knapsack-ga-frozen"
+      - name: Run registered 5000-call searches and independent full replay
+        run: >-
+          python -m studies.knapsack_parameters.ga_study.runner
+          --stage main --class '${{ matrix.class_label }}' --index '${{ matrix.index }}'
+          --batch '${{ matrix.batch }}' --banks "$RUNNER_TEMP/knapsack-ga-frozen/banks"
+          --expected-sha "$EXPECTED_SHA" --output "$RUNNER_TEMP/knapsack-ga-job"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: knapsack-ga-run-${{ matrix.class_label }}-s00${{ matrix.index }}-b${{ matrix.batch }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/knapsack-ga-job
+          retention-days: 90
+          if-no-files-found: error
+
+  aggregate:
+    name: Complete exact-source verification before aggregation
+    needs: [phase, tests, pilot, run]
+    if: always() && needs.tests.result == 'success' && contains(fromJSON('["pilot","run"]'), needs.phase.outputs.phase)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - name: Install only frozen wheels and authenticate numerical runtime
+        run: |
+          test -f studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+          python -m pip install --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+          python -m studies.knapsack_parameters.ga_study.contract --expected-sha "$EXPECTED_SHA"
+      - name: Freeze source IDs from this exact completed matrix
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: >-
+          python -m studies.knapsack_parameters.ga_study.transport collect
+          --stage '${{ needs.phase.outputs.phase }}' --expected-sha "$EXPECTED_SHA"
+          --output "$RUNNER_TEMP/knapsack-ga-transport"
+      - name: Validate complete registry and compute only authorized summaries
+        id: report
+        env:
+          STUDY_PHASE: ${{ needs.phase.outputs.phase }}
+        run: |
+          pilot_flag=""
+          if [ "$STUDY_PHASE" = "pilot" ]; then pilot_flag="--pilot"; fi
+          python -m studies.knapsack_parameters.ga_study.aggregate \
+            --root "$RUNNER_TEMP/knapsack-ga-transport/jobs" \
+            --sources "$RUNNER_TEMP/knapsack-ga-transport/sources.json" \
+            --expected-sha "$EXPECTED_SHA" --output "$RUNNER_TEMP/knapsack-ga-report" $pilot_flag
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always() && steps.report.outcome != 'skipped'
+        with:
+          name: knapsack-ga-report-${{ needs.phase.outputs.phase }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/knapsack-ga-report
+          retention-days: 90
+          if-no-files-found: error
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: failure()
+        with:
+          name: knapsack-ga-transport-diagnostic-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/knapsack-ga-transport/sources.json
+          retention-days: 90
+          if-no-files-found: warn
+
