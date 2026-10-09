@@ -1,0 +1,1 @@
+{"excludes_self":true,"files":[{"bytes":10001,"path":"fixtures.txt","sha256":"b71ee9e42cbb2263eb1606b99080f624ab3571e70d5b1324de79c4668e01e1a7"},{"bytes":1219,"path":"tests-result.json","sha256":"c6457423f07cf9f6604358bc0a146ba31319c63f1ca91b2108e99c216845d728"}],"schema_version":"ga-knapsack-files-v1"}

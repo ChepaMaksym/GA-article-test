@@ -1,0 +1,91 @@
+test_ceil_each_runner_and_reserve_all_current_jobs (test_contract.BudgetAuthority.test_ceil_each_runner_and_reserve_all_current_jobs) ... ok
+test_current_legacy_phase_is_reserved_not_a_false_blocker (test_contract.BudgetAuthority.test_current_legacy_phase_is_reserved_not_a_false_blocker) ... ok
+test_current_run_previous_attempts_are_not_free (test_contract.BudgetAuthority.test_current_run_previous_attempts_are_not_free) ... ok
+test_failed_job_still_costs_budget (test_contract.BudgetAuthority.test_failed_job_still_costs_budget) ... ok
+test_large_cost_blocks_without_authorizing_full_reproduction (test_contract.BudgetAuthority.test_large_cost_blocks_without_authorizing_full_reproduction) ... ok
+test_missing_job_time_fails_closed (test_contract.BudgetAuthority.test_missing_job_time_fails_closed) ... ok
+test_mixed_historical_execution_markers_are_refused (test_contract.BudgetAuthority.test_mixed_historical_execution_markers_are_refused) ... ok
+test_old_attempt_jobs_before_registration_are_not_recharged (test_contract.BudgetAuthority.test_old_attempt_jobs_before_registration_are_not_recharged) ... ok
+test_old_legacy_retry_attempts_are_counted (test_contract.BudgetAuthority.test_old_legacy_retry_attempts_are_counted) ... ok
+test_previous_active_run_blocks_new_spending (test_contract.BudgetAuthority.test_previous_active_run_blocks_new_spending) ... ok
+test_rerun_of_older_run_is_not_free_after_registration (test_contract.BudgetAuthority.test_rerun_of_older_run_is_not_free_after_registration) ... ok
+test_skipped_jobs_have_no_charge (test_contract.BudgetAuthority.test_skipped_jobs_have_no_charge) ... ok
+test_caps_cannot_be_raised (test_pilot.PilotFixtures.test_caps_cannot_be_raised) ... ok
+test_compact_missing_counters_remain_unknown (test_pilot.PilotFixtures.test_compact_missing_counters_remain_unknown) ... ok
+test_completed_job_budget_never_claims_unfinished_duration (test_pilot.PilotFixtures.test_completed_job_budget_never_claims_unfinished_duration) ... ok
+test_current_job_usage_queries_only_current_attempt (test_pilot.PilotFixtures.test_current_job_usage_queries_only_current_attempt) ... ok
+test_exact_objective_cap_preserves_duplicate_queries_and_author_objective (test_pilot.PilotFixtures.test_exact_objective_cap_preserves_duplicate_queries_and_author_objective) ... ok
+test_failed_cases_and_failed_fixtures_cannot_pass_aggregation (test_pilot.PilotFixtures.test_failed_cases_and_failed_fixtures_cannot_pass_aggregation) ... ok
+test_failed_cli_preserves_report_then_raises (test_pilot.PilotFixtures.test_failed_cli_preserves_report_then_raises) ... ok
+test_failure_preserves_stack_and_partial_call_count (test_pilot.PilotFixtures.test_failure_preserves_stack_and_partial_call_count) ... ok
+test_fixed_profiles_have_same_seed_and_stable_identity (test_pilot.PilotFixtures.test_fixed_profiles_have_same_seed_and_stable_identity) ... ok
+test_fresh_rng_seed_identity_repeats (test_pilot.PilotFixtures.test_fresh_rng_seed_identity_repeats) ... ok
+test_frozen_descriptor_binds_protocol_locks_and_attempt_name (test_pilot.PilotFixtures.test_frozen_descriptor_binds_protocol_locks_and_attempt_name) ... ok
+test_full_and_knapsack_cli_modes_are_unavailable (test_pilot.PilotFixtures.test_full_and_knapsack_cli_modes_are_unavailable) ... usage: python -m unittest [-h] --expected-sha EXPECTED_SHA
+                          [--case {onemax-100,jump-20-2,maxsat-10}]
+                          [--phase {audit,tests,pilot}] [--author AUTHOR]
+                          [--outcome {success,failure,cancelled,skipped}]
+                          --output OUTPUT
+                          {run,worker,aggregate,record-tests}
+python -m unittest: error: argument operation: invalid choice: 'full' (choose from run, worker, aggregate, record-tests)
+usage: python -m unittest [-h] --expected-sha EXPECTED_SHA
+                          [--case {onemax-100,jump-20-2,maxsat-10}]
+                          [--phase {audit,tests,pilot}] [--author AUTHOR]
+                          [--outcome {success,failure,cancelled,skipped}]
+                          --output OUTPUT
+                          {run,worker,aggregate,record-tests}
+python -m unittest: error: argument operation: invalid choice: 'knapsack' (choose from run, worker, aggregate, record-tests)
+usage: python -m unittest [-h] --expected-sha EXPECTED_SHA
+                          [--case {onemax-100,jump-20-2,maxsat-10}]
+                          [--phase {audit,tests,pilot}] [--author AUTHOR]
+                          [--outcome {success,failure,cancelled,skipped}]
+                          --output OUTPUT
+                          {run,worker,aggregate,record-tests}
+python -m unittest: error: argument operation: invalid choice: 'calibrate' (choose from run, worker, aggregate, record-tests)
+usage: python -m unittest [-h] --expected-sha EXPECTED_SHA
+                          [--case {onemax-100,jump-20-2,maxsat-10}]
+                          [--phase {audit,tests,pilot}] [--author AUTHOR]
+                          [--outcome {success,failure,cancelled,skipped}]
+                          --output OUTPUT
+                          {run,worker,aggregate,record-tests}
+python -m unittest: error: argument operation: invalid choice: 'main' (choose from run, worker, aggregate, record-tests)
+ok
+test_linux_colon_names_preserved_and_unsafe_paths_rejected (test_pilot.PilotFixtures.test_linux_colon_names_preserved_and_unsafe_paths_rejected) ... ok
+test_missing_frozen_descriptor_refuses_network (test_pilot.PilotFixtures.test_missing_frozen_descriptor_refuses_network) ... ok
+test_packet_full_manifest_and_source_bytes_are_independently_verified (test_pilot.PilotFixtures.test_packet_full_manifest_and_source_bytes_are_independently_verified) ... ok
+test_packet_identity_and_report_hashes_cannot_be_mixed (test_pilot.PilotFixtures.test_packet_identity_and_report_hashes_cannot_be_mixed) ... ok
+test_packet_layout_and_size_guards_are_fixed (test_pilot.PilotFixtures.test_packet_layout_and_size_guards_are_fixed) ... ok
+test_packet_tar_digest_and_length_are_verified_before_extraction (test_pilot.PilotFixtures.test_packet_tar_digest_and_length_are_verified_before_extraction) ... ok
+test_portable_packet_restores_unchanged_linux_source_names (test_pilot.PilotFixtures.test_portable_packet_restores_unchanged_linux_source_names) ... ok
+test_process_exit_and_timeout_keep_diagnostics (test_pilot.PilotFixtures.test_process_exit_and_timeout_keep_diagnostics) ... ok
+test_time_limit_blocks_next_query (test_pilot.PilotFixtures.test_time_limit_blocks_next_query) ... ok
+test_unknown_throughput_cannot_become_full_projection (test_pilot.PilotFixtures.test_unknown_throughput_cannot_become_full_projection) ... ok
+test_zip_manifest_checks_every_byte (test_pilot.PilotFixtures.test_zip_manifest_checks_every_byte) ... ok
+test_exact_bytes_and_normal_colon_filename (test_source_audit.ArchiveTests.test_exact_bytes_and_normal_colon_filename) ... ok
+test_links_and_duplicates_rejected (test_source_audit.ArchiveTests.test_links_and_duplicates_rejected) ... ok
+test_traversal_and_drive_and_absolute_are_rejected_before_writes (test_source_audit.ArchiveTests.test_traversal_and_drive_and_absolute_are_rejected_before_writes) ... ok
+test_wrong_prefix_and_existing_target_rejected (test_source_audit.ArchiveTests.test_wrong_prefix_and_existing_target_rejected) ... ok
+test_compact_excludes_large_vectors_upstream_paths_and_pdf (test_source_audit.CompactTests.test_compact_excludes_large_vectors_upstream_paths_and_pdf) ... ok
+test_landscape_copy_is_not_a_new_raw_campaign (test_source_audit.CompactTests.test_landscape_copy_is_not_a_new_raw_campaign) ... ok
+test_known_git_blob_and_sha256 (test_source_audit.IdentityTests.test_known_git_blob_and_sha256) ... ok
+test_missing_extra_and_truncated_tree_fail (test_source_audit.IdentityTests.test_missing_extra_and_truncated_tree_fail) ... ok
+test_network_is_guarded_outside_actions (test_source_audit.IdentityTests.test_network_is_guarded_outside_actions) ... ok
+test_only_registered_source_identities (test_source_audit.IdentityTests.test_only_registered_source_identities) ... ok
+test_all_requested_files_are_required_and_analyzed_ids_separate (test_source_audit.IsingTests.test_all_requested_files_are_required_and_analyzed_ids_separate) ... ok
+test_integer_witness_and_grid (test_source_audit.IsingTests.test_integer_witness_and_grid) ... ok
+test_truncated_bad_witness_and_energy_rejected (test_source_audit.IsingTests.test_truncated_bad_witness_and_energy_rejected) ... ok
+test_cpp_configuration_comments_overrides_and_declared_large_value (test_source_audit.LogTests.test_cpp_configuration_comments_overrides_and_declared_large_value) ... ok
+test_cpp_dat_rejects_partial_and_nonfinite_rows (test_source_audit.LogTests.test_cpp_dat_rejects_partial_and_nonfinite_rows) ... ok
+test_python_actual_seed_mapping_and_truncated_log (test_source_audit.LogTests.test_python_actual_seed_mapping_and_truncated_log) ... ok
+test_split_config_censor_is_analysis_not_effective_run_limit (test_source_audit.LogTests.test_split_config_censor_is_analysis_not_effective_run_limit) ... ok
+test_packet_respects_registered_extraction_bound (test_source_audit.SourcePacketTests.test_packet_respects_registered_extraction_bound) ... ok
+test_portable_packet_preserves_exact_inventory_bytes_modes_and_hidden_names (test_source_audit.SourcePacketTests.test_portable_packet_preserves_exact_inventory_bytes_modes_and_hidden_names) ... ok
+test_symbolic_links_are_never_packaged_as_regular_files (test_source_audit.SourcePacketTests.test_symbolic_links_are_never_packaged_as_regular_files) ... ok
+test_transport_and_compact_hashes_have_no_self_or_cross_reference_cycle (test_source_audit.SourcePacketTests.test_transport_and_compact_hashes_have_no_self_or_cross_reference_cycle) ... ok
+
+----------------------------------------------------------------------
+Ran 56 tests in 1.224s
+
+OK
+onemax-100: TECHNICAL_FAILURE; paper reproduction NOT_RUN; full gate BLOCKED
+INCOMPLETE; paper reproduction NOT_RUN; full gate BLOCKED

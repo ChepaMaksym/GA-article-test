@@ -1,0 +1,58 @@
+{
+  "schema_version": "ga-lambda-bounded-budget-v1",
+  "protocol_id": "GA-KNAPSACK-LAMBDA-COMPARISON-V1",
+  "authorized_runner_minutes": 60,
+  "registration_commit_sha": "6a1936084629ada822eca7dc210e202c33bb0c0b",
+  "prior_rounded_runner_minutes": 14,
+  "pilot_run_id": 37979108086,
+  "pilot_jobs": [
+    {
+      "job_id": 113984788798,
+      "name": "Select and reserve one authorized bounded phase",
+      "started_at": "2026-10-09T19:16:40Z",
+      "completed_at": "2026-10-09T19:16:51Z",
+      "rounded_minutes": 1
+    },
+    {
+      "job_id": 113984875656,
+      "name": "CI-only bounded pilot and provenance fixtures",
+      "started_at": "2026-10-09T19:16:54Z",
+      "completed_at": "2026-10-09T19:17:26Z",
+      "rounded_minutes": 1
+    },
+    {
+      "job_id": 113985109211,
+      "name": "Technical prefix onemax-100",
+      "started_at": "2026-10-09T19:17:29Z",
+      "completed_at": "2026-10-09T19:18:07Z",
+      "rounded_minutes": 1
+    },
+    {
+      "job_id": 113985109279,
+      "name": "Technical prefix jump-20-2",
+      "started_at": "2026-10-09T19:17:29Z",
+      "completed_at": "2026-10-09T19:18:05Z",
+      "rounded_minutes": 1
+    },
+    {
+      "job_id": 113985109339,
+      "name": "Technical prefix maxsat-10",
+      "started_at": "2026-10-09T19:17:29Z",
+      "completed_at": "2026-10-09T19:18:46Z",
+      "rounded_minutes": 2
+    },
+    {
+      "job_id": 113985627407,
+      "name": "Exact artifact provenance, failures and bounded resource report",
+      "started_at": "2026-10-09T19:18:48Z",
+      "completed_at": "2026-10-09T19:19:03Z",
+      "rounded_minutes": 1
+    }
+  ],
+  "pilot_rounded_runner_minutes": 7,
+  "current_legacy_selector_minutes": 2,
+  "rounded_minutes_before_final_evidence_push": 23,
+  "final_push_reserved_ceiling_minutes": 11,
+  "combined_ceiling_through_final_evidence_push": 34,
+  "science_scope": "audit, CI fixtures and three bounded technical probes only; no full replication or knapsack run"
+}
