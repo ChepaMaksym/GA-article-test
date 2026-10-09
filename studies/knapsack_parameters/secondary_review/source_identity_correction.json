@@ -1,0 +1,12 @@
+{
+  "schema_version": "ga-secondary-registration-correction-v1",
+  "protocol_id": "GA-KNAPSACK-SECONDARY-REVIEW-V1",
+  "registration_commit_sha": "b02f9fa1640c3774a41f9d609ac98e5511896d91",
+  "field": "source.file_manifest_sha256",
+  "registered_literal": "3583fe289b65853b81869aa50fd7e4dddb1b5b89da353a8a22fe9043402fb424f",
+  "effective_sha256": "3583fe289b65853b81869aa50fd7e4ddb1b5b89da353a8a22fe9043402fb424f",
+  "reason": "One duplicated letter while copying the source-manifest digest; native SHA256 verified before any new scientific computation.",
+  "historical_source_changed": false,
+  "methods_seeds_endpoints_or_thresholds_changed": false,
+  "new_analysis_executed_before_correction": false
+}
