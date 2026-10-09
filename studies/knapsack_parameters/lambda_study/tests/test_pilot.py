@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 import random
 import sys
+import tarfile
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -51,6 +52,43 @@ class PilotFixtures(unittest.TestCase):
     def setUpClass(cls):
         if os.environ.get("GITHUB_ACTIONS") != "true":
             raise RuntimeError("These fixtures may run only in GitHub Actions")
+
+    def source_packet(self, temporary, *, corrupt_source=False):
+        """Construct a tiny portable fixture, not an author experiment."""
+        root = Path(temporary)
+        packet = root / "packet"
+        packet.mkdir()
+        raw = b"unaltered author fixture bytes\n"
+        filename = "source/author/Raw/log_12:34:56"
+        manifest = {"schema_version": "ga-knapsack-files-v1", "excludes_self": True,
+                    "files": [{"path": filename, "bytes": len(raw), "sha256": pilot.sha256_bytes(raw)}]}
+        manifest_bytes = pilot.canonical_bytes(manifest)
+        stream = io.BytesIO()
+        with tarfile.open(fileobj=stream, mode="w:gz") as archive:
+            for name, content in ((filename, raw + b"changed" if corrupt_source else raw),
+                                  ("file_manifest.json", manifest_bytes)):
+                member = tarfile.TarInfo("bundle/" + name)
+                member.size = len(content)
+                archive.addfile(member, io.BytesIO(content))
+        payload = stream.getvalue()
+        reference = {"path": "full-source.tar.gz", "bytes": len(payload),
+                     "sha256": pilot.sha256_bytes(payload), "prefix": "bundle",
+                     "full_file_manifest_sha256": pilot.sha256_bytes(manifest_bytes)}
+        identity = {field: f"identity-{field}" for field in pilot.FROZEN_IDENTITY_FIELDS}
+        identity.update(full_reproduction_authorized=False, knapsack_execution_authorized=False,
+                        implementation_commit_sha="a" * 40, run_id=5, run_attempt=2)
+        descriptor = {**identity, "artifact_name": "lambda-paper-audit-5-2",
+                      "source_manifest_sha256": "b" * 64, "audit_report_sha256": "c" * 64,
+                      "source_packet_reference": reference}
+        metadata = {"schema_version": "ga-lambda-source-packet-v1", "identity": identity,
+                    "source_manifest_sha256": descriptor["source_manifest_sha256"],
+                    "audit_report_sha256": descriptor["audit_report_sha256"],
+                    "source_packet_reference": reference,
+                    "full_file_manifest_sha256": reference["full_file_manifest_sha256"]}
+        (packet / reference["path"]).write_bytes(payload)
+        pilot.write_json(packet / "source_packet_manifest.json", metadata)
+        pilot.write_file_manifest(packet)
+        return packet, descriptor, root / "unwrapped", filename, raw
 
     def test_exact_objective_cap_preserves_duplicate_queries_and_author_objective(self):
         original = OriginalObjective()
@@ -168,6 +206,69 @@ class PilotFixtures(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "hash or length differs"):
                 pilot.verify_evidence(directory)
 
+    def test_portable_packet_restores_unchanged_linux_source_names(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            packet, descriptor, destination, filename, raw = self.source_packet(temporary)
+            pilot.verify_evidence(packet)
+            bundle = pilot.unpack_frozen_packet(packet, descriptor, destination)
+            self.assertEqual(bundle, destination)
+            self.assertEqual((bundle / filename).read_bytes(), raw)
+            self.assertFalse((bundle / "source_packet_manifest.json").exists())
+            self.assertTrue((packet / "source_packet_manifest.json").is_file())
+
+    def test_packet_tar_digest_and_length_are_verified_before_extraction(self):
+        for mutation in ("bytes", "sha256"):
+            with tempfile.TemporaryDirectory() as temporary:
+                packet, descriptor, destination, _, _ = self.source_packet(temporary)
+                payload = packet / "full-source.tar.gz"
+                raw = payload.read_bytes()
+                payload.write_bytes(raw + b"extra" if mutation == "bytes" else
+                                    bytes([raw[0] ^ 1]) + raw[1:])
+                with self.assertRaisesRegex(ValueError, "tarball hash or length differs"):
+                    pilot.unpack_frozen_packet(packet, descriptor, destination)
+                self.assertFalse(destination.exists())
+
+    def test_packet_identity_and_report_hashes_cannot_be_mixed(self):
+        for field in ("protocol_sha256", "implementation_commit_sha", "run_id", "run_attempt",
+                      "source_manifest_sha256", "audit_report_sha256", "full_file_manifest_sha256"):
+            with tempfile.TemporaryDirectory() as temporary:
+                packet, descriptor, destination, _, _ = self.source_packet(temporary)
+                path = packet / "source_packet_manifest.json"
+                metadata = pilot.read_json(path)
+                if field in metadata["identity"]:
+                    metadata["identity"][field] = "wrong-identity"
+                else:
+                    metadata[field] = "wrong-hash"
+                pilot.write_json(path, metadata)
+                with self.assertRaises(ValueError):
+                    pilot.unpack_frozen_packet(packet, descriptor, destination)
+                self.assertFalse(destination.exists())
+
+    def test_packet_full_manifest_and_source_bytes_are_independently_verified(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            packet, descriptor, destination, _, _ = self.source_packet(temporary, corrupt_source=True)
+            with self.assertRaisesRegex(ValueError, "artifact member hash or length differs"):
+                pilot.unpack_frozen_packet(packet, descriptor, destination)
+        with tempfile.TemporaryDirectory() as temporary:
+            packet, descriptor, destination, _, _ = self.source_packet(temporary)
+            descriptor["source_packet_reference"]["full_file_manifest_sha256"] = "d" * 64
+            path = packet / "source_packet_manifest.json"
+            metadata = pilot.read_json(path)
+            metadata["source_packet_reference"] = descriptor["source_packet_reference"]
+            metadata["full_file_manifest_sha256"] = "d" * 64
+            pilot.write_json(path, metadata)
+            with self.assertRaisesRegex(ValueError, "full source file manifest differs"):
+                pilot.unpack_frozen_packet(packet, descriptor, destination)
+
+    def test_packet_layout_and_size_guards_are_fixed(self):
+        valid = {"path": "full-source.tar.gz", "bytes": 1, "sha256": "a" * 64,
+                 "prefix": "bundle", "full_file_manifest_sha256": "b" * 64}
+        self.assertEqual(pilot.validate_packet_reference(valid), valid)
+        for field, value in (("path", "../escape.tar.gz"), ("prefix", "other"), ("bytes", True),
+                             ("bytes", 0), ("bytes", pilot.MAX_DOWNLOAD + 1), ("sha256", "not-a-hash")):
+            with self.assertRaises(ValueError):
+                pilot.validate_packet_reference({**valid, field: value})
+
     def test_completed_job_budget_never_claims_unfinished_duration(self):
         complete = {"id": 1, "name": "fixture", "status": "completed", "conclusion": "success",
                     "started_at": "2026-10-09T10:00:00Z", "completed_at": "2026-10-09T10:01:01Z"}
@@ -212,7 +313,9 @@ class PilotFixtures(unittest.TestCase):
     def test_frozen_descriptor_binds_protocol_locks_and_attempt_name(self):
         identity = {field: f"identity-{field}" for field in pilot.FROZEN_IDENTITY_FIELDS}
         identity.update(full_reproduction_authorized=False, knapsack_execution_authorized=False)
-        descriptor = {**identity, "run_id": 5, "run_attempt": 2, "artifact_name": "lambda-paper-audit-5-2"}
+        descriptor = {**identity, "run_id": 5, "run_attempt": 2, "artifact_name": "lambda-paper-audit-5-2",
+                      "source_packet_reference": {"path": "full-source.tar.gz", "bytes": 1,
+                          "sha256": "a" * 64, "prefix": "bundle", "full_file_manifest_sha256": "b" * 64}}
         pilot.validate_descriptor(descriptor, identity)
         for field in ("protocol_sha256", "runtime_lock_sha256", "author_requirements_sha256", "artifact_name"):
             changed = {**descriptor, field: "wrong-identity"}

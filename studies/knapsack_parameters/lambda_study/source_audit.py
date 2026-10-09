@@ -595,6 +595,80 @@ def write_compact_bundle(output: Path, report: dict) -> None:
     write_file_manifest(compact)
 
 
+def write_source_packet(output: Path) -> dict:
+    """Wrap the verified full evidence in a portable, hash-bound TAR packet.
+
+    GitHub's artifact ZIP cannot represent upstream colon-bearing filenames.
+    The packet keeps those names and file bytes unchanged within the TAR; only
+    its portable transport directory is uploaded.  Compact/transport products
+    are deliberately absent from the full manifest to avoid checksum cycles.
+    """
+    output = Path(output)
+    manifest = write_file_manifest(output, exclude_prefixes=("compact", "transport"))
+    transport = output / "transport"
+    transport.mkdir(exist_ok=True)
+    packet = transport / "full-source.tar.gz"
+    rows = sorted(manifest["files"], key=lambda row: row["path"])
+    seen = set()
+    planned = []
+    total = 0
+    for row in rows:
+        relative = _safe_relative(row["path"]).as_posix()
+        require(relative not in seen, "duplicate full-evidence manifest path")
+        require(relative != "file_manifest.json"
+                and relative.split("/", 1)[0] not in ("compact", "transport"),
+                "full-evidence manifest includes derived transport/compact files")
+        seen.add(relative)
+        path = output.joinpath(*PurePosixPath(relative).parts)
+        require(path.resolve().is_relative_to(output.resolve()) and path.is_file()
+                and not path.is_symlink(), "invalid full-evidence source file")
+        data = path.read_bytes()
+        require(len(data) == row["bytes"] and sha256_bytes(data) == row["sha256"],
+                "full-evidence file differs from declared manifest")
+        total += len(data)
+        require(total <= MAX_EXTRACTED, "full-evidence packet exceeds extraction bound")
+        planned.append((relative, path, data))
+    manifest_path = output / "file_manifest.json"
+    manifest_data = manifest_path.read_bytes()
+    require(total + len(manifest_data) <= MAX_EXTRACTED,
+            "full-evidence manifest exceeds extraction bound")
+    planned.append(("file_manifest.json", manifest_path, manifest_data))
+    with packet.open("wb") as stream:
+        with gzip.GzipFile(filename="", mode="wb", fileobj=stream, mtime=0) as compressed:
+            with tarfile.open(fileobj=compressed, mode="w") as archive:
+                root = tarfile.TarInfo("bundle")
+                root.type = tarfile.DIRTYPE
+                root.mode = 0o755
+                root.mtime = 0
+                archive.addfile(root)
+                for relative, path, data in sorted(planned, key=lambda item: item[0]):
+                    member = tarfile.TarInfo("bundle/" + relative)
+                    member.size = len(data)
+                    member.mode = path.stat().st_mode & 0o777
+                    member.mtime = 0
+                    archive.addfile(member, io.BytesIO(data))
+    reference = {
+        "path": packet.name, "sha256": sha256_bytes(packet.read_bytes()),
+        "bytes": packet.stat().st_size, "prefix": "bundle",
+        "full_file_manifest_sha256": sha256_bytes(manifest_data),
+    }
+    report = read_json(output / "audit-report.json")
+    write_json(transport / "source_packet_manifest.json", {
+        "schema_version": "ga-lambda-source-packet-v1", "identity": report["identity"],
+        "source_manifest_sha256": sha256_bytes((output / "source_manifest.json").read_bytes()),
+        "audit_report_sha256": sha256_bytes((output / "audit-report.json").read_bytes()),
+        "full_file_manifest_sha256": reference["full_file_manifest_sha256"],
+        "source_packet_reference": reference,
+    })
+    write_file_manifest(transport)
+    compact = output / "compact"
+    reduced = read_json(compact / "audit-report.json")
+    reduced["source_packet_reference"] = reference
+    write_json(compact / "audit-report.json", reduced)
+    write_file_manifest(compact)
+    return reference
+
+
 def audit_sources(output_root: Path, identity: dict) -> dict:
     require(os.environ.get("GITHUB_ACTIONS") == "true", "source audit executes only in GitHub Actions")
     protocol = read_json(MODULE_ROOT / "protocol.json")
@@ -694,7 +768,7 @@ def audit_sources(output_root: Path, identity: dict) -> dict:
     )
     (output_root / "SOURCE_AUDIT_UK.md").write_text(text, encoding="utf-8")
     write_compact_bundle(output_root, report)
-    write_file_manifest(output_root)
+    write_source_packet(output_root)
     return report
 
 

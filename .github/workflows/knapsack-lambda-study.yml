@@ -101,9 +101,9 @@ jobs:
         if: always() && steps.audit.outcome != 'skipped'
         with:
           name: lambda-paper-audit-${{ github.run_id }}-${{ github.run_attempt }}
-          path: ${{ runner.temp }}/lambda-paper-audit
-          # The fixed public tarballs contain dotfiles covered by the manifest.
-          # No checkout .git directory or credentials are copied into this root.
+          path: ${{ runner.temp }}/lambda-paper-audit/transport
+          # A hash-bound TAR preserves the upstream colon paths and dotfiles.
+          # Upload only its portable envelope, not those names as ZIP members.
           include-hidden-files: true
           retention-days: 90
           if-no-files-found: error

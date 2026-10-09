@@ -25,6 +25,7 @@ from .contract import (BRANCH, MODULE_ROOT, PROTOCOL_ID, REPOSITORY, ROOT, authe
                        sha256_bytes, write_file_manifest, write_json)
 from ..ga_study.transport import (api_get, download_zip,
                                  verify_artifact_identity)
+from .source_audit import MAX_DOWNLOAD, extract_snapshot
 
 SEED = 63001
 CALL_CAP = 100000
@@ -346,6 +347,46 @@ def validate_descriptor(descriptor, identity):
             "frozen source requires exact run and attempt IDs")
     require(descriptor.get("artifact_name") == f"lambda-paper-audit-{descriptor['run_id']}-{descriptor['run_attempt']}",
             "frozen source artifact has another audit attempt name")
+    validate_packet_reference(descriptor.get("source_packet_reference"))
+
+
+def validate_packet_reference(reference):
+    """Bind the portable wrapper to one bounded, manifested source tarball."""
+    require(isinstance(reference, dict) and reference.get("path") == "full-source.tar.gz" and
+            reference.get("prefix") == "bundle", "unexpected frozen source packet layout")
+    require(type(reference.get("bytes")) is int and 0 < reference["bytes"] <= MAX_DOWNLOAD,
+            "frozen source packet exceeds download guard")
+    for field in ("sha256", "full_file_manifest_sha256"):
+        require(re.fullmatch(r"[0-9a-f]{64}", reference.get(field, "")) is not None,
+                "frozen source packet lacks an exact digest")
+    return reference
+
+
+def unpack_frozen_packet(packet, descriptor, destination):
+    """Unwrap portable artifact bytes without changing any author filename."""
+    packet = Path(packet).resolve()
+    reference = validate_packet_reference(descriptor.get("source_packet_reference"))
+    metadata = read_json(packet / "source_packet_manifest.json")
+    require(metadata.get("schema_version") == "ga-lambda-source-packet-v1" and
+            metadata.get("source_packet_reference") == reference, "source packet metadata differs from frozen descriptor")
+    source_identity = metadata.get("identity", {})
+    require(all(source_identity.get(field) == descriptor[field] for field in FROZEN_IDENTITY_FIELDS) and
+            source_identity.get("implementation_commit_sha") == descriptor["implementation_commit_sha"] and
+            source_identity.get("run_id") == descriptor["run_id"] and
+            source_identity.get("run_attempt") == descriptor["run_attempt"], "source packet has mixed source identity")
+    for field in ("source_manifest_sha256", "audit_report_sha256"):
+        require(metadata.get(field) == descriptor[field], "source packet has mixed report hashes")
+    require(metadata.get("full_file_manifest_sha256", reference["full_file_manifest_sha256"]) ==
+            reference["full_file_manifest_sha256"], "source packet has mixed full-file manifest hash")
+    source = packet / reference["path"]
+    require(file_identity(source) == {"bytes": reference["bytes"], "sha256": reference["sha256"]},
+            "source tarball hash or length differs")
+    destination = Path(destination).resolve()
+    extract_snapshot(source.read_bytes(), destination, reference["prefix"])
+    require(file_identity(destination / "file_manifest.json")["sha256"] == reference["full_file_manifest_sha256"],
+            "full source file manifest differs")
+    verify_evidence(destination)
+    return destination
 
 
 def committed_descriptor(identity):
@@ -372,7 +413,9 @@ def frozen_source(destination, identity):
              source_sha=descriptor["implementation_commit_sha"], zip_sha256=descriptor["zip_sha256"])
     require(metadata["name"] == descriptor["artifact_name"] and metadata["size_in_bytes"] == descriptor["zip_bytes"],
             "frozen source artifact name or size differs")
-    bundle = extract_evidence(download_zip(metadata), destination)
+    destination = Path(destination).resolve()
+    packet = extract_evidence(download_zip(metadata), destination)
+    bundle = unpack_frozen_packet(packet, descriptor, destination.with_name(destination.name + "-bundle"))
     for filename, field in (("source_manifest.json", "source_manifest_sha256"),
                             ("audit-report.json", "audit_report_sha256")):
         require(file_identity(bundle / filename)["sha256"] == descriptor[field], "frozen source report differs")
@@ -586,7 +629,8 @@ def aggregate(phase, expected_sha, output):
                               "implementation_commit_sha": expected_sha, "zip_sha256": full["digest"][7:],
                               "zip_bytes": full["size_in_bytes"], "bytes_not_downloaded_by_aggregate": True,
                               "audit_report_sha256": audit["full_evidence_reference"]["sha256"],
-                              "source_manifest_sha256": file_identity(directory / "source_manifest.json")["sha256"]}
+                              "source_manifest_sha256": file_identity(directory / "source_manifest.json")["sha256"],
+                              "source_packet_reference": validate_packet_reference(audit.get("source_packet_reference"))}
                 else:
                     fixtures = read_json(directory / "tests-result.json")
                     require(fixtures["identity"] == identity, "fixture artifact has mixed identity")

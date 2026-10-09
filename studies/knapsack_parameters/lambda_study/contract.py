@@ -77,11 +77,14 @@ def safe_member(root, relative):
     return path
 
 
-def write_file_manifest(directory):
+def write_file_manifest(directory, *, exclude_prefixes=()):
     directory = Path(directory)
     files = [{"path": path.relative_to(directory).as_posix(), **file_identity(path)}
              for path in sorted(directory.rglob("*"))
-             if path.is_file() and path.relative_to(directory).as_posix() != "file_manifest.json"]
+             if path.is_file() and path.relative_to(directory).as_posix() != "file_manifest.json"
+             and not any(path.relative_to(directory).as_posix() == prefix
+                         or path.relative_to(directory).as_posix().startswith(prefix + "/")
+                         for prefix in exclude_prefixes)]
     # Reuse the already verified generic artifact transport without changing it.
     manifest = {"schema_version": "ga-knapsack-files-v1", "excludes_self": True, "files": files}
     write_json(directory / "file_manifest.json", manifest)

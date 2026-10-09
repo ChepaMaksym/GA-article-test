@@ -14,7 +14,7 @@ from studies.knapsack_parameters.lambda_study.source_audit import (
     _download, audit_ising, catalog_results, cpp_seed_identity, extract_snapshot,
     git_blob_sha, parse_cpp_config, parse_cpp_dat, parse_python_log,
     validate_ising_bytes, validate_source_identity, verify_snapshot,
-    write_compact_bundle, landscape_catalog,
+    write_compact_bundle, write_source_packet, landscape_catalog,
 )
 
 
@@ -255,6 +255,104 @@ class CompactTests(unittest.TestCase):
             manifest = json.loads((compact / "file_manifest.json").read_text(encoding="utf-8"))
             self.assertNotIn("file_manifest.json", [row["path"] for row in manifest["files"]])
             self.assertEqual(reduced["full_evidence_reference"]["sha256"], hashlib.sha256(b"{}").hexdigest())
+
+
+class SourcePacketTests(unittest.TestCase):
+    @staticmethod
+    def fixture(root):
+        report = {"identity": {"protocol_id": "fixture"}, "availability": {}, "repositories": {}}
+        (root / "audit-report.json").write_text(json.dumps(report), encoding="utf-8")
+        (root / "source_manifest.json").write_bytes(b"{}\n")
+        raw = root / "source" / "author" / "Raw"
+        raw.mkdir(parents=True)
+        (raw / "results_12:34.txt").write_bytes(b"original\r\nsource\n")
+        dotfile = root / "source" / "author" / ".source-marker"
+        dotfile.write_bytes(b"hidden file\x00")
+        executable = root / "source" / "author" / "tool"
+        executable.write_bytes(b"#!/bin/sh\nexit 0\n")
+        executable.chmod(0o755)
+        write_compact_bundle(root, report)
+        return report
+
+    def test_portable_packet_preserves_exact_inventory_bytes_modes_and_hidden_names(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary) / "output"
+            root.mkdir()
+            self.fixture(root)
+            original_report = (root / "audit-report.json").read_bytes()
+            reference = write_source_packet(root)
+            transport = root / "transport"
+            packet = transport / reference["path"]
+            self.assertEqual(reference["sha256"], hashlib.sha256(packet.read_bytes()).hexdigest())
+            self.assertEqual(reference["bytes"], packet.stat().st_size)
+            manifest = json.loads((root / "file_manifest.json").read_text(encoding="utf-8"))
+            expected = {"bundle/" + row["path"] for row in manifest["files"]}
+            expected.add("bundle/file_manifest.json")
+            with tarfile.open(packet, "r:gz") as archive:
+                members = archive.getmembers()
+                self.assertEqual(members[0].name, "bundle")
+                self.assertTrue(members[0].isdir())
+                self.assertEqual({member.name for member in members[1:]}, expected)
+                self.assertEqual([member.name for member in members[1:]], sorted(expected))
+                self.assertTrue(all(member.isfile() for member in members[1:]))
+                self.assertTrue(all(member.mtime == 0 for member in members))
+                self.assertEqual(archive.getmember("bundle/source/author/tool").mode, 0o755)
+            self.assertIn("bundle/source/author/.source-marker", expected)
+            self.assertIn("bundle/source/author/Raw/results_12:34.txt", expected)
+            self.assertFalse(any("/compact/" in name or "/transport/" in name for name in expected))
+            restored = Path(temporary) / "restored"
+            extract_snapshot(packet.read_bytes(), restored, "bundle")
+            for row in manifest["files"]:
+                data = (restored / row["path"]).read_bytes()
+                self.assertEqual(len(data), row["bytes"])
+                self.assertEqual(hashlib.sha256(data).hexdigest(), row["sha256"])
+            self.assertEqual((root / "audit-report.json").read_bytes(), original_report)
+            self.assertEqual((restored / "source/author/tool").stat().st_mode & 0o777, 0o755)
+
+    def test_transport_and_compact_hashes_have_no_self_or_cross_reference_cycle(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            self.fixture(root)
+            reference = write_source_packet(root)
+            envelope = json.loads((root / "transport/source_packet_manifest.json").read_text(encoding="utf-8"))
+            self.assertEqual(envelope["source_packet_reference"], reference)
+            for key, name in (("source_manifest_sha256", "source_manifest.json"),
+                              ("audit_report_sha256", "audit-report.json"),
+                              ("full_file_manifest_sha256", "file_manifest.json")):
+                self.assertEqual(envelope[key], hashlib.sha256((root / name).read_bytes()).hexdigest())
+            compact = json.loads((root / "compact/audit-report.json").read_text(encoding="utf-8"))
+            self.assertEqual(compact["source_packet_reference"], reference)
+            self.assertEqual(compact["full_evidence_reference"]["sha256"], envelope["audit_report_sha256"])
+            for directory in (root / "transport", root / "compact"):
+                manifest = json.loads((directory / "file_manifest.json").read_text(encoding="utf-8"))
+                self.assertNotIn("file_manifest.json", [row["path"] for row in manifest["files"]])
+                for row in manifest["files"]:
+                    data = (directory / row["path"]).read_bytes()
+                    self.assertEqual(len(data), row["bytes"])
+                    self.assertEqual(hashlib.sha256(data).hexdigest(), row["sha256"])
+            transport_manifest = json.loads((root / "transport/file_manifest.json").read_text(encoding="utf-8"))
+            self.assertEqual({row["path"] for row in transport_manifest["files"]},
+                             {"full-source.tar.gz", "source_packet_manifest.json"})
+            first_bytes = (root / "transport/full-source.tar.gz").read_bytes()
+            self.assertEqual(write_source_packet(root), reference)
+            self.assertEqual((root / "transport/full-source.tar.gz").read_bytes(), first_bytes)
+
+    def test_symbolic_links_are_never_packaged_as_regular_files(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            self.fixture(root)
+            (root / "source/author/link").symlink_to(root / "source/author/tool")
+            with self.assertRaisesRegex(ValueError, "invalid full-evidence source file"):
+                write_source_packet(root)
+
+    def test_packet_respects_registered_extraction_bound(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            self.fixture(root)
+            with patch("studies.knapsack_parameters.lambda_study.source_audit.MAX_EXTRACTED", 1):
+                with self.assertRaisesRegex(ValueError, "exceeds extraction bound"):
+                    write_source_packet(root)
+            self.assertFalse((root / "transport/full-source.tar.gz").exists())
 
 
 if __name__ == "__main__":
