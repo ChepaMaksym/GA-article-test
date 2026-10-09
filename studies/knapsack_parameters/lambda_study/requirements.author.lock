@@ -1,0 +1,4 @@
+# Additional author import dependency for the bounded compatibility pilot.
+# Existing scientific runtime remains byte-frozen and unchanged.
+-r ../ga_study/dependencies/requirements.lock
+scipy==1.15.3 --hash=sha256:271e3713e645149ea5ea3e97b57fdab61ce61333f97cfae392c28ba786f9bb49

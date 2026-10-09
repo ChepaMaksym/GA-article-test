@@ -1,0 +1,20 @@
+{
+  "schema_version": "ga-lambda-author-audit-runtime-v1",
+  "purpose": "bounded technical compatibility pilot; not a claim to reconstruct the authors' original environment",
+  "python": "3.12.14",
+  "numpy": "2.2.6",
+  "matplotlib": "3.10.3",
+  "scipy": "1.15.3",
+  "base_requirements_sha256": "6818e0e12843daa10947f7554cb3edd573d9f7cdbc33e63f98f9f3a068869017",
+  "scipy_wheel": {
+    "filename": "scipy-1.15.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+    "bytes": 37309455,
+    "sha256": "271e3713e645149ea5ea3e97b57fdab61ce61333f97cfae392c28ba786f9bb49",
+    "metadata_source": "https://pypi.org/pypi/scipy/1.15.3/json",
+    "requires_numpy": ">=1.23.5,<2.5"
+  },
+  "original_p3_declared_compiler": "GCC 4.7.2 with C++11",
+  "actual_pilot_compiler": "captured and hashed by GitHub Actions before execution",
+  "unrecorded_original_python_numpy_scipy_versions": true,
+  "hidden_author_source_patches": false
+}

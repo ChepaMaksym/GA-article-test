@@ -32,3 +32,11 @@ studies/knapsack_parameters/ga_study/dependencies/requirements.lock -text
 studies/knapsack_parameters/ga_study/dependencies/environment.lock.json -text
 .github/workflows/knapsack-parameters.yml text eol=lf
 studies/knapsack_parameters/ga_study/evidence/** -text
+
+# Bounded paper audit and immutable acquired evidence.
+studies/knapsack_parameters/lambda_study/*.py text eol=lf
+studies/knapsack_parameters/lambda_study/tests/*.py text eol=lf
+studies/knapsack_parameters/lambda_study/requirements.author.lock -text
+studies/knapsack_parameters/lambda_study/author_runtime.json -text
+studies/knapsack_parameters/lambda_study/evidence/** -text
+.github/workflows/knapsack-lambda-study.yml text eol=lf

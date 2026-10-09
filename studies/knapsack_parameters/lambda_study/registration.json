@@ -1,0 +1,11 @@
+{
+  "schema_version": "ga-lambda-registration-v1",
+  "protocol_id": "GA-KNAPSACK-LAMBDA-COMPARISON-V1",
+  "registration_commit_sha": "6a1936084629ada822eca7dc210e202c33bb0c0b",
+  "protocol_sha256": "8a7e2dfd63968da9e50cda7015529222dd5f0bb17f7826af46af26479af10623",
+  "cleanup_verified_before_registration": true,
+  "authorized_phases": ["audit", "tests", "technical_pilot"],
+  "cumulative_runner_minutes": 60,
+  "full_reproduction_authorized": false,
+  "knapsack_execution_authorized": false
+}
