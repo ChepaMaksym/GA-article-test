@@ -184,7 +184,9 @@ jobs:
         with:
           python-version: '3.12.14'
       - name: Install hash-frozen audit runtime
-        run: python -m pip install --require-hashes --only-binary=:all: -r studies/knapsack_parameters/lambda_study/requirements.author.lock
+        run: >-
+          python -m pip install --require-hashes --only-binary=:all:
+          -r studies/knapsack_parameters/lambda_study/requirements.author.lock
       - name: One frozen source/profile/seed; max 100000 calls or 30 GA seconds
         id: probe
         env:
