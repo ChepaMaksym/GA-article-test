@@ -363,7 +363,10 @@ def _population(plt, data: dict, output: Path) -> dict:
     axes[0].set_title("Середня цінність допустимих особин — не рекорд\n"
                       "Центр 46 510; оптимум 46 537; різниця 27", fontsize=11)
     axes[0].set_ylabel("Середня цінність")
-    axes[0].legend(loc="lower left", fontsize=11, framealpha=0.95)
+    handles, labels = axes[0].get_legend_handles_labels()
+    figure.legend(handles, labels, loc="center", bbox_to_anchor=(0.5, 0.535),
+                  ncol=3, fontsize=11, frameon=False, columnspacing=0.9,
+                  handletextpad=0.45)
     axes[1].set_title("Різноманітність — не частота успішного виходу", fontsize=11)
     axes[1].set_ylabel("Частка унікальних масок")
     axes[1].set_ylim(0, 1.05)
