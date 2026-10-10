@@ -1,0 +1,96 @@
+{
+  "schema_version": "ga-lambda-replication-readiness-v1",
+  "review_date": "2026-10-10",
+  "scope": "additive read-only source review; no search, tests or statistical recomputation",
+  "base_branch_sha": "546d2d59e06d9c9177aef1ebd441f0130b0bc4b8",
+  "branch": "research/masters-ga-knapsack-parameters",
+  "status": "BLOCKED_SOURCE_DEPENDENCIES_AND_RESOURCE_APPROVAL",
+  "numerical_reproduction": "NOT_EXECUTED",
+  "new_ci_run_id": null,
+  "paper_sha256_from_frozen_audit": "4ba0a96795ab7fe1c8d775489a41631ecca9f3b42e0ffbe5a0dc982ad1fa2221",
+  "author_commit_sha": "49949a55208359ac93b7110afb23ed276bda158d",
+  "input_commit_sha": "712f76bb6ca79d39694d92a42fdabf9d30c2b91f",
+  "source_audit_run_id": 37978759304,
+  "technical_pilot_run_id": 37979108086,
+  "source_manifest": "evidence/run-37978759304/jobs/lambda-paper-audit-compact/source_manifest.json",
+  "source_manifest_sha256": "23882dc2c6828ab9968a80ba2da5d2d99fc51da9b0a07ac4b4a57e9f937f8f03",
+  "history_mutated": false,
+  "knapsack_protocol_registered": false,
+  "knapsack_search_implemented": false,
+  "full_reproduction_resource_authorized": false,
+  "cost_estimate_runner_minutes": null,
+  "source_clarifications": [
+    {
+      "id": "MAXSAT50_CAP_SPLIT_PARTS",
+      "status": "SOURCE_PATHS_RESOLVED_PENDING_CI_ROW_VALIDATION",
+      "missing_unsuffixed_dat_still_missing": true,
+      "missing_complete_100_run_series": false,
+      "analyzer": "Goldman-modified/read_results.py",
+      "analyzer_sha256": "2d4f428a7bed0bfbe2aa324891dc2eaef0e4fb749ae3776e139550c2a021624a",
+      "parts": [
+        {
+          "cfg_path": "Goldman-modified/results/MAXSAT.0050.LambdaLambdaCap_1.cfg",
+          "dat_path": "Goldman-modified/results/MAXSAT.0050.LambdaLambdaCap_1.dat",
+          "dat_sha256": "d75ec52d44d04e8c6e1961597bc28a11e801fa2cfe497750d13e033a7ea27d52",
+          "batch_seed_signed": 816115911,
+          "problem_seed": 100,
+          "recorded_runs": 50
+        },
+        {
+          "cfg_path": "Goldman-modified/results/MAXSAT.0050.LambdaLambdaCap_2.cfg",
+          "dat_path": "Goldman-modified/results/MAXSAT.0050.LambdaLambdaCap_2.dat",
+          "dat_sha256": "4aff1024796aa7a4021bece6493a9163a32bbd96b3295314e1a6fd27c67b6160",
+          "batch_seed_signed": -1092823130,
+          "problem_seed": 150,
+          "recorded_runs": 50
+        }
+      ]
+    },
+    {
+      "id": "LANDSCAPE_JUMP60_4_CAP10",
+      "status": "EMBEDDED_SEED_MAPPING_FOUND_PENDING_CI_ROW_VALIDATION",
+      "processed_path": "Graphs/Landscape_experiments/SA (1+(λ,λ)) GA_Jump_n60_k4_λ10_p1:60_c1_F1.5_extra-None",
+      "processed_sha256": "72e5f52f368cddb9df361d4c1ba4391cdbd737e052d5e41271a073c9e33a6ce5",
+      "raw_parts": [
+        {
+          "path": "Raw/results_20-11-04_07:21:03_Jump_n60_JA.OnePlusLambdaCommaLambdaSAJUMP_λ10.txt",
+          "sha256": "cbb06f8f5bef5ac37bf3a1f003cc887008be34b9c4e49afa2b2c726f509ea914",
+          "base_seed": 27165624,
+          "recorded_runs": 500
+        },
+        {
+          "path": "Raw/results_20-11-04_11:49:48_Jump_n60_JA.OnePlusLambdaCommaLambdaSAJUMP_λ10.txt",
+          "sha256": "242c556bf59a5b442ac0e07373007acda7d79e12cdc988c0a31eb8a937e2e781",
+          "base_seed": 111048887,
+          "recorded_runs": 500
+        }
+      ],
+      "actual_python_run_seed_rule": "base seed + one-based run index"
+    }
+  ],
+  "unresolved_dependencies": [
+    "full paper-cell/config/input/seed/metric mapping and primary target precision",
+    "historical Python/NumPy/SciPy and C++/standard-library/libc RNG environment",
+    "historical C++ atoi(int) execution limits and complete prior batch RNG path",
+    "Figure 1 published grid versus pinned script grid",
+    "Figure 5 published NFE/n versus pinned script NFE/(n*log2(n))",
+    "Figure 7 caption 200 versus text/analyzer 100 Ising cases",
+    "independent optimality provenance for supplied Ising energy metadata",
+    "registered numerical acceptance contract before new repetitions",
+    "representative cost estimate and separate cumulative resource approval"
+  ],
+  "future_knapsack_contract_not_registered": {
+    "protocol_id": "GA-KNAPSACK-LOCALITY-COMPARISON-V1",
+    "admitted_centers": 14,
+    "family_count": 10,
+    "planned_run_count": 7188,
+    "new_search_requests_per_run": 5000,
+    "classic_known_initial_requests": 30,
+    "classic_adapter_total_limit": 5030,
+    "observer_checkpoints_new_requests": [0, 1000, 2500, 5000],
+    "diagnostic_neighbors_per_unique_mask": 5050,
+    "diagnostic_includes_separate_center_evaluation": true,
+    "diagnostic_feedback_to_search": false,
+    "implemented_or_executed_by_this_review": false
+  }
+}
