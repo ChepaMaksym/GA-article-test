@@ -1,0 +1,25 @@
+{
+  "schema_version": "ga-knapsack-secondary-retention-v1",
+  "protocol_id": "GA-KNAPSACK-SECONDARY-REVIEW-V1",
+  "status": "COMPLETE_SECONDARY_REVIEW",
+  "run_id": 38031512934,
+  "run_attempt": 1,
+  "run_url": "https://github.com/ChepaMaksym/GA-article-test/actions/runs/38031512934",
+  "implementation_commit_sha": "6cbc73d8da8b26e9b96f98972db4958a618dab0e",
+  "artifact_id": 11662660122,
+  "artifact_name": "knapsack-review-report-38031512934-1",
+  "zip_bytes": 2243301,
+  "zip_sha256": "e26c6141db76be37f383a2c9d54f183812f69578f081130b95ad7b55c323803c",
+  "internal_manifest_sha256": "7fd3bbce4bb5af348acdf115c9eb3385183f3b0cb0a098016ae7589d6f073144",
+  "directory": "evidence/run-38031512934",
+  "new_search_runs": 0,
+  "new_exact_solver_runs": 0,
+  "primary_results_changed": false,
+  "first_successful_review": {
+    "run_id": 38031367526,
+    "implementation_commit_sha": "1da8ac12838996b6bafa62e286eb4f81b35da08c",
+    "artifact_id": 11661829375,
+    "zip_sha256": "8928edddc0f18c1be2b1c37b1abdd19e2a5e21912f2d12db0d031bf771dd5d17",
+    "subsequent_change": "Protect existing evidence in aggregation failure handler and clarify preparation/admission status; no method, seed or endpoint change."
+  }
+}
