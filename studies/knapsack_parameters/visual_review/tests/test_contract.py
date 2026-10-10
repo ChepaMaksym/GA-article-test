@@ -182,7 +182,7 @@ class CompactSourceTests(unittest.TestCase):
                     "instance_id": name, "start_profile": profile, "repeat_seed": seed,
                     "mutation_numerator": mutation, "crossover_probability": crossover,
                     "population_size": population, "logical_requests": 5000,
-                    "escape_event": False,
+                    "escape_event": False if profile == "local" else None,
                 })
 
     def test_entire_35640_source_rectangle(self):
@@ -201,6 +201,11 @@ class CompactSourceTests(unittest.TestCase):
                 row = {**self.rows[0], key: replacement}
                 with self.assertRaises(ValueError):
                     validate_compact([row] + self.rows[1:], self.cases)
+
+    def test_random_profile_has_no_local_escape_endpoint(self):
+        row = {**self.rows[0], "escape_event": False}
+        with self.assertRaisesRegex(ValueError, "profile-specific"):
+            validate_compact([row] + self.rows[1:], self.cases)
 
 
 class ExecutionAndTrajectoryTests(unittest.TestCase):

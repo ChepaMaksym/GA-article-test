@@ -114,7 +114,9 @@ def validate_compact(rows, cases):
         key = (row["instance_id"], row["start_profile"], row["repeat_seed"], row["mutation_numerator"],
                row["crossover_probability"], row["population_size"])
         require(key in expected and key not in found, "duplicate, mixed or unauthorized compact row")
-        require(row["logical_requests"] == 5000 and type(row["escape_event"]) is bool, "invalid compact count")
+        require(row["logical_requests"] == 5000, "invalid compact count")
+        require(type(row["escape_event"]) is bool if row["start_profile"] == "local"
+                else row["escape_event"] is None, "invalid profile-specific escape endpoint")
         found.add(key)
     require(found == expected and len(found) == 35640, "incomplete source rectangle")
 
