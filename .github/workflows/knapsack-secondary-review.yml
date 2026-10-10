@@ -1,0 +1,235 @@
+name: Registered knapsack secondary scientific review
+
+on:
+  push:
+    branches: [research/masters-ga-knapsack-parameters]
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: knapsack-secondary-${{ github.sha }}-${{ github.run_attempt }}
+  cancel-in-progress: false
+
+env:
+  EXPECTED_SHA: ${{ github.sha }}
+  STUDY_WORKFLOW_SHA: ${{ github.workflow_sha }}
+  PYTHONDONTWRITEBYTECODE: '1'
+  PYTHONHASHSEED: '0'
+  MPLBACKEND: Agg
+  OPENBLAS_NUM_THREADS: '1'
+  OMP_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+
+jobs:
+  phase:
+    name: Select authorized secondary analysis and reserve cumulative budget
+    runs-on: ubuntu-24.04
+    timeout-minutes: 1
+    outputs:
+      phase: ${{ steps.select.outputs.phase }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - id: select
+        env:
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+          import re
+          from studies.knapsack_parameters.secondary_review.contract import budget_preflight, require, write_json, write_file_manifest
+          markers = re.findall(r'\[knapsack-review:([^\]]+)\]', os.environ.get('COMMIT_MESSAGE', ''))
+          require(len(markers) <= 1 and all(value == 'analyze' for value in markers), 'Ambiguous or unauthorized secondary marker')
+          phase = markers[0] if markers else 'none'
+          if phase == 'analyze':
+              output = Path(os.environ['RUNNER_TEMP']) / 'knapsack-review-budget'
+              write_json(output / 'budget-preflight.json', budget_preflight(phase))
+              write_file_manifest(output)
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as stream:
+              stream.write(f'phase={phase}\n')
+          print('Secondary review stage:', phase, '; no new GA or exact solver runs')
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: steps.select.outputs.phase == 'analyze' && steps.select.outcome == 'success'
+        with:
+          name: knapsack-review-budget-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/knapsack-review-budget
+          retention-days: 90
+          if-no-files-found: error
+
+  tests:
+    name: CI-only secondary analysis and historical trace fixtures
+    needs: phase
+    if: needs.phase.outputs.phase == 'analyze'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - name: Install unchanged hash-frozen scientific environment
+        run: >-
+          python -m pip install --require-hashes --only-binary=:all:
+          -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+      - name: Authenticate registered source and runtime
+        run: |
+          python - <<'PY'
+          import os
+          from studies.knapsack_parameters.secondary_review.contract import authenticate
+          authenticate(os.environ['EXPECTED_SHA'])
+          PY
+      - name: Small fixtures only; no new search
+        id: fixtures
+        run: |
+          mkdir -p "$RUNNER_TEMP/knapsack-review-tests"
+          set -o pipefail
+          python -m unittest discover -s studies/knapsack_parameters/secondary_review/tests -p 'test_*.py' -v 2>&1 | tee "$RUNNER_TEMP/knapsack-review-tests/fixtures.txt"
+      - name: Preserve fixture outcome including failures
+        if: always()
+        env:
+          FIXTURE_OUTCOME: ${{ steps.fixtures.outcome }}
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          import re
+          from studies.knapsack_parameters.secondary_review.contract import authenticate, PROTOCOL_ID, write_json, write_file_manifest
+          output = Path(os.environ['RUNNER_TEMP']) / 'knapsack-review-tests'
+          identity = authenticate(os.environ['EXPECTED_SHA'])
+          log = output / 'fixtures.txt'
+          count = re.search(r'Ran (\d+) tests?', log.read_text(encoding='utf-8') if log.exists() else '')
+          outcome = os.environ['FIXTURE_OUTCOME']
+          write_json(output / 'tests.json', {'schema_version':'ga-knapsack-secondary-tests-v1', 'protocol_id':PROTOCOL_ID, 'provenance':identity, 'outcome':outcome, 'passed':outcome=='success', 'test_count':int(count.group(1)) if count else None, 'new_search_runs':0, 'new_exact_solver_runs':0})
+          write_file_manifest(output)
+          PY
+      - name: Require scientific checkout remains unchanged
+        if: always()
+        run: test -z "$(git status --porcelain=v1 --untracked-files=all)"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: knapsack-review-tests-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/knapsack-review-tests
+          retention-days: 90
+          if-no-files-found: error
+
+  compact:
+    name: Frozen summaries, exploratory statistics and parameter dependencies
+    needs: [phase, tests]
+    if: needs.phase.outputs.phase == 'analyze' && needs.tests.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - name: Install unchanged hash-frozen scientific environment
+        run: >-
+          python -m pip install --require-hashes --only-binary=:all:
+          -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+      - name: Analyze immutable compact records without executing GA
+        id: analysis
+        run: >-
+          python -m studies.knapsack_parameters.secondary_review.analysis
+          --expected-sha "$EXPECTED_SHA" --output "$RUNNER_TEMP/knapsack-review-compact"
+      - name: Require scientific checkout remains unchanged
+        if: always()
+        run: test -z "$(git status --porcelain=v1 --untracked-files=all)"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always() && steps.analysis.outcome != 'skipped'
+        with:
+          name: knapsack-review-compact-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/knapsack-review-compact
+          retention-days: 90
+          if-no-files-found: error
+
+  trace:
+    name: Independent replay of six exact historical traces
+    needs: [phase, tests]
+    if: needs.phase.outputs.phase == 'analyze' && needs.tests.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - name: Install unchanged hash-frozen scientific environment
+        run: >-
+          python -m pip install --require-hashes --only-binary=:all:
+          -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+      - name: Verify only frozen artifact and preserve selected raw traces
+        id: trace
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: >-
+          python -m studies.knapsack_parameters.secondary_review.trace_audit
+          --expected-sha "$EXPECTED_SHA" --output "$RUNNER_TEMP/knapsack-review-trace"
+      - name: Require scientific checkout remains unchanged
+        if: always()
+        run: test -z "$(git status --porcelain=v1 --untracked-files=all)"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always() && steps.trace.outcome != 'skipped'
+        with:
+          name: knapsack-review-trace-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/knapsack-review-trace
+          retention-days: 90
+          if-no-files-found: error
+
+  aggregate:
+    name: Exact completed-artifact provenance, figures and review report
+    needs: [phase, tests, compact, trace]
+    if: always() && needs.phase.outputs.phase == 'analyze'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - name: Install unchanged hash-frozen scientific environment
+        run: >-
+          python -m pip install --require-hashes --only-binary=:all:
+          -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+      - name: Aggregate only this SHA, run and attempt after source jobs end
+        id: report
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: >-
+          python -m studies.knapsack_parameters.secondary_review.reporting
+          --expected-sha "$EXPECTED_SHA" --output "$RUNNER_TEMP/knapsack-review-report"
+      - name: Require scientific checkout remains unchanged
+        if: always()
+        run: test -z "$(git status --porcelain=v1 --untracked-files=all)"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always() && steps.report.outcome != 'skipped'
+        with:
+          name: knapsack-review-report-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/knapsack-review-report
+          retention-days: 90
+          if-no-files-found: error
