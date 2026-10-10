@@ -7,7 +7,6 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
-import textwrap
 
 
 WIDTH_INCHES = 6.8
@@ -30,23 +29,62 @@ def _number(value: float, decimals: int = 4, signed: bool = False) -> str:
     return format(value, specification).replace(".", ",")
 
 
-def _wrapped(text: str, width: int = 80) -> str:
-    return "\n".join(textwrap.wrap(text, width=width, break_long_words=False,
-                                   break_on_hyphens=False))
+def _metric_wrapped(figure, text: str, *, size: int, width_fraction: float,
+                    weight: str = "normal") -> str:
+    """Wrap using actual glyph widths, not a guessed character count."""
+    from matplotlib.font_manager import FontProperties
+    renderer = figure.canvas.get_renderer()
+    font = FontProperties(family="DejaVu Sans", size=size, weight=weight)
+    available = figure.bbox.width * width_fraction
+    lines = []
+    for paragraph in text.splitlines():
+        current = ""
+        for word in paragraph.split():
+            if renderer.get_text_width_height_descent(word, font, False)[0] > available:
+                raise ValueError("A figure word cannot fit without reducing the required font")
+            trial = (current + " " + word).strip()
+            width = renderer.get_text_width_height_descent(trial, font, False)[0]
+            if width <= available:
+                current = trial
+            else:
+                if not current:
+                    raise ValueError("A figure word cannot fit without reducing the required font")
+                lines.append(current)
+                current = word
+        lines.append(current)
+    return "\n".join(lines)
 
 
 def _figure(plt, *, question: str, answer: str, limitation: str,
             rows: int, height: float, left: float = 0.16,
             bottom: float = 0.20, top: float = 0.86):
     figure, axes = plt.subplots(rows, 1, figsize=(WIDTH_INCHES, height), squeeze=False)
-    figure.subplots_adjust(left=left, right=0.97, bottom=bottom, top=top,
-                           hspace=0.63 if rows > 1 else 0.2)
-    figure.suptitle(_wrapped(question, 66), x=0.5, y=0.985,
+    title = _metric_wrapped(figure, question, size=12, width_fraction=0.91,
+                            weight="bold")
+    figure.suptitle(title, x=0.5, y=0.985,
                    fontsize=12, fontweight="bold", va="top")
-    footer = (_wrapped("Відповідь: " + answer) + "\n" +
-              _wrapped("Межі тлумачення: " + limitation))
-    figure.text(0.045, 0.025, footer, ha="left", va="bottom", fontsize=11,
-                linespacing=1.25)
+    footer = (_metric_wrapped(figure, "Відповідь: " + answer, size=11,
+                              width_fraction=0.91) + "\n" +
+              _metric_wrapped(figure, "Межі тлумачення: " + limitation, size=11,
+                              width_fraction=0.91))
+    footer_artist = figure.text(0.045, 0.025, footer, ha="left", va="bottom",
+                                 fontsize=11, linespacing=1.25, gid="figure_footer")
+    renderer = figure.canvas.get_renderer()
+    footer_height_points = max(
+        len(footer.splitlines()) * 11 * 1.25,
+        footer_artist.get_window_extent(renderer).height * 72 / figure.dpi,
+    )
+    # Reserve measured footer height plus space for ticks and the x-axis label.
+    # Text stays at 11 pt; the plotting area yields space instead of clipping.
+    minimum_bottom = 0.025 + (footer_height_points + 45) / (height * 72)
+    maximum_top = 0.985 - (len(title.splitlines()) * 12 * 1.2 + 35) / (height * 72)
+    figure.subplots_adjust(left=left, right=0.97,
+                           bottom=max(bottom, minimum_bottom), top=min(top, maximum_top),
+                           hspace=0.63 if rows > 1 else 0.2)
+    from matplotlib.ticker import FuncFormatter
+    for row in axes:
+        row[0].xaxis.set_major_formatter(FuncFormatter(lambda value, _position: format(value, "g").replace(".", ",")))
+        row[0].yaxis.set_major_formatter(FuncFormatter(lambda value, _position: format(value, "g").replace(".", ",")))
     return figure, [row[0] for row in axes]
 
 
@@ -161,21 +199,32 @@ def _families(plt, data: dict, output: Path) -> dict:
     groups = {}
     for row in pairs:
         groups.setdefault((row["n10"] * 100, row["n50"] * 100), []).append(row["family"])
-    offsets = [(9, 12), (9, -27), (-62, 18), (-62, -25), (9, 28), (-62, 34)]
-    for index, ((x, y), names) in enumerate(sorted(groups.items())):
+    label_positions = {"s006": (0.03 * upper, 0.27 * upper),
+                       "s005": (0.22 * upper, 0.18 * upper),
+                       "s009": (0.55 * upper, 0.79 * upper)}
+    on_diagonal = []
+    for (x, y), names in sorted(groups.items()):
         ax.plot(x, y, "ko", markersize=5, clip_on=False)
-        label = "\n".join(", ".join(names[start:start + 3]) for start in range(0, len(names), 3))
-        offset = offsets[index % len(offsets)]
-        if x == 0 and y == 0:
-            offset = (10, 12)
-        ax.annotate(label, xy=(x, y), xytext=offset, textcoords="offset points",
-                    fontsize=11, arrowprops={"arrowstyle": "-", "color": "0.5", "lw": 0.6})
+        if x == y:
+            on_diagonal.extend(names)
+            continue
+        for name in names:
+            ax.annotate(name, xy=(x, y), xytext=label_positions[name],
+                        textcoords="data", fontsize=11,
+                        arrowprops={"arrowstyle": "-", "color": "0.5", "lw": 0.6})
     ax.set_xlim(0, upper)
     ax.set_ylim(0, upper)
     ax.set_aspect("equal", adjustable="box")
     ax.set_xlabel("Частота виходу за N=10, %")
     ax.set_ylabel("Частота виходу за N=50, %")
-    ax.legend(loc="upper left", fontsize=11)
+    ax.text(0.66, 0.53, "Рівність частот", transform=ax.transAxes, rotation=45,
+            fontsize=11, color="0.35", ha="left", va="bottom")
+    names = sorted(on_diagonal)
+    label = "На діагоналі:\n" + "\n".join(
+        ", ".join(names[start:start + 3]) for start in range(0, len(names), 3))
+    ax.text(0.52, 0.03, label, transform=ax.transAxes, fontsize=11,
+            ha="left", va="bottom",
+            bbox={"facecolor": "white", "edgecolor": "0.75", "alpha": 0.95})
     ax.grid(color="0.9", linewidth=0.6)
     return _save(plt, figure, output, "03_family_population", question, answer, limitation)
 
@@ -187,7 +236,7 @@ def _conditions(plt, data: dict, output: Path) -> dict:
                   "це не неперервна модель і не перевірка переможця серед 27 точок.")
     figure, axes = _figure(plt, question=question, answer=answer,
                            limitation=limitation, rows=3, height=7.9,
-                           bottom=0.17, top=0.88)
+                           bottom=0.17, top=0.82)
     configurations = {
         (row["mutation_numerator"], row["crossover_probability"], row["population_size"]): row
         for row in data["analysis"]["configuration_summaries"] if row["start_profile"] == "local"
@@ -208,7 +257,10 @@ def _conditions(plt, data: dict, output: Path) -> dict:
         ax.set_xlim(-0.15, 2.15)
         ax.set_ylabel("Частота виходу, %")
         ax.grid(axis="y", color="0.9", linewidth=0.6)
-    axes[0].legend(loc="upper right", fontsize=11, framealpha=0.95)
+    handles, labels = axes[0].get_legend_handles_labels()
+    figure.legend(handles, labels, loc="upper center", bbox_to_anchor=(0.5, 0.91),
+                  ncol=3, fontsize=11, frameon=False, handlelength=1.7,
+                  handletextpad=0.4, columnspacing=0.9)
     axes[-1].set_xlabel("Імовірність мутації одного біта; n=100")
     return _save(plt, figure, output, "04_parameter_conditions", question, answer, limitation)
 
@@ -308,12 +360,10 @@ def _population(plt, data: dict, output: Path) -> dict:
                     label=style["label"])
     axes[0].axhline(center, color="0.65", linestyle=":", linewidth=1)
     axes[0].axhline(optimum, color="0.35", linestyle="--", linewidth=1)
-    axes[0].set_title("Середня цінність допустимих особин — не рекорд", fontsize=11)
+    axes[0].set_title("Середня цінність допустимих особин — не рекорд\n"
+                      "Центр 46 510; оптимум 46 537; різниця 27", fontsize=11)
     axes[0].set_ylabel("Середня цінність")
     axes[0].legend(loc="lower left", fontsize=11, framealpha=0.95)
-    axes[0].text(0.03, 0.90, "Центр 46 510; оптимум 46 537; різниця 27",
-                 transform=axes[0].transAxes, fontsize=11,
-                 bbox={"facecolor": "white", "edgecolor": "none", "alpha": 0.95})
     axes[1].set_title("Різноманітність — не частота успішного виходу", fontsize=11)
     axes[1].set_ylabel("Частка унікальних масок")
     axes[1].set_ylim(0, 1.05)

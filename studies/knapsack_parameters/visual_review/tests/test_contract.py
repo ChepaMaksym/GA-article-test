@@ -245,11 +245,34 @@ class ExecutionAndTrajectoryTests(unittest.TestCase):
 
         def inspect_and_save(plt, figure, *args):
             self.assertAlmostEqual(figure.get_size_inches()[0], 6.8)
+            self.assertLessEqual(figure.get_size_inches()[1], 8.0)
             self.assertLessEqual(len(figure.axes), 3)
             self.assertEqual(to_rgba(figure.get_facecolor()), (1, 1, 1, 1))
+            figure.canvas.draw()
+            renderer = figure.canvas.get_renderer()
+            canvas = figure.bbox
+            tolerance_pixels = 2
+            # Matplotlib retains locator ticks outside the current view in its
+            # artist tree even though Axis.draw does not paint those labels.
+            # Do not mistake their unpainted extents for exported clipping.
+            unpainted_tick_labels = set()
+            for axes in figure.axes:
+                for axis in (axes.xaxis, axes.yaxis):
+                    lower, upper = sorted(axis.get_view_interval())
+                    margin = 1e-10 * max(1, abs(lower), abs(upper))
+                    for tick in axis.get_major_ticks() + axis.get_minor_ticks():
+                        if not lower - margin <= tick.get_loc() <= upper + margin:
+                            unpainted_tick_labels.update((id(tick.label1), id(tick.label2)))
             for text in figure.findobj(match=Text):
-                if text.get_visible() and text.get_text():
+                if (text.get_visible() and text.get_text()
+                        and id(text) not in unpainted_tick_labels):
                     self.assertGreaterEqual(text.get_fontsize(), 11)
+                    box = text.get_window_extent(renderer=renderer)
+                    context = f"{args[1]}: exported text clipped: {text.get_text()!r}"
+                    self.assertGreaterEqual(box.x0, canvas.x0 - tolerance_pixels, context)
+                    self.assertLessEqual(box.x1, canvas.x1 + tolerance_pixels, context)
+                    self.assertGreaterEqual(box.y0, canvas.y0 - tolerance_pixels, context)
+                    self.assertLessEqual(box.y1, canvas.y1 + tolerance_pixels, context)
             for axis in figure.axes:
                 for line in axis.lines:
                     red, green, blue, _ = to_rgba(line.get_color())
