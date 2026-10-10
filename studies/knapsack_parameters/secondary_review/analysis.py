@@ -516,6 +516,8 @@ def analyze(expected_sha: str, output: Path) -> dict:
     per_instance_counts = [
         {**summarize_group(group, cases), "instance_id": name,
          "family": cases[name]["family"], "class_label": cases[name]["class_label"],
+         "preparation_status": cases[name]["status"],
+         "admitted_to_local_series": cases[name]["status"].startswith("ADMITTED_"),
          "center_type": "strict" if cases[name]["payload"]["certificate"]["strict"] else "plateau",
          "center_profit": cases[name]["payload"]["certificate"]["center"]["profit"],
          "optimum_profit": cases[name]["payload"]["exact"]["confirmed_optimum"]}

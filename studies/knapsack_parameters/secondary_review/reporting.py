@@ -10,7 +10,7 @@ import tempfile
 from ..ga_study.transport import api_get, download_zip, extract_bundle, verify_artifact_identity
 from .analysis import CONTRAST_IDS, MUTATIONS, CROSSOVERS, POPULATIONS
 from .contract import (PROTOCOL_ID, REPOSITORY, SOURCE_RUN, SOURCE_SHA, authenticate,
-    file_identity, output_directory, read_json, require, sha256_bytes, write_json, write_file_manifest)
+    ROOT, file_identity, output_directory, read_json, require, sha256_bytes, write_json, write_file_manifest)
 
 LABELS = {"mutation_3_over_1": "Мутація 3/n проти 1/n",
     "crossover_09_over_0": "Схрещування 0,9 проти 0",
@@ -287,13 +287,14 @@ def main(argv=None):
     parser.add_argument("--expected-sha", required=True)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args(argv)
+    path = Path(args.output).resolve()
+    fresh_external = not path.is_relative_to(ROOT) and (not path.exists() or
+                     (path.is_dir() and not any(path.iterdir())))
     try:
         result = aggregate(args.expected_sha, args.output)
     except Exception as error:
         # Preserve failure; never replace missing/mixed scientific sources.
-        path = Path(args.output).resolve()
-        from .contract import ROOT
-        if not path.is_relative_to(ROOT):
+        if os.environ.get("GITHUB_ACTIONS") == "true" and fresh_external:
             write_json(path / "aggregation-failure.json", {"status": "INCOMPLETE_SECONDARY_REVIEW",
                 "protocol_id": PROTOCOL_ID, "expected_sha": args.expected_sha,
                 "error_type": type(error).__name__, "error": str(error), "replacement_selected": False})

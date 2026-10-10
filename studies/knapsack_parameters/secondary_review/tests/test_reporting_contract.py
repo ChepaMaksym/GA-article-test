@@ -8,6 +8,7 @@ from pathlib import Path
 
 from studies.knapsack_parameters.secondary_review import contract
 from studies.knapsack_parameters.secondary_review.reporting import number, population_points, report_status
+from studies.knapsack_parameters.secondary_review import reporting
 
 
 def fixture():
@@ -78,6 +79,18 @@ class ReportingTests(unittest.TestCase):
             (path / "prior.json").write_text("{}")
             with self.assertRaises(ValueError):
                 contract.output_directory(path)
+
+    def test_failure_handler_never_remanifests_existing_evidence(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary)
+            retained = path / "file_manifest.json"
+            retained.write_bytes(b"original proof")
+            with patch.dict(os.environ, {"GITHUB_ACTIONS": "true"}), \
+                    patch.object(reporting, "aggregate", side_effect=ValueError("identity rejected")), \
+                    self.assertRaises(ValueError):
+                reporting.main(["--expected-sha", "other", "--output", str(path)])
+            self.assertEqual(retained.read_bytes(), b"original proof")
+            self.assertEqual({entry.name for entry in path.iterdir()}, {"file_manifest.json"})
 
 
 class BudgetTests(unittest.TestCase):
