@@ -121,8 +121,6 @@ def prepare(output, expected_sha):
                 if mask not in cache:
                     cache[mask] = evaluate(problems[task], mask)
             scores = [copy.deepcopy(cache[mask]) for mask in masks]
-            for mask, score in zip(masks, scores, strict=True):
-                require(_same(score, independent_score(problems[task], mask)), "initial evaluation mismatch")
             new_count = len(cache) - previous_count
             physical_total += new_count
             verified_total += len(masks)
@@ -134,6 +132,8 @@ def prepare(output, expected_sha):
                     "physical_preparation_evaluations": new_count, "logical_initial_positions": MU,
                     "independent_verification_evaluations": MU,
                     "metadata": annotations[task], "source_fingerprint": sha256_bytes(canonical_bytes(source))}
+            # Replay the registered initialization independently before freezing any bank.
+            validate_bank(bank, expected_task=task, expected_start=start)
             path = f"banks/{task}-{start}.json"
             write_json(output / path, bank)
             records.append({"task": task, "start": start, "path": path,
