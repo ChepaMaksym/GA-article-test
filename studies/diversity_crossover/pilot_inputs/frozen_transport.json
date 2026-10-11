@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "protocol_id": "GA-DIVERSITY-CROSSOVER-TECHNICAL-PILOT-V1",
+  "prepare_run_id": 38162673997,
+  "prepare_artifact_id": 11710734155,
+  "prepare_zip_sha256": "73a1d85785943cfbd94fddb731a6cad06108aa3ef431d7d9986b14090da20427",
+  "preparation_sha": "3a82e6b9525a3608adc7588e7ef6bc55266ca7c8",
+  "banks_manifest_sha256": "6b747c4edc7c98df71f1654e9be94ebf09d291e98eec46e4f768ad71e67abf0f",
+  "source_manifest_sha256": "9f06a366b98e3a67f60cbc85491fe832686c24a88c98429adf494cefa4cac774",
+  "freeze_note": "CI bytes copied unchanged; file_manifest extended only for this transport record."
+}
