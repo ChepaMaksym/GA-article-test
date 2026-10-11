@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "study_id": "GA-DIVERSITY-CROSSOVER-DRAFT-V1",
+  "as_of": "2026-10-11",
+  "new_results_status": "NO_SCIENTIFIC_EXECUTION",
+  "base_commit": "7c85f69e390384067a438364b6a325db87e63c0c",
+  "branch": "research/masters-ga-diversity-crossover",
+  "historical_results_already_viewed": true,
+  "historical_results_are_new_control_runs": false,
+  "kplib_commit": "c5bea0df8169749caaba5ce7dfcf21437aa1ca5c",
+  "feasibility_run_id": 37637475385,
+  "classical_ga_run_id": 37793424917,
+  "secondary_review_run_id": 38031512934,
+  "retained_inputs": [
+    {"path": "studies/knapsack_parameters/evidence/run-37637475385/data_manifest.json", "bytes": 190063, "sha256": "528fee8da7d7cb776fb851e6a05949133830e9533c4091cbb4e8698ac19fb0df"},
+    {"path": "studies/knapsack_parameters/evidence/run-37637475385/registry.json", "bytes": 298637, "sha256": "7e9b8fc893889426e2d3b57610e3a91c09263fcdff488cf15a2b84efe1bdc70f"},
+    {"path": "studies/knapsack_parameters/evidence/run-37637475385/cases.csv", "bytes": 2711, "sha256": "75e575bb618aebb0ceed716f851f1839af3c7dc3da9c13e8febcc74267751784"},
+    {"path": "studies/knapsack_parameters/secondary_review/evidence/run-38031512934/RESULTS_UK.md", "bytes": 5202, "sha256": "16ef64bb09f1452d67e1f8777243df4d985b6d5002d36f47eda87eba552d5ec9"}
+  ],
+  "admitted_centers": ["UC-s000", "UC-s002", "UC-s003", "UC-s004", "UC-s009", "WC-s001", "WC-s002", "WC-s004", "WC-s005", "WC-s006", "WC-s007", "WC-s008", "WC-s009", "SC-s005"],
+  "admitted_plateau": "SC-s005",
+  "historical_counts": {"instances": 30, "families": 10, "admitted": 14, "strict_admitted": 13, "global_centers": 16, "classical_ga_runs": 35640, "local_runs": 11340, "local_escapes": 58},
+  "scientific_tests_run_locally": false,
+  "new_ci_runs": [],
+  "old_lambda_replication_status": "UNCHANGED_UNFINISHED",
+  "source_pdfs_and_word_in_git": false
+}
