@@ -46,3 +46,9 @@ studies/knapsack_parameters/secondary_review/*.py text eol=lf
 studies/knapsack_parameters/secondary_review/tests/*.py text eol=lf
 studies/knapsack_parameters/secondary_review/evidence/** -text
 .github/workflows/knapsack-secondary-review.yml text eol=lf
+
+# New study has separate runtime authority and byte-exact frozen CI evidence.
+studies/diversity_crossover/implementation/**/*.py text eol=lf
+.github/workflows/diversity-crossover.yml text eol=lf
+studies/diversity_crossover/pilot_inputs/** -text
+studies/diversity_crossover/evidence/** -text
