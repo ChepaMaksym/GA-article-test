@@ -26,13 +26,13 @@
         "six": "1.17.0"
       }
     },
-    "implementation_sha": "68236f4bb42cade4cd3cdcc23ea3f813fa9b2936",
+    "implementation_sha": "d0d73623b774a483b75e278895f3a5bfdf44a779",
     "protocol_id": "GA-DIVERSITY-CROSSOVER-TECHNICAL-PILOT-V1",
     "registration_sha": "760c14ba63933d1662aca878f73ec2d72cfe662d",
     "repository": "ChepaMaksym/GA-article-test",
     "run_attempt": 1,
-    "run_id": 38162312725,
-    "workflow_sha": "68236f4bb42cade4cd3cdcc23ea3f813fa9b2936"
+    "run_id": 38162557427,
+    "workflow_sha": "d0d73623b774a483b75e278895f3a5bfdf44a779"
   },
   "skipped_count": 0,
   "source_manifest": {
@@ -53,9 +53,9 @@
         "sha256": "1a8ae49161d59fcb1012fcc1c32365064d440bd8166ebddfcf532be13b158d33"
       },
       {
-        "bytes": 14643,
+        "bytes": 14634,
         "path": "studies/diversity_crossover/implementation/banks.py",
-        "sha256": "2d0efe76ff543cb43e58bb808e8b177ac3f3694a5c27087b083f306a79e29925"
+        "sha256": "ae43cfb5d2f21d16f5c9469f676ed1c9613ec782e87fcb4a4abfd673512d8ed6"
       },
       {
         "bytes": 4688,
@@ -145,12 +145,12 @@
     ],
     "protocol_id": "GA-DIVERSITY-CROSSOVER-TECHNICAL-PILOT-V1",
     "schema_version": 1,
-    "sha256": "f024b9014da885b0a3f911489709af00f5062d554b4ebb9d068c1c05135674d5"
+    "sha256": "17ae29348322891249584d8468e47a8d91e49d477efe365a9c60f488c96de186"
   },
   "tests_passed": true,
   "tests_run": 73,
-  "tests_run_id": 38162312725,
-  "tests_artifact_id": 11709974914,
-  "tests_sha": "68236f4bb42cade4cd3cdcc23ea3f813fa9b2936",
-  "tests_zip_sha256": "37826824ad409059fe1bcd06ae11270ecd659e6e66f334959992944cf19c36c7"
+  "tests_run_id": 38162557427,
+  "tests_artifact_id": 11710229806,
+  "tests_sha": "d0d73623b774a483b75e278895f3a5bfdf44a779",
+  "tests_zip_sha256": "a6af77fdb5d8f9effc65bea99cf66c31006925498ad16315dabbad799fd83fe6"
 }
