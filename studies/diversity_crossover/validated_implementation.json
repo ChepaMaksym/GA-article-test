@@ -1,0 +1,156 @@
+{
+  "error_count": 0,
+  "failure_count": 0,
+  "protocol_id": "GA-DIVERSITY-CROSSOVER-TECHNICAL-PILOT-V1",
+  "provenance": {
+    "environment": {
+      "inherited_environment_lock": {
+        "bytes": 3011,
+        "sha256": "9907e3a46971303d8285b7ae160b5b8eafcab9942565d376bd038a92789745c6"
+      },
+      "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "protocol_id": "GA-DIVERSITY-CROSSOVER-TECHNICAL-PILOT-V1",
+      "python_version": "3.12.14",
+      "requirements_lock_sha256": "6818e0e12843daa10947f7554cb3edd573d9f7cdbc33e63f98f9f3a068869017",
+      "versions": {
+        "contourpy": "1.4.0",
+        "cycler": "0.12.1",
+        "fonttools": "4.66.1",
+        "kiwisolver": "1.5.1",
+        "matplotlib": "3.10.3",
+        "numpy": "2.2.6",
+        "packaging": "26.3",
+        "pillow": "12.3.0",
+        "pyparsing": "3.3.3",
+        "python-dateutil": "2.9.0.post0",
+        "six": "1.17.0"
+      }
+    },
+    "implementation_sha": "68236f4bb42cade4cd3cdcc23ea3f813fa9b2936",
+    "protocol_id": "GA-DIVERSITY-CROSSOVER-TECHNICAL-PILOT-V1",
+    "registration_sha": "760c14ba63933d1662aca878f73ec2d72cfe662d",
+    "repository": "ChepaMaksym/GA-article-test",
+    "run_attempt": 1,
+    "run_id": 38162312725,
+    "workflow_sha": "68236f4bb42cade4cd3cdcc23ea3f813fa9b2936"
+  },
+  "skipped_count": 0,
+  "source_manifest": {
+    "files": [
+      {
+        "bytes": 6762,
+        "path": ".github/workflows/diversity-crossover.yml",
+        "sha256": "78d04039f57a68aec0b709cf2f0b8f4d6c7896203bf948a2d6e0e2a02c73b1bd"
+      },
+      {
+        "bytes": 12862,
+        "path": "studies/diversity_crossover/STAGE2_PROTOCOL_UK.md",
+        "sha256": "0273e191763226842950a0cc42d613de930b177f39e0527ed04276951d15addb"
+      },
+      {
+        "bytes": 82,
+        "path": "studies/diversity_crossover/implementation/__init__.py",
+        "sha256": "1a8ae49161d59fcb1012fcc1c32365064d440bd8166ebddfcf532be13b158d33"
+      },
+      {
+        "bytes": 14643,
+        "path": "studies/diversity_crossover/implementation/banks.py",
+        "sha256": "2d0efe76ff543cb43e58bb808e8b177ac3f3694a5c27087b083f306a79e29925"
+      },
+      {
+        "bytes": 4688,
+        "path": "studies/diversity_crossover/implementation/ci_support.py",
+        "sha256": "fe4e1bd8f56061cfbeb2ad899e1054e1dc5bfd18e4e3a3eeca97b084da6ffc83"
+      },
+      {
+        "bytes": 12791,
+        "path": "studies/diversity_crossover/implementation/contract.py",
+        "sha256": "1263ae481b73c0a9c7bbea3b150e8b403f49da60d78854c2d4a354e0a017cd76"
+      },
+      {
+        "bytes": 14232,
+        "path": "studies/diversity_crossover/implementation/engine.py",
+        "sha256": "b4177b35cb7b8eafef2aadd2ce519c0c209c72c6767f75917cd15d8cf8d9e0ab"
+      },
+      {
+        "bytes": 20962,
+        "path": "studies/diversity_crossover/implementation/reporting.py",
+        "sha256": "6b8bb78bb0b8501171af74d3678e39e21683e7e9bf392f34b5ce696cfe15ce1d"
+      },
+      {
+        "bytes": 9816,
+        "path": "studies/diversity_crossover/implementation/runner.py",
+        "sha256": "28511df9321a6da248b299e8d1f580f94a341124b893671518d6d41f62077e6d"
+      },
+      {
+        "bytes": 67,
+        "path": "studies/diversity_crossover/implementation/tests/__init__.py",
+        "sha256": "d69c3f1e46abdd5860fe8ef844ec79e18aa4ee5443a78ff9e8009bcc916b6d14"
+      },
+      {
+        "bytes": 4459,
+        "path": "studies/diversity_crossover/implementation/tests/test_contract.py",
+        "sha256": "c21451c15b3f46a52d2dafd5272b24609236cc17acdd2ef52cc63ad75f1486aa"
+      },
+      {
+        "bytes": 15568,
+        "path": "studies/diversity_crossover/implementation/tests/test_engine.py",
+        "sha256": "0e9d2f3e7f78a6bb23083486dbe4df72d684a7e22d35ba63eec2e875c71fa3c3"
+      },
+      {
+        "bytes": 12098,
+        "path": "studies/diversity_crossover/implementation/tests/test_pipeline.py",
+        "sha256": "884a87c898dc05f2d3357b73f61bd32dc45b9c70327767a24ed9317a9fff2606"
+      },
+      {
+        "bytes": 20773,
+        "path": "studies/diversity_crossover/implementation/tests/test_verifier.py",
+        "sha256": "ad778d16eec8e055c6b949fa5b3db84bda8752c9e19041f06a6ab757f18e97b8"
+      },
+      {
+        "bytes": 26320,
+        "path": "studies/diversity_crossover/implementation/verifier.py",
+        "sha256": "1502a37c1ab96d126b748922877d9a4c750f4c8a580635644d88a2e39c4b325d"
+      },
+      {
+        "bytes": 1195,
+        "path": "studies/diversity_crossover/pilot_authority.json",
+        "sha256": "70a9fc5a6e56fedcc6ad8586b2a9e5fa1e6cbaa521c94f20ac394a30df30766a"
+      },
+      {
+        "bytes": 1861,
+        "path": "studies/diversity_crossover/provenance.json",
+        "sha256": "04e6a750066ca562bbea86592f1b23ddbe85ef73e2ff8b373455960feac5851f"
+      },
+      {
+        "bytes": 13022,
+        "path": "studies/knapsack_parameters/feasibility/data_audit.py",
+        "sha256": "a2cdf6d117c34d4c1b44920ef5f86c6e4ff299e4173dc8d7011f0ef4f655a995"
+      },
+      {
+        "bytes": 7985,
+        "path": "studies/knapsack_parameters/feasibility/frozen_inputs.py",
+        "sha256": "a67aa901552dbaf12f195f4359a26ca34634abbee73aef3ee90cd8148e73beb3"
+      },
+      {
+        "bytes": 3011,
+        "path": "studies/knapsack_parameters/ga_study/dependencies/environment.lock.json",
+        "sha256": "9907e3a46971303d8285b7ae160b5b8eafcab9942565d376bd038a92789745c6"
+      },
+      {
+        "bytes": 1116,
+        "path": "studies/knapsack_parameters/ga_study/dependencies/requirements.lock",
+        "sha256": "6818e0e12843daa10947f7554cb3edd573d9f7cdbc33e63f98f9f3a068869017"
+      }
+    ],
+    "protocol_id": "GA-DIVERSITY-CROSSOVER-TECHNICAL-PILOT-V1",
+    "schema_version": 1,
+    "sha256": "f024b9014da885b0a3f911489709af00f5062d554b4ebb9d068c1c05135674d5"
+  },
+  "tests_passed": true,
+  "tests_run": 73,
+  "tests_run_id": 38162312725,
+  "tests_artifact_id": 11709974914,
+  "tests_sha": "68236f4bb42cade4cd3cdcc23ea3f813fa9b2936",
+  "tests_zip_sha256": "37826824ad409059fe1bcd06ae11270ecd659e6e66f334959992944cf19c36c7"
+}
