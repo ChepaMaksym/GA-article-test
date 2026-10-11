@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "protocol_id": "GA-DIVERSITY-CROSSOVER-TECHNICAL-PILOT-V1",
+  "phases": [
+    {
+      "run_id": 38162136323,
+      "sha": "fecc6008607f1101d787b5325d5c2ecd2c353ff6",
+      "phase": "tests",
+      "status": "WORKFLOW_SYNTAX_REJECTED",
+      "runner_minutes": 0,
+      "reason": "Unquoted colon in pip --only-binary argument; no jobs created."
+    },
+    {
+      "run_id": 38162312725,
+      "sha": "68236f4bb42cade4cd3cdcc23ea3f813fa9b2936",
+      "phase": "tests",
+      "status": "SUCCESS",
+      "tests": 73,
+      "runner_minutes": 2
+    },
+    {
+      "run_id": 38162404290,
+      "sha": "64739c67de720a79f3ef8b43d22e9ce7e61db12d",
+      "phase": "prepare",
+      "status": "SUCCESS_SUPERSEDED_BEFORE_FREEZE",
+      "runner_minutes": 2,
+      "reason": "Added independent initialization replay to preparation before adopting pilot inputs. No task/seed replaced."
+    },
+    {
+      "run_id": 38162557427,
+      "sha": "d0d73623b774a483b75e278895f3a5bfdf44a779",
+      "phase": "tests",
+      "status": "SUCCESS",
+      "tests": 73,
+      "runner_minutes": 2
+    },
+    {
+      "run_id": 38162673997,
+      "sha": "3a82e6b9525a3608adc7588e7ef6bc55266ca7c8",
+      "phase": "prepare",
+      "status": "SUCCESS_ADOPTED",
+      "banks": 16,
+      "physical_preparation_calls": 244,
+      "independent_verification_calls": 480,
+      "runner_minutes": 2
+    },
+    {
+      "run_id": 38162808399,
+      "sha": "5b29f71ac8ace430a93a172424a66cf600994d3e",
+      "phase": "pilot",
+      "status": "COMPLETE_TECHNICAL_PILOT",
+      "completed_runs": 64,
+      "search_calls": 320000,
+      "runner_minutes": 10
+    }
+  ],
+  "total_runner_minutes": 18,
+  "ceiling_runner_minutes": 60,
+  "scientific_superiority_established": false,
+  "main_series_run": false,
+  "downloaded_artifacts": [
+    {
+      "artifact_id": 11711330211,
+      "name": "diversity-pilot-UC-s000-38162808399-1",
+      "zip_sha256": "27e15fc4b2a05213a2ef02c6050c893f8ff185871c331d8943fa657e664780ef",
+      "zip_bytes": 6373789,
+      "expires_at": "2027-01-09T18:12:02Z",
+      "local_zip_verified": true
+    },
+    {
+      "artifact_id": 11711285287,
+      "name": "diversity-pilot-Jump4-38162808399-1",
+      "zip_sha256": "34e4b02e50e5dda66d3e421528e05075004f559df52615be0e94f7193e989b0b",
+      "zip_bytes": 6167118,
+      "expires_at": "2027-01-09T18:12:02Z",
+      "local_zip_verified": true
+    },
+    {
+      "artifact_id": 11711240392,
+      "name": "diversity-pilot-SC-s000-38162808399-1",
+      "zip_sha256": "c2d5aa35dbe1c98a2aa95d839e3ac73bf7798ad57af3c1c25b52469026880dc6",
+      "zip_bytes": 6240639,
+      "expires_at": "2027-01-09T18:12:02Z",
+      "local_zip_verified": true
+    },
+    {
+      "artifact_id": 11711215370,
+      "name": "diversity-budget-38162808399-1",
+      "zip_sha256": "2b2fa56a3ee0e5fa0eb55d1d73122e27e06bdf07e23d99130918df77aa6e1af8",
+      "zip_bytes": 813,
+      "expires_at": "2027-01-09T18:12:02Z",
+      "local_zip_verified": true
+    },
+    {
+      "artifact_id": 11711185787,
+      "name": "diversity-report-38162808399-1",
+      "zip_sha256": "787a629f29b3fb54505d138b2fd3925f28ec27b81d4818749ea7b6401bf44a40",
+      "zip_bytes": 938581,
+      "expires_at": "2027-01-09T18:12:02Z",
+      "local_zip_verified": true
+    },
+    {
+      "artifact_id": 11710904052,
+      "name": "diversity-pilot-OneMax-38162808399-1",
+      "zip_sha256": "dd2d43986af1dd6ae974007d9ff8cd99238a012a4bdc9f3b6c60f48e181f5f87",
+      "zip_bytes": 6714120,
+      "expires_at": "2027-01-09T18:12:02Z",
+      "local_zip_verified": true
+    },
+    {
+      "artifact_id": 11710882819,
+      "name": "diversity-pilot-WC-s001-38162808399-1",
+      "zip_sha256": "8bea379b969a1f24deda0b65413760527632a7afd6bb970a869729c0ecee43b3",
+      "zip_bytes": 6387967,
+      "expires_at": "2027-01-09T18:12:02Z",
+      "local_zip_verified": true
+    },
+    {
+      "artifact_id": 11710719468,
+      "name": "diversity-pilot-SC-s005-38162808399-1",
+      "zip_sha256": "96736c10053f1671fd131472ad422c05b9367ac4c69ce4a605c0941523665f9b",
+      "zip_bytes": 6316337,
+      "expires_at": "2027-01-09T18:12:02Z",
+      "local_zip_verified": true
+    },
+    {
+      "artifact_id": 11710593066,
+      "name": "diversity-pilot-Jump8-38162808399-1",
+      "zip_sha256": "8e9d5af01e92a3d56377bca3420b9a6bb66fec02b56ec6886842a3b16faa1253",
+      "zip_bytes": 6626297,
+      "expires_at": "2027-01-09T18:12:02Z",
+      "local_zip_verified": true
+    },
+    {
+      "artifact_id": 11710093568,
+      "name": "diversity-pilot-Flat-38162808399-1",
+      "zip_sha256": "60ab13a061b890c24dbcc257fe28036940997798a49053ade6ce572b0b4c65b8",
+      "zip_bytes": 8701689,
+      "expires_at": "2027-01-09T18:12:02Z",
+      "local_zip_verified": true
+    }
+  ],
+  "local_full_journal_archive_retained": true
+}

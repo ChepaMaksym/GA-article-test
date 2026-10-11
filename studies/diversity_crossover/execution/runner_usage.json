@@ -1,0 +1,171 @@
+{
+  "schema_version": "diversity-runner-usage-v1",
+  "protocol_id": "GA-DIVERSITY-CROSSOVER-TECHNICAL-PILOT-V1",
+  "ceiling": 60,
+  "used_runner_minutes": 18,
+  "remaining_runner_minutes": 42,
+  "jobs": [
+    {
+      "run_id": 38162808399,
+      "attempt": 1,
+      "job_id": 114539085573,
+      "name": "phase",
+      "seconds": 7,
+      "rounded_runner_minutes": 1,
+      "conclusion": "success"
+    },
+    {
+      "run_id": 38162808399,
+      "attempt": 1,
+      "job_id": 114539113215,
+      "name": "pilot (UC-s000)",
+      "seconds": 54,
+      "rounded_runner_minutes": 1,
+      "conclusion": "success"
+    },
+    {
+      "run_id": 38162808399,
+      "attempt": 1,
+      "job_id": 114539113280,
+      "name": "pilot (SC-s005)",
+      "seconds": 45,
+      "rounded_runner_minutes": 1,
+      "conclusion": "success"
+    },
+    {
+      "run_id": 38162808399,
+      "attempt": 1,
+      "job_id": 114539113281,
+      "name": "pilot (OneMax)",
+      "seconds": 45,
+      "rounded_runner_minutes": 1,
+      "conclusion": "success"
+    },
+    {
+      "run_id": 38162808399,
+      "attempt": 1,
+      "job_id": 114539113282,
+      "name": "pilot (Flat)",
+      "seconds": 52,
+      "rounded_runner_minutes": 1,
+      "conclusion": "success"
+    },
+    {
+      "run_id": 38162808399,
+      "attempt": 1,
+      "job_id": 114539113285,
+      "name": "pilot (WC-s001)",
+      "seconds": 54,
+      "rounded_runner_minutes": 1,
+      "conclusion": "success"
+    },
+    {
+      "run_id": 38162808399,
+      "attempt": 1,
+      "job_id": 114539113314,
+      "name": "pilot (SC-s000)",
+      "seconds": 48,
+      "rounded_runner_minutes": 1,
+      "conclusion": "success"
+    },
+    {
+      "run_id": 38162808399,
+      "attempt": 1,
+      "job_id": 114539113327,
+      "name": "pilot (Jump4)",
+      "seconds": 47,
+      "rounded_runner_minutes": 1,
+      "conclusion": "success"
+    },
+    {
+      "run_id": 38162808399,
+      "attempt": 1,
+      "job_id": 114539113343,
+      "name": "pilot (Jump8)",
+      "seconds": 31,
+      "rounded_runner_minutes": 1,
+      "conclusion": "success"
+    },
+    {
+      "run_id": 38162808399,
+      "attempt": 1,
+      "job_id": 114539306213,
+      "name": "aggregate",
+      "seconds": 36,
+      "rounded_runner_minutes": 1,
+      "conclusion": "success"
+    },
+    {
+      "run_id": 38162673997,
+      "attempt": 1,
+      "job_id": 114538683668,
+      "name": "phase",
+      "seconds": 10,
+      "rounded_runner_minutes": 1,
+      "conclusion": "success"
+    },
+    {
+      "run_id": 38162673997,
+      "attempt": 1,
+      "job_id": 114538727754,
+      "name": "prepare",
+      "seconds": 23,
+      "rounded_runner_minutes": 1,
+      "conclusion": "success"
+    },
+    {
+      "run_id": 38162557427,
+      "attempt": 1,
+      "job_id": 114538340687,
+      "name": "phase",
+      "seconds": 6,
+      "rounded_runner_minutes": 1,
+      "conclusion": "success"
+    },
+    {
+      "run_id": 38162557427,
+      "attempt": 1,
+      "job_id": 114538369279,
+      "name": "tests",
+      "seconds": 24,
+      "rounded_runner_minutes": 1,
+      "conclusion": "success"
+    },
+    {
+      "run_id": 38162404290,
+      "attempt": 1,
+      "job_id": 114537885686,
+      "name": "phase",
+      "seconds": 9,
+      "rounded_runner_minutes": 1,
+      "conclusion": "success"
+    },
+    {
+      "run_id": 38162404290,
+      "attempt": 1,
+      "job_id": 114537923062,
+      "name": "prepare",
+      "seconds": 25,
+      "rounded_runner_minutes": 1,
+      "conclusion": "success"
+    },
+    {
+      "run_id": 38162312725,
+      "attempt": 1,
+      "job_id": 114537615265,
+      "name": "phase",
+      "seconds": 7,
+      "rounded_runner_minutes": 1,
+      "conclusion": "success"
+    },
+    {
+      "run_id": 38162312725,
+      "attempt": 1,
+      "job_id": 114537647091,
+      "name": "tests",
+      "seconds": 22,
+      "rounded_runner_minutes": 1,
+      "conclusion": "success"
+    }
+  ]
+}
