@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "audit_date": "2026-10-12",
+  "planned_protocol_id": "GA-ADAPTIVE-FEEDBACK-TECHNICAL-PILOT-V1",
+  "registration_commit": null,
+  "branch": "research/masters-ga-diversity-crossover",
+  "base_commit": "ff1665b92c10c1f743bee0b7ffacddbb41556d88",
+  "decision": "SOURCE_NO_GO_FOR_GLOBAL_CONTROLLER",
+  "reason_codes": [
+    "INDIVIDUAL_FITNESS_DEPENDENT_MUTATION_NOT_GENERATION_GLOBAL",
+    "GLOBAL_CROSSOVER_UPDATE_NOT_SPECIFIED",
+    "DPD_FUNCTION_NOT_UNAMBIGUOUSLY_DEFINED",
+    "BASELINE_PROBABILITIES_AND_UPDATE_TIMING_NOT_UNAMBIGUOUS",
+    "MUTATION_GRANULARITY_NOT_UNAMBIGUOUS"
+  ],
+  "gates": {
+    "legal_full_text": "PASS",
+    "year_since_2022": "PASS",
+    "at_least_one_EU_UK_US_university_affiliation": "PASS",
+    "two_generation_global_probability_rules": "FAIL",
+    "complete_mathematical_contract": "FAIL",
+    "flat_population_semantics": "NOT_ESTABLISHED",
+    "author_code_available": "NOT_ESTABLISHED"
+  },
+  "delta_qualification": "PDF page 7 gives 0.01 for the fitness-function Delta; normalization on page 9 specifies a positive Delta. Do not claim no numeric Delta anywhere or silently invent an independent value.",
+  "authorization": {
+    "user_approved_conditional_plan": true,
+    "approved_runner_minutes": 60,
+    "source_admitted": false,
+    "active_experimental_implementation": false,
+    "active_ci_tests": false,
+    "active_initial_banks": false,
+    "active_donors": false,
+    "active_pilot": false,
+    "active_statistics": false,
+    "active_scientific_figures": false,
+    "merge": false
+  },
+  "planned_only": {
+    "tasks": ["UC-s000", "WC-s001", "SC-s005", "SC-s000"],
+    "starts": ["center_clones", "shared_bank"],
+    "profiles": ["fixed", "adaptive", "frozen_donor", "permuted_donor", "tail_mean"],
+    "initial_bank_seed": 73000,
+    "donor_seed": 73001,
+    "pilot_seed": 74001,
+    "permutation_seed": 75001,
+    "donor_runs": 8,
+    "comparative_runs": 40,
+    "total_runs": 48,
+    "new_queries_per_run": 5000,
+    "total_new_queries": 240000
+  },
+  "actual": {
+    "experimental_code_created": false,
+    "scientific_tests_run": false,
+    "initial_banks_created": false,
+    "donor_runs": 0,
+    "comparative_runs": 0,
+    "new_queries": 0,
+    "ci_jobs_dispatched_for_this_study": 0,
+    "used_runner_minutes": 0,
+    "remaining_approved_runner_minutes": 60,
+    "scientific_ci_run_ids": [],
+    "success_frequency": null,
+    "correlation": null,
+    "status_of_unperformed_measurements": "NOT_MEASURED_NOT_ZERO"
+  },
+  "preserved_inputs": {
+    "data_manifest_sha256": "528fee8da7d7cb776fb851e6a05949133830e9533c4091cbb4e8698ac19fb0df",
+    "registry_sha256": "7e9b8fc893889426e2d3b57610e3a91c09263fcdff488cf15a2b84efe1bdc70f",
+    "fixed_ga_engine_sha256": "f874895629489c9bd6a6fd853f88ecd606c5df365c3eced1db0d60722d91b091",
+    "diversity_engine_sha256": "b4177b35cb7b8eafef2aadd2ce519c0c209c72c6767f75917cd15d8cf8d9e0ab",
+    "previous_stage3_draft_sha256": "7e62661487bf75b6d406c67d30dd2d3e5768fb5f9deacff39fb8a1cb0b8ca0ad"
+  },
+  "no_claims": [
+    "numerical_replication_of_article",
+    "adaptive_superiority",
+    "ineffectiveness_of_adaptation",
+    "new_algorithm_or_established_novelty",
+    "global_optimality_detected_by_parameters"
+  ],
+  "next_action_requires_user_decision": "Different executable source or explicitly agreed own controller; no automatic substitution."
+}

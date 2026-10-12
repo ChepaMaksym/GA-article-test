@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "protocol_id": "GA-ADAPTIVE-MAIN-PARAMETERS-DRAFT-V1",
+  "status": "SCOPE_AND_DRAFT_ONLY",
+  "as_of": "2026-10-11",
+  "branch": "research/masters-ga-diversity-crossover",
+  "base_commit": "ff1665b92c10c1f743bee0b7ffacddbb41556d88",
+  "registration_commit": null,
+  "source_controller_eligibility": "NO_CONTROLLER_ADMITTED_YET",
+  "authorization": {
+    "scope_documents": true,
+    "controller_implementation": false,
+    "ci_tests": false,
+    "initial_bank_generation": false,
+    "pilot": false,
+    "main_search": false,
+    "statistics": false,
+    "scientific_figures": false,
+    "merge": false
+  },
+  "profiles": [
+    {"id": "A00", "adapt_mutation": false, "adapt_crossover": false},
+    {"id": "A10", "adapt_mutation": true, "adapt_crossover": false},
+    {"id": "A01", "adapt_mutation": false, "adapt_crossover": true},
+    {"id": "A11", "adapt_mutation": true, "adapt_crossover": true}
+  ],
+  "proposed_kernel": {
+    "kind": "generational_binary_GA",
+    "n": 100,
+    "population_size": 30,
+    "population_adaptation": false,
+    "tournament_size": 2,
+    "selection_with_replacement": true,
+    "elites": 1,
+    "new_offspring_per_completed_generation": 29,
+    "initial_mutation_probability": "1/n",
+    "initial_crossover_probability": 0.9,
+    "crossover_bit_probability": 0.5,
+    "proposed_new_evaluations": 5000,
+    "initial_evaluations_in_search_limit": false,
+    "repair": false,
+    "search_cache": false,
+    "lambda_adaptation": false,
+    "update_timing": "after_complete_population_generation_only",
+    "partial_generation": "record_evaluated_prefix_without_population_or_controller_update"
+  },
+  "mutation_controller": null,
+  "crossover_controller": null,
+  "controller_bounds": null,
+  "controller_hyperparameters": null,
+  "new_seed_ledger": null,
+  "repeat_count": null,
+  "primary_statistical_tests": null,
+  "approved_runner_minutes": null,
+  "inputs": {
+    "kplib_commit": "c5bea0df8169749caaba5ce7dfcf21437aa1ca5c",
+    "data_manifest_path": "studies/knapsack_parameters/evidence/run-37637475385/data_manifest.json",
+    "data_manifest_sha256": "528fee8da7d7cb776fb851e6a05949133830e9533c4091cbb4e8698ac19fb0df",
+    "registry_path": "studies/knapsack_parameters/evidence/run-37637475385/registry.json",
+    "registry_sha256": "7e9b8fc893889426e2d3b57610e3a91c09263fcdff488cf15a2b84efe1bdc70f",
+    "task_count": 30,
+    "admitted_centers": 14,
+    "strict_centers": 13,
+    "plateau_centers": 1,
+    "global_centers": 16,
+    "family_count": 10,
+    "kernel_may_access_optimum_or_certificates": false
+  },
+  "source_candidates": [
+    {"doi": "10.1145/3564755", "year": 2022, "status": "DIFFERENT_COUPLED_LAMBDA_PROFILE"},
+    {"doi": "10.1145/3512290.3528846", "year": 2022, "arxiv_version": "2202.03259v2", "status": "RLS_MUTATION_RADIUS_NOT_POPULATION_GA", "code": "https://github.com/ndangtt/LeadingOnesDAC", "code_commit": null, "code_license_audited": false},
+    {"doi": "10.3390/info14030166", "year": 2023, "status": "FORMULA_AUDIT_PENDING", "full_text_access_issue": "HTTP_429", "code_commit": null, "code_license_audited": false},
+    {"doi": "10.1007/s10287-023-00441-7", "year": 2023, "status": "ABSTRACT_ONLY_OPERATOR_SELECTION", "code_commit": null, "code_license_audited": false}
+  ],
+  "historical_files_preserved": [
+    "studies/diversity_crossover/implementation",
+    "studies/diversity_crossover/evidence",
+    "studies/diversity_crossover/STAGE3_DRAFT_PROTOCOL_UK.md",
+    "studies/diversity_crossover/stage3_draft_manifest.json",
+    "studies/knapsack_parameters/ga_study/engine.py"
+  ],
+  "next_gates": [
+    "admit_exact_rules_from_complete_sources_or_explicitly_agree_our_modification",
+    "freeze_feasibility_flat_population_tie_and_bounds_semantics",
+    "agree_repeats_endpoints_statistics_practical_effect_and_budget",
+    "register_final_protocol_before_implementation_and_execution"
+  ]
+}

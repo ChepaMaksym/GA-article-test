@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "audit_date": "2026-10-12",
+  "doi": "10.3390/info14030166",
+  "title": "An Automated Path-Focused Test Case Generation with Dynamic Parameterization Using Adaptive Genetic Algorithm (AGA) for Structural Program Testing",
+  "authors_as_printed": ["Manikandan Rajagopal", "Ramkumar Sivasakthivel", "Karuppusamy Loganathan", "Loannis E. Sarris"],
+  "publication": "Information 2023, 14(3), 166",
+  "published_date": "2023-03-06",
+  "publisher": "MDPI",
+  "license": "CC-BY-4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "license_evidence": "PDF page 1",
+  "qualifying_affiliation": "Department of Mechanical Engineering, University of West Attica, Greece (fourth author, PDF page 1)",
+  "all_author_affiliations_in_eligible_regions": false,
+  "pdf": {
+    "path": "sources/information-14-00166.pdf",
+    "url": "https://mdpi-res.com/d_attachment/information/information-14-00166/article_deploy/information-14-00166.pdf",
+    "version_identity": "Exact downloaded published PDF bytes, not a moving-page claim",
+    "bytes": 3450969,
+    "sha256": "e052915fd87afdb78ce059b00ba0589e2f1733ce1dcd1eb62792176f40674f99",
+    "page_count": 18,
+    "http_status": 200,
+    "publisher_last_modified_header": "Mon, 06 Mar 2023 10:10:44 GMT"
+  },
+  "publisher_figure_3": {
+    "path": "sources/information-14-00166-g003.png",
+    "url": "https://mdpi-res.com/information/information-14-00166/article_deploy/html/images/information-14-00166-g003.png",
+    "bytes": 32062,
+    "sha256": "1c9cb07a69a1b63541dcd635b4bf46e46ae3d5856b57394c3d88aaad205d7ba3",
+    "http_status": 200,
+    "visual_review_completed": true,
+    "is_our_experimental_plot": false
+  },
+  "reading": {
+    "method": "Read-only PowerShell/.NET decoding of PDF text streams plus original publisher Figure 3 image",
+    "scientific_algorithm_executed": false,
+    "limitations": "Some embedded mathematical glyphs use font-specific codes; raw text extraction is not claimed as complete visual proofreading.",
+    "page_citations_confirmed": [1, 8, 9, 10, 11, 16],
+    "crossrefs_in_figure_3": ["(10)", "(11)"],
+    "embedded_peer_review_form_streams_used_as_published_pages": false
+  },
+  "author_code": {
+    "status": "NOT_ESTABLISHED_IN_CHECKED_PRIMARY_MATERIALS",
+    "repository": null,
+    "commit": null,
+    "license": null,
+    "reviewed_materials": ["published PDF", "publisher indexed page", "targeted DOI/title searches restricted to github.com, mdpi.com, uniwa.gr"],
+    "absence_claim_is_exhaustive": false
+  },
+  "data_availability_statement": "Not applicable (PDF page 16)",
+  "numerical_reproduction_claimed": false
+}
