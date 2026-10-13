@@ -1,0 +1,216 @@
+{
+  "error_count": 0,
+  "failure_count": 0,
+  "protocol_id": "GA-DIVERSITY-CROSSOVER-MAIN-V1",
+  "provenance": {
+    "environment": {
+      "inherited_environment_lock": {
+        "bytes": 3011,
+        "sha256": "9907e3a46971303d8285b7ae160b5b8eafcab9942565d376bd038a92789745c6"
+      },
+      "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "protocol_id": "GA-DIVERSITY-CROSSOVER-MAIN-V1",
+      "python_version": "3.12.14",
+      "requirements_lock_sha256": "6818e0e12843daa10947f7554cb3edd573d9f7cdbc33e63f98f9f3a068869017",
+      "versions": {
+        "contourpy": "1.4.0",
+        "cycler": "0.12.1",
+        "fonttools": "4.66.1",
+        "kiwisolver": "1.5.1",
+        "matplotlib": "3.10.3",
+        "numpy": "2.2.6",
+        "packaging": "26.3",
+        "pillow": "12.3.0",
+        "pyparsing": "3.3.3",
+        "python-dateutil": "2.9.0.post0",
+        "six": "1.17.0"
+      }
+    },
+    "implementation_sha": "7dda97f278ccfae8095f447c85a10ad7cf319ccf",
+    "protocol_id": "GA-DIVERSITY-CROSSOVER-MAIN-V1",
+    "registration_sha": "d1a3c69434b67c0f8281370d92c7a0f4d2bcabee",
+    "repository": "ChepaMaksym/GA-article-test",
+    "run_attempt": 1,
+    "run_id": 38386109685,
+    "workflow_sha": "7dda97f278ccfae8095f447c85a10ad7cf319ccf"
+  },
+  "skipped_count": 0,
+  "source_manifest": {
+    "files": [
+      {
+        "bytes": 7937,
+        "path": ".github/workflows/diversity-crossover-main.yml",
+        "sha256": "2958efaaf474c108de27184821a6550692afaccb1ac8a46cc16ddcdb15365a78"
+      },
+      {
+        "bytes": 1491,
+        "path": "studies/diversity_crossover/MAIN_APPROVAL_UK.md",
+        "sha256": "b56f4321a98300e85c4f5643e6ffe424176e7b3578c9b152684cdbc326e859bf"
+      },
+      {
+        "bytes": 29133,
+        "path": "studies/diversity_crossover/MAIN_PROTOCOL_UK.md",
+        "sha256": "b6893f551b991e8bd7fef4252aee5a6bc917c8a16fd44b24c44644dbfb7e17b3"
+      },
+      {
+        "bytes": 82,
+        "path": "studies/diversity_crossover/implementation/__init__.py",
+        "sha256": "1a8ae49161d59fcb1012fcc1c32365064d440bd8166ebddfcf532be13b158d33"
+      },
+      {
+        "bytes": 14634,
+        "path": "studies/diversity_crossover/implementation/banks.py",
+        "sha256": "ae43cfb5d2f21d16f5c9469f676ed1c9613ec782e87fcb4a4abfd673512d8ed6"
+      },
+      {
+        "bytes": 4688,
+        "path": "studies/diversity_crossover/implementation/ci_support.py",
+        "sha256": "fe4e1bd8f56061cfbeb2ad899e1054e1dc5bfd18e4e3a3eeca97b084da6ffc83"
+      },
+      {
+        "bytes": 12791,
+        "path": "studies/diversity_crossover/implementation/contract.py",
+        "sha256": "1263ae481b73c0a9c7bbea3b150e8b403f49da60d78854c2d4a354e0a017cd76"
+      },
+      {
+        "bytes": 14232,
+        "path": "studies/diversity_crossover/implementation/engine.py",
+        "sha256": "b4177b35cb7b8eafef2aadd2ce519c0c209c72c6767f75917cd15d8cf8d9e0ab"
+      },
+      {
+        "bytes": 20962,
+        "path": "studies/diversity_crossover/implementation/reporting.py",
+        "sha256": "6b8bb78bb0b8501171af74d3678e39e21683e7e9bf392f34b5ce696cfe15ce1d"
+      },
+      {
+        "bytes": 9816,
+        "path": "studies/diversity_crossover/implementation/runner.py",
+        "sha256": "28511df9321a6da248b299e8d1f580f94a341124b893671518d6d41f62077e6d"
+      },
+      {
+        "bytes": 67,
+        "path": "studies/diversity_crossover/implementation/tests/__init__.py",
+        "sha256": "d69c3f1e46abdd5860fe8ef844ec79e18aa4ee5443a78ff9e8009bcc916b6d14"
+      },
+      {
+        "bytes": 4459,
+        "path": "studies/diversity_crossover/implementation/tests/test_contract.py",
+        "sha256": "c21451c15b3f46a52d2dafd5272b24609236cc17acdd2ef52cc63ad75f1486aa"
+      },
+      {
+        "bytes": 15568,
+        "path": "studies/diversity_crossover/implementation/tests/test_engine.py",
+        "sha256": "0e9d2f3e7f78a6bb23083486dbe4df72d684a7e22d35ba63eec2e875c71fa3c3"
+      },
+      {
+        "bytes": 12098,
+        "path": "studies/diversity_crossover/implementation/tests/test_pipeline.py",
+        "sha256": "884a87c898dc05f2d3357b73f61bd32dc45b9c70327767a24ed9317a9fff2606"
+      },
+      {
+        "bytes": 20773,
+        "path": "studies/diversity_crossover/implementation/tests/test_verifier.py",
+        "sha256": "ad778d16eec8e055c6b949fa5b3db84bda8752c9e19041f06a6ab757f18e97b8"
+      },
+      {
+        "bytes": 26320,
+        "path": "studies/diversity_crossover/implementation/verifier.py",
+        "sha256": "1502a37c1ab96d126b748922877d9a4c750f4c8a580635644d88a2e39c4b325d"
+      },
+      {
+        "bytes": 6809,
+        "path": "studies/diversity_crossover/main_authority.json",
+        "sha256": "205fe5b0f0bf58b3e2f472242bc0c9916df2ab90b5af69e00f4fe9b08ed3d5b8"
+      },
+      {
+        "bytes": 76,
+        "path": "studies/diversity_crossover/main_study/__init__.py",
+        "sha256": "344c208dff16fd398c8c9dc221704ffa30987d5fc68d1dd7d3bcea906365d30a"
+      },
+      {
+        "bytes": 28413,
+        "path": "studies/diversity_crossover/main_study/analysis.py",
+        "sha256": "50e413a57a0bc45833f14a3002a4bd7cc503f98b842076dba2d2c36bc78a7a86"
+      },
+      {
+        "bytes": 15202,
+        "path": "studies/diversity_crossover/main_study/ci_support.py",
+        "sha256": "c0c0ae119b267def0869463c65a292bf36119a37c4bcd5d00bc356750cfa85a0"
+      },
+      {
+        "bytes": 16234,
+        "path": "studies/diversity_crossover/main_study/contract.py",
+        "sha256": "0b6dc10e414d69d0a4f48a2113f4e1e06e45f7acb64f7c5cd325be70c6ed9269"
+      },
+      {
+        "bytes": 19490,
+        "path": "studies/diversity_crossover/main_study/inputs.py",
+        "sha256": "36ddb60f06dc14101d6333bcd56ab2f0235458fa3e95988fc8259f541fef5d1d"
+      },
+      {
+        "bytes": 25617,
+        "path": "studies/diversity_crossover/main_study/reporting.py",
+        "sha256": "f1e209b04e601d48547cae25443997deb2bf4c7cd5a92dc5a69e998c39dd8fe5"
+      },
+      {
+        "bytes": 14521,
+        "path": "studies/diversity_crossover/main_study/runner.py",
+        "sha256": "b9448e6319a828451fbff653fe94169fd772c5a61204952b5880a4aeda6bbdb8"
+      },
+      {
+        "bytes": 63,
+        "path": "studies/diversity_crossover/main_study/tests/__init__.py",
+        "sha256": "666e4dd446aba4aa5cd07cdfcc776984978b1644d98da57ff39d246b645479c5"
+      },
+      {
+        "bytes": 14051,
+        "path": "studies/diversity_crossover/main_study/tests/test_analysis.py",
+        "sha256": "85ffecea087a1f6ce47a7b62d025ced17b36eb87a43bc44670fc8a3369499fa8"
+      },
+      {
+        "bytes": 3442,
+        "path": "studies/diversity_crossover/main_study/tests/test_contract.py",
+        "sha256": "8b6bb689ed8e4f58f6d2a21e16390237c33555ddc2ed21dd550520792e601c51"
+      },
+      {
+        "bytes": 21642,
+        "path": "studies/diversity_crossover/main_study/tests/test_inputs_runner.py",
+        "sha256": "445a54c7de82eaee7efdb80ff19746c8d7833d96bf8ef88d045fdb508186c44e"
+      },
+      {
+        "bytes": 1861,
+        "path": "studies/diversity_crossover/provenance.json",
+        "sha256": "04e6a750066ca562bbea86592f1b23ddbe85ef73e2ff8b373455960feac5851f"
+      },
+      {
+        "bytes": 13022,
+        "path": "studies/knapsack_parameters/feasibility/data_audit.py",
+        "sha256": "a2cdf6d117c34d4c1b44920ef5f86c6e4ff299e4173dc8d7011f0ef4f655a995"
+      },
+      {
+        "bytes": 7985,
+        "path": "studies/knapsack_parameters/feasibility/frozen_inputs.py",
+        "sha256": "a67aa901552dbaf12f195f4359a26ca34634abbee73aef3ee90cd8148e73beb3"
+      },
+      {
+        "bytes": 3011,
+        "path": "studies/knapsack_parameters/ga_study/dependencies/environment.lock.json",
+        "sha256": "9907e3a46971303d8285b7ae160b5b8eafcab9942565d376bd038a92789745c6"
+      },
+      {
+        "bytes": 1116,
+        "path": "studies/knapsack_parameters/ga_study/dependencies/requirements.lock",
+        "sha256": "6818e0e12843daa10947f7554cb3edd573d9f7cdbc33e63f98f9f3a068869017"
+      }
+    ],
+    "protocol_id": "GA-DIVERSITY-CROSSOVER-MAIN-V1",
+    "schema_version": 1,
+    "sha256": "9359220a9ac47f4bf6df816817c01f526cd25ce4a8ebd9100f1502c51c816d3a"
+  },
+  "tests_passed": true,
+  "tests_run": 119,
+  "tests_run_id": 38386109685,
+  "tests_artifact_id": 11806855079,
+  "tests_sha": "7dda97f278ccfae8095f447c85a10ad7cf319ccf",
+  "tests_zip_sha256": "72c445b54052d284c5d08014afdf96dba498717f650fecbbe1d96084b8a08ef6"
+}
