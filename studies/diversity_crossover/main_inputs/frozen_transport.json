@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "protocol_id": "GA-DIVERSITY-CROSSOVER-MAIN-V1",
+  "prepare_run_id": 38395861172,
+  "prepare_artifact_id": 11811676908,
+  "preparation_sha": "757599bc6c6e11a404f949a1b9cab5e3840c83bf",
+  "prepare_zip_sha256": "b5303347fbdbb977e67cb658a1c03a0e4c246bff34f52826e9ccb20d29b399ad",
+  "banks_manifest_sha256": "941e8efa93e7c3e1ee7c2b44db802af4842a09c09d37f1db0eb426e57f367f2a",
+  "source_manifest_sha256": "99557f9143b3b26ae7b0ceed9f7636b20cadfeff935b72771dffaa1fbd170789",
+  "original_ci_file_manifest_sha256": "81659a121298d9a8816a51d2f29f03c4559aa3d36bd956e866b7e7235bc87b0d",
+  "source_archive_bytes": 3234310,
+  "member_bytes": 11476521,
+  "bank_count": 1576,
+  "physical_preparation_evaluations": 29644,
+  "logical_initial_positions": 47280,
+  "independent_preparation_verification_evaluations": 47280
+}
