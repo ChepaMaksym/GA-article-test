@@ -9,7 +9,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: diversity-crossover-main-series
+  group: diversity-crossover-infrastructure-recovery
   cancel-in-progress: false
 
 env:
