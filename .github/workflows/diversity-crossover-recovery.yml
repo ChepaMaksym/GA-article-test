@@ -1,0 +1,123 @@
+name: Diversity crossover aggregation recovery
+
+on:
+  push:
+    branches: [research/masters-ga-diversity-crossover]
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: diversity-crossover-main-series
+  cancel-in-progress: false
+
+env:
+  EXPECTED_SHA: ${{ github.sha }}
+  STUDY_WORKFLOW_SHA: ${{ github.sha }}
+  PYTHONHASHSEED: '0'
+  PYTHONDONTWRITEBYTECODE: '1'
+  MPLBACKEND: Agg
+  OPENBLAS_NUM_THREADS: '1'
+  OMP_NUM_THREADS: '1'
+
+jobs:
+  phase:
+    if: contains(github.event.head_commit.message, '[diversity-recovery:')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 1
+    outputs:
+      phase: ${{ steps.authority.outputs.phase }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - id: authority
+        env:
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 -m studies.diversity_crossover.recovery_tools.cli phase --output "$RUNNER_TEMP/budget"
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: diversity-recovery-budget-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/budget
+          if-no-files-found: warn
+          retention-days: 90
+
+  tests:
+    needs: phase
+    if: needs.phase.outputs.phase == 'tests'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - run: python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+      - env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -m studies.diversity_crossover.recovery_tools.cli tests --output "$RUNNER_TEMP/tests"
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: diversity-recovery-tests-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/tests
+          if-no-files-found: warn
+          retention-days: 90
+
+  aggregate:
+    needs: phase
+    if: needs.phase.outputs.phase == 'aggregate'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - run: python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+      - env:
+          GITHUB_TOKEN: ${{ github.token }}
+          AGGREGATION_PHASE: aggregate
+        run: python -m studies.diversity_crossover.recovery_tools.cli aggregate --output "$RUNNER_TEMP/report"
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: diversity-recovery-report-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/report
+          if-no-files-found: warn
+          retention-days: 90
+
+  closure:
+    needs: [phase, tests, aggregate]
+    if: always() && needs.phase.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 -m studies.diversity_crossover.recovery_tools.cli closure --output "$RUNNER_TEMP/usage"
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: diversity-recovery-usage-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/usage
+          if-no-files-found: warn
+          retention-days: 90
