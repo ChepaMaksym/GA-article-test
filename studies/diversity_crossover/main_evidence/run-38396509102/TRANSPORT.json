@@ -1,0 +1,31 @@
+{
+  "schema_version": "diversity-main-retained-transport-v1",
+  "protocol_id": "GA-DIVERSITY-CROSSOVER-MAIN-V1",
+  "search_run_id": 38396509102,
+  "search_attempt": 2,
+  "search_sha": "c856c9d6811eda51cb4c8b1786033e122249a52d",
+  "aggregation_run_id": 38571011555,
+  "aggregation_attempt": 1,
+  "aggregation_sha": "47045b18ef3cdaff8e25dc078b38107929f75643",
+  "report_artifact_id": 11897332714,
+  "report_zip_bytes": 9850956,
+  "report_zip_sha256": "d5edd772d1bf64d36f2a892502547f556151d880770dbba7e48aee35c65522df",
+  "usage_artifact_id": 11897063132,
+  "usage_zip_sha256": "9e3c00370b9a0cf605f35d276526a444baa856102a48814ee2d62ec46b845128",
+  "verified_original_report_members": 540,
+  "report_data_compression": "GZIP of the original bytes; no JSON parse/reserialization",
+  "source_full_zip_bytes_total": 5050661240,
+  "full_journal_local_copy_status_at_retention": "DOWNLOAD_IN_PROGRESS",
+  "runner_accounting": {
+    "ci_rounded_minutes_before_last_closure": 408,
+    "last_closure_job_id": 115876785989,
+    "started_at": "2026-10-14T13:22:44Z",
+    "completed_at": "2026-10-14T13:23:06Z",
+    "seconds": 22,
+    "rounded_minutes": 1,
+    "final_rounded_minutes": 409,
+    "approved_ceiling": 1200,
+    "ci_conservative_upper_bound": 413,
+    "scope": "All branch CI attempts since main protocol registration; skipped zero-execution jobs excluded by unchanged budget accounting"
+  }
+}
