@@ -1,9 +1,9 @@
 {
   "protocol_id": "GA-ADAPTIVE-MUTATION-ONLY-TECHNICAL-V1",
-  "run_id": 38802098197,
+  "run_id": 38803475456,
   "run_attempt": 1,
-  "implementation_sha": "2b5ac35888e088524f38a12264540955d2c34a69",
-  "artifact_id": 12003674848,
-  "artifact_zip_sha256": "4fb8f6045c0264f53eef92bce1fe85cbf7aa77d58ca4deec7d538c68a7430835",
+  "implementation_sha": "1cde31cb6413ffa1f205a4a3ec0eb5869323adfe",
+  "artifact_id": 12004624144,
+  "artifact_zip_sha256": "45ac971f82c630a6db16367764681edc1a86230e33ea15379f9f09f24980d7f0",
   "note": "CI independently checks the original remote artifact and source manifest before any later phase"
 }
