@@ -1,5 +1,6 @@
 """Small control-plane checks; CI only, no KPLIB search or new statistics."""
 import copy
+import importlib
 from pathlib import Path
 import tempfile
 import unittest
@@ -8,6 +9,10 @@ from . import contract as c
 
 
 class ContractTests(unittest.TestCase):
+    def test_reporting_entry_point_imports(self):
+        report = importlib.import_module("studies.adaptive_parameters.mutation_only.reporting")
+        self.assertTrue(callable(report.build_report))
+
     def test_root_and_registration(self):
         self.assertTrue((c.ROOT / "AGENTS.md").is_file())
         self.assertEqual(c.read_json(c.MODULE / "registration.json")["protocol_id"], c.PROTOCOL)

@@ -53,7 +53,7 @@ def identity(path):
 
 def source_manifest():
     files = list(MODULE.glob("*.py")) + [MODULE / p for p in
-        ("PROTOCOL_UK.md", "registration.json", "environment.json")]
+        ("PROTOCOL_UK.md", "registration.json", "environment.json", "pilot_approval.json")]
     files += [ROOT / WORKFLOW, ROOT / read_json(MODULE / "registration.json")["requirements_path"]]
     rows = [{"path": p.relative_to(ROOT).as_posix(), **identity(p)} for p in sorted(files)]
     return {"files": rows, "sha256": hashlib.sha256(canonical(rows)).hexdigest()}

@@ -1,0 +1,13 @@
+{
+  "protocol_id": "GA-ADAPTIVE-MUTATION-ONLY-TECHNICAL-V1",
+  "approved": true,
+  "runner_minutes": 20,
+  "approved_runs": 16,
+  "new_search_evaluations": 80000,
+  "user_instruction": "не питай виоконуй все як треба",
+  "interpretation": "Proceed with the immediately proposed bounded technical pilot and necessary checks, not a full scientific series",
+  "previous_runner_minutes_included": 1,
+  "fixed_crossover_probability": 0.9,
+  "fixed_population_size": 30,
+  "full_series_authorized": false
+}

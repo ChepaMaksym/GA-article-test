@@ -6,11 +6,7 @@ import copy
 import gzip
 import io
 from pathlib import Path
-import sys
 import unittest
-import urllib.error
-import urllib.request
-import zipfile
 
 from . import contract as c
 
@@ -20,52 +16,11 @@ def require_phase(expected):
 
 
 def validated_tests():
+    from .provenance import fetch_artifact
     transport = c.read_json(c.MODULE / "validated_tests.json")
     run_id, attempt = transport["run_id"], transport["run_attempt"]
-    run = c.api(f"/actions/runs/{run_id}/attempts/{attempt}")
-    c.require(run["conclusion"] == "success" and run["status"] == "completed" and
-              run["head_sha"] == transport["implementation_sha"] and
-              run["head_branch"] == c.BRANCH and run["path"] == c.WORKFLOW and
-              c.phase(run["head_commit"]["message"]) == "tests", "Source checks not successful tests")
-    artifact = c.api(f"/actions/artifacts/{transport['artifact_id']}")
-    c.require(not artifact["expired"] and artifact["workflow_run"]["id"] == run_id and
-              artifact["workflow_run"]["head_sha"] == run["head_sha"] and
-              artifact["name"] == f"adaptive-mutation-tests-{run_id}-{attempt}" and
-              artifact.get("digest") == "sha256:" + transport["artifact_zip_sha256"], "Wrong tests artifact")
-    class NoRedirect(urllib.request.HTTPRedirectHandler):
-        def redirect_request(self, request, fp, code, message, headers, new_url):
-            return None
-    request = urllib.request.Request(
-        f"https://api.github.com/repos/{c.REPOSITORY}/actions/artifacts/{transport['artifact_id']}/zip",
-        headers={"Authorization": "Bearer " + c.os.environ["GITHUB_TOKEN"], "User-Agent": "mutation-tests-receipt"})
-    try:
-        urllib.request.build_opener(NoRedirect).open(request, timeout=25)
-    except urllib.error.HTTPError as exc:
-        c.require(exc.code == 302, "Expected signed artifact redirect")
-        location = exc.headers["Location"]
-    else:
-        raise ValueError("Missing signed artifact redirect")
-    c.require(location.startswith("https://"), "Unsafe artifact storage protocol")
-    # No API credential accompanies the signed storage request.
-    with urllib.request.urlopen(location, timeout=25) as response:
-        raw = response.read(16*1024*1024 + 1)
-    c.require(len(raw) <= 16*1024*1024 and len(raw) == artifact["size_in_bytes"] and
-              c.hashlib.sha256(raw).hexdigest() == transport["artifact_zip_sha256"], "Tests ZIP mismatch")
-    with zipfile.ZipFile(io.BytesIO(raw)) as archive:
-        names = archive.namelist()
-        c.require(len(names) == len(set(names)) and sum(v.file_size for v in archive.infolist()) < 16*1024*1024,
-                  "Oversized or repeated test members")
-        manifest = c.json.loads(archive.read("file_manifest.json"))
-        c.require(manifest.get("protocol_id") == c.PROTOCOL and manifest.get("excludes_self") is True,
-                  "Wrong tests manifest")
-        members = manifest["files"]
-        c.require(len({r["path"] for r in members}) == len(members) and
-                  {r["path"] for r in members} | {"file_manifest.json"} == set(names), "Incomplete tests ZIP")
-        for member in members:
-            content = archive.read(member["path"])
-            c.require(len(content) == member["bytes"] and c.hashlib.sha256(content).hexdigest() == member["sha256"],
-                      "Wrong tests internal checksum")
-        receipt = c.json.loads(archive.read("tests_receipt.json"))
+    members, run = fetch_artifact(transport, "tests")
+    receipt = c.json.loads(members["tests_receipt.json"])
     c.require(receipt.get("tests_passed") is True and receipt.get("tests_run", 0) > 0 and
               receipt.get("phase") == "tests" and receipt.get("protocol_id") == c.PROTOCOL and
               receipt.get("run_id") == run_id and receipt.get("run_attempt") == attempt and
@@ -79,7 +34,8 @@ def run_tests(output):
     provenance = c.authenticate(runtime=True)
     suite = unittest.TestSuite(unittest.defaultTestLoader.loadTestsFromName(name) for name in (
         "studies.adaptive_parameters.mutation_only.test_mutation_only",
-        "studies.adaptive_parameters.mutation_only.test_contract"))
+        "studies.adaptive_parameters.mutation_only.test_contract",
+        "studies.adaptive_parameters.mutation_only.test_provenance"))
     stream = io.StringIO()
     result = unittest.TextTestRunner(stream=stream, verbosity=2).run(suite)
     report = stream.getvalue()
@@ -157,18 +113,22 @@ def prepare(output):
 
 
 def load_banks():
+    from .provenance import fetch_artifact
     root = c.MODULE / "inputs"
+    c.verify_manifest(root)
     registry = c.read_json(root / "bank_registry.json")
     c.require(registry.get("protocol_id") == c.PROTOCOL and
               registry.get("source_manifest") == c.source_manifest() and
               registry.get("schema") == "mutation-only-registry-v1" and
               registry.get("initial_conditions") == 8 and registry.get("pilot_search_seed") == 76001,
               "Wrong preparation identity")
-    preparation = c.api(f"/actions/runs/{registry['run_id']}/attempts/{registry['run_attempt']}")
-    c.require(preparation["status"] == "completed" and preparation["conclusion"] == "success" and
-              preparation["path"] == c.WORKFLOW and preparation["head_branch"] == c.BRANCH and
-              preparation["head_sha"] == registry["implementation_sha"] and
-              c.phase(preparation["head_commit"]["message"]) == "prepare", "Unverified preparation run")
+    transport = c.read_json(c.MODULE / "prepared_inputs.json")
+    original, preparation = fetch_artifact(transport, "prepare")
+    c.require(registry["implementation_sha"] == preparation["head_sha"] and
+              registry["run_id"] == preparation["id"] and registry["run_attempt"] == preparation["run_attempt"],
+              "Preparation registry provenance mismatch")
+    actual_files = {p.relative_to(root).as_posix(): p.read_bytes() for p in root.rglob("*") if p.is_file()}
+    c.require(actual_files == original, "Local banks differ from exact preparation artifact")
     registration = c.read_json(c.MODULE / "registration.json")
     expected = {(task, start) for task in registration["tasks"] for start in registration["starts"]}
     seen, result = set(), []
@@ -189,14 +149,21 @@ def load_banks():
                   bank["problem"] == problem and bank["task_index"] == ti and bank["start_index"] == si and
                   bank["source_identity"] == c.identity(c.ROOT / source) and
                   len(bank["initial_masks"]) == len(bank["initial_scores"]) == 30, "Wrong bank identity")
-        from .engine import make_rngs
-        rng = make_rngs(76000, ti, si)["initialization"]
+        import numpy as np
+        rng = np.random.Generator(np.random.PCG64(np.random.SeedSequence([76000, ti, si, 0])))
+        before = copy.deepcopy(rng.bit_generator.state)
         replay = ([case["certificate"]["center"]["mask"]] * 30 if start == "cloned" else
                   ["0" * 100] + ["".join("1" if v < 0.5 else "0" for v in rng.random(100)) for _ in range(29)])
         c.require(bank["initial_masks"] == replay and bank["initial_scores"] ==
                   [initial_independent_score(problem, m) for m in replay], "Initial reconstruction mismatch")
+        c.require(bank["initialization_before"] == before and bank["initialization_after"] == rng.bit_generator.state and
+                  bank["logical_initial_positions"] == bank["independent_preparation_checks"] == 30 and
+                  bank["physical_preparation_evaluations"] == len(set(replay)), "Initial accounting or RNG mismatch")
         result.append(bank)
     c.require(seen == expected, "Missing initial condition")
+    c.require(registry["physical_preparation_evaluations"] == sum(b["physical_preparation_evaluations"] for b in result) and
+              registry["independent_preparation_checks"] == 240 and registry["scientific_search_calls"] == 0,
+              "Initial registry totals mismatch")
     return result
 
 
@@ -206,12 +173,14 @@ def pilot(output):
     validated_tests()
     from .engine import make_rngs, run_search
     from .verifier import verify_log
+    from .provenance import validate_log_identity, validate_complete_results
     results = []
     for bank in load_banks():
         first = None
         for method in ("fixed", "adaptive_mutation"):
             log = run_search(bank["problem"], bank["initial_masks"], bank["initial_scores"], method,
                 make_rngs(76001, bank["task_index"], bank["start_index"]), budget=5000)
+            validate_log_identity(log, bank, method)
             verification = verify_log(log)
             c.require(verification["verification_status"] == "VERIFIED", "Log replay failed")
             candidates = [row for row in log["candidates"] if row["generation"] == 1]
@@ -228,43 +197,23 @@ def pilot(output):
             c.require(journal.stat().st_size <= 64*1024*1024, "Oversized journal")
             initial = max(s["profit"] for s in bank["initial_scores"] if s["feasible"])
             exits = [r["call"] for r in log["candidates"] if r["feasible"] and r["profit"] > initial]
+            # External oracle is read only after the search; never supplied to the kernel.
+            _, case, _ = source_task(bank["task"])
+            optimum = case["exact"]["confirmed_optimum"]
+            c.require(log["summary"]["best_profit"] <= optimum, "Record exceeds exact external optimum")
             results.append({"task": bank["task"], "start": bank["start"], "method": method,
                 "seed": 76001, "summary": log["summary"], "verification": verification,
                 "initial_record": initial, "first_improvement_call": min(exits) if exits else None,
                 "calls_to_improvement_capped": min(exits) if exits else 5000,
+                "external_optimum": optimum, "center_type": case["status"],
                 "journal": journal.relative_to(output).as_posix(), "journal_identity": c.identity(journal)})
-    c.require(len(results) == 16 and sum(r["summary"]["new_calls"] for r in results) == 80000, "Incomplete pilot")
+    validate_complete_results(results)
     c.write_json(output / "pilot_summary.json", {**provenance, "status": "COMPLETE_TECHNICAL_PILOT",
         "runs": 16, "new_calls": 80000, "results": results, "technical_seed": 76001,
         "superiority_tested": False, "bootstrap_performed": False})
-    draw_pilot(output)
+    from .reporting import build_report
+    build_report(output)
     c.write_manifest(output)
-
-
-def draw_pilot(output):
-    """Only CI: transparent record and mutation plots; not a superiority chart."""
-    import matplotlib.pyplot as plt
-    from matplotlib.backends.backend_pdf import PdfPages
-    with PdfPages(output / "Прості_графіки_мутації.pdf") as pdf:
-        for start, label in (("cloned", "копії локального центра"), ("bank", "випадковий початок")):
-            fig, axes = plt.subplots(2, 1, figsize=(10, 7), layout="constrained")
-            for method, title in (("fixed", "стала мутація"), ("adaptive_mutation", "адаптивна мутація")):
-                raw = c.json.loads(gzip.decompress((output / "journals" / f"UC-s000-{start}-{method}.json.gz").read_bytes()))
-                log = raw["log"]
-                axes[0].plot([r["call"] for r in log["candidates"]], [r["record_profit"] for r in log["candidates"]], label=title)
-                axes[1].step([g["start_call"] for g in log["generations"]], [100*g["p_m"] for g in log["generations"]], where="post", label=title)
-            axes[0].set_title(f"UC-s000, {label}: чи знайдено кращий набір?")
-            axes[0].set_ylabel("Найкраща допустима цінність")
-            axes[1].set_title("Коли змінювалася ймовірність мутації?")
-            axes[1].set_ylabel("Мутація одного біта, %")
-            for ax in axes:
-                ax.set_xlabel("Нові оцінювання")
-                ax.legend()
-                ax.grid(alpha=0.25)
-            fig.suptitle("Один технічний seed 76001; не доказ переваги")
-            fig.savefig(output / f"UC-s000-{start}.png", dpi=160)
-            pdf.savefig(fig)
-            plt.close(fig)
 
 
 def main():
