@@ -268,8 +268,8 @@ def render(output):
         question = "Яка мутація частіше створює конкретний кращий набір?"
         category = "ТОЧНА ФОРМУЛА · один мутант із незмінного центра · не експеримент"
         answer = "Для однієї заданої 3-бітної цілі найбільший шанс — за мутації 3%."
-        limitation = ("P = p³(1−p)⁹⁷. Показано лише одну ціль, не всі можливі поліпшення.\n"
-                      "Пік 3% не означає найкращий параметр усього генетичного алгоритму.")
+        limitation = ("P = p³(1−p)⁹⁷. Вісь показує розрахункове середнє на 1 млн спроб, а не виконані запуски.\n"
+                      "Одна задана ціль, не всі поліпшення. Пік 3% не означає найкращий параметр усього ГА.")
         fig, ax = figure(question, category, answer, limitation)
         xs = [i/10000 for i in range(1001)]
         ys = [1_000_000*mutation_probability(p) for p in xs]
@@ -281,7 +281,7 @@ def render(output):
         ax.set_xlim(0, 10)
         ax.set_ylim(0, max(ys)*1.25)
         ax.set_xlabel("Імовірність зміни одного біта, %")
-        ax.set_ylabel("Імовірність за одну мутацію, ×10⁻⁶")
+        ax.set_ylabel("Очікувані потрапляння на 1 млн спроб")
         save(fig, "02_mutation_probability", question, category,
              {"n": 100, "target_distance": 3, "p": xs, "probability": [y/1_000_000 for y in ys]},
              answer, limitation, pdf)
