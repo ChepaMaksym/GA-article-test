@@ -1,0 +1,61 @@
+{
+  "schema_version": "simple-ga-question-figures-retention-v1",
+  "explanatory_id": "GA-SIMPLE-QUESTION-FIGURES-V1",
+  "run_id": 38751555594,
+  "run_attempt": 1,
+  "implementation_sha": "0ab34c8d14c4217e5865b22126608b2274a7fbd4",
+  "conclusion": "success",
+  "artifact_id": 11980663703,
+  "zip_bytes": 770326,
+  "zip_sha256": "bc9c8e4a053c08d71e9f1c583845626b4db0b35887b4d374324f18fb6a933328",
+  "artifact_expires_at": "2027-01-13T14:27:27Z",
+  "pdf_sha256": "412ad07432d763ef63757d7c511b4e8fd5293c21267a2c0e4fb9478c746d2f22",
+  "verified_internal_manifest_entries": 17,
+  "figures": 5,
+  "tests_passed": 16,
+  "tests_failed": 0,
+  "tests_skipped": 0,
+  "new_search_calls": 0,
+  "new_statistical_tests": 0,
+  "local_scientific_execution": false,
+  "historical_source_manifest_sha256": "9359220a9ac47f4bf6df816817c01f526cd25ce4a8ebd9100f1502c51c816d3a",
+  "earlier_attempts": [
+    {
+      "run_id": 38750915075,
+      "sha": "f2b9809d8d1f7b4dcfe0d0ceb3c5aa1afb86d763",
+      "conclusion": "failure",
+      "reason": "YAML shell command containing colon-space was not a block scalar",
+      "executed_jobs": 0,
+      "runner_minutes": 0
+    },
+    {
+      "run_id": 38751127933,
+      "sha": "47ce90018abeed21b8039cd374c47aa6f9e00290",
+      "conclusion": "success",
+      "artifact_id": 11981736540,
+      "zip_bytes": 761480,
+      "zip_sha256": "e31322d8791f80676ad95c48ec7a4d50941df5051a0d57b69a7ea1f325d4454b",
+      "job_id": 116477498555,
+      "started_at": "2026-10-15T14:24:40Z",
+      "completed_at": "2026-10-15T14:25:37Z",
+      "rounded_runner_minutes": 1,
+      "superseded_by": "Only mutation-axis label and explanatory wording simplified"
+    }
+  ],
+  "final_job": {
+    "job_id": 116478975191,
+    "started_at": "2026-10-15T14:27:30Z",
+    "completed_at": "2026-10-15T14:28:21Z",
+    "rounded_runner_minutes": 1
+  },
+  "runner_usage": {
+    "prior_study_minutes": 409,
+    "this_explanatory_stage_minutes": 2,
+    "this_stage_ceiling": 12,
+    "total_minutes": 411,
+    "approved_total_ceiling": 1200
+  },
+  "superseded_expanded_preview": "Moved to Recycle Bin only after both ZIP and final package checks; original ZIP retained",
+  "word_documents_changed": false,
+  "merge_performed": false
+}
