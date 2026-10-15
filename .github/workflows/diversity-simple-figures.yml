@@ -41,7 +41,8 @@ jobs:
         with:
           python-version: '3.12.14'
       - name: Install the unchanged hash-locked environment
-        run: python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+        run: |
+          python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
       - name: Independent checks, then explanatory rendering only
         run: python -m studies.diversity_crossover.simple_figures.build render --output "$RUNNER_TEMP/simple-figures"
       - if: always()
