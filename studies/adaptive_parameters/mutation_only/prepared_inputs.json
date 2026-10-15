@@ -1,0 +1,9 @@
+{
+  "protocol_id": "GA-ADAPTIVE-MUTATION-ONLY-TECHNICAL-V1",
+  "run_id": 38803660671,
+  "run_attempt": 1,
+  "implementation_sha": "ca66719f55974830349f038c64191fd29b369499",
+  "artifact_id": 12005121925,
+  "artifact_zip_sha256": "30a420375827f97e6c53435861bfe2409337a0296c17906f62337c2f692771ad",
+  "note": "All original artifact members retained byte-for-byte in inputs; both local and remote inventories are checked before search"
+}
