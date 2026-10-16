@@ -111,10 +111,11 @@ def certify(output, provenance):
     value, instances = frozen_holdout()
     output = Path(output)
     records = []
+    overall_deadline = time.monotonic() + 12 * 60  # leave setup/upload margin inside the 15-minute job
     for instance in instances:
         source = next(r for r in value["source_files"] if r.get("task_id") == instance.instance_id)
         record = prepare_instance(instance, provenance, source,
-            output / "cases" / instance.instance_id, deadline=time.monotonic() + 1740)
+            output / "cases" / instance.instance_id, deadline=min(time.monotonic() + 1740, overall_deadline))
         records.append(record)
         write_json(output / "registry.json", {"protocol_id": provenance["protocol_id"],
             "provenance": provenance, "expected": 30, "completed": len(records), "records": records})

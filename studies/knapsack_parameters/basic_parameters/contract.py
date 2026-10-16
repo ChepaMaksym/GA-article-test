@@ -245,9 +245,21 @@ def preflight(output):
         require(receipt["source_manifest_sha256"] == source_manifest()["sha256"] and
                 receipt["completed_runs"] == 27 and receipt["independent_mismatches"] == 0 and
                 receipt["projected_total_minutes"] + usage["used_runner_minutes"] <= 900 and
-                receipt["projected_journal_bytes"] <= 40 * 1024**3, "Pilot does not admit main series")
+                receipt["projected_journal_bytes"] <= 40 * 1024**3 and
+                receipt["projected_main_job_bytes"] <= 1024**3 and
+                receipt["projected_main_job_seconds"] <= 1200, "Pilot does not admit main series")
         pilot_run = api(f"/actions/runs/{receipt['run_id']}")
-        require(pilot_run["conclusion"] == "success" and pilot_run["head_sha"] == receipt["implementation_sha"], "Pilot source run mismatch")
+        require(pilot_run["conclusion"] == "success" and pilot_run["head_sha"] == receipt["implementation_sha"] and
+                pilot_run["run_attempt"] == receipt["run_attempt"] and pilot_run["event"] == "push" and
+                pilot_run["head_branch"] == BRANCH and pilot_run["path"] == WORKFLOW and
+                phase(pilot_run["head_commit"]["message"]) == "pilot", "Pilot source run mismatch")
+        descriptor = api(f"/actions/artifacts/{receipt['artifact_id']}")
+        require(descriptor["name"] == f"basic-report-pilot-{receipt['run_id']}-{receipt['run_attempt']}" and
+                descriptor["workflow_run"]["id"] == receipt["run_id"] and
+                descriptor["digest"] == "sha256:" + receipt["artifact_zip_sha256"] and
+                descriptor["size_in_bytes"] == receipt["artifact_bytes"], "Pilot artifact mismatch")
+        original = artifact_document(descriptor, "pilot_receipt.json")
+        require(all(original[k] == receipt[k] for k in original), "Pilot admission differs from original CI report")
     write_json(Path(output) / "preflight.json", {**provenance, **usage, "phase": selected,
                                                "reserved_runner_minutes": reserve})
     return selected

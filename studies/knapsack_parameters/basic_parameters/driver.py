@@ -186,13 +186,16 @@ def aggregate(output):
         per_main_seconds = elapsed / 9 * 1250 * 1.25 + 90
         projected_minutes = 30 * math.ceil(per_main_seconds / 60) + 30
         projected_bytes = math.ceil(payload / 27 * 37500 * 1.25)
+        projected_job_bytes = math.ceil(max(j["output_bytes"] for j in jobsummaries) / 9 * 1250 * 1.25)
         receipt = {**provenance, "completed_runs": len(rows), "independent_mismatches": 0,
             "source_manifest_sha256": provenance["source_manifest"]["sha256"],
             "projected_main_job_seconds": per_main_seconds,
+            "projected_main_job_bytes": projected_job_bytes,
             "projected_total_minutes": projected_minutes, "projected_journal_bytes": projected_bytes,
             "technical_only": True, "pilot_seeds_not_used_for_tuning": True}
         write_json(output / "pilot_receipt.json", receipt)
-        require(per_main_seconds <= 1200 and projected_minutes <= 900 and projected_bytes <= 40 * 1024**3,
+        require(per_main_seconds <= 1200 and projected_minutes <= 900 and projected_bytes <= 40 * 1024**3 and
+                projected_job_bytes <= 1024**3,
                 "STOP_RESOURCE: pilot projection does not fit registered limits")
     else:
         from .analysis import aggregate as analyze, write_report
