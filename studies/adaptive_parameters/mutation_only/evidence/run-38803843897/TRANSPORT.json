@@ -1,0 +1,22 @@
+{
+  "protocol_id": "GA-ADAPTIVE-MUTATION-ONLY-TECHNICAL-V1",
+  "run_id": 38803843897,
+  "run_attempt": 1,
+  "implementation_sha": "9d09e17860ebcac63f46b4e3ce1769cb7516f5d3",
+  "artifact_id": 12004669642,
+  "artifact_name": "adaptive-mutation-pilot-38803843897-1",
+  "artifact_bytes": 5542484,
+  "artifact_zip_sha256": "f92cd5665a54a30e6202bfdb5bdc17dcd3747893e1b0cf0bbdf505dc957832a6",
+  "artifact_expires_at": "2027-01-13T20:40:24Z",
+  "availability_rechecked_utc_date": "2026-10-16",
+  "job_id": 116659466756,
+  "rounded_runner_minutes": 1,
+  "cumulative_runner_minutes": 4,
+  "completed_runs": 16,
+  "new_evaluations": 80000,
+  "source_file_manifest_sha256": "2cadb2cf1b4fdcb1fa87fc573ab847e042497e746dce7f714cb1b230c3894941",
+  "retained_original_members": ["RESULTS_UK.md", "UC-s000-bank.png", "UC-s000-cloned.png", "pilot_summary.json", "preflight.json", "report_descriptives.json", "Прості_графіки_мутації.pdf"],
+  "inventory_copy": "compact/source_file_manifest.json is the byte-preserving original file_manifest.json; it includes 16 full journals omitted from Git",
+  "full_evidence": "One complete local canonical ZIP and original CI artifact; expanded duplicate recoverable from that ZIP",
+  "integrity": "ZIP API digest, all 23 internal member hashes and all 7 retained output members independently matched before cleanup"
+}
