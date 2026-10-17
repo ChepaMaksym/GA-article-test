@@ -1,0 +1,17 @@
+{
+  "protocol_id": "GA-KNAPSACK-BASIC-PARAMETERS-V1",
+  "run_id": 38872553968,
+  "run_attempt": 1,
+  "implementation_sha": "516e523195bd630d698120a40cb9fecf00eb23aa",
+  "artifact_id": 12034620101,
+  "artifact_name": "basic-full-tests-single-38872553968-1",
+  "artifact_bytes": 17174,
+  "artifact_zip_sha256": "6475a0accef6f78c8512ec10ab1d77dd3204b79c5c32c05858b684c7e5231a1c",
+  "artifact_expires_at": "2027-01-14T08:16:06Z",
+  "original_members": "ci-original",
+  "tests_run": 54,
+  "success": true,
+  "source_manifest_sha256": "1fc6780e1d84e3de2e27bbb84ab07979c9200e2222139f376d6c5f1e4952e362",
+  "scope": "Historical green tests before the parameter-speed supplement; not authority for changed sources or completed main GA runs",
+  "new_scientific_search_runs": 0
+}

@@ -142,6 +142,12 @@ def aggregate(output):
     artifacts = pages(f"/actions/runs/{run}/artifacts", "artifacts")
     output.mkdir(parents=True, exist_ok=True)
     rows, receipts, jobsummaries = [], [], []
+    collection = {**provenance, "status": "COLLECTING", "source_jobs_success": all_success,
+        "source_jobs": [{k: j[k] for k in ("id", "name", "status", "conclusion")} for j in sources],
+        "expected_runs": 27 if selected == "pilot" else 37500, "observed_runs": 0, "artifacts": receipts,
+        "available_source_artifacts": [{k: a[k] for k in ("id", "name", "size_in_bytes", "digest", "expires_at")}
+            for a in artifacts if a["name"].startswith((f"basic-full-{selected}-", f"basic-compact-{selected}-"))]}
+    write_json(output / "collection.json", collection)
     for task in tasks:
         name = f"basic-compact-{selected}-{task}-{run}-{attempt}"
         matches = [a for a in artifacts if a["name"] == name]
@@ -154,6 +160,8 @@ def aggregate(output):
                 r["phase"] == selected and r["instance_id"] == task for r in current), "Mixed SHA/task/phase")
         rows.extend(current)
         jobsummaries.append(read_json(directory / "manifest.json"))
+        collection["observed_runs"] = len(rows)
+        write_json(output / "collection.json", collection)
     expected = 27 if selected == "pilot" else 37500
     write_json(output / "collection.json", {**provenance, "source_jobs_success": all_success,
         "expected_runs": expected, "observed_runs": len(rows), "artifacts": receipts,
@@ -221,6 +229,10 @@ def aggregate(output):
         report["example_trajectories"] = examples
         report["provenance"] = provenance
         write_report(report, output)
+        from .speed_analysis import analyze as speed_analyze, write_report as write_speed_report
+        speed_report = speed_analyze(rows, instances, optima)
+        speed_report["provenance"] = provenance
+        write_speed_report(speed_report, output)
     manifest(output)
 
 

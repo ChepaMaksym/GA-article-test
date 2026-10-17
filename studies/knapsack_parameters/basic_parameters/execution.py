@@ -12,6 +12,7 @@ from .banks import load_bank
 from .contract import PROTOCOL, canonical, identity, manifest, read_json, require, verify_manifest, write_json
 from .core import (BUDGET, DEVELOPMENT_SEEDS, PILOT_SEED, PILOT_TASKS, ci_only,
                    grid, load_instance, pilot_grid, run_checked)
+from .observations import record_history
 
 MAX_SECONDS = 20 * 60
 MAX_BYTES = 1024 ** 3
@@ -60,6 +61,7 @@ def build_summary(instance, seed, phase, result, verdict, bank, bank_metadata, p
             "source_manifest_sha256": provenance["source_manifest"]["sha256"],
             "run_id": provenance["run_id"], "run_attempt": provenance["run_attempt"],
             "verified": True, "verification_status": "PASS_REPLAY", "verification": verdict,
+            "record_history": record_history(result), "record_history_verified": True,
             "initial_best_profit": max(valid_initial), "exact_optimum": optimum,
             "relative_gap": (optimum - summary["best_profit"]) / optimum,
             "bank_mask_sha256": bank_metadata["mask_sha256"],

@@ -56,7 +56,7 @@ def identity(path):
 def source_manifest():
     files = list(MODULE.rglob("*.py"))
     files += [MODULE / p for p in ("PROTOCOL_UK.md", "registration.json", "environment.json",
-                                   "source_gate.json", "SOURCE_AUDIT_UK.md")]
+                                   "source_gate.json", "SOURCE_AUDIT_UK.md", "PARAMETER_RESULTS_ADDENDUM_UK.md")]
     files += [ROOT / WORKFLOW, ROOT / "studies/knapsack_parameters/ga_study/dependencies/requirements.lock"]
     # Bind all reused pure implementations, not their historical CLI authority.
     for directory in ("ga_study", "feasibility"):
@@ -108,6 +108,8 @@ def authenticate(runtime=False):
     for name in ("PROTOCOL_UK.md", "registration.json"):
         frozen = subprocess.check_output(["git", "show", REGISTRATION_SHA + ":" + REL + name], cwd=ROOT)
         require(frozen == (MODULE / name).read_bytes(), "Preregistration changed")
+    supplement = subprocess.check_output(["git", "show", "75bbcab:" + REL + "PARAMETER_RESULTS_ADDENDUM_UK.md"], cwd=ROOT)
+    require(supplement == (MODULE / "PARAMETER_RESULTS_ADDENDUM_UK.md").read_bytes(), "Parameter-figure preregistration changed")
     changes = subprocess.check_output(["git", "diff", "--name-only", REGISTRATION_SHA, head], cwd=ROOT, text=True).splitlines()
     require(all(p.startswith(REL) or p in {WORKFLOW, "README.md"} for p in changes), "Historical files modified")
     registration = read_json(MODULE / "registration.json")
