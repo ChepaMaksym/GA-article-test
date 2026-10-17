@@ -1,0 +1,10 @@
+{
+  "protocol_id": "GA-KNAPSACK-MUTATION-POPULATION-V1",
+  "runtime": "CPython 3.12.14",
+  "platform": "ubuntu-24.04-x86_64",
+  "numpy": "2.2.6",
+  "matplotlib": "3.10.3",
+  "requirements_path": "studies/knapsack_parameters/ga_study/dependencies/requirements.lock",
+  "requirements_sha256": "6818e0e12843daa10947f7554cb3edd573d9f7cdbc33e63f98f9f3a068869017",
+  "historical_environment_modified": false
+}

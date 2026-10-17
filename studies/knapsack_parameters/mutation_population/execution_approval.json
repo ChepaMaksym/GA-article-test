@@ -1,0 +1,8 @@
+{
+  "protocol_id": "GA-KNAPSACK-MUTATION-POPULATION-V1",
+  "approved": false,
+  "approved_phases": [],
+  "runner_minutes": null,
+  "approved_by": null,
+  "note": "Implementation and bounded CI unit tests only. Preparation, search pilot and main series await an explicit new resource approval. Previous study allowances are not inherited."
+}

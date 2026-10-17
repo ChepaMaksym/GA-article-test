@@ -1,0 +1,103 @@
+name: Knapsack isolated mutation and population comparison
+
+on:
+  push:
+    branches: [research/masters-ga-diversity-crossover]
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: knapsack-mutation-population
+  cancel-in-progress: false
+
+env:
+  EXPECTED_SHA: ${{ github.sha }}
+  GITHUB_TOKEN: ${{ github.token }}
+  COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+  PYTHONHASHSEED: '0'
+  PYTHONDONTWRITEBYTECODE: '1'
+  MPLBACKEND: Agg
+  OPENBLAS_NUM_THREADS: '1'
+  OMP_NUM_THREADS: '1'
+
+jobs:
+  tests:
+    if: contains(github.event.head_commit.message, '[mutation-population:tests]') && !contains(github.event.head_commit.message, '[mutation-population:prepare]') && !contains(github.event.head_commit.message, '[mutation-population:pilot]')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Preregistered authority and new cumulative resource allowance
+        run: python3 -m studies.knapsack_parameters.mutation_population.driver preflight --output "$RUNNER_TEMP/mutation-population"
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - name: Unchanged hash-locked scientific environment
+        run: python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+      - name: Independent CI checks only; no scientific search pilot or main series
+        run: python -m studies.knapsack_parameters.mutation_population.driver tests --output "$RUNNER_TEMP/mutation-population"
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: mutation-population-tests-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/mutation-population
+          if-no-files-found: warn
+          retention-days: 90
+
+  prepare:
+    if: contains(github.event.head_commit.message, '[mutation-population:prepare]') && !contains(github.event.head_commit.message, '[mutation-population:tests]') && !contains(github.event.head_commit.message, '[mutation-population:pilot]')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Separate resource approval required; closed by default
+        run: python3 -m studies.knapsack_parameters.mutation_population.driver preflight --output "$RUNNER_TEMP/mutation-population"
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - run: python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+      - name: Prepare only the eight pilot beginnings; never search
+        run: python -m studies.knapsack_parameters.mutation_population.driver prepare --scope pilot --output "$RUNNER_TEMP/mutation-population"
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: mutation-population-inputs-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/mutation-population
+          if-no-files-found: warn
+          retention-days: 90
+
+  pilot:
+    if: contains(github.event.head_commit.message, '[mutation-population:pilot]') && !contains(github.event.head_commit.message, '[mutation-population:tests]') && !contains(github.event.head_commit.message, '[mutation-population:prepare]')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Separate resource approval required; closed by default
+        run: python3 -m studies.knapsack_parameters.mutation_population.driver preflight --output "$RUNNER_TEMP/mutation-population"
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - run: python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+      - name: Sixteen pilot searches only after frozen beginnings and matching green tests
+        run: python -m studies.knapsack_parameters.mutation_population.driver pilot --output "$RUNNER_TEMP/mutation-population"
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: mutation-population-pilot-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/mutation-population
+          if-no-files-found: warn
+          retention-days: 90

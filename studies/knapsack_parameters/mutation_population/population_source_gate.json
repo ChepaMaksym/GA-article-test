@@ -1,0 +1,15 @@
+{
+  "protocol_id": "GA-KNAPSACK-MUTATION-POPULATION-V1",
+  "status": "NO_GO",
+  "candidates_screened": 3,
+  "candidate_limit": 3,
+  "adaptive_population_implementation_allowed": false,
+  "adaptive_population_runs_allowed": false,
+  "mutation_comparison_blocked": false,
+  "candidates": [
+    {"id": "POP-2025-UK", "doi": "10.1038/s41598-025-93943-0", "url": "https://www.nature.com/articles/s41598-025-93943-0", "decision": "NO_GO", "reason": "Sequential GA restarts starting with population 10, doubled between searches; incompatible with in-place mu=30 adaptation without restarts."},
+    {"id": "POP-2024-UK-EU", "doi": "10.1007/s00453-023-01153-9", "url": "https://link.springer.com/article/10.1007/s00453-023-01153-9", "decision": "NO_GO", "reason": "Adapts offspring lambda of non-elitist (1,lambda) EA, not parent mu of a crossover-based binary GA. Lambda is excluded."},
+    {"id": "POP-2022-CIRRELT", "url": "https://www.cirrelt.ca/documentstravail/cirrelt-2022-32.pdf", "decision": "NO_GO", "reason": "BRKGA-QL random-key encoding and Brazil/Canada affiliations; not the agreed geographic and binary-GA profile."}
+  ],
+  "scope": "Bounded compatibility audit, not proof that no suitable controller exists. No own population controller was invented."
+}
