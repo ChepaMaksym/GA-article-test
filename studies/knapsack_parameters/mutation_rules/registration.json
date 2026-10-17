@@ -1,0 +1,26 @@
+{
+  "protocol_id": "GA-KNAPSACK-MUTATION-RULES-V1",
+  "registered_date": "2026-10-17",
+  "base_sha": "e03572d1a74ad793a0e004bc6fad66d325a2961b",
+  "branch": "research/masters-ga-diversity-crossover",
+  "repository": "ChepaMaksym/GA-article-test",
+  "profiles": ["fixed", "own_adaptive_mutation", "paper_sd_mutation"],
+  "n": 100,
+  "population_size": 30,
+  "crossover_probability": 0.9,
+  "new_evaluations": 5000,
+  "sd": {"source_id": "RW-2022-AUTHOR-CH3", "r_initial": 1, "u_initial": 0, "R": "n**3", "update_boundary": "complete_generation", "strict_threshold": true, "success": "new_feasible_record", "execution": "verified_inactive_view_only"},
+  "independent_verifier": {"decimal_precision": 80, "relative_tolerance": 1e-12, "absolute_tolerance": 1e-12},
+  "scientific_execution_authorized": false,
+  "tests": {"shared_cumulative_runner_minutes": 6, "job_timeout_minutes": 3, "workflow_files": ["knapsack-mutation-population.yml", "knapsack-mutation-rules.yml"]},
+  "protected_sha256": {
+    "studies/adaptive_parameters/mutation_only/engine.py": "917cf0323a18f9286a7cb64994daba2677f8c9f5bd13ead712cb8eae9cb74e29",
+    "studies/adaptive_parameters/mutation_only/verifier.py": "ce2c49e373b03200f9fb2c57309c07cb9f00ddf1ee994f834d1694b2544a9a1c",
+    "studies/knapsack_parameters/mutation_population/search.py": "2834102647366471a57e81adc9873a9e233efa1c19612a292b193deb5aa7564e",
+    "studies/knapsack_parameters/mutation_population/observations.py": "1a25b28fb8379a3aaf76da531d006f3207d4d8eb6e1aa1a895ccb8c8779d96d0",
+    "studies/knapsack_parameters/ga_study/dependencies/requirements.lock": "6818e0e12843daa10947f7554cb3edd573d9f7cdbc33e63f98f9f3a068869017",
+    "studies/knapsack_parameters/ga_study/dependencies/environment.lock.json": "9907e3a46971303d8285b7ae160b5b8eafcab9942565d376bd038a92789745c6",
+    "studies/knapsack_parameters/inputs/data_manifest.json": "528fee8da7d7cb776fb851e6a05949133830e9533c4091cbb4e8698ac19fb0df",
+    "studies/knapsack_parameters/evidence/run-37637475385/registry.json": "7e9b8fc893889426e2d3b57610e3a91c09263fcdff488cf15a2b84efe1bdc70f"
+  }
+}

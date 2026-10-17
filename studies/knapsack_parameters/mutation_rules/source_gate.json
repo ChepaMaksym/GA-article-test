@@ -1,0 +1,44 @@
+{
+  "protocol_id": "GA-KNAPSACK-MUTATION-RULES-V1",
+  "verified_date": "2026-10-17",
+  "admitted_new_published_controllers": 1,
+  "own_heuristic_is_not_a_paper_controller": true,
+  "sources": [
+    {
+      "id": "RW-2022-AUTHOR-CH3",
+      "authors": "Amirhossein Rajabi; Carsten Witt",
+      "title": "Self-Adjusting Evolutionary Algorithms for Multimodal Optimization",
+      "year": 2022,
+      "doi": "10.1007/s00453-022-00933-z",
+      "affiliation": "Technical University of Denmark",
+      "publisher": "https://link.springer.com/article/10.1007/s00453-022-00933-z",
+      "lawful_full_text": "https://backend.orbit.dtu.dk/ws/portalfiles/portal/300327986/PhD_thesis_Amirhossein_Rajabi.pdf",
+      "local_file": "Rajabi_Thesis_2023.pdf",
+      "file_name_year_is_not_verified_metadata": true,
+      "bytes": 6408645,
+      "sha256": "3bcf729275a4478f44895c0ff8ce4a2a9a68545af6f5a5d41601a67912dc51a6",
+      "version": "lawful author thesis chapter 3, identified as journal paper RW22a; minor corrections may differ from publisher",
+      "reviewed_pdf_pages": [18, 20, 43, 46, 47, 48],
+      "rule": "Algorithm 8, PDF page 48 / printed page 33; recommended R=n^3 PDF page 47",
+      "decision": "ADMITTED_RULE_WITH_EXPLICIT_GENERATIONAL_TRANSFER",
+      "author_code": "not established for this source version; clean-room formula implementation, not code replication",
+      "license_boundary": "public institutional author text; no redistribution of full PDF in Git, no inferred source-code license",
+      "theoretical_guarantees_transferred": false,
+      "numerical_paper_replication": false
+    },
+    {
+      "id": "WZ-SMC-2024",
+      "authors": "Graham Woodcock; Yaochu Zhang",
+      "doi": "10.1109/SMC54092.2024.10831364",
+      "affiliation": "Royal Holloway, University of London, UK",
+      "lawful_full_text": "https://pure.royalholloway.ac.uk/ws/files/65857470/SMC24_0732_FI.pdf",
+      "bytes": 339879,
+      "sha256": "332f0dee760ad396a7b37d46e046cded26539df92046e0eaddd1d259a5b24c01",
+      "reviewed_pdf_pages": [1, 2, 3, 4, 5, 6, 7],
+      "decision": "NO_GO_UNDERSPECIFIED_CONTROLLER",
+      "missing": ["state variance cutpoints", "learning alpha", "discount gamma", "exploration policy and epsilon", "initial Q values", "argmax tie rule", "flat fitness normalization"],
+      "author_code": "not linked in full text; availability not established, not a claim of nonexistence",
+      "implementation_authorized": false
+    }
+  ]
+}
