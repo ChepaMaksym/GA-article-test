@@ -1,0 +1,2 @@
+# Preserve original CI bytes, including line endings and compressed archives.
+* -text
