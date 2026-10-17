@@ -1,13 +1,13 @@
 {
   "protocol_id": "GA-KNAPSACK-BASIC-PARAMETERS-V1",
   "success": true,
-  "tests_run": 73,
-  "run_id": 39011703452,
+  "tests_run": 74,
+  "run_id": 39012279596,
   "run_attempt": 1,
-  "implementation_sha": "48188bf1167f4ac0fd5b0ce92990d4e503cedd71",
-  "source_manifest_sha256": "3c2de1e5e8854ed85d08d8e008219cb925c7c653d6e3f47ef4b24714f96ceceb",
-  "artifact_id": 12092809054,
-  "artifact_zip_sha256": "e7259ed0fe813ca47f8af3680659d452d9bf23adb5e7196ddf2729fa8f81428b",
-  "artifact_bytes": 21786,
+  "implementation_sha": "f6a904bc8f23803e6e2706e1b22cd112e8d1ffa4",
+  "source_manifest_sha256": "e9c93f582e275410a1f58c37de6c995b6f2c0d7027f12e3064adeb7a36b29892",
+  "artifact_id": 12093173613,
+  "artifact_zip_sha256": "5d27e597beba8e040e68cccca3d4e2fb06b532a6592db9c2e36ce3944a02a3c6",
+  "artifact_bytes": 21979,
   "scope": "Independent tests including speed/paired-result figures; no development GA series yet"
 }
