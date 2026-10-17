@@ -1,0 +1,41 @@
+{
+  "protocol_id": "GA-BNTGA-SELECTION-ADMISSION-V1",
+  "decision": "ADMITTED_INDEPENDENT_OPERATOR_ONLY",
+  "verified_date": "2026-10-17",
+  "paper": {
+    "authors": "Michal Antkiewicz; Pawel B. Myszkowski",
+    "doi": "10.1016/j.ins.2024.120400",
+    "year": 2024,
+    "university": "Wroclaw University of Science and Technology, Poland, EU",
+    "full_text": "https://arxiv.org/html/2410.05701v1",
+    "version": "arXiv:2410.05701v1, 2024-10-08",
+    "license": "CC BY 4.0",
+    "algorithm": "Algorithm 8; Section 4.2.1; Equation 22"
+  },
+  "corrigendum": {
+    "doi": "10.1016/j.ins.2024.120634",
+    "publisher_url": "https://www.sciencedirect.com/science/article/abs/pii/S0020025524005474",
+    "finding": "Acknowledgement funding correction only; no algorithm change stated",
+    "evidence_type": "primary publisher indexed correction text; raw publisher download unavailable, no file hash claimed"
+  },
+  "author_repository": "https://github.com/imopse/iMOPSE",
+  "author_commit": "5a72aeae88c82772482e9df586a6fa428b33f301",
+  "author_commit_date": "2024-04-05T14:59:11Z",
+  "author_code_license": "not established; no LICENSE/COPYING in audited tree and API license=null",
+  "redistribute_author_code": false,
+  "literal_source_port": false,
+  "source_files": [
+    {"path": "optimizer/src/method/operators/selection/selections/CGapSelectionByRandomDim.cpp", "bytes": 4154, "sha256": "64914e9210510039cfb2b280cd3c4ca8273958f6e3ae523fa0fea277157df71d"},
+    {"path": "optimizer/src/method/methods/MO/BNTGA/CBNTGA.cpp", "bytes": 2747, "sha256": "9d21a2c1f113d0e415c139b0d7075847920bcac4cd6e2f9ee027ab474fa2aef3"},
+    {"path": "optimizer/src/method/methods/MO/utils/archive/ArchiveUtils.cpp", "bytes": 4459, "sha256": "643f1a960d53eec5262d23b44df2f55fda5dae73f4bd87b2ae9d07080d4dc1cb"},
+    {"path": "optimizer/src/method/individual/MO/SMOIndividual.h", "bytes": 1770, "sha256": "e989a39a40231b1e9afac861b3cf1b01eb08b1d9318f9251775db96be70f75d3"}
+  ],
+  "paper_files": [
+    {"url": "https://arxiv.org/html/2410.05701v1", "bytes": 854786, "sha256": "ec7c8c73a7ed9f02e4a6a19e595f2bd57be77ed2b389c1056a9da21b41a244e9"},
+    {"url": "https://arxiv.org/pdf/2410.05701v1", "bytes": 2203597, "sha256": "09b32c447d4a284c0dec70e326dcc9ee07beddd37b64ad7dc57a748a09556f48"}
+  ],
+  "knapsack_search_admitted": false,
+  "numerical_article_replication": false,
+  "complete_author_ga_implemented": false,
+  "single_objective_limitation": "nondominance plus objective duplicate removal leaves one best point; source singleton selector produces one pair and no selection-count increment"
+}
