@@ -1,0 +1,29 @@
+{
+  "protocol_id": "GA-BNTGA-SELECTION-ADMISSION-V1",
+  "registered_date": "2026-10-17",
+  "base_sha": "656f5240e6d972626ae8e256ecb2290c27005027",
+  "repository": "ChepaMaksym/GA-article-test",
+  "branch": "research/masters-ga-diversity-crossover",
+  "source_revision": "5a72aeae88c82772482e9df586a6fa428b33f301",
+  "scope": "independent_selection_operator_and_instructional_comparison_only",
+  "profiles": ["unbalanced_gap", "balanced_gap"],
+  "objective_direction": "all_minimize",
+  "archive_objective_duplicate_policy": "existing_wins_new_ties_last_new_wins_within_batch",
+  "selection_counter": "selected_zero_based_plus_one_in_denominator",
+  "priority_update": "frozen_per_generation",
+  "boundary_gap": "finite_float32_maximum",
+  "numeric_precision": "Python_float64_not_bit_exact_cpp_replication",
+  "coordinate_tie": "stable_id_order_explicit_project_rule",
+  "tournament_sampling": "with_replacement_first_draw_wins_ties",
+  "singleton": "same_parent_pair_no_count_increment",
+  "scientific_search_authorized": false,
+  "knapsack_objective_transfer_authorized": false,
+  "tests": {"shared_cumulative_runner_minutes": 6, "timeout_minutes": 3, "workflow_files": ["knapsack-mutation-population.yml", "knapsack-mutation-rules.yml", "knapsack-bntga-selection.yml"]},
+  "python_version": "3.12.14",
+  "protected_sha256": {
+    "studies/diversity_crossover/implementation/engine.py": "b4177b35cb7b8eafef2aadd2ce519c0c209c72c6767f75917cd15d8cf8d9e0ab",
+    "studies/diversity_crossover/implementation/verifier.py": "1502a37c1ab96d126b748922877d9a4c750f4c8a580635644d88a2e39c4b325d",
+    "studies/knapsack_parameters/mutation_rules/authority.py": "8c456d053867858bf984e7a7ad1b920a44e9aa3f2848f9ed8585b0bb103fb3e4",
+    "studies/knapsack_parameters/ga_study/dependencies/requirements.lock": "6818e0e12843daa10947f7554cb3edd573d9f7cdbc33e63f98f9f3a068869017"
+  }
+}
