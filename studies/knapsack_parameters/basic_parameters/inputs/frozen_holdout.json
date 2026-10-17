@@ -1,0 +1,19 @@
+{
+  "protocol_id": "GA-KNAPSACK-BASIC-PARAMETERS-V1",
+  "status": "FROZEN_BYTE_AUDIT_ONLY",
+  "source_commit": "c5bea0df8169749caaba5ce7dfcf21437aa1ca5c",
+  "data_manifest_sha256": "df04145a448fad1bfcb6bc7b4ea6fd1229dbd6b7c3c5f465d3058f23ddc77077",
+  "source_manifest_sha256": "e9c93f582e275410a1f58c37de6c995b6f2c0d7027f12e3064adeb7a36b29892",
+  "implementation_sha": "0503ec2bf90d0c47dda9e3e30e695919d2c8cf04",
+  "run_id": 39012793475,
+  "run_attempt": 1,
+  "artifact_id": 12094876533,
+  "artifact_bytes": 62744,
+  "artifact_zip_sha256": "dfa25ad8f0eda5bb9c4f8d3d5d7624204b42471752c68e273abe01944bef8929",
+  "artifact_expires_at": "2027-01-15T07:12:51Z",
+  "new_tasks": 30,
+  "ga_holdout_outcomes_opened": false,
+  "adaptive_source_gate_passed": false,
+  "holdout_ga_search_authorized": false,
+  "transport": "Complete original audit bundle copied byte-for-byte after API ZIP and all internal manifest checks; no GA outcomes or exact preparation performed by this receipt."
+}
