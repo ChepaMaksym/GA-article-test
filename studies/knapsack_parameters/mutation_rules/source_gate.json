@@ -28,7 +28,8 @@
     },
     {
       "id": "WZ-SMC-2024",
-      "authors": "Graham Woodcock; Yaochu Zhang",
+      "authors": "Alexander Woodcock; Li Zhang",
+      "author_metadata_verified_at": "https://pure.royalholloway.ac.uk/en/publications/genetic-algorithm-with-reinforcement-learning-based-parameter-opt/",
       "doi": "10.1109/SMC54092.2024.10831364",
       "affiliation": "Royal Holloway, University of London, UK",
       "lawful_full_text": "https://pure.royalholloway.ac.uk/ws/files/65857470/SMC24_0732_FI.pdf",
