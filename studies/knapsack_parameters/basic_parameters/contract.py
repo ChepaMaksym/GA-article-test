@@ -68,7 +68,8 @@ def source_manifest():
 def manifest(directory):
     directory = Path(directory)
     rows = [{"path": p.relative_to(directory).as_posix(), **identity(p)}
-            for p in sorted(directory.rglob("*")) if p.is_file() and p.name != "file_manifest.json"]
+            for p in sorted(directory.rglob("*")) if p.is_file() and
+            p.relative_to(directory).as_posix() != "file_manifest.json"]
     write_json(directory / "file_manifest.json", {"protocol_id": PROTOCOL, "excludes_self": True, "files": rows})
 
 

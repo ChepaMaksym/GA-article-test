@@ -125,7 +125,9 @@ def run_task(root, task_id, phase, output, provenance):
     require(frozen["protocol_id"] == PROTOCOL and
             frozen["source_manifest_sha256"] == provenance["source_manifest"]["sha256"],
             "Bank receipt does not certify current scientific sources")
-    bundle = module / "inputs/banks"
+    bundle_name = frozen.get("bank_bundle", "banks")
+    require(bundle_name in {"banks", "banks_v2"}, "Unregistered bank bundle path")
+    bundle = module / "inputs" / bundle_name
     verify_manifest(bundle)
     bank_manifest = read_json(bundle / "banks_manifest.json")
     require(bank_manifest["provenance"]["source_manifest"] == provenance["source_manifest"],

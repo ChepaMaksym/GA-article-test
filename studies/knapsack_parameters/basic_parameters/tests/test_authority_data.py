@@ -43,6 +43,20 @@ class AuthorityDataTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 c.verify_manifest(p)
 
+    def test_nested_inventories_are_hashed_not_omitted(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            nested = root / "source_compact" / "UC-s000"
+            c.write_json(nested / "payload.json", {"value": 1})
+            c.manifest(nested)
+            c.manifest(root)
+            inventory = c.verify_manifest(root)
+            self.assertIn("source_compact/UC-s000/file_manifest.json", [r["path"] for r in inventory["files"]])
+            original = (nested / "file_manifest.json").read_bytes()
+            (nested / "file_manifest.json").write_bytes(original + b" ")
+            with self.assertRaises(ValueError):
+                c.verify_manifest(root)
+
     def test_holdout_source_paths(self):
         paths = {source_path(label, i) for label in ("UC", "WC", "SC") for i in range(10, 20)}
         self.assertEqual(len(paths), 30)
