@@ -1,0 +1,21 @@
+{
+  "protocol_id": "GA-KNAPSACK-BASIC-PARAMETERS-V1",
+  "status": "COMPLETE_EXACT_PREPARATION_WITHOUT_GA_SEARCH",
+  "implementation_sha": "50284c8e55c723f9934bbc3fbe5360f8862865cb",
+  "source_manifest_sha256": "e9c93f582e275410a1f58c37de6c995b6f2c0d7027f12e3064adeb7a36b29892",
+  "run_id": 39030726467,
+  "run_attempt": 1,
+  "artifact_id": 12100616009,
+  "artifact_bytes": 8939673,
+  "artifact_zip_sha256": "2175806574fcaa52efb1f1cfe774a2ef8a43a9d699820b0b3999cd7b63715f43",
+  "artifact_expires_at": "2027-01-15T11:58:47Z",
+  "registry_path": "studies/knapsack_parameters/basic_parameters/evidence/run-39030726467/registry.json",
+  "registry_sha256": "08f783e6be9ccc1e2c9d84d627f14455739a0f2d3ce6095873faf78178f97a6b",
+  "expected_tasks": 30,
+  "completed_tasks": 30,
+  "verified_archive_members_excluding_inventory": 181,
+  "ga_holdout_outcomes_opened": false,
+  "adaptive_source_gate_passed": false,
+  "holdout_ga_search_authorized": false,
+  "interpretation": "Two independent exact solvers and post-ascent independent N2 certification completed in CI; preparation does not release adaptive or holdout GA search."
+}
