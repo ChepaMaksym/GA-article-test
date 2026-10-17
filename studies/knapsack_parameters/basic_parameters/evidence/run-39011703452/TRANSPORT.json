@@ -1,0 +1,18 @@
+{
+  "protocol_id": "GA-KNAPSACK-BASIC-PARAMETERS-V1",
+  "run_id": 39011703452,
+  "run_attempt": 1,
+  "implementation_sha": "48188bf1167f4ac0fd5b0ce92990d4e503cedd71",
+  "artifact_id": 12092809054,
+  "artifact_name": "basic-full-tests-single-39011703452-1",
+  "artifact_bytes": 21786,
+  "artifact_zip_sha256": "e7259ed0fe813ca47f8af3680659d452d9bf23adb5e7196ddf2729fa8f81428b",
+  "artifact_expires_at": "2027-01-15T06:55:27Z",
+  "tests_run": 73,
+  "success": true,
+  "source_manifest_sha256": "3c2de1e5e8854ed85d08d8e008219cb925c7c653d6e3f47ef4b24714f96ceceb",
+  "rounded_runner_minutes_this_attempt": 3,
+  "cumulative_runner_minutes": 7,
+  "original_members": "ci-original",
+  "new_scientific_search_runs": 0
+}
