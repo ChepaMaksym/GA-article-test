@@ -1,0 +1,223 @@
+{
+  "pilot_protocol_id": "GA-KNAPSACK-ADAPTATION-ANALYSIS-PILOT-V1",
+  "implementation_sha": "fc2b0e989ab7bb8149720657cf542c405c05be8c",
+  "run_id": 39121598132,
+  "run_attempt": 1,
+  "status": "INCOMPLETE",
+  "run_url": "https://github.com/ChepaMaksym/GA-article-test/actions/runs/39121598132",
+  "runner_ceiling": 60,
+  "runner_minutes_used": 53,
+  "prior_validation_failure_run_id": 39121088820,
+  "prior_validation_failure_allocated_jobs": 0,
+  "tests_shared_minutes_used": 7,
+  "tests_shared_ceiling": 12,
+  "independently_verified_runs": 26,
+  "planned_runs": 40,
+  "verified_new_search_queries": 130000,
+  "physical_queries_in_interrupted_profiles": "UNKNOWN",
+  "jobs": [
+    {
+      "run_id": 39121501789,
+      "attempt": 1,
+      "job_id": 117657866725,
+      "name": "gate",
+      "conclusion": "success",
+      "started_at": "2026-10-18T11:00:43Z",
+      "completed_at": "2026-10-18T11:00:52Z",
+      "rounded_runner_minutes": 1
+    },
+    {
+      "run_id": 39121501789,
+      "attempt": 1,
+      "job_id": 117657908956,
+      "name": "prepare",
+      "conclusion": "success",
+      "started_at": "2026-10-18T11:00:54Z",
+      "completed_at": "2026-10-18T11:01:20Z",
+      "rounded_runner_minutes": 1
+    },
+    {
+      "run_id": 39121598132,
+      "attempt": 1,
+      "job_id": 117658142677,
+      "name": "gate",
+      "conclusion": "success",
+      "started_at": "2026-10-18T11:02:04Z",
+      "completed_at": "2026-10-18T11:02:16Z",
+      "rounded_runner_minutes": 1
+    },
+    {
+      "run_id": 39121598132,
+      "attempt": 1,
+      "job_id": 117658192941,
+      "name": "pilot (SC-s005, bank)",
+      "conclusion": "cancelled",
+      "started_at": "2026-10-18T11:07:36Z",
+      "completed_at": "2026-10-18T11:12:53Z",
+      "rounded_runner_minutes": 6
+    },
+    {
+      "run_id": 39121598132,
+      "attempt": 1,
+      "job_id": 117658192952,
+      "name": "pilot (SC-s000, cloned)",
+      "conclusion": "cancelled",
+      "started_at": "2026-10-18T11:07:37Z",
+      "completed_at": "2026-10-18T11:12:54Z",
+      "rounded_runner_minutes": 6
+    },
+    {
+      "run_id": 39121598132,
+      "attempt": 1,
+      "job_id": 117658192969,
+      "name": "pilot (WC-s001, cloned)",
+      "conclusion": "cancelled",
+      "started_at": "2026-10-18T11:02:18Z",
+      "completed_at": "2026-10-18T11:07:36Z",
+      "rounded_runner_minutes": 6
+    },
+    {
+      "run_id": 39121598132,
+      "attempt": 1,
+      "job_id": 117658193007,
+      "name": "pilot (WC-s001, bank)",
+      "conclusion": "cancelled",
+      "started_at": "2026-10-18T11:02:18Z",
+      "completed_at": "2026-10-18T11:07:34Z",
+      "rounded_runner_minutes": 6
+    },
+    {
+      "run_id": 39121598132,
+      "attempt": 1,
+      "job_id": 117658193008,
+      "name": "pilot (UC-s000, cloned)",
+      "conclusion": "cancelled",
+      "started_at": "2026-10-18T11:02:19Z",
+      "completed_at": "2026-10-18T11:07:36Z",
+      "rounded_runner_minutes": 6
+    },
+    {
+      "run_id": 39121598132,
+      "attempt": 1,
+      "job_id": 117658193018,
+      "name": "pilot (SC-s005, cloned)",
+      "conclusion": "cancelled",
+      "started_at": "2026-10-18T11:07:36Z",
+      "completed_at": "2026-10-18T11:12:54Z",
+      "rounded_runner_minutes": 6
+    },
+    {
+      "run_id": 39121598132,
+      "attempt": 1,
+      "job_id": 117658193061,
+      "name": "pilot (SC-s000, bank)",
+      "conclusion": "cancelled",
+      "started_at": "2026-10-18T11:07:38Z",
+      "completed_at": "2026-10-18T11:12:55Z",
+      "rounded_runner_minutes": 6
+    },
+    {
+      "run_id": 39121598132,
+      "attempt": 1,
+      "job_id": 117658193154,
+      "name": "pilot (UC-s000, bank)",
+      "conclusion": "cancelled",
+      "started_at": "2026-10-18T11:02:18Z",
+      "completed_at": "2026-10-18T11:07:34Z",
+      "rounded_runner_minutes": 6
+    },
+    {
+      "run_id": 39121598132,
+      "attempt": 1,
+      "job_id": 117660269694,
+      "name": "aggregate",
+      "conclusion": "failure",
+      "started_at": "2026-10-18T11:12:56Z",
+      "completed_at": "2026-10-18T11:14:46Z",
+      "rounded_runner_minutes": 2
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 12135095513,
+      "name": "adaptation-pilot-worker-UC-s000-bank-39121598132-1",
+      "size_in_bytes": 3544121,
+      "digest": "sha256:2e2b672c981a157c03a7fe44006a12bcdb75184b75470fda24573a04a6d5ed8f",
+      "expired": false,
+      "expires_at": "2027-01-16T11:02:02Z"
+    },
+    {
+      "id": 12135056229,
+      "name": "adaptation-pilot-worker-SC-s000-cloned-39121598132-1",
+      "size_in_bytes": 855841,
+      "digest": "sha256:adce2c7385f934981b089661cbb160d793abf95c1f0bce5801341de9ea8c88f1",
+      "expired": false,
+      "expires_at": "2027-01-16T11:02:02Z"
+    },
+    {
+      "id": 12134900703,
+      "name": "adaptation-pilot-permit-39121598132-1",
+      "size_in_bytes": 3579,
+      "digest": "sha256:bcba6e65f51e339222dd93d47d44f6bd7be90348020138331dd50df4aed5e3dd",
+      "expired": false,
+      "expires_at": "2027-01-16T11:02:02Z"
+    },
+    {
+      "id": 12134881334,
+      "name": "adaptation-pilot-worker-WC-s001-bank-39121598132-1",
+      "size_in_bytes": 864269,
+      "digest": "sha256:e579e498a22cde249e9652e35e05756a2319dca5e8963e0b19cd87a5bf718191",
+      "expired": false,
+      "expires_at": "2027-01-16T11:02:02Z"
+    },
+    {
+      "id": 12134832104,
+      "name": "adaptation-pilot-worker-SC-s005-bank-39121598132-1",
+      "size_in_bytes": 886035,
+      "digest": "sha256:03c144a4cdd7c4ce0ae4e7405ab73e9d0da3fe9058c14d135c431c7ef06aebd4",
+      "expired": false,
+      "expires_at": "2027-01-16T11:02:02Z"
+    },
+    {
+      "id": 12134802210,
+      "name": "adaptation-pilot-worker-SC-s000-bank-39121598132-1",
+      "size_in_bytes": 859440,
+      "digest": "sha256:7d2a143f9429d019dc67d4ef4d673dced5a0c77ad7c52f3f1f51590f88e9fb80",
+      "expired": false,
+      "expires_at": "2027-01-16T11:02:02Z"
+    },
+    {
+      "id": 12134627118,
+      "name": "adaptation-pilot-worker-WC-s001-cloned-39121598132-1",
+      "size_in_bytes": 849705,
+      "digest": "sha256:80eae735738e9ad9929fff717351db21e118589b2af0b12b43a87166de74ef49",
+      "expired": false,
+      "expires_at": "2027-01-16T11:02:02Z"
+    },
+    {
+      "id": 12134568123,
+      "name": "adaptation-pilot-summary-39121598132-1",
+      "size_in_bytes": 21193,
+      "digest": "sha256:ba4543ea3b14ed2d10801d35342e5772aaf99018d88853eb02187c1b8aa2554f",
+      "expired": false,
+      "expires_at": "2027-01-16T11:02:02Z"
+    },
+    {
+      "id": 12134368009,
+      "name": "adaptation-pilot-worker-UC-s000-cloned-39121598132-1",
+      "size_in_bytes": 3826581,
+      "digest": "sha256:bc9534440e61c753c59be11634d830c2ba9ad302f4e9bb5d6f9f8e3a8dae2ac0",
+      "expired": false,
+      "expires_at": "2027-01-16T11:02:02Z"
+    },
+    {
+      "id": 12133969017,
+      "name": "adaptation-pilot-worker-SC-s005-cloned-39121598132-1",
+      "size_in_bytes": 846475,
+      "digest": "sha256:25cd9c9235b7b78217eeafe682e609db9e790aef7f797e1e4ce6e5f71efd2e8a",
+      "expired": false,
+      "expires_at": "2027-01-16T11:02:02Z"
+    }
+  ],
+  "retention": "All eight worker ZIPs and summary/permit retained once locally with digest verification; compact CI result bytes retained in Git. No new search, local statistics or scientific plots performed."
+}
