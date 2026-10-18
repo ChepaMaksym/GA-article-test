@@ -1,0 +1,37 @@
+{
+  "protocol_id": "GA-BNTGA-KNAPSACK-TRANSFER-V1",
+  "registered_date": "2026-10-18",
+  "base_sha": "c7c64b010e50723fd3e720429410bbf8df38ab2e",
+  "authorization": {
+    "source": "explicit user reply 2026-10-18",
+    "auxiliary_profit_weight_archive": true,
+    "final_target": "maximum feasible profit",
+    "scientific_search_resource_approval": false
+  },
+  "source_operator_protocol": "GA-BNTGA-SELECTION-ADMISSION-V1",
+  "profiles": ["classical", "unbalanced_gap", "balanced_gap"],
+  "primary_mechanism_comparison": ["balanced_gap", "unbalanced_gap"],
+  "mu": 30,
+  "offspring_per_complete_generation": 29,
+  "elitism": 1,
+  "mutation_probability": "1/n",
+  "crossover_probability": 0.9,
+  "archive_tournament_size": 2,
+  "objective_coordinates": ["-profit/sum(profits)", "weight/max(1,capacity)"],
+  "archive_feasible_only": true,
+  "new_query_budget": 5000,
+  "terminal_prefix_updates": "record_only_no_population_or_archive_or_counter_commit",
+  "source_algorithm_deviations": ["auxiliary profit_weight archive", "generational population with one elite", "one child per selected pair", "29 children even for singleton", "float64 arithmetic", "explicit stable-id ties"],
+  "scientific_search_authorized": false,
+  "scientific_pilot_authorized": false,
+  "tests_only": true,
+  "protected_sha256": {
+    "studies/adaptive_parameters/mutation_only/engine.py": "917cf0323a18f9286a7cb64994daba2677f8c9f5bd13ead712cb8eae9cb74e29",
+    "studies/adaptive_parameters/mutation_only/verifier.py": "ce2c49e373b03200f9fb2c57309c07cb9f00ddf1ee994f834d1694b2544a9a1c",
+    "studies/knapsack_parameters/mutation_population/search.py": "2834102647366471a57e81adc9873a9e233efa1c19612a292b193deb5aa7564e",
+    "studies/knapsack_parameters/ga_study/dependencies/requirements.lock": "6818e0e12843daa10947f7554cb3edd573d9f7cdbc33e63f98f9f3a068869017",
+    "studies/knapsack_parameters/ga_study/dependencies/environment.lock.json": "9907e3a46971303d8285b7ae160b5b8eafcab9942565d376bd038a92789745c6",
+    "studies/knapsack_parameters/inputs/data_manifest.json": "528fee8da7d7cb776fb851e6a05949133830e9533c4091cbb4e8698ac19fb0df",
+    "studies/knapsack_parameters/evidence/run-37637475385/registry.json": "7e9b8fc893889426e2d3b57610e3a91c09263fcdff488cf15a2b84efe1bdc70f"
+  }
+}
