@@ -1,0 +1,22 @@
+{
+  "protocol_id": "GA-KNAPSACK-ADAPTATION-ANALYSIS-PILOT-V1",
+  "parent_protocol_id": "GA-KNAPSACK-ADAPTATION-ANALYSIS-V1",
+  "explicit_user_approval": true,
+  "user_approval_quote": "Погоджую пілот до 60 runner-хвилин",
+  "recorded_on": "2026-10-18",
+  "allowed_phases": ["prepare", "pilot", "aggregate"],
+  "runner_minutes_ceiling": 60,
+  "phase_reservation_minutes": {"prepare": 5, "pilot": 49},
+  "job_timeout_minutes": {"gate": 1, "prepare": 4, "pilot": 5, "aggregate": 8},
+  "max_parallel": 4,
+  "maximum_compressed_bytes_per_job": 536870912,
+  "search_seed": 86001,
+  "preparation_seed": 86000,
+  "expected_initial_conditions": 8,
+  "expected_search_runs": 40,
+  "new_evaluations_per_run": 5000,
+  "main_search_authorized": false,
+  "lambda_search_authorized": false,
+  "confirmatory_statistics_authorized": false,
+  "scope_note": "Scientific pilot and its service jobs only. The separate tests-only shared ceiling of 12 remains unchanged. Failed/partial attempts consume this ceiling and never authorize smaller scientific budgets."
+}
