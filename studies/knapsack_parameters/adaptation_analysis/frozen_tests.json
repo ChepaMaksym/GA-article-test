@@ -1,0 +1,10 @@
+{
+  "pilot_protocol_id": "GA-KNAPSACK-ADAPTATION-ANALYSIS-PILOT-V1",
+  "frozen": true,
+  "receipt_directory": "evidence/run-39121379721-attempt-1",
+  "artifact_id": 12134153634,
+  "zip_sha256": "986e574b2396ba4a939b3c87e71fb54beef02acc5de034501070d8ad3e7cfc80",
+  "tests_run": 117,
+  "source_implementation_sha": "b56c7773ce81915b850a27953ca2eebf05496865",
+  "scope": "Exact green source for bounded preparation and pilot only; not main or lambda permission"
+}

@@ -1,0 +1,27 @@
+{
+  "protocol_id": "GA-KNAPSACK-ADAPTATION-ANALYSIS-V1",
+  "scope": "Software checks only; superseded source receipt, not the pilot release",
+  "run_id": 39121089684,
+  "run_attempt": 1,
+  "job_id": 117656676011,
+  "implementation_sha": "6ee6248fdb486a0e6fa090bdc22abafd2333e032",
+  "run_url": "https://github.com/ChepaMaksym/GA-article-test/actions/runs/39121089684",
+  "conclusion": "success",
+  "tests_run": 113,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "job_started_at": "2026-10-18T10:54:26Z",
+  "job_completed_at": "2026-10-18T10:55:03Z",
+  "rounded_runner_minutes": 1,
+  "artifact_id": 12134246675,
+  "artifact_zip_bytes": 9933,
+  "artifact_zip_sha256": "8d853e7313a7a8951dd9cd7381f6771d2d450c047cfcb226b257b2b20f168fc2",
+  "artifact_expires_at": "2027-01-16T10:54:24Z",
+  "retained_directory": "run-39121089684-attempt-1",
+  "subsequent_static_findings": [
+    "The separate new pilot workflow was rejected before job allocation: plain YAML pip command contained colon-space. Run 39121088820 has no jobs and no runner charge.",
+    "Analysis used class-local registry index for RNG instead of the frozen global case_order position. No scientific search had run. Fixed both bindings and added WC/SC regression fixtures before pilot release."
+  ],
+  "superseded_by_source_fix_commit": "b56c7773ce81915b850a27953ca2eebf05496865"
+}
