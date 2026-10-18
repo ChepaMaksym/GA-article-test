@@ -1,0 +1,18 @@
+{
+  "pilot_protocol_id": "GA-KNAPSACK-ADAPTATION-ANALYSIS-PILOT-V1",
+  "frozen": true,
+  "registry_identity": {
+    "bytes": 15713,
+    "sha256": "b28929d182e7ccd477a7a9d34bab8a95971cc676618ce0708c81da6ed0a1e982"
+  },
+  "artifact_id": 12134780961,
+  "zip_sha256": "acd5b3f724c22b8ffdb6f7e03a539edd13551d598891468b14c94d6d82f30d07",
+  "preparation_run_id": 39121501789,
+  "preparation_run_attempt": 1,
+  "preparation_sha": "b50a77eaf7006c879a650f4da6c7a3fa7c46c98b",
+  "initial_conditions": 8,
+  "physical_preparation_evaluations": 124,
+  "independent_preparation_checks": 240,
+  "scientific_search_calls_before_freeze": 0,
+  "scope": "Eight immutable common beginnings for the one-seed five-profile pilot; no main or lambda permission"
+}
