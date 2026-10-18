@@ -101,7 +101,7 @@ def extract_run(envelope):
     _require(receipt.get("verification_status", receipt.get("status")) == "VERIFIED", "log was not verified")
     cases, _ = _cases()
     _require(envelope["task"] in cases, "task absent from frozen case order")
-    task_index = cases[envelope["task"]]["index"]
+    task_index = cases[envelope["task"]]["case_order_index"]
     start_index = 0 if envelope["start"] == "cloned" else 1
     initial_states = {}
     for channel, name in enumerate(("initialization", "selection", "branch", "crossover", "mutation", "ties")):
@@ -258,6 +258,12 @@ def _cases():
     cases = {case["instance_id"]: case for case in registry["cases"]}
     expected = {f"{group}-s{index:03d}" for group in ("UC", "WC", "SC") for index in range(10)}
     _require(set(cases) == expected and len(registry["cases"]) == 30, "historical task registry is incomplete")
+    order = registry.get("case_order")
+    _require(type(order) is list and len(order) == 30 and set(order) == set(cases),
+             "historical global case order is incomplete or duplicated")
+    # Historical index is the sNNN index WITHIN each class (0..9), not
+    # the global task/RNG index (0..29). Keep both meanings distinct.
+    cases = {task: {**cases[task], "case_order_index": index} for index, task in enumerate(order)}
     admitted = {task for task, case in cases.items() if case["status"] in ("ADMITTED_STRICT_LOCAL", "ADMITTED_PLATEAU_LOCAL")}
     _require(len(admitted) == 14, "historical admitted center set differs")
     return cases, admitted
@@ -311,7 +317,7 @@ def _bind_scientific_input(envelope):
     else:
         # Reconstruct the recorded initialization RNG, not a new search or bank.
         rng = np.random.Generator(np.random.PCG64(np.random.SeedSequence(
-            [preparation_seed, seed, case["index"], 1, 0])))
+            [preparation_seed, seed, case["case_order_index"], 1, 0])))
         expected = ["0" * 100] + ["".join("1" if bit else "0" for bit in rng.random(100) < 0.5)
                                     for _ in range(29)]
     _require(log["initial_masks"] == expected, "initial population differs from registered bank or certified mask")

@@ -140,6 +140,13 @@ def _mock_banks(fixture):
 
 
 class PilotAuthorityTests(unittest.TestCase):
+    def test_pip_colon_arguments_are_in_yaml_block_scalars(self):
+        # ':all: -r' is invalid inside a YAML plain scalar: protect the
+        # concrete regression which GitHub rejected before runner allocation.
+        workflow = (p.a.ROOT / p.WORKFLOW).read_text(encoding="utf-8")
+        self.assertNotIn("run: python -m pip install", workflow)
+        self.assertEqual(workflow.count("run: |\n          python -m pip install"), 3)
+
     @classmethod
     def setUpClass(cls):
         if os.environ.get("GITHUB_ACTIONS") != "true":

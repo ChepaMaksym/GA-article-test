@@ -297,7 +297,7 @@ class AdaptationAnalysisTests(unittest.TestCase):
                     "optimum": case["payload"]["exact"]["confirmed_optimum"], "center_profit": None,
                     "log": {"problem": json.loads(analysis._registered_problem_bytes("UC-s000"))}}
         generator = analysis.np.random.Generator(analysis.np.random.PCG64(
-            analysis.np.random.SeedSequence([86000, 86001, case["index"], 1, 0])))
+            analysis.np.random.SeedSequence([86000, 86001, case["case_order_index"], 1, 0])))
         masks = ["0" * 100] + ["".join("1" if bit else "0" for bit in generator.random(100) < 0.5)
                               for _ in range(29)]
         envelope["log"]["initial_masks"] = masks
@@ -312,6 +312,46 @@ class AdaptationAnalysisTests(unittest.TestCase):
         row["input_binding"] = "SOFTWARE_FIXTURE_NOT_KPLIB"
         with self.assertRaises(ValueError):
             analysis.summarize_series([row])
+
+    def test_class_local_indices_are_not_global_rng_indices(self):
+        cases, _ = analysis._cases()
+        expected_order = [f"{group}-s{index:03d}" for group in ("UC", "WC", "SC") for index in range(10)]
+        for global_index, task in enumerate(expected_order):
+            self.assertEqual(cases[task]["case_order_index"], global_index)
+            self.assertEqual(cases[task]["index"], global_index % 10)
+        self.assertEqual(cases["WC-s001"]["case_order_index"], 11)
+        self.assertEqual(cases["SC-s005"]["case_order_index"], 25)
+
+    def test_wc_sc_rng_binding_uses_global_indices_in_small_software_logs(self):
+        for task, global_index in (("WC-s001", 11), ("SC-s005", 25)):
+            envelope = toy_envelope()
+            old = envelope["log"]
+            envelope.update(task=task, family=task.split("-")[1])
+            envelope["log"] = run_profile(old["problem"], old["initial_masks"], old["initial_scores"],
+                                           "classical", 18001, global_index, 1, budget=61)["log"]
+            self.assertEqual(analysis.extract_run(envelope)["input_binding"], "SOFTWARE_FIXTURE_NOT_KPLIB")
+            envelope["log"] = old
+            with self.assertRaises(ValueError):
+                analysis.extract_run(envelope)
+
+    def test_wc_sc_preparation_binding_uses_global_case_order(self):
+        cases, _ = analysis._cases()
+        for task in ("WC-s001", "SC-s005", "SC-s000"):
+            case = cases[task]
+            envelope = {"task": task, "start": "bank", "seed": 86001,
+                        "optimum": case["payload"]["exact"]["confirmed_optimum"], "center_profit": None,
+                        "log": {"problem": json.loads(analysis._registered_problem_bytes(task))}}
+            for use_global in (True, False):
+                index = case["case_order_index"] if use_global else case["index"]
+                rng = analysis.np.random.Generator(analysis.np.random.PCG64(
+                    analysis.np.random.SeedSequence([86000, 86001, index, 1, 0])))
+                envelope["log"]["initial_masks"] = ["0" * 100] + [
+                    "".join("1" if bit else "0" for bit in rng.random(100) < 0.5) for _ in range(29)]
+                if use_global:
+                    analysis._bind_scientific_input(envelope)
+                else:
+                    with self.assertRaises(ValueError):
+                        analysis._bind_scientific_input(envelope)
 
     def test_no_figures_created_from_not_run_or_incomplete_data(self):
         with tempfile.TemporaryDirectory() as directory:

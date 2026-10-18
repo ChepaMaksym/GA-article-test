@@ -60,7 +60,8 @@ jobs:
         with:
           python-version: '3.12.14'
       - name: Exact dependencies
-        run: python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+        run: |
+          python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
       - name: Verify central permit artifact and digest
         run: python -m studies.knapsack_parameters.adaptation_analysis.pilot_authority download --kind permit --output "$RUNNER_TEMP/permit"
       - name: Prepare exactly eight banks without search
@@ -94,7 +95,8 @@ jobs:
         with:
           python-version: '3.12.14'
       - name: Exact dependencies
-        run: python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+        run: |
+          python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
       - name: Verify central permit artifact and digest
         run: python -m studies.knapsack_parameters.adaptation_analysis.pilot_authority download --kind permit --output "$RUNNER_TEMP/permit"
       - name: Five profiles on the frozen common beginning
@@ -125,7 +127,8 @@ jobs:
         with:
           python-version: '3.12.14'
       - name: Exact dependencies
-        run: python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+        run: |
+          python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
       - name: Obtain authenticated permit and all available worker artifacts
         run: |
           python -m studies.knapsack_parameters.adaptation_analysis.pilot_authority download --kind permit --output "$RUNNER_TEMP/permit"
