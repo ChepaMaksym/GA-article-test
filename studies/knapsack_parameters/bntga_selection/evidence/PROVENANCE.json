@@ -1,0 +1,63 @@
+{
+  "schema": "bntga-transfer-ci-evidence-v1",
+  "protocol_id": "GA-BNTGA-KNAPSACK-TRANSFER-V1",
+  "implementation_sha": "de9caec88727a4bb9a69adb31de6db4035b48dcc",
+  "source_manifest_sha256": "923658a9ee5688ae4ceba922d2ce6fae543bfb5da7656446269ad0fb49d12b37",
+  "repository": "ChepaMaksym/GA-article-test",
+  "branch": "research/masters-ga-diversity-crossover",
+  "run_id": 39103400206,
+  "run_url": "https://github.com/ChepaMaksym/GA-article-test/actions/runs/39103400206",
+  "attempts": [
+    {
+      "attempt": 1,
+      "job_id": 117604104862,
+      "conclusion": "failure",
+      "phase": "preflight",
+      "reason": "Concurrent usage unknown: another workflow pending in the shared concurrency group",
+      "tests_started": false,
+      "artifact_created": false,
+      "started_at": "2026-10-18T06:15:31Z",
+      "completed_at": "2026-10-18T06:15:42Z",
+      "rounded_runner_minutes": 1
+    },
+    {
+      "attempt": 2,
+      "job_id": 117604225941,
+      "conclusion": "success",
+      "same_sha_and_configuration": true,
+      "tests_run": 68,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "instructional_examples_passed": true,
+      "started_at": "2026-10-18T06:16:13Z",
+      "completed_at": "2026-10-18T06:16:39Z",
+      "rounded_runner_minutes": 1
+    }
+  ],
+  "artifact": {
+    "id": 12126839875,
+    "name": "bntga-selection-tests-39103400206-2",
+    "zip_bytes": 19273,
+    "zip_sha256": "547fcdef40d9d22578e1ed0c0a17defac7b01e011e518c6ac6178919966eb89b",
+    "expires_at": "2027-01-16T06:16:11Z",
+    "original_members_directory": "run-39103400206-attempt-2",
+    "inner_file_manifest_sha256": "6a6b803b53eb2f3277d4b175a2cdf826ca3d327cc392f949eca3e53f3d008bb8",
+    "original_members_bytes": 175224,
+    "zip_and_inner_checksums_verified_on_download": true,
+    "current_source_file_bytes_and_hashes_match_ci_manifest": true,
+    "one_canonical_zip_kept_locally": true
+  },
+  "budget": {
+    "shared_workflow_ceiling_minutes": 6,
+    "previous_other_workflows_minutes": 2,
+    "this_run_all_attempts_minutes": 2,
+    "total_used_minutes": 4,
+    "remaining_minutes": 2,
+    "next_job_required_reservation_minutes": 3,
+    "another_job_allowed_under_existing_reservation": false
+  },
+  "scientific_KPLIB_search_runs": 0,
+  "scope": "unit verification and explicitly labelled instructional examples only",
+  "scientific_advantage_claimed": false
+}
