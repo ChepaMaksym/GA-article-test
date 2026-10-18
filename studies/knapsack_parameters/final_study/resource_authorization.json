@@ -1,0 +1,20 @@
+{
+  "protocol_id": "GA-KNAPSACK-FINAL-COMPARISON-V1",
+  "explicit_user_approval": true,
+  "approval_basis": "User selected 90 runner-minutes then measured estimate and explicitly requested implementation of the complete plan.",
+  "runner_minutes_ceiling": 90,
+  "phase_reservation_minutes": {"tests": 8, "probe": 76},
+  "job_timeout_minutes": {"tests": 6, "gate": 1, "probe": 5, "aggregate": 8},
+  "max_parallel": 4,
+  "maximum_compressed_bytes_per_job": 536870912,
+  "probe_conditions": [{"task": "UC-s000", "start": "cloned"}, {"task": "SC-s005", "start": "bank"}],
+  "methods": ["classical", "adaptive_mutation", "adaptive_crossover", "unbalanced_gap", "balanced_gap"],
+  "probe_seed": 86001,
+  "probe_expected_runs": 10,
+  "new_evaluations_per_run": 5000,
+  "main_search_authorized": false,
+  "remaining_30_pilot_runs_authorized": false,
+  "holdout_search_authorized": false,
+  "lambda_search_authorized": false,
+  "confirmatory_statistics_authorized": false
+}
