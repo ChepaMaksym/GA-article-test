@@ -1,0 +1,13 @@
+{
+  "protocol_id": "GA-KNAPSACK-ADAPTATION-ANALYSIS-V1",
+  "explicit_user_approval": true,
+  "allowed_phases": ["tests"],
+  "additional_runner_minutes": 6,
+  "shared_ceiling_minutes": 12,
+  "job_reservation_minutes": 3,
+  "scientific_search_authorized": false,
+  "lambda_search_authorized": false,
+  "recorded_on": "2026-10-18",
+  "authorization_basis": "Latest user request: роби CI та роби дослідження. This revokes the earlier no-CI instruction and activates the previously offered additional 6 runner-minutes for software checks only.",
+  "scope_note": "Scientific pilot needs a separate numerical resource grant; the main series needs its own pilot-derived estimate and approval. No lambda search is authorized. The frozen registration is not amended."
+}
