@@ -19,6 +19,7 @@ ROOT = Path(__file__).resolve().parents[3]
 MODULE = Path(__file__).resolve().parent
 REL = "studies/knapsack_parameters/adaptation_analysis/"
 WORKFLOW = ".github/workflows/knapsack-adaptation-analysis.yml"
+PILOT_WORKFLOW = ".github/workflows/knapsack-adaptation-pilot.yml"
 BASE_SHA = "07ee6ad1a636318d4e6e839ec1688ef6642bbb2e"
 REGISTRATION_SHA = "d11e4af45cd3b2c46b7b3fac03b32b520e61cf8d"
 PROTOCOL = "GA-KNAPSACK-ADAPTATION-ANALYSIS-V1"
@@ -82,7 +83,13 @@ def source_manifest():
     if (MODULE / "resource_authorization.json").is_file():
         files.append(MODULE / "resource_authorization.json")
     files += [ROOT / WORKFLOW]
+    if (ROOT / PILOT_WORKFLOW).is_file():
+        files.append(ROOT / PILOT_WORKFLOW)
+    files += [MODULE / name for name in ("PILOT_EXECUTION_UK.md", "pilot_resource_authorization.json")
+              if (MODULE / name).is_file()]
     files += [ROOT / name for name in read_json(MODULE / "registration.json")["protected_sha256"]]
+    files += [ROOT / ("studies/knapsack_parameters/mutation_population/" + name)
+              for name in ("driver.py", "contract.py")]
     rows = [{"path": p.relative_to(ROOT).as_posix(), **identity(p)} for p in sorted(set(files))]
     return {"files": rows, "sha256": hashlib.sha256(canonical(rows)).hexdigest()}
 
@@ -99,7 +106,8 @@ def authenticate(runtime=False):
         require(original == (MODULE / name).read_bytes(), "Frozen protocol changed: " + name)
     changed = subprocess.check_output(["git", "diff", "--name-only", BASE_SHA, head],
                                       cwd=ROOT, text=True).splitlines()
-    require(all(name.startswith(REL) or name == WORKFLOW for name in changed), "Historical files changed")
+    require(all(name.startswith(REL) or name in (WORKFLOW, PILOT_WORKFLOW) for name in changed),
+            "Historical files changed")
     for name, digest in read_json(MODULE / "registration.json")["protected_sha256"].items():
         require(identity(ROOT / name)["sha256"] == digest, "Historical dependency/input changed: " + name)
     require(not subprocess.check_output(["git", "status", "--porcelain", "--untracked-files=no"],
