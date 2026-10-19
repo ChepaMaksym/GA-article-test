@@ -1,0 +1,308 @@
+{
+  "protocol_id": "GA-KNAPSACK-FINAL-COMPARISON-V1",
+  "frozen": true,
+  "input_binding": {
+    "conditions": [
+      [
+        "UC-s000",
+        "cloned"
+      ],
+      [
+        "SC-s005",
+        "bank"
+      ]
+    ],
+    "files": [
+      {
+        "bytes": 738,
+        "path": "studies/knapsack_parameters/adaptation_analysis/frozen_banks.json",
+        "sha256": "1408066152daed07c8068b300b6a960a1040cd0c5704b257604b1a620a831692"
+      },
+      {
+        "bytes": 15713,
+        "path": "studies/knapsack_parameters/adaptation_analysis/inputs/pilot/bank_registry.json",
+        "sha256": "b28929d182e7ccd477a7a9d34bab8a95971cc676618ce0708c81da6ed0a1e982"
+      },
+      {
+        "bytes": 1239,
+        "path": "studies/knapsack_parameters/adaptation_analysis/inputs/pilot/file_manifest.json",
+        "sha256": "f6dfa6380e960d4c9e1d2328ec7dd0a443d6939117464ffe92fcc11e8efe5935"
+      },
+      {
+        "bytes": 13529,
+        "path": "studies/knapsack_parameters/adaptation_analysis/inputs/pilot/banks/UC-s000-cloned-86001.json",
+        "sha256": "5583a68e0cf79314c48062ba16317fe06c90d567414ddda8b9fe785fc6ac5905"
+      },
+      {
+        "bytes": 13564,
+        "path": "studies/knapsack_parameters/adaptation_analysis/inputs/pilot/banks/SC-s005-bank-86001.json",
+        "sha256": "de78d34329c0c4c264536787f1a3355a1d3cc2bf3a266198fa552e24df5c78e7"
+      }
+    ],
+    "historical_freeze_sha": "fc2b0e989ab7bb8149720657cf542c405c05be8c",
+    "historical_preparation_run": 39121501789,
+    "historical_preparation_sha": "b50a77eaf7006c879a650f4da6c7a3fa7c46c98b",
+    "holdout_search_authorized": false,
+    "new_preparation_evaluations": 0,
+    "schema": "knapsack-final-probe-input-binding-v1",
+    "search_seed": 86001
+  },
+  "source_manifest": {
+    "files": [
+      {
+        "bytes": 6882,
+        "path": ".github/workflows/knapsack-final-study.yml",
+        "sha256": "5eac2dde5c225dcd87aa0f8f544210c2df6aaa765ddd51561012868871fccc76"
+      },
+      {
+        "bytes": 11036,
+        "path": "studies/adaptive_parameters/mutation_only/engine.py",
+        "sha256": "917cf0323a18f9286a7cb64994daba2677f8c9f5bd13ead712cb8eae9cb74e29"
+      },
+      {
+        "bytes": 12791,
+        "path": "studies/adaptive_parameters/mutation_only/verifier.py",
+        "sha256": "ce2c49e373b03200f9fb2c57309c07cb9f00ddf1ee994f834d1694b2544a9a1c"
+      },
+      {
+        "bytes": 11809,
+        "path": "studies/knapsack_parameters/adaptation_analysis/authority.py",
+        "sha256": "3f881e89f6d002b54efdafc61fa381ee041ce070f7a17a14fee8e46ce3951e51"
+      },
+      {
+        "bytes": 6534,
+        "path": "studies/knapsack_parameters/adaptation_analysis/comparison.py",
+        "sha256": "97e3e337a2914e3b382f1bdb116823e787130b9a0c57932575b67d7a0c02d5f4"
+      },
+      {
+        "bytes": 10817,
+        "path": "studies/knapsack_parameters/adaptation_analysis/crossover.py",
+        "sha256": "b4496bff3618c881ced59340947a96be07ad81d36d17e70480ca3887f9f323e0"
+      },
+      {
+        "bytes": 11450,
+        "path": "studies/knapsack_parameters/adaptation_analysis/crossover_verifier.py",
+        "sha256": "5d10798e6d1290e884aa884fb9646ee71f5743cd68f6f59e2d3e196abb9a7166"
+      },
+      {
+        "bytes": 738,
+        "path": "studies/knapsack_parameters/adaptation_analysis/frozen_banks.json",
+        "sha256": "1408066152daed07c8068b300b6a960a1040cd0c5704b257604b1a620a831692"
+      },
+      {
+        "bytes": 15713,
+        "path": "studies/knapsack_parameters/adaptation_analysis/inputs/pilot/bank_registry.json",
+        "sha256": "b28929d182e7ccd477a7a9d34bab8a95971cc676618ce0708c81da6ed0a1e982"
+      },
+      {
+        "bytes": 13569,
+        "path": "studies/knapsack_parameters/adaptation_analysis/inputs/pilot/banks/SC-s000-bank-86001.json",
+        "sha256": "2f9db7ef0d19e7c9a5c54254aa518a5d1f67ceb9cf9ae4a9a3a1d81428165798"
+      },
+      {
+        "bytes": 13566,
+        "path": "studies/knapsack_parameters/adaptation_analysis/inputs/pilot/banks/SC-s000-cloned-86001.json",
+        "sha256": "90f3521969e06376bd3bac685b94ef91f511b572be78bb006c23341780e0cdbe"
+      },
+      {
+        "bytes": 13564,
+        "path": "studies/knapsack_parameters/adaptation_analysis/inputs/pilot/banks/SC-s005-bank-86001.json",
+        "sha256": "de78d34329c0c4c264536787f1a3355a1d3cc2bf3a266198fa552e24df5c78e7"
+      },
+      {
+        "bytes": 13557,
+        "path": "studies/knapsack_parameters/adaptation_analysis/inputs/pilot/banks/SC-s005-cloned-86001.json",
+        "sha256": "4ad7db59b23218062279648cc71bc1185be0dfdedfd289df0a6b6f05778fc384"
+      },
+      {
+        "bytes": 13537,
+        "path": "studies/knapsack_parameters/adaptation_analysis/inputs/pilot/banks/UC-s000-bank-86001.json",
+        "sha256": "dc8e584619cef3fcd78fd11851e9471359db05fc3c1355b015651e8ece553057"
+      },
+      {
+        "bytes": 13529,
+        "path": "studies/knapsack_parameters/adaptation_analysis/inputs/pilot/banks/UC-s000-cloned-86001.json",
+        "sha256": "5583a68e0cf79314c48062ba16317fe06c90d567414ddda8b9fe785fc6ac5905"
+      },
+      {
+        "bytes": 13543,
+        "path": "studies/knapsack_parameters/adaptation_analysis/inputs/pilot/banks/WC-s001-bank-86001.json",
+        "sha256": "f37302b33d85160afea17135d0e9c3eb48ad9aab010367869a828e7d1410a7fb"
+      },
+      {
+        "bytes": 13535,
+        "path": "studies/knapsack_parameters/adaptation_analysis/inputs/pilot/banks/WC-s001-cloned-86001.json",
+        "sha256": "8594e5e805ab04e073f80d47bd9e6dc958fcb44c09e792912ba4c0a91c263543"
+      },
+      {
+        "bytes": 1239,
+        "path": "studies/knapsack_parameters/adaptation_analysis/inputs/pilot/file_manifest.json",
+        "sha256": "f6dfa6380e960d4c9e1d2328ec7dd0a443d6939117464ffe92fcc11e8efe5935"
+      },
+      {
+        "bytes": 3373,
+        "path": "studies/knapsack_parameters/adaptation_analysis/registration.json",
+        "sha256": "1bfd2d1711494b95fb56bdc061729e5b937dbed2ba4fb3eb7f1cded679b9610c"
+      },
+      {
+        "bytes": 356136,
+        "path": "studies/knapsack_parameters/basic_parameters/evidence/run-39030726467/registry.json",
+        "sha256": "08f783e6be9ccc1e2c9d84d627f14455739a0f2d3ce6095873faf78178f97a6b"
+      },
+      {
+        "bytes": 1119,
+        "path": "studies/knapsack_parameters/basic_parameters/inputs/frozen_holdout_preparation.json",
+        "sha256": "cf37dc31a0b864d12697c8f69c6351847e638e539a2828ed795798709925e4f8"
+      },
+      {
+        "bytes": 1616,
+        "path": "studies/knapsack_parameters/basic_parameters/inputs/frozen_winner.json",
+        "sha256": "523bad54aa9c28169d6fa81b05a351005d7bee9519ed69c0991c2ad5f83aff3a"
+      },
+      {
+        "bytes": 26826,
+        "path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/data_manifest.json",
+        "sha256": "df04145a448fad1bfcb6bc7b4ea6fd1229dbd6b7c3c5f465d3058f23ddc77077"
+      },
+      {
+        "bytes": 12093,
+        "path": "studies/knapsack_parameters/bntga_selection/knapsack.py",
+        "sha256": "bd697c986378028b5cf187cc28083d6b1eaeec7c26ce22407d80f0c60a1e352a"
+      },
+      {
+        "bytes": 8772,
+        "path": "studies/knapsack_parameters/bntga_selection/knapsack_comparison.py",
+        "sha256": "5dcdaf26fd4f7294bb8a7b0c07c4532d7ce0226ed939c96b5304d0d0095ef107"
+      },
+      {
+        "bytes": 14218,
+        "path": "studies/knapsack_parameters/bntga_selection/knapsack_verifier.py",
+        "sha256": "33ecacb7e5103de8343f6ecd3b4b45a7af1240536cf497fa2a0c2806168e93c4"
+      },
+      {
+        "bytes": 11119,
+        "path": "studies/knapsack_parameters/bntga_selection/operator.py",
+        "sha256": "7cfe12b2ce7049f3cc6ff1b81c7db6b6c2b528bfb53b495a14fcea12fe15fde7"
+      },
+      {
+        "bytes": 12498,
+        "path": "studies/knapsack_parameters/bntga_selection/verifier.py",
+        "sha256": "049584bdb507aadae83a4e17d2f8c1e4793a2225257b3445026e945fa16be4bb"
+      },
+      {
+        "bytes": 298637,
+        "path": "studies/knapsack_parameters/evidence/run-37637475385/registry.json",
+        "sha256": "7e9b8fc893889426e2d3b57610e3a91c09263fcdff488cf15a2b84efe1bdc70f"
+      },
+      {
+        "bytes": 14,
+        "path": "studies/knapsack_parameters/final_study/.gitattributes",
+        "sha256": "a79691a93b46e49ce460c26ef22afcc03d6eca1e63bf2edbc20e96159510f6c9"
+      },
+      {
+        "bytes": 16882,
+        "path": "studies/knapsack_parameters/final_study/PROTOCOL_UK.md",
+        "sha256": "29d8e5e6a94658876f5cd5ac64b51d487a47d4fc7662f8806106374a9844d76f"
+      },
+      {
+        "bytes": 81,
+        "path": "studies/knapsack_parameters/final_study/__init__.py",
+        "sha256": "00c7dfe928e5789882afc9cd4ee51fa2e46cb52eece70d5198e8b2c37f63e01d"
+      },
+      {
+        "bytes": 19960,
+        "path": "studies/knapsack_parameters/final_study/authority.py",
+        "sha256": "30c07208e6b3029d3e1938c70c8a7ad5b4ba2b253b814987ba48a57935aa15ce"
+      },
+      {
+        "bytes": 6059,
+        "path": "studies/knapsack_parameters/final_study/endpoints.py",
+        "sha256": "23de92494777139ed7a9f704147fe69c2f21c2ad17161c7cc7dba5a0dc878521"
+      },
+      {
+        "bytes": 24694,
+        "path": "studies/knapsack_parameters/final_study/execution.py",
+        "sha256": "051993f40c66be1c170583daf7ef0f8659186f56997ed83f486072a70b2020fa"
+      },
+      {
+        "bytes": 14171,
+        "path": "studies/knapsack_parameters/final_study/fast_archive.py",
+        "sha256": "e993496fef1f0122865204a01e5d09a5d0c345f934de8561b04377d7088278ec"
+      },
+      {
+        "bytes": 14833,
+        "path": "studies/knapsack_parameters/final_study/figures.py",
+        "sha256": "d20682e317ef6ef20729dd7266aa54077a2eafdf8e4ff0986e7f93b4fdd9a4b4"
+      },
+      {
+        "bytes": 12063,
+        "path": "studies/knapsack_parameters/final_study/inputs.py",
+        "sha256": "5198481e5998e12d5287dc98be95b94fd3e133d190c2f35c06de4714a0673bfb"
+      },
+      {
+        "bytes": 5122,
+        "path": "studies/knapsack_parameters/final_study/registration.json",
+        "sha256": "4cbe3f0ff05198a3f3f77ff5e1fbe0bf71c18f8ebf3ea434a9e4044a4952ffef"
+      },
+      {
+        "bytes": 965,
+        "path": "studies/knapsack_parameters/final_study/resource_authorization.json",
+        "sha256": "a857e753a87f7c60e61c2a7e48b6aca29c543e0a646144eb36101b4783257219"
+      },
+      {
+        "bytes": 74,
+        "path": "studies/knapsack_parameters/final_study/tests/__init__.py",
+        "sha256": "3720c824cb9e6391f5ec003d3ee53d023f2b00d41f3c7bcd3a9a23ae911804f6"
+      },
+      {
+        "bytes": 5521,
+        "path": "studies/knapsack_parameters/final_study/tests/test_endpoints.py",
+        "sha256": "e619e8d339558b8df281057d45588d5bc4d420b55d23587c4efedc71619f545e"
+      },
+      {
+        "bytes": 20674,
+        "path": "studies/knapsack_parameters/final_study/tests/test_execution.py",
+        "sha256": "27d3453d306de7c4f672cc8dcd5e360524ae1345893ec2e523855864e5530ef3"
+      },
+      {
+        "bytes": 14722,
+        "path": "studies/knapsack_parameters/final_study/tests/test_fast_archive.py",
+        "sha256": "e8155a73a49ae7d77fb1428dbdd45ba7866d9994d7926d934fa994487da87938"
+      },
+      {
+        "bytes": 2638,
+        "path": "studies/knapsack_parameters/final_study/tests/test_figures.py",
+        "sha256": "90d54ad293c1bd165d1fc2e17fe02df21bd4a768647d08a8056b6c5542d298b7"
+      },
+      {
+        "bytes": 4112,
+        "path": "studies/knapsack_parameters/final_study/tests/test_inputs.py",
+        "sha256": "112467750f6cfc294d45e1861b274be9bbb5c4f05d3e0fc699e669eddf626f8c"
+      },
+      {
+        "bytes": 3011,
+        "path": "studies/knapsack_parameters/ga_study/dependencies/environment.lock.json",
+        "sha256": "9907e3a46971303d8285b7ae160b5b8eafcab9942565d376bd038a92789745c6"
+      },
+      {
+        "bytes": 1116,
+        "path": "studies/knapsack_parameters/ga_study/dependencies/requirements.lock",
+        "sha256": "6818e0e12843daa10947f7554cb3edd573d9f7cdbc33e63f98f9f3a068869017"
+      },
+      {
+        "bytes": 190063,
+        "path": "studies/knapsack_parameters/inputs/data_manifest.json",
+        "sha256": "528fee8da7d7cb776fb851e6a05949133830e9533c4091cbb4e8698ac19fb0df"
+      },
+      {
+        "bytes": 4018,
+        "path": "studies/knapsack_parameters/mutation_population/search.py",
+        "sha256": "2834102647366471a57e81adc9873a9e233efa1c19612a292b193deb5aa7564e"
+      }
+    ],
+    "sha256": "eb3063923da031677dc3cbb4f84fcb394b1160b7fd018ca319be67fd8fce008a"
+  },
+  "implementation_sha": "cb9655961ea9c739d7824bea403de1fb8cf57b37",
+  "green_tests_run_id": 39270061815,
+  "holdout_search_authorized": false
+}

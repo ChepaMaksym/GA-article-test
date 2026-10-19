@@ -1,0 +1,9 @@
+{
+  "protocol_id": "GA-KNAPSACK-FINAL-COMPARISON-V1",
+  "frozen": true,
+  "receipt_directory": "evidence/run-39270061815-attempt-1",
+  "artifact_id": 12195765495,
+  "zip_sha256": "5f7f85e0dff6757d8dd1480a15ffdc668e790b57b3b3e898a592158d609366bc",
+  "green_run_id": 39270061815,
+  "implementation_sha": "cb9655961ea9c739d7824bea403de1fb8cf57b37"
+}
