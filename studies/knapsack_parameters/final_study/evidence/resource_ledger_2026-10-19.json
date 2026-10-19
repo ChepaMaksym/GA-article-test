@@ -1,0 +1,425 @@
+{
+  "schema": "ga-knapsack-final-resource-ledger-v1",
+  "as_of": "2026-10-19",
+  "protocol_id": "GA-KNAPSACK-FINAL-COMPARISON-V1",
+  "grant_minutes": 90,
+  "charged_runner_minutes": 29,
+  "accounting": "Every executed job rounded up separately; skipped jobs charge zero. All attempts included; each recorded run has attempt 1. All final-study runs on the branch independently enumerated.",
+  "main_search_authorized": false,
+  "scientific_reanalysis_performed": false,
+  "runs": [
+    {
+      "run_id": 39270061815,
+      "run_attempt": 1,
+      "implementation_sha": "cb9655961ea9c739d7824bea403de1fb8cf57b37",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "job_id": 118119691615,
+          "name": "gate",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-19T14:33:45Z",
+          "completed_at": "2026-10-19T14:33:52Z",
+          "charged_minutes": 1
+        },
+        {
+          "job_id": 118119770307,
+          "name": "tests",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-19T14:33:54Z",
+          "completed_at": "2026-10-19T14:34:33Z",
+          "charged_minutes": 1
+        },
+        {
+          "job_id": 118119773810,
+          "name": "aggregate",
+          "status": "completed",
+          "conclusion": "skipped",
+          "started_at": "2026-10-19T14:33:53Z",
+          "completed_at": "2026-10-19T14:33:52Z",
+          "charged_minutes": 0
+        },
+        {
+          "job_id": 118119775258,
+          "name": "probe",
+          "status": "completed",
+          "conclusion": "skipped",
+          "started_at": "2026-10-19T14:33:53Z",
+          "completed_at": "2026-10-19T14:33:52Z",
+          "charged_minutes": 0
+        }
+      ],
+      "charged_runner_minutes": 2,
+      "artifacts": [
+        {
+          "artifact_id": 12195765495,
+          "name": "knapsack-final-tests-39270061815-1",
+          "bytes": 21781,
+          "zip_sha256": "5f7f85e0dff6757d8dd1480a15ffdc668e790b57b3b3e898a592158d609366bc",
+          "expires_at": "2027-01-17T14:33:43Z",
+          "expired": false
+        },
+        {
+          "artifact_id": 12194896920,
+          "name": "knapsack-final-permit-39270061815-1",
+          "bytes": 3905,
+          "zip_sha256": "29b51f6ef562ffbd2d7747d25965bb01b66abf60e76589c07459dc5b247d5ac4",
+          "expires_at": "2027-01-17T14:33:43Z",
+          "expired": false
+        }
+      ]
+    },
+    {
+      "run_id": 39270427967,
+      "run_attempt": 1,
+      "implementation_sha": "c29fa55912a0183d887bc73de9669e6a8fb3c174",
+      "conclusion": "failure",
+      "jobs": [
+        {
+          "job_id": 118120945421,
+          "name": "gate",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-19T14:36:09Z",
+          "completed_at": "2026-10-19T14:36:21Z",
+          "charged_minutes": 1
+        },
+        {
+          "job_id": 118121075423,
+          "name": "probe (UC-s000, cloned, unbalanced_gap)",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-19T14:36:23Z",
+          "completed_at": "2026-10-19T14:37:47Z",
+          "charged_minutes": 2
+        },
+        {
+          "job_id": 118121075436,
+          "name": "probe (UC-s000, cloned, adaptive_mutation)",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-19T14:36:23Z",
+          "completed_at": "2026-10-19T14:36:53Z",
+          "charged_minutes": 1
+        },
+        {
+          "job_id": 118121075477,
+          "name": "probe (SC-s005, bank, balanced_gap)",
+          "status": "completed",
+          "conclusion": "failure",
+          "started_at": "2026-10-19T14:37:48Z",
+          "completed_at": "2026-10-19T14:41:23Z",
+          "charged_minutes": 4
+        },
+        {
+          "job_id": 118121075492,
+          "name": "probe (SC-s005, bank, adaptive_crossover)",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-19T14:37:21Z",
+          "completed_at": "2026-10-19T14:37:53Z",
+          "charged_minutes": 1
+        },
+        {
+          "job_id": 118121075525,
+          "name": "probe (SC-s005, bank, adaptive_mutation)",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-19T14:36:55Z",
+          "completed_at": "2026-10-19T14:37:27Z",
+          "charged_minutes": 1
+        },
+        {
+          "job_id": 118121075552,
+          "name": "probe (SC-s005, bank, unbalanced_gap)",
+          "status": "completed",
+          "conclusion": "failure",
+          "started_at": "2026-10-19T14:37:30Z",
+          "completed_at": "2026-10-19T14:41:09Z",
+          "charged_minutes": 4
+        },
+        {
+          "job_id": 118121075561,
+          "name": "probe (UC-s000, cloned, adaptive_crossover)",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-19T14:36:23Z",
+          "completed_at": "2026-10-19T14:36:51Z",
+          "charged_minutes": 1
+        },
+        {
+          "job_id": 118121075592,
+          "name": "probe (SC-s005, bank, classical)",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-19T14:36:53Z",
+          "completed_at": "2026-10-19T14:37:17Z",
+          "charged_minutes": 1
+        },
+        {
+          "job_id": 118121075600,
+          "name": "probe (UC-s000, cloned, balanced_gap)",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-19T14:36:51Z",
+          "completed_at": "2026-10-19T14:37:53Z",
+          "charged_minutes": 2
+        },
+        {
+          "job_id": 118121075653,
+          "name": "probe (UC-s000, cloned, classical)",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-19T14:36:23Z",
+          "completed_at": "2026-10-19T14:36:49Z",
+          "charged_minutes": 1
+        },
+        {
+          "job_id": 118121078068,
+          "name": "tests",
+          "status": "completed",
+          "conclusion": "skipped",
+          "started_at": "2026-10-19T14:36:22Z",
+          "completed_at": "2026-10-19T14:36:21Z",
+          "charged_minutes": 0
+        },
+        {
+          "job_id": 118123703711,
+          "name": "aggregate",
+          "status": "completed",
+          "conclusion": "failure",
+          "started_at": "2026-10-19T14:41:26Z",
+          "completed_at": "2026-10-19T14:44:28Z",
+          "charged_minutes": 4
+        }
+      ],
+      "charged_runner_minutes": 23,
+      "artifacts": [
+        {
+          "artifact_id": 12195766035,
+          "name": "knapsack-final-worker-UC-s000-cloned-balanced_gap-39270427967-1",
+          "bytes": 3353437,
+          "zip_sha256": "d30af77877d7e4a51728e618e5b956bf7f0d0edadad0cb30f580fab72622780c",
+          "expires_at": "2027-01-17T14:36:06Z",
+          "expired": false
+        },
+        {
+          "artifact_id": 12195312131,
+          "name": "knapsack-final-worker-UC-s000-cloned-unbalanced_gap-39270427967-1",
+          "bytes": 3013173,
+          "zip_sha256": "9dc8a3162acc4929d723c5d407aaa2dcaa9d78fa207ae1bef5607d5f3dcfe817",
+          "expires_at": "2027-01-17T14:36:06Z",
+          "expired": false
+        },
+        {
+          "artifact_id": 12195252795,
+          "name": "knapsack-final-worker-SC-s005-bank-unbalanced_gap-39270427967-1",
+          "bytes": 16208789,
+          "zip_sha256": "a8abaff30c17c69d21a882c6000ed049afd5065468eb22bcdbe6188006b87ce4",
+          "expires_at": "2027-01-17T14:36:06Z",
+          "expired": false
+        },
+        {
+          "artifact_id": 12195222198,
+          "name": "knapsack-final-worker-SC-s005-bank-adaptive_crossover-39270427967-1",
+          "bytes": 272335,
+          "zip_sha256": "4aad843a722b74a40c32f9b9cdeee1e7e3a34fae23c18aeb2efc0eed78a64dc4",
+          "expires_at": "2027-01-17T14:36:06Z",
+          "expired": false
+        },
+        {
+          "artifact_id": 12195157186,
+          "name": "knapsack-final-worker-UC-s000-cloned-adaptive_mutation-39270427967-1",
+          "bytes": 370057,
+          "zip_sha256": "e0b188288f0ca59286922f053661dd3416c06dcbde17ee77ca4d31ff03465b71",
+          "expires_at": "2027-01-17T14:36:06Z",
+          "expired": false
+        },
+        {
+          "artifact_id": 12194863148,
+          "name": "knapsack-final-worker-SC-s005-bank-balanced_gap-39270427967-1",
+          "bytes": 3888,
+          "zip_sha256": "98bc908ac75e5d40a1c753d6f2abf8d7e2347653abbd41474d105dee058ef6ba",
+          "expires_at": "2027-01-17T14:36:06Z",
+          "expired": false
+        },
+        {
+          "artifact_id": 12194812256,
+          "name": "knapsack-final-worker-UC-s000-cloned-classical-39270427967-1",
+          "bytes": 225949,
+          "zip_sha256": "29a165ada93ab78e1f773e832f111ee54c776af6f97a0598e4ccf98cf8fa5db6",
+          "expires_at": "2027-01-17T14:36:06Z",
+          "expired": false
+        },
+        {
+          "artifact_id": 12194612567,
+          "name": "knapsack-final-worker-SC-s005-bank-adaptive_mutation-39270427967-1",
+          "bytes": 370273,
+          "zip_sha256": "16e86fd38ba7fa90ae7085d9aa583f819bad7386dc01e014c1b4b1a38fe3f1ed",
+          "expires_at": "2027-01-17T14:36:06Z",
+          "expired": false
+        },
+        {
+          "artifact_id": 12194397630,
+          "name": "knapsack-final-worker-UC-s000-cloned-adaptive_crossover-39270427967-1",
+          "bytes": 235220,
+          "zip_sha256": "767b378635df7710e13c282dca1eedf5c02d5213b90e63c9449c0bdb4ff2afb9",
+          "expires_at": "2027-01-17T14:36:06Z",
+          "expired": false
+        },
+        {
+          "artifact_id": 12194249635,
+          "name": "knapsack-final-summary-39270427967-1",
+          "bytes": 38004,
+          "zip_sha256": "e4d63abc9ea1d3e2b7f595ea6f35b973541fd7a03cf2623af838cc2d76bcc51d",
+          "expires_at": "2027-01-17T14:36:06Z",
+          "expired": false
+        },
+        {
+          "artifact_id": 12194203199,
+          "name": "knapsack-final-permit-39270427967-1",
+          "bytes": 3963,
+          "zip_sha256": "4084b53e4003b98695f12c45487693ec825014f9a5880b44e130d5b36acb8c82",
+          "expires_at": "2027-01-17T14:36:06Z",
+          "expired": false
+        },
+        {
+          "artifact_id": 12194138465,
+          "name": "knapsack-final-worker-SC-s005-bank-classical-39270427967-1",
+          "bytes": 255193,
+          "zip_sha256": "3fde7cc7b115c732b846008d1c0990cd65f03a93d568433a1488483aa8e57eb7",
+          "expires_at": "2027-01-17T14:36:06Z",
+          "expired": false
+        }
+      ]
+    },
+    {
+      "run_id": 39271447354,
+      "run_attempt": 1,
+      "implementation_sha": "b3418f676652d4703b5b4aea8a703f8619c95ed2",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "job_id": 118125368549,
+          "name": "gate",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-19T14:44:34Z",
+          "completed_at": "2026-10-19T14:44:45Z",
+          "charged_minutes": 1
+        },
+        {
+          "job_id": 118125486267,
+          "name": "tests",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-19T14:44:48Z",
+          "completed_at": "2026-10-19T14:45:29Z",
+          "charged_minutes": 1
+        },
+        {
+          "job_id": 118125488236,
+          "name": "probe",
+          "status": "completed",
+          "conclusion": "skipped",
+          "started_at": "2026-10-19T14:44:45Z",
+          "completed_at": "2026-10-19T14:44:45Z",
+          "charged_minutes": 0
+        },
+        {
+          "job_id": 118125490049,
+          "name": "aggregate",
+          "status": "completed",
+          "conclusion": "skipped",
+          "started_at": "2026-10-19T14:44:46Z",
+          "completed_at": "2026-10-19T14:44:45Z",
+          "charged_minutes": 0
+        }
+      ],
+      "charged_runner_minutes": 2,
+      "artifacts": [
+        {
+          "artifact_id": 12194758564,
+          "name": "knapsack-final-permit-39271447354-1",
+          "bytes": 4042,
+          "zip_sha256": "6ccdaf74eac05344cef72b08ba7f1525c49b75579793b3886835d43dc19236c3",
+          "expires_at": "2027-01-17T14:42:54Z",
+          "expired": false
+        },
+        {
+          "artifact_id": 12194354646,
+          "name": "knapsack-final-tests-39271447354-1",
+          "bytes": 730405,
+          "zip_sha256": "55d6b14f06dfd6fe210566ed5844d3f36577786f445f7c9046b30c3e7033ee39",
+          "expires_at": "2027-01-17T14:42:54Z",
+          "expired": false
+        }
+      ]
+    },
+    {
+      "run_id": 39290697107,
+      "run_attempt": 1,
+      "implementation_sha": "c68279f13cf8faa8836208ab0121884894605309",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "job_id": 118190270636,
+          "name": "gate",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-19T17:02:29Z",
+          "completed_at": "2026-10-19T17:02:40Z",
+          "charged_minutes": 1
+        },
+        {
+          "job_id": 118190388411,
+          "name": "tests",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-19T17:02:42Z",
+          "completed_at": "2026-10-19T17:03:22Z",
+          "charged_minutes": 1
+        },
+        {
+          "job_id": 118190390721,
+          "name": "probe",
+          "status": "completed",
+          "conclusion": "skipped",
+          "started_at": "2026-10-19T17:02:41Z",
+          "completed_at": "2026-10-19T17:02:41Z",
+          "charged_minutes": 0
+        },
+        {
+          "job_id": 118190392556,
+          "name": "aggregate",
+          "status": "completed",
+          "conclusion": "skipped",
+          "started_at": "2026-10-19T17:02:41Z",
+          "completed_at": "2026-10-19T17:02:41Z",
+          "charged_minutes": 0
+        }
+      ],
+      "charged_runner_minutes": 2,
+      "artifacts": [
+        {
+          "artifact_id": 12205272184,
+          "name": "knapsack-final-permit-39290697107-1",
+          "bytes": 4062,
+          "zip_sha256": "7fe1831b0e622b68f0de50e772963d096c731b3be30c079de1f37174e23d0efa",
+          "expires_at": "2027-01-17T17:02:26Z",
+          "expired": false
+        },
+        {
+          "artifact_id": 12204574239,
+          "name": "knapsack-final-tests-39290697107-1",
+          "bytes": 1052633,
+          "zip_sha256": "eec3a3ba88e18f029d3287df6a11996951af382ca7a26019a52236ee8583ed89",
+          "expires_at": "2027-01-17T17:02:26Z",
+          "expired": false
+        }
+      ]
+    }
+  ]
+}

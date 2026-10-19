@@ -1,0 +1,558 @@
+{
+  "schema": "ga-final-retained-artifact-provenance-v1",
+  "as_of": "2026-10-19",
+  "policy": "One canonical ZIP per downloaded artifact in the local evidence folder; original manifests retained here. Full probe journals are not duplicated as loose files or added to Git.",
+  "local_archive_folder": "Магістерська_рюкзак/Фінальне_дослідження/Докази",
+  "artifacts": [
+    {
+      "name": "knapsack-final-permit-39270427967-1",
+      "local_zip": "knapsack-final-permit-39270427967-1.zip",
+      "bytes": 3963,
+      "sha256": "4084b53e4003b98695f12c45487693ec825014f9a5880b44e130d5b36acb8c82",
+      "internal_files_verified": 1,
+      "manifest": {
+        "files": [
+          {
+            "bytes": 9976,
+            "path": "permit.json",
+            "sha256": "9155c9d4f1f02667f49c15c664bbb8e8db794ee4e3c57d77bd5574eab553f034"
+          }
+        ],
+        "protocol_id": "GA-KNAPSACK-FINAL-COMPARISON-V1"
+      },
+      "origin": {
+        "artifact_id": 12194203199,
+        "run_id": 39270427967,
+        "implementation_sha": "c29fa55912a0183d887bc73de9669e6a8fb3c174",
+        "expires_at": "2027-01-17T14:36:06Z",
+        "api_transport_metadata_verified": true
+      }
+    },
+    {
+      "name": "knapsack-final-summary-39270427967-1",
+      "local_zip": "knapsack-final-summary-39270427967-1.zip",
+      "bytes": 38004,
+      "sha256": "e4d63abc9ea1d3e2b7f595ea6f35b973541fd7a03cf2623af838cc2d76bcc51d",
+      "internal_files_verified": 2,
+      "manifest": {
+        "files": [
+          {
+            "bytes": 1263,
+            "path": "RESULTS_UK.md",
+            "sha256": "6ee2aa0beafa182a78693588f143d86bc59d933e03683e5767e7c542ac4f225e"
+          },
+          {
+            "bytes": 183528,
+            "path": "probe_summary.json",
+            "sha256": "8f5d5b50a1dc9be541b65fb10177f35640611fe74515a679afbc1f2c9cc4b716"
+          }
+        ],
+        "protocol_id": "GA-KNAPSACK-FINAL-COMPARISON-V1"
+      },
+      "origin": {
+        "artifact_id": 12194249635,
+        "run_id": 39270427967,
+        "implementation_sha": "c29fa55912a0183d887bc73de9669e6a8fb3c174",
+        "expires_at": "2027-01-17T14:36:06Z",
+        "api_transport_metadata_verified": true
+      }
+    },
+    {
+      "name": "knapsack-final-tests-39270061815-1",
+      "local_zip": "knapsack-final-tests-39270061815-1.zip",
+      "bytes": 21781,
+      "sha256": "5f7f85e0dff6757d8dd1480a15ffdc668e790b57b3b3e898a592158d609366bc",
+      "internal_files_verified": 2,
+      "manifest": {
+        "files": [
+          {
+            "bytes": 49843,
+            "path": "tests.txt",
+            "sha256": "97ef0abc2131153abae4c804ab7c2079380d2a23316d1d7f8438ba68fb4e4837"
+          },
+          {
+            "bytes": 81199,
+            "path": "tests_receipt.json",
+            "sha256": "705a5f64c1ceb0564fffc57c60daf90b41cd7a4c5a35959736f58ecd52bd368e"
+          }
+        ],
+        "protocol_id": "GA-KNAPSACK-FINAL-COMPARISON-V1"
+      },
+      "origin": {
+        "artifact_id": 12195765495,
+        "run_id": 39270061815,
+        "implementation_sha": "cb9655961ea9c739d7824bea403de1fb8cf57b37",
+        "expires_at": "2027-01-17T14:33:43Z",
+        "api_transport_metadata_verified": true
+      }
+    },
+    {
+      "name": "knapsack-final-tests-39271447354-1",
+      "local_zip": "knapsack-final-tests-39271447354-1.zip",
+      "bytes": 730405,
+      "sha256": "55d6b14f06dfd6fe210566ed5844d3f36577786f445f7c9046b30c3e7033ee39",
+      "internal_files_verified": 9,
+      "manifest": {
+        "files": [
+          {
+            "bytes": 98889,
+            "path": "retained_figures/fixed_initial_final_and_generations.png",
+            "sha256": "1dcc8299dbb4054e699ed50611cae1d2b46fa10ca11decb07a45a2211be5f4c8"
+          },
+          {
+            "bytes": 228975,
+            "path": "retained_figures/fixed_parameter_effects.png",
+            "sha256": "76351e4afdbc09b78b453b0b407a2f7abcfab586d270225d8b2cf9905fce71ec"
+          },
+          {
+            "bytes": 91891,
+            "path": "retained_figures/fixed_population_10.png",
+            "sha256": "58829da0a1bd21edd0f1b05d7efcabcdb61467735ab5fca54f601bc9f1061360"
+          },
+          {
+            "bytes": 87025,
+            "path": "retained_figures/fixed_population_100.png",
+            "sha256": "ae19ba51e826a76db9d2c94f55eed17eb2d7b773f9bbbb732f28b4003e61703c"
+          },
+          {
+            "bytes": 90719,
+            "path": "retained_figures/fixed_population_20.png",
+            "sha256": "de8101c8428e16ea42e7e3d9fcdef9b3bb464392141af9248ff9f8850c5557ed"
+          },
+          {
+            "bytes": 89464,
+            "path": "retained_figures/fixed_population_30.png",
+            "sha256": "24e5ee8f0334675cc94b477ff1f717a8c03dae0660183e9620a29c9b46f39a75"
+          },
+          {
+            "bytes": 88258,
+            "path": "retained_figures/fixed_population_50.png",
+            "sha256": "0ef831357b9ae08402a6c523a658b250d7e16873a069e5c32df77b467f314f7c"
+          },
+          {
+            "bytes": 49844,
+            "path": "tests.txt",
+            "sha256": "273d5a0a48996aca5955467ade0550295fa2f2f2770964d8c581a6c23138e15d"
+          },
+          {
+            "bytes": 81546,
+            "path": "tests_receipt.json",
+            "sha256": "f9ccce021eeaf2e877f57e22e432f4110663395d731891ac5d1ba712881ab608"
+          }
+        ],
+        "protocol_id": "GA-KNAPSACK-FINAL-COMPARISON-V1"
+      },
+      "origin": {
+        "artifact_id": 12194354646,
+        "run_id": 39271447354,
+        "implementation_sha": "b3418f676652d4703b5b4aea8a703f8619c95ed2",
+        "expires_at": "2027-01-17T14:42:54Z",
+        "api_transport_metadata_verified": true
+      }
+    },
+    {
+      "name": "knapsack-final-tests-39290697107-1",
+      "local_zip": "knapsack-final-tests-39290697107-1.zip",
+      "bytes": 1052633,
+      "sha256": "eec3a3ba88e18f029d3287df6a11996951af382ca7a26019a52236ee8583ed89",
+      "internal_files_verified": 12,
+      "manifest": {
+        "files": [
+          {
+            "bytes": 98889,
+            "path": "retained_figures/fixed_initial_final_and_generations.png",
+            "sha256": "1dcc8299dbb4054e699ed50611cae1d2b46fa10ca11decb07a45a2211be5f4c8"
+          },
+          {
+            "bytes": 228975,
+            "path": "retained_figures/fixed_parameter_effects.png",
+            "sha256": "76351e4afdbc09b78b453b0b407a2f7abcfab586d270225d8b2cf9905fce71ec"
+          },
+          {
+            "bytes": 91891,
+            "path": "retained_figures/fixed_population_10.png",
+            "sha256": "58829da0a1bd21edd0f1b05d7efcabcdb61467735ab5fca54f601bc9f1061360"
+          },
+          {
+            "bytes": 87025,
+            "path": "retained_figures/fixed_population_100.png",
+            "sha256": "ae19ba51e826a76db9d2c94f55eed17eb2d7b773f9bbbb732f28b4003e61703c"
+          },
+          {
+            "bytes": 90719,
+            "path": "retained_figures/fixed_population_20.png",
+            "sha256": "de8101c8428e16ea42e7e3d9fcdef9b3bb464392141af9248ff9f8850c5557ed"
+          },
+          {
+            "bytes": 89464,
+            "path": "retained_figures/fixed_population_30.png",
+            "sha256": "24e5ee8f0334675cc94b477ff1f717a8c03dae0660183e9620a29c9b46f39a75"
+          },
+          {
+            "bytes": 88258,
+            "path": "retained_figures/fixed_population_50.png",
+            "sha256": "0ef831357b9ae08402a6c523a658b250d7e16873a069e5c32df77b467f314f7c"
+          },
+          {
+            "bytes": 57513,
+            "path": "retained_figures/fixed_same_result.png",
+            "sha256": "a209130973f5688671edb4b3e2841da871bbb92193d13021342fc6edb32995fa"
+          },
+          {
+            "bytes": 203636,
+            "path": "retained_figures/fixed_speed_95.png",
+            "sha256": "ddc19a8eda4b657028e869c098aafde1ed96e95646f289a8c5bd9a672cab6a68"
+          },
+          {
+            "bytes": 102789,
+            "path": "retained_figures/fixed_speed_99.png",
+            "sha256": "5b7bd3c153917df0fdac81dae15b8cfe7990864efbadd7deba106661ed8bab37"
+          },
+          {
+            "bytes": 50270,
+            "path": "tests.txt",
+            "sha256": "b2ef007bb4daedc5450b3c7fece40788b8a3bedcdee3839552f80493866035ec"
+          },
+          {
+            "bytes": 82170,
+            "path": "tests_receipt.json",
+            "sha256": "2b4490dfb6d2fe3ab65692f61e5203ab0fda6c0f937cc51ed806ae3d87401b84"
+          }
+        ],
+        "protocol_id": "GA-KNAPSACK-FINAL-COMPARISON-V1"
+      },
+      "origin": {
+        "artifact_id": 12204574239,
+        "run_id": 39290697107,
+        "implementation_sha": "c68279f13cf8faa8836208ab0121884894605309",
+        "expires_at": "2027-01-17T17:02:26Z",
+        "api_transport_metadata_verified": true
+      }
+    },
+    {
+      "name": "knapsack-final-worker-SC-s005-bank-adaptive_crossover-39270427967-1",
+      "local_zip": "knapsack-final-worker-SC-s005-bank-adaptive_crossover-39270427967-1.zip",
+      "bytes": 272335,
+      "sha256": "4aad843a722b74a40c32f9b9cdeee1e7e3a34fae23c18aeb2efc0eed78a64dc4",
+      "internal_files_verified": 3,
+      "manifest": {
+        "files": [
+          {
+            "bytes": 270374,
+            "path": "journal.json.gz",
+            "sha256": "68256ac0fd7b58eb1dee12288890ec201537af1cf74566758b796eb7884ba65c"
+          },
+          {
+            "bytes": 1022,
+            "path": "verification.json",
+            "sha256": "b7aa8eed0de5c3bddb328d99f574563a6fb49f956fa800c1d3fb8264d0c51cf7"
+          },
+          {
+            "bytes": 10641,
+            "path": "worker_index.json",
+            "sha256": "0b9a812dc9524a56e1cc04ba24d1dc92cabe2199737a44637d7bd3b8ef59cd50"
+          }
+        ],
+        "protocol_id": "GA-KNAPSACK-FINAL-COMPARISON-V1"
+      },
+      "origin": {
+        "artifact_id": 12195222198,
+        "run_id": 39270427967,
+        "implementation_sha": "c29fa55912a0183d887bc73de9669e6a8fb3c174",
+        "expires_at": "2027-01-17T14:36:06Z",
+        "api_transport_metadata_verified": true
+      }
+    },
+    {
+      "name": "knapsack-final-worker-SC-s005-bank-adaptive_mutation-39270427967-1",
+      "local_zip": "knapsack-final-worker-SC-s005-bank-adaptive_mutation-39270427967-1.zip",
+      "bytes": 370273,
+      "sha256": "16e86fd38ba7fa90ae7085d9aa583f819bad7386dc01e014c1b4b1a38fe3f1ed",
+      "internal_files_verified": 3,
+      "manifest": {
+        "files": [
+          {
+            "bytes": 369740,
+            "path": "journal.json.gz",
+            "sha256": "1cf8b869f0d6cc40aefb04e46aff157c76dfe9c3239bfdaa6566a4e1ded1e608"
+          },
+          {
+            "bytes": 961,
+            "path": "verification.json",
+            "sha256": "02fa83696ff40a5e1f5b0719b13cda0b649dbbee0d109bd6ba40c02a6be9809c"
+          },
+          {
+            "bytes": 10596,
+            "path": "worker_index.json",
+            "sha256": "ddb8a55308dd576ec3e957354998f66272a36336ffd3bd7145c5a4f1f859c3ef"
+          }
+        ],
+        "protocol_id": "GA-KNAPSACK-FINAL-COMPARISON-V1"
+      },
+      "origin": {
+        "artifact_id": 12194612567,
+        "run_id": 39270427967,
+        "implementation_sha": "c29fa55912a0183d887bc73de9669e6a8fb3c174",
+        "expires_at": "2027-01-17T14:36:06Z",
+        "api_transport_metadata_verified": true
+      }
+    },
+    {
+      "name": "knapsack-final-worker-SC-s005-bank-balanced_gap-39270427967-1",
+      "local_zip": "knapsack-final-worker-SC-s005-bank-balanced_gap-39270427967-1.zip",
+      "bytes": 3888,
+      "sha256": "98bc908ac75e5d40a1c753d6f2abf8d7e2347653abbd41474d105dee058ef6ba",
+      "internal_files_verified": 1,
+      "manifest": {
+        "files": [
+          {
+            "bytes": 9476,
+            "path": "worker_index.json",
+            "sha256": "d25af2d46ac7d15f75ceab0c9b8370de1cd6c81cd7752a7617fa0e3dce910c88"
+          }
+        ],
+        "protocol_id": "GA-KNAPSACK-FINAL-COMPARISON-V1"
+      },
+      "origin": {
+        "artifact_id": 12194863148,
+        "run_id": 39270427967,
+        "implementation_sha": "c29fa55912a0183d887bc73de9669e6a8fb3c174",
+        "expires_at": "2027-01-17T14:36:06Z",
+        "api_transport_metadata_verified": true
+      }
+    },
+    {
+      "name": "knapsack-final-worker-SC-s005-bank-classical-39270427967-1",
+      "local_zip": "knapsack-final-worker-SC-s005-bank-classical-39270427967-1.zip",
+      "bytes": 255193,
+      "sha256": "3fde7cc7b115c732b846008d1c0990cd65f03a93d568433a1488483aa8e57eb7",
+      "internal_files_verified": 3,
+      "manifest": {
+        "files": [
+          {
+            "bytes": 254856,
+            "path": "journal.json.gz",
+            "sha256": "8edfdd552d302a913ac9c278d1316b7072e706ef557b1960130ce50678d7b2aa"
+          },
+          {
+            "bytes": 963,
+            "path": "verification.json",
+            "sha256": "36e2c751dc9c38f767cfcece9a8a159b2a0bb59c0bbcc34d2721ef4c74fc6af5"
+          },
+          {
+            "bytes": 10590,
+            "path": "worker_index.json",
+            "sha256": "2e37837ae224b14ee979154502ced08514812b8ced630a19cf0be1386e35f6ac"
+          }
+        ],
+        "protocol_id": "GA-KNAPSACK-FINAL-COMPARISON-V1"
+      },
+      "origin": {
+        "artifact_id": 12194138465,
+        "run_id": 39270427967,
+        "implementation_sha": "c29fa55912a0183d887bc73de9669e6a8fb3c174",
+        "expires_at": "2027-01-17T14:36:06Z",
+        "api_transport_metadata_verified": true
+      }
+    },
+    {
+      "name": "knapsack-final-worker-SC-s005-bank-unbalanced_gap-39270427967-1",
+      "local_zip": "knapsack-final-worker-SC-s005-bank-unbalanced_gap-39270427967-1.zip",
+      "bytes": 16208789,
+      "sha256": "a8abaff30c17c69d21a882c6000ed049afd5065468eb22bcdbe6188006b87ce4",
+      "internal_files_verified": 2,
+      "manifest": {
+        "files": [
+          {
+            "bytes": 21247995,
+            "path": "journal.json.gz",
+            "sha256": "adb17f3c822cd90ff1ad664e7a151511d0820aa23bc37bbe6273b8ac946cbf77"
+          },
+          {
+            "bytes": 87359,
+            "path": "worker_index.json",
+            "sha256": "8c93decb0ee0b818ef90123a61997b47fd541d63ebfa87f470584d9ac056fb2e"
+          }
+        ],
+        "protocol_id": "GA-KNAPSACK-FINAL-COMPARISON-V1"
+      },
+      "origin": {
+        "artifact_id": 12195252795,
+        "run_id": 39270427967,
+        "implementation_sha": "c29fa55912a0183d887bc73de9669e6a8fb3c174",
+        "expires_at": "2027-01-17T14:36:06Z",
+        "api_transport_metadata_verified": true
+      }
+    },
+    {
+      "name": "knapsack-final-worker-UC-s000-cloned-adaptive_crossover-39270427967-1",
+      "local_zip": "knapsack-final-worker-UC-s000-cloned-adaptive_crossover-39270427967-1.zip",
+      "bytes": 235220,
+      "sha256": "767b378635df7710e13c282dca1eedf5c02d5213b90e63c9449c0bdb4ff2afb9",
+      "internal_files_verified": 3,
+      "manifest": {
+        "files": [
+          {
+            "bytes": 233339,
+            "path": "journal.json.gz",
+            "sha256": "168f791680d1b4cdfae199e7f7c98726da51f03b8c19b59f4520d4cbc37ee3b9"
+          },
+          {
+            "bytes": 1018,
+            "path": "verification.json",
+            "sha256": "91d46073b3c3804e0c7dee13930a3ccdf0a9f6416e1e10647fe414faefa74471"
+          },
+          {
+            "bytes": 10642,
+            "path": "worker_index.json",
+            "sha256": "3e5780e5195689ec67e488df451f0c9f7f675520397722eda846d2b7486967f4"
+          }
+        ],
+        "protocol_id": "GA-KNAPSACK-FINAL-COMPARISON-V1"
+      },
+      "origin": {
+        "artifact_id": 12194397630,
+        "run_id": 39270427967,
+        "implementation_sha": "c29fa55912a0183d887bc73de9669e6a8fb3c174",
+        "expires_at": "2027-01-17T14:36:06Z",
+        "api_transport_metadata_verified": true
+      }
+    },
+    {
+      "name": "knapsack-final-worker-UC-s000-cloned-adaptive_mutation-39270427967-1",
+      "local_zip": "knapsack-final-worker-UC-s000-cloned-adaptive_mutation-39270427967-1.zip",
+      "bytes": 370057,
+      "sha256": "e0b188288f0ca59286922f053661dd3416c06dcbde17ee77ca4d31ff03465b71",
+      "internal_files_verified": 3,
+      "manifest": {
+        "files": [
+          {
+            "bytes": 369600,
+            "path": "journal.json.gz",
+            "sha256": "cd2d1dc4e0afdbb99c49b8dd60d6212219cba0db4890d0b3abadb1f91d7d744d"
+          },
+          {
+            "bytes": 953,
+            "path": "verification.json",
+            "sha256": "3f58b80e256c019e8b9f3f619e022f34bca885b7dced16dc47fb9d37c762bfeb"
+          },
+          {
+            "bytes": 10587,
+            "path": "worker_index.json",
+            "sha256": "0a198cd9ff72d370d19e2ee6835b17a9a466999846b533e8ef1cea6d2344c9c9"
+          }
+        ],
+        "protocol_id": "GA-KNAPSACK-FINAL-COMPARISON-V1"
+      },
+      "origin": {
+        "artifact_id": 12195157186,
+        "run_id": 39270427967,
+        "implementation_sha": "c29fa55912a0183d887bc73de9669e6a8fb3c174",
+        "expires_at": "2027-01-17T14:36:06Z",
+        "api_transport_metadata_verified": true
+      }
+    },
+    {
+      "name": "knapsack-final-worker-UC-s000-cloned-balanced_gap-39270427967-1",
+      "local_zip": "knapsack-final-worker-UC-s000-cloned-balanced_gap-39270427967-1.zip",
+      "bytes": 3353437,
+      "sha256": "d30af77877d7e4a51728e618e5b956bf7f0d0edadad0cb30f580fab72622780c",
+      "internal_files_verified": 3,
+      "manifest": {
+        "files": [
+          {
+            "bytes": 4634450,
+            "path": "journal.json.gz",
+            "sha256": "ce0b6131ded2c727a0bc899632d4b6830bc38f6cb437843884a93b8651b5fb3d"
+          },
+          {
+            "bytes": 45136,
+            "path": "verification.json",
+            "sha256": "be3defc556655d4e9a6539254b4a670aa89b89e54dcb72b63188fbc6c967cc33"
+          },
+          {
+            "bytes": 55022,
+            "path": "worker_index.json",
+            "sha256": "996c085686abe8dd7da01c7094b71393f0fdc2465c1d980957d9fc6a9b7fe616"
+          }
+        ],
+        "protocol_id": "GA-KNAPSACK-FINAL-COMPARISON-V1"
+      },
+      "origin": {
+        "artifact_id": 12195766035,
+        "run_id": 39270427967,
+        "implementation_sha": "c29fa55912a0183d887bc73de9669e6a8fb3c174",
+        "expires_at": "2027-01-17T14:36:06Z",
+        "api_transport_metadata_verified": true
+      }
+    },
+    {
+      "name": "knapsack-final-worker-UC-s000-cloned-classical-39270427967-1",
+      "local_zip": "knapsack-final-worker-UC-s000-cloned-classical-39270427967-1.zip",
+      "bytes": 225949,
+      "sha256": "29a165ada93ab78e1f773e832f111ee54c776af6f97a0598e4ccf98cf8fa5db6",
+      "internal_files_verified": 3,
+      "manifest": {
+        "files": [
+          {
+            "bytes": 225099,
+            "path": "journal.json.gz",
+            "sha256": "f7e13bcb9c17cee2d7cf30ee9d872252d1512eccd89cdaa55b696f4184117b65"
+          },
+          {
+            "bytes": 957,
+            "path": "verification.json",
+            "sha256": "3bf67b9fe4c6a91aecdebf749132141710f572198d027659c9ba4d19a5030e8c"
+          },
+          {
+            "bytes": 10584,
+            "path": "worker_index.json",
+            "sha256": "d51a217e7264b5d1e4ab14a7aa9f1c3b9a8873a6a5513060507194f735f68b21"
+          }
+        ],
+        "protocol_id": "GA-KNAPSACK-FINAL-COMPARISON-V1"
+      },
+      "origin": {
+        "artifact_id": 12194812256,
+        "run_id": 39270427967,
+        "implementation_sha": "c29fa55912a0183d887bc73de9669e6a8fb3c174",
+        "expires_at": "2027-01-17T14:36:06Z",
+        "api_transport_metadata_verified": true
+      }
+    },
+    {
+      "name": "knapsack-final-worker-UC-s000-cloned-unbalanced_gap-39270427967-1",
+      "local_zip": "knapsack-final-worker-UC-s000-cloned-unbalanced_gap-39270427967-1.zip",
+      "bytes": 3013173,
+      "sha256": "9dc8a3162acc4929d723c5d407aaa2dcaa9d78fa207ae1bef5607d5f3dcfe817",
+      "internal_files_verified": 3,
+      "manifest": {
+        "files": [
+          {
+            "bytes": 4234619,
+            "path": "journal.json.gz",
+            "sha256": "06d010c2aae4527ef3e1d820052c6a70c9b12388db7aba304f5c8cdc54dc264e"
+          },
+          {
+            "bytes": 41575,
+            "path": "verification.json",
+            "sha256": "6ba54c0d6f5c2583a48d2c239edd89fd8498c730dcb960be9bd4613d31412a1f"
+          },
+          {
+            "bytes": 51459,
+            "path": "worker_index.json",
+            "sha256": "4c342dba0cf7944a730422726009b8cb6c95ff8d621d3d5ff3238aeb362f8736"
+          }
+        ],
+        "protocol_id": "GA-KNAPSACK-FINAL-COMPARISON-V1"
+      },
+      "origin": {
+        "artifact_id": 12195312131,
+        "run_id": 39270427967,
+        "implementation_sha": "c29fa55912a0183d887bc73de9669e6a8fb3c174",
+        "expires_at": "2027-01-17T14:36:06Z",
+        "api_transport_metadata_verified": true
+      }
+    }
+  ]
+}
