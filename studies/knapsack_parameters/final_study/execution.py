@@ -169,6 +169,13 @@ def run_tests(output, permit):
     suite, selection = selected_regression_suite()
     with (output / "tests.txt").open("w", encoding="utf-8") as stream:
         result = unittest.TextTestRunner(stream=stream, verbosity=2).run(suite)
+    retained_figures = []
+    if result.wasSuccessful() and not result.skipped:
+        # A separate presentation task: render every already-computed grid cell
+        # from its frozen summary. This opens no held-out outcomes, performs no
+        # search/bootstrap/reselection, and does not complete the failed probe.
+        from .figures import render_historical_fixed
+        retained_figures = render_historical_fixed(output / "retained_figures")
     from .inputs import probe_binding
     receipt = {**provenance, "tests_run": result.testsRun, "tests_passed": result.wasSuccessful(),
                "failures": len(result.failures), "errors": len(result.errors), "skipped": len(result.skipped),
@@ -176,6 +183,8 @@ def run_tests(output, permit):
                "lambda_search_performed": False,
                "input_binding": probe_binding(),
                "test_selection": selection,
+               "retained_fixed_grid_figures": retained_figures,
+               "retained_figure_scope": "Unchanged frozen development summary; presentation only, no new statistical estimates",
                "scope": "Frozen historical checks, synthetic equivalence fixtures and execution guards only"}
     a.write_json(output / "tests_receipt.json", receipt)
     a.write_manifest(output)
