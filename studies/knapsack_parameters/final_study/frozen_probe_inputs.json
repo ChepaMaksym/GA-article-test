@@ -220,9 +220,9 @@
         "sha256": "23de92494777139ed7a9f704147fe69c2f21c2ad17161c7cc7dba5a0dc878521"
       },
       {
-        "bytes": 24694,
+        "bytes": 25446,
         "path": "studies/knapsack_parameters/final_study/execution.py",
-        "sha256": "051993f40c66be1c170583daf7ef0f8659186f56997ed83f486072a70b2020fa"
+        "sha256": "fb76bc5aec61a62722f77b6efec3e3dfe0bdc8b562bead8f0583a16579db2e0c"
       },
       {
         "bytes": 14171,
@@ -230,9 +230,9 @@
         "sha256": "e993496fef1f0122865204a01e5d09a5d0c345f934de8561b04377d7088278ec"
       },
       {
-        "bytes": 14833,
+        "bytes": 20261,
         "path": "studies/knapsack_parameters/final_study/figures.py",
-        "sha256": "d20682e317ef6ef20729dd7266aa54077a2eafdf8e4ff0986e7f93b4fdd9a4b4"
+        "sha256": "24f774c6d79c9e9b1e9fb9c75e47b66597f720faee99d79bc1e881fa4c0b9247"
       },
       {
         "bytes": 12063,
@@ -270,9 +270,9 @@
         "sha256": "e8155a73a49ae7d77fb1428dbdd45ba7866d9994d7926d934fa994487da87938"
       },
       {
-        "bytes": 2638,
+        "bytes": 4224,
         "path": "studies/knapsack_parameters/final_study/tests/test_figures.py",
-        "sha256": "90d54ad293c1bd165d1fc2e17fe02df21bd4a768647d08a8056b6c5542d298b7"
+        "sha256": "4443ca79c6f07185a5fabb2b15c33abe088c03f4a055fdc88220c136dce6c1aa"
       },
       {
         "bytes": 4112,
@@ -300,9 +300,9 @@
         "sha256": "2834102647366471a57e81adc9873a9e233efa1c19612a292b193deb5aa7564e"
       }
     ],
-    "sha256": "eb3063923da031677dc3cbb4f84fcb394b1160b7fd018ca319be67fd8fce008a"
+    "sha256": "014119fcda1fccdada7fe798a4108600f0e58f30aaa0f9ea5ba9fef26a61a98e"
   },
-  "implementation_sha": "cb9655961ea9c739d7824bea403de1fb8cf57b37",
-  "green_tests_run_id": 39270061815,
+  "implementation_sha": "c68279f13cf8faa8836208ab0121884894605309",
+  "green_tests_run_id": 39290697107,
   "holdout_search_authorized": false
 }

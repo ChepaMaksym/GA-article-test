@@ -1,9 +1,9 @@
 {
   "protocol_id": "GA-KNAPSACK-FINAL-COMPARISON-V1",
   "frozen": true,
-  "receipt_directory": "evidence/run-39270061815-attempt-1",
-  "artifact_id": 12195765495,
-  "zip_sha256": "5f7f85e0dff6757d8dd1480a15ffdc668e790b57b3b3e898a592158d609366bc",
-  "green_run_id": 39270061815,
-  "implementation_sha": "cb9655961ea9c739d7824bea403de1fb8cf57b37"
+  "receipt_directory": "evidence/run-39290697107-attempt-1",
+  "artifact_id": 12204574239,
+  "zip_sha256": "eec3a3ba88e18f029d3287df6a11996951af382ca7a26019a52236ee8583ed89",
+  "green_run_id": 39290697107,
+  "implementation_sha": "c68279f13cf8faa8836208ab0121884894605309"
 }
