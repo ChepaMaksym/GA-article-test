@@ -1,0 +1,4 @@
+# Preserve original artifact bytes, including the CRLF bytes in PNG signatures.
+*.png binary
+*.zip binary
+*.gz binary
