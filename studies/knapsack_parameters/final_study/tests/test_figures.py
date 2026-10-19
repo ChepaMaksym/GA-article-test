@@ -49,3 +49,26 @@ class FigureTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "unverified"):
                 f.render_probe(iter([row]), Path(directory))
             self.assertFalse(list(Path(directory).glob("*.png")))
+
+    def test_retained_speed_format_keeps_both_thresholds_and_exact_equal_values(self):
+        panels = []
+        for parameter in ("p_m", "p_c", "population_size"):
+            panels.append({"varying_parameter": parameter, "fixed_parameters": {}, "points": [
+                {parameter: i / 100 if parameter != "population_size" else i + 10,
+                 "targets": {str(q): {"points": [{"request": 0, "fraction": 0},
+                     {"request": 5000, "fraction": i/5}]} for q in (95, 99)},
+                 "paired_results": {name: {"fraction": fraction} for name, fraction in
+                                     (("lower", .25), ("equal", .5), ("higher", .25))}}
+                for i in range(5)]})
+        report = {"schema": "basic-parameters-speed-descriptive-v1", "scope": "DEVELOPMENT_FIXED_GRID_ONLY",
+                  "runs": 37500, "budget": 5000, "conditional_panels": panels}
+        with tempfile.TemporaryDirectory() as directory:
+            names = f._render_speed_summary(report, Path(directory))
+            self.assertEqual(names, ["fixed_speed_95.png", "fixed_speed_99.png", "fixed_same_result.png"])
+            self.assertTrue(all((Path(directory)/name).stat().st_size > 0 for name in names))
+
+    def test_incomplete_retained_speed_summary_fails_before_plotting(self):
+        with tempfile.TemporaryDirectory() as directory:
+            with self.assertRaisesRegex(ValueError, "complete development"):
+                f._render_speed_summary({"schema": "wrong"}, Path(directory))
+            self.assertFalse(list(Path(directory).glob("*.png")))

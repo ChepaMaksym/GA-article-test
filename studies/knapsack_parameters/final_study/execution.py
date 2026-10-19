@@ -174,8 +174,9 @@ def run_tests(output, permit):
         # A separate presentation task: render every already-computed grid cell
         # from its frozen summary. This opens no held-out outcomes, performs no
         # search/bootstrap/reselection, and does not complete the failed probe.
-        from .figures import render_historical_fixed
+        from .figures import render_historical_fixed, render_historical_speed
         retained_figures = render_historical_fixed(output / "retained_figures")
+        retained_figures += render_historical_speed(output / "retained_figures")
     from .inputs import probe_binding
     receipt = {**provenance, "tests_run": result.testsRun, "tests_passed": result.wasSuccessful(),
                "failures": len(result.failures), "errors": len(result.errors), "skipped": len(result.skipped),

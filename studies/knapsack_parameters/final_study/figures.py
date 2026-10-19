@@ -8,6 +8,7 @@ import json
 import os
 from pathlib import Path
 from statistics import fmean
+import zipfile
 
 METHODS = ("classical", "adaptive_mutation", "adaptive_crossover", "unbalanced_gap", "balanced_gap")
 LABELS = {"classical": "Класичний ГА", "adaptive_mutation": "Адаптивна мутація",
@@ -112,6 +113,90 @@ def render_historical_fixed(output):
         ax.grid(alpha=.25)
     figures.append(_save(plt, fig, output / "fixed_initial_final_and_generations.png"))
     return figures
+
+
+def _historical_speed_report():
+    """Read previously computed curves, never recompute hits or select a target."""
+    basic = Path(__file__).resolve().parents[3] / "studies/knapsack_parameters/basic_parameters"
+    frozen = json.loads((basic / "inputs/frozen_winner.json").read_text(encoding="utf-8"))
+    path = basic / "evidence/run-39012696900/basic-report-main-39012696900-1.zip"
+    _require(hashlib.sha256(path.read_bytes()).hexdigest() == frozen["artifact_zip_sha256"],
+             "Historical report transport changed")
+    expected = "e9fd8c3c2bcec9a06e731fb0a1ff37e1c76f05ffed61ba48f52a495012b39b0d"
+    with zipfile.ZipFile(path) as archive:
+        _require(len(archive.namelist()) == len(set(archive.namelist())), "Duplicate ZIP members")
+        manifest = json.loads(archive.read("file_manifest.json"))
+        entries = [row for row in manifest["files"] if row["path"] == "speed_analysis.json"]
+        _require(len(entries) == 1 and entries[0]["sha256"] == expected,
+                 "Unregistered historical speed summary")
+        raw = archive.read("speed_analysis.json")
+        _require(len(raw) == entries[0]["bytes"] and hashlib.sha256(raw).hexdigest() == expected,
+                 "Historical computed speed bytes changed")
+    report = json.loads(raw)
+    _require(report["implementation_sha"] == frozen["implementation_sha"] and
+             report["source_manifest_sha256"] == frozen["source_manifest_sha256"],
+             "Mixed historical speed provenance")
+    return report
+
+
+def _render_speed_summary(report, output):
+    """Presentation only: copy saved curves/fractions into title-free panels."""
+    _require(report.get("schema") == "basic-parameters-speed-descriptive-v1" and
+             report.get("scope") == "DEVELOPMENT_FIXED_GRID_ONLY" and
+             report.get("runs") == 37500 and report.get("budget") == 5000,
+             "Only the frozen complete development summary can be presented")
+    panels = report["conditional_panels"]
+    _require([row["varying_parameter"] for row in panels] == ["p_m", "p_c", "population_size"] and
+             all(len(row["points"]) == 5 for row in panels), "Incomplete conditional panels")
+    plt, output = _plotting(output)
+    labels = {"p_m": "Мутація біта", "p_c": "Схрещування", "population_size": "Популяція"}
+    styles = ("-", "--", "-.", ":", (0, (5, 1, 1, 1)))
+    colors = ("#0072B2", "#E69F00", "#009E73", "#D55E00", "#CC79A7")
+    figures = []
+    # Both originally registered informative thresholds are retained. The 100%
+    # table stays in the historical evidence; no empty graph is added here.
+    for target in (95, 99):
+        fig, axes = plt.subplots(1, 3, figsize=(14.5, 4.8), layout="constrained")
+        for ax, panel in zip(axes, panels, strict=True):
+            parameter = panel["varying_parameter"]
+            for point, color, style in zip(panel["points"], colors, styles, strict=True):
+                value = point[parameter]
+                label = f"{value:g}" if parameter == "population_size" else f"{100*value:g}%"
+                curve = point["targets"][str(target)]["points"]
+                ax.step([row["request"] for row in curve], [100*row["fraction"] for row in curve],
+                        where="post", color=color, linestyle=style, linewidth=1.8, label=label)
+            fixed = "; ".join(f"{labels[key]} {value:g}" if key == "population_size" else
+                              f"{labels[key]} {100*value:g}%" for key, value in panel["fixed_parameters"].items())
+            ax.set_xlabel("Загальні оцінювання\n" + fixed)
+            ax.set_ylabel(f"Досягли ≥{target}% OPT, % запусків")
+            ax.set_xlim(0, 5000)
+            ax.set_ylim(-1, 101)  # Zero curves remain visible at the border.
+            ax.grid(alpha=.25)
+            ax.legend(title=labels[parameter], fontsize=8, title_fontsize=9)
+        figures.append(_save(plt, fig, output / f"fixed_speed_{target}.png"))
+    fig, axes = plt.subplots(1, 3, figsize=(14.5, 4.8), layout="constrained")
+    for ax, panel in zip(axes, panels, strict=True):
+        parameter, points = panel["varying_parameter"], panel["points"]
+        bottom = [0.] * 5
+        for name, label, color in (("lower", "Нижча цінність", "#999999"),
+                                   ("equal", "Така сама цінність", "#56B4E9"),
+                                   ("higher", "Вища цінність", "#009E73")):
+            height = [100*point["paired_results"][name]["fraction"] for point in points]
+            ax.bar(range(5), height, bottom=bottom, label=label, color=color)
+            bottom = [x+y for x, y in zip(bottom, height, strict=True)]
+        ax.set_xticks(range(5), [f"{point[parameter]:g}" if parameter == "population_size" else
+                                f"{100*point[parameter]:g}" for point in points])
+        ax.set_xlabel(labels[parameter] + (", особин" if parameter == "population_size" else ", %"))
+        ax.set_ylabel("Парні результати, %")
+        ax.set_ylim(0, 100)
+        ax.grid(axis="y", alpha=.2)
+    axes[-1].legend(fontsize=8, loc="upper left", bbox_to_anchor=(1, 1))
+    figures.append(_save(plt, fig, output / "fixed_same_result.png"))
+    return figures
+
+
+def render_historical_speed(output):
+    return _render_speed_summary(_historical_speed_report(), output)
 
 
 def _trace(log):
