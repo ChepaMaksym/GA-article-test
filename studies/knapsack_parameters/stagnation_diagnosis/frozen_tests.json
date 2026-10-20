@@ -1,0 +1,14 @@
+{
+  "schema": "knapsack-stagnation-freeze-v1",
+  "protocol_id": "GA-KNAPSACK-STAGNATION-DIAGNOSIS-V1",
+  "frozen": true,
+  "artifact_id": 12263325417,
+  "zip_sha256": "38f1ffab61231cd7ddffc9e6fe726c74883bf92301cb15bb9ff6cdc2071a9d96",
+  "run_id": 39418495751,
+  "run_attempt": 1,
+  "implementation_commit_sha": "953b6be12e5b4476a1a2e6ca05d7cb76a386e208",
+  "implementation_fingerprint": "bbe9cf6b252eca08bd40cfd1b830a3b87a94b91b33b9b0fb05a7c2daf9c72197",
+  "receipt_path": "evidence/tests-run-39418495751-1/tests_receipt.json",
+  "receipt_sha256": "3b8d7ae264a42c5da25f1ad4f1ad47867c66e4d71a04b5c11e6b275bda67b6d4",
+  "file_manifest_sha256": "aa6add3da85996c5c9f18aaf146d406a341f04325fce4fa25885017b8bc79451"
+}
