@@ -1,2 +1,2 @@
 # Preserve the post-completion API receipt exactly as its retained SHA256 records.
-evidence/main-run-39465647096-1/resource_receipt.json -text
+evidence/main-run-39465647096-1/resource_receipt.json -text whitespace=cr-at-eol
