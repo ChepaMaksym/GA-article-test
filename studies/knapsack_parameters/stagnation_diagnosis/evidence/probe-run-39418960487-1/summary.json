@@ -1,0 +1,194 @@
+{
+  "schema_version": "knapsack-stagnation-analysis-v1",
+  "protocol_id": "GA-KNAPSACK-STAGNATION-DIAGNOSIS-V1",
+  "phase": "probe",
+  "provenance": {
+    "protocol_id": "GA-KNAPSACK-STAGNATION-DIAGNOSIS-V1",
+    "registration_commit_sha": "f5e965d3cb7ca1c9450f40576400d0410e421edf",
+    "implementation_commit_sha": "79fe6a9e02d205abe0d9ed8dd3f9e888b849139c",
+    "protocol_sha256": "47b51a746744034231e9fcbbbccf2a09c1f1d5b4ce9ef7449e88fbb99834c446",
+    "implementation_fingerprint": "bbe9cf6b252eca08bd40cfd1b830a3b87a94b91b33b9b0fb05a7c2daf9c72197",
+    "data_manifest_sha256": "528fee8da7d7cb776fb851e6a05949133830e9533c4091cbb4e8698ac19fb0df",
+    "registry_sha256": "7e9b8fc893889426e2d3b57610e3a91c09263fcdff488cf15a2b84efe1bdc70f",
+    "run_id": 39418960487,
+    "run_attempt": 1,
+    "environment": {
+      "implementation": "CPython",
+      "python": "3.12.14",
+      "packages": {
+        "contourpy": "1.4.0",
+        "cycler": "0.12.1",
+        "fonttools": "4.66.1",
+        "kiwisolver": "1.5.1",
+        "matplotlib": "3.10.3",
+        "numpy": "2.2.6",
+        "packaging": "26.3",
+        "pillow": "12.3.0",
+        "pyparsing": "3.3.3",
+        "python-dateutil": "2.9.0.post0",
+        "six": "1.17.0"
+      },
+      "lock_sha256": "9907e3a46971303d8285b7ae160b5b8eafcab9942565d376bd038a92789745c6"
+    },
+    "bank_manifest_sha256": "a1d8fc9b151d4a229727cfea209bb55b9d09f592a1511c3028df55f4929eba08"
+  },
+  "completeness": {
+    "status": "COMPLETE",
+    "expected": 3,
+    "received": 3,
+    "verified_complete": 3,
+    "missing": [],
+    "incomplete": []
+  },
+  "inference_status": "TECHNICAL_ONLY",
+  "primary": {
+    "status": "DEFINED",
+    "value": 1.0,
+    "weighted_numerator": 0.5,
+    "weighted_denominator": 0.5,
+    "absolute_numerator": 1,
+    "absolute_denominator": 1,
+    "pooled_fraction": 1.0,
+    "weighting": "mean_repeats_then_mean_tasks_then_equal_families_ratio_of_counts",
+    "interpretation": "TECHNICAL_ONLY"
+  },
+  "state_counts": {
+    "N2_NOT_LOCAL": 3,
+    "N2_STRICT_NONGLOBAL": 0,
+    "N2_NONSTRICT_NONGLOBAL": 0,
+    "GLOBAL_OPTIMUM": 0
+  },
+  "stagnant_state_counts": {
+    "N2_NOT_LOCAL": 1,
+    "N2_STRICT_NONGLOBAL": 0,
+    "N2_NONSTRICT_NONGLOBAL": 0,
+    "GLOBAL_OPTIMUM": 0
+  },
+  "families": [
+    {
+      "family": "s000",
+      "tasks": [
+        {
+          "instance_id": "SC-s000",
+          "runs": 1,
+          "numerator": 0,
+          "denominator": 0,
+          "numerator_mean": 0,
+          "denominator_mean": 0
+        },
+        {
+          "instance_id": "UC-s000",
+          "runs": 1,
+          "numerator": 0,
+          "denominator": 0,
+          "numerator_mean": 0,
+          "denominator_mean": 0
+        }
+      ],
+      "task_count": 2,
+      "runs": 2,
+      "numerator": 0,
+      "denominator": 0,
+      "numerator_mean": 0,
+      "denominator_mean": 0,
+      "family_weight": 0.5,
+      "conditional_fraction": null
+    },
+    {
+      "family": "s005",
+      "tasks": [
+        {
+          "instance_id": "SC-s005",
+          "runs": 1,
+          "numerator": 1,
+          "denominator": 1,
+          "numerator_mean": 1,
+          "denominator_mean": 1
+        }
+      ],
+      "task_count": 1,
+      "runs": 1,
+      "numerator": 1,
+      "denominator": 1,
+      "numerator_mean": 1,
+      "denominator_mean": 1,
+      "family_weight": 0.5,
+      "conditional_fraction": 1.0
+    }
+  ],
+  "terminal_observations": [
+    {
+      "instance_id": "SC-s000",
+      "family": "s000",
+      "repeat_seed": 92999,
+      "state": "N2_NOT_LOCAL",
+      "stagnation_age": 444,
+      "stagnant": false,
+      "certificate_id": "e82747e139e3b2592e3dde28295f199b9f365639b6c16bb7a030b759b878b580"
+    },
+    {
+      "instance_id": "UC-s000",
+      "family": "s000",
+      "repeat_seed": 92999,
+      "state": "N2_NOT_LOCAL",
+      "stagnation_age": 342,
+      "stagnant": false,
+      "certificate_id": "4dd07621ceda259d03e710a462ada1e85b68d450c6dfbe8b26ddb3c8d22373d8"
+    },
+    {
+      "instance_id": "SC-s005",
+      "family": "s005",
+      "repeat_seed": 92999,
+      "state": "N2_NOT_LOCAL",
+      "stagnation_age": 1058,
+      "stagnant": true,
+      "certificate_id": "1978c249801f9855bf8fd034c5d373835f3c69d7eed34a8c95e7927d179959eb"
+    }
+  ],
+  "evaluation_accounting": {
+    "initial": 90,
+    "new_search": 15000,
+    "logical_total": 15090,
+    "incomplete_run_evaluations_not_imputed": true
+  },
+  "transport_ledger": {
+    "artifacts": [
+      {
+        "artifact_id": 12263236314,
+        "file_manifest_sha256": "d96f489f99d91bbca95d32f55b3259caf270d92029aec72c37700c2ad25f033e",
+        "name": "knapsack-stagnation-worker-SC-s000-39418960487-1",
+        "zip_bytes": 851320,
+        "zip_sha256": "2c91ae0b26d68bf4e2cd33e6658eaceb52e9866f3f60ea5ee87735b9105ca5a7"
+      },
+      {
+        "artifact_id": 12262961667,
+        "file_manifest_sha256": "c5e97ea4b2f917bce9faf2e98f08327145bcf0b0cbebc38f4059d06e0cd768da",
+        "name": "knapsack-stagnation-worker-UC-s000-39418960487-1",
+        "zip_bytes": 831060,
+        "zip_sha256": "fb5f78237228b9158ad112bae32a223e77e9e62c5e094e6c62cf5ef5fc7ca9f9"
+      },
+      {
+        "artifact_id": 12262841442,
+        "file_manifest_sha256": "390e4db26141cd346e79a5b51b83e25b3af7209c2475255bf0c17a2a9c857128",
+        "name": "knapsack-stagnation-worker-SC-s005-39418960487-1",
+        "zip_bytes": 856415,
+        "zip_sha256": "c67133e5709547a5a4fa8a2f6909adc11eabb2e28504d3c72e390d7b57517903"
+      }
+    ],
+    "data_manifest_sha256": "528fee8da7d7cb776fb851e6a05949133830e9533c4091cbb4e8698ac19fb0df",
+    "implementation_commit_sha": "79fe6a9e02d205abe0d9ed8dd3f9e888b849139c",
+    "implementation_fingerprint": "bbe9cf6b252eca08bd40cfd1b830a3b87a94b91b33b9b0fb05a7c2daf9c72197",
+    "protocol_id": "GA-KNAPSACK-STAGNATION-DIAGNOSIS-V1",
+    "protocol_sha256": "47b51a746744034231e9fcbbbccf2a09c1f1d5b4ce9ef7449e88fbb99834c446",
+    "registration_commit_sha": "f5e965d3cb7ca1c9450f40576400d0410e421edf",
+    "registry_sha256": "7e9b8fc893889426e2d3b57610e3a91c09263fcdff488cf15a2b84efe1bdc70f",
+    "run_attempt": 1,
+    "run_id": 39418960487
+  },
+  "execution_errors": [],
+  "unverified_saved_workers": [],
+  "aggregation_replay_seconds": 2.346046188999992,
+  "main_search_performed": false,
+  "main_search_authorized": false,
+  "runner_minutes": "PENDING_FINAL_GITHUB_JOB_TIMINGS"
+}

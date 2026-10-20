@@ -1,0 +1,18 @@
+{
+  "status": "MEASURED_PLANNING_ESTIMATE",
+  "authorized": false,
+  "main_runs": 900,
+  "main_new_evaluations": 4500000,
+  "max_measured_run_seconds": 2.7875488140000186,
+  "max_measured_run_bytes": 5085094,
+  "max_measured_aggregation_replay_seconds": 0.7917306239999959,
+  "per_run_worker_plus_aggregation_bound_seconds": 3.5792794380000146,
+  "runtime_reserve_factor": 1.5,
+  "byte_reserve_factor": 1.25,
+  "proposed_worker_jobs": 30,
+  "startup_minutes_per_worker": 2,
+  "service_runner_minutes": 10,
+  "estimated_runner_minutes": 151,
+  "estimated_bytes": 5720730750,
+  "limits": "Three technical cases do not bound all instance costs; approval and runtime enforcement remain mandatory."
+}

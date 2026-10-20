@@ -1,0 +1,50 @@
+{
+  "schema": "knapsack-stagnation-technical-result-v1",
+  "protocol_id": "GA-KNAPSACK-STAGNATION-DIAGNOSIS-V1",
+  "status": "PASS_TECHNICAL",
+  "main_series_status": "NOT_EXECUTED_REQUIRES_SEPARATE_RESOURCE_AUTHORIZATION",
+  "main_series_completed_runs": 0,
+  "implementation_commit_sha": "79fe6a9e02d205abe0d9ed8dd3f9e888b849139c",
+  "implementation_fingerprint": "bbe9cf6b252eca08bd40cfd1b830a3b87a94b91b33b9b0fb05a7c2daf9c72197",
+  "tests": {"run_id": 39418495751, "tests_run": 160, "failures": 0, "errors": 0, "skipped": 0, "explicitly_inapplicable_historical_context_tests": 1},
+  "beginnings": {"run_id": 39418724226, "bank_count": 903, "main_bank_count": 900, "probe_bank_count": 3, "physical_initial_evaluations": 27090, "independent_preparation_verification_evaluations": 27090},
+  "probe": {"run_id": 39418960487, "run_attempt": 1, "completed_runs": 3, "expected_runs": 3, "initial_evaluations": 90, "new_search_evaluations": 15000, "seed": 92999, "independently_verified_again_on_aggregation": true, "inference_status": "TECHNICAL_ONLY"},
+  "illustrative_counterexample": {
+    "instance_id": "SC-s005",
+    "repeat_seed": 92999,
+    "q": 5000,
+    "last_improvement_q": 3942,
+    "stagnation_age": 1058,
+    "state": "N2_NOT_LOCAL",
+    "certificate_id": "1978c249801f9855bf8fd034c5d373835f3c69d7eed34a8c95e7927d179959eb",
+    "better_feasible_neighbors": 8,
+    "center_weight": 24639,
+    "center_profit": 30839,
+    "capacity": 24642,
+    "first_better_neighbor": {"flips_zero_based": [2, 22], "weight": 24641, "profit": 30841, "feasible": true},
+    "not_a_main_series_frequency_estimate": true
+  },
+  "technical_resource_usage": {
+    "ceiling_runner_minutes": 60,
+    "used_before_probe_runner_minutes": 8,
+    "probe_and_aggregation_runner_minutes": 5,
+    "total_used_runner_minutes": 13,
+    "round_each_allocated_job_up": true,
+    "probe_jobs": [
+      {"job_id": 118614856978, "name": "gate", "seconds": 16, "rounded_minutes": 1},
+      {"job_id": 118614978051, "name": "probe (SC-s005)", "seconds": 26, "rounded_minutes": 1},
+      {"job_id": 118614978126, "name": "probe (UC-s000)", "seconds": 25, "rounded_minutes": 1},
+      {"job_id": 118614978261, "name": "probe (SC-s000)", "seconds": 27, "rounded_minutes": 1},
+      {"job_id": 118615186057, "name": "aggregate", "seconds": 30, "rounded_minutes": 1}
+    ]
+  },
+  "transport": [
+    {"kind": "summary", "artifact_id": 12262611519, "zip_sha256": "4e5eaa9f4f7a4591b3d53511ad411494f4f0386d6c7135b131f64246917969c8", "zip_bytes": 135756, "file_manifest_sha256": "a56d9b55ce9178866b51bcfca92c733cbdb16c9411f125069e6e99addcad7c76"},
+    {"kind": "worker-SC-s000", "artifact_id": 12263236314, "zip_sha256": "2c91ae0b26d68bf4e2cd33e6658eaceb52e9866f3f60ea5ee87735b9105ca5a7", "zip_bytes": 851320, "file_manifest_sha256": "d96f489f99d91bbca95d32f55b3259caf270d92029aec72c37700c2ad25f033e"},
+    {"kind": "worker-UC-s000", "artifact_id": 12262961667, "zip_sha256": "fb5f78237228b9158ad112bae32a223e77e9e62c5e094e6c62cf5ef5fc7ca9f9", "zip_bytes": 831060, "file_manifest_sha256": "c5e97ea4b2f917bce9faf2e98f08327145bcf0b0cbebc38f4059d06e0cd768da"},
+    {"kind": "worker-SC-s005", "artifact_id": 12262841442, "zip_sha256": "c67133e5709547a5a4fa8a2f6909adc11eabb2e28504d3c72e390d7b57517903", "zip_bytes": 856415, "file_manifest_sha256": "390e4db26141cd346e79a5b51b83e25b3af7209c2475255bf0c17a2a9c857128"}
+  ],
+  "measured_main_quote": {"runner_minutes": 151, "worker_payload_bytes_with_reserve": 5720730750, "new_search_evaluations": 4500000, "runs": 900, "authorized": false},
+  "word_and_local_journal_committed": false,
+  "historical_kernel_modified": false
+}
