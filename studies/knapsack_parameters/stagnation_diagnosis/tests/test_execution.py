@@ -110,6 +110,39 @@ class ExecutionAuthorityTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     c._download_zip(metadata, Path(temporary) / "destination")
 
+    def test_changed_zip_bytes_rejected_before_extraction(self):
+        data = io.BytesIO()
+        with zipfile.ZipFile(data, "w") as archive:
+            archive.writestr("fixture.json", b"{}")
+        raw = data.getvalue()
+        metadata = {"id": 1, "expired": False, "size_in_bytes": len(raw), "digest": "sha256:" + "0" * 64}
+        with tempfile.TemporaryDirectory() as temporary, \
+                patch.dict("os.environ", {"GITHUB_TOKEN": "FICTITIOUS_FIXTURE_TOKEN"}), \
+                patch("urllib.request.build_opener") as opener:
+            opener.return_value.open.return_value = io.BytesIO(raw)
+            output = Path(temporary) / "destination"
+            with self.assertRaisesRegex(ValueError, "ZIP checksum"):
+                c._download_zip(metadata, output)
+            self.assertFalse((output / "fixture.json").exists())
+
+    def test_mixed_exact_sha_permit_is_rejected(self):
+        expected = {name: "fixture-" + name for name in c.PROVENANCE_KEYS}
+        permit = {**expected, "phase": "tests", "used_runner_minutes": 0,
+                  "reserved_runner_minutes": 12, "technical_ceiling_runner_minutes": 60,
+                  "main_search_authorized": False}
+        with tempfile.TemporaryDirectory() as temporary, \
+                patch.dict("os.environ", {"COMMIT_MESSAGE": "[knapsack-stagnation:tests]"}), \
+                patch.object(c, "authenticate", return_value=expected):
+            root = Path(temporary)
+            c.write_json(root / "permit.json", permit)
+            c.write_manifest(root)
+            self.assertEqual(c.check_permit(root, "tests"), expected)
+            permit["implementation_commit_sha"] = "different-checkout"
+            c.write_json(root / "permit.json", permit)
+            c.write_manifest(root)
+            with self.assertRaisesRegex(ValueError, "bounded execution permit"):
+                c.check_permit(root, "tests")
+
 
 if __name__ == "__main__":
     unittest.main()

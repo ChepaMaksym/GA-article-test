@@ -111,7 +111,7 @@ jobs:
     needs: gate
     if: needs.gate.outputs.phase == 'probe'
     runs-on: ubuntu-24.04
-    timeout-minutes: 7
+    timeout-minutes: 6
     strategy:
       fail-fast: false
       max-parallel: 3
