@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import importlib
 import json
 from pathlib import Path
 import tempfile
@@ -22,8 +23,12 @@ def regression_suite():
     for relative in ("studies/knapsack_parameters/stagnation_diagnosis/tests",
                      "studies/knapsack_parameters/ga_study/tests",
                      "studies/knapsack_parameters/feasibility/tests"):
-        discovered.addTests(unittest.defaultTestLoader.discover(str(c.ROOT / relative),
-                           pattern="test_*.py", top_level_dir=str(c.ROOT)))
+        # Historical test directories are namespace packages, not directories
+        # with __init__.py. Import their existing modules without altering them.
+        for source in sorted((c.ROOT / relative).glob("test_*.py")):
+            module_name = ".".join(source.relative_to(c.ROOT).with_suffix("").parts)
+            module = importlib.import_module(module_name)
+            discovered.addTests(unittest.defaultTestLoader.loadTestsFromModule(module))
     def flatten(node):
         for child in node:
             if isinstance(child, unittest.TestSuite):
