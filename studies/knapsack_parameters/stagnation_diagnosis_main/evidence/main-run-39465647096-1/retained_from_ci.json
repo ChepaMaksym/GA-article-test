@@ -1,0 +1,30 @@
+{
+  "schema": "knapsack-stagnation-main-compact-retention-v1",
+  "protocol_id": "GA-KNAPSACK-STAGNATION-DIAGNOSIS-MAIN-V1",
+  "run_id": 39465647096,
+  "run_attempt": 1,
+  "implementation_commit_sha": "7fbb0e56fc07a357b201874e339646d197dd5834",
+  "implementation_fingerprint": "3da53acfd3c2c8855edf1ba9d5dc751d66879a2df5dbef98c195850b53d2f9ec",
+  "artifact_id": 12286098123,
+  "artifact_zip_sha256": "c4781ce1db78342042a2a46f15322978c323ca5ae5e6657d28340888bb699913",
+  "artifact_zip_bytes": 5956088,
+  "source_file_manifest_sha256": "81a14012ccf63174c47d9e63d85dd8c5bcc468baf14988d406e8839f12043885",
+  "source_manifest_retained_as": "source_artifact_file_manifest.json",
+  "source_manifest_scope": "Original complete CI summary artifact, not a claim that every original member is retained in this compact Git directory",
+  "retained_exact_original_members": [
+    {"path": "fixed_example.png", "bytes": 87575, "sha256": "4d9616a4c396e63eb427d9cf8234c0ecbe0e6168314e3f73612dc541bfd9fbb6"},
+    {"path": "main_summary.json", "bytes": 206071, "sha256": "7efba2f948a9f2d9093cccd7330cbc3a3d567544800258dc58222c80337d460a"},
+    {"path": "report.md", "bytes": 9543, "sha256": "069b3d1f5143529172db69dd2d453a2626d055c07eb6eb5571fca89ebb12ff99"},
+    {"path": "run_registry.json", "bytes": 3841803, "sha256": "ad6ee45ea769862b99b30d6ffb462f85e443fb0ec377461d1e880826df2eba11"},
+    {"path": "stagnation_by_state.png", "bytes": 50895, "sha256": "8b88b4f209e6445132a968f96f058f3ac8b191fae4019a4d2989debd83300b0a"},
+    {"path": "state_composition.png", "bytes": 42396, "sha256": "0a8b0e455063158b1608419a370797193a94edf97ef3b8153b9923e621cd9779"}
+  ],
+  "not_duplicated_in_git": {
+    "summary.json": "Byte-identical to main_summary.json; retained in canonical ZIP and local full copy",
+    "verified_rows.json": "Full 35,422,615-byte trajectories retained in canonical ZIP and local full copy",
+    "raw_worker_bundles": "All 30 original ZIPs and extracted journals/certificates retained locally; immutable transport identities are in main_summary.json"
+  },
+  "additional_resource_receipt": {"path": "resource_receipt.json", "bytes": 30769, "sha256": "c76f170e23ee8334ca6ccd5c88ff01b9d1bc5efbfb1c123b296d594033b928a4", "role": "Post-completion GitHub API metadata and resource accounting, not a scientific recalculation"},
+  "all_source_zips_and_member_hashes_locally_verified": true,
+  "word_or_local_journal_in_git": false
+}

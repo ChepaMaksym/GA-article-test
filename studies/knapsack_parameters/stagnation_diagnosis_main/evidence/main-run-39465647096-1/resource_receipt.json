@@ -1,0 +1,631 @@
+{
+    "schema":  "knapsack-stagnation-main-api-resource-receipt-v1",
+    "main_run_id":  39465647096,
+    "implementation_commit_sha":  "7fbb0e56fc07a357b201874e339646d197dd5834",
+    "branch":  "research/masters-ga-diversity-crossover",
+    "status":  "success",
+    "runner_minutes_ceiling":  200,
+    "used_runner_minutes":  81,
+    "all_new_workflow_attempts_included":  true,
+    "technical_stage_minutes_counted_again":  false,
+    "evidence_payload_bytes_ceiling":  8589934592,
+    "retained_zip_bytes":  770492264,
+    "zip_and_payload_not_equated":  true,
+    "jobs":  [
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776204023,
+                     "name":  "gate",
+                     "conclusion":  "success",
+                     "seconds":  10,
+                     "rounded_runner_minutes":  1
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776313248,
+                     "name":  "worker (WC-s001)",
+                     "conclusion":  "success",
+                     "seconds":  117,
+                     "rounded_runner_minutes":  2
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776313259,
+                     "name":  "worker (WC-s005)",
+                     "conclusion":  "success",
+                     "seconds":  122,
+                     "rounded_runner_minutes":  3
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776313264,
+                     "name":  "worker (UC-s005)",
+                     "conclusion":  "success",
+                     "seconds":  120,
+                     "rounded_runner_minutes":  2
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776313267,
+                     "name":  "worker (UC-s001)",
+                     "conclusion":  "success",
+                     "seconds":  118,
+                     "rounded_runner_minutes":  2
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776313279,
+                     "name":  "worker (UC-s002)",
+                     "conclusion":  "success",
+                     "seconds":  119,
+                     "rounded_runner_minutes":  2
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776313302,
+                     "name":  "worker (WC-s000)",
+                     "conclusion":  "success",
+                     "seconds":  114,
+                     "rounded_runner_minutes":  2
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776313312,
+                     "name":  "worker (WC-s002)",
+                     "conclusion":  "success",
+                     "seconds":  111,
+                     "rounded_runner_minutes":  2
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776313324,
+                     "name":  "worker (UC-s003)",
+                     "conclusion":  "success",
+                     "seconds":  119,
+                     "rounded_runner_minutes":  2
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776313348,
+                     "name":  "worker (WC-s003)",
+                     "conclusion":  "success",
+                     "seconds":  109,
+                     "rounded_runner_minutes":  2
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776313353,
+                     "name":  "worker (WC-s004)",
+                     "conclusion":  "success",
+                     "seconds":  120,
+                     "rounded_runner_minutes":  2
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776313376,
+                     "name":  "worker (WC-s006)",
+                     "conclusion":  "success",
+                     "seconds":  118,
+                     "rounded_runner_minutes":  2
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776313406,
+                     "name":  "worker (UC-s004)",
+                     "conclusion":  "success",
+                     "seconds":  120,
+                     "rounded_runner_minutes":  2
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776313440,
+                     "name":  "worker (UC-s007)",
+                     "conclusion":  "success",
+                     "seconds":  77,
+                     "rounded_runner_minutes":  2
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776313443,
+                     "name":  "worker (UC-s008)",
+                     "conclusion":  "success",
+                     "seconds":  119,
+                     "rounded_runner_minutes":  2
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776313460,
+                     "name":  "worker (WC-s009)",
+                     "conclusion":  "success",
+                     "seconds":  112,
+                     "rounded_runner_minutes":  2
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776313462,
+                     "name":  "worker (WC-s008)",
+                     "conclusion":  "success",
+                     "seconds":  112,
+                     "rounded_runner_minutes":  2
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776313479,
+                     "name":  "worker (UC-s006)",
+                     "conclusion":  "success",
+                     "seconds":  115,
+                     "rounded_runner_minutes":  2
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776313518,
+                     "name":  "worker (UC-s000)",
+                     "conclusion":  "success",
+                     "seconds":  121,
+                     "rounded_runner_minutes":  3
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776313534,
+                     "name":  "worker (UC-s009)",
+                     "conclusion":  "success",
+                     "seconds":  103,
+                     "rounded_runner_minutes":  2
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776313719,
+                     "name":  "worker (WC-s007)",
+                     "conclusion":  "success",
+                     "seconds":  115,
+                     "rounded_runner_minutes":  2
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776315790,
+                     "name":  "worker (SC-s001)",
+                     "conclusion":  "success",
+                     "seconds":  117,
+                     "rounded_runner_minutes":  2
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776315832,
+                     "name":  "worker (SC-s000)",
+                     "conclusion":  "success",
+                     "seconds":  115,
+                     "rounded_runner_minutes":  2
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776316012,
+                     "name":  "worker (SC-s002)",
+                     "conclusion":  "success",
+                     "seconds":  118,
+                     "rounded_runner_minutes":  2
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776316236,
+                     "name":  "worker (SC-s003)",
+                     "conclusion":  "success",
+                     "seconds":  119,
+                     "rounded_runner_minutes":  2
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776316324,
+                     "name":  "worker (SC-s004)",
+                     "conclusion":  "success",
+                     "seconds":  95,
+                     "rounded_runner_minutes":  2
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776316588,
+                     "name":  "worker (SC-s006)",
+                     "conclusion":  "success",
+                     "seconds":  117,
+                     "rounded_runner_minutes":  2
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776316606,
+                     "name":  "worker (SC-s005)",
+                     "conclusion":  "success",
+                     "seconds":  100,
+                     "rounded_runner_minutes":  2
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776316704,
+                     "name":  "worker (SC-s008)",
+                     "conclusion":  "success",
+                     "seconds":  121,
+                     "rounded_runner_minutes":  3
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776316947,
+                     "name":  "worker (SC-s007)",
+                     "conclusion":  "success",
+                     "seconds":  115,
+                     "rounded_runner_minutes":  2
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118776317103,
+                     "name":  "worker (SC-s009)",
+                     "conclusion":  "success",
+                     "seconds":  81,
+                     "rounded_runner_minutes":  2
+                 },
+                 {
+                     "run_id":  39465647096,
+                     "run_attempt":  1,
+                     "job_id":  118779421150,
+                     "name":  "aggregate",
+                     "conclusion":  "success",
+                     "seconds":  851,
+                     "rounded_runner_minutes":  15
+                 },
+                 {
+                     "run_id":  39465168708,
+                     "run_attempt":  1,
+                     "job_id":  118774565906,
+                     "name":  "gate",
+                     "conclusion":  "success",
+                     "seconds":  9,
+                     "rounded_runner_minutes":  1
+                 },
+                 {
+                     "run_id":  39465168708,
+                     "run_attempt":  1,
+                     "job_id":  118774678665,
+                     "name":  "tests",
+                     "conclusion":  "success",
+                     "seconds":  36,
+                     "rounded_runner_minutes":  1
+                 }
+             ],
+    "artifacts":  [
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12286145139,
+                          "name":  "knapsack-stagnation-main-worker-WC-s006-39465647096-1",
+                          "zip_bytes":  25784304,
+                          "zip_sha256":  "71355d350e8d56bc529a5c55c9dccb4d7e7f223f0ea960951a00034f0f770eab",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12286098123,
+                          "name":  "knapsack-stagnation-main-summary-39465647096-1",
+                          "zip_bytes":  5956088,
+                          "zip_sha256":  "c4781ce1db78342042a2a46f15322978c323ca5ae5e6657d28340888bb699913",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12286090501,
+                          "name":  "knapsack-stagnation-main-worker-SC-s002-39465647096-1",
+                          "zip_bytes":  25475848,
+                          "zip_sha256":  "7127928cd96e0e6dddf421e8c71fa96049d41a143778a68d5a90e51deef4993b",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12286080238,
+                          "name":  "knapsack-stagnation-main-worker-WC-s007-39465647096-1",
+                          "zip_bytes":  25505574,
+                          "zip_sha256":  "29d6466a90a9d2f1882df38e6b23512fa4edc53235c0008d30b17a13a612d550",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12285980158,
+                          "name":  "knapsack-stagnation-main-worker-SC-s005-39465647096-1",
+                          "zip_bytes":  25804231,
+                          "zip_sha256":  "52e6fa78a3016be23ec81ea2c6244e7efa1228a48e6fcfded8a447627a7dc0e2",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12285890844,
+                          "name":  "knapsack-stagnation-main-worker-SC-s003-39465647096-1",
+                          "zip_bytes":  25317373,
+                          "zip_sha256":  "766351e7cb40c6c1730c8962fac5f4be6776ee5b29640c0a170859843c76cebf",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12285875251,
+                          "name":  "knapsack-stagnation-main-worker-SC-s009-39465647096-1",
+                          "zip_bytes":  25371910,
+                          "zip_sha256":  "b97341a9704f7cfbe519fe01a72864aba30998cddf0fa4bb3bc97f27767e6a57",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12285795690,
+                          "name":  "knapsack-stagnation-main-worker-WC-s009-39465647096-1",
+                          "zip_bytes":  25775222,
+                          "zip_sha256":  "0dada4cf9cd95c0c230ba9f755cdafdad1c473efb2c94ce76b9770aa45b1e265",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12285725107,
+                          "name":  "knapsack-stagnation-main-worker-UC-s007-39465647096-1",
+                          "zip_bytes":  25210260,
+                          "zip_sha256":  "45231b2f7d205412618742231f5009e1c9e35a175b2fd94f6ae72cbd8bcc89b7",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12285606072,
+                          "name":  "knapsack-stagnation-main-worker-WC-s004-39465647096-1",
+                          "zip_bytes":  25538065,
+                          "zip_sha256":  "93b1db0e5898c14fa0c27bb4cf3cf06f82ace3151f32ea01dc7f4f5cfe4c5bfe",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12285475789,
+                          "name":  "knapsack-stagnation-main-worker-WC-s005-39465647096-1",
+                          "zip_bytes":  25691896,
+                          "zip_sha256":  "2cf53c5c293ab77b200c28c9659fe41a5d2ad158330ff698507472b3a4a6f8b3",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12285366437,
+                          "name":  "knapsack-stagnation-main-worker-SC-s001-39465647096-1",
+                          "zip_bytes":  25510766,
+                          "zip_sha256":  "b951ce6bfe18d69466caf47f353a8c9c591810e245276623e30d9d042792d8f5",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12285356474,
+                          "name":  "knapsack-stagnation-main-worker-SC-s008-39465647096-1",
+                          "zip_bytes":  25494471,
+                          "zip_sha256":  "24a1b4205684448b565ef1842d43af0e688f8b0ab521cab47d0d0f41f7bf5d9b",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12285331468,
+                          "name":  "knapsack-stagnation-main-worker-SC-s004-39465647096-1",
+                          "zip_bytes":  25460704,
+                          "zip_sha256":  "45a5346833630113d3fd2187b2f8057c934875a23a53db8971855bd7e5545307",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12285206738,
+                          "name":  "knapsack-stagnation-main-worker-WC-s008-39465647096-1",
+                          "zip_bytes":  25727855,
+                          "zip_sha256":  "c3fe0b598c146a14756df5f4f289dec6e5f8ed47d266147757c995373a51928b",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12285191789,
+                          "name":  "knapsack-stagnation-main-worker-SC-s007-39465647096-1",
+                          "zip_bytes":  25382564,
+                          "zip_sha256":  "41f3e0196841efa33462be22e4e57f3b3164fe88b1f0c46a65997fa148627360",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12284962120,
+                          "name":  "knapsack-stagnation-main-worker-WC-s001-39465647096-1",
+                          "zip_bytes":  25656157,
+                          "zip_sha256":  "bed50093c87f6546540aa63957f560639cb050c1e7b27365fdf5e171bddcd11d",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12284947181,
+                          "name":  "knapsack-stagnation-main-worker-WC-s003-39465647096-1",
+                          "zip_bytes":  25715307,
+                          "zip_sha256":  "072264ec22633f50a7c29fa8068b0277441c01957d2a2dd9098ff30212d45945",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12284941980,
+                          "name":  "knapsack-stagnation-main-worker-UC-s003-39465647096-1",
+                          "zip_bytes":  25263566,
+                          "zip_sha256":  "c72781e8dba9a51c830b17213a70d5d3d1b2384b095375f0bbb572936ef808a7",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12284807678,
+                          "name":  "knapsack-stagnation-main-worker-SC-s000-39465647096-1",
+                          "zip_bytes":  25292111,
+                          "zip_sha256":  "cf4417c139560c57b8135a79b3b0e3cb0b3b9049e90cc0bf91cc4d76bf014a39",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12284707200,
+                          "name":  "knapsack-stagnation-main-worker-UC-s005-39465647096-1",
+                          "zip_bytes":  25409448,
+                          "zip_sha256":  "fb3e0afb4dfb4854ea97a7b367918ab92fe8423dbb3a5a07e6cc9a2ef51f1b52",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12284687441,
+                          "name":  "knapsack-stagnation-main-worker-WC-s002-39465647096-1",
+                          "zip_bytes":  25734986,
+                          "zip_sha256":  "dd3a7180382465b0b016a42191eaacf73f779119de31aae672f26d450cfd986c",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12284652480,
+                          "name":  "knapsack-stagnation-main-worker-UC-s001-39465647096-1",
+                          "zip_bytes":  25250417,
+                          "zip_sha256":  "2dbfb96049c5db54ce2129cbfcd8751928315062b4c1e2122e17bbf0cb63cc66",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12284616992,
+                          "name":  "knapsack-stagnation-main-permit-39465647096-1",
+                          "zip_bytes":  6672,
+                          "zip_sha256":  "a2ed9de0adf12cdb60aa3d66592921297040e9d918a36e89c50824090e0ac855",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12284567468,
+                          "name":  "knapsack-stagnation-main-worker-UC-s008-39465647096-1",
+                          "zip_bytes":  25073819,
+                          "zip_sha256":  "4880b7ae81ca14b2a83548b086fce44d6aa2338a3fe299841dd89c04cef94a98",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12284527464,
+                          "name":  "knapsack-stagnation-main-worker-UC-s009-39465647096-1",
+                          "zip_bytes":  25465671,
+                          "zip_sha256":  "f88b91d74cda27869bcbd29fc9bf93e372db9c03683c9ccaa0916dae80c31a82",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12284393508,
+                          "name":  "knapsack-stagnation-main-worker-SC-s006-39465647096-1",
+                          "zip_bytes":  25608691,
+                          "zip_sha256":  "333eaa147d1ffb02ac65b557bc97585b73b26870b5be843b837dc7b5230b648c",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12284248240,
+                          "name":  "knapsack-stagnation-main-worker-UC-s004-39465647096-1",
+                          "zip_bytes":  25326575,
+                          "zip_sha256":  "ff89044a7468902b2851467655075d053e6b7ecda08aeada9ae9ae7ab55692ef",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12284148667,
+                          "name":  "knapsack-stagnation-main-worker-UC-s002-39465647096-1",
+                          "zip_bytes":  25396463,
+                          "zip_sha256":  "7b382293b85502c716f6db4cdd23c27eeab0c41390a608daccb9141efa97e1b2",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12283719790,
+                          "name":  "knapsack-stagnation-main-worker-WC-s000-39465647096-1",
+                          "zip_bytes":  25699489,
+                          "zip_sha256":  "b92f1c7e65121198061eadb3c09dbdbdc2dfc4c0a64b9467d5286d82dc9bcecb",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12283699755,
+                          "name":  "knapsack-stagnation-main-worker-UC-s000-39465647096-1",
+                          "zip_bytes":  25196795,
+                          "zip_sha256":  "beb380680e1ae6ecd7b7d3cbcd7f1438e6ebcd2f952716c38f43313749e52613",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465647096,
+                          "artifact_id":  12283584916,
+                          "name":  "knapsack-stagnation-main-worker-UC-s006-39465647096-1",
+                          "zip_bytes":  25376904,
+                          "zip_sha256":  "727b17c05ef5181d7f6f535e426365ec2a1c6b826c219bef7997956e295ce381",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:23:25Z"
+                      },
+                      {
+                          "run_id":  39465168708,
+                          "artifact_id":  12285195531,
+                          "name":  "knapsack-stagnation-main-tests-39465168708-1",
+                          "zip_bytes":  10967,
+                          "zip_sha256":  "40eec512133a65e22b2260d8a5dff8d976474e70f4665ca82278ec46a426f2ae",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:20:09Z"
+                      },
+                      {
+                          "run_id":  39465168708,
+                          "artifact_id":  12284571937,
+                          "name":  "knapsack-stagnation-main-permit-39465168708-1",
+                          "zip_bytes":  1095,
+                          "zip_sha256":  "f21d1d99dca50e7e058b826703239671fa0ba0e19b053db3b569b76eea388258",
+                          "expired":  false,
+                          "expires_at":  "2027-01-18T17:20:09Z"
+                      }
+                  ],
+    "scientific_calculations_performed":  false
+}
