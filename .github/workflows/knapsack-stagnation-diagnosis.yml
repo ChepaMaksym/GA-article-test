@@ -64,7 +64,8 @@ jobs:
         with:
           python-version: '3.12.14'
       - name: Exact hash-locked numerical environment
-        run: python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+        run: |
+          python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
       - name: Authenticate current-run central reservation
         run: python -m studies.knapsack_parameters.stagnation_diagnosis.execution download --kind permit --output "$RUNNER_TEMP/permit"
       - name: New adversarial fixtures and unchanged historical regression checks
@@ -92,7 +93,8 @@ jobs:
         with:
           python-version: '3.12.14'
       - name: Exact hash-locked numerical environment
-        run: python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+        run: |
+          python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
       - name: Authenticate current-run central reservation
         run: python -m studies.knapsack_parameters.stagnation_diagnosis.execution download --kind permit --output "$RUNNER_TEMP/permit"
       - name: Prepare and independently verify all 903 fixed beginnings - no search
@@ -125,7 +127,8 @@ jobs:
         with:
           python-version: '3.12.14'
       - name: Exact hash-locked numerical environment
-        run: python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+        run: |
+          python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
       - name: Authenticate current-run central reservation
         run: python -m studies.knapsack_parameters.stagnation_diagnosis.execution download --kind permit --output "$RUNNER_TEMP/permit"
       - name: One fixed resource probe - persist raw before independent replay
@@ -155,7 +158,8 @@ jobs:
         with:
           python-version: '3.12.14'
       - name: Exact hash-locked numerical environment
-        run: python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+        run: |
+          python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
       - name: Authenticate current-run central reservation
         run: python -m studies.knapsack_parameters.stagnation_diagnosis.execution download --kind permit --output "$RUNNER_TEMP/permit"
       - name: Authenticated complete worker transport - retain partial failures
