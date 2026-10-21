@@ -21,7 +21,7 @@ PROTOCOL_ID = "GA-KNAPSACK-STAGNATION-MECHANISMS-RECOVERY-V1"
 PREFIX = "knapsack-stagnation-recovery-"
 RECOVER_FAMILIES = ("s004", "s005", "s006")
 REUSED_FAMILIES = ("s000", "s001", "s002", "s003", "s007", "s008", "s009")
-RESERVATIONS = {"tests": 4, "recover": 34}
+RESERVATIONS = {"tests": 4, "recover": 34, "present": 4}
 CAPS, CEILING, BYTE_CEILING = base.CAPS, 90, 1024 ** 3
 require, canonical, identity = base.require, base.canonical, base.identity
 read_json, write_json, safe_path = base.read_json, base.write_json, base.safe_path
@@ -64,7 +64,8 @@ def prior_audit():
 def source_manifest():
     files = {r["path"]: r for r in base.source_manifest()["files"]}
     protocol = read_json(MODULE / "protocol.json")
-    paths = list(MODULE.rglob("*.py")) + [MODULE / "protocol.json", MODULE / "PROTOCOL_UK.md", ROOT / WORKFLOW]
+    paths = list(MODULE.rglob("*.py")) + [MODULE / "protocol.json", MODULE / "PROTOCOL_UK.md",
+            MODULE / "presentation_amendment.json", ROOT / WORKFLOW]
     paths += [ROOT / protocol["prior"][key + "_path"] for key in ("audit", "resource_receipt")]
     for path in paths:
         name = path.relative_to(ROOT).as_posix()
@@ -88,6 +89,9 @@ def authenticate(runtime=False):
     for name in ("protocol.json", "PROTOCOL_UK.md"):
         require(subprocess.check_output(["git", "show", REGISTRATION_SHA + ":" + REL + name], cwd=ROOT)
                 == (MODULE / name).read_bytes(), "Recovery registration changed")
+    require(subprocess.check_output(["git", "show", "b991933e482b8ba5bfccf7c476de69b797ee80a1:" + REL +
+            "presentation_amendment.json"], cwd=ROOT) == (MODULE / "presentation_amendment.json").read_bytes(),
+            "Presentation correction registration changed")
     changed = subprocess.check_output(["git", "diff", "--name-only", REGISTRATION_SHA, head], cwd=ROOT, text=True).splitlines()
     require(all(name.startswith(REL) or name == WORKFLOW for name in changed), "Protected historical change")
     require(not subprocess.check_output(["git", "status", "--porcelain", "--untracked-files=no"],
@@ -160,7 +164,8 @@ def check_allowance(usage, selected):
     require(type(used) is int and used >= 51 and used + RESERVATIONS[selected] <= CEILING,
             "Unknown or insufficient shared runner remainder")
     payload, zipped = usage.get("previous_payload_upper_bound_bytes"), usage.get("previous_artifact_zip_bytes")
-    reserve = CAPS["permit"] + (CAPS["tests"] if selected == "tests" else 3 * CAPS["worker"] + CAPS["summary"])
+    reserve = CAPS["permit"] + (CAPS["tests"] if selected == "tests" else CAPS["summary"] if selected == "present"
+                               else 3 * CAPS["worker"] + CAPS["summary"])
     require(type(payload) is int and payload >= 0 and payload + reserve <= BYTE_CEILING and
             type(zipped) is int and 0 <= zipped <= BYTE_CEILING, "Insufficient shared storage allowance")
     require(type(usage.get("recovery_workers")) is int and usage["recovery_workers"] >= 0,
@@ -206,7 +211,7 @@ def gate(output, selected):
     require(phase(os.environ.get("COMMIT_MESSAGE", "")) == selected, "Wrong phase")
     usage = resource_usage()
     check_allowance(usage, selected)
-    tests = frozen_tests() if selected == "recover" else None
+    tests = frozen_tests() if selected in ("recover", "present") else None
     write_json(Path(output) / "permit.json", {**provenance, **usage, "phase": selected,
         "reserved_runner_minutes": RESERVATIONS[selected], "runner_minutes_ceiling": 90,
         "new_search_authorized": False, "frozen_tests": tests})

@@ -48,14 +48,14 @@ class RecoveryAuthorityTests(unittest.TestCase):
         self.assertEqual(c.REUSED_FAMILIES, ("s000", "s001", "s002", "s003", "s007", "s008", "s009"))
         self.assertEqual(set(c.RECOVER_FAMILIES) & set(c.REUSED_FAMILIES), set())
         self.assertEqual(set(c.RECOVER_FAMILIES) | set(c.REUSED_FAMILIES), {f"s{i:03d}" for i in range(10)})
-        self.assertEqual(c.RESERVATIONS, {"tests": 4, "recover": 34})
+        self.assertEqual(c.RESERVATIONS, {"tests": 4, "recover": 34, "present": 4})
         self.assertEqual(c.CEILING, 90)
         self.assertEqual(c.BYTE_CEILING, 1024 ** 3)
         self.assertEqual(self.prior["verified_rows"], 630)
         self.assertFalse(self.prior["complete"])
 
     def test_exact_single_recovery_phase_marker(self):
-        for phase in ("tests", "recover"):
+        for phase in ("tests", "recover", "present"):
             self.assertEqual(c.phase(f"Finish technical recovery [knapsack-stagnation-recovery:{phase}]"), phase)
         for marker in ("", "[knapsack-stagnation-mechanisms:analyze]", "[knapsack-stagnation-recovery:main]",
                        "[knapsack-stagnation-recovery:recover] [skip ci]",

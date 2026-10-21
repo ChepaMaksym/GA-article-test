@@ -166,7 +166,7 @@ def aggregate(output, permit, artifacts):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=("gate", "tests", "worker", "aggregate", "download"))
+    parser.add_argument("command", choices=("gate", "tests", "worker", "aggregate", "download", "present"))
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--phase", choices=tuple(c.RESERVATIONS))
     parser.add_argument("--permit", type=Path)
@@ -192,6 +192,9 @@ def main(argv=None):
         elif args.command == "worker":
             c.require(args.family is not None, "One exact missing family required")
             worker(args.output, args.permit, args.family)
+        elif args.command == "present":
+            from .presentation import render_presentation
+            render_presentation(args.output, args.permit)
         else:
             c.require(args.artifacts is not None, "Current worker evidence required")
             aggregate(args.output, args.permit, args.artifacts)
