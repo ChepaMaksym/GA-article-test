@@ -1,0 +1,21 @@
+{
+  "schema": "knapsack-secondary-retained-subset-v1",
+  "status": "INCOMPLETE_TIME_LIMIT",
+  "source_run_id": 39551196713,
+  "source_run_attempt": 1,
+  "source_implementation_commit_sha": "8b46b252d926a32ee8d3f0dc5c559319b33c4498",
+  "source_summary_artifact_id": 12324186412,
+  "source_zip_sha256": "d341fc4b09d5a16d66544111df892632a98432f3b5c53e33f0b2c7386bf75377",
+  "source_zip_bytes": 4561161,
+  "source_file_manifest_sha256": "3aae2cbe0e8ce61dcc63ebffc6018ea1f47b8bfae6aa7f9c025feb776cd2d5ba",
+  "source_manifest_note": "source_artifact_file_manifest.json describes the complete original CI artifact, not this compact Git directory. The full verified_features.json remains in CI and the local full artifact copy.",
+  "retained_audit_status_sha256": "80886c1f35d407b1d86202f8c0a8680c52f820c9b1e0c552fd1317e21a4a7b63",
+  "api_resource_receipt_sha256": "5aa06307d155d6a33e5d98fbe4baf85521d4dd48134a3a57682d19bf29efb2b4",
+  "verified_records": 630,
+  "expected_records": 900,
+  "missing_families": ["s004", "s005", "s006"],
+  "runner_minutes_used": 51,
+  "runner_minutes_ceiling": 90,
+  "automatic_retry_performed": false,
+  "new_search_performed": false
+}

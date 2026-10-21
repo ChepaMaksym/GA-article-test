@@ -1,0 +1,1 @@
+{"excludes_self":true,"files":[{"bytes":4744,"path":"audit_status.json","sha256":"80886c1f35d407b1d86202f8c0a8680c52f820c9b1e0c552fd1317e21a4a7b63"},{"bytes":28565518,"path":"verified_features.json","sha256":"24deed21b509e36a2eda34a6108f8e096ceb188f12f9602a668d415e0f19130b"}],"schema_version":"ga-knapsack-files-v1"}
