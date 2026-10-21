@@ -1,0 +1,2 @@
+evidence/**/*.json -text
+evidence/**/*.txt -text
