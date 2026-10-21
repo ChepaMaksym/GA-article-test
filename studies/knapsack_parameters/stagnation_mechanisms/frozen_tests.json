@@ -1,0 +1,14 @@
+{
+  "schema": "knapsack-stagnation-mechanisms-test-freeze-v1",
+  "protocol_id": "GA-KNAPSACK-STAGNATION-MECHANISMS-SECONDARY-V1",
+  "frozen": true,
+  "run_id": 39551019917,
+  "run_attempt": 1,
+  "implementation_commit_sha": "df2fd0b80c4c5a97220c0c6bcdf040cc2243837e",
+  "implementation_fingerprint": "df18a2486afb568036c3c69ac7715c795b5ef9783a406f3ac66ce65a09354bd0",
+  "artifact_id": 12324225552,
+  "zip_sha256": "51a9ebf84191418c33bfa7645634d6ac07e2e429158f810dbe8f9f9e5ee20d96",
+  "file_manifest_sha256": "3033e2ae2412230b747b962b9730836c58d98fd76dea1b873068fc264f9e33a8",
+  "receipt_path": "evidence/tests-run-39551019917-1/tests_receipt.json",
+  "receipt_sha256": "e3e16495a66227c97c264812b23eaaa62b133e9473ebf9254a9898a26c65339d"
+}
