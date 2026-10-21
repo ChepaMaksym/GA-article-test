@@ -1,0 +1,58 @@
+{
+  "schema": "knapsack-stagnation-secondary-technical-recovery-v1",
+  "protocol_id": "GA-KNAPSACK-STAGNATION-MECHANISMS-RECOVERY-V1",
+  "scientific_protocol_id": "GA-KNAPSACK-STAGNATION-MECHANISMS-SECONDARY-V1",
+  "registration_date": "2026-10-21",
+  "base_commit_sha": "1ba0f36f6c052cbbbd76670385d68e0bb98c66d2",
+  "branch": "research/masters-ga-diversity-crossover",
+  "repository": "ChepaMaksym/GA-article-test",
+  "purpose": "Explicitly authorized technical completion of three timed-out post-hoc family audits; scientific endpoints, code, sources and original GA runs remain unchanged.",
+  "authorization": {
+    "user_answer": "Так, завершити в межах 90 хвилин",
+    "authorized": true,
+    "shared_runner_minutes_ceiling": 90,
+    "shared_output_payload_bytes_ceiling": 1073741824,
+    "new_search_authorized": false,
+    "old_usage_not_reset": true
+  },
+  "prior": {
+    "workflow": ".github/workflows/knapsack-stagnation-mechanisms.yml",
+    "run_id": 39551196713,
+    "run_attempt": 1,
+    "implementation_commit_sha": "8b46b252d926a32ee8d3f0dc5c559319b33c4498",
+    "implementation_fingerprint": "df18a2486afb568036c3c69ac7715c795b5ef9783a406f3ac66ce65a09354bd0",
+    "completed_families": ["s000", "s001", "s002", "s003", "s007", "s008", "s009"],
+    "verified_records": 630,
+    "audit_path": "studies/knapsack_parameters/stagnation_mechanisms/evidence/partial-run-39551196713-1/audit_status.json",
+    "audit_sha256": "80886c1f35d407b1d86202f8c0a8680c52f820c9b1e0c552fd1317e21a4a7b63",
+    "resource_receipt_path": "studies/knapsack_parameters/stagnation_mechanisms/evidence/partial-run-39551196713-1/resource_receipt.json",
+    "resource_receipt_sha256": "5aa06307d155d6a33e5d98fbe4baf85521d4dd48134a3a57682d19bf29efb2b4",
+    "used_runner_minutes": 51,
+    "reuse": "Use the seven exact worker ZIP identities, digests and member-manifest hashes in the frozen audit transport ledger; never re-run these families or rewrite their producer provenance."
+  },
+  "recovery": {
+    "families": ["s004", "s005", "s006"],
+    "records": 270,
+    "source": "Same 900 original GA runs and same immutable 30 worker ZIPs; no search, adaptive controller, exact solver, held-out task or replacement seed.",
+    "scientific_implementation": "Import unchanged feature_row, mathematics, operators and analysis from the green-tested stagnation_mechanisms module; no monkeypatch of its authority and no edit to its historical contracts.",
+    "mixed_producer_rule": "Each family has one explicit producer: seven frozen prior artifacts versus three exact-current recovery artifacts. Retain both execution identities separately; all feature rows must retain the identical original GA source identity.",
+    "partial_checkpointing": "Persist each completed case and any interrupted partial feature rows without replacing missing records; no inference before exactly 900 distinct source identities are present.",
+    "attempt_policy": "One authorized recovery matrix of only the three missing families; no automatic retries or full-matrix repetition."
+  },
+  "resources": {
+    "workflow": ".github/workflows/knapsack-stagnation-recovery.yml",
+    "phases": {"tests": 4, "recover": 34},
+    "gate_timeout_minutes": 1,
+    "tests_timeout_minutes": 2,
+    "worker_timeout_minutes": 8,
+    "aggregation_timeout_minutes": 3,
+    "max_parallel_workers": 3,
+    "cleanup_and_job_rounding_headroom_included": true,
+    "accounting": "Query every attempt/job/artifact of BOTH the original secondary and recovery workflows; round allocated job durations up, including cancelled/service jobs; unknown use or insufficient shared remainder blocks execution.",
+    "output_caps_bytes": {"permit": 1048576, "tests": 16777216, "worker": 33554432, "summary": 67108864}
+  },
+  "verification": ["Original 58 tests unchanged", "New recovery authority and provenance tests", "CI-only synthetic rendering smoke test", "Exact old/new producer map", "900 unique identities and known 210/202 restoration", "Shared resource ceiling including the prior 51 minutes"],
+  "execution_order": ["separate technical registration commit", "recovery wrapper and checks", "CI tests", "freeze exact green wrapper", "recover only three families", "combine seven frozen artifacts and three current artifacts", "unchanged scientific analysis and figures", "retain failures and all provenance", "new local academic subsection"],
+  "allowed_paths": ["studies/knapsack_parameters/stagnation_mechanisms_recovery/", ".github/workflows/knapsack-stagnation-recovery.yml"],
+  "completion": "Exactly 900 source runs independently covered, scientific summary and three plots verified, cumulative runner use no more than 90; old partial attempt remains visible."
+}
