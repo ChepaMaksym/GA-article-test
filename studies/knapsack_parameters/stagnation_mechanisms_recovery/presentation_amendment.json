@@ -1,0 +1,19 @@
+{
+  "schema": "knapsack-secondary-presentation-correction-v1",
+  "registration_date": "2026-10-21",
+  "scope": "Presentation correction only, within the same 90-minute secondary-analysis grant; no source GA replay, new search, statistical calculation or endpoint change.",
+  "source_run_id": 39554039087,
+  "source_implementation_commit_sha": "31641a989a8cb9d54dad35a2bbf16e38cda888b9",
+  "source_artifact_id": 12324997386,
+  "source_artifact_name": "knapsack-stagnation-recovery-summary-39554039087-1",
+  "source_zip_sha256": "24b5222527fbe7809e8df0859116b70ff7ac1ad08aa5ba739d6e2ec19d4d40d2",
+  "source_file_manifest_sha256": "ad321582acb748d1c488287534548d691485b06b49b7453413c2564ea401b03c",
+  "issue": "Numeric annotations on Figure 3 are offset toward the other curve. Curves, numbers, summary and tables are correct, but association is visually ambiguous.",
+  "correction": "Put blue all-stagnant labels below blue points and orange improvement-conditional labels above orange points, with matching text colors; all coordinates and numbers come unchanged from the completed summary.",
+  "preserve": "Original scientific code, report, figures and completed artifacts remain immutable; record the corrected image as a separately derived presentation asset.",
+  "runner_minutes_already_used": 71,
+  "shared_runner_minutes_ceiling": 90,
+  "additional_phase_reservation_minutes": {"tests": 4, "present": 4},
+  "presentation_job_timeout_minutes": 2,
+  "scientific_source_functions_changed": false
+}
