@@ -1,0 +1,148 @@
+name: Knapsack stagnation - secondary mechanisms analysis
+
+on:
+  push:
+    branches: [research/masters-ga-diversity-crossover]
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: knapsack-stagnation-mechanisms-budget
+  cancel-in-progress: false
+
+env:
+  EXPECTED_SHA: ${{ github.sha }}
+  COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+  GITHUB_TOKEN: ${{ github.token }}
+  PYTHONHASHSEED: '0'
+  PYTHONDONTWRITEBYTECODE: '1'
+  MPLBACKEND: Agg
+  OPENBLAS_NUM_THREADS: '1'
+  OMP_NUM_THREADS: '1'
+
+jobs:
+  gate:
+    if: contains(github.event.head_commit.message, '[knapsack-stagnation-mechanisms:')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 1
+    outputs:
+      phase: ${{ steps.authority.outputs.phase }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Separate explicit authorization and cumulative resource check
+        id: authority
+        run: |
+          PHASE=$(python3 -c 'import os; from studies.knapsack_parameters.stagnation_mechanisms.contract import phase; print(phase(os.environ["COMMIT_MESSAGE"]))')
+          python3 -m studies.knapsack_parameters.stagnation_mechanisms.execution gate --phase "$PHASE" --output "$RUNNER_TEMP/permit"
+          echo "phase=$PHASE" >> "$GITHUB_OUTPUT"
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: knapsack-stagnation-mechanisms-permit-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/permit
+          if-no-files-found: warn
+          retention-days: 90
+
+  tests:
+    needs: gate
+    if: needs.gate.outputs.phase == 'tests'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - name: Hash-locked environment
+        run: |
+          python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+      - name: Retrieve exact central permit
+        run: python -m studies.knapsack_parameters.stagnation_mechanisms.execution download --kind permit --output "$RUNNER_TEMP/permit"
+      - name: Independent toy examples and authority checks, no KPLIB search
+        run: python -m studies.knapsack_parameters.stagnation_mechanisms.execution tests --permit "$RUNNER_TEMP/permit" --output "$RUNNER_TEMP/tests"
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: knapsack-stagnation-mechanisms-tests-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/tests
+          if-no-files-found: warn
+          retention-days: 90
+
+  worker:
+    name: worker (${{ matrix.family }})
+    needs: gate
+    if: needs.gate.outputs.phase == 'analyze'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        family: [s000, s001, s002, s003, s004, s005, s006, s007, s008, s009]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - name: Hash-locked environment
+        run: |
+          python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+      - name: Retrieve exact central permit
+        run: python -m studies.knapsack_parameters.stagnation_mechanisms.execution download --kind permit --output "$RUNNER_TEMP/permit"
+      - name: Replay and analyze ninety saved runs, no new search
+        env:
+          ANALYSIS_FAMILY: ${{ matrix.family }}
+        run: python -m studies.knapsack_parameters.stagnation_mechanisms.execution worker --family "$ANALYSIS_FAMILY" --permit "$RUNNER_TEMP/permit" --output "$RUNNER_TEMP/worker"
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: knapsack-stagnation-mechanisms-worker-${{ matrix.family }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/worker
+          if-no-files-found: warn
+          retention-days: 90
+
+  aggregate:
+    needs: [gate, worker]
+    if: always() && needs.gate.result == 'success' && needs.gate.outputs.phase == 'analyze'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - name: Hash-locked environment
+        run: |
+          python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+      - name: Retrieve exact central permit
+        run: python -m studies.knapsack_parameters.stagnation_mechanisms.execution download --kind permit --output "$RUNNER_TEMP/permit"
+      - name: Retrieve all available compact workers
+        continue-on-error: true
+        run: python -m studies.knapsack_parameters.stagnation_mechanisms.execution download --kind workers --output "$RUNNER_TEMP/workers"
+      - name: Family-weighted summaries and three question-driven figures
+        run: python -m studies.knapsack_parameters.stagnation_mechanisms.execution aggregate --artifacts "$RUNNER_TEMP/workers" --permit "$RUNNER_TEMP/permit" --output "$RUNNER_TEMP/summary"
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: knapsack-stagnation-mechanisms-summary-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/summary
+          if-no-files-found: warn
+          retention-days: 90

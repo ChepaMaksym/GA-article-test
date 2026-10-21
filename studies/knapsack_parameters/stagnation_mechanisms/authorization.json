@@ -1,0 +1,14 @@
+{
+  "schema": "knapsack-stagnation-mechanisms-resource-grant-v1",
+  "protocol_id": "GA-KNAPSACK-STAGNATION-MECHANISMS-SECONDARY-V1",
+  "authorization_date": "2026-10-21",
+  "authorized": true,
+  "user_answer": "Погоджую вторинний аналіз до 90 runner-хвилин",
+  "runner_minutes_ceiling": 90,
+  "output_payload_bytes_ceiling": 1073741824,
+  "new_search_authorized": false,
+  "scope": "Tests and exploratory secondary analysis of the existing 900 runs, certificates, recorded operators, exact-count models and figures only; no adaptive/lambda search, new GA runs or held-out tasks.",
+  "storage_note": "The 1 GiB output cap is a stricter implementation safeguard, not an additional storage entitlement or permission to duplicate original input archives.",
+  "count_all_attempts_and_service_jobs": true,
+  "previous_grants_transferred": false
+}
