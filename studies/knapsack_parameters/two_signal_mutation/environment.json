@@ -1,0 +1,13 @@
+{
+  "protocol_id": "GA-KNAPSACK-TWO-SIGNAL-MUTATION-V1",
+  "python": "3.12.14",
+  "platform": "ubuntu-24.04-x86_64",
+  "numpy": "2.2.6",
+  "matplotlib": "3.10.3",
+  "requirements_lock_path": "studies/knapsack_parameters/ga_study/dependencies/requirements.lock",
+  "requirements_lock_sha256": "6818e0e12843daa10947f7554cb3edd573d9f7cdbc33e63f98f9f3a068869017",
+  "environment_lock_path": "studies/knapsack_parameters/ga_study/dependencies/environment.lock.json",
+  "environment_lock_sha256": "9907e3a46971303d8285b7ae160b5b8eafcab9942565d376bd038a92789745c6",
+  "historical_environment_rewritten": false,
+  "fresh_runtime_receipt_required": true
+}

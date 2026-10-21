@@ -1,0 +1,21 @@
+{
+  "protocol_id": "GA-KNAPSACK-TWO-SIGNAL-MUTATION-V1",
+  "registration_parent_sha": "0a8b0d418131e868313c4e50a8b944940edf4035",
+  "protocol_sha256": "055bf3a105d839d8048f03d48a71aec306133072b598de8fe83b7af2f7a34f8b",
+  "machine_protocol_sha256": "d1a1da43f1b4f118dc3f3db96ef4e0177245aa05914a12d846a36c9d46de569b",
+  "own_rule_not_article_replication": true,
+  "explicit_holdout_reassignment": true,
+  "historic_final_plan_rewritten": false,
+  "legacy_engine_sha256": "917cf0323a18f9286a7cb64994daba2677f8c9f5bd13ead712cb8eae9cb74e29",
+  "legacy_verifier_sha256": "ce2c49e373b03200f9fb2c57309c07cb9f00ddf1ee994f834d1694b2544a9a1c",
+  "frozen_holdout_sha256": "2eae3a14760094cd01cbde746d8d0dc776f46a2f2a3e2e3e5eccdbc5b1f7b6ed",
+  "frozen_holdout_preparation_sha256": "cf37dc31a0b864d12697c8f69c6351847e638e539a2828ed795798709925e4f8",
+  "holdout_data_manifest_sha256": "df04145a448fad1bfcb6bc7b4ea6fd1229dbd6b7c3c5f465d3058f23ddc77077",
+  "holdout_registry_sha256": "08f783e6be9ccc1e2c9d84d627f14455739a0f2d3ce6095873faf78178f97a6b",
+  "historical_registry_sha256": "7e9b8fc893889426e2d3b57610e3a91c09263fcdff488cf15a2b84efe1bdc70f",
+  "requirements_lock_sha256": "6818e0e12843daa10947f7554cb3edd573d9f7cdbc33e63f98f9f3a068869017",
+  "historical_environment_lock_sha256": "9907e3a46971303d8285b7ae160b5b8eafcab9942565d376bd038a92789745c6",
+  "ci_execution_authorized": false,
+  "technical_resource_approval": "PENDING_SEPARATE_USER_REPLY",
+  "main_resource_approval": "NOT_GRANTED"
+}
