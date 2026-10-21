@@ -1,0 +1,17 @@
+{
+  "schema": "knapsack-secondary-completed-retained-subset-v1",
+  "status": "COMPLETE_EXPLORATORY",
+  "source_run_id": 39554039087,
+  "source_run_attempt": 1,
+  "source_implementation_commit_sha": "31641a989a8cb9d54dad35a2bbf16e38cda888b9",
+  "source_artifact_id": 12324997386,
+  "source_zip_sha256": "24b5222527fbe7809e8df0859116b70ff7ac1ad08aa5ba739d6e2ec19d4d40d2",
+  "source_zip_bytes": 6977176,
+  "source_file_manifest_sha256": "ad321582acb748d1c488287534548d691485b06b49b7453413c2564ea401b03c",
+  "secondary_summary_sha256": "d65ca9de1980291eeacfb27f8473abe4e8019cf3461d8df706f6bba55beba9dc",
+  "note": "The source manifest describes the full CI artifact, not this compact Git subset. Full verified_features.json and operator witness remain in CI and the local full evidence copy. The original sampling_detection.png is preserved there; its ambiguous label placement is corrected by a separately registered presentation-only derivation.",
+  "verified_runs": 900,
+  "producer_map": "audit_status.json explicitly binds seven retained old families and three current recovered families",
+  "new_search_performed": false,
+  "scientific_source_functions_changed": false
+}

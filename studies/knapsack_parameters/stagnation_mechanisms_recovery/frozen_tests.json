@@ -1,13 +1,13 @@
 {
   "protocol_id": "GA-KNAPSACK-STAGNATION-MECHANISMS-RECOVERY-V1",
   "frozen": true,
-  "run_id": 39553859700,
+  "run_id": 39555703468,
   "run_attempt": 1,
-  "implementation_commit_sha": "ec6ce9b9b5f1e5b61d74dcf8af5075d5d4de8f8b",
-  "implementation_fingerprint": "cf9476d0e77d4b354a5b3be92bd3565bb64e92a0502b7174bc824ed3b6b14383",
-  "artifact_id": 12324059421,
-  "zip_sha256": "2ded4b696e9b1a88164c9b3840d3f2ba7269a14d24d371dafdbf7f6de32e1e7e",
-  "file_manifest_sha256": "cb749a802f79e446c61bf9d7aeb16201ee6befde19f67a8a934c57f3b163d463",
-  "receipt_path": "evidence/tests-run-39553859700-1/tests_receipt.json",
-  "receipt_sha256": "80e7168d81477bd15ed6a91ef8d52bdbf6d56c4f3a528e954f24090e7fd7f419"
+  "implementation_commit_sha": "bef47638108c9f21f24abf723f96fd6ddaedfe20",
+  "implementation_fingerprint": "cd07307c4d7e97b71d792cb4f2c72e5bcdf6a691c842902ba1b4e65031f02754",
+  "artifact_id": 12325985518,
+  "zip_sha256": "61499adc73a37f0f7ff76d67f132a686469660d757b709546c02553abd452ada",
+  "file_manifest_sha256": "faa08e1be440bdd4a6dd369da074af958fa05c87e8c9fdaf230dbea705b5e8e1",
+  "receipt_path": "evidence/tests-run-39555703468-1/tests_receipt.json",
+  "receipt_sha256": "6dba37f20864b8d1a675b8f9615ddba41d9fa35b5b8dadb202e0c064475a386d"
 }

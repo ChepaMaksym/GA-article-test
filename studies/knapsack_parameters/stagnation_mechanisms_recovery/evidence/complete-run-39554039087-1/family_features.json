@@ -1,0 +1,4400 @@
+{
+  "all_runs": {
+    "b1": {
+      "status": "DEFINED",
+      "value": 0.7044444444444444,
+      "weighted_numerator": 0.7044444444444444,
+      "weighted_denominator": 1.0,
+      "absolute_selected_runs": 900,
+      "families": [
+        {
+          "family": "s000",
+          "numerator": 0.4666666666666666,
+          "denominator": 1.0,
+          "value": 0.4666666666666666
+        },
+        {
+          "family": "s001",
+          "numerator": 0.6666666666666666,
+          "denominator": 1.0,
+          "value": 0.6666666666666666
+        },
+        {
+          "family": "s002",
+          "numerator": 0.3111111111111111,
+          "denominator": 1.0,
+          "value": 0.3111111111111111
+        },
+        {
+          "family": "s003",
+          "numerator": 0.7666666666666666,
+          "denominator": 1.0,
+          "value": 0.7666666666666666
+        },
+        {
+          "family": "s004",
+          "numerator": 0.7777777777777778,
+          "denominator": 1.0,
+          "value": 0.7777777777777778
+        },
+        {
+          "family": "s005",
+          "numerator": 0.8555555555555555,
+          "denominator": 1.0,
+          "value": 0.8555555555555555
+        },
+        {
+          "family": "s006",
+          "numerator": 1.0,
+          "denominator": 1.0,
+          "value": 1.0
+        },
+        {
+          "family": "s007",
+          "numerator": 0.6666666666666666,
+          "denominator": 1.0,
+          "value": 0.6666666666666666
+        },
+        {
+          "family": "s008",
+          "numerator": 0.5111111111111111,
+          "denominator": 1.0,
+          "value": 0.5111111111111111
+        },
+        {
+          "family": "s009",
+          "numerator": 1.0222222222222221,
+          "denominator": 1.0,
+          "value": 1.0222222222222221
+        }
+      ]
+    },
+    "b2": {
+      "status": "DEFINED",
+      "value": 40.56,
+      "weighted_numerator": 40.56,
+      "weighted_denominator": 1.0,
+      "absolute_selected_runs": 900,
+      "families": [
+        {
+          "family": "s000",
+          "numerator": 35.84444444444445,
+          "denominator": 1.0,
+          "value": 35.84444444444445
+        },
+        {
+          "family": "s001",
+          "numerator": 43.08888888888889,
+          "denominator": 1.0,
+          "value": 43.08888888888889
+        },
+        {
+          "family": "s002",
+          "numerator": 37.55555555555556,
+          "denominator": 1.0,
+          "value": 37.55555555555556
+        },
+        {
+          "family": "s003",
+          "numerator": 48.15555555555555,
+          "denominator": 1.0,
+          "value": 48.15555555555555
+        },
+        {
+          "family": "s004",
+          "numerator": 41.15555555555555,
+          "denominator": 1.0,
+          "value": 41.15555555555555
+        },
+        {
+          "family": "s005",
+          "numerator": 48.644444444444446,
+          "denominator": 1.0,
+          "value": 48.644444444444446
+        },
+        {
+          "family": "s006",
+          "numerator": 37.67777777777778,
+          "denominator": 1.0,
+          "value": 37.67777777777778
+        },
+        {
+          "family": "s007",
+          "numerator": 34.65555555555555,
+          "denominator": 1.0,
+          "value": 34.65555555555555
+        },
+        {
+          "family": "s008",
+          "numerator": 35.233333333333334,
+          "denominator": 1.0,
+          "value": 35.233333333333334
+        },
+        {
+          "family": "s009",
+          "numerator": 43.58888888888889,
+          "denominator": 1.0,
+          "value": 43.58888888888889
+        }
+      ]
+    },
+    "total_better": {
+      "status": "DEFINED",
+      "value": 41.26444444444444,
+      "weighted_numerator": 41.26444444444444,
+      "weighted_denominator": 1.0,
+      "absolute_selected_runs": 900,
+      "families": [
+        {
+          "family": "s000",
+          "numerator": 36.31111111111111,
+          "denominator": 1.0,
+          "value": 36.31111111111111
+        },
+        {
+          "family": "s001",
+          "numerator": 43.75555555555556,
+          "denominator": 1.0,
+          "value": 43.75555555555556
+        },
+        {
+          "family": "s002",
+          "numerator": 37.86666666666667,
+          "denominator": 1.0,
+          "value": 37.86666666666667
+        },
+        {
+          "family": "s003",
+          "numerator": 48.922222222222224,
+          "denominator": 1.0,
+          "value": 48.922222222222224
+        },
+        {
+          "family": "s004",
+          "numerator": 41.93333333333333,
+          "denominator": 1.0,
+          "value": 41.93333333333333
+        },
+        {
+          "family": "s005",
+          "numerator": 49.5,
+          "denominator": 1.0,
+          "value": 49.5
+        },
+        {
+          "family": "s006",
+          "numerator": 38.67777777777778,
+          "denominator": 1.0,
+          "value": 38.67777777777778
+        },
+        {
+          "family": "s007",
+          "numerator": 35.32222222222222,
+          "denominator": 1.0,
+          "value": 35.32222222222222
+        },
+        {
+          "family": "s008",
+          "numerator": 35.74444444444444,
+          "denominator": 1.0,
+          "value": 35.74444444444444
+        },
+        {
+          "family": "s009",
+          "numerator": 44.611111111111114,
+          "denominator": 1.0,
+          "value": 44.611111111111114
+        }
+      ]
+    },
+    "slack": {
+      "status": "DEFINED",
+      "value": 56.89,
+      "weighted_numerator": 56.89,
+      "weighted_denominator": 1.0,
+      "absolute_selected_runs": 900,
+      "families": [
+        {
+          "family": "s000",
+          "numerator": 48.111111111111114,
+          "denominator": 1.0,
+          "value": 48.111111111111114
+        },
+        {
+          "family": "s001",
+          "numerator": 56.72222222222222,
+          "denominator": 1.0,
+          "value": 56.72222222222222
+        },
+        {
+          "family": "s002",
+          "numerator": 51.922222222222224,
+          "denominator": 1.0,
+          "value": 51.922222222222224
+        },
+        {
+          "family": "s003",
+          "numerator": 59.199999999999996,
+          "denominator": 1.0,
+          "value": 59.199999999999996
+        },
+        {
+          "family": "s004",
+          "numerator": 57.96666666666667,
+          "denominator": 1.0,
+          "value": 57.96666666666667
+        },
+        {
+          "family": "s005",
+          "numerator": 79.3,
+          "denominator": 1.0,
+          "value": 79.3
+        },
+        {
+          "family": "s006",
+          "numerator": 52.75555555555555,
+          "denominator": 1.0,
+          "value": 52.75555555555555
+        },
+        {
+          "family": "s007",
+          "numerator": 53.06666666666666,
+          "denominator": 1.0,
+          "value": 53.06666666666666
+        },
+        {
+          "family": "s008",
+          "numerator": 44.63333333333333,
+          "denominator": 1.0,
+          "value": 44.63333333333333
+        },
+        {
+          "family": "s009",
+          "numerator": 65.22222222222223,
+          "denominator": 1.0,
+          "value": 65.22222222222223
+        }
+      ]
+    },
+    "stagnation_age": {
+      "status": "DEFINED",
+      "value": 658.6977777777778,
+      "weighted_numerator": 658.6977777777778,
+      "weighted_denominator": 1.0,
+      "absolute_selected_runs": 900,
+      "families": [
+        {
+          "family": "s000",
+          "numerator": 692.8222222222222,
+          "denominator": 1.0,
+          "value": 692.8222222222222
+        },
+        {
+          "family": "s001",
+          "numerator": 717.9777777777778,
+          "denominator": 1.0,
+          "value": 717.9777777777778
+        },
+        {
+          "family": "s002",
+          "numerator": 609.6888888888889,
+          "denominator": 1.0,
+          "value": 609.6888888888889
+        },
+        {
+          "family": "s003",
+          "numerator": 691.9555555555555,
+          "denominator": 1.0,
+          "value": 691.9555555555555
+        },
+        {
+          "family": "s004",
+          "numerator": 630.7111111111111,
+          "denominator": 1.0,
+          "value": 630.7111111111111
+        },
+        {
+          "family": "s005",
+          "numerator": 609.5888888888888,
+          "denominator": 1.0,
+          "value": 609.5888888888888
+        },
+        {
+          "family": "s006",
+          "numerator": 646.2888888888889,
+          "denominator": 1.0,
+          "value": 646.2888888888889
+        },
+        {
+          "family": "s007",
+          "numerator": 649.3111111111111,
+          "denominator": 1.0,
+          "value": 649.3111111111111
+        },
+        {
+          "family": "s008",
+          "numerator": 655.1666666666666,
+          "denominator": 1.0,
+          "value": 655.1666666666666
+        },
+        {
+          "family": "s009",
+          "numerator": 683.4666666666667,
+          "denominator": 1.0,
+          "value": 683.4666666666667
+        }
+      ]
+    },
+    "minimum_positive_gain": {
+      "status": "DEFINED",
+      "value": 3.8153669724770642,
+      "weighted_numerator": 3.6966666666666668,
+      "weighted_denominator": 0.9688888888888889,
+      "absolute_selected_runs": 872,
+      "families": [
+        {
+          "family": "s000",
+          "numerator": 4.088888888888889,
+          "denominator": 0.9555555555555556,
+          "value": 4.27906976744186
+        },
+        {
+          "family": "s001",
+          "numerator": 3.1444444444444444,
+          "denominator": 0.9777777777777777,
+          "value": 3.215909090909091
+        },
+        {
+          "family": "s002",
+          "numerator": 4.388888888888889,
+          "denominator": 0.9777777777777777,
+          "value": 4.488636363636364
+        },
+        {
+          "family": "s003",
+          "numerator": 5.588888888888889,
+          "denominator": 0.9888888888888889,
+          "value": 5.651685393258426
+        },
+        {
+          "family": "s004",
+          "numerator": 2.566666666666667,
+          "denominator": 0.9777777777777777,
+          "value": 2.6250000000000004
+        },
+        {
+          "family": "s005",
+          "numerator": 2.666666666666667,
+          "denominator": 0.9888888888888889,
+          "value": 2.6966292134831464
+        },
+        {
+          "family": "s006",
+          "numerator": 4.233333333333333,
+          "denominator": 0.9333333333333333,
+          "value": 4.535714285714286
+        },
+        {
+          "family": "s007",
+          "numerator": 3.555555555555556,
+          "denominator": 0.9444444444444444,
+          "value": 3.7647058823529416
+        },
+        {
+          "family": "s008",
+          "numerator": 3.8777777777777778,
+          "denominator": 0.9777777777777777,
+          "value": 3.965909090909091
+        },
+        {
+          "family": "s009",
+          "numerator": 2.8555555555555556,
+          "denominator": 0.9666666666666667,
+          "value": 2.954022988505747
+        }
+      ]
+    },
+    "maximum_positive_gain": {
+      "status": "DEFINED",
+      "value": 155.27293577981652,
+      "weighted_numerator": 150.44222222222223,
+      "weighted_denominator": 0.9688888888888889,
+      "absolute_selected_runs": 872,
+      "families": [
+        {
+          "family": "s000",
+          "numerator": 173.46666666666667,
+          "denominator": 0.9555555555555556,
+          "value": 181.53488372093022
+        },
+        {
+          "family": "s001",
+          "numerator": 156.16666666666666,
+          "denominator": 0.9777777777777777,
+          "value": 159.7159090909091
+        },
+        {
+          "family": "s002",
+          "numerator": 134.86666666666667,
+          "denominator": 0.9777777777777777,
+          "value": 137.9318181818182
+        },
+        {
+          "family": "s003",
+          "numerator": 162.7111111111111,
+          "denominator": 0.9888888888888889,
+          "value": 164.53932584269663
+        },
+        {
+          "family": "s004",
+          "numerator": 134.75555555555556,
+          "denominator": 0.9777777777777777,
+          "value": 137.8181818181818
+        },
+        {
+          "family": "s005",
+          "numerator": 165.98888888888888,
+          "denominator": 0.9888888888888889,
+          "value": 167.85393258426964
+        },
+        {
+          "family": "s006",
+          "numerator": 156.23333333333332,
+          "denominator": 0.9333333333333333,
+          "value": 167.39285714285714
+        },
+        {
+          "family": "s007",
+          "numerator": 141.65555555555557,
+          "denominator": 0.9444444444444444,
+          "value": 149.98823529411766
+        },
+        {
+          "family": "s008",
+          "numerator": 129.35555555555555,
+          "denominator": 0.9777777777777777,
+          "value": 132.29545454545456
+        },
+        {
+          "family": "s009",
+          "numerator": 149.22222222222223,
+          "denominator": 0.9666666666666667,
+          "value": 154.36781609195404
+        }
+      ]
+    },
+    "improvement_types": {
+      "add_one": {
+        "status": "DEFINED",
+        "value": 0.7044444444444444,
+        "weighted_numerator": 0.7044444444444444,
+        "weighted_denominator": 1.0,
+        "absolute_selected_runs": 900,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.4666666666666666,
+            "denominator": 1.0,
+            "value": 0.4666666666666666
+          },
+          {
+            "family": "s001",
+            "numerator": 0.6666666666666666,
+            "denominator": 1.0,
+            "value": 0.6666666666666666
+          },
+          {
+            "family": "s002",
+            "numerator": 0.3111111111111111,
+            "denominator": 1.0,
+            "value": 0.3111111111111111
+          },
+          {
+            "family": "s003",
+            "numerator": 0.7666666666666666,
+            "denominator": 1.0,
+            "value": 0.7666666666666666
+          },
+          {
+            "family": "s004",
+            "numerator": 0.7777777777777778,
+            "denominator": 1.0,
+            "value": 0.7777777777777778
+          },
+          {
+            "family": "s005",
+            "numerator": 0.8555555555555555,
+            "denominator": 1.0,
+            "value": 0.8555555555555555
+          },
+          {
+            "family": "s006",
+            "numerator": 1.0,
+            "denominator": 1.0,
+            "value": 1.0
+          },
+          {
+            "family": "s007",
+            "numerator": 0.6666666666666666,
+            "denominator": 1.0,
+            "value": 0.6666666666666666
+          },
+          {
+            "family": "s008",
+            "numerator": 0.5111111111111111,
+            "denominator": 1.0,
+            "value": 0.5111111111111111
+          },
+          {
+            "family": "s009",
+            "numerator": 1.0222222222222221,
+            "denominator": 1.0,
+            "value": 1.0222222222222221
+          }
+        ]
+      },
+      "remove_one": {
+        "status": "DEFINED",
+        "value": 0.0,
+        "weighted_numerator": 0,
+        "weighted_denominator": 1.0,
+        "absolute_selected_runs": 900,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0,
+            "denominator": 1.0,
+            "value": 0.0
+          },
+          {
+            "family": "s001",
+            "numerator": 0,
+            "denominator": 1.0,
+            "value": 0.0
+          },
+          {
+            "family": "s002",
+            "numerator": 0,
+            "denominator": 1.0,
+            "value": 0.0
+          },
+          {
+            "family": "s003",
+            "numerator": 0,
+            "denominator": 1.0,
+            "value": 0.0
+          },
+          {
+            "family": "s004",
+            "numerator": 0,
+            "denominator": 1.0,
+            "value": 0.0
+          },
+          {
+            "family": "s005",
+            "numerator": 0,
+            "denominator": 1.0,
+            "value": 0.0
+          },
+          {
+            "family": "s006",
+            "numerator": 0,
+            "denominator": 1.0,
+            "value": 0.0
+          },
+          {
+            "family": "s007",
+            "numerator": 0,
+            "denominator": 1.0,
+            "value": 0.0
+          },
+          {
+            "family": "s008",
+            "numerator": 0,
+            "denominator": 1.0,
+            "value": 0.0
+          },
+          {
+            "family": "s009",
+            "numerator": 0,
+            "denominator": 1.0,
+            "value": 0.0
+          }
+        ]
+      },
+      "swap_one": {
+        "status": "DEFINED",
+        "value": 40.28777777777778,
+        "weighted_numerator": 40.28777777777778,
+        "weighted_denominator": 1.0,
+        "absolute_selected_runs": 900,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 35.68888888888889,
+            "denominator": 1.0,
+            "value": 35.68888888888889
+          },
+          {
+            "family": "s001",
+            "numerator": 42.8,
+            "denominator": 1.0,
+            "value": 42.8
+          },
+          {
+            "family": "s002",
+            "numerator": 37.53333333333333,
+            "denominator": 1.0,
+            "value": 37.53333333333333
+          },
+          {
+            "family": "s003",
+            "numerator": 47.93333333333333,
+            "denominator": 1.0,
+            "value": 47.93333333333333
+          },
+          {
+            "family": "s004",
+            "numerator": 40.87777777777777,
+            "denominator": 1.0,
+            "value": 40.87777777777777
+          },
+          {
+            "family": "s005",
+            "numerator": 48.44444444444444,
+            "denominator": 1.0,
+            "value": 48.44444444444444
+          },
+          {
+            "family": "s006",
+            "numerator": 37.233333333333334,
+            "denominator": 1.0,
+            "value": 37.233333333333334
+          },
+          {
+            "family": "s007",
+            "numerator": 34.37777777777778,
+            "denominator": 1.0,
+            "value": 34.37777777777778
+          },
+          {
+            "family": "s008",
+            "numerator": 35.15555555555556,
+            "denominator": 1.0,
+            "value": 35.15555555555556
+          },
+          {
+            "family": "s009",
+            "numerator": 42.83333333333333,
+            "denominator": 1.0,
+            "value": 42.83333333333333
+          }
+        ]
+      },
+      "add_two": {
+        "status": "DEFINED",
+        "value": 0.2722222222222222,
+        "weighted_numerator": 0.2722222222222222,
+        "weighted_denominator": 1.0,
+        "absolute_selected_runs": 900,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.15555555555555556,
+            "denominator": 1.0,
+            "value": 0.15555555555555556
+          },
+          {
+            "family": "s001",
+            "numerator": 0.28888888888888886,
+            "denominator": 1.0,
+            "value": 0.28888888888888886
+          },
+          {
+            "family": "s002",
+            "numerator": 0.022222222222222223,
+            "denominator": 1.0,
+            "value": 0.022222222222222223
+          },
+          {
+            "family": "s003",
+            "numerator": 0.2222222222222222,
+            "denominator": 1.0,
+            "value": 0.2222222222222222
+          },
+          {
+            "family": "s004",
+            "numerator": 0.2777777777777778,
+            "denominator": 1.0,
+            "value": 0.2777777777777778
+          },
+          {
+            "family": "s005",
+            "numerator": 0.2,
+            "denominator": 1.0,
+            "value": 0.2
+          },
+          {
+            "family": "s006",
+            "numerator": 0.4444444444444444,
+            "denominator": 1.0,
+            "value": 0.4444444444444444
+          },
+          {
+            "family": "s007",
+            "numerator": 0.2777777777777778,
+            "denominator": 1.0,
+            "value": 0.2777777777777778
+          },
+          {
+            "family": "s008",
+            "numerator": 0.07777777777777778,
+            "denominator": 1.0,
+            "value": 0.07777777777777778
+          },
+          {
+            "family": "s009",
+            "numerator": 0.7555555555555555,
+            "denominator": 1.0,
+            "value": 0.7555555555555555
+          }
+        ]
+      },
+      "remove_two": {
+        "status": "DEFINED",
+        "value": 0.0,
+        "weighted_numerator": 0,
+        "weighted_denominator": 1.0,
+        "absolute_selected_runs": 900,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0,
+            "denominator": 1.0,
+            "value": 0.0
+          },
+          {
+            "family": "s001",
+            "numerator": 0,
+            "denominator": 1.0,
+            "value": 0.0
+          },
+          {
+            "family": "s002",
+            "numerator": 0,
+            "denominator": 1.0,
+            "value": 0.0
+          },
+          {
+            "family": "s003",
+            "numerator": 0,
+            "denominator": 1.0,
+            "value": 0.0
+          },
+          {
+            "family": "s004",
+            "numerator": 0,
+            "denominator": 1.0,
+            "value": 0.0
+          },
+          {
+            "family": "s005",
+            "numerator": 0,
+            "denominator": 1.0,
+            "value": 0.0
+          },
+          {
+            "family": "s006",
+            "numerator": 0,
+            "denominator": 1.0,
+            "value": 0.0
+          },
+          {
+            "family": "s007",
+            "numerator": 0,
+            "denominator": 1.0,
+            "value": 0.0
+          },
+          {
+            "family": "s008",
+            "numerator": 0,
+            "denominator": 1.0,
+            "value": 0.0
+          },
+          {
+            "family": "s009",
+            "numerator": 0,
+            "denominator": 1.0,
+            "value": 0.0
+          }
+        ]
+      }
+    },
+    "mutation_model": [
+      {
+        "p": 0.0,
+        "status": "DEFINED",
+        "value": 0.0,
+        "weighted_numerator": 0.0,
+        "weighted_denominator": 1.0,
+        "absolute_selected_runs": 900,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.0,
+            "denominator": 1.0,
+            "value": 0.0
+          },
+          {
+            "family": "s001",
+            "numerator": 0.0,
+            "denominator": 1.0,
+            "value": 0.0
+          },
+          {
+            "family": "s002",
+            "numerator": 0.0,
+            "denominator": 1.0,
+            "value": 0.0
+          },
+          {
+            "family": "s003",
+            "numerator": 0.0,
+            "denominator": 1.0,
+            "value": 0.0
+          },
+          {
+            "family": "s004",
+            "numerator": 0.0,
+            "denominator": 1.0,
+            "value": 0.0
+          },
+          {
+            "family": "s005",
+            "numerator": 0.0,
+            "denominator": 1.0,
+            "value": 0.0
+          },
+          {
+            "family": "s006",
+            "numerator": 0.0,
+            "denominator": 1.0,
+            "value": 0.0
+          },
+          {
+            "family": "s007",
+            "numerator": 0.0,
+            "denominator": 1.0,
+            "value": 0.0
+          },
+          {
+            "family": "s008",
+            "numerator": 0.0,
+            "denominator": 1.0,
+            "value": 0.0
+          },
+          {
+            "family": "s009",
+            "numerator": 0.0,
+            "denominator": 1.0,
+            "value": 0.0
+          }
+        ]
+      },
+      {
+        "p": 0.005,
+        "status": "DEFINED",
+        "value": 0.0027648201056636257,
+        "weighted_numerator": 0.0027648201056636257,
+        "weighted_denominator": 1.0,
+        "absolute_selected_runs": 900,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.001968874168808474,
+            "denominator": 1.0,
+            "value": 0.001968874168808474
+          },
+          {
+            "family": "s001",
+            "numerator": 0.00268850583582635,
+            "denominator": 1.0,
+            "value": 0.00268850583582635
+          },
+          {
+            "family": "s002",
+            "numerator": 0.0015215263776910788,
+            "denominator": 1.0,
+            "value": 0.0015215263776910788
+          },
+          {
+            "family": "s003",
+            "numerator": 0.0030704171149451894,
+            "denominator": 1.0,
+            "value": 0.0030704171149451894
+          },
+          {
+            "family": "s004",
+            "numerator": 0.002997162214500054,
+            "denominator": 1.0,
+            "value": 0.002997162214500054
+          },
+          {
+            "family": "s005",
+            "numerator": 0.0033484797996974915,
+            "denominator": 1.0,
+            "value": 0.0033484797996974915
+          },
+          {
+            "family": "s006",
+            "numerator": 0.0036204237456655126,
+            "denominator": 1.0,
+            "value": 0.0036204237456655126
+          },
+          {
+            "family": "s007",
+            "numerator": 0.0025595024264577697,
+            "denominator": 1.0,
+            "value": 0.0025595024264577697
+          },
+          {
+            "family": "s008",
+            "numerator": 0.0020948182087849134,
+            "denominator": 1.0,
+            "value": 0.0020948182087849134
+          },
+          {
+            "family": "s009",
+            "numerator": 0.0037784911642594248,
+            "denominator": 1.0,
+            "value": 0.0037784911642594248
+          }
+        ]
+      },
+      {
+        "p": 0.01,
+        "status": "DEFINED",
+        "value": 0.004119311013410588,
+        "weighted_numerator": 0.004119311013410588,
+        "weighted_denominator": 1.0,
+        "absolute_selected_runs": 900,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.0030640669409714707,
+            "denominator": 1.0,
+            "value": 0.0030640669409714707
+          },
+          {
+            "family": "s001",
+            "numerator": 0.00407408033944446,
+            "denominator": 1.0,
+            "value": 0.00407408033944446
+          },
+          {
+            "family": "s002",
+            "numerator": 0.0025528358370607374,
+            "denominator": 1.0,
+            "value": 0.0025528358370607374
+          },
+          {
+            "family": "s003",
+            "numerator": 0.004633031879191016,
+            "denominator": 1.0,
+            "value": 0.004633031879191016
+          },
+          {
+            "family": "s004",
+            "numerator": 0.004412687953722998,
+            "denominator": 1.0,
+            "value": 0.004412687953722998
+          },
+          {
+            "family": "s005",
+            "numerator": 0.004979938699701871,
+            "denominator": 1.0,
+            "value": 0.004979938699701871
+          },
+          {
+            "family": "s006",
+            "numerator": 0.005104426793186628,
+            "denominator": 1.0,
+            "value": 0.005104426793186628
+          },
+          {
+            "family": "s007",
+            "numerator": 0.0037591254629280265,
+            "denominator": 1.0,
+            "value": 0.0037591254629280265
+          },
+          {
+            "family": "s008",
+            "numerator": 0.003205568407232477,
+            "denominator": 1.0,
+            "value": 0.003205568407232477
+          },
+          {
+            "family": "s009",
+            "numerator": 0.005407347820666201,
+            "denominator": 1.0,
+            "value": 0.005407347820666201
+          }
+        ]
+      },
+      {
+        "p": 0.02,
+        "status": "DEFINED",
+        "value": 0.004146931089735044,
+        "weighted_numerator": 0.004146931089735044,
+        "weighted_denominator": 1.0,
+        "absolute_selected_runs": 900,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.003242916068989192,
+            "denominator": 1.0,
+            "value": 0.003242916068989192
+          },
+          {
+            "family": "s001",
+            "numerator": 0.004184368235875911,
+            "denominator": 1.0,
+            "value": 0.004184368235875911
+          },
+          {
+            "family": "s002",
+            "numerator": 0.0029164150567442546,
+            "denominator": 1.0,
+            "value": 0.0029164150567442546
+          },
+          {
+            "family": "s003",
+            "numerator": 0.004734878401258823,
+            "denominator": 1.0,
+            "value": 0.004734878401258823
+          },
+          {
+            "family": "s004",
+            "numerator": 0.004378304927359746,
+            "denominator": 1.0,
+            "value": 0.004378304927359746
+          },
+          {
+            "family": "s005",
+            "numerator": 0.005002461937609937,
+            "denominator": 1.0,
+            "value": 0.005002461937609937
+          },
+          {
+            "family": "s006",
+            "numerator": 0.004787658640080373,
+            "denominator": 1.0,
+            "value": 0.004787658640080373
+          },
+          {
+            "family": "s007",
+            "numerator": 0.00371855194209037,
+            "denominator": 1.0,
+            "value": 0.00371855194209037
+          },
+          {
+            "family": "s008",
+            "numerator": 0.0033294511117082453,
+            "denominator": 1.0,
+            "value": 0.0033294511117082453
+          },
+          {
+            "family": "s009",
+            "numerator": 0.005174304575633589,
+            "denominator": 1.0,
+            "value": 0.005174304575633589
+          }
+        ]
+      },
+      {
+        "p": 0.03,
+        "status": "DEFINED",
+        "value": 0.0028809134446889915,
+        "weighted_numerator": 0.0028809134446889915,
+        "weighted_denominator": 1.0,
+        "absolute_selected_runs": 900,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.0023167254366038836,
+            "denominator": 1.0,
+            "value": 0.0023167254366038836
+          },
+          {
+            "family": "s001",
+            "numerator": 0.0029403814550962902,
+            "denominator": 1.0,
+            "value": 0.0029403814550962902
+          },
+          {
+            "family": "s002",
+            "numerator": 0.0021657811382329497,
+            "denominator": 1.0,
+            "value": 0.0021657811382329497
+          },
+          {
+            "family": "s003",
+            "numerator": 0.003317910665642342,
+            "denominator": 1.0,
+            "value": 0.003317910665642342
+          },
+          {
+            "family": "s004",
+            "numerator": 0.003015853604281757,
+            "denominator": 1.0,
+            "value": 0.003015853604281757
+          },
+          {
+            "family": "s005",
+            "numerator": 0.003470876539437886,
+            "denominator": 1.0,
+            "value": 0.003470876539437886
+          },
+          {
+            "family": "s006",
+            "numerator": 0.003184486687618035,
+            "denominator": 1.0,
+            "value": 0.003184486687618035
+          },
+          {
+            "family": "s007",
+            "numerator": 0.002556787518276406,
+            "denominator": 1.0,
+            "value": 0.002556787518276406
+          },
+          {
+            "family": "s008",
+            "numerator": 0.0023542930465778994,
+            "denominator": 1.0,
+            "value": 0.0023542930465778994
+          },
+          {
+            "family": "s009",
+            "numerator": 0.003486038355122467,
+            "denominator": 1.0,
+            "value": 0.003486038355122467
+          }
+        ]
+      },
+      {
+        "p": 0.08,
+        "status": "DEFINED",
+        "value": 8.80175093518444e-05,
+        "weighted_numerator": 8.80175093518444e-05,
+        "weighted_denominator": 1.0,
+        "absolute_selected_runs": 900,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 7.454205781162024e-05,
+            "denominator": 1.0,
+            "value": 7.454205781162024e-05
+          },
+          {
+            "family": "s001",
+            "numerator": 9.180590997128102e-05,
+            "denominator": 1.0,
+            "value": 9.180590997128102e-05
+          },
+          {
+            "family": "s002",
+            "numerator": 7.440137449949262e-05,
+            "denominator": 1.0,
+            "value": 7.440137449949262e-05
+          },
+          {
+            "family": "s003",
+            "numerator": 0.00010305052613348148,
+            "denominator": 1.0,
+            "value": 0.00010305052613348148
+          },
+          {
+            "family": "s004",
+            "numerator": 9.062015062620537e-05,
+            "denominator": 1.0,
+            "value": 9.062015062620537e-05
+          },
+          {
+            "family": "s005",
+            "numerator": 0.00010578380191196095,
+            "denominator": 1.0,
+            "value": 0.00010578380191196095
+          },
+          {
+            "family": "s006",
+            "numerator": 8.895204849669216e-05,
+            "denominator": 1.0,
+            "value": 8.895204849669216e-05
+          },
+          {
+            "family": "s007",
+            "numerator": 7.655181941344338e-05,
+            "denominator": 1.0,
+            "value": 7.655181941344338e-05
+          },
+          {
+            "family": "s008",
+            "numerator": 7.436117926745616e-05,
+            "denominator": 1.0,
+            "value": 7.436117926745616e-05
+          },
+          {
+            "family": "s009",
+            "numerator": 0.00010010622538681058,
+            "denominator": 1.0,
+            "value": 0.00010010622538681058
+          }
+        ]
+      }
+    ],
+    "detection": [
+      {
+        "sample_size": 50,
+        "status": "DEFINED",
+        "value": 0.2849753134521191,
+        "weighted_numerator": 0.2849753134521191,
+        "weighted_denominator": 1.0,
+        "absolute_selected_runs": 900,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.2552882881734851,
+            "denominator": 1.0,
+            "value": 0.2552882881734851
+          },
+          {
+            "family": "s001",
+            "numerator": 0.3066600740863854,
+            "denominator": 1.0,
+            "value": 0.3066600740863854
+          },
+          {
+            "family": "s002",
+            "numerator": 0.26836081471859174,
+            "denominator": 1.0,
+            "value": 0.26836081471859174
+          },
+          {
+            "family": "s003",
+            "numerator": 0.31474600812422016,
+            "denominator": 1.0,
+            "value": 0.31474600812422016
+          },
+          {
+            "family": "s004",
+            "numerator": 0.3029967311193796,
+            "denominator": 1.0,
+            "value": 0.3029967311193796
+          },
+          {
+            "family": "s005",
+            "numerator": 0.32412101405741683,
+            "denominator": 1.0,
+            "value": 0.32412101405741683
+          },
+          {
+            "family": "s006",
+            "numerator": 0.26677646752192335,
+            "denominator": 1.0,
+            "value": 0.26677646752192335
+          },
+          {
+            "family": "s007",
+            "numerator": 0.2533920580361753,
+            "denominator": 1.0,
+            "value": 0.2533920580361753
+          },
+          {
+            "family": "s008",
+            "numerator": 0.25646395903850494,
+            "denominator": 1.0,
+            "value": 0.25646395903850494
+          },
+          {
+            "family": "s009",
+            "numerator": 0.3009477196451082,
+            "denominator": 1.0,
+            "value": 0.3009477196451082
+          }
+        ]
+      },
+      {
+        "sample_size": 100,
+        "status": "DEFINED",
+        "value": 0.44233327588641214,
+        "weighted_numerator": 0.44233327588641214,
+        "weighted_denominator": 1.0,
+        "absolute_selected_runs": 900,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.4038852547739997,
+            "denominator": 1.0,
+            "value": 0.4038852547739997
+          },
+          {
+            "family": "s001",
+            "numerator": 0.4755557359667012,
+            "denominator": 1.0,
+            "value": 0.4755557359667012
+          },
+          {
+            "family": "s002",
+            "numerator": 0.4246489297635717,
+            "denominator": 1.0,
+            "value": 0.4246489297635717
+          },
+          {
+            "family": "s003",
+            "numerator": 0.4691535265118703,
+            "denominator": 1.0,
+            "value": 0.4691535265118703
+          },
+          {
+            "family": "s004",
+            "numerator": 0.4718245322307771,
+            "denominator": 1.0,
+            "value": 0.4718245322307771
+          },
+          {
+            "family": "s005",
+            "numerator": 0.49152264416993524,
+            "denominator": 1.0,
+            "value": 0.49152264416993524
+          },
+          {
+            "family": "s006",
+            "numerator": 0.41844869006300905,
+            "denominator": 1.0,
+            "value": 0.41844869006300905
+          },
+          {
+            "family": "s007",
+            "numerator": 0.4021825364144168,
+            "denominator": 1.0,
+            "value": 0.4021825364144168
+          },
+          {
+            "family": "s008",
+            "numerator": 0.4078662559573402,
+            "denominator": 1.0,
+            "value": 0.4078662559573402
+          },
+          {
+            "family": "s009",
+            "numerator": 0.4582446530124997,
+            "denominator": 1.0,
+            "value": 0.4582446530124997
+          }
+        ]
+      },
+      {
+        "sample_size": 250,
+        "status": "DEFINED",
+        "value": 0.6741922555141895,
+        "weighted_numerator": 0.6741922555141895,
+        "weighted_denominator": 1.0,
+        "absolute_selected_runs": 900,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.6331207223436879,
+            "denominator": 1.0,
+            "value": 0.6331207223436879
+          },
+          {
+            "family": "s001",
+            "numerator": 0.7150738372342851,
+            "denominator": 1.0,
+            "value": 0.7150738372342851
+          },
+          {
+            "family": "s002",
+            "numerator": 0.663974526489259,
+            "denominator": 1.0,
+            "value": 0.663974526489259
+          },
+          {
+            "family": "s003",
+            "numerator": 0.6894890556323868,
+            "denominator": 1.0,
+            "value": 0.6894890556323868
+          },
+          {
+            "family": "s004",
+            "numerator": 0.7060228471046287,
+            "denominator": 1.0,
+            "value": 0.7060228471046287
+          },
+          {
+            "family": "s005",
+            "numerator": 0.7227674976203801,
+            "denominator": 1.0,
+            "value": 0.7227674976203801
+          },
+          {
+            "family": "s006",
+            "numerator": 0.6436090598377803,
+            "denominator": 1.0,
+            "value": 0.6436090598377803
+          },
+          {
+            "family": "s007",
+            "numerator": 0.6343040209915968,
+            "denominator": 1.0,
+            "value": 0.6343040209915968
+          },
+          {
+            "family": "s008",
+            "numerator": 0.6506499996317108,
+            "denominator": 1.0,
+            "value": 0.6506499996317108
+          },
+          {
+            "family": "s009",
+            "numerator": 0.6829109882561791,
+            "denominator": 1.0,
+            "value": 0.6829109882561791
+          }
+        ]
+      }
+    ]
+  },
+  "all_stagnant": {
+    "b1": {
+      "status": "DEFINED",
+      "value": 0.26666666666666666,
+      "weighted_numerator": 0.06222222222222222,
+      "weighted_denominator": 0.23333333333333334,
+      "absolute_selected_runs": 210,
+      "families": [
+        {
+          "family": "s000",
+          "numerator": 0.022222222222222223,
+          "denominator": 0.25555555555555554,
+          "value": 0.08695652173913045
+        },
+        {
+          "family": "s001",
+          "numerator": 0.08888888888888889,
+          "denominator": 0.25555555555555554,
+          "value": 0.3478260869565218
+        },
+        {
+          "family": "s002",
+          "numerator": 0.011111111111111112,
+          "denominator": 0.2111111111111111,
+          "value": 0.052631578947368425
+        },
+        {
+          "family": "s003",
+          "numerator": 0.05555555555555555,
+          "denominator": 0.25555555555555554,
+          "value": 0.21739130434782608
+        },
+        {
+          "family": "s004",
+          "numerator": 0.06666666666666667,
+          "denominator": 0.2,
+          "value": 0.3333333333333333
+        },
+        {
+          "family": "s005",
+          "numerator": 0.06666666666666667,
+          "denominator": 0.17777777777777778,
+          "value": 0.375
+        },
+        {
+          "family": "s006",
+          "numerator": 0.13333333333333333,
+          "denominator": 0.23333333333333334,
+          "value": 0.5714285714285714
+        },
+        {
+          "family": "s007",
+          "numerator": 0.011111111111111112,
+          "denominator": 0.25555555555555554,
+          "value": 0.04347826086956522
+        },
+        {
+          "family": "s008",
+          "numerator": 0.022222222222222223,
+          "denominator": 0.2222222222222222,
+          "value": 0.1
+        },
+        {
+          "family": "s009",
+          "numerator": 0.14444444444444446,
+          "denominator": 0.26666666666666666,
+          "value": 0.5416666666666667
+        }
+      ]
+    },
+    "b2": {
+      "status": "DEFINED",
+      "value": 25.666666666666668,
+      "weighted_numerator": 5.988888888888889,
+      "weighted_denominator": 0.23333333333333334,
+      "absolute_selected_runs": 210,
+      "families": [
+        {
+          "family": "s000",
+          "numerator": 6.977777777777778,
+          "denominator": 0.25555555555555554,
+          "value": 27.30434782608696
+        },
+        {
+          "family": "s001",
+          "numerator": 7.6,
+          "denominator": 0.25555555555555554,
+          "value": 29.73913043478261
+        },
+        {
+          "family": "s002",
+          "numerator": 5.733333333333333,
+          "denominator": 0.2111111111111111,
+          "value": 27.157894736842106
+        },
+        {
+          "family": "s003",
+          "numerator": 5.388888888888889,
+          "denominator": 0.25555555555555554,
+          "value": 21.086956521739133
+        },
+        {
+          "family": "s004",
+          "numerator": 4.866666666666666,
+          "denominator": 0.2,
+          "value": 24.33333333333333
+        },
+        {
+          "family": "s005",
+          "numerator": 6.566666666666666,
+          "denominator": 0.17777777777777778,
+          "value": 36.9375
+        },
+        {
+          "family": "s006",
+          "numerator": 5.088888888888889,
+          "denominator": 0.23333333333333334,
+          "value": 21.809523809523807
+        },
+        {
+          "family": "s007",
+          "numerator": 4.355555555555555,
+          "denominator": 0.25555555555555554,
+          "value": 17.043478260869566
+        },
+        {
+          "family": "s008",
+          "numerator": 5.466666666666667,
+          "denominator": 0.2222222222222222,
+          "value": 24.6
+        },
+        {
+          "family": "s009",
+          "numerator": 7.844444444444445,
+          "denominator": 0.26666666666666666,
+          "value": 29.416666666666668
+        }
+      ]
+    },
+    "total_better": {
+      "status": "DEFINED",
+      "value": 25.933333333333334,
+      "weighted_numerator": 6.051111111111111,
+      "weighted_denominator": 0.23333333333333334,
+      "absolute_selected_runs": 210,
+      "families": [
+        {
+          "family": "s000",
+          "numerator": 7.0,
+          "denominator": 0.25555555555555554,
+          "value": 27.39130434782609
+        },
+        {
+          "family": "s001",
+          "numerator": 7.688888888888888,
+          "denominator": 0.25555555555555554,
+          "value": 30.08695652173913
+        },
+        {
+          "family": "s002",
+          "numerator": 5.7444444444444445,
+          "denominator": 0.2111111111111111,
+          "value": 27.210526315789473
+        },
+        {
+          "family": "s003",
+          "numerator": 5.444444444444445,
+          "denominator": 0.25555555555555554,
+          "value": 21.30434782608696
+        },
+        {
+          "family": "s004",
+          "numerator": 4.933333333333334,
+          "denominator": 0.2,
+          "value": 24.666666666666668
+        },
+        {
+          "family": "s005",
+          "numerator": 6.633333333333333,
+          "denominator": 0.17777777777777778,
+          "value": 37.31249999999999
+        },
+        {
+          "family": "s006",
+          "numerator": 5.222222222222222,
+          "denominator": 0.23333333333333334,
+          "value": 22.38095238095238
+        },
+        {
+          "family": "s007",
+          "numerator": 4.366666666666667,
+          "denominator": 0.25555555555555554,
+          "value": 17.086956521739133
+        },
+        {
+          "family": "s008",
+          "numerator": 5.488888888888889,
+          "denominator": 0.2222222222222222,
+          "value": 24.700000000000003
+        },
+        {
+          "family": "s009",
+          "numerator": 7.988888888888889,
+          "denominator": 0.26666666666666666,
+          "value": 29.958333333333332
+        }
+      ]
+    },
+    "slack": {
+      "status": "DEFINED",
+      "value": 32.923809523809524,
+      "weighted_numerator": 7.682222222222222,
+      "weighted_denominator": 0.23333333333333334,
+      "absolute_selected_runs": 210,
+      "families": [
+        {
+          "family": "s000",
+          "numerator": 6.933333333333334,
+          "denominator": 0.25555555555555554,
+          "value": 27.1304347826087
+        },
+        {
+          "family": "s001",
+          "numerator": 13.833333333333334,
+          "denominator": 0.25555555555555554,
+          "value": 54.1304347826087
+        },
+        {
+          "family": "s002",
+          "numerator": 5.7,
+          "denominator": 0.2111111111111111,
+          "value": 27.0
+        },
+        {
+          "family": "s003",
+          "numerator": 7.833333333333333,
+          "denominator": 0.25555555555555554,
+          "value": 30.65217391304348
+        },
+        {
+          "family": "s004",
+          "numerator": 5.477777777777778,
+          "denominator": 0.2,
+          "value": 27.38888888888889
+        },
+        {
+          "family": "s005",
+          "numerator": 9.044444444444444,
+          "denominator": 0.17777777777777778,
+          "value": 50.875
+        },
+        {
+          "family": "s006",
+          "numerator": 7.477777777777778,
+          "denominator": 0.23333333333333334,
+          "value": 32.047619047619044
+        },
+        {
+          "family": "s007",
+          "numerator": 4.0777777777777775,
+          "denominator": 0.25555555555555554,
+          "value": 15.956521739130435
+        },
+        {
+          "family": "s008",
+          "numerator": 5.955555555555556,
+          "denominator": 0.2222222222222222,
+          "value": 26.8
+        },
+        {
+          "family": "s009",
+          "numerator": 10.488888888888889,
+          "denominator": 0.26666666666666666,
+          "value": 39.333333333333336
+        }
+      ]
+    },
+    "stagnation_age": {
+      "status": "DEFINED",
+      "value": 1574.4047619047617,
+      "weighted_numerator": 367.3611111111111,
+      "weighted_denominator": 0.23333333333333334,
+      "absolute_selected_runs": 210,
+      "families": [
+        {
+          "family": "s000",
+          "numerator": 426.2111111111111,
+          "denominator": 0.25555555555555554,
+          "value": 1667.7826086956522
+        },
+        {
+          "family": "s001",
+          "numerator": 409.33333333333337,
+          "denominator": 0.25555555555555554,
+          "value": 1601.739130434783
+        },
+        {
+          "family": "s002",
+          "numerator": 322.5,
+          "denominator": 0.2111111111111111,
+          "value": 1527.6315789473683
+        },
+        {
+          "family": "s003",
+          "numerator": 383.3222222222222,
+          "denominator": 0.25555555555555554,
+          "value": 1499.9565217391305
+        },
+        {
+          "family": "s004",
+          "numerator": 320.2888888888889,
+          "denominator": 0.2,
+          "value": 1601.4444444444443
+        },
+        {
+          "family": "s005",
+          "numerator": 288.1777777777778,
+          "denominator": 0.17777777777777778,
+          "value": 1621.0
+        },
+        {
+          "family": "s006",
+          "numerator": 349.68888888888887,
+          "denominator": 0.23333333333333334,
+          "value": 1498.6666666666665
+        },
+        {
+          "family": "s007",
+          "numerator": 392.4111111111111,
+          "denominator": 0.25555555555555554,
+          "value": 1535.5217391304348
+        },
+        {
+          "family": "s008",
+          "numerator": 365.46666666666664,
+          "denominator": 0.2222222222222222,
+          "value": 1644.6
+        },
+        {
+          "family": "s009",
+          "numerator": 416.2111111111111,
+          "denominator": 0.26666666666666666,
+          "value": 1560.7916666666667
+        }
+      ]
+    },
+    "minimum_positive_gain": {
+      "status": "DEFINED",
+      "value": 4.376237623762377,
+      "weighted_numerator": 0.9822222222222222,
+      "weighted_denominator": 0.22444444444444445,
+      "absolute_selected_runs": 202,
+      "families": [
+        {
+          "family": "s000",
+          "numerator": 0.6000000000000001,
+          "denominator": 0.24444444444444444,
+          "value": 2.454545454545455
+        },
+        {
+          "family": "s001",
+          "numerator": 1.0222222222222221,
+          "denominator": 0.25555555555555554,
+          "value": 4.0
+        },
+        {
+          "family": "s002",
+          "numerator": 1.1777777777777778,
+          "denominator": 0.2111111111111111,
+          "value": 5.578947368421053
+        },
+        {
+          "family": "s003",
+          "numerator": 1.8888888888888888,
+          "denominator": 0.25555555555555554,
+          "value": 7.391304347826087
+        },
+        {
+          "family": "s004",
+          "numerator": 0.5,
+          "denominator": 0.2,
+          "value": 2.5
+        },
+        {
+          "family": "s005",
+          "numerator": 0.36666666666666664,
+          "denominator": 0.17777777777777778,
+          "value": 2.0624999999999996
+        },
+        {
+          "family": "s006",
+          "numerator": 0.8111111111111111,
+          "denominator": 0.2111111111111111,
+          "value": 3.8421052631578947
+        },
+        {
+          "family": "s007",
+          "numerator": 1.1111111111111112,
+          "denominator": 0.2111111111111111,
+          "value": 5.2631578947368425
+        },
+        {
+          "family": "s008",
+          "numerator": 1.3333333333333335,
+          "denominator": 0.2111111111111111,
+          "value": 6.3157894736842115
+        },
+        {
+          "family": "s009",
+          "numerator": 1.011111111111111,
+          "denominator": 0.26666666666666666,
+          "value": 3.7916666666666665
+        }
+      ]
+    },
+    "maximum_positive_gain": {
+      "status": "DEFINED",
+      "value": 138.02475247524754,
+      "weighted_numerator": 30.97888888888889,
+      "weighted_denominator": 0.22444444444444445,
+      "absolute_selected_runs": 202,
+      "families": [
+        {
+          "family": "s000",
+          "numerator": 34.4,
+          "denominator": 0.24444444444444444,
+          "value": 140.72727272727272
+        },
+        {
+          "family": "s001",
+          "numerator": 45.300000000000004,
+          "denominator": 0.25555555555555554,
+          "value": 177.26086956521743
+        },
+        {
+          "family": "s002",
+          "numerator": 23.1,
+          "denominator": 0.2111111111111111,
+          "value": 109.42105263157896
+        },
+        {
+          "family": "s003",
+          "numerator": 41.58888888888889,
+          "denominator": 0.25555555555555554,
+          "value": 162.73913043478262
+        },
+        {
+          "family": "s004",
+          "numerator": 17.333333333333332,
+          "denominator": 0.2,
+          "value": 86.66666666666666
+        },
+        {
+          "family": "s005",
+          "numerator": 29.91111111111111,
+          "denominator": 0.17777777777777778,
+          "value": 168.25
+        },
+        {
+          "family": "s006",
+          "numerator": 28.3,
+          "denominator": 0.2111111111111111,
+          "value": 134.05263157894737
+        },
+        {
+          "family": "s007",
+          "numerator": 24.766666666666666,
+          "denominator": 0.2111111111111111,
+          "value": 117.3157894736842
+        },
+        {
+          "family": "s008",
+          "numerator": 24.1,
+          "denominator": 0.2111111111111111,
+          "value": 114.15789473684211
+        },
+        {
+          "family": "s009",
+          "numerator": 40.98888888888889,
+          "denominator": 0.26666666666666666,
+          "value": 153.70833333333334
+        }
+      ]
+    },
+    "improvement_types": {
+      "add_one": {
+        "status": "DEFINED",
+        "value": 0.26666666666666666,
+        "weighted_numerator": 0.06222222222222222,
+        "weighted_denominator": 0.23333333333333334,
+        "absolute_selected_runs": 210,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.022222222222222223,
+            "denominator": 0.25555555555555554,
+            "value": 0.08695652173913045
+          },
+          {
+            "family": "s001",
+            "numerator": 0.08888888888888889,
+            "denominator": 0.25555555555555554,
+            "value": 0.3478260869565218
+          },
+          {
+            "family": "s002",
+            "numerator": 0.011111111111111112,
+            "denominator": 0.2111111111111111,
+            "value": 0.052631578947368425
+          },
+          {
+            "family": "s003",
+            "numerator": 0.05555555555555555,
+            "denominator": 0.25555555555555554,
+            "value": 0.21739130434782608
+          },
+          {
+            "family": "s004",
+            "numerator": 0.06666666666666667,
+            "denominator": 0.2,
+            "value": 0.3333333333333333
+          },
+          {
+            "family": "s005",
+            "numerator": 0.06666666666666667,
+            "denominator": 0.17777777777777778,
+            "value": 0.375
+          },
+          {
+            "family": "s006",
+            "numerator": 0.13333333333333333,
+            "denominator": 0.23333333333333334,
+            "value": 0.5714285714285714
+          },
+          {
+            "family": "s007",
+            "numerator": 0.011111111111111112,
+            "denominator": 0.25555555555555554,
+            "value": 0.04347826086956522
+          },
+          {
+            "family": "s008",
+            "numerator": 0.022222222222222223,
+            "denominator": 0.2222222222222222,
+            "value": 0.1
+          },
+          {
+            "family": "s009",
+            "numerator": 0.14444444444444446,
+            "denominator": 0.26666666666666666,
+            "value": 0.5416666666666667
+          }
+        ]
+      },
+      "remove_one": {
+        "status": "DEFINED",
+        "value": 0.0,
+        "weighted_numerator": 0.0,
+        "weighted_denominator": 0.23333333333333334,
+        "absolute_selected_runs": 210,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.0,
+            "denominator": 0.25555555555555554,
+            "value": 0.0
+          },
+          {
+            "family": "s001",
+            "numerator": 0.0,
+            "denominator": 0.25555555555555554,
+            "value": 0.0
+          },
+          {
+            "family": "s002",
+            "numerator": 0.0,
+            "denominator": 0.2111111111111111,
+            "value": 0.0
+          },
+          {
+            "family": "s003",
+            "numerator": 0.0,
+            "denominator": 0.25555555555555554,
+            "value": 0.0
+          },
+          {
+            "family": "s004",
+            "numerator": 0.0,
+            "denominator": 0.2,
+            "value": 0.0
+          },
+          {
+            "family": "s005",
+            "numerator": 0.0,
+            "denominator": 0.17777777777777778,
+            "value": 0.0
+          },
+          {
+            "family": "s006",
+            "numerator": 0.0,
+            "denominator": 0.23333333333333334,
+            "value": 0.0
+          },
+          {
+            "family": "s007",
+            "numerator": 0.0,
+            "denominator": 0.25555555555555554,
+            "value": 0.0
+          },
+          {
+            "family": "s008",
+            "numerator": 0.0,
+            "denominator": 0.2222222222222222,
+            "value": 0.0
+          },
+          {
+            "family": "s009",
+            "numerator": 0.0,
+            "denominator": 0.26666666666666666,
+            "value": 0.0
+          }
+        ]
+      },
+      "swap_one": {
+        "status": "DEFINED",
+        "value": 25.638095238095236,
+        "weighted_numerator": 5.982222222222222,
+        "weighted_denominator": 0.23333333333333334,
+        "absolute_selected_runs": 210,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 6.977777777777778,
+            "denominator": 0.25555555555555554,
+            "value": 27.30434782608696
+          },
+          {
+            "family": "s001",
+            "numerator": 7.588888888888889,
+            "denominator": 0.25555555555555554,
+            "value": 29.695652173913043
+          },
+          {
+            "family": "s002",
+            "numerator": 5.733333333333333,
+            "denominator": 0.2111111111111111,
+            "value": 27.157894736842106
+          },
+          {
+            "family": "s003",
+            "numerator": 5.388888888888889,
+            "denominator": 0.25555555555555554,
+            "value": 21.086956521739133
+          },
+          {
+            "family": "s004",
+            "numerator": 4.866666666666666,
+            "denominator": 0.2,
+            "value": 24.33333333333333
+          },
+          {
+            "family": "s005",
+            "numerator": 6.566666666666666,
+            "denominator": 0.17777777777777778,
+            "value": 36.9375
+          },
+          {
+            "family": "s006",
+            "numerator": 5.044444444444444,
+            "denominator": 0.23333333333333334,
+            "value": 21.619047619047617
+          },
+          {
+            "family": "s007",
+            "numerator": 4.355555555555555,
+            "denominator": 0.25555555555555554,
+            "value": 17.043478260869566
+          },
+          {
+            "family": "s008",
+            "numerator": 5.466666666666667,
+            "denominator": 0.2222222222222222,
+            "value": 24.6
+          },
+          {
+            "family": "s009",
+            "numerator": 7.833333333333334,
+            "denominator": 0.26666666666666666,
+            "value": 29.375000000000004
+          }
+        ]
+      },
+      "add_two": {
+        "status": "DEFINED",
+        "value": 0.028571428571428574,
+        "weighted_numerator": 0.006666666666666667,
+        "weighted_denominator": 0.23333333333333334,
+        "absolute_selected_runs": 210,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.0,
+            "denominator": 0.25555555555555554,
+            "value": 0.0
+          },
+          {
+            "family": "s001",
+            "numerator": 0.011111111111111112,
+            "denominator": 0.25555555555555554,
+            "value": 0.04347826086956522
+          },
+          {
+            "family": "s002",
+            "numerator": 0.0,
+            "denominator": 0.2111111111111111,
+            "value": 0.0
+          },
+          {
+            "family": "s003",
+            "numerator": 0.0,
+            "denominator": 0.25555555555555554,
+            "value": 0.0
+          },
+          {
+            "family": "s004",
+            "numerator": 0.0,
+            "denominator": 0.2,
+            "value": 0.0
+          },
+          {
+            "family": "s005",
+            "numerator": 0.0,
+            "denominator": 0.17777777777777778,
+            "value": 0.0
+          },
+          {
+            "family": "s006",
+            "numerator": 0.044444444444444446,
+            "denominator": 0.23333333333333334,
+            "value": 0.1904761904761905
+          },
+          {
+            "family": "s007",
+            "numerator": 0.0,
+            "denominator": 0.25555555555555554,
+            "value": 0.0
+          },
+          {
+            "family": "s008",
+            "numerator": 0.0,
+            "denominator": 0.2222222222222222,
+            "value": 0.0
+          },
+          {
+            "family": "s009",
+            "numerator": 0.011111111111111112,
+            "denominator": 0.26666666666666666,
+            "value": 0.04166666666666667
+          }
+        ]
+      },
+      "remove_two": {
+        "status": "DEFINED",
+        "value": 0.0,
+        "weighted_numerator": 0.0,
+        "weighted_denominator": 0.23333333333333334,
+        "absolute_selected_runs": 210,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.0,
+            "denominator": 0.25555555555555554,
+            "value": 0.0
+          },
+          {
+            "family": "s001",
+            "numerator": 0.0,
+            "denominator": 0.25555555555555554,
+            "value": 0.0
+          },
+          {
+            "family": "s002",
+            "numerator": 0.0,
+            "denominator": 0.2111111111111111,
+            "value": 0.0
+          },
+          {
+            "family": "s003",
+            "numerator": 0.0,
+            "denominator": 0.25555555555555554,
+            "value": 0.0
+          },
+          {
+            "family": "s004",
+            "numerator": 0.0,
+            "denominator": 0.2,
+            "value": 0.0
+          },
+          {
+            "family": "s005",
+            "numerator": 0.0,
+            "denominator": 0.17777777777777778,
+            "value": 0.0
+          },
+          {
+            "family": "s006",
+            "numerator": 0.0,
+            "denominator": 0.23333333333333334,
+            "value": 0.0
+          },
+          {
+            "family": "s007",
+            "numerator": 0.0,
+            "denominator": 0.25555555555555554,
+            "value": 0.0
+          },
+          {
+            "family": "s008",
+            "numerator": 0.0,
+            "denominator": 0.2222222222222222,
+            "value": 0.0
+          },
+          {
+            "family": "s009",
+            "numerator": 0.0,
+            "denominator": 0.26666666666666666,
+            "value": 0.0
+          }
+        ]
+      }
+    },
+    "mutation_model": [
+      {
+        "p": 0.0,
+        "status": "DEFINED",
+        "value": 0.0,
+        "weighted_numerator": 0.0,
+        "weighted_denominator": 0.23333333333333334,
+        "absolute_selected_runs": 210,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.0,
+            "denominator": 0.25555555555555554,
+            "value": 0.0
+          },
+          {
+            "family": "s001",
+            "numerator": 0.0,
+            "denominator": 0.25555555555555554,
+            "value": 0.0
+          },
+          {
+            "family": "s002",
+            "numerator": 0.0,
+            "denominator": 0.2111111111111111,
+            "value": 0.0
+          },
+          {
+            "family": "s003",
+            "numerator": 0.0,
+            "denominator": 0.25555555555555554,
+            "value": 0.0
+          },
+          {
+            "family": "s004",
+            "numerator": 0.0,
+            "denominator": 0.2,
+            "value": 0.0
+          },
+          {
+            "family": "s005",
+            "numerator": 0.0,
+            "denominator": 0.17777777777777778,
+            "value": 0.0
+          },
+          {
+            "family": "s006",
+            "numerator": 0.0,
+            "denominator": 0.23333333333333334,
+            "value": 0.0
+          },
+          {
+            "family": "s007",
+            "numerator": 0.0,
+            "denominator": 0.25555555555555554,
+            "value": 0.0
+          },
+          {
+            "family": "s008",
+            "numerator": 0.0,
+            "denominator": 0.2222222222222222,
+            "value": 0.0
+          },
+          {
+            "family": "s009",
+            "numerator": 0.0,
+            "denominator": 0.26666666666666666,
+            "value": 0.0
+          }
+        ]
+      },
+      {
+        "p": 0.005,
+        "status": "DEFINED",
+        "value": 0.001204371750705874,
+        "weighted_numerator": 0.00028102007516470393,
+        "weighted_denominator": 0.23333333333333334,
+        "absolute_selected_runs": 210,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.0001743840553519936,
+            "denominator": 0.25555555555555554,
+            "value": 0.0006823723905078011
+          },
+          {
+            "family": "s001",
+            "numerator": 0.0003868402631395102,
+            "denominator": 0.25555555555555554,
+            "value": 0.0015137227688067792
+          },
+          {
+            "family": "s002",
+            "numerator": 0.00012152495085445948,
+            "denominator": 0.2111111111111111,
+            "value": 0.0005756445040474397
+          },
+          {
+            "family": "s003",
+            "numerator": 0.00025154815002041963,
+            "denominator": 0.25555555555555554,
+            "value": 0.0009843188479059899
+          },
+          {
+            "family": "s004",
+            "numerator": 0.00027738282488738166,
+            "denominator": 0.2,
+            "value": 0.0013869141244369082
+          },
+          {
+            "family": "s005",
+            "numerator": 0.00030338746472057367,
+            "denominator": 0.17777777777777778,
+            "value": 0.0017065544890532268
+          },
+          {
+            "family": "s006",
+            "numerator": 0.0004837202938906177,
+            "denominator": 0.23333333333333334,
+            "value": 0.002073086973816933
+          },
+          {
+            "family": "s007",
+            "numerator": 0.00010044929504193783,
+            "denominator": 0.25555555555555554,
+            "value": 0.0003930624588597568
+          },
+          {
+            "family": "s008",
+            "numerator": 0.0001512688199447118,
+            "denominator": 0.2222222222222222,
+            "value": 0.0006807096897512031
+          },
+          {
+            "family": "s009",
+            "numerator": 0.0005596946337954337,
+            "denominator": 0.26666666666666666,
+            "value": 0.0020988548767328762
+          }
+        ]
+      },
+      {
+        "p": 0.01,
+        "status": "DEFINED",
+        "value": 0.0019445040202318946,
+        "weighted_numerator": 0.00045371760472077543,
+        "weighted_denominator": 0.23333333333333334,
+        "absolute_selected_runs": 210,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.0003427572173946959,
+            "denominator": 0.25555555555555554,
+            "value": 0.0013412238941531579
+          },
+          {
+            "family": "s001",
+            "numerator": 0.0006124814199450014,
+            "denominator": 0.25555555555555554,
+            "value": 0.002396666425871745
+          },
+          {
+            "family": "s002",
+            "numerator": 0.0002552005916437506,
+            "denominator": 0.2111111111111111,
+            "value": 0.001208844907786187
+          },
+          {
+            "family": "s003",
+            "numerator": 0.0004066611053835375,
+            "denominator": 0.25555555555555554,
+            "value": 0.0015912825862834077
+          },
+          {
+            "family": "s004",
+            "numerator": 0.00042823904158756197,
+            "denominator": 0.2,
+            "value": 0.0021411952079378096
+          },
+          {
+            "family": "s005",
+            "numerator": 0.0004917279692647878,
+            "denominator": 0.17777777777777778,
+            "value": 0.002765969827114431
+          },
+          {
+            "family": "s006",
+            "numerator": 0.0006830246729196967,
+            "denominator": 0.23333333333333334,
+            "value": 0.0029272485982272715
+          },
+          {
+            "family": "s007",
+            "numerator": 0.00020374551300338464,
+            "denominator": 0.25555555555555554,
+            "value": 0.0007972650508828095
+          },
+          {
+            "family": "s008",
+            "numerator": 0.0002863226150149397,
+            "denominator": 0.2222222222222222,
+            "value": 0.0012884517675672287
+          },
+          {
+            "family": "s009",
+            "numerator": 0.0008270159010503982,
+            "denominator": 0.26666666666666666,
+            "value": 0.0031013096289389933
+          }
+        ]
+      },
+      {
+        "p": 0.02,
+        "status": "DEFINED",
+        "value": 0.0021394408433944596,
+        "weighted_numerator": 0.0004992028634587072,
+        "weighted_denominator": 0.23333333333333334,
+        "absolute_selected_runs": 210,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.00044556341144703893,
+            "denominator": 0.25555555555555554,
+            "value": 0.0017435090013145002
+          },
+          {
+            "family": "s001",
+            "numerator": 0.0006603667089766031,
+            "denominator": 0.25555555555555554,
+            "value": 0.0025840436438214908
+          },
+          {
+            "family": "s002",
+            "numerator": 0.00034675389458343933,
+            "denominator": 0.2111111111111111,
+            "value": 0.0016425184480268178
+          },
+          {
+            "family": "s003",
+            "numerator": 0.00044801830627594824,
+            "denominator": 0.25555555555555554,
+            "value": 0.0017531151115145803
+          },
+          {
+            "family": "s004",
+            "numerator": 0.00044924575369040287,
+            "denominator": 0.2,
+            "value": 0.002246228768452014
+          },
+          {
+            "family": "s005",
+            "numerator": 0.0005431454808961839,
+            "denominator": 0.17777777777777778,
+            "value": 0.003055193330041034
+          },
+          {
+            "family": "s006",
+            "numerator": 0.0006419549977597834,
+            "denominator": 0.23333333333333334,
+            "value": 0.0027512357046847857
+          },
+          {
+            "family": "s007",
+            "numerator": 0.00027065215488725094,
+            "denominator": 0.25555555555555554,
+            "value": 0.0010590736495588082
+          },
+          {
+            "family": "s008",
+            "numerator": 0.00036209698726412257,
+            "denominator": 0.2222222222222222,
+            "value": 0.0016294364426885516
+          },
+          {
+            "family": "s009",
+            "numerator": 0.0008242309388062993,
+            "denominator": 0.26666666666666666,
+            "value": 0.0030908660205236226
+          }
+        ]
+      },
+      {
+        "p": 0.03,
+        "status": "DEFINED",
+        "value": 0.0015596454400871695,
+        "weighted_numerator": 0.0003639172693536729,
+        "weighted_denominator": 0.23333333333333334,
+        "absolute_selected_runs": 210,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.00035006947769508943,
+            "denominator": 0.25555555555555554,
+            "value": 0.0013698370866329587
+          },
+          {
+            "family": "s001",
+            "numerator": 0.0004764179417332594,
+            "denominator": 0.25555555555555554,
+            "value": 0.0018642441198257976
+          },
+          {
+            "family": "s002",
+            "numerator": 0.000277124297790386,
+            "denominator": 0.2111111111111111,
+            "value": 0.0013126940421649862
+          },
+          {
+            "family": "s003",
+            "numerator": 0.0003268213603120662,
+            "denominator": 0.25555555555555554,
+            "value": 0.0012788661925254765
+          },
+          {
+            "family": "s004",
+            "numerator": 0.00031940891708849355,
+            "denominator": 0.2,
+            "value": 0.0015970445854424677
+          },
+          {
+            "family": "s005",
+            "numerator": 0.00039673417707985353,
+            "denominator": 0.17777777777777778,
+            "value": 0.002231629746074176
+          },
+          {
+            "family": "s006",
+            "numerator": 0.00042756320230516703,
+            "denominator": 0.23333333333333334,
+            "value": 0.0018324137241650016
+          },
+          {
+            "family": "s007",
+            "numerator": 0.00021445545962745372,
+            "denominator": 0.25555555555555554,
+            "value": 0.000839173537672645
+          },
+          {
+            "family": "s008",
+            "numerator": 0.000281335913258325,
+            "denominator": 0.2222222222222222,
+            "value": 0.0012660116096624625
+          },
+          {
+            "family": "s009",
+            "numerator": 0.0005692419466466348,
+            "denominator": 0.26666666666666666,
+            "value": 0.002134657299924881
+          }
+        ]
+      },
+      {
+        "p": 0.08,
+        "status": "DEFINED",
+        "value": 5.197243502314639e-05,
+        "weighted_numerator": 1.2126901505400824e-05,
+        "weighted_denominator": 0.23333333333333334,
+        "absolute_selected_runs": 210,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 1.3083548027868638e-05,
+            "denominator": 0.25555555555555554,
+            "value": 5.119649228296424e-05
+          },
+          {
+            "family": "s001",
+            "numerator": 1.5595750030147563e-05,
+            "denominator": 0.25555555555555554,
+            "value": 6.1026847944055684e-05
+          },
+          {
+            "family": "s002",
+            "numerator": 1.060149244961706e-05,
+            "denominator": 0.2111111111111111,
+            "value": 5.0217595813975547e-05
+          },
+          {
+            "family": "s003",
+            "numerator": 1.0902956689890533e-05,
+            "denominator": 0.25555555555555554,
+            "value": 4.266374356913687e-05
+          },
+          {
+            "family": "s004",
+            "numerator": 1.0189491321243318e-05,
+            "denominator": 0.2,
+            "value": 5.094745660621659e-05
+          },
+          {
+            "family": "s005",
+            "numerator": 1.3264426572032722e-05,
+            "denominator": 0.17777777777777778,
+            "value": 7.461239946768407e-05
+          },
+          {
+            "family": "s006",
+            "numerator": 1.1978179146865914e-05,
+            "denominator": 0.23333333333333334,
+            "value": 5.13350534865682e-05
+          },
+          {
+            "family": "s007",
+            "numerator": 8.109388063356368e-06,
+            "denominator": 0.25555555555555554,
+            "value": 3.173238807400318e-05
+          },
+          {
+            "family": "s008",
+            "numerator": 1.0350272249389168e-05,
+            "denominator": 0.2222222222222222,
+            "value": 4.657622512225126e-05
+          },
+          {
+            "family": "s009",
+            "numerator": 1.719351050359696e-05,
+            "denominator": 0.26666666666666666,
+            "value": 6.44756643884886e-05
+          }
+        ]
+      }
+    ],
+    "detection": [
+      {
+        "sample_size": 50,
+        "status": "DEFINED",
+        "value": 0.2090474897569305,
+        "weighted_numerator": 0.04877774760995045,
+        "weighted_denominator": 0.23333333333333334,
+        "absolute_selected_runs": 210,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.05421023333160712,
+            "denominator": 0.25555555555555554,
+            "value": 0.21212699999324527
+          },
+          {
+            "family": "s001",
+            "numerator": 0.061808215360059406,
+            "denominator": 0.25555555555555554,
+            "value": 0.24185823401762377
+          },
+          {
+            "family": "s002",
+            "numerator": 0.04388439926591373,
+            "denominator": 0.2111111111111111,
+            "value": 0.2078734702069598
+          },
+          {
+            "family": "s003",
+            "numerator": 0.045614873191914984,
+            "denominator": 0.25555555555555554,
+            "value": 0.17849298205531952
+          },
+          {
+            "family": "s004",
+            "numerator": 0.04138455508083208,
+            "denominator": 0.2,
+            "value": 0.2069227754041604
+          },
+          {
+            "family": "s005",
+            "numerator": 0.052072911482438845,
+            "denominator": 0.17777777777777778,
+            "value": 0.2929101270887185
+          },
+          {
+            "family": "s006",
+            "numerator": 0.04291668031425687,
+            "denominator": 0.23333333333333334,
+            "value": 0.1839286299182437
+          },
+          {
+            "family": "s007",
+            "numerator": 0.03793806267055175,
+            "denominator": 0.25555555555555554,
+            "value": 0.14845328871085467
+          },
+          {
+            "family": "s008",
+            "numerator": 0.04235389939576777,
+            "denominator": 0.2222222222222222,
+            "value": 0.19059254728095498
+          },
+          {
+            "family": "s009",
+            "numerator": 0.06559364600616188,
+            "denominator": 0.26666666666666666,
+            "value": 0.24597617252310705
+          }
+        ]
+      },
+      {
+        "sample_size": 100,
+        "status": "DEFINED",
+        "value": 0.3518591839903744,
+        "weighted_numerator": 0.0821004762644207,
+        "weighted_denominator": 0.23333333333333334,
+        "absolute_selected_runs": 210,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.08873229850384803,
+            "denominator": 0.25555555555555554,
+            "value": 0.34721334197157927
+          },
+          {
+            "family": "s001",
+            "numerator": 0.10288566871015348,
+            "denominator": 0.25555555555555554,
+            "value": 0.4025960949527745
+          },
+          {
+            "family": "s002",
+            "numerator": 0.0726224069360888,
+            "denominator": 0.2111111111111111,
+            "value": 0.34400087496042064
+          },
+          {
+            "family": "s003",
+            "numerator": 0.07911173058328606,
+            "denominator": 0.25555555555555554,
+            "value": 0.30956764141285853
+          },
+          {
+            "family": "s004",
+            "numerator": 0.07104797911393841,
+            "denominator": 0.2,
+            "value": 0.35523989556969204
+          },
+          {
+            "family": "s005",
+            "numerator": 0.08516537071824158,
+            "denominator": 0.17777777777777778,
+            "value": 0.4790552102901089
+          },
+          {
+            "family": "s006",
+            "numerator": 0.07277856476344702,
+            "denominator": 0.23333333333333334,
+            "value": 0.3119081347004872
+          },
+          {
+            "family": "s007",
+            "numerator": 0.0670467442739024,
+            "denominator": 0.25555555555555554,
+            "value": 0.26235682541961813
+          },
+          {
+            "family": "s008",
+            "numerator": 0.07090755375727062,
+            "denominator": 0.2222222222222222,
+            "value": 0.3190839919077178
+          },
+          {
+            "family": "s009",
+            "numerator": 0.11070644528403055,
+            "denominator": 0.26666666666666666,
+            "value": 0.41514916981511457
+          }
+        ]
+      },
+      {
+        "sample_size": 250,
+        "status": "DEFINED",
+        "value": 0.5949438225367023,
+        "weighted_numerator": 0.13882022525856388,
+        "weighted_denominator": 0.23333333333333334,
+        "absolute_selected_runs": 210,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.1441858735785826,
+            "denominator": 0.25555555555555554,
+            "value": 0.5642055922640189
+          },
+          {
+            "family": "s001",
+            "numerator": 0.1681551662543186,
+            "denominator": 0.25555555555555554,
+            "value": 0.6579984766473337
+          },
+          {
+            "family": "s002",
+            "numerator": 0.1243038064661306,
+            "denominator": 0.2111111111111111,
+            "value": 0.5888075043132502
+          },
+          {
+            "family": "s003",
+            "numerator": 0.14220099682611778,
+            "denominator": 0.25555555555555554,
+            "value": 0.5564386832326348
+          },
+          {
+            "family": "s004",
+            "numerator": 0.12180678153179285,
+            "denominator": 0.2,
+            "value": 0.6090339076589643
+          },
+          {
+            "family": "s005",
+            "numerator": 0.13442518839066653,
+            "denominator": 0.17777777777777778,
+            "value": 0.7561416846974992
+          },
+          {
+            "family": "s006",
+            "numerator": 0.12347851567049531,
+            "denominator": 0.23333333333333334,
+            "value": 0.5291936385878371
+          },
+          {
+            "family": "s007",
+            "numerator": 0.12157958755177287,
+            "denominator": 0.25555555555555554,
+            "value": 0.4757462121591112
+          },
+          {
+            "family": "s008",
+            "numerator": 0.1240704967229093,
+            "denominator": 0.2222222222222222,
+            "value": 0.5583172352530918
+          },
+          {
+            "family": "s009",
+            "numerator": 0.18399583959285232,
+            "denominator": 0.26666666666666666,
+            "value": 0.6899843984731961
+          }
+        ]
+      }
+    ]
+  },
+  "stagnant_with_improvement": {
+    "b1": {
+      "status": "DEFINED",
+      "value": 0.2772277227722772,
+      "weighted_numerator": 0.06222222222222222,
+      "weighted_denominator": 0.22444444444444445,
+      "absolute_selected_runs": 202,
+      "families": [
+        {
+          "family": "s000",
+          "numerator": 0.022222222222222223,
+          "denominator": 0.24444444444444444,
+          "value": 0.09090909090909091
+        },
+        {
+          "family": "s001",
+          "numerator": 0.08888888888888889,
+          "denominator": 0.25555555555555554,
+          "value": 0.3478260869565218
+        },
+        {
+          "family": "s002",
+          "numerator": 0.011111111111111112,
+          "denominator": 0.2111111111111111,
+          "value": 0.052631578947368425
+        },
+        {
+          "family": "s003",
+          "numerator": 0.05555555555555555,
+          "denominator": 0.25555555555555554,
+          "value": 0.21739130434782608
+        },
+        {
+          "family": "s004",
+          "numerator": 0.06666666666666667,
+          "denominator": 0.2,
+          "value": 0.3333333333333333
+        },
+        {
+          "family": "s005",
+          "numerator": 0.06666666666666667,
+          "denominator": 0.17777777777777778,
+          "value": 0.375
+        },
+        {
+          "family": "s006",
+          "numerator": 0.13333333333333333,
+          "denominator": 0.2111111111111111,
+          "value": 0.631578947368421
+        },
+        {
+          "family": "s007",
+          "numerator": 0.011111111111111112,
+          "denominator": 0.2111111111111111,
+          "value": 0.052631578947368425
+        },
+        {
+          "family": "s008",
+          "numerator": 0.022222222222222223,
+          "denominator": 0.2111111111111111,
+          "value": 0.10526315789473685
+        },
+        {
+          "family": "s009",
+          "numerator": 0.14444444444444446,
+          "denominator": 0.26666666666666666,
+          "value": 0.5416666666666667
+        }
+      ]
+    },
+    "b2": {
+      "status": "DEFINED",
+      "value": 26.683168316831683,
+      "weighted_numerator": 5.988888888888889,
+      "weighted_denominator": 0.22444444444444445,
+      "absolute_selected_runs": 202,
+      "families": [
+        {
+          "family": "s000",
+          "numerator": 6.977777777777778,
+          "denominator": 0.24444444444444444,
+          "value": 28.545454545454547
+        },
+        {
+          "family": "s001",
+          "numerator": 7.6,
+          "denominator": 0.25555555555555554,
+          "value": 29.73913043478261
+        },
+        {
+          "family": "s002",
+          "numerator": 5.733333333333333,
+          "denominator": 0.2111111111111111,
+          "value": 27.157894736842106
+        },
+        {
+          "family": "s003",
+          "numerator": 5.388888888888889,
+          "denominator": 0.25555555555555554,
+          "value": 21.086956521739133
+        },
+        {
+          "family": "s004",
+          "numerator": 4.866666666666666,
+          "denominator": 0.2,
+          "value": 24.33333333333333
+        },
+        {
+          "family": "s005",
+          "numerator": 6.566666666666666,
+          "denominator": 0.17777777777777778,
+          "value": 36.9375
+        },
+        {
+          "family": "s006",
+          "numerator": 5.088888888888889,
+          "denominator": 0.2111111111111111,
+          "value": 24.105263157894736
+        },
+        {
+          "family": "s007",
+          "numerator": 4.355555555555555,
+          "denominator": 0.2111111111111111,
+          "value": 20.631578947368418
+        },
+        {
+          "family": "s008",
+          "numerator": 5.466666666666667,
+          "denominator": 0.2111111111111111,
+          "value": 25.894736842105264
+        },
+        {
+          "family": "s009",
+          "numerator": 7.844444444444445,
+          "denominator": 0.26666666666666666,
+          "value": 29.416666666666668
+        }
+      ]
+    },
+    "total_better": {
+      "status": "DEFINED",
+      "value": 26.96039603960396,
+      "weighted_numerator": 6.051111111111111,
+      "weighted_denominator": 0.22444444444444445,
+      "absolute_selected_runs": 202,
+      "families": [
+        {
+          "family": "s000",
+          "numerator": 7.0,
+          "denominator": 0.24444444444444444,
+          "value": 28.636363636363637
+        },
+        {
+          "family": "s001",
+          "numerator": 7.688888888888888,
+          "denominator": 0.25555555555555554,
+          "value": 30.08695652173913
+        },
+        {
+          "family": "s002",
+          "numerator": 5.7444444444444445,
+          "denominator": 0.2111111111111111,
+          "value": 27.210526315789473
+        },
+        {
+          "family": "s003",
+          "numerator": 5.444444444444445,
+          "denominator": 0.25555555555555554,
+          "value": 21.30434782608696
+        },
+        {
+          "family": "s004",
+          "numerator": 4.933333333333334,
+          "denominator": 0.2,
+          "value": 24.666666666666668
+        },
+        {
+          "family": "s005",
+          "numerator": 6.633333333333333,
+          "denominator": 0.17777777777777778,
+          "value": 37.31249999999999
+        },
+        {
+          "family": "s006",
+          "numerator": 5.222222222222222,
+          "denominator": 0.2111111111111111,
+          "value": 24.736842105263158
+        },
+        {
+          "family": "s007",
+          "numerator": 4.366666666666667,
+          "denominator": 0.2111111111111111,
+          "value": 20.68421052631579
+        },
+        {
+          "family": "s008",
+          "numerator": 5.488888888888889,
+          "denominator": 0.2111111111111111,
+          "value": 26.0
+        },
+        {
+          "family": "s009",
+          "numerator": 7.988888888888889,
+          "denominator": 0.26666666666666666,
+          "value": 29.958333333333332
+        }
+      ]
+    },
+    "slack": {
+      "status": "DEFINED",
+      "value": 34.22277227722772,
+      "weighted_numerator": 7.681111111111111,
+      "weighted_denominator": 0.22444444444444445,
+      "absolute_selected_runs": 202,
+      "families": [
+        {
+          "family": "s000",
+          "numerator": 6.933333333333334,
+          "denominator": 0.24444444444444444,
+          "value": 28.363636363636367
+        },
+        {
+          "family": "s001",
+          "numerator": 13.833333333333334,
+          "denominator": 0.25555555555555554,
+          "value": 54.1304347826087
+        },
+        {
+          "family": "s002",
+          "numerator": 5.7,
+          "denominator": 0.2111111111111111,
+          "value": 27.0
+        },
+        {
+          "family": "s003",
+          "numerator": 7.833333333333333,
+          "denominator": 0.25555555555555554,
+          "value": 30.65217391304348
+        },
+        {
+          "family": "s004",
+          "numerator": 5.477777777777778,
+          "denominator": 0.2,
+          "value": 27.38888888888889
+        },
+        {
+          "family": "s005",
+          "numerator": 9.044444444444444,
+          "denominator": 0.17777777777777778,
+          "value": 50.875
+        },
+        {
+          "family": "s006",
+          "numerator": 7.477777777777778,
+          "denominator": 0.2111111111111111,
+          "value": 35.421052631578945
+        },
+        {
+          "family": "s007",
+          "numerator": 4.066666666666666,
+          "denominator": 0.2111111111111111,
+          "value": 19.263157894736842
+        },
+        {
+          "family": "s008",
+          "numerator": 5.955555555555556,
+          "denominator": 0.2111111111111111,
+          "value": 28.210526315789476
+        },
+        {
+          "family": "s009",
+          "numerator": 10.488888888888889,
+          "denominator": 0.26666666666666666,
+          "value": 39.333333333333336
+        }
+      ]
+    },
+    "stagnation_age": {
+      "status": "DEFINED",
+      "value": 1573.1336633663366,
+      "weighted_numerator": 353.0811111111111,
+      "weighted_denominator": 0.22444444444444445,
+      "absolute_selected_runs": 202,
+      "families": [
+        {
+          "family": "s000",
+          "numerator": 409.52222222222224,
+          "denominator": 0.24444444444444444,
+          "value": 1675.318181818182
+        },
+        {
+          "family": "s001",
+          "numerator": 409.33333333333337,
+          "denominator": 0.25555555555555554,
+          "value": 1601.739130434783
+        },
+        {
+          "family": "s002",
+          "numerator": 322.5,
+          "denominator": 0.2111111111111111,
+          "value": 1527.6315789473683
+        },
+        {
+          "family": "s003",
+          "numerator": 383.3222222222222,
+          "denominator": 0.25555555555555554,
+          "value": 1499.9565217391305
+        },
+        {
+          "family": "s004",
+          "numerator": 320.2888888888889,
+          "denominator": 0.2,
+          "value": 1601.4444444444443
+        },
+        {
+          "family": "s005",
+          "numerator": 288.1777777777778,
+          "denominator": 0.17777777777777778,
+          "value": 1621.0
+        },
+        {
+          "family": "s006",
+          "numerator": 310.59999999999997,
+          "denominator": 0.2111111111111111,
+          "value": 1471.2631578947367
+        },
+        {
+          "family": "s007",
+          "numerator": 325.46666666666664,
+          "denominator": 0.2111111111111111,
+          "value": 1541.6842105263156
+        },
+        {
+          "family": "s008",
+          "numerator": 345.38888888888886,
+          "denominator": 0.2111111111111111,
+          "value": 1636.0526315789473
+        },
+        {
+          "family": "s009",
+          "numerator": 416.2111111111111,
+          "denominator": 0.26666666666666666,
+          "value": 1560.7916666666667
+        }
+      ]
+    },
+    "minimum_positive_gain": {
+      "status": "DEFINED",
+      "value": 4.376237623762377,
+      "weighted_numerator": 0.9822222222222222,
+      "weighted_denominator": 0.22444444444444445,
+      "absolute_selected_runs": 202,
+      "families": [
+        {
+          "family": "s000",
+          "numerator": 0.6000000000000001,
+          "denominator": 0.24444444444444444,
+          "value": 2.454545454545455
+        },
+        {
+          "family": "s001",
+          "numerator": 1.0222222222222221,
+          "denominator": 0.25555555555555554,
+          "value": 4.0
+        },
+        {
+          "family": "s002",
+          "numerator": 1.1777777777777778,
+          "denominator": 0.2111111111111111,
+          "value": 5.578947368421053
+        },
+        {
+          "family": "s003",
+          "numerator": 1.8888888888888888,
+          "denominator": 0.25555555555555554,
+          "value": 7.391304347826087
+        },
+        {
+          "family": "s004",
+          "numerator": 0.5,
+          "denominator": 0.2,
+          "value": 2.5
+        },
+        {
+          "family": "s005",
+          "numerator": 0.36666666666666664,
+          "denominator": 0.17777777777777778,
+          "value": 2.0624999999999996
+        },
+        {
+          "family": "s006",
+          "numerator": 0.8111111111111111,
+          "denominator": 0.2111111111111111,
+          "value": 3.8421052631578947
+        },
+        {
+          "family": "s007",
+          "numerator": 1.1111111111111112,
+          "denominator": 0.2111111111111111,
+          "value": 5.2631578947368425
+        },
+        {
+          "family": "s008",
+          "numerator": 1.3333333333333335,
+          "denominator": 0.2111111111111111,
+          "value": 6.3157894736842115
+        },
+        {
+          "family": "s009",
+          "numerator": 1.011111111111111,
+          "denominator": 0.26666666666666666,
+          "value": 3.7916666666666665
+        }
+      ]
+    },
+    "maximum_positive_gain": {
+      "status": "DEFINED",
+      "value": 138.02475247524754,
+      "weighted_numerator": 30.97888888888889,
+      "weighted_denominator": 0.22444444444444445,
+      "absolute_selected_runs": 202,
+      "families": [
+        {
+          "family": "s000",
+          "numerator": 34.4,
+          "denominator": 0.24444444444444444,
+          "value": 140.72727272727272
+        },
+        {
+          "family": "s001",
+          "numerator": 45.300000000000004,
+          "denominator": 0.25555555555555554,
+          "value": 177.26086956521743
+        },
+        {
+          "family": "s002",
+          "numerator": 23.1,
+          "denominator": 0.2111111111111111,
+          "value": 109.42105263157896
+        },
+        {
+          "family": "s003",
+          "numerator": 41.58888888888889,
+          "denominator": 0.25555555555555554,
+          "value": 162.73913043478262
+        },
+        {
+          "family": "s004",
+          "numerator": 17.333333333333332,
+          "denominator": 0.2,
+          "value": 86.66666666666666
+        },
+        {
+          "family": "s005",
+          "numerator": 29.91111111111111,
+          "denominator": 0.17777777777777778,
+          "value": 168.25
+        },
+        {
+          "family": "s006",
+          "numerator": 28.3,
+          "denominator": 0.2111111111111111,
+          "value": 134.05263157894737
+        },
+        {
+          "family": "s007",
+          "numerator": 24.766666666666666,
+          "denominator": 0.2111111111111111,
+          "value": 117.3157894736842
+        },
+        {
+          "family": "s008",
+          "numerator": 24.1,
+          "denominator": 0.2111111111111111,
+          "value": 114.15789473684211
+        },
+        {
+          "family": "s009",
+          "numerator": 40.98888888888889,
+          "denominator": 0.26666666666666666,
+          "value": 153.70833333333334
+        }
+      ]
+    },
+    "improvement_types": {
+      "add_one": {
+        "status": "DEFINED",
+        "value": 0.2772277227722772,
+        "weighted_numerator": 0.06222222222222222,
+        "weighted_denominator": 0.22444444444444445,
+        "absolute_selected_runs": 202,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.022222222222222223,
+            "denominator": 0.24444444444444444,
+            "value": 0.09090909090909091
+          },
+          {
+            "family": "s001",
+            "numerator": 0.08888888888888889,
+            "denominator": 0.25555555555555554,
+            "value": 0.3478260869565218
+          },
+          {
+            "family": "s002",
+            "numerator": 0.011111111111111112,
+            "denominator": 0.2111111111111111,
+            "value": 0.052631578947368425
+          },
+          {
+            "family": "s003",
+            "numerator": 0.05555555555555555,
+            "denominator": 0.25555555555555554,
+            "value": 0.21739130434782608
+          },
+          {
+            "family": "s004",
+            "numerator": 0.06666666666666667,
+            "denominator": 0.2,
+            "value": 0.3333333333333333
+          },
+          {
+            "family": "s005",
+            "numerator": 0.06666666666666667,
+            "denominator": 0.17777777777777778,
+            "value": 0.375
+          },
+          {
+            "family": "s006",
+            "numerator": 0.13333333333333333,
+            "denominator": 0.2111111111111111,
+            "value": 0.631578947368421
+          },
+          {
+            "family": "s007",
+            "numerator": 0.011111111111111112,
+            "denominator": 0.2111111111111111,
+            "value": 0.052631578947368425
+          },
+          {
+            "family": "s008",
+            "numerator": 0.022222222222222223,
+            "denominator": 0.2111111111111111,
+            "value": 0.10526315789473685
+          },
+          {
+            "family": "s009",
+            "numerator": 0.14444444444444446,
+            "denominator": 0.26666666666666666,
+            "value": 0.5416666666666667
+          }
+        ]
+      },
+      "remove_one": {
+        "status": "DEFINED",
+        "value": 0.0,
+        "weighted_numerator": 0.0,
+        "weighted_denominator": 0.22444444444444445,
+        "absolute_selected_runs": 202,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.0,
+            "denominator": 0.24444444444444444,
+            "value": 0.0
+          },
+          {
+            "family": "s001",
+            "numerator": 0.0,
+            "denominator": 0.25555555555555554,
+            "value": 0.0
+          },
+          {
+            "family": "s002",
+            "numerator": 0.0,
+            "denominator": 0.2111111111111111,
+            "value": 0.0
+          },
+          {
+            "family": "s003",
+            "numerator": 0.0,
+            "denominator": 0.25555555555555554,
+            "value": 0.0
+          },
+          {
+            "family": "s004",
+            "numerator": 0.0,
+            "denominator": 0.2,
+            "value": 0.0
+          },
+          {
+            "family": "s005",
+            "numerator": 0.0,
+            "denominator": 0.17777777777777778,
+            "value": 0.0
+          },
+          {
+            "family": "s006",
+            "numerator": 0.0,
+            "denominator": 0.2111111111111111,
+            "value": 0.0
+          },
+          {
+            "family": "s007",
+            "numerator": 0.0,
+            "denominator": 0.2111111111111111,
+            "value": 0.0
+          },
+          {
+            "family": "s008",
+            "numerator": 0.0,
+            "denominator": 0.2111111111111111,
+            "value": 0.0
+          },
+          {
+            "family": "s009",
+            "numerator": 0.0,
+            "denominator": 0.26666666666666666,
+            "value": 0.0
+          }
+        ]
+      },
+      "swap_one": {
+        "status": "DEFINED",
+        "value": 26.653465346534652,
+        "weighted_numerator": 5.982222222222222,
+        "weighted_denominator": 0.22444444444444445,
+        "absolute_selected_runs": 202,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 6.977777777777778,
+            "denominator": 0.24444444444444444,
+            "value": 28.545454545454547
+          },
+          {
+            "family": "s001",
+            "numerator": 7.588888888888889,
+            "denominator": 0.25555555555555554,
+            "value": 29.695652173913043
+          },
+          {
+            "family": "s002",
+            "numerator": 5.733333333333333,
+            "denominator": 0.2111111111111111,
+            "value": 27.157894736842106
+          },
+          {
+            "family": "s003",
+            "numerator": 5.388888888888889,
+            "denominator": 0.25555555555555554,
+            "value": 21.086956521739133
+          },
+          {
+            "family": "s004",
+            "numerator": 4.866666666666666,
+            "denominator": 0.2,
+            "value": 24.33333333333333
+          },
+          {
+            "family": "s005",
+            "numerator": 6.566666666666666,
+            "denominator": 0.17777777777777778,
+            "value": 36.9375
+          },
+          {
+            "family": "s006",
+            "numerator": 5.044444444444444,
+            "denominator": 0.2111111111111111,
+            "value": 23.894736842105264
+          },
+          {
+            "family": "s007",
+            "numerator": 4.355555555555555,
+            "denominator": 0.2111111111111111,
+            "value": 20.631578947368418
+          },
+          {
+            "family": "s008",
+            "numerator": 5.466666666666667,
+            "denominator": 0.2111111111111111,
+            "value": 25.894736842105264
+          },
+          {
+            "family": "s009",
+            "numerator": 7.833333333333334,
+            "denominator": 0.26666666666666666,
+            "value": 29.375000000000004
+          }
+        ]
+      },
+      "add_two": {
+        "status": "DEFINED",
+        "value": 0.029702970297029705,
+        "weighted_numerator": 0.006666666666666667,
+        "weighted_denominator": 0.22444444444444445,
+        "absolute_selected_runs": 202,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.0,
+            "denominator": 0.24444444444444444,
+            "value": 0.0
+          },
+          {
+            "family": "s001",
+            "numerator": 0.011111111111111112,
+            "denominator": 0.25555555555555554,
+            "value": 0.04347826086956522
+          },
+          {
+            "family": "s002",
+            "numerator": 0.0,
+            "denominator": 0.2111111111111111,
+            "value": 0.0
+          },
+          {
+            "family": "s003",
+            "numerator": 0.0,
+            "denominator": 0.25555555555555554,
+            "value": 0.0
+          },
+          {
+            "family": "s004",
+            "numerator": 0.0,
+            "denominator": 0.2,
+            "value": 0.0
+          },
+          {
+            "family": "s005",
+            "numerator": 0.0,
+            "denominator": 0.17777777777777778,
+            "value": 0.0
+          },
+          {
+            "family": "s006",
+            "numerator": 0.044444444444444446,
+            "denominator": 0.2111111111111111,
+            "value": 0.2105263157894737
+          },
+          {
+            "family": "s007",
+            "numerator": 0.0,
+            "denominator": 0.2111111111111111,
+            "value": 0.0
+          },
+          {
+            "family": "s008",
+            "numerator": 0.0,
+            "denominator": 0.2111111111111111,
+            "value": 0.0
+          },
+          {
+            "family": "s009",
+            "numerator": 0.011111111111111112,
+            "denominator": 0.26666666666666666,
+            "value": 0.04166666666666667
+          }
+        ]
+      },
+      "remove_two": {
+        "status": "DEFINED",
+        "value": 0.0,
+        "weighted_numerator": 0.0,
+        "weighted_denominator": 0.22444444444444445,
+        "absolute_selected_runs": 202,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.0,
+            "denominator": 0.24444444444444444,
+            "value": 0.0
+          },
+          {
+            "family": "s001",
+            "numerator": 0.0,
+            "denominator": 0.25555555555555554,
+            "value": 0.0
+          },
+          {
+            "family": "s002",
+            "numerator": 0.0,
+            "denominator": 0.2111111111111111,
+            "value": 0.0
+          },
+          {
+            "family": "s003",
+            "numerator": 0.0,
+            "denominator": 0.25555555555555554,
+            "value": 0.0
+          },
+          {
+            "family": "s004",
+            "numerator": 0.0,
+            "denominator": 0.2,
+            "value": 0.0
+          },
+          {
+            "family": "s005",
+            "numerator": 0.0,
+            "denominator": 0.17777777777777778,
+            "value": 0.0
+          },
+          {
+            "family": "s006",
+            "numerator": 0.0,
+            "denominator": 0.2111111111111111,
+            "value": 0.0
+          },
+          {
+            "family": "s007",
+            "numerator": 0.0,
+            "denominator": 0.2111111111111111,
+            "value": 0.0
+          },
+          {
+            "family": "s008",
+            "numerator": 0.0,
+            "denominator": 0.2111111111111111,
+            "value": 0.0
+          },
+          {
+            "family": "s009",
+            "numerator": 0.0,
+            "denominator": 0.26666666666666666,
+            "value": 0.0
+          }
+        ]
+      }
+    },
+    "mutation_model": [
+      {
+        "p": 0.0,
+        "status": "DEFINED",
+        "value": 0.0,
+        "weighted_numerator": 0.0,
+        "weighted_denominator": 0.22444444444444445,
+        "absolute_selected_runs": 202,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.0,
+            "denominator": 0.24444444444444444,
+            "value": 0.0
+          },
+          {
+            "family": "s001",
+            "numerator": 0.0,
+            "denominator": 0.25555555555555554,
+            "value": 0.0
+          },
+          {
+            "family": "s002",
+            "numerator": 0.0,
+            "denominator": 0.2111111111111111,
+            "value": 0.0
+          },
+          {
+            "family": "s003",
+            "numerator": 0.0,
+            "denominator": 0.25555555555555554,
+            "value": 0.0
+          },
+          {
+            "family": "s004",
+            "numerator": 0.0,
+            "denominator": 0.2,
+            "value": 0.0
+          },
+          {
+            "family": "s005",
+            "numerator": 0.0,
+            "denominator": 0.17777777777777778,
+            "value": 0.0
+          },
+          {
+            "family": "s006",
+            "numerator": 0.0,
+            "denominator": 0.2111111111111111,
+            "value": 0.0
+          },
+          {
+            "family": "s007",
+            "numerator": 0.0,
+            "denominator": 0.2111111111111111,
+            "value": 0.0
+          },
+          {
+            "family": "s008",
+            "numerator": 0.0,
+            "denominator": 0.2111111111111111,
+            "value": 0.0
+          },
+          {
+            "family": "s009",
+            "numerator": 0.0,
+            "denominator": 0.26666666666666666,
+            "value": 0.0
+          }
+        ]
+      },
+      {
+        "p": 0.005,
+        "status": "DEFINED",
+        "value": 0.0012520696418229383,
+        "weighted_numerator": 0.00028102007516470393,
+        "weighted_denominator": 0.22444444444444445,
+        "absolute_selected_runs": 202,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.0001743840553519936,
+            "denominator": 0.24444444444444444,
+            "value": 0.0007133893173490648
+          },
+          {
+            "family": "s001",
+            "numerator": 0.0003868402631395102,
+            "denominator": 0.25555555555555554,
+            "value": 0.0015137227688067792
+          },
+          {
+            "family": "s002",
+            "numerator": 0.00012152495085445948,
+            "denominator": 0.2111111111111111,
+            "value": 0.0005756445040474397
+          },
+          {
+            "family": "s003",
+            "numerator": 0.00025154815002041963,
+            "denominator": 0.25555555555555554,
+            "value": 0.0009843188479059899
+          },
+          {
+            "family": "s004",
+            "numerator": 0.00027738282488738166,
+            "denominator": 0.2,
+            "value": 0.0013869141244369082
+          },
+          {
+            "family": "s005",
+            "numerator": 0.00030338746472057367,
+            "denominator": 0.17777777777777778,
+            "value": 0.0017065544890532268
+          },
+          {
+            "family": "s006",
+            "numerator": 0.0004837202938906177,
+            "denominator": 0.2111111111111111,
+            "value": 0.002291306655271347
+          },
+          {
+            "family": "s007",
+            "numerator": 0.00010044929504193783,
+            "denominator": 0.2111111111111111,
+            "value": 0.0004758124501986529
+          },
+          {
+            "family": "s008",
+            "numerator": 0.0001512688199447118,
+            "denominator": 0.2111111111111111,
+            "value": 0.0007165365155275821
+          },
+          {
+            "family": "s009",
+            "numerator": 0.0005596946337954337,
+            "denominator": 0.26666666666666666,
+            "value": 0.0020988548767328762
+          }
+        ]
+      },
+      {
+        "p": 0.01,
+        "status": "DEFINED",
+        "value": 0.0020215140804390984,
+        "weighted_numerator": 0.00045371760472077543,
+        "weighted_denominator": 0.22444444444444445,
+        "absolute_selected_runs": 202,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.0003427572173946959,
+            "denominator": 0.24444444444444444,
+            "value": 0.001402188616614665
+          },
+          {
+            "family": "s001",
+            "numerator": 0.0006124814199450014,
+            "denominator": 0.25555555555555554,
+            "value": 0.002396666425871745
+          },
+          {
+            "family": "s002",
+            "numerator": 0.0002552005916437506,
+            "denominator": 0.2111111111111111,
+            "value": 0.001208844907786187
+          },
+          {
+            "family": "s003",
+            "numerator": 0.0004066611053835375,
+            "denominator": 0.25555555555555554,
+            "value": 0.0015912825862834077
+          },
+          {
+            "family": "s004",
+            "numerator": 0.00042823904158756197,
+            "denominator": 0.2,
+            "value": 0.0021411952079378096
+          },
+          {
+            "family": "s005",
+            "numerator": 0.0004917279692647878,
+            "denominator": 0.17777777777777778,
+            "value": 0.002765969827114431
+          },
+          {
+            "family": "s006",
+            "numerator": 0.0006830246729196967,
+            "denominator": 0.2111111111111111,
+            "value": 0.003235380029619616
+          },
+          {
+            "family": "s007",
+            "numerator": 0.00020374551300338464,
+            "denominator": 0.2111111111111111,
+            "value": 0.0009651103247528746
+          },
+          {
+            "family": "s008",
+            "numerator": 0.0002863226150149397,
+            "denominator": 0.2111111111111111,
+            "value": 0.0013562650184918196
+          },
+          {
+            "family": "s009",
+            "numerator": 0.0008270159010503982,
+            "denominator": 0.26666666666666666,
+            "value": 0.0031013096289389933
+          }
+        ]
+      },
+      {
+        "p": 0.02,
+        "status": "DEFINED",
+        "value": 0.0022241711738259233,
+        "weighted_numerator": 0.0004992028634587072,
+        "weighted_denominator": 0.22444444444444445,
+        "absolute_selected_runs": 202,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.00044556341144703893,
+            "denominator": 0.24444444444444444,
+            "value": 0.0018227594104651592
+          },
+          {
+            "family": "s001",
+            "numerator": 0.0006603667089766031,
+            "denominator": 0.25555555555555554,
+            "value": 0.0025840436438214908
+          },
+          {
+            "family": "s002",
+            "numerator": 0.00034675389458343933,
+            "denominator": 0.2111111111111111,
+            "value": 0.0016425184480268178
+          },
+          {
+            "family": "s003",
+            "numerator": 0.00044801830627594824,
+            "denominator": 0.25555555555555554,
+            "value": 0.0017531151115145803
+          },
+          {
+            "family": "s004",
+            "numerator": 0.00044924575369040287,
+            "denominator": 0.2,
+            "value": 0.002246228768452014
+          },
+          {
+            "family": "s005",
+            "numerator": 0.0005431454808961839,
+            "denominator": 0.17777777777777778,
+            "value": 0.003055193330041034
+          },
+          {
+            "family": "s006",
+            "numerator": 0.0006419549977597834,
+            "denominator": 0.2111111111111111,
+            "value": 0.003040839463072658
+          },
+          {
+            "family": "s007",
+            "numerator": 0.00027065215488725094,
+            "denominator": 0.2111111111111111,
+            "value": 0.0012820365231501361
+          },
+          {
+            "family": "s008",
+            "numerator": 0.00036209698726412257,
+            "denominator": 0.2111111111111111,
+            "value": 0.0017151962554616332
+          },
+          {
+            "family": "s009",
+            "numerator": 0.0008242309388062993,
+            "denominator": 0.26666666666666666,
+            "value": 0.0030908660205236226
+          }
+        ]
+      },
+      {
+        "p": 0.03,
+        "status": "DEFINED",
+        "value": 0.0016214135763282455,
+        "weighted_numerator": 0.0003639172693536729,
+        "weighted_denominator": 0.22444444444444445,
+        "absolute_selected_runs": 202,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.00035006947769508943,
+            "denominator": 0.24444444444444444,
+            "value": 0.0014321024087526387
+          },
+          {
+            "family": "s001",
+            "numerator": 0.0004764179417332594,
+            "denominator": 0.25555555555555554,
+            "value": 0.0018642441198257976
+          },
+          {
+            "family": "s002",
+            "numerator": 0.000277124297790386,
+            "denominator": 0.2111111111111111,
+            "value": 0.0013126940421649862
+          },
+          {
+            "family": "s003",
+            "numerator": 0.0003268213603120662,
+            "denominator": 0.25555555555555554,
+            "value": 0.0012788661925254765
+          },
+          {
+            "family": "s004",
+            "numerator": 0.00031940891708849355,
+            "denominator": 0.2,
+            "value": 0.0015970445854424677
+          },
+          {
+            "family": "s005",
+            "numerator": 0.00039673417707985353,
+            "denominator": 0.17777777777777778,
+            "value": 0.002231629746074176
+          },
+          {
+            "family": "s006",
+            "numerator": 0.00042756320230516703,
+            "denominator": 0.2111111111111111,
+            "value": 0.002025299379340265
+          },
+          {
+            "family": "s007",
+            "numerator": 0.00021445545962745372,
+            "denominator": 0.2111111111111111,
+            "value": 0.001015841650866886
+          },
+          {
+            "family": "s008",
+            "numerator": 0.000281335913258325,
+            "denominator": 0.2111111111111111,
+            "value": 0.0013326437996446974
+          },
+          {
+            "family": "s009",
+            "numerator": 0.0005692419466466348,
+            "denominator": 0.26666666666666666,
+            "value": 0.002134657299924881
+          }
+        ]
+      },
+      {
+        "p": 0.08,
+        "status": "DEFINED",
+        "value": 5.403074928148882e-05,
+        "weighted_numerator": 1.2126901505400824e-05,
+        "weighted_denominator": 0.22444444444444445,
+        "absolute_selected_runs": 202,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 1.3083548027868638e-05,
+            "denominator": 0.24444444444444444,
+            "value": 5.352360556855352e-05
+          },
+          {
+            "family": "s001",
+            "numerator": 1.5595750030147563e-05,
+            "denominator": 0.25555555555555554,
+            "value": 6.1026847944055684e-05
+          },
+          {
+            "family": "s002",
+            "numerator": 1.060149244961706e-05,
+            "denominator": 0.2111111111111111,
+            "value": 5.0217595813975547e-05
+          },
+          {
+            "family": "s003",
+            "numerator": 1.0902956689890533e-05,
+            "denominator": 0.25555555555555554,
+            "value": 4.266374356913687e-05
+          },
+          {
+            "family": "s004",
+            "numerator": 1.0189491321243318e-05,
+            "denominator": 0.2,
+            "value": 5.094745660621659e-05
+          },
+          {
+            "family": "s005",
+            "numerator": 1.3264426572032722e-05,
+            "denominator": 0.17777777777777778,
+            "value": 7.461239946768407e-05
+          },
+          {
+            "family": "s006",
+            "numerator": 1.1978179146865914e-05,
+            "denominator": 0.2111111111111111,
+            "value": 5.673874332725959e-05
+          },
+          {
+            "family": "s007",
+            "numerator": 8.109388063356368e-06,
+            "denominator": 0.2111111111111111,
+            "value": 3.84128908264249e-05
+          },
+          {
+            "family": "s008",
+            "numerator": 1.0350272249389168e-05,
+            "denominator": 0.2111111111111111,
+            "value": 4.902760539184343e-05
+          },
+          {
+            "family": "s009",
+            "numerator": 1.719351050359696e-05,
+            "denominator": 0.26666666666666666,
+            "value": 6.44756643884886e-05
+          }
+        ]
+      }
+    ],
+    "detection": [
+      {
+        "sample_size": 50,
+        "status": "DEFINED",
+        "value": 0.21732659826215545,
+        "weighted_numerator": 0.04877774760995045,
+        "weighted_denominator": 0.22444444444444445,
+        "absolute_selected_runs": 202,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.05421023333160712,
+            "denominator": 0.24444444444444444,
+            "value": 0.22176913635657458
+          },
+          {
+            "family": "s001",
+            "numerator": 0.061808215360059406,
+            "denominator": 0.25555555555555554,
+            "value": 0.24185823401762377
+          },
+          {
+            "family": "s002",
+            "numerator": 0.04388439926591373,
+            "denominator": 0.2111111111111111,
+            "value": 0.2078734702069598
+          },
+          {
+            "family": "s003",
+            "numerator": 0.045614873191914984,
+            "denominator": 0.25555555555555554,
+            "value": 0.17849298205531952
+          },
+          {
+            "family": "s004",
+            "numerator": 0.04138455508083208,
+            "denominator": 0.2,
+            "value": 0.2069227754041604
+          },
+          {
+            "family": "s005",
+            "numerator": 0.052072911482438845,
+            "denominator": 0.17777777777777778,
+            "value": 0.2929101270887185
+          },
+          {
+            "family": "s006",
+            "numerator": 0.04291668031425687,
+            "denominator": 0.2111111111111111,
+            "value": 0.20328953833069044
+          },
+          {
+            "family": "s007",
+            "numerator": 0.03793806267055175,
+            "denominator": 0.2111111111111111,
+            "value": 0.17970661264998197
+          },
+          {
+            "family": "s008",
+            "numerator": 0.04235389939576777,
+            "denominator": 0.2111111111111111,
+            "value": 0.20062373397995262
+          },
+          {
+            "family": "s009",
+            "numerator": 0.06559364600616188,
+            "denominator": 0.26666666666666666,
+            "value": 0.24597617252310705
+          }
+        ]
+      },
+      {
+        "sample_size": 100,
+        "status": "DEFINED",
+        "value": 0.365794201178112,
+        "weighted_numerator": 0.0821004762644207,
+        "weighted_denominator": 0.22444444444444445,
+        "absolute_selected_runs": 202,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.08873229850384803,
+            "denominator": 0.24444444444444444,
+            "value": 0.36299576660665106
+          },
+          {
+            "family": "s001",
+            "numerator": 0.10288566871015348,
+            "denominator": 0.25555555555555554,
+            "value": 0.4025960949527745
+          },
+          {
+            "family": "s002",
+            "numerator": 0.0726224069360888,
+            "denominator": 0.2111111111111111,
+            "value": 0.34400087496042064
+          },
+          {
+            "family": "s003",
+            "numerator": 0.07911173058328606,
+            "denominator": 0.25555555555555554,
+            "value": 0.30956764141285853
+          },
+          {
+            "family": "s004",
+            "numerator": 0.07104797911393841,
+            "denominator": 0.2,
+            "value": 0.35523989556969204
+          },
+          {
+            "family": "s005",
+            "numerator": 0.08516537071824158,
+            "denominator": 0.17777777777777778,
+            "value": 0.4790552102901089
+          },
+          {
+            "family": "s006",
+            "numerator": 0.07277856476344702,
+            "denominator": 0.2111111111111111,
+            "value": 0.34474056993211744
+          },
+          {
+            "family": "s007",
+            "numerator": 0.0670467442739024,
+            "denominator": 0.2111111111111111,
+            "value": 0.31758984129743245
+          },
+          {
+            "family": "s008",
+            "numerator": 0.07090755375727062,
+            "denominator": 0.2111111111111111,
+            "value": 0.3358778862186503
+          },
+          {
+            "family": "s009",
+            "numerator": 0.11070644528403055,
+            "denominator": 0.26666666666666666,
+            "value": 0.41514916981511457
+          }
+        ]
+      },
+      {
+        "sample_size": 250,
+        "status": "DEFINED",
+        "value": 0.6185059541223143,
+        "weighted_numerator": 0.13882022525856388,
+        "weighted_denominator": 0.22444444444444445,
+        "absolute_selected_runs": 202,
+        "families": [
+          {
+            "family": "s000",
+            "numerator": 0.1441858735785826,
+            "denominator": 0.24444444444444444,
+            "value": 0.5898513010032924
+          },
+          {
+            "family": "s001",
+            "numerator": 0.1681551662543186,
+            "denominator": 0.25555555555555554,
+            "value": 0.6579984766473337
+          },
+          {
+            "family": "s002",
+            "numerator": 0.1243038064661306,
+            "denominator": 0.2111111111111111,
+            "value": 0.5888075043132502
+          },
+          {
+            "family": "s003",
+            "numerator": 0.14220099682611778,
+            "denominator": 0.25555555555555554,
+            "value": 0.5564386832326348
+          },
+          {
+            "family": "s004",
+            "numerator": 0.12180678153179285,
+            "denominator": 0.2,
+            "value": 0.6090339076589643
+          },
+          {
+            "family": "s005",
+            "numerator": 0.13442518839066653,
+            "denominator": 0.17777777777777778,
+            "value": 0.7561416846974992
+          },
+          {
+            "family": "s006",
+            "numerator": 0.12347851567049531,
+            "denominator": 0.2111111111111111,
+            "value": 0.5848982321233989
+          },
+          {
+            "family": "s007",
+            "numerator": 0.12157958755177287,
+            "denominator": 0.2111111111111111,
+            "value": 0.5759033094557662
+          },
+          {
+            "family": "s008",
+            "numerator": 0.1240704967229093,
+            "denominator": 0.2111111111111111,
+            "value": 0.5877023528979914
+          },
+          {
+            "family": "s009",
+            "numerator": 0.18399583959285232,
+            "denominator": 0.26666666666666666,
+            "value": 0.6899843984731961
+          }
+        ]
+      }
+    ]
+  }
+}

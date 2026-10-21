@@ -1,0 +1,2422 @@
+{
+  "checkpoints": [
+    {
+      "b1": 11,
+      "b2": 626,
+      "best_profit": 33795,
+      "best_weight": 22346,
+      "capacity": 22545,
+      "center_profit": 33795,
+      "center_weight": 22346,
+      "certificate_id": "da66fb26338bcbb5bcee17fb7a617f51ad7507b5449aede54449292f2a9c28a0",
+      "detection_probabilities": [
+        {
+          "probability": 0.9988602400510561,
+          "sample_size": 50
+        },
+        {
+          "probability": 0.999998792385935,
+          "sample_size": 100
+        },
+        {
+          "probability": 0.9999999999999991,
+          "sample_size": 250
+        }
+      ],
+      "improvement_types": {
+        "add_one": 11,
+        "add_two": 47,
+        "remove_one": 0,
+        "remove_two": 0,
+        "swap_one": 579
+      },
+      "last_improvement_q": 0,
+      "mask": "1011001011101101000101010011110111001011001001100000000011111111100111000110011011001001101010010110",
+      "max_positive_gain": 1951,
+      "mean_pairwise_hamming": 49.9264367816092,
+      "min_positive_gain": 1,
+      "model_probabilities": [
+        {
+          "p": 0.0,
+          "probability": 0.0
+        },
+        {
+          "p": 0.005,
+          "probability": 0.04306062419437386
+        },
+        {
+          "p": 0.01,
+          "probability": 0.06404912409790717
+        },
+        {
+          "p": 0.02,
+          "probability": 0.06434893070278516
+        },
+        {
+          "p": 0.03,
+          "probability": 0.04465154719108924
+        },
+        {
+          "p": 0.08,
+          "probability": 0.0013611110448347214
+        }
+      ],
+      "n": 100,
+      "neighbor_count": 5050,
+      "pending_refs": [],
+      "population_refs": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29
+      ],
+      "q": 0,
+      "record_request_ref": 24,
+      "slack": 199,
+      "stagnant": false,
+      "stagnation_age": 0,
+      "state": "N2_NOT_LOCAL",
+      "sum_positive_gain": 204975,
+      "total_better": 637,
+      "unique_fraction": 1.0
+    },
+    {
+      "b1": 7,
+      "b2": 143,
+      "best_profit": 43777,
+      "best_weight": 22194,
+      "capacity": 22545,
+      "center_profit": 43777,
+      "center_weight": 22194,
+      "certificate_id": "f021cac5379c0f95b19f6b0f9baa619cae7ac0c20b4992f236c9a3c9ce0cc2eb",
+      "detection_probabilities": [
+        {
+          "probability": 0.7802197925712435,
+          "sample_size": 50
+        },
+        {
+          "probability": 0.9524377620346499,
+          "sample_size": 100
+        },
+        {
+          "probability": 0.9995620872657872,
+          "sample_size": 250
+        }
+      ],
+      "improvement_types": {
+        "add_one": 7,
+        "add_two": 9,
+        "remove_one": 0,
+        "remove_two": 0,
+        "swap_one": 134
+      },
+      "last_improvement_q": 881,
+      "mask": "1110111000101101111101100001110101101011011011000100100110111111100101001110111011001111111100111011",
+      "max_positive_gain": 1057,
+      "mean_pairwise_hamming": 10.27816091954023,
+      "min_positive_gain": 4,
+      "model_probabilities": [
+        {
+          "p": 0.0,
+          "probability": 0.0
+        },
+        {
+          "p": 0.005,
+          "probability": 0.023495956931637037
+        },
+        {
+          "p": 0.01,
+          "probability": 0.031221613845976902
+        },
+        {
+          "p": 0.02,
+          "probability": 0.026844274954123254
+        },
+        {
+          "p": 0.03,
+          "probability": 0.016799291778515073
+        },
+        {
+          "p": 0.08,
+          "probability": 0.00040426354620672457
+        }
+      ],
+      "n": 100,
+      "neighbor_count": 5050,
+      "pending_refs": [
+        1016,
+        1017,
+        1018,
+        1019,
+        1020,
+        1021,
+        1022,
+        1023,
+        1024,
+        1025,
+        1026,
+        1027,
+        1028,
+        1029
+      ],
+      "population_refs": [
+        910,
+        987,
+        988,
+        989,
+        990,
+        991,
+        992,
+        993,
+        994,
+        995,
+        996,
+        997,
+        998,
+        999,
+        1000,
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008,
+        1009,
+        1010,
+        1011,
+        1012,
+        1013,
+        1014,
+        1015
+      ],
+      "q": 1000,
+      "record_request_ref": 910,
+      "slack": 351,
+      "stagnant": false,
+      "stagnation_age": 119,
+      "state": "N2_NOT_LOCAL",
+      "sum_positive_gain": 31190,
+      "total_better": 150,
+      "unique_fraction": 0.9333333333333333
+    },
+    {
+      "b1": 0,
+      "b2": 11,
+      "best_profit": 45586,
+      "best_weight": 22540,
+      "capacity": 22545,
+      "center_profit": 45586,
+      "center_weight": 22540,
+      "certificate_id": "43dcb05c721dbc1f31072e506d8ae7d3f1c962f05de9e3f710c40cda301accbd",
+      "detection_probabilities": [
+        {
+          "probability": 0.10377403277002346,
+          "sample_size": 50
+        },
+        {
+          "probability": 0.19766388613955554,
+          "sample_size": 100
+        },
+        {
+          "probability": 0.4282558234146692,
+          "sample_size": 250
+        }
+      ],
+      "improvement_types": {
+        "add_one": 0,
+        "add_two": 0,
+        "remove_one": 0,
+        "remove_two": 0,
+        "swap_one": 11
+      },
+      "last_improvement_q": 2163,
+      "mask": "1010111001101101111101101001110111101011011011000110100110111111110101001110111011001111111100111011",
+      "max_positive_gain": 385,
+      "mean_pairwise_hamming": 7.793103448275862,
+      "min_positive_gain": 20,
+      "model_probabilities": [
+        {
+          "p": 0.0,
+          "probability": 0.0
+        },
+        {
+          "p": 0.005,
+          "probability": 0.00016826531656771314
+        },
+        {
+          "p": 0.01,
+          "probability": 0.0004108107084996961
+        },
+        {
+          "p": 0.02,
+          "probability": 0.000607586470155053
+        },
+        {
+          "p": 0.03,
+          "probability": 0.0005003399175911528
+        },
+        {
+          "p": 0.08,
+          "probability": 1.9896639858049084e-05
+        }
+      ],
+      "n": 100,
+      "neighbor_count": 5050,
+      "pending_refs": [
+        2524,
+        2525,
+        2526,
+        2527,
+        2528,
+        2529
+      ],
+      "population_refs": [
+        2192,
+        2495,
+        2496,
+        2497,
+        2498,
+        2499,
+        2500,
+        2501,
+        2502,
+        2503,
+        2504,
+        2505,
+        2506,
+        2507,
+        2508,
+        2509,
+        2510,
+        2511,
+        2512,
+        2513,
+        2514,
+        2515,
+        2516,
+        2517,
+        2518,
+        2519,
+        2520,
+        2521,
+        2522,
+        2523
+      ],
+      "q": 2500,
+      "record_request_ref": 2192,
+      "slack": 5,
+      "stagnant": false,
+      "stagnation_age": 337,
+      "state": "N2_NOT_LOCAL",
+      "sum_positive_gain": 1525,
+      "total_better": 11,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "b1": 0,
+      "b2": 9,
+      "best_profit": 45819,
+      "best_weight": 22494,
+      "capacity": 22545,
+      "center_profit": 45819,
+      "center_weight": 22494,
+      "certificate_id": "5e956d7cd5113d147d7a8b4e76829415b024f34d80b165ee2ae3235c68308f95",
+      "detection_probabilities": [
+        {
+          "probability": 0.08572542769113418,
+          "sample_size": 50
+        },
+        {
+          "probability": 0.16485521854845384,
+          "sample_size": 100
+        },
+        {
+          "probability": 0.3670239185163235,
+          "sample_size": 250
+        }
+      ],
+      "improvement_types": {
+        "add_one": 0,
+        "add_two": 0,
+        "remove_one": 0,
+        "remove_two": 0,
+        "swap_one": 9
+      },
+      "last_improvement_q": 4410,
+      "mask": "1010111001101101111101101101110111101011011011000110100110111111110101001110111011101011111101110011",
+      "max_positive_gain": 325,
+      "mean_pairwise_hamming": 10.218390804597702,
+      "min_positive_gain": 10,
+      "model_probabilities": [
+        {
+          "p": 0.0,
+          "probability": 0.0
+        },
+        {
+          "p": 0.005,
+          "probability": 0.00013767162264631075
+        },
+        {
+          "p": 0.01,
+          "probability": 0.0003361178524088422
+        },
+        {
+          "p": 0.02,
+          "probability": 0.0004971162028541343
+        },
+        {
+          "p": 0.03,
+          "probability": 0.0004093690234836705
+        },
+        {
+          "p": 0.08,
+          "probability": 1.627906897476743e-05
+        }
+      ],
+      "n": 100,
+      "neighbor_count": 5050,
+      "pending_refs": [
+        5018,
+        5019,
+        5020,
+        5021,
+        5022,
+        5023,
+        5024,
+        5025,
+        5026,
+        5027,
+        5028,
+        5029
+      ],
+      "population_refs": [
+        4847,
+        4989,
+        4990,
+        4991,
+        4992,
+        4993,
+        4994,
+        4995,
+        4996,
+        4997,
+        4998,
+        4999,
+        5000,
+        5001,
+        5002,
+        5003,
+        5004,
+        5005,
+        5006,
+        5007,
+        5008,
+        5009,
+        5010,
+        5011,
+        5012,
+        5013,
+        5014,
+        5015,
+        5016,
+        5017
+      ],
+      "q": 5000,
+      "record_request_ref": 4439,
+      "slack": 51,
+      "stagnant": false,
+      "stagnation_age": 590,
+      "state": "N2_NOT_LOCAL",
+      "sum_positive_gain": 1069,
+      "total_better": 9,
+      "unique_fraction": 1.0
+    }
+  ],
+  "class_label": "UC",
+  "family": "s000",
+  "instance_id": "UC-s000",
+  "new_search_evaluations": 0,
+  "operators": {
+    "accounting": {
+      "counterfactual_premutation_evaluations": 5000,
+      "new_search_evaluations": 0,
+      "verification_final_mask_evaluations": 5030
+    },
+    "checkpoints": [
+      {
+        "committed_population_q": 0,
+        "pending_refs": [],
+        "population_refs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29
+        ],
+        "q": 0,
+        "record_mask": "1011001011101101000101010011110111001011001001100000000011111111100111000110011011001001101010010110",
+        "record_mask_copy_count": 1,
+        "record_mask_present_in_pending": false,
+        "record_mask_present_in_population": true,
+        "record_ref_is_pending": false,
+        "record_request_ref": 24,
+        "record_request_ref_in_population": true
+      },
+      {
+        "committed_population_q": 986,
+        "pending_refs": [
+          1016,
+          1017,
+          1018,
+          1019,
+          1020,
+          1021,
+          1022,
+          1023,
+          1024,
+          1025,
+          1026,
+          1027,
+          1028,
+          1029
+        ],
+        "population_refs": [
+          910,
+          987,
+          988,
+          989,
+          990,
+          991,
+          992,
+          993,
+          994,
+          995,
+          996,
+          997,
+          998,
+          999,
+          1000,
+          1001,
+          1002,
+          1003,
+          1004,
+          1005,
+          1006,
+          1007,
+          1008,
+          1009,
+          1010,
+          1011,
+          1012,
+          1013,
+          1014,
+          1015
+        ],
+        "q": 1000,
+        "record_mask": "1110111000101101111101100001110101101011011011000100100110111111100101001110111011001111111100111011",
+        "record_mask_copy_count": 3,
+        "record_mask_present_in_pending": false,
+        "record_mask_present_in_population": true,
+        "record_ref_is_pending": false,
+        "record_request_ref": 910,
+        "record_request_ref_in_population": true
+      },
+      {
+        "committed_population_q": 2494,
+        "pending_refs": [
+          2524,
+          2525,
+          2526,
+          2527,
+          2528,
+          2529
+        ],
+        "population_refs": [
+          2192,
+          2495,
+          2496,
+          2497,
+          2498,
+          2499,
+          2500,
+          2501,
+          2502,
+          2503,
+          2504,
+          2505,
+          2506,
+          2507,
+          2508,
+          2509,
+          2510,
+          2511,
+          2512,
+          2513,
+          2514,
+          2515,
+          2516,
+          2517,
+          2518,
+          2519,
+          2520,
+          2521,
+          2522,
+          2523
+        ],
+        "q": 2500,
+        "record_mask": "1010111001101101111101101001110111101011011011000110100110111111110101001110111011001111111100111011",
+        "record_mask_copy_count": 1,
+        "record_mask_present_in_pending": false,
+        "record_mask_present_in_population": true,
+        "record_ref_is_pending": false,
+        "record_request_ref": 2192,
+        "record_request_ref_in_population": true
+      },
+      {
+        "committed_population_q": 4988,
+        "pending_refs": [
+          5018,
+          5019,
+          5020,
+          5021,
+          5022,
+          5023,
+          5024,
+          5025,
+          5026,
+          5027,
+          5028,
+          5029
+        ],
+        "population_refs": [
+          4847,
+          4989,
+          4990,
+          4991,
+          4992,
+          4993,
+          4994,
+          4995,
+          4996,
+          4997,
+          4998,
+          4999,
+          5000,
+          5001,
+          5002,
+          5003,
+          5004,
+          5005,
+          5006,
+          5007,
+          5008,
+          5009,
+          5010,
+          5011,
+          5012,
+          5013,
+          5014,
+          5015,
+          5016,
+          5017
+        ],
+        "q": 5000,
+        "record_mask": "1010111001101101111101101101110111101011011011000110100110111111110101001110111011101011111101110011",
+        "record_mask_copy_count": 1,
+        "record_mask_present_in_pending": false,
+        "record_mask_present_in_population": true,
+        "record_ref_is_pending": false,
+        "record_request_ref": 4439,
+        "record_request_ref_in_population": false
+      }
+    ],
+    "groups": {
+      "all_new": {
+        "candidate_count": 5000,
+        "crossover_actual_change_from_first_parent_count": 4160,
+        "crossover_applied_count": 4502,
+        "crossover_conditioned": {
+          "candidate_count": 4502,
+          "feasible_parent_baseline_count": 4492,
+          "final_better_than_parent_count": 535,
+          "premutation_better_than_parent_count": 737,
+          "undefined_parent_baseline_count": 10
+        },
+        "crossover_novel_to_both_parents_count": 4071,
+        "crossover_skipped_count": 498,
+        "duplicate_count": 394,
+        "feasibility_transitions": {
+          "feasible_to_feasible": 3888,
+          "feasible_to_infeasible": 396,
+          "infeasible_to_feasible": 141,
+          "infeasible_to_infeasible": 575
+        },
+        "final_feasible_count": 4029,
+        "final_record_count": 27,
+        "mutation_created_count": 10,
+        "mutation_lost_count": 10,
+        "mutation_neither_count": 4963,
+        "mutation_preserved_count": 17,
+        "premutation_better_count": 27,
+        "premutation_feasible_count": 4284,
+        "record_absent_from_population_and_pending_count": 0,
+        "record_pending_count": 328,
+        "record_present_in_population_count": 4672,
+        "record_selected_candidate_count": 754,
+        "record_selected_parent_slots": 799,
+        "zero_mutation_count": 1799
+      },
+      "late_1000": {
+        "candidate_count": 1000,
+        "crossover_actual_change_from_first_parent_count": 822,
+        "crossover_applied_count": 901,
+        "crossover_conditioned": {
+          "candidate_count": 901,
+          "feasible_parent_baseline_count": 899,
+          "final_better_than_parent_count": 82,
+          "premutation_better_than_parent_count": 131,
+          "undefined_parent_baseline_count": 2
+        },
+        "crossover_novel_to_both_parents_count": 788,
+        "crossover_skipped_count": 99,
+        "duplicate_count": 96,
+        "feasibility_transitions": {
+          "feasible_to_feasible": 761,
+          "feasible_to_infeasible": 93,
+          "infeasible_to_feasible": 29,
+          "infeasible_to_infeasible": 117
+        },
+        "final_feasible_count": 790,
+        "final_record_count": 1,
+        "mutation_created_count": 1,
+        "mutation_lost_count": 1,
+        "mutation_neither_count": 998,
+        "mutation_preserved_count": 0,
+        "premutation_better_count": 1,
+        "premutation_feasible_count": 854,
+        "record_absent_from_population_and_pending_count": 0,
+        "record_pending_count": 27,
+        "record_present_in_population_count": 973,
+        "record_selected_candidate_count": 210,
+        "record_selected_parent_slots": 228,
+        "zero_mutation_count": 355
+      }
+    },
+    "known_initial_evaluations": 30,
+    "late_window": {
+      "first_q": 4001,
+      "last_q": 5000
+    },
+    "new_evaluations": 5000,
+    "per_candidate_evidence": {
+      "bytes": 105908,
+      "name": "fixed_example_operators.npz",
+      "rows": 5000,
+      "sha256": "fff0449ae7cd377c270f80aad51c48486432895ebe8835a357ac34ddc48d5763"
+    },
+    "schema_version": "knapsack-stagnation-operator-mechanisms-v1"
+  },
+  "population_trajectory": [
+    {
+      "best_profit": 33795,
+      "complete": true,
+      "feasible_fraction": 0.6666666666666666,
+      "mean_feasible_profit": 26167.55,
+      "mean_pairwise_hamming": 49.9264367816092,
+      "q": 0,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 33795,
+      "complete": true,
+      "feasible_fraction": 0.6,
+      "mean_feasible_profit": 27890.555555555555,
+      "mean_pairwise_hamming": 47.829885057471266,
+      "q": 29,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 33795,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 28272.478260869564,
+      "mean_pairwise_hamming": 45.34022988505747,
+      "q": 58,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 33961,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 30115.28,
+      "mean_pairwise_hamming": 41.54712643678161,
+      "q": 87,
+      "unique_fraction": 0.9333333333333333
+    },
+    {
+      "best_profit": 34330,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 31543.36,
+      "mean_pairwise_hamming": 37.11724137931034,
+      "q": 116,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 34378,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 30966.8,
+      "mean_pairwise_hamming": 36.788505747126436,
+      "q": 145,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 35365,
+      "complete": true,
+      "feasible_fraction": 0.8666666666666667,
+      "mean_feasible_profit": 32553.30769230769,
+      "mean_pairwise_hamming": 33.95862068965517,
+      "q": 174,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 36077,
+      "complete": true,
+      "feasible_fraction": 0.8,
+      "mean_feasible_profit": 33406.541666666664,
+      "mean_pairwise_hamming": 29.06206896551724,
+      "q": 203,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 37397,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 34406.17391304348,
+      "mean_pairwise_hamming": 27.52413793103448,
+      "q": 232,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 37397,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 35040.739130434784,
+      "mean_pairwise_hamming": 25.572413793103447,
+      "q": 261,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 39486,
+      "complete": true,
+      "feasible_fraction": 0.9333333333333333,
+      "mean_feasible_profit": 35123.42857142857,
+      "mean_pairwise_hamming": 24.92183908045977,
+      "q": 290,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 39486,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 35371.47826086957,
+      "mean_pairwise_hamming": 24.650574712643678,
+      "q": 319,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 39486,
+      "complete": true,
+      "feasible_fraction": 0.9,
+      "mean_feasible_profit": 35335.666666666664,
+      "mean_pairwise_hamming": 24.613793103448277,
+      "q": 348,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 39486,
+      "complete": true,
+      "feasible_fraction": 0.8666666666666667,
+      "mean_feasible_profit": 36298.846153846156,
+      "mean_pairwise_hamming": 20.714942528735634,
+      "q": 377,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 39876,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 36994.34782608696,
+      "mean_pairwise_hamming": 18.72873563218391,
+      "q": 406,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 39876,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 37194.6,
+      "mean_pairwise_hamming": 19.41609195402299,
+      "q": 435,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 40616,
+      "complete": true,
+      "feasible_fraction": 0.7333333333333333,
+      "mean_feasible_profit": 37167.13636363636,
+      "mean_pairwise_hamming": 18.239080459770115,
+      "q": 464,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 40616,
+      "complete": true,
+      "feasible_fraction": 0.8,
+      "mean_feasible_profit": 38087.083333333336,
+      "mean_pairwise_hamming": 17.639080459770113,
+      "q": 493,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 40616,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 38100.12,
+      "mean_pairwise_hamming": 15.951724137931034,
+      "q": 522,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 40616,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 38553.608695652176,
+      "mean_pairwise_hamming": 15.26206896551724,
+      "q": 551,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 41094,
+      "complete": true,
+      "feasible_fraction": 0.8666666666666667,
+      "mean_feasible_profit": 39359.769230769234,
+      "mean_pairwise_hamming": 13.494252873563218,
+      "q": 580,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 41094,
+      "complete": true,
+      "feasible_fraction": 0.8,
+      "mean_feasible_profit": 39490.083333333336,
+      "mean_pairwise_hamming": 13.137931034482758,
+      "q": 609,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 41094,
+      "complete": true,
+      "feasible_fraction": 0.8666666666666667,
+      "mean_feasible_profit": 39536.192307692305,
+      "mean_pairwise_hamming": 13.229885057471265,
+      "q": 638,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 42033,
+      "complete": true,
+      "feasible_fraction": 0.9333333333333333,
+      "mean_feasible_profit": 39726.107142857145,
+      "mean_pairwise_hamming": 12.60919540229885,
+      "q": 667,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 42033,
+      "complete": true,
+      "feasible_fraction": 0.8,
+      "mean_feasible_profit": 40143.625,
+      "mean_pairwise_hamming": 12.51264367816092,
+      "q": 696,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 42033,
+      "complete": true,
+      "feasible_fraction": 0.9,
+      "mean_feasible_profit": 40402.25925925926,
+      "mean_pairwise_hamming": 12.714942528735632,
+      "q": 725,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 42033,
+      "complete": true,
+      "feasible_fraction": 0.7,
+      "mean_feasible_profit": 40372.666666666664,
+      "mean_pairwise_hamming": 13.459770114942529,
+      "q": 754,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 42425,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 40610.391304347824,
+      "mean_pairwise_hamming": 12.88735632183908,
+      "q": 783,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 42896,
+      "complete": true,
+      "feasible_fraction": 0.8,
+      "mean_feasible_profit": 40172.5,
+      "mean_pairwise_hamming": 12.25287356321839,
+      "q": 812,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 43140,
+      "complete": true,
+      "feasible_fraction": 0.8,
+      "mean_feasible_profit": 40682.458333333336,
+      "mean_pairwise_hamming": 11.441379310344828,
+      "q": 841,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 43140,
+      "complete": true,
+      "feasible_fraction": 0.8666666666666667,
+      "mean_feasible_profit": 40253.96153846154,
+      "mean_pairwise_hamming": 11.416091954022988,
+      "q": 870,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 43777,
+      "complete": true,
+      "feasible_fraction": 0.9666666666666667,
+      "mean_feasible_profit": 40368.55172413793,
+      "mean_pairwise_hamming": 11.728735632183907,
+      "q": 899,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 43777,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 40828.68,
+      "mean_pairwise_hamming": 11.535632183908046,
+      "q": 928,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 43777,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 41254.84,
+      "mean_pairwise_hamming": 11.089655172413794,
+      "q": 957,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 43777,
+      "complete": true,
+      "feasible_fraction": 0.9333333333333333,
+      "mean_feasible_profit": 41830.25,
+      "mean_pairwise_hamming": 10.27816091954023,
+      "q": 986,
+      "unique_fraction": 0.9333333333333333
+    },
+    {
+      "best_profit": 43777,
+      "complete": true,
+      "feasible_fraction": 0.7333333333333333,
+      "mean_feasible_profit": 42143.181818181816,
+      "mean_pairwise_hamming": 8.816091954022989,
+      "q": 1015,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 43777,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 42198.48,
+      "mean_pairwise_hamming": 10.032183908045978,
+      "q": 1044,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 44529,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 42319.96,
+      "mean_pairwise_hamming": 9.464367816091954,
+      "q": 1073,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 44529,
+      "complete": true,
+      "feasible_fraction": 0.8666666666666667,
+      "mean_feasible_profit": 42462.96153846154,
+      "mean_pairwise_hamming": 9.577011494252874,
+      "q": 1102,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 44529,
+      "complete": true,
+      "feasible_fraction": 0.8,
+      "mean_feasible_profit": 42636.291666666664,
+      "mean_pairwise_hamming": 9.202298850574712,
+      "q": 1131,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 44529,
+      "complete": true,
+      "feasible_fraction": 0.8666666666666667,
+      "mean_feasible_profit": 42617.730769230766,
+      "mean_pairwise_hamming": 9.025287356321838,
+      "q": 1160,
+      "unique_fraction": 0.9333333333333333
+    },
+    {
+      "best_profit": 44529,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 42765.6,
+      "mean_pairwise_hamming": 7.834482758620689,
+      "q": 1189,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 44529,
+      "complete": true,
+      "feasible_fraction": 0.9333333333333333,
+      "mean_feasible_profit": 42875.642857142855,
+      "mean_pairwise_hamming": 7.340229885057472,
+      "q": 1218,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 44557,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 42950.434782608696,
+      "mean_pairwise_hamming": 7.372413793103449,
+      "q": 1247,
+      "unique_fraction": 0.9333333333333333
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.8666666666666667,
+      "mean_feasible_profit": 43195.846153846156,
+      "mean_pairwise_hamming": 7.586206896551724,
+      "q": 1276,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 43103.69565217391,
+      "mean_pairwise_hamming": 8.301149425287356,
+      "q": 1305,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.7,
+      "mean_feasible_profit": 42871.42857142857,
+      "mean_pairwise_hamming": 8.328735632183909,
+      "q": 1334,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.9,
+      "mean_feasible_profit": 42838.81481481482,
+      "mean_pairwise_hamming": 8.655172413793103,
+      "q": 1363,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.8,
+      "mean_feasible_profit": 42830.666666666664,
+      "mean_pairwise_hamming": 8.137931034482758,
+      "q": 1392,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.7333333333333333,
+      "mean_feasible_profit": 43057.59090909091,
+      "mean_pairwise_hamming": 8.190804597701149,
+      "q": 1421,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 42905.13043478261,
+      "mean_pairwise_hamming": 7.873563218390805,
+      "q": 1450,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 42974.56,
+      "mean_pairwise_hamming": 7.137931034482759,
+      "q": 1479,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.8,
+      "mean_feasible_profit": 42841.625,
+      "mean_pairwise_hamming": 7.3310344827586205,
+      "q": 1508,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 42557.82608695652,
+      "mean_pairwise_hamming": 8.197701149425287,
+      "q": 1537,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 42549.13043478261,
+      "mean_pairwise_hamming": 9.685057471264368,
+      "q": 1566,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 42710.34782608696,
+      "mean_pairwise_hamming": 7.498850574712644,
+      "q": 1595,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.8666666666666667,
+      "mean_feasible_profit": 42747.307692307695,
+      "mean_pairwise_hamming": 8.717241379310344,
+      "q": 1624,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 42695.2,
+      "mean_pairwise_hamming": 8.37471264367816,
+      "q": 1653,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 42738.68,
+      "mean_pairwise_hamming": 9.236781609195402,
+      "q": 1682,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.8666666666666667,
+      "mean_feasible_profit": 42980.692307692305,
+      "mean_pairwise_hamming": 8.928735632183908,
+      "q": 1711,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 42740.32,
+      "mean_pairwise_hamming": 9.703448275862069,
+      "q": 1740,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 42808.48,
+      "mean_pairwise_hamming": 9.86896551724138,
+      "q": 1769,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 42946.88,
+      "mean_pairwise_hamming": 9.07816091954023,
+      "q": 1798,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.7333333333333333,
+      "mean_feasible_profit": 42952.318181818184,
+      "mean_pairwise_hamming": 8.505747126436782,
+      "q": 1827,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.8,
+      "mean_feasible_profit": 42807.916666666664,
+      "mean_pairwise_hamming": 8.183908045977011,
+      "q": 1856,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.9333333333333333,
+      "mean_feasible_profit": 42672.07142857143,
+      "mean_pairwise_hamming": 9.036781609195403,
+      "q": 1885,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.7,
+      "mean_feasible_profit": 42765.333333333336,
+      "mean_pairwise_hamming": 7.827586206896552,
+      "q": 1914,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 42442.0,
+      "mean_pairwise_hamming": 8.733333333333333,
+      "q": 1943,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.8666666666666667,
+      "mean_feasible_profit": 42572.307692307695,
+      "mean_pairwise_hamming": 8.629885057471265,
+      "q": 1972,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 42839.739130434784,
+      "mean_pairwise_hamming": 7.337931034482758,
+      "q": 2001,
+      "unique_fraction": 0.9
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.9,
+      "mean_feasible_profit": 43094.92592592593,
+      "mean_pairwise_hamming": 6.4045977011494255,
+      "q": 2030,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.8,
+      "mean_feasible_profit": 43346.125,
+      "mean_pairwise_hamming": 6.2988505747126435,
+      "q": 2059,
+      "unique_fraction": 0.8666666666666667
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 43663.47826086957,
+      "mean_pairwise_hamming": 6.137931034482759,
+      "q": 2088,
+      "unique_fraction": 0.9333333333333333
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.6333333333333333,
+      "mean_feasible_profit": 43253.94736842105,
+      "mean_pairwise_hamming": 8.096551724137932,
+      "q": 2117,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45002,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 42942.260869565216,
+      "mean_pairwise_hamming": 8.259770114942528,
+      "q": 2146,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.7333333333333333,
+      "mean_feasible_profit": 42491.63636363636,
+      "mean_pairwise_hamming": 9.154022988505748,
+      "q": 2175,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.7333333333333333,
+      "mean_feasible_profit": 42480.36363636364,
+      "mean_pairwise_hamming": 9.377011494252873,
+      "q": 2204,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 42307.96,
+      "mean_pairwise_hamming": 9.36551724137931,
+      "q": 2233,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.9,
+      "mean_feasible_profit": 42730.18518518518,
+      "mean_pairwise_hamming": 8.577011494252874,
+      "q": 2262,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 42723.12,
+      "mean_pairwise_hamming": 9.202298850574712,
+      "q": 2291,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 42667.24,
+      "mean_pairwise_hamming": 8.691954022988506,
+      "q": 2320,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.9333333333333333,
+      "mean_feasible_profit": 42862.5,
+      "mean_pairwise_hamming": 9.002298850574713,
+      "q": 2349,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.9,
+      "mean_feasible_profit": 42993.48148148148,
+      "mean_pairwise_hamming": 8.997701149425287,
+      "q": 2378,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.9,
+      "mean_feasible_profit": 43277.18518518518,
+      "mean_pairwise_hamming": 8.206896551724139,
+      "q": 2407,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.9,
+      "mean_feasible_profit": 43102.07407407407,
+      "mean_pairwise_hamming": 9.23448275862069,
+      "q": 2436,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 43655.76,
+      "mean_pairwise_hamming": 7.788505747126437,
+      "q": 2465,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.8666666666666667,
+      "mean_feasible_profit": 43725.153846153844,
+      "mean_pairwise_hamming": 7.793103448275862,
+      "q": 2494,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.8,
+      "mean_feasible_profit": 43562.708333333336,
+      "mean_pairwise_hamming": 6.979310344827586,
+      "q": 2523,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.9,
+      "mean_feasible_profit": 43804.96296296296,
+      "mean_pairwise_hamming": 6.466666666666667,
+      "q": 2552,
+      "unique_fraction": 0.9333333333333333
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.8666666666666667,
+      "mean_feasible_profit": 43597.153846153844,
+      "mean_pairwise_hamming": 7.032183908045977,
+      "q": 2581,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 43734.69565217391,
+      "mean_pairwise_hamming": 6.86896551724138,
+      "q": 2610,
+      "unique_fraction": 0.9
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 43259.391304347824,
+      "mean_pairwise_hamming": 7.857471264367816,
+      "q": 2639,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 43065.04347826087,
+      "mean_pairwise_hamming": 8.724137931034482,
+      "q": 2668,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.8666666666666667,
+      "mean_feasible_profit": 42692.807692307695,
+      "mean_pairwise_hamming": 9.379310344827585,
+      "q": 2697,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.8666666666666667,
+      "mean_feasible_profit": 42542.88461538462,
+      "mean_pairwise_hamming": 8.682758620689656,
+      "q": 2726,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.9,
+      "mean_feasible_profit": 42796.555555555555,
+      "mean_pairwise_hamming": 8.485057471264367,
+      "q": 2755,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 42867.64,
+      "mean_pairwise_hamming": 8.63448275862069,
+      "q": 2784,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 43081.0,
+      "mean_pairwise_hamming": 7.882758620689655,
+      "q": 2813,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.8666666666666667,
+      "mean_feasible_profit": 42797.230769230766,
+      "mean_pairwise_hamming": 8.351724137931035,
+      "q": 2842,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.7333333333333333,
+      "mean_feasible_profit": 42543.045454545456,
+      "mean_pairwise_hamming": 9.72183908045977,
+      "q": 2871,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.7333333333333333,
+      "mean_feasible_profit": 42278.5,
+      "mean_pairwise_hamming": 10.772413793103448,
+      "q": 2900,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.9333333333333333,
+      "mean_feasible_profit": 42502.28571428572,
+      "mean_pairwise_hamming": 10.370114942528735,
+      "q": 2929,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.9,
+      "mean_feasible_profit": 42937.666666666664,
+      "mean_pairwise_hamming": 10.062068965517241,
+      "q": 2958,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 42526.24,
+      "mean_pairwise_hamming": 11.271264367816093,
+      "q": 2987,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 42497.88,
+      "mean_pairwise_hamming": 11.567816091954024,
+      "q": 3016,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 42644.217391304344,
+      "mean_pairwise_hamming": 11.273563218390805,
+      "q": 3045,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 42674.69565217391,
+      "mean_pairwise_hamming": 10.72183908045977,
+      "q": 3074,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.9,
+      "mean_feasible_profit": 42939.22222222222,
+      "mean_pairwise_hamming": 10.298850574712644,
+      "q": 3103,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 43009.12,
+      "mean_pairwise_hamming": 9.344827586206897,
+      "q": 3132,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.8,
+      "mean_feasible_profit": 43146.166666666664,
+      "mean_pairwise_hamming": 9.273563218390805,
+      "q": 3161,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45586,
+      "complete": true,
+      "feasible_fraction": 0.8,
+      "mean_feasible_profit": 42585.875,
+      "mean_pairwise_hamming": 9.427586206896551,
+      "q": 3190,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45639,
+      "complete": true,
+      "feasible_fraction": 0.7333333333333333,
+      "mean_feasible_profit": 42826.77272727273,
+      "mean_pairwise_hamming": 9.882758620689655,
+      "q": 3219,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45639,
+      "complete": true,
+      "feasible_fraction": 0.9333333333333333,
+      "mean_feasible_profit": 42809.75,
+      "mean_pairwise_hamming": 10.53103448275862,
+      "q": 3248,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45639,
+      "complete": true,
+      "feasible_fraction": 0.8,
+      "mean_feasible_profit": 42736.916666666664,
+      "mean_pairwise_hamming": 10.9816091954023,
+      "q": 3277,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45639,
+      "complete": true,
+      "feasible_fraction": 0.9333333333333333,
+      "mean_feasible_profit": 42667.857142857145,
+      "mean_pairwise_hamming": 11.174712643678161,
+      "q": 3306,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45639,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 43262.96,
+      "mean_pairwise_hamming": 10.298850574712644,
+      "q": 3335,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45639,
+      "complete": true,
+      "feasible_fraction": 0.8,
+      "mean_feasible_profit": 43546.708333333336,
+      "mean_pairwise_hamming": 9.84367816091954,
+      "q": 3364,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45639,
+      "complete": true,
+      "feasible_fraction": 0.6666666666666666,
+      "mean_feasible_profit": 43444.2,
+      "mean_pairwise_hamming": 10.59080459770115,
+      "q": 3393,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 43098.64,
+      "mean_pairwise_hamming": 10.24367816091954,
+      "q": 3422,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.7333333333333333,
+      "mean_feasible_profit": 43070.27272727273,
+      "mean_pairwise_hamming": 9.857471264367817,
+      "q": 3451,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 43123.34782608696,
+      "mean_pairwise_hamming": 10.443678160919541,
+      "q": 3480,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.8666666666666667,
+      "mean_feasible_profit": 43140.346153846156,
+      "mean_pairwise_hamming": 10.829885057471264,
+      "q": 3509,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.6333333333333333,
+      "mean_feasible_profit": 43183.57894736842,
+      "mean_pairwise_hamming": 11.696551724137931,
+      "q": 3538,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.7333333333333333,
+      "mean_feasible_profit": 43058.818181818184,
+      "mean_pairwise_hamming": 12.972413793103449,
+      "q": 3567,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.7333333333333333,
+      "mean_feasible_profit": 42668.40909090909,
+      "mean_pairwise_hamming": 14.006896551724138,
+      "q": 3596,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.5666666666666667,
+      "mean_feasible_profit": 42663.529411764706,
+      "mean_pairwise_hamming": 13.172413793103448,
+      "q": 3625,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.7333333333333333,
+      "mean_feasible_profit": 42534.72727272727,
+      "mean_pairwise_hamming": 12.197701149425287,
+      "q": 3654,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.8,
+      "mean_feasible_profit": 42580.791666666664,
+      "mean_pairwise_hamming": 12.264367816091953,
+      "q": 3683,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.9,
+      "mean_feasible_profit": 42575.2962962963,
+      "mean_pairwise_hamming": 12.241379310344827,
+      "q": 3712,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 42935.72,
+      "mean_pairwise_hamming": 12.379310344827585,
+      "q": 3741,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.9333333333333333,
+      "mean_feasible_profit": 42809.03571428572,
+      "mean_pairwise_hamming": 12.075862068965517,
+      "q": 3770,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.8,
+      "mean_feasible_profit": 42718.666666666664,
+      "mean_pairwise_hamming": 12.094252873563219,
+      "q": 3799,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 42568.04,
+      "mean_pairwise_hamming": 11.763218390804598,
+      "q": 3828,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.7,
+      "mean_feasible_profit": 42342.142857142855,
+      "mean_pairwise_hamming": 12.549425287356321,
+      "q": 3857,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.9,
+      "mean_feasible_profit": 42083.59259259259,
+      "mean_pairwise_hamming": 11.519540229885058,
+      "q": 3886,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 42807.34782608696,
+      "mean_pairwise_hamming": 10.432183908045976,
+      "q": 3915,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.9,
+      "mean_feasible_profit": 42726.92592592593,
+      "mean_pairwise_hamming": 11.220689655172414,
+      "q": 3944,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.8666666666666667,
+      "mean_feasible_profit": 42946.38461538462,
+      "mean_pairwise_hamming": 10.473563218390805,
+      "q": 3973,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.8,
+      "mean_feasible_profit": 42515.875,
+      "mean_pairwise_hamming": 9.694252873563219,
+      "q": 4002,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 42802.84,
+      "mean_pairwise_hamming": 9.314942528735632,
+      "q": 4031,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 42996.4,
+      "mean_pairwise_hamming": 9.14712643678161,
+      "q": 4060,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.8,
+      "mean_feasible_profit": 43542.583333333336,
+      "mean_pairwise_hamming": 8.367816091954023,
+      "q": 4089,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.7,
+      "mean_feasible_profit": 43753.0,
+      "mean_pairwise_hamming": 7.666666666666667,
+      "q": 4118,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.7333333333333333,
+      "mean_feasible_profit": 43585.13636363636,
+      "mean_pairwise_hamming": 7.852873563218391,
+      "q": 4147,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.7,
+      "mean_feasible_profit": 43679.76190476191,
+      "mean_pairwise_hamming": 8.35632183908046,
+      "q": 4176,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 43465.65217391304,
+      "mean_pairwise_hamming": 8.960919540229884,
+      "q": 4205,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 43610.68,
+      "mean_pairwise_hamming": 8.337931034482759,
+      "q": 4234,
+      "unique_fraction": 0.9333333333333333
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.9,
+      "mean_feasible_profit": 43749.03703703704,
+      "mean_pairwise_hamming": 7.508045977011494,
+      "q": 4263,
+      "unique_fraction": 0.9
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.8666666666666667,
+      "mean_feasible_profit": 43872.11538461538,
+      "mean_pairwise_hamming": 7.027586206896552,
+      "q": 4292,
+      "unique_fraction": 0.8333333333333334
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.8666666666666667,
+      "mean_feasible_profit": 44270.57692307692,
+      "mean_pairwise_hamming": 5.786206896551724,
+      "q": 4321,
+      "unique_fraction": 0.8333333333333334
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.6,
+      "mean_feasible_profit": 44272.944444444445,
+      "mean_pairwise_hamming": 5.795402298850575,
+      "q": 4350,
+      "unique_fraction": 0.9333333333333333
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.6666666666666666,
+      "mean_feasible_profit": 44039.6,
+      "mean_pairwise_hamming": 6.767816091954023,
+      "q": 4379,
+      "unique_fraction": 0.9333333333333333
+    },
+    {
+      "best_profit": 45718,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 43385.608695652176,
+      "mean_pairwise_hamming": 7.76551724137931,
+      "q": 4408,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45819,
+      "complete": true,
+      "feasible_fraction": 0.8666666666666667,
+      "mean_feasible_profit": 43607.307692307695,
+      "mean_pairwise_hamming": 7.2091954022988505,
+      "q": 4437,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45819,
+      "complete": true,
+      "feasible_fraction": 0.9333333333333333,
+      "mean_feasible_profit": 43645.42857142857,
+      "mean_pairwise_hamming": 7.324137931034483,
+      "q": 4466,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45819,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 43572.13043478261,
+      "mean_pairwise_hamming": 7.6689655172413795,
+      "q": 4495,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45819,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 43716.52173913043,
+      "mean_pairwise_hamming": 7.514942528735633,
+      "q": 4524,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45819,
+      "complete": true,
+      "feasible_fraction": 0.8666666666666667,
+      "mean_feasible_profit": 43329.61538461538,
+      "mean_pairwise_hamming": 7.604597701149426,
+      "q": 4553,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45819,
+      "complete": true,
+      "feasible_fraction": 0.9333333333333333,
+      "mean_feasible_profit": 43983.75,
+      "mean_pairwise_hamming": 7.2091954022988505,
+      "q": 4582,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45819,
+      "complete": true,
+      "feasible_fraction": 0.7333333333333333,
+      "mean_feasible_profit": 43751.5,
+      "mean_pairwise_hamming": 7.712643678160919,
+      "q": 4611,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45819,
+      "complete": true,
+      "feasible_fraction": 0.7,
+      "mean_feasible_profit": 43159.857142857145,
+      "mean_pairwise_hamming": 9.013793103448275,
+      "q": 4640,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45819,
+      "complete": true,
+      "feasible_fraction": 0.9,
+      "mean_feasible_profit": 43299.07407407407,
+      "mean_pairwise_hamming": 9.16551724137931,
+      "q": 4669,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45819,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 43141.48,
+      "mean_pairwise_hamming": 9.604597701149425,
+      "q": 4698,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45819,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 43444.13043478261,
+      "mean_pairwise_hamming": 7.735632183908046,
+      "q": 4727,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45819,
+      "complete": true,
+      "feasible_fraction": 0.8666666666666667,
+      "mean_feasible_profit": 43125.53846153846,
+      "mean_pairwise_hamming": 8.760919540229885,
+      "q": 4756,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45819,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 42731.48,
+      "mean_pairwise_hamming": 9.986206896551725,
+      "q": 4785,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45819,
+      "complete": true,
+      "feasible_fraction": 0.8666666666666667,
+      "mean_feasible_profit": 43268.07692307692,
+      "mean_pairwise_hamming": 9.977011494252874,
+      "q": 4814,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45819,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 43577.739130434784,
+      "mean_pairwise_hamming": 9.344827586206897,
+      "q": 4843,
+      "unique_fraction": 0.9333333333333333
+    },
+    {
+      "best_profit": 45819,
+      "complete": true,
+      "feasible_fraction": 0.6666666666666666,
+      "mean_feasible_profit": 43995.45,
+      "mean_pairwise_hamming": 8.259770114942528,
+      "q": 4872,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45819,
+      "complete": true,
+      "feasible_fraction": 0.7666666666666667,
+      "mean_feasible_profit": 43923.30434782609,
+      "mean_pairwise_hamming": 8.291954022988506,
+      "q": 4901,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45819,
+      "complete": true,
+      "feasible_fraction": 0.7,
+      "mean_feasible_profit": 43435.47619047619,
+      "mean_pairwise_hamming": 8.331034482758621,
+      "q": 4930,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45819,
+      "complete": true,
+      "feasible_fraction": 0.8,
+      "mean_feasible_profit": 43101.458333333336,
+      "mean_pairwise_hamming": 9.216091954022989,
+      "q": 4959,
+      "unique_fraction": 0.9666666666666667
+    },
+    {
+      "best_profit": 45819,
+      "complete": true,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 42929.36,
+      "mean_pairwise_hamming": 10.218390804597702,
+      "q": 4988,
+      "unique_fraction": 1.0
+    },
+    {
+      "best_profit": 45819,
+      "complete": false,
+      "feasible_fraction": 0.8333333333333334,
+      "mean_feasible_profit": 42929.36,
+      "mean_pairwise_hamming": 10.218390804597702,
+      "q": 5000,
+      "unique_fraction": 1.0
+    }
+  ],
+  "posthoc_certificate_neighbors": 20200,
+  "posthoc_intermediate_scores": 5000,
+  "repeat_seed": 93001,
+  "source_identity": {
+    "bank_manifest_sha256": "a1d8fc9b151d4a229727cfea209bb55b9d09f592a1511c3028df55f4929eba08",
+    "data_manifest_sha256": "528fee8da7d7cb776fb851e6a05949133830e9533c4091cbb4e8698ac19fb0df",
+    "environment": {
+      "packages": {
+        "contourpy": "1.4.0",
+        "cycler": "0.12.1",
+        "fonttools": "4.66.1",
+        "kiwisolver": "1.5.1",
+        "matplotlib": "3.10.3",
+        "numpy": "2.2.6",
+        "packaging": "26.3",
+        "pillow": "12.3.0",
+        "pyparsing": "3.3.3",
+        "python-dateutil": "2.9.0.post0",
+        "six": "1.17.0"
+      },
+      "python": "3.12.14"
+    },
+    "implementation_commit_sha": "7fbb0e56fc07a357b201874e339646d197dd5834",
+    "implementation_fingerprint": "3da53acfd3c2c8855edf1ba9d5dc751d66879a2df5dbef98c195850b53d2f9ec",
+    "phase": "main",
+    "protocol_id": "GA-KNAPSACK-STAGNATION-DIAGNOSIS-MAIN-V1",
+    "protocol_sha256": "e4ff85919b95594dc8cbbd58dae5cd9209710c41308ab22f2e7d05488dfa2fc8",
+    "registration_commit_sha": "03c9433304856c884d962d5095feeed2397ddbaa",
+    "registry_sha256": "7e9b8fc893889426e2d3b57610e3a91c09263fcdff488cf15a2b84efe1bdc70f",
+    "run_attempt": 1,
+    "run_id": 39465647096,
+    "scientific_protocol_id": "GA-KNAPSACK-STAGNATION-DIAGNOSIS-V1",
+    "technical_fingerprint": "bbe9cf6b252eca08bd40cfd1b830a3b87a94b91b33b9b0fb05a7c2daf9c72197"
+  },
+  "source_members": {
+    "diagnosis": {
+      "bytes": 4551045,
+      "sha256": "de4ff7db1198732f4e4de0626c8af3115c6a60f72f8697a561286c153f9a5d7a"
+    },
+    "file_manifest": {
+      "bytes": 2650,
+      "sha256": "f6fed331c853950a95ac91853803d48466bcac6c98181a54506f6fc7c6c0690c"
+    },
+    "raw_file_manifest": {
+      "bytes": 785,
+      "sha256": "e2cd1b9f9cc7cdda341650841c5b5f96e6739254952f960786765f86a230b218"
+    }
+  },
+  "source_reverification": {
+    "aggregate_verification_total_evaluations": 30294,
+    "bank_revalidation_evaluations": 30,
+    "diagnosis": {
+      "status": "PASS_DIAGNOSIS",
+      "verification_center_evaluations": 4,
+      "verification_neighbor_evaluations": 20200,
+      "verification_request_evaluations": 5030,
+      "verification_total_evaluations": 25234,
+      "verified_certificates": 4,
+      "verified_checkpoints": 4
+    },
+    "search": {
+      "best_mask": "1010111001101101111101101101110111101011011011000110100110111111110101001110111011101011111101110011",
+      "best_profit": 45819,
+      "best_request": 4440,
+      "best_weight": 22494,
+      "censored": null,
+      "complete_generations": 172,
+      "duplicate_count": 394,
+      "escape_event": null,
+      "escape_time": null,
+      "exact_requests_verified": 5030,
+      "first_escape_request": null,
+      "invalid_request_count": 981,
+      "logical_requests": 5030,
+      "physical_evaluations": 5000,
+      "rng_and_operator_replay_verified": true,
+      "status": "PASS_REPLAY",
+      "terminal_partial": true
+    }
+  },
+  "status": "PASS",
+  "verified": true
+}

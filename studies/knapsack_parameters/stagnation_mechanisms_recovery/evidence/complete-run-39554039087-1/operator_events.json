@@ -1,0 +1,244 @@
+{
+  "all_new": {
+    "crossover_applied_count": {
+      "absolute_count": 4050409,
+      "weighted_fraction": 0.9000908888888889
+    },
+    "crossover_skipped_count": {
+      "absolute_count": 449591,
+      "weighted_fraction": 0.09990911111111112
+    },
+    "premutation_better_count": {
+      "absolute_count": 24220,
+      "weighted_fraction": 0.005382222222222222
+    },
+    "final_record_count": {
+      "absolute_count": 21651,
+      "weighted_fraction": 0.004811333333333333
+    },
+    "mutation_created_count": {
+      "absolute_count": 10595,
+      "weighted_fraction": 0.0023544444444444446
+    },
+    "mutation_preserved_count": {
+      "absolute_count": 11056,
+      "weighted_fraction": 0.002456888888888889
+    },
+    "mutation_lost_count": {
+      "absolute_count": 13164,
+      "weighted_fraction": 0.002925333333333333
+    },
+    "mutation_neither_count": {
+      "absolute_count": 4465185,
+      "weighted_fraction": 0.9922633333333334
+    },
+    "premutation_feasible_count": {
+      "absolute_count": 3684422,
+      "weighted_fraction": 0.8187604444444444
+    },
+    "final_feasible_count": {
+      "absolute_count": 3508942,
+      "weighted_fraction": 0.7797648888888888
+    },
+    "zero_mutation_count": {
+      "absolute_count": 1647011,
+      "weighted_fraction": 0.36600244444444446
+    },
+    "duplicate_count": {
+      "absolute_count": 269753,
+      "weighted_fraction": 0.05994511111111111
+    },
+    "record_present_in_population_count": {
+      "absolute_count": 4196110,
+      "weighted_fraction": 0.9324688888888889
+    },
+    "record_selected_candidate_count": {
+      "absolute_count": 610188,
+      "weighted_fraction": 0.13559733333333335
+    },
+    "record_pending_count": {
+      "absolute_count": 292625,
+      "weighted_fraction": 0.06502777777777778
+    },
+    "record_absent_from_population_and_pending_count": {
+      "absolute_count": 11242,
+      "weighted_fraction": 0.0024982222222222224
+    },
+    "crossover_actual_change_from_first_parent_count": {
+      "absolute_count": 3830455,
+      "weighted_fraction": 0.8512122222222223
+    },
+    "crossover_novel_to_both_parents_count": {
+      "absolute_count": 3799614,
+      "weighted_fraction": 0.8443586666666667
+    },
+    "candidate_count": 4500000,
+    "record_selected_parent_slots": {
+      "absolute_count": 637708,
+      "weighted_fraction_of_parent_slots": 0.07085644444444444
+    },
+    "crossover_conditioned": {
+      "candidate_count": {
+        "absolute_count": 4050409,
+        "weighted_fraction_of_all_candidates": 0.9000908888888889
+      },
+      "feasible_parent_baseline_count": {
+        "absolute_count": 4030468,
+        "weighted_fraction_of_all_candidates": 0.8956595555555555
+      },
+      "undefined_parent_baseline_count": {
+        "absolute_count": 19941,
+        "weighted_fraction_of_all_candidates": 0.004431333333333333
+      },
+      "premutation_better_than_parent_count": {
+        "absolute_count": 635060,
+        "weighted_fraction_of_all_candidates": 0.14112444444444444,
+        "conditional_fraction_defined_crossover_parents": 0.15756482869979366
+      },
+      "final_better_than_parent_count": {
+        "absolute_count": 577966,
+        "weighted_fraction_of_all_candidates": 0.12843688888888888,
+        "conditional_fraction_defined_crossover_parents": 0.14339922807971678
+      }
+    },
+    "feasibility_transitions": {
+      "infeasible_to_infeasible": {
+        "absolute_count": 687162,
+        "weighted_fraction": 0.15270266666666668
+      },
+      "infeasible_to_feasible": {
+        "absolute_count": 128416,
+        "weighted_fraction": 0.02853688888888889
+      },
+      "feasible_to_infeasible": {
+        "absolute_count": 303896,
+        "weighted_fraction": 0.06753244444444445
+      },
+      "feasible_to_feasible": {
+        "absolute_count": 3380526,
+        "weighted_fraction": 0.751228
+      }
+    }
+  },
+  "late_1000": {
+    "crossover_applied_count": {
+      "absolute_count": 810258,
+      "weighted_fraction": 0.9002866666666667
+    },
+    "crossover_skipped_count": {
+      "absolute_count": 89742,
+      "weighted_fraction": 0.09971333333333333
+    },
+    "premutation_better_count": {
+      "absolute_count": 1950,
+      "weighted_fraction": 0.0021666666666666666
+    },
+    "final_record_count": {
+      "absolute_count": 1568,
+      "weighted_fraction": 0.0017422222222222223
+    },
+    "mutation_created_count": {
+      "absolute_count": 782,
+      "weighted_fraction": 0.0008688888888888889
+    },
+    "mutation_preserved_count": {
+      "absolute_count": 786,
+      "weighted_fraction": 0.0008733333333333334
+    },
+    "mutation_lost_count": {
+      "absolute_count": 1164,
+      "weighted_fraction": 0.0012933333333333334
+    },
+    "mutation_neither_count": {
+      "absolute_count": 897268,
+      "weighted_fraction": 0.9969644444444444
+    },
+    "premutation_feasible_count": {
+      "absolute_count": 739063,
+      "weighted_fraction": 0.8211811111111111
+    },
+    "final_feasible_count": {
+      "absolute_count": 698368,
+      "weighted_fraction": 0.7759644444444445
+    },
+    "zero_mutation_count": {
+      "absolute_count": 329750,
+      "weighted_fraction": 0.3663888888888889
+    },
+    "duplicate_count": {
+      "absolute_count": 59230,
+      "weighted_fraction": 0.06581111111111111
+    },
+    "record_present_in_population_count": {
+      "absolute_count": 876480,
+      "weighted_fraction": 0.9738666666666667
+    },
+    "record_selected_candidate_count": {
+      "absolute_count": 132813,
+      "weighted_fraction": 0.14757
+    },
+    "record_pending_count": {
+      "absolute_count": 21414,
+      "weighted_fraction": 0.023793333333333333
+    },
+    "record_absent_from_population_and_pending_count": {
+      "absolute_count": 2091,
+      "weighted_fraction": 0.0023233333333333335
+    },
+    "crossover_actual_change_from_first_parent_count": {
+      "absolute_count": 762503,
+      "weighted_fraction": 0.8472255555555556
+    },
+    "crossover_novel_to_both_parents_count": {
+      "absolute_count": 752656,
+      "weighted_fraction": 0.8362844444444444
+    },
+    "candidate_count": 900000,
+    "record_selected_parent_slots": {
+      "absolute_count": 139217,
+      "weighted_fraction_of_parent_slots": 0.07734277777777777
+    },
+    "crossover_conditioned": {
+      "candidate_count": {
+        "absolute_count": 810258,
+        "weighted_fraction_of_all_candidates": 0.9002866666666667
+      },
+      "feasible_parent_baseline_count": {
+        "absolute_count": 806472,
+        "weighted_fraction_of_all_candidates": 0.89608
+      },
+      "undefined_parent_baseline_count": {
+        "absolute_count": 3786,
+        "weighted_fraction_of_all_candidates": 0.004206666666666667
+      },
+      "premutation_better_than_parent_count": {
+        "absolute_count": 124899,
+        "weighted_fraction_of_all_candidates": 0.13877666666666666,
+        "conditional_fraction_defined_crossover_parents": 0.1548708448650418
+      },
+      "final_better_than_parent_count": {
+        "absolute_count": 108812,
+        "weighted_fraction_of_all_candidates": 0.12090222222222223,
+        "conditional_fraction_defined_crossover_parents": 0.1349234691347003
+      }
+    },
+    "feasibility_transitions": {
+      "infeasible_to_infeasible": {
+        "absolute_count": 133530,
+        "weighted_fraction": 0.14836666666666667
+      },
+      "infeasible_to_feasible": {
+        "absolute_count": 27407,
+        "weighted_fraction": 0.03045222222222222
+      },
+      "feasible_to_infeasible": {
+        "absolute_count": 68102,
+        "weighted_fraction": 0.0756688888888889
+      },
+      "feasible_to_feasible": {
+        "absolute_count": 670961,
+        "weighted_fraction": 0.7455122222222222
+      }
+    }
+  }
+}

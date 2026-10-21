@@ -1,0 +1,50 @@
+[
+  {
+    "better_neighbors": "0",
+    "all_runs": 28,
+    "all_stagnant": 8,
+    "stagnant_with_improvement": 0
+  },
+  {
+    "better_neighbors": "1",
+    "all_runs": 10,
+    "all_stagnant": 2,
+    "stagnant_with_improvement": 2
+  },
+  {
+    "better_neighbors": "2",
+    "all_runs": 7,
+    "all_stagnant": 2,
+    "stagnant_with_improvement": 2
+  },
+  {
+    "better_neighbors": "3–5",
+    "all_runs": 51,
+    "all_stagnant": 19,
+    "stagnant_with_improvement": 19
+  },
+  {
+    "better_neighbors": "6–10",
+    "all_runs": 75,
+    "all_stagnant": 25,
+    "stagnant_with_improvement": 25
+  },
+  {
+    "better_neighbors": "11–50",
+    "all_runs": 501,
+    "all_stagnant": 127,
+    "stagnant_with_improvement": 127
+  },
+  {
+    "better_neighbors": "51–100",
+    "all_runs": 149,
+    "all_stagnant": 24,
+    "stagnant_with_improvement": 24
+  },
+  {
+    "better_neighbors": ">100",
+    "all_runs": 79,
+    "all_stagnant": 3,
+    "stagnant_with_improvement": 3
+  }
+]

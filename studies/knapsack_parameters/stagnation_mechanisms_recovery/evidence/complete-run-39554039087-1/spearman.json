@@ -1,0 +1,32 @@
+[
+  {
+    "x": "b1",
+    "y": "stagnation_age",
+    "status": "DEFINED",
+    "rho": -0.17021355223041806,
+    "n": 10,
+    "reason": null,
+    "unit": "equal-weight family means across all source runs",
+    "p_value": null
+  },
+  {
+    "x": "b2",
+    "y": "stagnation_age",
+    "status": "DEFINED",
+    "rho": -0.05454545454545454,
+    "n": 10,
+    "reason": null,
+    "unit": "equal-weight family means across all source runs",
+    "p_value": null
+  },
+  {
+    "x": "mutation_probability_at_0.01",
+    "y": "stagnation_age",
+    "status": "DEFINED",
+    "rho": -0.07878787878787878,
+    "n": 10,
+    "reason": null,
+    "unit": "equal-weight family means across all source runs",
+    "p_value": null
+  }
+]
