@@ -1,0 +1,103 @@
+{
+  "protocol_id": "GA-KNAPSACK-PARAMETER-DYNAMICS-V1",
+  "scope": "technical",
+  "runner_minutes_ceiling": 120,
+  "used_runner_minutes": 17,
+  "rounding": "maximum of one minute and ceiling of each allocated job duration",
+  "all_attempts": [
+    1
+  ],
+  "jobs": [
+    {
+      "run_id": 40200946593,
+      "job_id": 121191807199,
+      "name": "gate",
+      "conclusion": "success",
+      "started_at": "2026-10-25T14:09:58Z",
+      "completed_at": "2026-10-25T14:10:08Z",
+      "runner_minutes": 1
+    },
+    {
+      "run_id": 40200946593,
+      "job_id": 121191854705,
+      "name": "tests",
+      "conclusion": "success",
+      "started_at": "2026-10-25T14:10:10Z",
+      "completed_at": "2026-10-25T14:10:44Z",
+      "runner_minutes": 1
+    },
+    {
+      "run_id": 40201069643,
+      "job_id": 121192165726,
+      "name": "gate",
+      "conclusion": "success",
+      "started_at": "2026-10-25T14:11:31Z",
+      "completed_at": "2026-10-25T14:11:41Z",
+      "runner_minutes": 1
+    },
+    {
+      "run_id": 40201069643,
+      "job_id": 121192210760,
+      "name": "prepare",
+      "conclusion": "success",
+      "started_at": "2026-10-25T14:11:43Z",
+      "completed_at": "2026-10-25T14:12:11Z",
+      "runner_minutes": 1
+    },
+    {
+      "run_id": 40201292716,
+      "job_id": 121192830926,
+      "name": "gate",
+      "conclusion": "success",
+      "started_at": "2026-10-25T14:14:23Z",
+      "completed_at": "2026-10-25T14:14:35Z",
+      "runner_minutes": 1
+    },
+    {
+      "run_id": 40201292716,
+      "job_id": 121192882319,
+      "name": "pilot (SC-s005)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T14:14:37Z",
+      "completed_at": "2026-10-25T14:16:53Z",
+      "runner_minutes": 3
+    },
+    {
+      "run_id": 40201292716,
+      "job_id": 121192882337,
+      "name": "pilot (WC-s001)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T14:14:37Z",
+      "completed_at": "2026-10-25T14:17:03Z",
+      "runner_minutes": 3
+    },
+    {
+      "run_id": 40201292716,
+      "job_id": 121192882342,
+      "name": "pilot (SC-s000)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T14:14:37Z",
+      "completed_at": "2026-10-25T14:16:09Z",
+      "runner_minutes": 2
+    },
+    {
+      "run_id": 40201292716,
+      "job_id": 121192882443,
+      "name": "pilot (UC-s000)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T14:14:37Z",
+      "completed_at": "2026-10-25T14:16:55Z",
+      "runner_minutes": 3
+    },
+    {
+      "run_id": 40201292716,
+      "job_id": 121193459293,
+      "name": "aggregate",
+      "conclusion": "success",
+      "started_at": "2026-10-25T14:17:04Z",
+      "completed_at": "2026-10-25T14:17:33Z",
+      "runner_minutes": 1
+    }
+  ],
+  "main_authorized": false
+}

@@ -1,0 +1,59 @@
+{
+  "protocol_id": "GA-KNAPSACK-PARAMETER-DYNAMICS-V1",
+  "run_id": 40201292716,
+  "run_attempt": 1,
+  "implementation_sha": "3ac2ba7d74a58768c11406093191365012e93d68",
+  "zip_api_digests_verified_locally": true,
+  "internal_file_manifests_verified_locally": true,
+  "full_logs_in_git": false,
+  "artifacts": [
+    {
+      "artifact_id": 12602495055,
+      "name": "parameter-dynamics-summary-40201292716-1",
+      "bytes": 783694,
+      "sha256": "5a66a25c64e3183548f997b794102134baa91e38cfc21f272565049eaa7e66e5",
+      "expires_at": "2027-01-23T14:14:21Z",
+      "expired": false
+    },
+    {
+      "artifact_id": 12602465074,
+      "name": "parameter-dynamics-worker-WC-s001-40201292716-1",
+      "bytes": 20555059,
+      "sha256": "e4ae304f06087d1c4a4295a73b2f2b1ad2611b08b4f61c5fbfc69e47a2e500e0",
+      "expires_at": "2027-01-23T14:14:21Z",
+      "expired": false
+    },
+    {
+      "artifact_id": 12602270433,
+      "name": "parameter-dynamics-worker-SC-s005-40201292716-1",
+      "bytes": 20511940,
+      "sha256": "d2098196ec05772f2be12e36213016b886db4de2f649a35c73ec40b20f179f3e",
+      "expires_at": "2027-01-23T14:14:21Z",
+      "expired": false
+    },
+    {
+      "artifact_id": 12601698083,
+      "name": "parameter-dynamics-worker-UC-s000-40201292716-1",
+      "bytes": 19971509,
+      "sha256": "696ddc1a34b48f169648faa23591e644278c0934866f204f9314af76c602e828",
+      "expires_at": "2027-01-23T14:14:21Z",
+      "expired": false
+    },
+    {
+      "artifact_id": 12601469851,
+      "name": "parameter-dynamics-permit-40201292716-1",
+      "bytes": 2628,
+      "sha256": "e1f940e6fc1b11f6abc7314eaad639ba4f6962244f01cbccfafc97e0417b0f31",
+      "expires_at": "2027-01-23T14:14:21Z",
+      "expired": false
+    },
+    {
+      "artifact_id": 12601373365,
+      "name": "parameter-dynamics-worker-SC-s000-40201292716-1",
+      "bytes": 20629191,
+      "sha256": "670a1c7c3ee5990113408d93d018691e9beea5a345af979d43d157d0353aa3f5",
+      "expires_at": "2027-01-23T14:14:21Z",
+      "expired": false
+    }
+  ]
+}
