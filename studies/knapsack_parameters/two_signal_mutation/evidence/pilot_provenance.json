@@ -1,0 +1,21 @@
+{
+  "run_id": 40178639764,
+  "run_attempt": 1,
+  "implementation_sha": "060494edd2b82b30d33271a01001d851106c3933",
+  "summary_artifact_id": 12593475100,
+  "summary_zip_sha256": "a1946c6cf4f7592b60ad19ec450a9f44ed4c8cf713fb2e2337ca569c26c07f94",
+  "summary_file_manifest_sha256": "1db5a7431f64fd4bbd918bceeaf7d48d49a159e4a94b698935682de29d863854",
+  "worker_artifacts": [
+    {"worker":"SC-s000","artifact_id":12592674966,"zip_sha256":"cd7f00be05bd5211cb537603861d35952e5916de2e1117d310eb1112cd7f4957"},
+    {"worker":"SC-s005","artifact_id":12592514079,"zip_sha256":"e9dbf27c9640736ede08afa7af4a1172f518b95465ae143ccc3301988f7893fb"},
+    {"worker":"UC-s000","artifact_id":12592124816,"zip_sha256":"3212b1435f24626f38f3799797ef2491eba1ca2abd9f243b5b50d5d423f4f57d"},
+    {"worker":"WC-s001","artifact_id":12593263589,"zip_sha256":"72e20382b8864c55f8ce322ae373ab187ea28ac2a3f472b035ea90b2f04ef251"}
+  ],
+  "all_zip_and_internal_manifest_checks": "PASS",
+  "full_journals": "CI artifacts and one local evidence archive; not committed",
+  "technical_runs": 24,
+  "new_search_evaluations": 120000,
+  "independent_replay": "24/24 VERIFIED",
+  "technical_runner_minutes_after_pilot": 14,
+  "primary_inference_or_correlations_performed": false
+}

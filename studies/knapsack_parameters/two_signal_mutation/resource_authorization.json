@@ -14,8 +14,29 @@
     "main_search_authorized": false
   },
   "main": {
-    "explicit_user_approval": false,
-    "status": "WAITING_FOR_MEASURED_PILOT_COST_AND_SEPARATE_APPROVAL",
-    "main_search_authorized": false
+    "explicit_user_approval": true,
+    "user_approval_text": "Погоджую 2700 запусків, до 240 хвилин і 2 GiB",
+    "approval_date": "2026-10-25",
+    "runner_minutes_ceiling": 240,
+    "allowed_phases": ["prepare-main", "main"],
+    "phase_reservations": {"prepare-main": 7, "main": 193},
+    "job_timeouts": {"gate": 1, "tests": 6, "prepare": 4, "worker": 17, "aggregate": 10},
+    "max_parallel": 4,
+    "maximum_compressed_bytes_per_worker": 536870912,
+    "maximum_compressed_journal_bytes_total": 2147483648,
+    "main_runs": 2700,
+    "new_calls_per_run": 5000,
+    "main_search_authorized": true,
+    "pilot_cost_receipt": {
+      "pilot_runs": 24,
+      "run_id": 40178639764,
+      "run_attempt": 1,
+      "artifact_id": 12593475100,
+      "implementation_sha": "060494edd2b82b30d33271a01001d851106c3933",
+      "zip_sha256": "a1946c6cf4f7592b60ad19ec450a9f44ed4c8cf713fb2e2337ca569c26c07f94",
+      "file_manifest_sha256": "1db5a7431f64fd4bbd918bceeaf7d48d49a159e4a94b698935682de29d863854",
+      "forecast_runner_minutes": 204,
+      "forecast_compressed_journal_bytes": 1202380875
+    }
   }
 }
