@@ -1,0 +1,188 @@
+name: Knapsack parameter dynamics
+
+on:
+  push:
+    branches: [research/masters-ga-diversity-crossover]
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: knapsack-parameter-dynamics
+  cancel-in-progress: false
+
+env:
+  EXPECTED_SHA: ${{ github.sha }}
+  COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+  GITHUB_TOKEN: ${{ github.token }}
+  PYTHONHASHSEED: '0'
+  PYTHONDONTWRITEBYTECODE: '1'
+  MPLBACKEND: Agg
+  OPENBLAS_NUM_THREADS: '1'
+  OMP_NUM_THREADS: '1'
+
+jobs:
+  gate:
+    if: contains(github.event.head_commit.message, '[parameter-dynamics:')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 1
+    outputs:
+      phase: ${{ steps.permit.outputs.phase }}
+      worker_timeout: ${{ steps.permit.outputs.worker_timeout }}
+      aggregate_timeout: ${{ steps.permit.outputs.aggregate_timeout }}
+      prepare_timeout: ${{ steps.permit.outputs.prepare_timeout }}
+      worker_matrix: ${{ steps.permit.outputs.worker_matrix }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - id: permit
+        name: Exact protocol and bounded cumulative phase authorization
+        run: python3 -m studies.knapsack_parameters.parameter_dynamics.driver preflight --output "$RUNNER_TEMP/parameter-dynamics-permit"
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: parameter-dynamics-permit-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/parameter-dynamics-permit
+          retention-days: 90
+          if-no-files-found: warn
+
+  tests:
+    needs: gate
+    if: needs.gate.outputs.phase == 'tests'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - run: |
+          python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: parameter-dynamics-permit-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/permit
+      - name: Software fixtures only, not scientific search or bootstrap
+        run: python -m studies.knapsack_parameters.parameter_dynamics.driver tests --permit "$RUNNER_TEMP/permit" --output "$RUNNER_TEMP/parameter-dynamics-tests"
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: parameter-dynamics-tests-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/parameter-dynamics-tests
+          retention-days: 90
+          if-no-files-found: warn
+
+  prepare:
+    needs: gate
+    if: needs.gate.outputs.phase == 'prepare-pilot' || needs.gate.outputs.phase == 'prepare-main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: ${{ fromJSON(needs.gate.outputs.prepare_timeout) }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - run: |
+          python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: parameter-dynamics-permit-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/permit
+      - name: Prepare shared beginnings and separately authorized source references
+        env:
+          STUDY_STAGE: ${{ needs.gate.outputs.phase == 'prepare-pilot' && 'pilot' || 'main' }}
+        run: python -m studies.knapsack_parameters.parameter_dynamics.driver prepare --stage "$STUDY_STAGE" --permit "$RUNNER_TEMP/permit" --output "$RUNNER_TEMP/parameter-dynamics-inputs"
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: parameter-dynamics-inputs-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/parameter-dynamics-inputs
+          retention-days: 90
+          if-no-files-found: warn
+
+  worker:
+    name: ${{ needs.gate.outputs.phase }} (${{ matrix.worker }})
+    needs: gate
+    if: needs.gate.outputs.phase == 'pilot' || needs.gate.outputs.phase == 'main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: ${{ fromJSON(needs.gate.outputs.worker_timeout) }}
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix: ${{ fromJSON(needs.gate.outputs.worker_matrix) }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - run: |
+          python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: parameter-dynamics-permit-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/permit
+      - name: Registered profile rectangle and independent journal replay
+        env:
+          STUDY_STAGE: ${{ needs.gate.outputs.phase }}
+          STUDY_WORKER: ${{ matrix.worker }}
+        run: python -m studies.knapsack_parameters.parameter_dynamics.driver worker --stage "$STUDY_STAGE" --worker "$STUDY_WORKER" --permit "$RUNNER_TEMP/permit" --output "$RUNNER_TEMP/parameter-dynamics-worker"
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: parameter-dynamics-worker-${{ matrix.worker }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/parameter-dynamics-worker
+          retention-days: 90
+          if-no-files-found: warn
+
+  aggregate:
+    needs: [gate, worker]
+    if: always() && needs.gate.result == 'success' && (needs.gate.outputs.phase == 'pilot' || needs.gate.outputs.phase == 'main')
+    runs-on: ubuntu-24.04
+    timeout-minutes: ${{ fromJSON(needs.gate.outputs.aggregate_timeout) }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - run: |
+          python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: parameter-dynamics-permit-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/permit
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          pattern: parameter-dynamics-worker-*-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/workers
+          merge-multiple: false
+      - name: Exact producer completeness, measurements and prospective cost
+        env:
+          STUDY_STAGE: ${{ needs.gate.outputs.phase }}
+        run: python -m studies.knapsack_parameters.parameter_dynamics.driver aggregate --stage "$STUDY_STAGE" --workers "$RUNNER_TEMP/workers" --permit "$RUNNER_TEMP/permit" --output "$RUNNER_TEMP/parameter-dynamics-summary"
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: parameter-dynamics-summary-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/parameter-dynamics-summary
+          retention-days: 90
+          if-no-files-found: warn
