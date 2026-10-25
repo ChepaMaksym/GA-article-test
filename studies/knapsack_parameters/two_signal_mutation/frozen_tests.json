@@ -1,13 +1,13 @@
 {
   "protocol_id": "GA-KNAPSACK-TWO-SIGNAL-MUTATION-V1",
   "frozen": true,
-  "receipt_path": "evidence/tests-run-40178404075-1/tests_receipt.json",
-  "receipt_identity": {"bytes": 4577, "sha256": "ded40dfcb45e0b910f4e3bc52d3162b8463ad9b68bce6d8bb875ac1a5b43bdca"},
-  "artifact_id": 12593295112,
-  "zip_sha256": "1c72f19f66cb77077b0f726c2b1958316c05a23422bec15e8827982c5058eb10",
-  "run_id": 40178404075,
+  "receipt_path": "evidence/tests-run-40179169123-1/tests_receipt.json",
+  "receipt_identity": {"bytes": 4577, "sha256": "a17f139e2c5e15774477f31a5c59dfbbca7ad46882c20db3f2a526f29ed68b43"},
+  "artifact_id": 12593790682,
+  "zip_sha256": "7cf090454b36fdeda4a5b548b7da214cdbc36464460537965d306be94df46b7c",
+  "run_id": 40179169123,
   "run_attempt": 1,
-  "implementation_sha": "43d18dc347db2aeb5b88b464b0d06eccdbb0e90b",
-  "tests_run": 91,
+  "implementation_sha": "e7331e97b16669aa296443f2228e4e52a2776157",
+  "tests_run": 93,
   "scientific_search_performed": false
 }
