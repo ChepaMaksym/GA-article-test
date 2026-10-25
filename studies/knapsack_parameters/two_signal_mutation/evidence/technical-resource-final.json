@@ -1,0 +1,156 @@
+{
+    "protocol_id":  "GA-KNAPSACK-TWO-SIGNAL-MUTATION-V1",
+    "scope":  "technical",
+    "reference_run_id":  40179169123,
+    "runner_minutes_ceiling":  60,
+    "used_runner_minutes":  16,
+    "within_ceiling":  true,
+    "all_attempts_included":  true,
+    "jobs":  [
+                 {
+                     "run_id":  40179169123,
+                     "run_attempt":  1,
+                     "job_id":  121126301846,
+                     "name":  "gate",
+                     "conclusion":  "success",
+                     "seconds":  11,
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40179169123,
+                     "run_attempt":  1,
+                     "job_id":  121126342861,
+                     "name":  "tests",
+                     "conclusion":  "success",
+                     "seconds":  26,
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40178639764,
+                     "run_attempt":  1,
+                     "job_id":  121124712911,
+                     "name":  "gate",
+                     "conclusion":  "success",
+                     "seconds":  9,
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40178639764,
+                     "run_attempt":  1,
+                     "job_id":  121124748784,
+                     "name":  "pilot (SC-s000)",
+                     "conclusion":  "success",
+                     "seconds":  34,
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40178639764,
+                     "run_attempt":  1,
+                     "job_id":  121124748802,
+                     "name":  "pilot (SC-s005)",
+                     "conclusion":  "success",
+                     "seconds":  34,
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40178639764,
+                     "run_attempt":  1,
+                     "job_id":  121124748843,
+                     "name":  "pilot (WC-s001)",
+                     "conclusion":  "success",
+                     "seconds":  38,
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40178639764,
+                     "run_attempt":  1,
+                     "job_id":  121124748845,
+                     "name":  "pilot (UC-s000)",
+                     "conclusion":  "success",
+                     "seconds":  28,
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40178639764,
+                     "run_attempt":  1,
+                     "job_id":  121124876106,
+                     "name":  "aggregate",
+                     "conclusion":  "success",
+                     "seconds":  27,
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40178514339,
+                     "run_attempt":  1,
+                     "job_id":  121124335815,
+                     "name":  "gate",
+                     "conclusion":  "success",
+                     "seconds":  10,
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40178514339,
+                     "run_attempt":  1,
+                     "job_id":  121124377647,
+                     "name":  "prepare",
+                     "conclusion":  "success",
+                     "seconds":  26,
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40178404075,
+                     "run_attempt":  1,
+                     "job_id":  121123982283,
+                     "name":  "gate",
+                     "conclusion":  "success",
+                     "seconds":  8,
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40178404075,
+                     "run_attempt":  1,
+                     "job_id":  121124015437,
+                     "name":  "tests",
+                     "conclusion":  "success",
+                     "seconds":  30,
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40178266879,
+                     "run_attempt":  1,
+                     "job_id":  121123574167,
+                     "name":  "gate",
+                     "conclusion":  "success",
+                     "seconds":  8,
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40178266879,
+                     "run_attempt":  1,
+                     "job_id":  121123606600,
+                     "name":  "prepare",
+                     "conclusion":  "failure",
+                     "seconds":  28,
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40178076061,
+                     "run_attempt":  1,
+                     "job_id":  121123001731,
+                     "name":  "gate",
+                     "conclusion":  "success",
+                     "seconds":  10,
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40178076061,
+                     "run_attempt":  1,
+                     "job_id":  121123038592,
+                     "name":  "tests",
+                     "conclusion":  "success",
+                     "seconds":  31,
+                     "runner_minutes":  1
+                 }
+             ],
+    "new_main_search_authorized":  false
+}

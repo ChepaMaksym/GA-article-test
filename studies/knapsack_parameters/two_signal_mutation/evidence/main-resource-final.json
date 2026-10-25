@@ -1,0 +1,138 @@
+{
+    "protocol_id":  "GA-KNAPSACK-TWO-SIGNAL-MUTATION-V1",
+    "scope":  "main",
+    "reference_run_id":  40179425854,
+    "runner_minutes_ceiling":  240,
+    "used_runner_minutes":  81,
+    "within_ceiling":  true,
+    "all_attempts_included":  true,
+    "jobs":  [
+                 {
+                     "run_id":  40179425854,
+                     "run_attempt":  1,
+                     "job_id":  121127080476,
+                     "name":  "gate",
+                     "conclusion":  "success",
+                     "seconds":  13,
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40179425854,
+                     "run_attempt":  1,
+                     "job_id":  121127132705,
+                     "name":  "main (s014)",
+                     "conclusion":  "success",
+                     "seconds":  471,
+                     "runner_minutes":  8
+                 },
+                 {
+                     "run_id":  40179425854,
+                     "run_attempt":  1,
+                     "job_id":  121127132708,
+                     "name":  "main (s011)",
+                     "conclusion":  "success",
+                     "seconds":  450,
+                     "runner_minutes":  8
+                 },
+                 {
+                     "run_id":  40179425854,
+                     "run_attempt":  1,
+                     "job_id":  121127132709,
+                     "name":  "main (s019)",
+                     "conclusion":  "success",
+                     "seconds":  480,
+                     "runner_minutes":  8
+                 },
+                 {
+                     "run_id":  40179425854,
+                     "run_attempt":  1,
+                     "job_id":  121127132718,
+                     "name":  "main (s013)",
+                     "conclusion":  "success",
+                     "seconds":  304,
+                     "runner_minutes":  6
+                 },
+                 {
+                     "run_id":  40179425854,
+                     "run_attempt":  1,
+                     "job_id":  121127132721,
+                     "name":  "main (s018)",
+                     "conclusion":  "success",
+                     "seconds":  480,
+                     "runner_minutes":  8
+                 },
+                 {
+                     "run_id":  40179425854,
+                     "run_attempt":  1,
+                     "job_id":  121127132731,
+                     "name":  "main (s012)",
+                     "conclusion":  "success",
+                     "seconds":  305,
+                     "runner_minutes":  6
+                 },
+                 {
+                     "run_id":  40179425854,
+                     "run_attempt":  1,
+                     "job_id":  121127132746,
+                     "name":  "main (s017)",
+                     "conclusion":  "success",
+                     "seconds":  483,
+                     "runner_minutes":  9
+                 },
+                 {
+                     "run_id":  40179425854,
+                     "run_attempt":  1,
+                     "job_id":  121127132761,
+                     "name":  "main (s016)",
+                     "conclusion":  "success",
+                     "seconds":  471,
+                     "runner_minutes":  8
+                 },
+                 {
+                     "run_id":  40179425854,
+                     "run_attempt":  1,
+                     "job_id":  121127132789,
+                     "name":  "main (s015)",
+                     "conclusion":  "success",
+                     "seconds":  476,
+                     "runner_minutes":  8
+                 },
+                 {
+                     "run_id":  40179425854,
+                     "run_attempt":  1,
+                     "job_id":  121127132805,
+                     "name":  "main (s010)",
+                     "conclusion":  "success",
+                     "seconds":  472,
+                     "runner_minutes":  8
+                 },
+                 {
+                     "run_id":  40179425854,
+                     "run_attempt":  1,
+                     "job_id":  121131513795,
+                     "name":  "aggregate",
+                     "conclusion":  "success",
+                     "seconds":  52,
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40179278590,
+                     "run_attempt":  1,
+                     "job_id":  121126627622,
+                     "name":  "gate",
+                     "conclusion":  "success",
+                     "seconds":  15,
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40179278590,
+                     "run_attempt":  1,
+                     "job_id":  121126689779,
+                     "name":  "prepare",
+                     "conclusion":  "success",
+                     "seconds":  34,
+                     "runner_minutes":  1
+                 }
+             ],
+    "new_main_search_authorized":  true
+}
