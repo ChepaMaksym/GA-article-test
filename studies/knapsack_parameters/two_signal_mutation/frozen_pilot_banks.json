@@ -1,0 +1,14 @@
+{
+  "protocol_id": "GA-KNAPSACK-TWO-SIGNAL-MUTATION-V1",
+  "stage": "pilot",
+  "frozen": true,
+  "registry_identity": {"bytes": 6289, "sha256": "9800623065ac52fd71621057083eb80cff5645b663babe211afe1d80cea67afd"},
+  "artifact_id": 12593248645,
+  "zip_sha256": "9dd863b07fa077975d57851a1dfb12e3e609e4e4d5d79928608d864d40980b73",
+  "source_run_id": 40178514339,
+  "source_run_attempt": 1,
+  "source_sha": "66265d3c3586803ced95f7fa285c4145721d4ce2",
+  "conditions": 8,
+  "new_search_calls": 0,
+  "main_search_authorized": false
+}
