@@ -52,7 +52,8 @@ def source_case(task, stage):
     a.require(len(found) == 1, "Missing or duplicate source task")
     row = found[0]
     source = row["source_identity"]
-    path = a.safe_child(source_root, source["path"])
+    relative = source["path"] if stage == "main" else "source/" + source["source_path"]
+    path = a.safe_child(source_root, relative)
     a.require(a.identity(path) == {"bytes": source["bytes"], "sha256": source["sha256"]}, "Source bytes changed")
     tokens = [int(token) for token in path.read_text(encoding="utf-8").split()]
     a.require(len(tokens) == 202 and tokens[0] == 100 and tokens[1] >= 0, "Expected original n100 KPLIB format")

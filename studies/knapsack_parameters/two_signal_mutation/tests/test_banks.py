@@ -26,6 +26,13 @@ class BankTests(unittest.TestCase):
         self.assertEqual(len(banks.expected_conditions("pilot")), 8)
         self.assertEqual(len(banks.expected_conditions("main")), 900)
 
+    def test_legacy_pilot_source_paths_are_read_without_new_solvers(self):
+        for task in banks.PILOT_TASKS:
+            source = banks.source_case(task, "pilot")
+            self.assertEqual(source["problem"]["n"], 100)
+            self.assertGreater(source["optimum"], 0)
+            self.assertTrue(banks.independent_score(source["problem"], source["center_mask"])["feasible"])
+
     def test_preparation_reconstructs_all_eight_banks(self):
         for bank in self.prepared():
             banks.validate_bank(bank, self.source)
