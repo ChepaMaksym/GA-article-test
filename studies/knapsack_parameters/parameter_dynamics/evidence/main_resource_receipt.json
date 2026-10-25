@@ -1,0 +1,507 @@
+{
+  "protocol_id": "GA-KNAPSACK-PARAMETER-DYNAMICS-V1",
+  "scope": "main",
+  "user_approval_text": "Погоджую 28 800 запусків, до 1800 хвилин і 16 GiB",
+  "runner_minutes_ceiling": 1800,
+  "maximum_compressed_journal_bytes_total": 17179869184,
+  "used_runner_minutes": 779,
+  "rounding": "maximum of one minute and ceiling of each allocated job duration",
+  "run_attempts": {
+    "40205242115": [
+      1
+    ],
+    "40205451045": [
+      1
+    ]
+  },
+  "jobs": [
+    {
+      "run_id": 40205242115,
+      "job_id": 121204657163,
+      "name": "gate",
+      "conclusion": "success",
+      "started_at": "2026-10-25T15:04:58Z",
+      "completed_at": "2026-10-25T15:05:07Z",
+      "runner_minutes": 1
+    },
+    {
+      "run_id": 40205242115,
+      "job_id": 121204700464,
+      "name": "prepare",
+      "conclusion": "success",
+      "started_at": "2026-10-25T15:05:09Z",
+      "completed_at": "2026-10-25T15:05:39Z",
+      "runner_minutes": 1
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205278042,
+      "name": "gate",
+      "conclusion": "success",
+      "started_at": "2026-10-25T15:07:35Z",
+      "completed_at": "2026-10-25T15:07:47Z",
+      "runner_minutes": 1
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205330362,
+      "name": "main (s022-b0)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T15:38:19Z",
+      "completed_at": "2026-10-25T15:48:28Z",
+      "runner_minutes": 11
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205330363,
+      "name": "main (s022-b2)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T15:48:29Z",
+      "completed_at": "2026-10-25T16:05:25Z",
+      "runner_minutes": 17
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205330375,
+      "name": "main (s021-b0)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T15:21:16Z",
+      "completed_at": "2026-10-25T15:38:17Z",
+      "runner_minutes": 18
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205330382,
+      "name": "main (s020-b0)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T15:07:49Z",
+      "completed_at": "2026-10-25T15:20:57Z",
+      "runner_minutes": 14
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205330389,
+      "name": "main (s021-b4)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T15:37:50Z",
+      "completed_at": "2026-10-25T15:53:12Z",
+      "runner_minutes": 16
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205330405,
+      "name": "main (s020-b1)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T15:07:49Z",
+      "completed_at": "2026-10-25T15:21:14Z",
+      "runner_minutes": 14
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205330409,
+      "name": "main (s022-b3)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T15:50:11Z",
+      "completed_at": "2026-10-25T16:07:08Z",
+      "runner_minutes": 17
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205330417,
+      "name": "main (s020-b2)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T15:07:49Z",
+      "completed_at": "2026-10-25T15:21:36Z",
+      "runner_minutes": 14
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205330424,
+      "name": "main (s020-b3)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T15:07:49Z",
+      "completed_at": "2026-10-25T15:24:28Z",
+      "runner_minutes": 17
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205330433,
+      "name": "main (s021-b2)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T15:24:30Z",
+      "completed_at": "2026-10-25T15:39:57Z",
+      "runner_minutes": 16
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205330437,
+      "name": "main (s021-b3)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T15:34:49Z",
+      "completed_at": "2026-10-25T15:51:41Z",
+      "runner_minutes": 17
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205330439,
+      "name": "main (s021-b1)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T15:21:38Z",
+      "completed_at": "2026-10-25T15:34:47Z",
+      "runner_minutes": 14
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205330463,
+      "name": "main (s020-b4)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T15:20:59Z",
+      "completed_at": "2026-10-25T15:37:49Z",
+      "runner_minutes": 17
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205330468,
+      "name": "main (s022-b1)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T15:39:59Z",
+      "completed_at": "2026-10-25T15:50:09Z",
+      "runner_minutes": 11
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205331429,
+      "name": "main (s023-b4)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T16:09:58Z",
+      "completed_at": "2026-10-25T16:19:34Z",
+      "runner_minutes": 10
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205331432,
+      "name": "main (s023-b0)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T15:53:14Z",
+      "completed_at": "2026-10-25T16:09:57Z",
+      "runner_minutes": 17
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205331449,
+      "name": "main (s023-b1)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T16:01:45Z",
+      "completed_at": "2026-10-25T16:16:49Z",
+      "runner_minutes": 16
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205331458,
+      "name": "main (s023-b2)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T16:05:27Z",
+      "completed_at": "2026-10-25T16:18:42Z",
+      "runner_minutes": 14
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205331482,
+      "name": "main (s022-b4)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T15:51:42Z",
+      "completed_at": "2026-10-25T16:01:43Z",
+      "runner_minutes": 11
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205331544,
+      "name": "main (s024-b0)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T16:16:51Z",
+      "completed_at": "2026-10-25T16:30:18Z",
+      "runner_minutes": 14
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205331548,
+      "name": "main (s023-b3)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T16:07:09Z",
+      "completed_at": "2026-10-25T16:23:58Z",
+      "runner_minutes": 17
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205331602,
+      "name": "main (s024-b1)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T16:18:44Z",
+      "completed_at": "2026-10-25T16:34:09Z",
+      "runner_minutes": 16
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205331612,
+      "name": "main (s024-b2)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T16:19:36Z",
+      "completed_at": "2026-10-25T16:36:31Z",
+      "runner_minutes": 17
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205331656,
+      "name": "main (s024-b3)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T16:24:00Z",
+      "completed_at": "2026-10-25T16:37:33Z",
+      "runner_minutes": 14
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205332280,
+      "name": "main (s024-b4)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T16:30:20Z",
+      "completed_at": "2026-10-25T16:47:15Z",
+      "runner_minutes": 17
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205332297,
+      "name": "main (s025-b1)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T16:36:33Z",
+      "completed_at": "2026-10-25T16:55:16Z",
+      "runner_minutes": 19
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205332349,
+      "name": "main (s025-b0)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T16:34:11Z",
+      "completed_at": "2026-10-25T16:44:30Z",
+      "runner_minutes": 11
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205332446,
+      "name": "main (s025-b2)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T16:37:35Z",
+      "completed_at": "2026-10-25T16:50:46Z",
+      "runner_minutes": 14
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205332467,
+      "name": "main (s025-b3)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T16:44:31Z",
+      "completed_at": "2026-10-25T16:57:36Z",
+      "runner_minutes": 14
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205332544,
+      "name": "main (s026-b1)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T16:55:19Z",
+      "completed_at": "2026-10-25T17:11:09Z",
+      "runner_minutes": 16
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205332553,
+      "name": "main (s025-b4)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T16:47:17Z",
+      "completed_at": "2026-10-25T17:04:11Z",
+      "runner_minutes": 17
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205332560,
+      "name": "main (s026-b0)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T16:50:48Z",
+      "completed_at": "2026-10-25T17:07:45Z",
+      "runner_minutes": 17
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205332568,
+      "name": "main (s026-b2)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T16:57:38Z",
+      "completed_at": "2026-10-25T17:07:24Z",
+      "runner_minutes": 10
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205332648,
+      "name": "main (s026-b3)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T17:04:13Z",
+      "completed_at": "2026-10-25T17:21:17Z",
+      "runner_minutes": 18
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205333314,
+      "name": "main (s027-b0)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T17:07:47Z",
+      "completed_at": "2026-10-25T17:25:13Z",
+      "runner_minutes": 18
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205333315,
+      "name": "main (s026-b4)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T17:07:26Z",
+      "completed_at": "2026-10-25T17:24:27Z",
+      "runner_minutes": 18
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205333390,
+      "name": "main (s027-b1)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T17:11:11Z",
+      "completed_at": "2026-10-25T17:28:11Z",
+      "runner_minutes": 17
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205333437,
+      "name": "main (s027-b2)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T17:21:19Z",
+      "completed_at": "2026-10-25T17:38:15Z",
+      "runner_minutes": 17
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205333465,
+      "name": "main (s027-b3)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T17:24:28Z",
+      "completed_at": "2026-10-25T17:41:12Z",
+      "runner_minutes": 17
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205333536,
+      "name": "main (s027-b4)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T17:25:15Z",
+      "completed_at": "2026-10-25T17:38:30Z",
+      "runner_minutes": 14
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205333589,
+      "name": "main (s028-b0)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T17:28:13Z",
+      "completed_at": "2026-10-25T17:43:58Z",
+      "runner_minutes": 16
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205333622,
+      "name": "main (s028-b1)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T17:38:17Z",
+      "completed_at": "2026-10-25T17:48:31Z",
+      "runner_minutes": 11
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205333852,
+      "name": "main (s028-b2)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T17:38:33Z",
+      "completed_at": "2026-10-25T17:55:26Z",
+      "runner_minutes": 17
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205334219,
+      "name": "main (s028-b3)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T17:41:14Z",
+      "completed_at": "2026-10-25T17:58:20Z",
+      "runner_minutes": 18
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205334363,
+      "name": "main (s028-b4)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T17:44:00Z",
+      "completed_at": "2026-10-25T18:01:00Z",
+      "runner_minutes": 17
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205334372,
+      "name": "main (s029-b0)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T17:48:33Z",
+      "completed_at": "2026-10-25T18:05:21Z",
+      "runner_minutes": 17
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205334441,
+      "name": "main (s029-b2)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T17:58:22Z",
+      "completed_at": "2026-10-25T18:15:16Z",
+      "runner_minutes": 17
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205334452,
+      "name": "main (s029-b1)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T17:55:28Z",
+      "completed_at": "2026-10-25T18:08:39Z",
+      "runner_minutes": 14
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205334618,
+      "name": "main (s029-b3)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T18:01:02Z",
+      "completed_at": "2026-10-25T18:18:00Z",
+      "runner_minutes": 17
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121205334708,
+      "name": "main (s029-b4)",
+      "conclusion": "success",
+      "started_at": "2026-10-25T18:05:22Z",
+      "completed_at": "2026-10-25T18:22:18Z",
+      "runner_minutes": 17
+    },
+    {
+      "run_id": 40205451045,
+      "job_id": 121252111422,
+      "name": "aggregate",
+      "conclusion": "success",
+      "started_at": "2026-10-25T18:22:20Z",
+      "completed_at": "2026-10-25T18:24:14Z",
+      "runner_minutes": 2
+    }
+  ],
+  "technical_stage_counted_separately": true,
+  "scientific_search_repeated": false
+}

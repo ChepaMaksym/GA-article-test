@@ -1,0 +1,538 @@
+{
+    "protocol_id":  "GA-KNAPSACK-PARAMETER-DYNAMICS-V1",
+    "status":  "COMPLETE_LOCAL_ARCHIVE_COPY",
+    "run_id":  40205451045,
+    "run_attempt":  1,
+    "implementation_sha":  "3e28c407db41a31d251e8063b31f67c83ecc606b",
+    "workflow_url":  "https://github.com/ChepaMaksym/GA-article-test/actions/runs/40205451045",
+    "recorded_at_utc":  "2026-10-25T20:11:23.3852292Z",
+    "artifact_count":  52,
+    "worker_artifact_count":  50,
+    "scientific_journal_bytes":  9070994983,
+    "retention":  "Complete compressed journals retained in GitHub Actions and one verified local ZIP archive copy.",
+    "full_candidate_logs_in_git":  false,
+    "signed_download_urls_in_registry":  false,
+    "local_scientific_computations_performed":  false,
+    "artifacts":  [
+                      {
+                          "artifact_id":  12603058436,
+                          "name":  "parameter-dynamics-permit-40205451045-1",
+                          "zip_bytes":  2814,
+                          "zip_sha256":  "35b198fe3e6193ca0ec5bacdb7f277c3fea875e3ae69940787b04ffc3c795b61",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12608493389,
+                          "name":  "parameter-dynamics-summary-40205451045-1",
+                          "zip_bytes":  40340196,
+                          "zip_sha256":  "86eddf2e60333797de8c97109d2456d18816665b44c3a66e8c43c7c54c0f6990",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  11,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12603474114,
+                          "name":  "parameter-dynamics-worker-s020-b0-40205451045-1",
+                          "zip_bytes":  181361916,
+                          "zip_sha256":  "39f37adb2283370eaf6f77bde6f83562684d6aa0a1b824a796ae3817ba08ed79",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12603643966,
+                          "name":  "parameter-dynamics-worker-s020-b1-40205451045-1",
+                          "zip_bytes":  181269123,
+                          "zip_sha256":  "96acf95f767d5cdf737dd58ada0452cdc624470888c1b44fa45476322a4d6bec",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12603439256,
+                          "name":  "parameter-dynamics-worker-s020-b2-40205451045-1",
+                          "zip_bytes":  181165714,
+                          "zip_sha256":  "8cf2224aa3b350229dae08f61895664fd464576e95f6f0fe504769b36d7ba3a9",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12603254532,
+                          "name":  "parameter-dynamics-worker-s020-b3-40205451045-1",
+                          "zip_bytes":  180784002,
+                          "zip_sha256":  "d82edb2b952a7f74de73235e8477953c0d3ed6db18c11d2e2e4b580b1a1f6fe0",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12605075664,
+                          "name":  "parameter-dynamics-worker-s020-b4-40205451045-1",
+                          "zip_bytes":  180953154,
+                          "zip_sha256":  "39680a8868741e2b1f35c1c58f8151b5587ad9624d78dddcf59724dee19cb424",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12604686575,
+                          "name":  "parameter-dynamics-worker-s021-b0-40205451045-1",
+                          "zip_bytes":  182334278,
+                          "zip_sha256":  "2bc89aa24741031d075a579422012802a90b0701528e1161d269e4745e181386",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12604541289,
+                          "name":  "parameter-dynamics-worker-s021-b1-40205451045-1",
+                          "zip_bytes":  181577117,
+                          "zip_sha256":  "47f5dd26f38df9ff50da45eec1f6e4dcfd6f7d7055f34f6f43879987e3747ced",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12604756673,
+                          "name":  "parameter-dynamics-worker-s021-b2-40205451045-1",
+                          "zip_bytes":  181967032,
+                          "zip_sha256":  "0a29dfdad324f42a4ee034aa93e8ca2703bd200b5e9fd8a9f80be69c26322a89",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12605082466,
+                          "name":  "parameter-dynamics-worker-s021-b3-40205451045-1",
+                          "zip_bytes":  181406805,
+                          "zip_sha256":  "1369c497ef79ae8169cda9ae72af05712bdeb4f2246771c80fba72dfc711d23e",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12604618779,
+                          "name":  "parameter-dynamics-worker-s021-b4-40205451045-1",
+                          "zip_bytes":  181597878,
+                          "zip_sha256":  "83a13ef178feb835878fab093470f7c1087d7ab3b3b741f7c68735d9089db49d",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12604762828,
+                          "name":  "parameter-dynamics-worker-s022-b0-40205451045-1",
+                          "zip_bytes":  182714003,
+                          "zip_sha256":  "3251bed1dc54df15787faaf553a2f83346fe5c5da3c7ebacbf5b51881b0b989f",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12604199357,
+                          "name":  "parameter-dynamics-worker-s022-b1-40205451045-1",
+                          "zip_bytes":  181510252,
+                          "zip_sha256":  "09ead9811c98c17bfc1cddfffae21ed044ddd99e08946b43c6882c7d424fd652",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12605183959,
+                          "name":  "parameter-dynamics-worker-s022-b2-40205451045-1",
+                          "zip_bytes":  182391285,
+                          "zip_sha256":  "d68fcf0892082ccdc15e4947f7eb955bf6793cb537ce876972b6cb2cc5eacfb9",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12605320757,
+                          "name":  "parameter-dynamics-worker-s022-b3-40205451045-1",
+                          "zip_bytes":  181786459,
+                          "zip_sha256":  "e420e7a3fec427502e1d9c2a19164a913398c9d4064c934e9b1caa70204c16cd",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12604629713,
+                          "name":  "parameter-dynamics-worker-s022-b4-40205451045-1",
+                          "zip_bytes":  182145498,
+                          "zip_sha256":  "622140d5066efff40eab5f00a7a309dc2e795b1cc1f0783cb119e2b896690cfe",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12606070012,
+                          "name":  "parameter-dynamics-worker-s023-b0-40205451045-1",
+                          "zip_bytes":  182001677,
+                          "zip_sha256":  "7835934ffd501406af4ddb981e39871d80759eca604e25b5853800180f7fc155",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12605765732,
+                          "name":  "parameter-dynamics-worker-s023-b1-40205451045-1",
+                          "zip_bytes":  181876691,
+                          "zip_sha256":  "b8b14efc11e24159d0212a499b4a9f889c196342ab5603b2c174cac7c99af474",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12605756622,
+                          "name":  "parameter-dynamics-worker-s023-b2-40205451045-1",
+                          "zip_bytes":  182301532,
+                          "zip_sha256":  "3ebc3c068578b887e2db4e5f7fd02422d47de6132c2b1e7a3aaec142f7606b89",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12605766462,
+                          "name":  "parameter-dynamics-worker-s023-b3-40205451045-1",
+                          "zip_bytes":  182511189,
+                          "zip_sha256":  "7d72a9fb1feffed50cb7464fdfc417204eb61dcee628b8ca91b40dc70297073a",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12605287615,
+                          "name":  "parameter-dynamics-worker-s023-b4-40205451045-1",
+                          "zip_bytes":  181727871,
+                          "zip_sha256":  "1bf5e7aed832718844cb08c917a3cd4622352bfcaae9c907f8e450661ffdf255",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12605573493,
+                          "name":  "parameter-dynamics-worker-s024-b0-40205451045-1",
+                          "zip_bytes":  182642118,
+                          "zip_sha256":  "618d956d2d1533b93bd317c66ea160670bef09739dbdbe443b194de998546056",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12606083275,
+                          "name":  "parameter-dynamics-worker-s024-b1-40205451045-1",
+                          "zip_bytes":  182073024,
+                          "zip_sha256":  "05c425c562a96b3d3dc7c4e72946a1ad85d6d6681c0a9766f4b634f6ce6cee8e",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12605564589,
+                          "name":  "parameter-dynamics-worker-s024-b2-40205451045-1",
+                          "zip_bytes":  181638111,
+                          "zip_sha256":  "32f13ff7f3422282323ffb50b697b10b505fc7903843ac85bd86a6275b8fd7de",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12605258655,
+                          "name":  "parameter-dynamics-worker-s024-b3-40205451045-1",
+                          "zip_bytes":  181807887,
+                          "zip_sha256":  "14f3027725c97bfdafb689c89e8bbedee5fe6ba6e15a0b0e3ecfc2c2f9340fb3",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12606397838,
+                          "name":  "parameter-dynamics-worker-s024-b4-40205451045-1",
+                          "zip_bytes":  182651772,
+                          "zip_sha256":  "f4eb9adf3ee9e2dd8a663551f1190fbdfcc36dc0d489e9e7e40afeef9c7420c7",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12605743723,
+                          "name":  "parameter-dynamics-worker-s025-b0-40205451045-1",
+                          "zip_bytes":  181585860,
+                          "zip_sha256":  "17f625372d328bcacbb760e8cce714087519fc06cd822f004fd909b5c3097f7a",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12606437804,
+                          "name":  "parameter-dynamics-worker-s025-b1-40205451045-1",
+                          "zip_bytes":  181436818,
+                          "zip_sha256":  "2edb1c642e5938932a2d92312832b2c07bec24f1471935bd9026f5f9c27d6171",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12605869107,
+                          "name":  "parameter-dynamics-worker-s025-b2-40205451045-1",
+                          "zip_bytes":  181849247,
+                          "zip_sha256":  "db1f73e936853b92e8fb080c0d0733d0c95dc5cc21ba9f89c9863b77b4fc9927",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12606518009,
+                          "name":  "parameter-dynamics-worker-s025-b3-40205451045-1",
+                          "zip_bytes":  181026653,
+                          "zip_sha256":  "ffceb6d47d30ea0f5d89a61dc167aaa5462c25d215cabf2615426b052b3d8438",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12607380271,
+                          "name":  "parameter-dynamics-worker-s025-b4-40205451045-1",
+                          "zip_bytes":  181571059,
+                          "zip_sha256":  "72737d57a30879d51dab8815f2d704b680e95eddcdba891dcb96355e94020935",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12606439013,
+                          "name":  "parameter-dynamics-worker-s026-b0-40205451045-1",
+                          "zip_bytes":  181035760,
+                          "zip_sha256":  "62a96c68bd1c3f29687839a231a6df8fa898dcab19a865f0c0baefbd22d58021",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12606594525,
+                          "name":  "parameter-dynamics-worker-s026-b1-40205451045-1",
+                          "zip_bytes":  180996815,
+                          "zip_sha256":  "bd3a25926e1a6f53f93a19f252461f77f71dae278c1a3028368d31124795b8f4",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12606973387,
+                          "name":  "parameter-dynamics-worker-s026-b2-40205451045-1",
+                          "zip_bytes":  181684471,
+                          "zip_sha256":  "5b35a5637d5237604018c5b164365418ffdc207f11c701b8d44c4e36a3ddeb9e",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12607781102,
+                          "name":  "parameter-dynamics-worker-s026-b3-40205451045-1",
+                          "zip_bytes":  181288748,
+                          "zip_sha256":  "ec4afcf3359b46720d70102b8f517a4c38c8a52d3dfda6736c125430a091e1c8",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12608280364,
+                          "name":  "parameter-dynamics-worker-s026-b4-40205451045-1",
+                          "zip_bytes":  181437174,
+                          "zip_sha256":  "db4666c12ea08593a6c9e55912af7f5d530420b9928f5c65dd16fa66e0a921c8",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12608255488,
+                          "name":  "parameter-dynamics-worker-s027-b0-40205451045-1",
+                          "zip_bytes":  181393233,
+                          "zip_sha256":  "5346c79eedca1127333dc88f60970009a6308882c7bfd4da37bce1ebeb875bcb",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12608206149,
+                          "name":  "parameter-dynamics-worker-s027-b1-40205451045-1",
+                          "zip_bytes":  182118954,
+                          "zip_sha256":  "90757dc80755e5f1785a3e2a41dca3707d18494212187ee34f13db0d9a9298e0",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12608197647,
+                          "name":  "parameter-dynamics-worker-s027-b2-40205451045-1",
+                          "zip_bytes":  182373178,
+                          "zip_sha256":  "8c40e1706555389f9b7c4211c691bb92eb1ce87a32497c03f24f5f4fa46355fc",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12608108273,
+                          "name":  "parameter-dynamics-worker-s027-b3-40205451045-1",
+                          "zip_bytes":  182157401,
+                          "zip_sha256":  "a192fbaa42edaa15f6717099327c154f9e41a0eef550ab8edf3cd5fcb2338eac",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12608227315,
+                          "name":  "parameter-dynamics-worker-s027-b4-40205451045-1",
+                          "zip_bytes":  182000644,
+                          "zip_sha256":  "dd71d7bac4b9d1b4ccca2bf1e8f9a2ea8343edbce5a872527633d89c10207eda",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12607503935,
+                          "name":  "parameter-dynamics-worker-s028-b0-40205451045-1",
+                          "zip_bytes":  181095411,
+                          "zip_sha256":  "b05e6dc77a2340bf592ae8146e15147a10853f0b62d15cb1bad7557cc92a188f",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12608253648,
+                          "name":  "parameter-dynamics-worker-s028-b1-40205451045-1",
+                          "zip_bytes":  181636581,
+                          "zip_sha256":  "2af26b11ad9ff29c05c994c6e3a1a01ed531e01769dd308eee50de7883aded1f",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12608219767,
+                          "name":  "parameter-dynamics-worker-s028-b2-40205451045-1",
+                          "zip_bytes":  181483470,
+                          "zip_sha256":  "23a3aebd365686ec05bd658fef0704ea585823dc7ac948b7428465f050b4fa5d",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12608324821,
+                          "name":  "parameter-dynamics-worker-s028-b3-40205451045-1",
+                          "zip_bytes":  181170158,
+                          "zip_sha256":  "9cbc8a51d35be79d34a7a475d9631e6973cfa4635cc7e81d7c82c9dc7ba7a68f",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12608431466,
+                          "name":  "parameter-dynamics-worker-s028-b4-40205451045-1",
+                          "zip_bytes":  181046935,
+                          "zip_sha256":  "8da9b1c4c0acca2f820eff10e6b08c6c7ce8dff37add660abd0595fcf24966ce",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12609291437,
+                          "name":  "parameter-dynamics-worker-s029-b0-40205451045-1",
+                          "zip_bytes":  181941731,
+                          "zip_sha256":  "b46f1d37d5cb0565c15a305c15a7af6b1aa2dab775dd3ffbb4f6dd125fedb80f",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12609321916,
+                          "name":  "parameter-dynamics-worker-s029-b1-40205451045-1",
+                          "zip_bytes":  181628872,
+                          "zip_sha256":  "13d8d57ffab5a26d11fef4a64d9d83e961ab633f2841615e8da9975561b70315",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12608469115,
+                          "name":  "parameter-dynamics-worker-s029-b2-40205451045-1",
+                          "zip_bytes":  181790911,
+                          "zip_sha256":  "e1a90972199c38af9d33e1e8b820bc8793b913094d9d7a24acdea74c83db5f12",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12609173475,
+                          "name":  "parameter-dynamics-worker-s029-b3-40205451045-1",
+                          "zip_bytes":  181746950,
+                          "zip_sha256":  "046df1901ef313d127eec0cb01d3532c2e8e8ddcfadc240c0f9208b17b7f549d",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      },
+                      {
+                          "artifact_id":  12609134172,
+                          "name":  "parameter-dynamics-worker-s029-b4-40205451045-1",
+                          "zip_bytes":  181791332,
+                          "zip_sha256":  "c06cba3db23400beb25477d6148bef6e19490792f1c20061192a29cc324197d5",
+                          "expires_at":  "2027-01-23T15:07:33Z",
+                          "verified_members":  1153,
+                          "local_zip_verified":  true,
+                          "internal_manifest_verified":  true
+                      }
+                  ]
+}
