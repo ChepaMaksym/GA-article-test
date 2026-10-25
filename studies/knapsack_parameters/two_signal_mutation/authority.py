@@ -176,6 +176,8 @@ def grant_for(selected):
                 "BLOCKED_MAIN_COST_APPROVAL_REQUIRED")
         require(type(details.get("pilot_cost_receipt")) is dict and details["pilot_cost_receipt"].get("pilot_runs") == 24,
                 "Missing measured complete pilot cost")
+        require(details.get("maximum_compressed_journal_bytes_total") == 2147483648,
+                "Missing explicit two-GiB main journal ceiling")
         timeouts = details.get("job_timeouts", {})
         require(set(timeouts) == set(TECH_TIMEOUTS) and all(type(v) is int and 1 <= v <= 120 for v in timeouts.values()),
                 "Invalid measured main timeouts")
@@ -186,6 +188,16 @@ def grant_for(selected):
     require(details.get("max_parallel") == 4 and details.get("maximum_compressed_bytes_per_worker") == 536870912,
             "Unexpected concurrency or journal cap")
     return details
+
+
+def journal_allowance(selected, grant):
+    """Reserve disjoint journal quotas across ten main family workers."""
+    limit = grant["maximum_compressed_bytes_per_worker"]
+    if scope(selected) == "main":
+        total = grant["maximum_compressed_journal_bytes_total"]
+        require(type(total) is int and total > 0, "Invalid total journal ceiling")
+        limit = min(limit, total // 10)
+    return limit
 
 
 def api(endpoint):

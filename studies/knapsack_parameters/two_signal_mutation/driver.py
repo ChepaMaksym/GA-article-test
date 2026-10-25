@@ -93,7 +93,7 @@ def run_worker(stage, worker, output, permit):
                 records.append(row)
                 metadata.update({"verification_status": "VERIFIED", "timings": row["timings"]})
                 a.write_json(output / "metadata" / (basename + ".json"), metadata)
-                a.require(compressed_bytes <= grant["maximum_compressed_bytes_per_worker"], "Compressed journal cap exceeded")
+                a.require(compressed_bytes <= a.journal_allowance(stage, grant), "Compressed journal quota exceeded")
                 print(f"VERIFIED {basename}: 5000 new calls", flush=True)
                 del envelope, log, raw
     except Exception as exc:
@@ -213,6 +213,10 @@ def aggregate(stage, workers, output, permit):
     if len(jobs) != len(expected_workers) or any(job.get("conclusion") != "success" for job in jobs):
         errors.append({"error": "Not all source worker jobs completed successfully"})
     expected_runs = 24 if stage == "pilot" else 2700
+    if stage == "main":
+        total_bytes = sum(row["compressed_journal_bytes"] for row in worker_receipts)
+        if total_bytes > a.grant_for(stage)["maximum_compressed_journal_bytes_total"]:
+            errors.append({"error": "Approved total compressed journal ceiling exceeded"})
     audit = {**provenance, "stage": stage, "verified_runs": len(records), "expected_runs": expected_runs,
              "complete": seen == expected_workers and len(records) == expected_runs and not errors,
              "errors": errors, "workers": worker_receipts, "new_search_performed_during_aggregation": False}

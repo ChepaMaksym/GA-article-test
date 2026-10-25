@@ -54,9 +54,38 @@ class AuthorityTests(unittest.TestCase):
             self.assertFalse(grant["main_search_authorized"])
 
     def test_main_and_main_banks_remain_blocked_without_separate_approval(self):
+        original = a.read_json(a.MODULE / "resource_authorization.json")
+        original["main"] = {"explicit_user_approval": False, "main_search_authorized": False}
         for selected in ("prepare-main", "main"):
-            with self.subTest(selected=selected), self.assertRaises(ValueError):
+            with self.subTest(selected=selected), patch.object(a, "read_json", return_value=original), self.assertRaises(ValueError):
                 a.grant_for(selected)
+
+    def test_measured_main_approval_has_disjoint_two_gib_journal_quotas(self):
+        for selected in ("prepare-main", "main"):
+            grant = a.grant_for(selected)
+            self.assertTrue(grant["main_search_authorized"])
+            self.assertEqual(grant["main_runs"], 2700)
+            self.assertEqual(grant["runner_minutes_ceiling"], 240)
+            self.assertEqual(grant["maximum_compressed_journal_bytes_total"], 2 ** 31)
+            quota = a.journal_allowance(selected, grant)
+            self.assertLessEqual(10 * quota, 2 ** 31)
+            self.assertLessEqual(quota, grant["maximum_compressed_bytes_per_worker"])
+        technical = a.grant_for("pilot")
+        self.assertEqual(a.journal_allowance("pilot", technical), 536870912)
+
+    def test_main_approval_cannot_omit_storage_or_resource_reservation(self):
+        original = a.read_json(a.MODULE / "resource_authorization.json")
+        mutations = (
+            lambda grant: grant["main"].pop("maximum_compressed_journal_bytes_total"),
+            lambda grant: grant["main"].__setitem__("maximum_compressed_journal_bytes_total", 3 * 2 ** 30),
+            lambda grant: grant["main"]["phase_reservations"].__setitem__("main", 1),
+            lambda grant: grant["main"].__setitem__("pilot_cost_receipt", {"pilot_runs": 23}),
+        )
+        for change in mutations:
+            grant = copy.deepcopy(original)
+            change(grant)
+            with patch.object(a, "read_json", return_value=grant), self.assertRaises(ValueError):
+                a.grant_for("main")
 
     def test_technical_approval_is_not_implicit_or_unbounded(self):
         original = a.read_json(a.MODULE / "resource_authorization.json")
