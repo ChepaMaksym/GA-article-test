@@ -1,0 +1,22 @@
+{
+  "protocol_id": "GA-KNAPSACK-PARAMETER-DYNAMICS-V1",
+  "parent_commit": "1888c3b6567b3cb0c8e3852889300ed8adcd825e",
+  "immutable_documents": {
+    "PROTOCOL_UK.md": "074d312a7e47adfb4c8602ad9b47441ae78f869215f030d55cc0d389614a5cc4",
+    "protocol.json": "ff7725ad7f8f295725ddb936715f770853bd0755316060ddf260c84f53e6ebec",
+    "ADMISSION_UK.md": "2f17fa44b3cd3d39e5a19b516cdeda0a8eebd577143c33c027749f78f87aaf39",
+    "environment.json": "27ad473af41134217e36acc85976258560d3651e090ecc2e1c62785a0e0210b8"
+  },
+  "historical_sources": {
+    "studies/knapsack_parameters/two_signal_mutation/engine.py": "e1005ca287d9c65bf28d6285d7418539164f93a033bc1c553c6a1e41c6d57121",
+    "studies/knapsack_parameters/two_signal_mutation/verifier.py": "9c8185a5893bd5ed6dabbee0fa8d8267ea0822adb55b438e35fd48a13141cac3",
+    "studies/knapsack_parameters/two_signal_mutation/banks.py": "88bd027845eca7347ea189827fd2705d895ebfeaea03ef443527087c39dde7df",
+    "studies/knapsack_parameters/ga_study/dependencies/requirements.lock": "6818e0e12843daa10947f7554cb3edd573d9f7cdbc33e63f98f9f3a068869017",
+    "studies/knapsack_parameters/ga_study/dependencies/environment.lock.json": "9907e3a46971303d8285b7ae160b5b8eafcab9942565d376bd038a92789745c6"
+  },
+  "own_rule_permission": "Власні правила з перевіркою",
+  "technical_approval": "Погоджую технічний етап до 120 runner-хвилин",
+  "main_resource_approval_at_registration": false,
+  "scientific_superiority_established": false,
+  "historical_results_rewritten": false
+}

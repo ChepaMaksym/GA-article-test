@@ -1,0 +1,17 @@
+{
+  "protocol_id": "GA-KNAPSACK-PARAMETER-DYNAMICS-V1",
+  "technical": {
+    "explicit_user_approval": true,
+    "user_approval_text": "Погоджую технічний етап до 120 runner-хвилин",
+    "runner_minutes_ceiling": 120,
+    "allowed_phases": ["tests", "prepare-pilot", "pilot"],
+    "phase_reservations": {"tests": 13, "prepare-pilot": 8, "pilot": 99},
+    "job_timeouts": {"gate": 1, "tests": 10, "prepare": 5, "worker": 20, "aggregate": 10},
+    "max_parallel": 4,
+    "maximum_compressed_bytes_per_worker": 536870912,
+    "pilot_runs": 256,
+    "new_calls_per_run": 5000,
+    "main_search_authorized": false
+  },
+  "main": {"explicit_user_approval": false, "main_search_authorized": false, "status": "WAITING_FOR_COMPLETE_PILOT_COST_AND_SEPARATE_APPROVAL"}
+}
