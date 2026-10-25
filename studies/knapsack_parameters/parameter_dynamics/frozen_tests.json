@@ -1,0 +1,10 @@
+{
+    "frozen":  true,
+    "receipt_path":  "evidence/tests-40200946593-1/tests_receipt.json",
+    "receipt_identity":  {
+                             "bytes":  4892,
+                             "sha256":  "7a1660fc8d1360e51034ea4ee46ddb0789f272f3b3fc7fff726bb2eb6f49e5d0"
+                         },
+    "artifact_id":  12601269433,
+    "zip_sha256":  "eb1d383c59bf714d87aa367200a18d8301f1c6acf8e0f7e8920c82ed39b988d3"
+}
