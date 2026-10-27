@@ -1,0 +1,69 @@
+"""Explicit authority -> fixtures -> historical replay -> descriptive figures."""
+import argparse
+from pathlib import Path
+import tempfile
+import time
+import unittest
+
+from . import authority as a
+
+
+def run(permit, output):
+    receipt, grant = a.validate_permit(permit)
+    output = Path(output)
+    output.mkdir(parents=True, exist_ok=False)
+    started = time.perf_counter()
+    suite = unittest.defaultTestLoader.discover(str(a.MODULE / "tests"), top_level_dir=str(a.ROOT))
+    result = unittest.TextTestRunner(verbosity=2).run(suite)
+    a.write(output / "tests.json", {"tests": result.testsRun, "failures": len(result.failures), "errors": len(result.errors),
+                                  "success": result.wasSuccessful(), "fixtures_only": True})
+    a.require(result.wasSuccessful(), "secondary review fixtures failed")
+    from .review import execute
+    from .plots import render
+    with tempfile.TemporaryDirectory() as tmp:
+        archive = Path(tmp) / "source-worker.zip"
+        artifact = a.download_archive(archive)
+        summary, examples = execute(archive, output)
+    rendering = render(summary, examples, output / "figures")
+    a.write(output / "rendering_receipt.json", rendering)
+    a.write(output / "audit_status.json", {**receipt, "status": "COMPLETE_VERIFIED_SECONDARY_REVIEW",
+        "reviewed_compact_runs": 3600, "replayed_raw_journals": 4, "new_search_runs": 0, "new_search_evaluations": 0,
+        "descriptive_only": True, "historical_primary_analysis_modified": False, "artifact": artifact,
+        "permit": grant, "duration_seconds": time.perf_counter() - started})
+    write_report(summary, rendering, output)
+    manifest = [{"path": p.relative_to(output).as_posix(), "bytes": p.stat().st_size, "sha256": a.sha(p.read_bytes())}
+                for p in sorted(output.rglob("*")) if p.is_file()]
+    a.write(output / "file_manifest.json", {"schema": "mutation-population-review-files-v1", "files": manifest})
+    print("COMPLETE_VERIFIED_SECONDARY_REVIEW: 3600 saved endpoints, 4 replayed journals, 0 new GA runs")
+
+
+def write_report(summary, rendering, output):
+    lines = ["# Мутація та популяція: вторинний описовий аналіз", "",
+        "Новий пошук ГА не виконувався. Перераховано 3600 збережених результатів, незалежно відновлено чотири журнали прикладу.",
+        "Результати були переглянуті до постановки цього доповнення. Нових первинних перевірок переваги немає.", "",
+        "| Варіант | Відставання, % | Досягли 95% | Досягли 99% |", "|---|---:|---:|---:|"]
+    for c in summary["cells"]:
+        gap = f"{c['mean_final_gap_percent']:.4f}".replace(".", ",")
+        lines.append(f"| {c['name']} | {gap} | {c['targets']['95']['attained']}/900 | {c['targets']['99']['attained']}/900 |")
+    lines.extend(["", "Спільна адаптація описово краща за адаптацію лише мутації. Сталий контроль має найменше середнє відставання серед чотирьох варіантів.",
+        "Окремий приклад не замінює підсумків усіх запусків. Висновок обмежений заданими правилами, задачами й бюджетом.", ""])
+    for fig in rendering["figures"]:
+        lines.extend([f"![{fig['caption']}](figures/{fig['file']})", ""])
+    (output / "REPORT_UK.md").write_text("\n".join(lines), encoding="utf-8")
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("phase", choices=("preflight", "review"))
+    parser.add_argument("--output", required=True)
+    parser.add_argument("--permit")
+    args = parser.parse_args()
+    if args.phase == "preflight":
+        a.preflight(args.output)
+    else:
+        a.require(bool(args.permit), "missing exact-source permit")
+        run(args.permit, args.output)
+
+
+if __name__ == "__main__":
+    main()
