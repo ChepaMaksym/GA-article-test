@@ -1,0 +1,54 @@
+{
+    "schema":  "mutation-refinement-recovery-source-v1",
+    "source_run_id":  40516606272,
+    "source_run_attempt":  1,
+    "source_sha":  "a1435603e38911a06fa0f6611d1b066337d0aad2",
+    "source_workflow":  ".github/workflows/knapsack-mutation-refinement.yml",
+    "artifacts":  [
+                      {
+                          "artifact_id":  12740485717,
+                          "name":  "mutation-refinement-worker-SC-s005-40516606272-1",
+                          "zip_sha256":  "a22ae2760c519d64e964f2ae66c6041328d0da643fd4b790622fbec21ec828ab",
+                          "zip_bytes":  2884530,
+                          "file_manifest_sha256":  "792547f77eb684eeaf7423dc382ddf1a636f2beff9d5284331b57922d3b8f027"
+                      },
+                      {
+                          "artifact_id":  12740405961,
+                          "name":  "mutation-refinement-worker-UC-s000-40516606272-1",
+                          "zip_sha256":  "cd16197ef796c8c827d25d359c1ee351348bf19d835e34b6b7325f0c441cb835",
+                          "zip_bytes":  2759961,
+                          "file_manifest_sha256":  "2e52b0b75868d5e1b1262ab308485bc4ad980ed9fd0421abd6c60e3186c1550e"
+                      },
+                      {
+                          "artifact_id":  12739981714,
+                          "name":  "mutation-refinement-permit-40516606272-1",
+                          "zip_sha256":  "acf72c9d134cd4c9640a1896591a04fcc80c73f90ccd4e3389e0f2214167d935",
+                          "zip_bytes":  2539,
+                          "file_manifest_sha256":  "81334c8189ab6f1d2890fbeff0b30164c5c54b469272d8990cd9748fd1a04518"
+                      },
+                      {
+                          "artifact_id":  12739402913,
+                          "name":  "mutation-refinement-summary-40516606272-1",
+                          "zip_sha256":  "9c82535770e4bfc38ff967e97b7dc2550f4d110eec5fbdbc76785bb189765026",
+                          "zip_bytes":  2669,
+                          "file_manifest_sha256":  "31cffe0b177032a22b160642b74e3f99e28d941507a5f7e511dc60e25af4e638"
+                      },
+                      {
+                          "artifact_id":  12739372407,
+                          "name":  "mutation-refinement-worker-SC-s000-40516606272-1",
+                          "zip_sha256":  "2f507babe01c8fc2a0739ff3a42f9e7680a30c715271c0d0448586e9de452e57",
+                          "zip_bytes":  2891084,
+                          "file_manifest_sha256":  "f63fb4d10eea3c05480908a8565fd8a455d1530ddcb28b4bacd267b58fdf4b1f"
+                      },
+                      {
+                          "artifact_id":  12739193150,
+                          "name":  "mutation-refinement-worker-WC-s001-40516606272-1",
+                          "zip_sha256":  "1539e6dde2d913e498b2fe87e36d9cee956f763f795506061436bacef46a148c",
+                          "zip_bytes":  2890940,
+                          "file_manifest_sha256":  "96e3f917e0f834589e5321b09184d921ed92cf3239323dbee5a71ae534ab4772"
+                      }
+                  ],
+    "original_aggregation_failed":  true,
+    "all_saved_runs_independently_verified":  40,
+    "new_search_authorized":  false
+}
