@@ -1,9 +1,10 @@
 {
   "protocol": "GA-KNAPSACK-MUTATION-POPULATION-REVIEW-V1",
-  "explicit_user_approval": false,
+  "explicit_user_approval": true,
   "runner_minutes_ceiling": 20,
   "new_ga_search_authorized": false,
-  "status": "AWAITING_SEPARATE_RESOURCE_APPROVAL",
+  "status": "AUTHORIZED_SECONDARY_REVIEW_ONLY",
+  "approval_text": "Погоджую до 20 runner-хвилин",
   "allowed_work": ["software_tests", "saved_journal_replay", "descriptive_aggregation", "figures"],
   "inherited_budget": false
 }
