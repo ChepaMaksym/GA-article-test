@@ -1,7 +1,7 @@
 {
     "ceiling_runner_minutes":  20,
-    "used_runner_minutes":  4,
-    "remaining_runner_minutes":  16,
+    "used_runner_minutes":  6,
+    "remaining_runner_minutes":  14,
     "prior_invalid_workflows_without_jobs":  [
                                                  {
                                                      "id":  40477734987,
@@ -52,8 +52,28 @@
                      "started_at":  "2026-10-27T09:08:40Z",
                      "completed_at":  "2026-10-27T09:09:21Z",
                      "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40499979943,
+                     "attempt":  1,
+                     "job_id":  122174940567,
+                     "name":  "gate",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-27T11:57:09Z",
+                     "completed_at":  "2026-10-27T11:57:21Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40499979943,
+                     "attempt":  1,
+                     "job_id":  122175041142,
+                     "name":  "review",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-27T11:57:23Z",
+                     "completed_at":  "2026-10-27T11:57:57Z",
+                     "runner_minutes":  1
                  }
              ],
     "new_search_runs":  0,
-    "latest_work":  "display-only revision from unchanged saved values"
+    "latest_work":  "post hoc target93 analysis of 3600 saved histories; historical endpoints retained"
 }
