@@ -1,0 +1,5 @@
+*.py text eol=lf
+tests/*.py text eol=lf
+*.md text eol=lf
+evidence/** -text -whitespace
+inputs/** -text -whitespace
