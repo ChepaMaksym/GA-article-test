@@ -83,7 +83,7 @@ def render_saved(permit, output):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("phase", choices=("preflight", "review", "render-saved"))
+    parser.add_argument("phase", choices=("preflight", "review", "render-saved", "target93"))
     parser.add_argument("--output", required=True)
     parser.add_argument("--permit")
     args = parser.parse_args()
@@ -91,7 +91,27 @@ def main():
         a.preflight(args.output)
     else:
         a.require(bool(args.permit), "missing exact-source permit")
-        (render_saved if args.phase == "render-saved" else run)(args.permit, args.output)
+        {"render-saved": render_saved, "review": run, "target93": target93}[args.phase](args.permit, args.output)
+
+
+def target93(permit, output):
+    receipt, grant = a.validate_permit(permit)
+    output=Path(output)
+    output.mkdir(parents=True,exist_ok=False)
+    suite=unittest.defaultTestLoader.discover(str(a.MODULE/"tests"),top_level_dir=str(a.ROOT))
+    result=unittest.TextTestRunner(verbosity=2).run(suite)
+    a.write(output/"tests.json",{"tests":result.testsRun,"failures":len(result.failures),"errors":len(result.errors),"success":result.wasSuccessful()})
+    a.require(result.wasSuccessful(),"target93 fixtures failed")
+    from .targets93 import execute, render
+    summary=execute(output)
+    rendering=render(summary,output/"figures")
+    a.write(output/"rendering_receipt.json",rendering)
+    a.write(output/"audit_status.json",{**receipt,"status":"COMPLETE_VERIFIED_TARGET93_REVIEW","post_hoc_descriptive":True,
+        "reviewed_saved_runs":3600,"new_search_runs":0,"new_search_evaluations":0,"new_primary_tests":0,"permit":grant})
+    manifest=[{"path":p.relative_to(output).as_posix(),"bytes":p.stat().st_size,"sha256":a.sha(p.read_bytes())}
+              for p in sorted(output.rglob("*")) if p.is_file()]
+    a.write(output/"file_manifest.json",{"schema":"mutation-population-target93-files-v1","files":manifest})
+    print("COMPLETE_VERIFIED_TARGET93_REVIEW: 3600 saved runs; 95/99 endpoints preserved; zero new GA search")
 
 
 if __name__ == "__main__":

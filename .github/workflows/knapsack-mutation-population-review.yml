@@ -61,8 +61,8 @@ jobs:
         with:
           name: mutation-population-permit-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/review-permit
-      - name: CI fixtures and clearer display of unchanged saved results
-        run: python -m studies.knapsack_parameters.mutation_population_review.driver render-saved --permit "$RUNNER_TEMP/review-permit" --output "$RUNNER_TEMP/mutation-population-review"
+      - name: Software fixtures and post hoc target93 analysis of saved histories
+        run: python -m studies.knapsack_parameters.mutation_population_review.driver target93 --permit "$RUNNER_TEMP/review-permit" --output "$RUNNER_TEMP/mutation-population-review"
       - if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
