@@ -1,8 +1,8 @@
 {
   "protocol_id": "GA-KNAPSACK-MUTATION-REFINEMENT-V1",
   "technical": {
-    "explicit_user_approval": false,
-    "approval_record": "PENDING_SEPARATE_USER_REPLY",
+    "explicit_user_approval": true,
+    "approval_record": "Погоджую технічний етап до 60 runner-хвилин",
     "runner_minutes_ceiling": 60,
     "allowed_phases": ["tests", "prepare-pilot", "pilot"],
     "phase_reservations": {"tests": 9, "prepare-pilot": 7, "pilot": 34},
@@ -21,5 +21,5 @@
   "calibration": {"explicit_user_approval": false, "runs": 900},
   "main": {"explicit_user_approval": false, "maximum_runs": 3600},
   "historical_budgets_reassigned": false,
-  "notes": "Prospective technical ceiling only. No tests, bank preparation, search, CI or scientific series is authorized until a separate explicit resource grant."
+  "notes": "Separately approved technical ceiling: tests, eight shared banks and forty pilot runs only. Calibration, main series and new exact references remain unauthorized. Historical budgets are not inherited."
 }
