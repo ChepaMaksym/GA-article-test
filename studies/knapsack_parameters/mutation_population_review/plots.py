@@ -1,10 +1,61 @@
 """Six separate, title-free figures for four matched historical profiles."""
 from pathlib import Path
+import math
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from . import authority as a
 from .review import COLORS, NAMES, PROFILES
+
+
+QUALITY_LABELS = {0: "Сталі параметри", 1: "Змінюється лише мутація",
+                  4: "Змінюється лише популяція", 5: "Змінюються мутація й популяція"}
+
+
+def quality_figure(cells):
+    """Direct labels and a zero-origin scale replace the four-cell map."""
+    a.ci_only()
+    a.require(len(cells) == 4 and {c["profile"] for c in cells} == set(PROFILES), "four unique quality profiles required")
+    a.require(all(c["runs"] == 900 and math.isfinite(c["mean_final_gap_percent"]) and
+                  0 <= c["mean_final_gap_percent"] <= 6 for c in cells), "invalid quality values/denominators")
+    ordered = sorted(cells, key=lambda c: (c["mean_final_gap_percent"], c["profile"]))
+    fig, ax = plt.subplots(figsize=(10, 3.6), constrained_layout=True)
+    bars = ax.barh(range(4), [c["mean_final_gap_percent"] for c in ordered], height=.52,
+                   color=[COLORS[c["profile"]] for c in ordered], zorder=3)
+    ax.set_yticks(range(4), [QUALITY_LABELS[c["profile"]] for c in ordered], fontsize=12)
+    ax.invert_yaxis()
+    ax.set_xlim(0, 6)
+    ax.set_xticks(range(7))
+    ax.set_xlabel("Середнє відставання від оптимуму, %", fontsize=12)
+    ax.set_ylabel("Варіант алгоритму", fontsize=12)
+    ax.grid(axis="x", alpha=.2, zorder=0)
+    ax.spines[["top", "right"]].set_visible(False)
+    for bar, cell in zip(bars, ordered, strict=True):
+        ax.text(bar.get_width() + .08, bar.get_y() + bar.get_height()/2,
+                f"{cell['mean_final_gap_percent']:.3f}%".replace(".", ","),
+                va="center", fontsize=13, fontweight="bold", color="#173044")
+    return fig, ax, [{"profile": c["profile"], "label": QUALITY_LABELS[c["profile"]],
+                      "gap_percent": c["mean_final_gap_percent"], "bar_width": bar.get_width(), "runs": c["runs"]}
+                     for c, bar in zip(ordered, bars, strict=True)]
+
+
+def render_quality(summary, directory):
+    a.ci_only()
+    a.require(summary["status"] == "COMPLETE_VERIFIED_SECONDARY_REVIEW", "unverified saved figure source")
+    directory = Path(directory)
+    directory.mkdir(parents=True, exist_ok=True)
+    plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 11, "savefig.dpi": 180,
+                         "axes.formatter.useoffset": False})
+    fig, ax, bars = quality_figure(summary["cells"])
+    a.require(len(fig.axes) == 1 and not ax.get_title(), "one title-free chart required")
+    receipt = {"file": "06_joint_quality.png", "kind": "horizontal_bars", "bars": bars,
+               "xlabel": ax.get_xlabel(), "ylabel": ax.get_ylabel(), "xlim": list(ax.get_xlim()),
+               "inside_title": ax.get_title(), "colorbar": False, "new_analysis": False,
+               "caption": "Середнє кінцеве відставання чотирьох варіантів. Коротший стовпчик означає кращу якість; по 900 запусків, сімейства мають рівну вагу."}
+    for suffix in (".png", ".svg"):
+        fig.savefig(directory / ("06_joint_quality" + suffix), bbox_inches="tight")
+    plt.close(fig)
+    return receipt
 
 
 def render(summary, examples, directory):
@@ -81,20 +132,6 @@ def render(summary, examples, directory):
         ax.legend(fontsize=9, loc="upper left")
         save(fig, ax, filename, f"Частка досягнення {target}% OPT за кількістю нових оцінювань. По 900 запусків на варіант, невдачі залишено у знаменнику; сімейства мають рівну вагу. Вертикальна шкала 0–{ymax}%.")
 
-    cells = {row["profile"]: row for row in summary["cells"]}
-    values = [[cells[0]["mean_final_gap_percent"], cells[4]["mean_final_gap_percent"]],
-              [cells[1]["mean_final_gap_percent"], cells[5]["mean_final_gap_percent"]]]
-    fig, ax = plt.subplots(figsize=(7.3, 4.5), constrained_layout=True)
-    image = ax.imshow(values, cmap="YlGnBu", vmin=0, vmax=6, aspect="auto")
-    ax.set_xlabel("Керування популяцією")
-    ax.set_ylabel("Керування мутацією")
-    ax.set_xticks([0, 1], ["Стала", "Адаптивна"])
-    ax.set_yticks([0, 1], ["Стала", "Адаптивна"])
-    for row in range(2):
-        for col in range(2):
-            value = values[row][col]
-            ax.text(col, row, f"{value:.3f}%\nn = 900".replace(".", ","), ha="center", va="center",
-                    fontsize=14, color="white" if value > 4.2 else "#173044")
-    fig.colorbar(image, ax=ax, label="Кінцеве відставання від OPT, %; менше краще")
-    save(fig, ax, "06_joint_quality.png", "Середнє кінцеве відставання для чотирьох поєднань правил. Схрещування 90%, турнір 2, еліта 1; по 900 запусків. Це описове зіставлення, а не нова первинна перевірка переваги.")
+    fig, ax, _ = quality_figure(summary["cells"])
+    save(fig, ax, "06_joint_quality.png", "Середнє кінцеве відставання чотирьох варіантів. Коротший стовпчик означає кращу якість; по 900 запусків. Це описове зіставлення.")
     return receipt

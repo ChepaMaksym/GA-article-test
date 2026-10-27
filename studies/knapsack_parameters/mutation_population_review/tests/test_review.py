@@ -69,7 +69,7 @@ class ReviewTests(unittest.TestCase):
         cells = []
         examples = []
         for p in (0, 1, 4, 5):
-            cells.append({"profile": p, "mean_final_gap_percent": 2 + p / 5,
+            cells.append({"profile": p, "runs": 900, "mean_final_gap_percent": 2 + p / 5,
                 "targets": {str(t): {"attained": 0, "curve": [{"q": 0, "fraction": 0}, {"q": 5000, "fraction": 0}]}
                             for t in (95, 99)}})
             examples.append({"profile": p, "optimum": 100,
@@ -84,6 +84,33 @@ class ReviewTests(unittest.TestCase):
             for fig in figures.values():
                 self.assertTrue(fig["xlabel"] and fig["ylabel"])
                 self.assertTrue((Path(tmp) / fig["file"]).exists())
+
+    def test_direct_quality_chart_uses_true_widths_and_zero_origin(self):
+        from ..plots import quality_figure
+        import matplotlib.pyplot as plt
+        cells = [{"profile": p, "runs": 900, "mean_final_gap_percent": v}
+                 for p, v in ((1, 5.242), (0, 2.493), (5, 4.987), (4, 2.839))]
+        fig, ax, bars = quality_figure(cells)
+        try:
+            self.assertEqual([b["profile"] for b in bars], [0, 4, 5, 1])
+            self.assertEqual([b["bar_width"] for b in bars], [2.493, 2.839, 4.987, 5.242])
+            self.assertEqual(list(ax.get_xlim()), [0, 6])
+            self.assertEqual(len(fig.axes), 1)
+            self.assertFalse(ax.get_title())
+            self.assertTrue(all("параметри" in b["label"] or "Зміню" in b["label"] for b in bars))
+            self.assertEqual(len(ax.texts), 4)
+        finally:
+            plt.close(fig)
+
+    def test_quality_chart_rejects_missing_duplicate_or_invalid_values(self):
+        from ..plots import quality_figure
+        cells = [{"profile": p, "runs": 900, "mean_final_gap_percent": 2.0} for p in (0, 1, 4, 5)]
+        for bad in (cells[:-1], [cells[0], cells[0], *cells[2:]],
+                    [dict(cells[0], mean_final_gap_percent=-1), *cells[1:]],
+                    [dict(cells[0], mean_final_gap_percent=float("nan")), *cells[1:]],
+                    [dict(cells[0], runs=899), *cells[1:]]):
+            with self.assertRaises(ValueError):
+                quality_figure(bad)
 
 
 if __name__ == "__main__":

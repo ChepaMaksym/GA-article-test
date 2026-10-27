@@ -88,7 +88,7 @@ def pages(endpoint, key):
 
 
 def source_files():
-    paths = sorted([*MODULE.glob("*.py"), *MODULE.glob("tests/*.py"), MODULE / "PROTOCOL_UK.md",
+    paths = sorted([*MODULE.glob("*.py"), *MODULE.glob("tests/*.py"), MODULE / "PROTOCOL_UK.md", MODULE / "FIGURE_REVISION_UK.md",
                     MODULE / "resource_authorization.json", ROOT / WORKFLOW])
     return [{"path": p.relative_to(ROOT).as_posix(), "sha256": sha(p.read_bytes())} for p in paths]
 

@@ -52,9 +52,38 @@ def write_report(summary, rendering, output):
     (output / "REPORT_UK.md").write_text("\n".join(lines), encoding="utf-8")
 
 
+def render_saved(permit, output):
+    receipt, grant = a.validate_permit(permit)
+    output = Path(output)
+    output.mkdir(parents=True, exist_ok=False)
+    suite = unittest.defaultTestLoader.discover(str(a.MODULE / "tests"), top_level_dir=str(a.ROOT))
+    result = unittest.TextTestRunner(verbosity=2).run(suite)
+    a.write(output / "tests.json", {"tests": result.testsRun, "failures": len(result.failures), "errors": len(result.errors),
+                                  "success": result.wasSuccessful(), "fixtures_only": True})
+    a.require(result.wasSuccessful(), "figure revision fixtures failed")
+    source = a.MODULE / "evidence/review-40478517966-1"
+    raw = (source / "review_summary.json").read_bytes()
+    a.require(a.sha(raw) == "525e6c6489f929dadf12d2fb4d81d257d2a2b22305c3b66ef20ec565c0814dab", "saved values changed")
+    a.require(a.sha((source / "file_manifest.json").read_bytes()) ==
+              "07ba3a0b25c1cd7895c8ad1198c012de032e196d3425ffc80612c7bc5c6afc0e", "saved evidence manifest changed")
+    import json
+    summary = json.loads(raw)
+    from .plots import render_quality
+    rendering = render_quality(summary, output / "figures")
+    a.write(output / "rendering_receipt.json", rendering)
+    a.write(output / "audit_status.json", {**receipt, "status": "COMPLETE_VERIFIED_FIGURE_REVISION",
+        "source_run_id": 40478517966, "source_summary_sha256": a.sha(raw), "source_saved_runs": 3600,
+        "data_values_changed": False, "new_search_runs": 0, "new_search_evaluations": 0,
+        "new_statistical_analysis": False, "journals_replayed_again": 0, "permit": grant})
+    manifest = [{"path": p.relative_to(output).as_posix(), "bytes": p.stat().st_size, "sha256": a.sha(p.read_bytes())}
+                for p in sorted(output.rglob("*")) if p.is_file()]
+    a.write(output / "file_manifest.json", {"schema": "mutation-population-figure-files-v1", "files": manifest})
+    print("COMPLETE_VERIFIED_FIGURE_REVISION: saved values unchanged, zero new search/analysis")
+
+
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("phase", choices=("preflight", "review"))
+    parser.add_argument("phase", choices=("preflight", "review", "render-saved"))
     parser.add_argument("--output", required=True)
     parser.add_argument("--permit")
     args = parser.parse_args()
@@ -62,7 +91,7 @@ def main():
         a.preflight(args.output)
     else:
         a.require(bool(args.permit), "missing exact-source permit")
-        run(args.permit, args.output)
+        (render_saved if args.phase == "render-saved" else run)(args.permit, args.output)
 
 
 if __name__ == "__main__":
