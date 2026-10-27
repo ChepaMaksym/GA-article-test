@@ -1,0 +1,202 @@
+{
+    "protocol_id":  "GA-KNAPSACK-MUTATION-REFINEMENT-V1",
+    "ceiling_runner_minutes":  60,
+    "used_runner_minutes":  14,
+    "remaining_runner_minutes":  46,
+    "rounding":  "each allocated job rounded upward, minimum one minute",
+    "attempts":  [
+                     {
+                         "run_id":  40518563942,
+                         "attempt":  1,
+                         "sha":  "4b84d8fd2c84c5e20b78807d8bcda0d0ea675e8a",
+                         "allocated_jobs":  0
+                     },
+                     {
+                         "run_id":  40516606272,
+                         "attempt":  1,
+                         "sha":  "a1435603e38911a06fa0f6611d1b066337d0aad2",
+                         "allocated_jobs":  6
+                     },
+                     {
+                         "run_id":  40516158691,
+                         "attempt":  1,
+                         "sha":  "a8f5e92c6f255eb2246de225ce4e57064bb1189f",
+                         "allocated_jobs":  2
+                     },
+                     {
+                         "run_id":  40515831379,
+                         "attempt":  1,
+                         "sha":  "17dabb528033ae013c522bf035ee998bc2f542ff",
+                         "allocated_jobs":  2
+                     },
+                     {
+                         "run_id":  40515416922,
+                         "attempt":  1,
+                         "sha":  "230a4e006da2a02f45b0b763b285637298c7be7a",
+                         "allocated_jobs":  2
+                     },
+                     {
+                         "run_id":  40511842534,
+                         "attempt":  1,
+                         "sha":  "1e2e5d25d1dda3fc09f837d43d8e439e2723d0f8",
+                         "allocated_jobs":  0
+                     },
+                     {
+                         "run_id":  40509599678,
+                         "attempt":  1,
+                         "sha":  "9e392121a69a17d859b8f9c02d0c2ecc1c436e26",
+                         "allocated_jobs":  0
+                     },
+                     {
+                         "run_id":  40518564383,
+                         "attempt":  1,
+                         "sha":  "4b84d8fd2c84c5e20b78807d8bcda0d0ea675e8a",
+                         "allocated_jobs":  2
+                     }
+                 ],
+    "jobs":  [
+                 {
+                     "run_id":  40516606272,
+                     "attempt":  1,
+                     "job_id":  122231983751,
+                     "name":  "gate",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-27T13:57:10Z",
+                     "completed_at":  "2026-10-27T13:57:24Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40516606272,
+                     "attempt":  1,
+                     "job_id":  122232115795,
+                     "name":  "pilot (WC-s001)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-27T13:57:26Z",
+                     "completed_at":  "2026-10-27T13:58:00Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40516606272,
+                     "attempt":  1,
+                     "job_id":  122232115808,
+                     "name":  "pilot (SC-s005)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-27T13:57:26Z",
+                     "completed_at":  "2026-10-27T13:58:02Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40516606272,
+                     "attempt":  1,
+                     "job_id":  122232115850,
+                     "name":  "pilot (UC-s000)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-27T13:57:27Z",
+                     "completed_at":  "2026-10-27T13:58:14Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40516606272,
+                     "attempt":  1,
+                     "job_id":  122232115991,
+                     "name":  "pilot (SC-s000)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-27T13:57:26Z",
+                     "completed_at":  "2026-10-27T13:58:14Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40516606272,
+                     "attempt":  1,
+                     "job_id":  122232495678,
+                     "name":  "aggregate",
+                     "conclusion":  "failure",
+                     "started_at":  "2026-10-27T13:58:16Z",
+                     "completed_at":  "2026-10-27T13:58:41Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40516158691,
+                     "attempt":  1,
+                     "job_id":  122230507853,
+                     "name":  "gate",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-27T13:54:05Z",
+                     "completed_at":  "2026-10-27T13:54:18Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40516158691,
+                     "attempt":  1,
+                     "job_id":  122230634741,
+                     "name":  "prepare",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-27T13:54:20Z",
+                     "completed_at":  "2026-10-27T13:54:43Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40515831379,
+                     "attempt":  1,
+                     "job_id":  122229409296,
+                     "name":  "gate",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-27T13:51:54Z",
+                     "completed_at":  "2026-10-27T13:52:06Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40515831379,
+                     "attempt":  1,
+                     "job_id":  122229543217,
+                     "name":  "tests",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-27T13:52:09Z",
+                     "completed_at":  "2026-10-27T13:52:40Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40515416922,
+                     "attempt":  1,
+                     "job_id":  122227999868,
+                     "name":  "gate",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-27T13:49:08Z",
+                     "completed_at":  "2026-10-27T13:49:20Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40515416922,
+                     "attempt":  1,
+                     "job_id":  122228134075,
+                     "name":  "tests",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-27T13:49:23Z",
+                     "completed_at":  "2026-10-27T13:49:53Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40518564383,
+                     "attempt":  1,
+                     "job_id":  122238835042,
+                     "name":  "gate",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-27T14:10:24Z",
+                     "completed_at":  "2026-10-27T14:10:45Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40518564383,
+                     "attempt":  1,
+                     "job_id":  122239075312,
+                     "name":  "aggregate",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-27T14:10:47Z",
+                     "completed_at":  "2026-10-27T14:11:17Z",
+                     "runner_minutes":  1
+                 }
+             ],
+    "historical_budgets_inherited":  false,
+    "calibration_authorized":  false,
+    "main_authorized":  false
+}

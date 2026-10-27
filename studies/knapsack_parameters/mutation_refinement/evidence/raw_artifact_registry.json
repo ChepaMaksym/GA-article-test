@@ -1,0 +1,58 @@
+[
+    {
+        "artifact_id":  12740485717,
+        "name":  "mutation-refinement-worker-SC-s005-40516606272-1",
+        "run_id":  40516606272,
+        "run_attempt":  1,
+        "source_sha":  "a1435603e38911a06fa0f6611d1b066337d0aad2",
+        "archive_name":  "mutation-refinement-worker-SC-s005-40516606272-1.zip",
+        "zip_sha256":  "a22ae2760c519d64e964f2ae66c6041328d0da643fd4b790622fbec21ec828ab",
+        "zip_bytes":  2884530,
+        "verified_members":  22,
+        "ci_available":  true,
+        "ci_expires_at":  "2027-01-25T13:57:07Z",
+        "one_canonical_local_zip_retained":  true
+    },
+    {
+        "artifact_id":  12740405961,
+        "name":  "mutation-refinement-worker-UC-s000-40516606272-1",
+        "run_id":  40516606272,
+        "run_attempt":  1,
+        "source_sha":  "a1435603e38911a06fa0f6611d1b066337d0aad2",
+        "archive_name":  "mutation-refinement-worker-UC-s000-40516606272-1.zip",
+        "zip_sha256":  "cd16197ef796c8c827d25d359c1ee351348bf19d835e34b6b7325f0c441cb835",
+        "zip_bytes":  2759961,
+        "verified_members":  22,
+        "ci_available":  true,
+        "ci_expires_at":  "2027-01-25T13:57:07Z",
+        "one_canonical_local_zip_retained":  true
+    },
+    {
+        "artifact_id":  12739372407,
+        "name":  "mutation-refinement-worker-SC-s000-40516606272-1",
+        "run_id":  40516606272,
+        "run_attempt":  1,
+        "source_sha":  "a1435603e38911a06fa0f6611d1b066337d0aad2",
+        "archive_name":  "mutation-refinement-worker-SC-s000-40516606272-1.zip",
+        "zip_sha256":  "2f507babe01c8fc2a0739ff3a42f9e7680a30c715271c0d0448586e9de452e57",
+        "zip_bytes":  2891084,
+        "verified_members":  22,
+        "ci_available":  true,
+        "ci_expires_at":  "2027-01-25T13:57:07Z",
+        "one_canonical_local_zip_retained":  true
+    },
+    {
+        "artifact_id":  12739193150,
+        "name":  "mutation-refinement-worker-WC-s001-40516606272-1",
+        "run_id":  40516606272,
+        "run_attempt":  1,
+        "source_sha":  "a1435603e38911a06fa0f6611d1b066337d0aad2",
+        "archive_name":  "mutation-refinement-worker-WC-s001-40516606272-1.zip",
+        "zip_sha256":  "1539e6dde2d913e498b2fe87e36d9cee956f763f795506061436bacef46a148c",
+        "zip_bytes":  2890940,
+        "verified_members":  22,
+        "ci_available":  true,
+        "ci_expires_at":  "2027-01-25T13:57:07Z",
+        "one_canonical_local_zip_retained":  true
+    }
+]
