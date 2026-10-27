@@ -183,6 +183,52 @@ def _condition_key(task, start, method):
     return task, start, 97999, method
 
 
+def evaluation_accounting(verification):
+    """Classify actual scorer calls; replay subtotals are part of its total.
+
+    Search evaluates final children, not their pre-mutation intermediates.
+    Initial-score validation and all independent replay calls are separate
+    from the new-search budget. No scorer is invoked by this helper.
+    """
+    calls = verification.get("new_calls")
+    a.require(verification.get("verification_status") == "VERIFIED" and
+              type(calls) is int and 1 <= calls <= 5000, "Invalid replay query accounting")
+    summary = verification.get("summary", {})
+    a.require(type(summary) is dict and
+              all(type(summary.get(name)) is int for name in
+                  ("physical_evaluations", "new_calls", "known_score_validation_evaluations")) and
+              summary.get("physical_evaluations") == summary.get("new_calls") == calls and
+              summary.get("known_score_validation_evaluations") == 30,
+              "Invalid search/initial validation accounting")
+    initial = verification.get("initial_score_checks")
+    final = verification.get("final_score_checks")
+    premutation = verification.get("premutation_score_checks")
+    total = verification.get("independent_score_checks")
+    a.require(all(type(value) is int for value in (initial, final, premutation, total)) and
+              initial == 30 and final == premutation == calls and
+              total == initial + final + premutation, "Invalid independent replay accounting split")
+    return {"new_search_evaluations": calls,
+            "engine_initial_score_validation_evaluations": 30,
+            "engine_premutation_observational_evaluations": 0,
+            "independent_replay_score_checks": total,
+            "independent_replay_initial_score_checks": initial,
+            "independent_replay_final_score_checks": final,
+            "independent_replay_premutation_score_checks": premutation}
+
+
+def validate_record_accounting(record):
+    """Reject absent, falsely attributed or double-counted compact counters."""
+    expected = evaluation_accounting({
+        "verification_status": "VERIFIED", "summary": record.get("summary"),
+        "new_calls": record.get("new_search_evaluations"),
+        "independent_score_checks": record.get("independent_replay_score_checks"),
+        "initial_score_checks": record.get("independent_replay_initial_score_checks"),
+        "final_score_checks": record.get("independent_replay_final_score_checks"),
+        "premutation_score_checks": record.get("independent_replay_premutation_score_checks")})
+    a.require(all(type(record.get(name)) is int and record[name] == value
+                  for name, value in expected.items()), "Compact evaluation accounting differs from replay")
+
+
 def run_worker(worker, output, permit):
     from . import engine, verifier
     from ..two_signal_mutation.banks import source_case
@@ -234,9 +280,7 @@ def run_worker(worker, output, permit):
                     "bank_identity": metadata["bank_identity"], "source_identity": source["source_identity"],
                     "summary": summary, "optimum_external_to_search": source["optimum"],
                     "final_gap_percent": 100 * (source["optimum"] - summary["best_profit"]) / source["optimum"],
-                    "new_search_evaluations": 5000, "engine_initial_score_validation_evaluations": 30,
-                    "engine_premutation_observational_evaluations": len(log["candidates"]),
-                    "independent_replay_score_checks": verification["independent_score_checks"],
+                    **evaluation_accounting(verification),
                     "timings": {"search_wall_ns": search_ns, "serialization_ns": serialization_ns,
                                 "verification_ns": verification_ns, "engine_timing_ns": verification["timing_ns"]}}
                 records.append(record)
@@ -310,6 +354,7 @@ def aggregate(workers, output, permit):
                     a.require(metadata.get(field) == provenance[field], "Mixed replay receipt")
                 a.require(record["new_search_evaluations"] == record["summary"]["physical_evaluations"] == 5000 and
                           record["independent_replay_score_checks"] == 10030, "Wrong independent evaluation accounting")
+                validate_record_accounting(record)
                 checked_bytes += record["log_identity"]["bytes"]
                 records.append(record)
             a.require(checked_bytes == row["compressed_journal_bytes"], "Wrong worker log byte accounting")
@@ -337,6 +382,10 @@ def aggregate(workers, output, permit):
              "engine_initial_validation_evaluations": sum(r["engine_initial_score_validation_evaluations"] for r in records),
              "engine_premutation_observational_evaluations": sum(r["engine_premutation_observational_evaluations"] for r in records),
              "independent_replay_score_checks": sum(r["independent_replay_score_checks"] for r in records),
+             "independent_replay_initial_score_checks": sum(r["independent_replay_initial_score_checks"] for r in records),
+             "independent_replay_final_score_checks": sum(r["independent_replay_final_score_checks"] for r in records),
+             "independent_replay_premutation_score_checks": sum(r["independent_replay_premutation_score_checks"] for r in records),
+             "independent_replay_split_is_breakdown_of_total": True,
              "compressed_journal_bytes": sum(w["compressed_journal_bytes"] for w in receipts), "new_exact_solves": 0}
     summary = {**status, "costs": costs, "records": records, "statistical_bootstrap_performed": False,
                "scientific_superiority_established": False, "calibration_authorized": False, "main_authorized": False}
