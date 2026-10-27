@@ -1,0 +1,38 @@
+{
+    "ceiling_runner_minutes":  20,
+    "used_runner_minutes":  2,
+    "remaining_runner_minutes":  18,
+    "prior_invalid_workflows_without_jobs":  [
+                                                 {
+                                                     "id":  40477734987,
+                                                     "head_sha":  "d2f2f8ec28829cfe36b1d391011693c9a3185462"
+                                                 },
+                                                 {
+                                                     "id":  40477098331,
+                                                     "head_sha":  "22cbb8ee43967ccb0ff93c4dba2b02ed28205646"
+                                                 }
+                                             ],
+    "jobs":  [
+                 {
+                     "run_id":  40478517966,
+                     "attempt":  1,
+                     "job_id":  122102637834,
+                     "name":  "gate",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-27T09:08:27Z",
+                     "completed_at":  "2026-10-27T09:08:38Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40478517966,
+                     "attempt":  1,
+                     "job_id":  122102727025,
+                     "name":  "review",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-27T09:08:40Z",
+                     "completed_at":  "2026-10-27T09:09:21Z",
+                     "runner_minutes":  1
+                 }
+             ],
+    "new_search_runs":  0
+}

@@ -1,0 +1,4 @@
+# Preserve CI evidence byte-for-byte, including CSV CRLF and SVG metadata.
+evidence/** -text -whitespace
+*.py text eol=lf
+tests/*.py text eol=lf
