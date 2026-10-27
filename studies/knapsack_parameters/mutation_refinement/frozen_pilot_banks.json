@@ -1,0 +1,10 @@
+{
+    "frozen":  true,
+    "stage":  "pilot",
+    "registry_identity":  {
+                              "bytes":  6790,
+                              "sha256":  "f467fab635a40e6f7f6ce960b94f0fe17e805dec6038f345525e1c161ec4aa65"
+                          },
+    "artifact_id":  12739721576,
+    "zip_sha256":  "4c2214e7a8441ab2f54b1c78f405eab3636a37455cf86653d0404faa9eefe039"
+}
