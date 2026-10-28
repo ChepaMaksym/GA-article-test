@@ -1,0 +1,13 @@
+{
+    "frozen":  true,
+    "receipt_path":  "evidence/pilot-40758107473-1/audit_status.json",
+    "receipt_identity":  {
+                             "bytes":  6435,
+                             "sha256":  "a37adb46c54bc76dfbfef8493c5dbc9d4f41867c5869726cde8d7e3622dbe0db"
+                         },
+    "artifact_id":  12846817528,
+    "zip_sha256":  "17b8c818dd23e1039647c4152621da0676362f93d7e032607d001e4bbc92c158",
+    "zip_bytes":  1024111,
+    "run_id":  40758107473,
+    "run_attempt":  1
+}
