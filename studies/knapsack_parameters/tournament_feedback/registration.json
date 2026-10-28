@@ -1,0 +1,33 @@
+{
+    "protocol_id":  "GA-KNAPSACK-TOURNAMENT-FEEDBACK-V1",
+    "registered_on":  "2026-10-28",
+    "parent_commit":  "459808fe133ef599426eb9e25c5a6dbd591f25fb",
+    "registered_before_implementation":  true,
+    "source_admission":  "METHODOLOGY_ADMITTED_OWN_HEURISTIC",
+    "article_numerical_replication_claimed":  false,
+    "scientific_files":  [
+                             {
+                                 "path":  "studies/knapsack_parameters/tournament_feedback/PROTOCOL_UK.md",
+                                 "sha256":  "d11801e9c093e26f4847f889466a9cb88f14f86382d1b2830ef9477afbe52ff8"
+                             },
+                             {
+                                 "path":  "studies/knapsack_parameters/tournament_feedback/protocol.json",
+                                 "sha256":  "742519c219fc717f4958914fe3550a8ea6fd5dcb8ad7cd596632fb2bb3f24adf"
+                             },
+                             {
+                                 "path":  "studies/knapsack_parameters/tournament_feedback/environment.json",
+                                 "sha256":  "37a8021fc9a212cf7d51e750453206e54cf4c87b3f67800f7216bc23e2f981c0"
+                             },
+                             {
+                                 "path":  "studies/knapsack_parameters/tournament_feedback/SOURCE_AUDIT_UK.md",
+                                 "sha256":  "b35445e5ad5a66b29ceb1b52049e59324fd354581e96b560a004f74de8ce72ac"
+                             },
+                             {
+                                 "path":  "studies/knapsack_parameters/tournament_feedback/source_registry.json",
+                                 "sha256":  "416ebe68171adec87b5d784a519e24ac45cd930c10c97394efb21dffd01a2334"
+                             }
+                         ],
+    "resource_numeric_approval_pending":  true,
+    "tests_run":  0,
+    "ga_runs":  0
+}

@@ -1,0 +1,16 @@
+{
+  "protocol_id": "GA-KNAPSACK-TOURNAMENT-FEEDBACK-V1",
+  "explicit_user_numeric_approval": false,
+  "approval_record": null,
+  "proposed_runner_minutes_ceiling": 300,
+  "proposed_compressed_bytes_ceiling": 6442450944,
+  "execution_authorized": false,
+  "historical_budgets_reassigned": false,
+  "pilot_runs": 56,
+  "main_recipient_runs": 5400,
+  "main_donor_runs": 900,
+  "total_planned_runs": 6356,
+  "new_calls_per_run": 5000,
+  "proposed_scope": ["tests", "prepare-pilot", "pilot-donors", "pilot-recipients", "prepare-main", "main-donors", "main-recipients", "aggregate"],
+  "notes": "Latest user authorized agent pipeline and research work. Prior approved plans require separate numeric resource ceilings for new computational series. This proposal does not inherit any previous remaining budget and must not launch scientific computation until the new grant is recorded. Main also requires a measured pilot forecast within the remaining grant."
+}
