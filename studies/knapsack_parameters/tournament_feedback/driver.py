@@ -80,6 +80,12 @@ def run_worker(selected, worker, output, permit):
                 relative = "logs/" + basename + ".json.gz"
                 started = perf_counter_ns()
                 raw = gzip.compress(a.canonical(log), mtime=0)
+                # Never exceed a job's disjoint journal allocation by one log.
+                # On exhaustion this phase remains incomplete; no replacement
+                # seed or shortened search is dispatched. A repeated source
+                # phase is separately blocked by the cumulative resource gate.
+                a.require(compressed_bytes + len(raw) <= a.journal_allowance(selected),
+                          "Compressed journal quota exhausted before writing the next journal; phase incomplete")
                 path = output / relative
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_bytes(raw)
@@ -112,7 +118,6 @@ def run_worker(selected, worker, output, permit):
                     a.write_json(output / schedule_relative, schedule)
                     schedules.append({"task": bank["task"], "start": bank["start"], "seed": bank["seed"], "path": schedule_relative,
                                       **a.identity(output / schedule_relative)})
-                a.require(compressed_bytes <= a.journal_allowance(selected), "Compressed per-worker journal quota exceeded")
                 print(f"VERIFIED {role} {basename}: 5000 new calls", flush=True)
                 del log, raw, envelope
     except Exception as exc:

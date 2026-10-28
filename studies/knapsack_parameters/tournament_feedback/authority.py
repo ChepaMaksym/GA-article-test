@@ -185,6 +185,19 @@ def runner_usage(selected=None):
     return {"jobs": rows, "used_runner_minutes": sum(row["runner_minutes"] for row in rows)}
 
 
+def check_search_phase_once(selected, usage):
+    """Disjoint journal quotas are safe only for first source allocations.
+
+    A repeat needs a separately retained technical resource audit. It cannot
+    silently spend the quota again while keeping journals from its first
+    attempt. Failed jobs and jobs which stopped during setup count here too.
+    Tests, preparation and aggregation do not create search journals.
+    """
+    if selected.endswith(("-donors", "-recipients")):
+        require(not any(row.get("phase") == selected and row.get("name", "").startswith(selected + " (")
+                        for row in usage["jobs"]), "BLOCKED_REPEATED_SEARCH_PHASE_RESOURCE_AUDIT_REQUIRED")
+
+
 def validate_source_receipt(receipt, expected_phase):
     require(receipt.get("protocol_id") == PROTOCOL and receipt.get("source_manifest") == source_manifest(), "Mixed or changed code fingerprint")
     source_sha = receipt.get("implementation_sha", "")
@@ -244,6 +257,7 @@ def preflight(selected, output):
     require(phase(os.environ.get("COMMIT_MESSAGE", "")) == selected, "Wrong phase request")
     grant, usage = grant_for(selected), runner_usage(selected)
     require(usage["used_runner_minutes"] + RESERVATIONS[selected] <= grant["runner_minutes_ceiling"], "Insufficient cumulative resource budget")
+    check_search_phase_once(selected, usage)
     if selected != "tests":
         validated_tests()
     if selected == "prepare-main":
