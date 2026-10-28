@@ -253,7 +253,7 @@ def final_resource_review(output, permit):
     usage = a.runner_usage("aggregate")
     a.require(main.get("complete") is True and main.get("physical_runs_including_donors") == 6300, "Complete main series required")
     a.write_json(Path(output) / "final_resource_receipt.json", {**provenance, "main_receipt": main, "usage_before_current_service_job": usage,
-                 "current_service_reservation": a.RESERVATIONS["aggregate"], "budget_ceiling": 300,
+                 "current_service_reservation": a.RESERVATIONS["aggregate"], "budget_ceiling": a.grant_for("aggregate")["runner_minutes_ceiling"],
                  "cumulative_bound_minutes": usage["used_runner_minutes"] + a.RESERVATIONS["aggregate"]})
     a.write_manifest(output)
 

@@ -28,10 +28,10 @@ PILOT_TASKS = ("UC-s000", "WC-s001", "SC-s005", "SC-s000")
 MAIN_WORKERS = tuple(f"s{i:03d}" for i in range(40, 50))
 PHASES = ("tests", "prepare-pilot", "pilot-donors", "pilot-recipients", "prepare-main", "main-donors", "main-recipients", "aggregate")
 TIMEOUTS = {"tests": 6, "prepare-pilot": 4, "pilot-donors": 2, "pilot-recipients": 4,
-            "prepare-main": 11, "main-donors": 5, "main-recipients": 16, "aggregate": 5}
+            "prepare-main": 11, "main-donors": 5, "main-recipients": 18, "aggregate": 5}
 # Gate + source timeouts + aggregator timeout + one rounding minute/job.
 RESERVATIONS = {"tests": 8, "prepare-pilot": 6, "pilot-donors": 19, "pilot-recipients": 27,
-                "prepare-main": 13, "main-donors": 67, "main-recipients": 177, "aggregate": 7}
+                "prepare-main": 13, "main-donors": 67, "main-recipients": 197, "aggregate": 7}
 
 
 def require(condition, message):
@@ -102,6 +102,7 @@ def source_manifest():
              ROOT / "studies/knapsack_parameters/parameter_dynamics/banks.py",
              ROOT / "studies/knapsack_parameters/two_signal_mutation/banks.py"}
     paths.update(MODULE / name for name in ("PROTOCOL_UK.md", "protocol.json", "registration.json", "environment.json", "SOURCE_AUDIT_UK.md", "source_registry.json"))
+    paths.add(MODULE / "resource_compatibility.json")
     paths.update(ROOT / path for path in read_json(MODULE / "environment.json").values()
                  if type(path) is str and path.startswith("studies/") and path.endswith((".json", ".lock")))
     rows = [{"path": p.relative_to(ROOT).as_posix(), **identity(p)} for p in sorted(paths)]
@@ -139,9 +140,15 @@ def grant_for(selected):
     require(selected in PHASES, "Unknown grant phase")
     grant = read_json(MODULE / "resource_authorization.json")
     require(grant.get("protocol_id") == PROTOCOL and grant.get("explicit_user_numeric_approval") is True and
-            grant.get("execution_authorized") is True and grant.get("runner_minutes_ceiling") == 300 and
+            grant.get("execution_authorized") is True and grant.get("runner_minutes_ceiling") in (300, 330) and
             grant.get("compressed_bytes_ceiling") == 6 * 2 ** 30 and grant.get("historical_budgets_reassigned") is False,
-            "Separate explicit 300-minute/six-GiB approval required")
+            "Separate explicit bounded runner/six-GiB approval required")
+    if grant["runner_minutes_ceiling"] == 330:
+        addendum = grant.get("resource_addendum", {})
+        require(addendum.get("explicit_user_approval") is True and addendum.get("previous_runner_minutes_ceiling") == 300 and
+                addendum.get("runner_minutes_ceiling") == 330 and addendum.get("compressed_bytes_ceiling") == 6 * 2 ** 30 and
+                type(addendum.get("user_reply")) is str and bool(addendum["user_reply"].strip()),
+                "BLOCKED_SEPARATE_330_MINUTE_RESOURCE_APPROVAL_REQUIRED")
     return grant
 
 
@@ -198,10 +205,47 @@ def check_search_phase_once(selected, usage):
                         for row in usage["jobs"]), "BLOCKED_REPEATED_SEARCH_PHASE_RESOURCE_AUDIT_REQUIRED")
 
 
+def compatible_source_manifest(legacy, current, expected_phase, source_sha):
+    """Accept only the audited pilot runtime amendment; tests remain strict.
+
+    Scientific source bytes, the workflow, locks and registration must all
+    match. The three changed file identities are individually pinned. This
+    audit file itself is part of the new green-test fingerprint, so changing
+    its allowlist invalidates subsequent green-receipt authorization.
+    """
+    require(type(legacy) is dict and type(current) is dict, "Missing source fingerprint")
+    if legacy == current:
+        return
+    require(expected_phase in ("prepare-pilot", "pilot-donors", "pilot-recipients"), "Mixed or changed code fingerprint")
+    audit = read_json(MODULE / "resource_compatibility.json")
+    require(audit.get("schema") == "tournament-feedback-resource-compatibility-v1" and audit.get("protocol_id") == PROTOCOL and
+            audit.get("scientific_coefficients_changed") is False and audit.get("pilot_search_repeated") is False and
+            legacy == audit.get("legacy_source_manifest") and
+            legacy.get("sha256") == "327edd2b4c6de138405287a0b78d28ddeea3041a07a78a7e546ab3da40f9e774" and
+            audit.get("legacy_phase_shas", {}).get(expected_phase) == source_sha, "Unregistered pilot compatibility origin")
+    old_rows = {row["path"]: row for row in legacy["files"]}
+    new_rows = {row["path"]: row for row in current["files"]}
+    require(legacy["sha256"] == hashlib.sha256(canonical(legacy["files"])).hexdigest() and
+            current["sha256"] == hashlib.sha256(canonical(current["files"])).hexdigest(), "Compatibility inventory digest differs")
+    require(len(old_rows) == len(legacy["files"]) and len(new_rows) == len(current["files"]), "Duplicate compatibility inventory entry")
+    extra = REL + "resource_compatibility.json"
+    require(set(new_rows) == set(old_rows) | {extra}, "Compatibility inventory added or removed source files")
+    allowed = {REL + "authority.py", REL + "driver.py", REL + "tests/test_resource_guard.py"}
+    transitions = audit.get("file_transitions", {})
+    require(set(transitions) == allowed, "Compatibility allowlist differs from the three runtime/fixture files")
+    for path, original in old_rows.items():
+        if path in allowed:
+            require(transitions[path].get("before") == original and transitions[path].get("after") == new_rows[path],
+                    "Runtime amendment hash differs: " + path)
+        else:
+            require(original == new_rows[path], "Scientific or unlisted source changed: " + path)
+
+
 def validate_source_receipt(receipt, expected_phase):
-    require(receipt.get("protocol_id") == PROTOCOL and receipt.get("source_manifest") == source_manifest(), "Mixed or changed code fingerprint")
+    require(receipt.get("protocol_id") == PROTOCOL, "Foreign source receipt protocol")
     source_sha = receipt.get("implementation_sha", "")
     require(re.fullmatch(r"[0-9a-f]{40}", source_sha), "Invalid receipt SHA")
+    compatible_source_manifest(receipt.get("source_manifest"), source_manifest(), expected_phase, source_sha)
     subprocess.run(["git", "merge-base", "--is-ancestor", source_sha, os.environ["GITHUB_SHA"]], cwd=ROOT, check=True)
     run = api(f"/actions/runs/{receipt['run_id']}/attempts/{receipt['run_attempt']}")
     require(run.get("conclusion") == "success" and run.get("head_sha") == source_sha and run.get("path") == WORKFLOW and
@@ -244,12 +288,29 @@ def validated_tests():
 
 
 def main_forecast(usage):
-    receipt, _ = frozen_receipt("pilot", "pilot-recipients")
+    receipt, directory = frozen_receipt("pilot", "pilot-recipients")
     require(receipt.get("complete") is True and receipt.get("physical_runs_including_donors") == 56, "Complete pilot required")
     forecast = receipt["cost_review"]
-    require(forecast.get("future_runs") == 6300 and forecast["forecast_main_runner_minutes"] + usage["used_runner_minutes"] <= 300 and
+    # Keep the historical 264-minute estimate intact in its original receipt;
+    # a runtime amendment recomputes only the prospective timeout reservation.
+    upcoming = sum(RESERVATIONS[phase] for phase in ("prepare-main", "main-donors", "main-recipients", "aggregate"))
+    ceiling = grant_for("prepare-main")["runner_minutes_ceiling"]
+    require(forecast.get("future_runs") == 6300 and upcoming + usage["used_runner_minutes"] <= ceiling and
             forecast["forecast_total_journal_bytes"] <= 6 * 2 ** 30 and forecast["forecast_main_donor_timeout"] <= TIMEOUTS["main-donors"] and
             forecast["forecast_main_recipient_timeout"] <= TIMEOUTS["main-recipients"], "Measured main forecast exceeds remaining approval or timeouts")
+    return {"schema": "tournament-feedback-operational-forecast-review-v1", "pilot_run_id": receipt["run_id"],
+            "pilot_run_attempt": receipt["run_attempt"], "pilot_implementation_sha": receipt["implementation_sha"],
+            "original_cost_review_path": (directory / "cost_review.json").relative_to(ROOT).as_posix(),
+            "original_cost_review_identity": identity(directory / "cost_review.json"),
+            "original_reserved_main_runner_minutes": forecast["forecast_main_runner_minutes"],
+            "original_configured_main_recipient_timeout": forecast["configured_main_recipient_timeout"],
+            "measured_required_main_recipient_timeout": forecast["forecast_main_recipient_timeout"],
+            "current_main_donor_timeout": TIMEOUTS["main-donors"], "current_main_recipient_timeout": TIMEOUTS["main-recipients"],
+            "current_future_phase_reservations": {phase: RESERVATIONS[phase] for phase in ("prepare-main", "main-donors", "main-recipients", "aggregate")},
+            "current_reserved_main_runner_minutes": upcoming, "already_used_runner_minutes": usage["used_runner_minutes"],
+            "required_total_runner_minutes": upcoming + usage["used_runner_minutes"], "authorized_runner_minutes_ceiling": ceiling,
+            "forecast_total_journal_bytes": forecast["forecast_total_journal_bytes"], "authorized_compressed_bytes_ceiling": 6 * 2 ** 30,
+            "search_rule_or_sample_size_changed": False, "pilot_repeated": False}
 
 
 def preflight(selected, output):
@@ -260,8 +321,7 @@ def preflight(selected, output):
     check_search_phase_once(selected, usage)
     if selected != "tests":
         validated_tests()
-    if selected == "prepare-main":
-        main_forecast(usage)
+    forecast_review = main_forecast(usage) if selected == "prepare-main" else None
     if selected.endswith(("donors", "recipients")):
         from . import banks
         banks.load_frozen_banks(selected.split("-")[0], check_scores=False)
@@ -273,6 +333,8 @@ def preflight(selected, output):
         main_forecast({"used_runner_minutes": 0})  # Current remaining phase is separately reserved above.
     permit = {**provenance, "phase": selected, "grant": grant, "usage": usage,
               "resource_authorization_identity": identity(MODULE / "resource_authorization.json"), "reservation": RESERVATIONS[selected]}
+    if forecast_review is not None:
+        permit["main_forecast_review"] = forecast_review
     write_json(Path(output) / "permit.json", permit)
     write_manifest(output)
     if os.environ.get("GITHUB_OUTPUT"):
@@ -292,7 +354,7 @@ def check_permit(directory, selected):
         require(permit.get(key) == provenance[key], "Stale or mixed permit: " + key)
     grant = grant_for(selected)
     require(permit.get("phase") == selected and permit.get("grant") == grant and permit.get("resource_authorization_identity") == identity(MODULE / "resource_authorization.json") and
-            permit["usage"]["used_runner_minutes"] + RESERVATIONS[selected] <= 300, "Invalid bounded permit")
+            permit["usage"]["used_runner_minutes"] + RESERVATIONS[selected] <= grant["runner_minutes_ceiling"], "Invalid bounded permit")
     return provenance
 
 
