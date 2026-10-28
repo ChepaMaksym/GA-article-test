@@ -1,13 +1,13 @@
 {
     "frozen":  true,
-    "receipt_path":  "evidence/tests-40757151087-1/tests_receipt.json",
+    "receipt_path":  "evidence/tests-40759838282-1/tests_receipt.json",
     "receipt_identity":  {
-                             "bytes":  5012,
-                             "sha256":  "e7a52cfff8c04f9d0e02c0da184ea8e721573ff87f7bdf9c20ab046b98437eb3"
+                             "bytes":  5189,
+                             "sha256":  "28a4e75b2eafaac64d72a413414051760e62bfa0bb9dd9229bc99ba68222cf97"
                          },
-    "artifact_id":  12845873212,
-    "zip_sha256":  "0681521b5afa0d632b16e8f51e528ba7718fc029c4be18c98937167bda8c62c0",
-    "zip_bytes":  2409,
-    "run_id":  40757151087,
+    "artifact_id":  12847457335,
+    "zip_sha256":  "4b03511936b9cedb3bed61c80c941b65f4d0a9483ad2a3d6a177a7eeccbe3359",
+    "zip_bytes":  2470,
+    "run_id":  40759838282,
     "run_attempt":  1
 }
