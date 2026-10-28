@@ -1,0 +1,13 @@
+{
+    "frozen":  true,
+    "receipt_path":  "schedules/pilot/schedule_registry.json",
+    "receipt_identity":  {
+                             "bytes":  277329,
+                             "sha256":  "d64cff05ad2f6c73595898d5ae6e0099b7dfad4a74a88079831ee4880b34f3a4"
+                         },
+    "artifact_id":  12846856958,
+    "zip_sha256":  "e490597ff031093b6ae8388184f1ddaeef932d1ceea2d88f1ebd57e2de6d71fd",
+    "zip_bytes":  43321,
+    "run_id":  40757629127,
+    "run_attempt":  1
+}
