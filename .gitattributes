@@ -52,3 +52,11 @@ studies/diversity_crossover/implementation/**/*.py text eol=lf
 .github/workflows/diversity-crossover.yml text eol=lf
 studies/diversity_crossover/pilot_inputs/** -text
 studies/diversity_crossover/evidence/** -text
+
+# Tournament-feedback inputs and compact receipts retain exact CI bytes.
+studies/knapsack_parameters/tournament_feedback/*.py text eol=lf
+studies/knapsack_parameters/tournament_feedback/tests/*.py text eol=lf
+.github/workflows/knapsack-tournament-feedback.yml text eol=lf
+studies/knapsack_parameters/tournament_feedback/inputs/** -text
+studies/knapsack_parameters/tournament_feedback/schedules/** -text
+studies/knapsack_parameters/tournament_feedback/evidence/** -text
