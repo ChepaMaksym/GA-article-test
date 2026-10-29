@@ -1,0 +1,13 @@
+{
+    "frozen":  true,
+    "receipt_path":  "schedules/main/schedule_registry.json",
+    "receipt_identity":  {
+                             "bytes":  5437252,
+                             "sha256":  "95bb95cde2f4ef791e3f7a3ef4d313bdbeeb313ecce448d94361d1c1cf9734a3"
+                         },
+    "artifact_id":  12877816783,
+    "zip_sha256":  "29ead0f05809abd3b7add3b7d13c61d9674236a388d9fedd0e3ce19fc355d878",
+    "zip_bytes":  2722324,
+    "run_id":  40827860011,
+    "run_attempt":  1
+}
