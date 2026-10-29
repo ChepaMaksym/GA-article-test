@@ -1,0 +1,13 @@
+{
+    "frozen":  true,
+    "receipt_path":  "evidence/main-40828926412-1/audit_status.json",
+    "receipt_identity":  {
+                             "bytes":  6706,
+                             "sha256":  "f5352cedb38bc294e72b73697e8043ed935a71cec04d0bd898b051988eec8a08"
+                         },
+    "artifact_id":  12879381392,
+    "zip_sha256":  "42c5d3676a37f49adcebf6db7af565b54f31604d61e5ef8687d85c2287f3a422",
+    "zip_bytes":  5178113,
+    "run_id":  40828926412,
+    "run_attempt":  1
+}
