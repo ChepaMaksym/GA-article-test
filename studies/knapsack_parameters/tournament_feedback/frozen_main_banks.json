@@ -1,0 +1,13 @@
+{
+    "frozen":  true,
+    "receipt_path":  "inputs/main/bank_registry.json",
+    "receipt_identity":  {
+                             "bytes":  260384,
+                             "sha256":  "96fe9595073c724253961c4d2b9e4c1873e0225c168eed41ff87c63e6ae2d33a"
+                         },
+    "artifact_id":  12877830006,
+    "zip_sha256":  "06ffcd6425a50e92e86b4e8dbbbc2285bf9eb997ced613a62fbbf37ee0068d60",
+    "zip_bytes":  3743389,
+    "run_id":  40827628814,
+    "run_attempt":  1
+}
