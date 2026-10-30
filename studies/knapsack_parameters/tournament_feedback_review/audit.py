@@ -55,6 +55,7 @@ def expected(scope):
 def run(bundle, scope):
     inventory = json.loads(INVENTORY.read_text(encoding="utf-8-sig"))
     valid_archives = {x["zip_sha256"]: x for x in inventory["canonical_archives"]}
+    source_sha = {(x["run_id"], x["attempt"]): x["sha"] for x in inventory["attempts"]}
     wanted, seen, errors, archive_hashes = expected(scope), {}, [], set()
     archives = list(Path(bundle).rglob("*.zip"))
     for archive in archives:
@@ -84,8 +85,10 @@ def run(bundle, scope):
                     raw = z.read(path)
                     if len(raw) != m["log_identity"]["bytes"] or hashlib.sha256(raw).hexdigest() != m["log_identity"]["sha256"]:
                         raise ValueError("journal checksum mismatch")
-                    if m["stage"] == "main" and m["implementation_sha"] != "2b99673841220179d453652179bd5ef0eb29d358":
-                        raise ValueError("unexpected main implementation SHA")
+                    frozen = valid_archives[digest]
+                    frozen_sha = source_sha[(frozen["run_id"], frozen["run_attempt"])]
+                    if m["implementation_sha"] != frozen_sha:
+                        raise ValueError("implementation SHA differs from its frozen source job")
                     log = json.loads(gzip.decompress(raw))
                     if log["profile"] != m["profile"] or log["budget"] != 5000:
                         raise ValueError("journal and metadata identity mismatch")
