@@ -1,6 +1,8 @@
 name: Tournament feedback review (descriptive)
 
 on:
+  push:
+    branches: [research/masters-ga-diversity-crossover]
   workflow_dispatch:
 
 permissions:
@@ -13,7 +15,7 @@ concurrency:
 
 jobs:
   review:
-    if: github.ref == 'refs/heads/research/masters-ga-diversity-crossover'
+    if: github.ref == 'refs/heads/research/masters-ga-diversity-crossover' && (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[review:technical]'))
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     env:
@@ -43,7 +45,8 @@ jobs:
         with:
           python-version: '3.12.14'
       - name: Install locked dependencies
-        run: python -m pip install --require-hashes --only-binary=:all: -r studies/knapsack_parameters/tournament_feedback_review/requirements.lock
+        run: |
+          python -m pip install --require-hashes --only-binary=:all: -r studies/knapsack_parameters/tournament_feedback_review/requirements.lock
       - name: Unit tests
         run: python -m unittest studies.knapsack_parameters.tournament_feedback_review.test_review
       - name: Fetch frozen source and two canonical smoke archives
