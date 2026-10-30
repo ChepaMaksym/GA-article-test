@@ -61,7 +61,10 @@ jobs:
       - name: Descriptive analysis and portable smoke audit
         run: |
           python -m studies.knapsack_parameters.tournament_feedback_review.descriptive --source "$RUNNER_TEMP/review-source" --output "$RUNNER_TEMP/review-output"
-          python -m studies.knapsack_parameters.tournament_feedback_review audit --bundle "$RUNNER_TEMP/review-bundle" --scope smoke --output "$RUNNER_TEMP/review-output"
+          mkdir -p "$RUNNER_TEMP/portable/studies/knapsack_parameters"
+          cp -a studies/knapsack_parameters/tournament_feedback_review "$RUNNER_TEMP/portable/studies/knapsack_parameters/"
+          cd "$RUNNER_TEMP/portable"
+          env -u GITHUB_ACTIONS -u GITHUB_REPOSITORY -u GITHUB_REF -u GH_TOKEN python -m studies.knapsack_parameters.tournament_feedback_review audit --bundle "$RUNNER_TEMP/review-bundle" --scope smoke --output "$RUNNER_TEMP/review-output"
       - if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:

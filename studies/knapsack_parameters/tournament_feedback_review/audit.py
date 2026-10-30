@@ -71,7 +71,7 @@ def run(bundle, scope):
     valid_archives = {x["zip_sha256"]: x for x in inventory["canonical_archives"]}
     source_sha = {(x["run_id"], x["attempt"]): x["sha"] for x in inventory["attempts"]}
     wanted, seen, errors, archive_hashes = expected(scope), {}, [], set()
-    banks, donor_schedules, recipient_schedules = {}, {}, {}
+    banks, donor_schedules, recipient_schedules, missing_compact = {}, {}, {}, []
     compact = {}
     compact_names = {"main": ("main_compact_records.json.gz", "1105e6aab6fcc3c9efb0244b603c27c49ce748df8606640a3a9581628e71bd93")}
     if scope == "full":
@@ -79,7 +79,7 @@ def run(bundle, scope):
     for stage, (filename, digest) in compact_names.items():
         path = Path(bundle) / filename
         if not path.is_file():
-            errors.append({"file": filename, "error": "missing frozen compact summary"})
+            missing_compact.append(filename)
             continue
         if sha256(path) != digest:
             errors.append({"file": filename, "error": "compact summary hash mismatch"})
@@ -167,9 +167,9 @@ def run(bundle, scope):
         if donor_schedules[condition] != recipient_schedules[condition]:
             errors.append({"condition": list(condition), "error": "donor schedule mismatch"})
     missing = sorted(wanted - seen.keys())
-    status = "INVALID" if errors else "INCOMPLETE" if missing else "VERIFIED"
+    status = "INVALID" if errors else "INCOMPLETE" if missing or missing_compact else "VERIFIED"
     return {"status": status, "scope": scope, "expected": len(wanted), "verified": len(seen),
-            "missing": [list(x) for x in missing], "errors": errors,
+            "missing": [list(x) for x in missing], "missing_compact": missing_compact, "errors": errors,
             "records": [{"identity": list(k), **v} for k, v in sorted(seen.items())],
             "bootstrap_recomputed": False,
             "compact_reconciliation": "journal digests, final records and record events; not all summary metrics",

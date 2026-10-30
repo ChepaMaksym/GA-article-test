@@ -1,6 +1,8 @@
 import unittest
+from unittest.mock import patch
 from .audit import expected, safe_path
 from . import verifier_snapshot
+from studies.knapsack_parameters.tournament_feedback import verifier as protected_verifier
 
 
 class AuditContract(unittest.TestCase):
@@ -20,6 +22,11 @@ class AuditContract(unittest.TestCase):
             verifier_snapshot._score({"n": 2, "weights": [1, 2], "profits": [1, 2], "capacity": 2}, "1x")
         with self.assertRaises(ValueError):
             verifier_snapshot._restore({})
+
+    def test_protected_original_rejects_foreign_environment(self):
+        with patch.dict("os.environ", {"GITHUB_ACTIONS": "false"}):
+            with self.assertRaises(ValueError):
+                protected_verifier._ci_only()
 
 
 if __name__ == "__main__":
