@@ -75,11 +75,18 @@ def main():
                 required[control] = n
             n = max(required.values())
             # 30 seed repetitions and all three task types; 5 recipients + donor.
+            runs = 540*n
+            # Historical whole-study allocated runner time and compressed search
+            # logs, divided by all 6356 pilot+main runs, then scaled linearly by
+            # the doubled query budget with a further 50% contingency. This is
+            # intentionally labeled as a weak proxy, not a measured forecast.
+            time_proxy = math.ceil(runs * (174 / 6356) * 2 * 1.5)
+            bytes_proxy = math.ceil(runs * (1599912478 / 6356) * 2 * 1.5)
             estimates.append({"half_width_pp": h, "sd_multiplier": multiplier, "per_contrast": required,
-                              "families": n, "repetitions": 30, "physical_runs": 540*n,
+                              "families": n, "repetitions": 30, "physical_runs": runs,
                               "new_evaluations": 5400000*n,
-                              "runner_minutes": None, "journal_bytes": None,
-                              "resource_status": "requires new resource pilot"})
+                              "runner_minutes_proxy": time_proxy, "journal_bytes_proxy": bytes_proxy,
+                              "resource_status": "rough historical linear proxy; requires new resource pilot"})
     result = {"status": "DESCRIPTIVE", "checkpoints": checkpoints, "family_and_leave_one_out": loo,
               "activity": summary["activity_cells"], "planning_scenarios": estimates,
               "existing_intervals_recomputed": False,
