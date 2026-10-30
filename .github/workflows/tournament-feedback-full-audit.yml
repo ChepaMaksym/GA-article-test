@@ -1,0 +1,71 @@
+# Authorized full journal audit; no GA search.
+# Scope and resource ceiling are recorded in FULL_AUDIT_AUTHORIZATION_UK.md.
+name: Tournament feedback full portable audit
+on:
+  push:
+    branches: [research/masters-ga-diversity-crossover]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: tournament-feedback-full-audit
+  cancel-in-progress: false
+jobs:
+  audit:
+    if: contains(github.event.head_commit.message, '[review:full-approved]')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    env:
+      GH_TOKEN: ${{ github.token }}
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - name: Check all previous attempts and reserve 180 of 200 minutes
+        run: |
+          set -euo pipefail
+          gh api --paginate "repos/$GITHUB_REPOSITORY/actions/workflows/tournament-feedback-full-audit.yml/runs?per_page=100" --jq '.workflow_runs[] | [.id,.run_attempt] | @tsv' > "$RUNNER_TEMP/full-runs.tsv"
+          : > "$RUNNER_TEMP/full-jobs.jsonl"
+          while IFS=$'\t' read -r run attempt; do
+            [ "$run" = "$GITHUB_RUN_ID" ] && continue
+            for a in $(seq 1 "$attempt"); do
+              gh api --paginate "repos/$GITHUB_REPOSITORY/actions/runs/$run/attempts/$a/jobs?per_page=100" --jq '.jobs[] | {started_at,completed_at,runner_name}' >> "$RUNNER_TEMP/full-jobs.jsonl"
+            done
+          done < "$RUNNER_TEMP/full-runs.tsv"
+          python3 -c 'import json,datetime,math,sys; rows=[json.loads(x) for x in open(sys.argv[1])]; assert all(not r["runner_name"] or (r["started_at"] and r["completed_at"]) for r in rows); used=sum(max(1,math.ceil((datetime.datetime.fromisoformat(r["completed_at"].replace("Z","+00:00"))-datetime.datetime.fromisoformat(r["started_at"].replace("Z","+00:00"))).total_seconds()/60)) for r in rows if r["runner_name"]); print("previous minutes:",used); assert used+180<=200, "full-audit resource ceiling"' "$RUNNER_TEMP/full-jobs.jsonl"
+      - name: Install and download frozen evidence
+        run: |
+          set -euo pipefail
+          python -m pip install --require-hashes --only-binary=:all: -r studies/knapsack_parameters/tournament_feedback_review/requirements.lock
+          mkdir -p "$RUNNER_TEMP/bundle" "$RUNNER_TEMP/full-output" "$RUNNER_TEMP/portable/studies/knapsack_parameters"
+          cp -a studies/knapsack_parameters/tournament_feedback_review "$RUNNER_TEMP/portable/studies/knapsack_parameters/"
+          jq -r '.canonical_archives[] | select(.search_journals>0) | [.artifact_id,.zip_sha256] | @tsv' studies/knapsack_parameters/tournament_feedback_review/archive_inventory.json > "$RUNNER_TEMP/archive-list.tsv"
+          [ "$(wc -l < "$RUNNER_TEMP/archive-list.tsv")" -eq 28 ]
+          bytes=$(jq '[.canonical_archives[] | select(.search_journals>0) | .zip_bytes] | add + 5178113 + 1024111' studies/knapsack_parameters/tournament_feedback_review/archive_inventory.json)
+          [ "$bytes" -le 2147483648 ]
+          while IFS=$'\t' read -r artifact digest; do
+            gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$artifact/zip" > "$RUNNER_TEMP/bundle/$artifact.zip"
+            echo "$digest  $RUNNER_TEMP/bundle/$artifact.zip" | sha256sum -c -
+          done < "$RUNNER_TEMP/archive-list.tsv"
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/12879381392/zip" > "$RUNNER_TEMP/main.zip"
+          echo "42c5d3676a37f49adcebf6db7af565b54f31604d61e5ef8687d85c2287f3a422  $RUNNER_TEMP/main.zip" | sha256sum -c -
+          unzip -p "$RUNNER_TEMP/main.zip" compact_records.json.gz > "$RUNNER_TEMP/bundle/main_compact_records.json.gz"
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/12846817528/zip" > "$RUNNER_TEMP/pilot.zip"
+          echo "17b8c818dd23e1039647c4152621da0676362f93d7e032607d001e4bbc92c158  $RUNNER_TEMP/pilot.zip" | sha256sum -c -
+          unzip -p "$RUNNER_TEMP/pilot.zip" compact_records.json.gz > "$RUNNER_TEMP/bundle/pilot_compact_records.json.gz"
+      - name: Independent full replay outside author context
+        run: |
+          cd "$RUNNER_TEMP/portable"
+          env -u GITHUB_ACTIONS -u GITHUB_REPOSITORY -u GITHUB_REF -u GH_TOKEN python -m studies.knapsack_parameters.tournament_feedback_review audit --bundle "$RUNNER_TEMP/bundle" --scope full --output "$RUNNER_TEMP/full-output"
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: tournament-feedback-full-audit-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/full-output
+          retention-days: 90
+          if-no-files-found: warn
