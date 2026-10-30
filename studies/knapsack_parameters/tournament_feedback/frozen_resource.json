@@ -1,0 +1,13 @@
+{
+    "frozen":  true,
+    "receipt_path":  "evidence/resource-40832605233-1/final_resource_receipt.json",
+    "receipt_identity":  {
+                             "bytes":  17817,
+                             "sha256":  "91a679577f5a4cf377aec050fde4aa2238e894bff6a3dd618adb699f3fba7f93"
+                         },
+    "artifact_id":  12879396760,
+    "zip_sha256":  "d715fad5dfd3642070853024d02e984351b7bb07d854b8f3f9be9e915293c4b3",
+    "zip_bytes":  3679,
+    "run_id":  40832605233,
+    "run_attempt":  1
+}

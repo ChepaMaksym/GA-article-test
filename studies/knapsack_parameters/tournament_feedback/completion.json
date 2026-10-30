@@ -1,0 +1,362 @@
+{
+    "schema":  "ga-knapsack-tournament-feedback-completion-v1",
+    "date":  "2026-10-30",
+    "protocol_id":  "GA-KNAPSACK-TOURNAMENT-FEEDBACK-V1",
+    "status":  "COMPLETE_VERIFIED_MAIN",
+    "evidence_assembly_only":  true,
+    "new_scientific_computation_during_assembly":  false,
+    "registration_sha":  "1993e4fe5d9ba2715663d0519571d1a0355d3d5f",
+    "scientific_source_sha":  "2b99673841220179d453652179bd5ef0eb29d358",
+    "main_run_id":  40828926412,
+    "main_run_attempt":  1,
+    "final_resource_run_id":  40832605233,
+    "tests_run":  64,
+    "tests_failures":  0,
+    "tests_errors":  0,
+    "pilot_physical_runs":  56,
+    "main_recipient_runs":  5400,
+    "main_donor_runs":  900,
+    "main_physical_runs":  6300,
+    "main_new_search_evaluations":  31500000,
+    "pilot_new_search_evaluations":  280000,
+    "complete_retained_search_journals":  6356,
+    "all_workflow_attempts_accounted":  14,
+    "runner_minutes_ceiling":  330,
+    "used_runner_minutes":  174,
+    "compressed_journal_ceiling_bytes":  6442450944,
+    "retained_compressed_search_journal_bytes":  1599912478,
+    "canonical_zip_bytes":  1614345463,
+    "resource_accounting":  "Completed GitHub jobs across all attempts, each rounded upward; exact archive identities in completion_resources.json",
+    "primary_analysis":  {
+                             "advantage_over_all_five_supported":  false,
+                             "bias_ties":  "half_weight",
+                             "confidence_each":  0.99,
+                             "family_count":  10,
+                             "family_effects":  [
+                                                    {
+                                                        "effects":  {
+                                                                        "k2":  0.12348632543599924,
+                                                                        "k3":  -0.39102923802798895,
+                                                                        "k4":  -0.1357669544659279,
+                                                                        "k5":  0.34461901856001775,
+                                                                        "replay":  0.03645427589364569
+                                                                    },
+                                                        "family":  "s040"
+                                                    },
+                                                    {
+                                                        "effects":  {
+                                                                        "k2":  0.5076751692352452,
+                                                                        "k3":  -0.1927140166134651,
+                                                                        "k4":  0.005618283894134546,
+                                                                        "k5":  0.598898233288701,
+                                                                        "replay":  0.19027976198047503
+                                                                    },
+                                                        "family":  "s041"
+                                                    },
+                                                    {
+                                                        "effects":  {
+                                                                        "k2":  0.3058892668319837,
+                                                                        "k3":  -0.37933768539748147,
+                                                                        "k4":  0.12677024794354042,
+                                                                        "k5":  0.579829705244185,
+                                                                        "replay":  0.09095435755111714
+                                                                    },
+                                                        "family":  "s042"
+                                                    },
+                                                    {
+                                                        "effects":  {
+                                                                        "k2":  0.11223603011315708,
+                                                                        "k3":  -0.30168230220495196,
+                                                                        "k4":  -0.0604692488580727,
+                                                                        "k5":  0.37344557164994097,
+                                                                        "replay":  -0.14623687839100752
+                                                                    },
+                                                        "family":  "s043"
+                                                    },
+                                                    {
+                                                        "effects":  {
+                                                                        "k2":  0.34737937928950124,
+                                                                        "k3":  -0.3023873343646597,
+                                                                        "k4":  0.16320619846478124,
+                                                                        "k5":  0.5002084308463193,
+                                                                        "replay":  0.1662192140894283
+                                                                    },
+                                                        "family":  "s044"
+                                                    },
+                                                    {
+                                                        "effects":  {
+                                                                        "k2":  0.3779995887506984,
+                                                                        "k3":  -0.3396423761670726,
+                                                                        "k4":  0.07830019757907092,
+                                                                        "k5":  0.4948867722570123,
+                                                                        "replay":  0.06750481885770654
+                                                                    },
+                                                        "family":  "s045"
+                                                    },
+                                                    {
+                                                        "effects":  {
+                                                                        "k2":  0.17461064977954077,
+                                                                        "k3":  -0.43933358760316166,
+                                                                        "k4":  0.12286108737143575,
+                                                                        "k5":  0.7280788235869347,
+                                                                        "replay":  0.015784174876832147
+                                                                    },
+                                                        "family":  "s046"
+                                                    },
+                                                    {
+                                                        "effects":  {
+                                                                        "k2":  0.31051553078291727,
+                                                                        "k3":  -0.30959980241785456,
+                                                                        "k4":  -0.032512701034802305,
+                                                                        "k5":  0.404113744092903,
+                                                                        "replay":  0.069147325430857
+                                                                    },
+                                                        "family":  "s047"
+                                                    },
+                                                    {
+                                                        "effects":  {
+                                                                        "k2":  0.22940653593587212,
+                                                                        "k3":  -0.3264569522836469,
+                                                                        "k4":  0.10852372485341455,
+                                                                        "k5":  0.5765773571062303,
+                                                                        "replay":  0.1427017007026392
+                                                                    },
+                                                        "family":  "s048"
+                                                    },
+                                                    {
+                                                        "effects":  {
+                                                                        "k2":  0.27823686728941555,
+                                                                        "k3":  -0.43891721075675627,
+                                                                        "k4":  0.019924663447877577,
+                                                                        "k5":  0.338554344038589,
+                                                                        "replay":  -0.11115768467958231
+                                                                    },
+                                                        "family":  "s049"
+                                                    }
+                                                ],
+                             "intervals":  [
+                                               {
+                                                   "acceleration":  0.015483867113769898,
+                                                   "adjusted_quantiles":  [
+                                                                              0.007178994555271934,
+                                                                              0.9966770583367812
+                                                                          ],
+                                                   "bias_correction":  0.014990198461418702,
+                                                   "control":  "k2",
+                                                   "estimate_gap_points":  0.27674353434443305,
+                                                   "lower":  0.1906386851506599,
+                                                   "negative_effect_supported":  false,
+                                                   "positive_effect_supported":  true,
+                                                   "reason":  null,
+                                                   "status":  "INFERENTIAL_BCA",
+                                                   "upper":  0.377365147539074
+                                               },
+                                               {
+                                                   "acceleration":  0.022837879525944346,
+                                                   "adjusted_quantiles":  [
+                                                                              0.008653845949519123,
+                                                                              0.9974133232379367
+                                                                          ],
+                                                   "bias_correction":  0.02780208878297089,
+                                                   "control":  "k3",
+                                                   "estimate_gap_points":  -0.3421100505837039,
+                                                   "lower":  -0.3920904909244905,
+                                                   "negative_effect_supported":  true,
+                                                   "positive_effect_supported":  false,
+                                                   "reason":  null,
+                                                   "status":  "INFERENTIAL_BCA",
+                                                   "upper":  -0.2776196080840199
+                                               },
+                                               {
+                                                   "acceleration":  -0.022870929148567358,
+                                                   "adjusted_quantiles":  [
+                                                                              0.002569732741364794,
+                                                                              0.9913025409714211
+                                                                          ],
+                                                   "bias_correction":  -0.02867975863014595,
+                                                   "control":  "k4",
+                                                   "estimate_gap_points":  0.039645549919545206,
+                                                   "lower":  -0.044111554652267765,
+                                                   "negative_effect_supported":  false,
+                                                   "positive_effect_supported":  false,
+                                                   "reason":  null,
+                                                   "status":  "INFERENTIAL_BCA",
+                                                   "upper":  0.10421410852636623
+                                               },
+                                               {
+                                                   "acceleration":  0.01633443329539095,
+                                                   "adjusted_quantiles":  [
+                                                                              0.00749688993487635,
+                                                                              0.9968497860731658
+                                                                          ],
+                                                   "bias_correction":  0.02045551315809838,
+                                                   "control":  "k5",
+                                                   "estimate_gap_points":  0.49392120006708334,
+                                                   "lower":  0.4036757236896038,
+                                                   "negative_effect_supported":  false,
+                                                   "positive_effect_supported":  true,
+                                                   "reason":  null,
+                                                   "status":  "INFERENTIAL_BCA",
+                                                   "upper":  0.6011422757455801
+                                               },
+                                               {
+                                                   "acceleration":  -0.03334572925729847,
+                                                   "adjusted_quantiles":  [
+                                                                              0.0019244995336187287,
+                                                                              0.9895884077710109
+                                                                          ],
+                                                   "bias_correction":  -0.0329430531046979,
+                                                   "control":  "replay",
+                                                   "estimate_gap_points":  0.05216510663121112,
+                                                   "lower":  -0.05048672329355777,
+                                                   "negative_effect_supported":  false,
+                                                   "positive_effect_supported":  false,
+                                                   "reason":  null,
+                                                   "status":  "INFERENTIAL_BCA",
+                                                   "upper":  0.12246939367221187
+                                               }
+                                           ],
+                             "method":  "BCa",
+                             "nominal_joint_confidence":  0.95,
+                             "positive_direction":  "control gap minus adaptive gap, percentage points",
+                             "practical_advantage_established":  false,
+                             "practical_effect_threshold":  null,
+                             "quantile_method":  "linear",
+                             "replicates":  50000,
+                             "resample_index_sha256":  "547a2e1055ea10463d11def10e180ce49fa66d26018cb0b4f33a75670c6fdebf",
+                             "seed":  112001,
+                             "status":  "PERFORMED_MAIN_ONLY",
+                             "unit":  "whole_family"
+                         },
+    "profile_means_from_ci":  [
+                                  {
+                                      "profile":  "adaptive",
+                                      "runs":  900,
+                                      "families":  10,
+                                      "mean_final_gap_percent":  2.2346698740510718
+                                  },
+                                  {
+                                      "profile":  "k2",
+                                      "runs":  900,
+                                      "families":  10,
+                                      "mean_final_gap_percent":  2.511413408395505
+                                  },
+                                  {
+                                      "profile":  "k3",
+                                      "runs":  900,
+                                      "families":  10,
+                                      "mean_final_gap_percent":  1.892559823467368
+                                  },
+                                  {
+                                      "profile":  "k4",
+                                      "runs":  900,
+                                      "families":  10,
+                                      "mean_final_gap_percent":  2.2743154239706174
+                                  },
+                                  {
+                                      "profile":  "k5",
+                                      "runs":  900,
+                                      "families":  10,
+                                      "mean_final_gap_percent":  2.7285910741181554
+                                  },
+                                  {
+                                      "profile":  "replay",
+                                      "runs":  900,
+                                      "families":  10,
+                                      "mean_final_gap_percent":  2.286834980682283
+                                  }
+                              ],
+    "limitations":  [
+                        "Own historical heuristic; not article numerical replication or established novelty.",
+                        "Donor schedules are independent; realized mean tournament sizes need not match.",
+                        "A replay effect concerns this schedule distribution, not every possible open-loop schedule.",
+                        "Only ten new families support primary family-level inference.",
+                        "Pilot outcomes establish technical readiness, not scientific superiority.",
+                        "No minimum practically useful effect was set.",
+                        "Logging, validation and donor costs are separately measured and are not zero."
+                    ],
+    "provenance":  [
+                       {
+                           "path":  "PROTOCOL_UK.md",
+                           "bytes":  15718,
+                           "sha256":  "d11801e9c093e26f4847f889466a9cb88f14f86382d1b2830ef9477afbe52ff8",
+                           "representation":  "Git LF text bytes"
+                       },
+                       {
+                           "path":  "protocol.json",
+                           "bytes":  3365,
+                           "sha256":  "742519c219fc717f4958914fe3550a8ea6fd5dcb8ad7cd596632fb2bb3f24adf",
+                           "representation":  "Git LF text bytes"
+                       },
+                       {
+                           "path":  "registration.json",
+                           "bytes":  1888,
+                           "sha256":  "6d2b8f94d552f890df91a84d4c402aa19c6cda5994e2262c243f0916391959db",
+                           "representation":  "Git LF text bytes"
+                       },
+                       {
+                           "path":  "frozen_tests.json",
+                           "bytes":  498,
+                           "sha256":  "4779313d82b450a446c18487b4ed75bb0ae9700e9a29d02fff7ea7b377b08678",
+                           "representation":  "Git LF text bytes"
+                       },
+                       {
+                           "path":  "frozen_pilot.json",
+                           "bytes":  500,
+                           "sha256":  "ecaa770968aaacab1cb0b7ad8ee585c521bf075361ba331d644f57abf0b4283f",
+                           "representation":  "Git LF text bytes"
+                       },
+                       {
+                           "path":  "frozen_main_banks.json",
+                           "bytes":  486,
+                           "sha256":  "a256147bc8f9a44d25ded14107a6f87feca345f35f577f522882e643c302b048",
+                           "representation":  "Git LF text bytes"
+                       },
+                       {
+                           "path":  "frozen_main_schedules.json",
+                           "bytes":  494,
+                           "sha256":  "9bdc318e82acd5818d4a034ffefcd93704161e5abf7417906a6b24b99339cee1",
+                           "representation":  "Git LF text bytes"
+                       },
+                       {
+                           "path":  "frozen_main.json",
+                           "bytes":  499,
+                           "sha256":  "ab812e105163615826263bfbdf373be2f7dc5ff58065b5b3420a8cc0df9cd829",
+                           "representation":  "Git LF text bytes"
+                       },
+                       {
+                           "path":  "frozen_resource.json",
+                           "bytes":  511,
+                           "sha256":  "b9c5dfb454d59de3d97f4e7c394b2c3eae3361e36be9ecbcba40f2da0fbb5c6b",
+                           "representation":  "Git LF text bytes"
+                       },
+                       {
+                           "path":  "completion_resources.json",
+                           "bytes":  58124,
+                           "sha256":  "2129ceff4d6268d328cf0dc0503f322fe0adae40b7f37d62936bd7c8de24f03b",
+                           "representation":  "Git LF text bytes"
+                       },
+                       {
+                           "path":  "evidence/main-40828926412-1/series_summary.json",
+                           "bytes":  1877524,
+                           "sha256":  "dacf8520aae98f02db69c7bb2cc9710de394f6de09701a69c3dd0d8e9483ef21",
+                           "representation":  "Git LF text bytes"
+                       },
+                       {
+                           "path":  "evidence/main-40828926412-1/audit_status.json",
+                           "bytes":  6706,
+                           "sha256":  "f5352cedb38bc294e72b73697e8043ed935a71cec04d0bd898b051988eec8a08",
+                           "representation":  "Git LF text bytes"
+                       },
+                       {
+                           "path":  "evidence/main-40828926412-1/figures/figure_manifest.json",
+                           "bytes":  2801,
+                           "sha256":  "7ae13bd85cd3bea52c6fe037b914dd20f1a088ed1aa35a03c1b65655d0017d73",
+                           "representation":  "Git LF text bytes"
+                       }
+                   ],
+    "original_thesis_overwritten":  false,
+    "historical_kernels_modified":  false,
+    "numerical_article_replication_claimed":  false,
+    "further_search_authorized_by_completion":  false
+}
