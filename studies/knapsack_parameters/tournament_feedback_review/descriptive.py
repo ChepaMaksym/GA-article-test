@@ -97,11 +97,12 @@ def main():
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots(figsize=(8, 4.5))
     labels = {"k2": "Сталий турнір 2", "k3": "Сталий турнір 3", "adaptive": "Адаптивний", "replay": "Готовий розклад"}
+    colors = {"k2": "#1765a0", "k3": "#5698c4", "adaptive": "#c65024", "replay": "#8755a4"}
     for p in ("k2", "k3", "adaptive", "replay"):
         r = next(x for x in summary["prespecified_examples"] if x["profile"] == p)
         xs = [x["q"] for x in r["record_events"]] + [5000]
         ys = [100*x["profit"]/r["optimum"] for x in r["record_events"]]
-        ax.step(xs, ys + [ys[-1]], where="post", label=labels[p])
+        ax.step(xs, ys + [ys[-1]], where="post", label=labels[p], color=colors[p])
     ax.set_xlabel("Нові оцінювання")
     ax.set_ylabel("Рекорд, % від оптимуму")
     ax.legend()
