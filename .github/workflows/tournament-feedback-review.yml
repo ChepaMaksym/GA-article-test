@@ -55,6 +55,7 @@ jobs:
           gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/12879381392/zip" > "$RUNNER_TEMP/source.zip"
           echo '42c5d3676a37f49adcebf6db7af565b54f31604d61e5ef8687d85c2287f3a422  '"$RUNNER_TEMP/source.zip" | sha256sum -c -
           unzip -q "$RUNNER_TEMP/source.zip" -d "$RUNNER_TEMP/review-source"
+          cp "$RUNNER_TEMP/review-source/compact_records.json.gz" "$RUNNER_TEMP/review-bundle/main_compact_records.json.gz"
           gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/12876589015/zip" > "$RUNNER_TEMP/review-bundle/donor.zip"
           gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/12878805428/zip" > "$RUNNER_TEMP/review-bundle/recipients.zip"
       - name: Descriptive analysis and portable smoke audit
