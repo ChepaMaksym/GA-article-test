@@ -1,0 +1,1117 @@
+{
+    "protocol_id":  "GA-KNAPSACK-TOURNAMENT-FEEDBACK-V1",
+    "runner_minutes_ceiling":  330,
+    "used_runner_minutes":  174,
+    "remaining_runner_minutes":  156,
+    "rounding":  "Each allocated job in every attempt rounded upward, minimum one minute",
+    "attempts":  [
+                     {
+                         "run_id":  40832605233,
+                         "attempt":  1,
+                         "sha":  "6d5609fc35a4adcd584341ece5ccf7e46ed780d1",
+                         "allocated_jobs":  2,
+                         "run_conclusion":  "success"
+                     },
+                     {
+                         "run_id":  40828926412,
+                         "attempt":  1,
+                         "sha":  "2b99673841220179d453652179bd5ef0eb29d358",
+                         "allocated_jobs":  12,
+                         "run_conclusion":  "success"
+                     },
+                     {
+                         "run_id":  40827860011,
+                         "attempt":  1,
+                         "sha":  "021cccb8178f4850e0d7741d3483845974205c73",
+                         "allocated_jobs":  12,
+                         "run_conclusion":  "success"
+                     },
+                     {
+                         "run_id":  40827628814,
+                         "attempt":  1,
+                         "sha":  "9e533822268bcd24bf9addea6ee645304a723962",
+                         "allocated_jobs":  2,
+                         "run_conclusion":  "success"
+                     },
+                     {
+                         "run_id":  40760407127,
+                         "attempt":  1,
+                         "sha":  "f54b1a68ea340b7b5fff05caa0dd008013d50ab4",
+                         "allocated_jobs":  0,
+                         "run_conclusion":  "skipped"
+                     },
+                     {
+                         "run_id":  40760048231,
+                         "attempt":  1,
+                         "sha":  "127e78a0cf48f71863a4ee37ca18aa66b1c60503",
+                         "allocated_jobs":  0,
+                         "run_conclusion":  "skipped"
+                     },
+                     {
+                         "run_id":  40759838282,
+                         "attempt":  1,
+                         "sha":  "9f2d69b97f8d7ae30508ecf4ccc28feb378716eb",
+                         "allocated_jobs":  2,
+                         "run_conclusion":  "success"
+                     },
+                     {
+                         "run_id":  40758107473,
+                         "attempt":  1,
+                         "sha":  "5e1aef495e26530a1de1b2b5484eb239bee6fe7a",
+                         "allocated_jobs":  6,
+                         "run_conclusion":  "success"
+                     },
+                     {
+                         "run_id":  40757629127,
+                         "attempt":  1,
+                         "sha":  "10df3d4cce8ab9c34e728a65e01f2f780110d292",
+                         "allocated_jobs":  6,
+                         "run_conclusion":  "success"
+                     },
+                     {
+                         "run_id":  40757337202,
+                         "attempt":  1,
+                         "sha":  "1775df746d387b87174e556635407b51c1f80ba3",
+                         "allocated_jobs":  2,
+                         "run_conclusion":  "success"
+                     },
+                     {
+                         "run_id":  40757151087,
+                         "attempt":  1,
+                         "sha":  "d950008e46833e1fc095da026b4ff3525eed6e6a",
+                         "allocated_jobs":  2,
+                         "run_conclusion":  "success"
+                     },
+                     {
+                         "run_id":  40756823205,
+                         "attempt":  1,
+                         "sha":  "7426c401331da659931f2d81e42960bf84bd09eb",
+                         "allocated_jobs":  2,
+                         "run_conclusion":  "success"
+                     },
+                     {
+                         "run_id":  40756480762,
+                         "attempt":  1,
+                         "sha":  "0568380a45690e941455d1da2c22ed1f22ddaa34",
+                         "allocated_jobs":  2,
+                         "run_conclusion":  "success"
+                     },
+                     {
+                         "run_id":  40756155136,
+                         "attempt":  1,
+                         "sha":  "d5d9e114bd56c4349b714777ad4d312ee19c1a16",
+                         "allocated_jobs":  0,
+                         "run_conclusion":  "failure"
+                     }
+                 ],
+    "jobs":  [
+                 {
+                     "run_id":  40832605233,
+                     "attempt":  1,
+                     "job_id":  123310027393,
+                     "name":  "gate",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-29T07:00:01Z",
+                     "completed_at":  "2026-10-29T07:00:20Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40832605233,
+                     "attempt":  1,
+                     "job_id":  123310149733,
+                     "name":  "final",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-29T07:00:22Z",
+                     "completed_at":  "2026-10-29T07:00:50Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40828926412,
+                     "attempt":  1,
+                     "job_id":  123298354880,
+                     "name":  "gate",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-29T06:23:39Z",
+                     "completed_at":  "2026-10-29T06:23:57Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40828926412,
+                     "attempt":  1,
+                     "job_id":  123298463182,
+                     "name":  "main-recipients (s040)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-29T06:24:00Z",
+                     "completed_at":  "2026-10-29T06:37:42Z",
+                     "runner_minutes":  14
+                 },
+                 {
+                     "run_id":  40828926412,
+                     "attempt":  1,
+                     "job_id":  123298463190,
+                     "name":  "main-recipients (s042)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-29T06:24:00Z",
+                     "completed_at":  "2026-10-29T06:37:02Z",
+                     "runner_minutes":  14
+                 },
+                 {
+                     "run_id":  40828926412,
+                     "attempt":  1,
+                     "job_id":  123298463212,
+                     "name":  "main-recipients (s046)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-29T06:37:03Z",
+                     "completed_at":  "2026-10-29T06:44:56Z",
+                     "runner_minutes":  8
+                 },
+                 {
+                     "run_id":  40828926412,
+                     "attempt":  1,
+                     "job_id":  123298463229,
+                     "name":  "main-recipients (s049)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-29T06:43:47Z",
+                     "completed_at":  "2026-10-29T06:54:02Z",
+                     "runner_minutes":  11
+                 },
+                 {
+                     "run_id":  40828926412,
+                     "attempt":  1,
+                     "job_id":  123298463261,
+                     "name":  "main-recipients (s048)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-29T06:43:36Z",
+                     "completed_at":  "2026-10-29T06:57:13Z",
+                     "runner_minutes":  14
+                 },
+                 {
+                     "run_id":  40828926412,
+                     "attempt":  1,
+                     "job_id":  123298463273,
+                     "name":  "main-recipients (s045)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-29T06:32:11Z",
+                     "completed_at":  "2026-10-29T06:43:46Z",
+                     "runner_minutes":  12
+                 },
+                 {
+                     "run_id":  40828926412,
+                     "attempt":  1,
+                     "job_id":  123298463283,
+                     "name":  "main-recipients (s041)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-29T06:23:59Z",
+                     "completed_at":  "2026-10-29T06:32:09Z",
+                     "runner_minutes":  9
+                 },
+                 {
+                     "run_id":  40828926412,
+                     "attempt":  1,
+                     "job_id":  123298463316,
+                     "name":  "main-recipients (s043)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-29T06:23:59Z",
+                     "completed_at":  "2026-10-29T06:31:54Z",
+                     "runner_minutes":  8
+                 },
+                 {
+                     "run_id":  40828926412,
+                     "attempt":  1,
+                     "job_id":  123298463335,
+                     "name":  "main-recipients (s047)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-29T06:37:43Z",
+                     "completed_at":  "2026-10-29T06:51:17Z",
+                     "runner_minutes":  14
+                 },
+                 {
+                     "run_id":  40828926412,
+                     "attempt":  1,
+                     "job_id":  123298463401,
+                     "name":  "main-recipients (s044)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-29T06:31:56Z",
+                     "completed_at":  "2026-10-29T06:43:34Z",
+                     "runner_minutes":  12
+                 },
+                 {
+                     "run_id":  40828926412,
+                     "attempt":  1,
+                     "job_id":  123309173415,
+                     "name":  "summarize",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-29T06:57:15Z",
+                     "completed_at":  "2026-10-29T06:58:06Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40827860011,
+                     "attempt":  1,
+                     "job_id":  123294938116,
+                     "name":  "gate",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-29T06:12:54Z",
+                     "completed_at":  "2026-10-29T06:13:11Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40827860011,
+                     "attempt":  1,
+                     "job_id":  123295036542,
+                     "name":  "main-donors (s040)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-29T06:13:13Z",
+                     "completed_at":  "2026-10-29T06:14:50Z",
+                     "runner_minutes":  2
+                 },
+                 {
+                     "run_id":  40827860011,
+                     "attempt":  1,
+                     "job_id":  123295036551,
+                     "name":  "main-donors (s047)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-29T06:15:56Z",
+                     "completed_at":  "2026-10-29T06:18:41Z",
+                     "runner_minutes":  3
+                 },
+                 {
+                     "run_id":  40827860011,
+                     "attempt":  1,
+                     "job_id":  123295036552,
+                     "name":  "main-donors (s046)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-29T06:15:54Z",
+                     "completed_at":  "2026-10-29T06:18:38Z",
+                     "runner_minutes":  3
+                 },
+                 {
+                     "run_id":  40827860011,
+                     "attempt":  1,
+                     "job_id":  123295036553,
+                     "name":  "main-donors (s045)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-29T06:15:01Z",
+                     "completed_at":  "2026-10-29T06:17:27Z",
+                     "runner_minutes":  3
+                 },
+                 {
+                     "run_id":  40827860011,
+                     "attempt":  1,
+                     "job_id":  123295036582,
+                     "name":  "main-donors (s041)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-29T06:13:13Z",
+                     "completed_at":  "2026-10-29T06:15:52Z",
+                     "runner_minutes":  3
+                 },
+                 {
+                     "run_id":  40827860011,
+                     "attempt":  1,
+                     "job_id":  123295036609,
+                     "name":  "main-donors (s044)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-29T06:14:53Z",
+                     "completed_at":  "2026-10-29T06:17:38Z",
+                     "runner_minutes":  3
+                 },
+                 {
+                     "run_id":  40827860011,
+                     "attempt":  1,
+                     "job_id":  123295036631,
+                     "name":  "main-donors (s043)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-29T06:13:13Z",
+                     "completed_at":  "2026-10-29T06:15:55Z",
+                     "runner_minutes":  3
+                 },
+                 {
+                     "run_id":  40827860011,
+                     "attempt":  1,
+                     "job_id":  123295036662,
+                     "name":  "main-donors (s049)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-29T06:17:40Z",
+                     "completed_at":  "2026-10-29T06:19:22Z",
+                     "runner_minutes":  2
+                 },
+                 {
+                     "run_id":  40827860011,
+                     "attempt":  1,
+                     "job_id":  123295036682,
+                     "name":  "main-donors (s042)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-29T06:13:13Z",
+                     "completed_at":  "2026-10-29T06:14:59Z",
+                     "runner_minutes":  2
+                 },
+                 {
+                     "run_id":  40827860011,
+                     "attempt":  1,
+                     "job_id":  123295036709,
+                     "name":  "main-donors (s048)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-29T06:17:29Z",
+                     "completed_at":  "2026-10-29T06:20:10Z",
+                     "runner_minutes":  3
+                 },
+                 {
+                     "run_id":  40827860011,
+                     "attempt":  1,
+                     "job_id":  123297237105,
+                     "name":  "summarize",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-29T06:20:12Z",
+                     "completed_at":  "2026-10-29T06:20:39Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40827628814,
+                     "attempt":  1,
+                     "job_id":  123294201478,
+                     "name":  "gate",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-29T06:10:34Z",
+                     "completed_at":  "2026-10-29T06:10:53Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40827628814,
+                     "attempt":  1,
+                     "job_id":  123294315747,
+                     "name":  "prepare",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-29T06:10:55Z",
+                     "completed_at":  "2026-10-29T06:11:32Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40759838282,
+                     "attempt":  1,
+                     "job_id":  123068455306,
+                     "name":  "gate",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-28T20:03:32Z",
+                     "completed_at":  "2026-10-28T20:03:43Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40759838282,
+                     "attempt":  1,
+                     "job_id":  123068573110,
+                     "name":  "tests",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-28T20:03:45Z",
+                     "completed_at":  "2026-10-28T20:04:21Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40758107473,
+                     "attempt":  1,
+                     "job_id":  123062373253,
+                     "name":  "gate",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-28T19:51:56Z",
+                     "completed_at":  "2026-10-28T19:52:11Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40758107473,
+                     "attempt":  1,
+                     "job_id":  123062523921,
+                     "name":  "pilot-recipients (SC-s005)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-28T19:52:13Z",
+                     "completed_at":  "2026-10-28T19:53:21Z",
+                     "runner_minutes":  2
+                 },
+                 {
+                     "run_id":  40758107473,
+                     "attempt":  1,
+                     "job_id":  123062523948,
+                     "name":  "pilot-recipients (SC-s000)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-28T19:52:13Z",
+                     "completed_at":  "2026-10-28T19:53:00Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40758107473,
+                     "attempt":  1,
+                     "job_id":  123062524048,
+                     "name":  "pilot-recipients (UC-s000)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-28T19:52:13Z",
+                     "completed_at":  "2026-10-28T19:53:08Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40758107473,
+                     "attempt":  1,
+                     "job_id":  123062524095,
+                     "name":  "pilot-recipients (WC-s001)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-28T19:52:13Z",
+                     "completed_at":  "2026-10-28T19:52:57Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40758107473,
+                     "attempt":  1,
+                     "job_id":  123063135077,
+                     "name":  "summarize",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-28T19:53:24Z",
+                     "completed_at":  "2026-10-28T19:54:08Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40757629127,
+                     "attempt":  1,
+                     "job_id":  123060697593,
+                     "name":  "gate",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-28T19:48:45Z",
+                     "completed_at":  "2026-10-28T19:49:17Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40757629127,
+                     "attempt":  1,
+                     "job_id":  123060997318,
+                     "name":  "pilot-donors (UC-s000)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-28T19:49:19Z",
+                     "completed_at":  "2026-10-28T19:49:59Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40757629127,
+                     "attempt":  1,
+                     "job_id":  123060997339,
+                     "name":  "pilot-donors (SC-s005)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-28T19:49:19Z",
+                     "completed_at":  "2026-10-28T19:49:57Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40757629127,
+                     "attempt":  1,
+                     "job_id":  123060997406,
+                     "name":  "pilot-donors (WC-s001)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-28T19:49:19Z",
+                     "completed_at":  "2026-10-28T19:49:58Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40757629127,
+                     "attempt":  1,
+                     "job_id":  123060997430,
+                     "name":  "pilot-donors (SC-s000)",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-28T19:49:19Z",
+                     "completed_at":  "2026-10-28T19:50:09Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40757629127,
+                     "attempt":  1,
+                     "job_id":  123061452821,
+                     "name":  "summarize",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-28T19:50:11Z",
+                     "completed_at":  "2026-10-28T19:50:48Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40757337202,
+                     "attempt":  1,
+                     "job_id":  123059658829,
+                     "name":  "gate",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-28T19:46:48Z",
+                     "completed_at":  "2026-10-28T19:47:14Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40757337202,
+                     "attempt":  1,
+                     "job_id":  123059911962,
+                     "name":  "prepare",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-28T19:47:17Z",
+                     "completed_at":  "2026-10-28T19:47:51Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40757151087,
+                     "attempt":  1,
+                     "job_id":  123059001657,
+                     "name":  "gate",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-28T19:45:33Z",
+                     "completed_at":  "2026-10-28T19:45:55Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40757151087,
+                     "attempt":  1,
+                     "job_id":  123059218455,
+                     "name":  "tests",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-28T19:45:57Z",
+                     "completed_at":  "2026-10-28T19:46:24Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40756823205,
+                     "attempt":  1,
+                     "job_id":  123057853317,
+                     "name":  "gate",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-28T19:43:21Z",
+                     "completed_at":  "2026-10-28T19:43:35Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40756823205,
+                     "attempt":  1,
+                     "job_id":  123057989709,
+                     "name":  "prepare",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-28T19:43:37Z",
+                     "completed_at":  "2026-10-28T19:44:06Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40756480762,
+                     "attempt":  1,
+                     "job_id":  123056642786,
+                     "name":  "gate",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-28T19:41:03Z",
+                     "completed_at":  "2026-10-28T19:41:15Z",
+                     "runner_minutes":  1
+                 },
+                 {
+                     "run_id":  40756480762,
+                     "attempt":  1,
+                     "job_id":  123056780709,
+                     "name":  "tests",
+                     "conclusion":  "success",
+                     "started_at":  "2026-10-28T19:41:17Z",
+                     "completed_at":  "2026-10-28T19:42:09Z",
+                     "runner_minutes":  1
+                 }
+             ],
+    "archive_audit_performed":  true,
+    "compressed_journal_ceiling":  6442450944,
+    "retained_compressed_search_journal_bytes":  1599912478,
+    "retained_search_journals":  6356,
+    "canonical_zip_bytes":  1614345463,
+    "canonical_archives":  [
+                               {
+                                   "artifact_id":  12846715377,
+                                   "run_id":  40756480762,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "40e35f5534258e5aebc0eac66010f0be45ebf5b7ef478728a8a7343c0d9d9ae5",
+                                   "zip_bytes":  2350,
+                                   "compressed_search_journal_bytes":  0,
+                                   "search_journals":  0,
+                                   "retention_expires":  "2027-01-26T19:40:59Z"
+                               },
+                               {
+                                   "artifact_id":  12845633143,
+                                   "run_id":  40756480762,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "feba072ad4a6a4e6767181b95a02e78d303d6fc767f3c9f9abe73bbae924ef23",
+                                   "zip_bytes":  2851,
+                                   "compressed_search_journal_bytes":  0,
+                                   "search_journals":  0,
+                                   "retention_expires":  "2027-01-26T19:40:59Z"
+                               },
+                               {
+                                   "artifact_id":  12847300118,
+                                   "run_id":  40756823205,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "ff8c53a25da5113e42869054b76e28b5bd8131b3619215bdcf80098d86c4f3c7",
+                                   "zip_bytes":  31079,
+                                   "compressed_search_journal_bytes":  0,
+                                   "search_journals":  0,
+                                   "retention_expires":  "2027-01-26T19:43:19Z"
+                               },
+                               {
+                                   "artifact_id":  12846881267,
+                                   "run_id":  40756823205,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "c4cdb2584dbfbaee9d67b694fda9c3865cd06d7b78352cbf12cdc7f6c536779c",
+                                   "zip_bytes":  2912,
+                                   "compressed_search_journal_bytes":  0,
+                                   "search_journals":  0,
+                                   "retention_expires":  "2027-01-26T19:43:19Z"
+                               },
+                               {
+                                   "artifact_id":  12845873212,
+                                   "run_id":  40757151087,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "0681521b5afa0d632b16e8f51e528ba7718fc029c4be18c98937167bda8c62c0",
+                                   "zip_bytes":  2409,
+                                   "compressed_search_journal_bytes":  0,
+                                   "search_journals":  0,
+                                   "retention_expires":  "2027-01-26T19:45:31Z"
+                               },
+                               {
+                                   "artifact_id":  12844754760,
+                                   "run_id":  40757151087,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "4db625782a455fa0c78110ce18d46dcab0a19082cd7f23645eb12acf2bfe3da1",
+                                   "zip_bytes":  3002,
+                                   "compressed_search_journal_bytes":  0,
+                                   "search_journals":  0,
+                                   "retention_expires":  "2027-01-26T19:45:31Z"
+                               },
+                               {
+                                   "artifact_id":  12846327922,
+                                   "run_id":  40757337202,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "4fdad9627c6c4b2ba5639f9a77057639fd1ee66dca17f2a098c31ea18195d0a5",
+                                   "zip_bytes":  31593,
+                                   "compressed_search_journal_bytes":  0,
+                                   "search_journals":  0,
+                                   "retention_expires":  "2027-01-26T19:46:45Z"
+                               },
+                               {
+                                   "artifact_id":  12845954565,
+                                   "run_id":  40757337202,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "32b1a97cc37475b18c98421d1cc8d4e9affb5e9b0526c187744556fd39e2352b",
+                                   "zip_bytes":  3026,
+                                   "compressed_search_journal_bytes":  0,
+                                   "search_journals":  0,
+                                   "retention_expires":  "2027-01-26T19:46:45Z"
+                               },
+                               {
+                                   "artifact_id":  12847530699,
+                                   "run_id":  40757629127,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "53e7748b32da3e3128bccd195ea25c08afe12d56bfa977c95d3123613f82820e",
+                                   "zip_bytes":  517052,
+                                   "compressed_search_journal_bytes":  509311,
+                                   "search_journals":  2,
+                                   "retention_expires":  "2027-01-26T19:48:43Z"
+                               },
+                               {
+                                   "artifact_id":  12847495530,
+                                   "run_id":  40757629127,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "b25b1507394d3e92e4eb4a654e38437b847c7a8fec724a0374fa2b53837cda24",
+                                   "zip_bytes":  510184,
+                                   "compressed_search_journal_bytes":  502803,
+                                   "search_journals":  2,
+                                   "retention_expires":  "2027-01-26T19:48:43Z"
+                               },
+                               {
+                                   "artifact_id":  12847146241,
+                                   "run_id":  40757629127,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "19257cc46595b919219a2615d768881b675aace47c9c4cddc5927ecaedd31076",
+                                   "zip_bytes":  3050,
+                                   "compressed_search_journal_bytes":  0,
+                                   "search_journals":  0,
+                                   "retention_expires":  "2027-01-26T19:48:43Z"
+                               },
+                               {
+                                   "artifact_id":  12846856958,
+                                   "run_id":  40757629127,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "e490597ff031093b6ae8388184f1ddaeef932d1ceea2d88f1ebd57e2de6d71fd",
+                                   "zip_bytes":  43321,
+                                   "compressed_search_journal_bytes":  0,
+                                   "search_journals":  0,
+                                   "retention_expires":  "2027-01-26T19:48:43Z"
+                               },
+                               {
+                                   "artifact_id":  12846082500,
+                                   "run_id":  40757629127,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "12347e48e1863caceae24de16206a561852bf0f7c3090e11f49c66fabcb5377e",
+                                   "zip_bytes":  501129,
+                                   "compressed_search_journal_bytes":  479961,
+                                   "search_journals":  2,
+                                   "retention_expires":  "2027-01-26T19:48:43Z"
+                               },
+                               {
+                                   "artifact_id":  12845684982,
+                                   "run_id":  40757629127,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "7fb1c796734fc9579fb0b4b26638a858d5b567a909f94229ad918774d299f561",
+                                   "zip_bytes":  513355,
+                                   "compressed_search_journal_bytes":  505946,
+                                   "search_journals":  2,
+                                   "retention_expires":  "2027-01-26T19:48:43Z"
+                               },
+                               {
+                                   "artifact_id":  12847351308,
+                                   "run_id":  40758107473,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "07c5fc9f913a9f2dc6d57cb3bd27e57b2044d09452bda5525f86c6332faba8c1",
+                                   "zip_bytes":  2990397,
+                                   "compressed_search_journal_bytes":  2991401,
+                                   "search_journals":  12,
+                                   "retention_expires":  "2027-01-26T19:51:54Z"
+                               },
+                               {
+                                   "artifact_id":  12847337155,
+                                   "run_id":  40758107473,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "99397dfaa181bf1b4d7f47ea65bd1a12fd73690c32f512593b590dc388a7016b",
+                                   "zip_bytes":  2979384,
+                                   "compressed_search_journal_bytes":  2981174,
+                                   "search_journals":  12,
+                                   "retention_expires":  "2027-01-26T19:51:54Z"
+                               },
+                               {
+                                   "artifact_id":  12847072849,
+                                   "run_id":  40758107473,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "9435f2f9a3d28c790f8ae5469ccc1110a37b09a859676e827ef316e52b7f9a5c",
+                                   "zip_bytes":  2922052,
+                                   "compressed_search_journal_bytes":  2924674,
+                                   "search_journals":  12,
+                                   "retention_expires":  "2027-01-26T19:51:54Z"
+                               },
+                               {
+                                   "artifact_id":  12846961867,
+                                   "run_id":  40758107473,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "e06fc689fd925c2aef8780fa5a23fdd951db3ed834783217e27b075b83d870b0",
+                                   "zip_bytes":  2908467,
+                                   "compressed_search_journal_bytes":  2831985,
+                                   "search_journals":  12,
+                                   "retention_expires":  "2027-01-26T19:51:54Z"
+                               },
+                               {
+                                   "artifact_id":  12846817528,
+                                   "run_id":  40758107473,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "17b8c818dd23e1039647c4152621da0676362f93d7e032607d001e4bbc92c158",
+                                   "zip_bytes":  1024111,
+                                   "compressed_search_journal_bytes":  0,
+                                   "search_journals":  0,
+                                   "retention_expires":  "2027-01-26T19:51:54Z"
+                               },
+                               {
+                                   "artifact_id":  12846692316,
+                                   "run_id":  40758107473,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "2074d34334e4b113c877ff27acb1f3dc3de1c0dfe2c034a9d3d0a7451a86784b",
+                                   "zip_bytes":  3140,
+                                   "compressed_search_journal_bytes":  0,
+                                   "search_journals":  0,
+                                   "retention_expires":  "2027-01-26T19:51:54Z"
+                               },
+                               {
+                                   "artifact_id":  12848021356,
+                                   "run_id":  40759838282,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "a7c061b99aebab23fa8b879c35dc9c1c3b09f4184654f5503e879796b1291552",
+                                   "zip_bytes":  3277,
+                                   "compressed_search_journal_bytes":  0,
+                                   "search_journals":  0,
+                                   "retention_expires":  "2027-01-26T20:03:30Z"
+                               },
+                               {
+                                   "artifact_id":  12847457335,
+                                   "run_id":  40759838282,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "4b03511936b9cedb3bed61c80c941b65f4d0a9483ad2a3d6a177a7eeccbe3359",
+                                   "zip_bytes":  2470,
+                                   "compressed_search_journal_bytes":  0,
+                                   "search_journals":  0,
+                                   "retention_expires":  "2027-01-26T20:03:30Z"
+                               },
+                               {
+                                   "artifact_id":  12877830006,
+                                   "run_id":  40827628814,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "06ffcd6425a50e92e86b4e8dbbbc2285bf9eb997ced613a62fbbf37ee0068d60",
+                                   "zip_bytes":  3743389,
+                                   "compressed_search_journal_bytes":  0,
+                                   "search_journals":  0,
+                                   "retention_expires":  "2027-01-27T06:10:31Z"
+                               },
+                               {
+                                   "artifact_id":  12877212613,
+                                   "run_id":  40827628814,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "f7c7e6feda65f20ca878f4f6140666abf8c421b707d2dc9bc9b319166e37a210",
+                                   "zip_bytes":  3766,
+                                   "compressed_search_journal_bytes":  0,
+                                   "search_journals":  0,
+                                   "retention_expires":  "2027-01-27T06:10:31Z"
+                               },
+                               {
+                                   "artifact_id":  12877890777,
+                                   "run_id":  40827860011,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "363c039d59b89765e6f22f22329ca15603709295ac47eddb54f948b4198118ba",
+                                   "zip_bytes":  22979982,
+                                   "compressed_search_journal_bytes":  22770793,
+                                   "search_journals":  90,
+                                   "retention_expires":  "2027-01-27T06:12:51Z"
+                               },
+                               {
+                                   "artifact_id":  12877846352,
+                                   "run_id":  40827860011,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "a52ba69e5f380e445fe79d1e979d3f0dd34cafc3abc851b4eb52a5785b187d30",
+                                   "zip_bytes":  22929215,
+                                   "compressed_search_journal_bytes":  22720224,
+                                   "search_journals":  90,
+                                   "retention_expires":  "2027-01-27T06:12:51Z"
+                               },
+                               {
+                                   "artifact_id":  12877816783,
+                                   "run_id":  40827860011,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "29ead0f05809abd3b7add3b7d13c61d9674236a388d9fedd0e3ce19fc355d878",
+                                   "zip_bytes":  2722324,
+                                   "compressed_search_journal_bytes":  0,
+                                   "search_journals":  0,
+                                   "retention_expires":  "2027-01-27T06:12:51Z"
+                               },
+                               {
+                                   "artifact_id":  12877805667,
+                                   "run_id":  40827860011,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "16773682a9d184b0439815039f7592b2209727cde6e53a79bd0eb6ba10812ff3",
+                                   "zip_bytes":  23030403,
+                                   "compressed_search_journal_bytes":  22819074,
+                                   "search_journals":  90,
+                                   "retention_expires":  "2027-01-27T06:12:51Z"
+                               },
+                               {
+                                   "artifact_id":  12877801653,
+                                   "run_id":  40827860011,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "dad20f136bab95887db4ffa6fb6fc0e79026e92c8ec7c822675d9d2337fe3669",
+                                   "zip_bytes":  22931896,
+                                   "compressed_search_journal_bytes":  22721179,
+                                   "search_journals":  90,
+                                   "retention_expires":  "2027-01-27T06:12:51Z"
+                               },
+                               {
+                                   "artifact_id":  12877522235,
+                                   "run_id":  40827860011,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "080e1cd88843090f79e050da687a312c97c94052faf4d52c73a3213bc01b9e6b",
+                                   "zip_bytes":  23103671,
+                                   "compressed_search_journal_bytes":  22892401,
+                                   "search_journals":  90,
+                                   "retention_expires":  "2027-01-27T06:12:51Z"
+                               },
+                               {
+                                   "artifact_id":  12877478136,
+                                   "run_id":  40827860011,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "e8bb96f89aec78e3bd8379744ffa47310db34f3533b3e535935255cfb333c86f",
+                                   "zip_bytes":  23080168,
+                                   "compressed_search_journal_bytes":  22869323,
+                                   "search_journals":  90,
+                                   "retention_expires":  "2027-01-27T06:12:51Z"
+                               },
+                               {
+                                   "artifact_id":  12877331854,
+                                   "run_id":  40827860011,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "f728a1798519d58c0a8b73daf767d39821e7503c3eee05e0ed84937c4551c6e9",
+                                   "zip_bytes":  23128585,
+                                   "compressed_search_journal_bytes":  22916561,
+                                   "search_journals":  90,
+                                   "retention_expires":  "2027-01-27T06:12:51Z"
+                               },
+                               {
+                                   "artifact_id":  12877312148,
+                                   "run_id":  40827860011,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "6dd74bd8686eb5f97398ace5b0e9069123cd5c6217b01bc941dce3a48940d4ae",
+                                   "zip_bytes":  23034826,
+                                   "compressed_search_journal_bytes":  22824353,
+                                   "search_journals":  90,
+                                   "retention_expires":  "2027-01-27T06:12:51Z"
+                               },
+                               {
+                                   "artifact_id":  12876829788,
+                                   "run_id":  40827860011,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "d0b53800f6a347e9c703dfc505fd1d22c24a3750d862b177b8f346f4194e1744",
+                                   "zip_bytes":  3452,
+                                   "compressed_search_journal_bytes":  0,
+                                   "search_journals":  0,
+                                   "retention_expires":  "2027-01-27T06:12:51Z"
+                               },
+                               {
+                                   "artifact_id":  12876589562,
+                                   "run_id":  40827860011,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "179eb5fa150111a507f1c976d20b526525d66d23b692ae62e94cd868ecac54d3",
+                                   "zip_bytes":  22984981,
+                                   "compressed_search_journal_bytes":  22773524,
+                                   "search_journals":  90,
+                                   "retention_expires":  "2027-01-27T06:12:51Z"
+                               },
+                               {
+                                   "artifact_id":  12876589015,
+                                   "run_id":  40827860011,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "decc543cf13e14d678fc3bda900b801531568244907377f620f12d88066a198f",
+                                   "zip_bytes":  22991975,
+                                   "compressed_search_journal_bytes":  22767639,
+                                   "search_journals":  90,
+                                   "retention_expires":  "2027-01-27T06:12:51Z"
+                               },
+                               {
+                                   "artifact_id":  12879381392,
+                                   "run_id":  40828926412,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "42c5d3676a37f49adcebf6db7af565b54f31604d61e5ef8687d85c2287f3a422",
+                                   "zip_bytes":  5178113,
+                                   "compressed_search_journal_bytes":  0,
+                                   "search_journals":  0,
+                                   "retention_expires":  "2027-01-27T06:23:37Z"
+                               },
+                               {
+                                   "artifact_id":  12879340966,
+                                   "run_id":  40828926412,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "600a7ab75e5b074e367774b866808251300dec62d58c4ccc37ff558bf5594156",
+                                   "zip_bytes":  135890254,
+                                   "compressed_search_journal_bytes":  135960065,
+                                   "search_journals":  540,
+                                   "retention_expires":  "2027-01-27T06:23:37Z"
+                               },
+                               {
+                                   "artifact_id":  12879171855,
+                                   "run_id":  40828926412,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "210804b63b9ec8ceaa7414325e298403771e08b9303beed026bce1f14cea22f0",
+                                   "zip_bytes":  135461530,
+                                   "compressed_search_journal_bytes":  135536698,
+                                   "search_journals":  540,
+                                   "retention_expires":  "2027-01-27T06:23:37Z"
+                               },
+                               {
+                                   "artifact_id":  12879021273,
+                                   "run_id":  40828926412,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "d552ce4f6c8ee28f19a7b6ef8122ca9b72075aead05570dd673e9fb6eea15861",
+                                   "zip_bytes":  135361672,
+                                   "compressed_search_journal_bytes":  135438508,
+                                   "search_journals":  540,
+                                   "retention_expires":  "2027-01-27T06:23:37Z"
+                               },
+                               {
+                                   "artifact_id":  12878930052,
+                                   "run_id":  40828926412,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "359f3155bbbd045a4a26a8f5ddda24969e8723db9c27638a70b6baabf58cb088",
+                                   "zip_bytes":  135725298,
+                                   "compressed_search_journal_bytes":  135791341,
+                                   "search_journals":  540,
+                                   "retention_expires":  "2027-01-27T06:23:37Z"
+                               },
+                               {
+                                   "artifact_id":  12878805428,
+                                   "run_id":  40828926412,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "c5418464d35c675af4817ef284a94309d39c346bbf020c6bda1898e1135925a0",
+                                   "zip_bytes":  135675353,
+                                   "compressed_search_journal_bytes":  135669609,
+                                   "search_journals":  540,
+                                   "retention_expires":  "2027-01-27T06:23:37Z"
+                               },
+                               {
+                                   "artifact_id":  12878721838,
+                                   "run_id":  40828926412,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "ad104b18a2ad9aa1b7634c88fd669fd25b0b1af935935839e808c8d0150294fb",
+                                   "zip_bytes":  135631467,
+                                   "compressed_search_journal_bytes":  135709695,
+                                   "search_journals":  540,
+                                   "retention_expires":  "2027-01-27T06:23:37Z"
+                               },
+                               {
+                                   "artifact_id":  12878632097,
+                                   "run_id":  40828926412,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "d44065611095c818bd7c634e09c8850f611b8cc81a5e2d5efaece84063ff175f",
+                                   "zip_bytes":  135283341,
+                                   "compressed_search_journal_bytes":  135363990,
+                                   "search_journals":  540,
+                                   "retention_expires":  "2027-01-27T06:23:37Z"
+                               },
+                               {
+                                   "artifact_id":  12878628714,
+                                   "run_id":  40828926412,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "e445213d68cb037176fcc2aea2eabb361452601292780fa5ee47c3b693323343",
+                                   "zip_bytes":  135868977,
+                                   "compressed_search_journal_bytes":  135925662,
+                                   "search_journals":  540,
+                                   "retention_expires":  "2027-01-27T06:23:37Z"
+                               },
+                               {
+                                   "artifact_id":  12878395634,
+                                   "run_id":  40828926412,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "da060e667e25d6cf9c565b66d13e66381ffb337a9b3750926d3a39a518ee27a9",
+                                   "zip_bytes":  136383630,
+                                   "compressed_search_journal_bytes":  136445133,
+                                   "search_journals":  540,
+                                   "retention_expires":  "2027-01-27T06:23:37Z"
+                               },
+                               {
+                                   "artifact_id":  12878371249,
+                                   "run_id":  40828926412,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "48697af33302c6d0df9249828b18f86a986581bec45a3391e59cd3612ba92c91",
+                                   "zip_bytes":  136205619,
+                                   "compressed_search_journal_bytes":  136269451,
+                                   "search_journals":  540,
+                                   "retention_expires":  "2027-01-27T06:23:37Z"
+                               },
+                               {
+                                   "artifact_id":  12876929538,
+                                   "run_id":  40828926412,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "7ecf9331be116a69501e80382b0e87da6d2a95733662eefc91009f7abe43d1f3",
+                                   "zip_bytes":  3565,
+                                   "compressed_search_journal_bytes":  0,
+                                   "search_journals":  0,
+                                   "retention_expires":  "2027-01-27T06:23:37Z"
+                               },
+                               {
+                                   "artifact_id":  12879495583,
+                                   "run_id":  40832605233,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "99a5f64ac06bb4beaca6bd8f53d02d300d318dcd8db71549c78519fecabe8411",
+                                   "zip_bytes":  3721,
+                                   "compressed_search_journal_bytes":  0,
+                                   "search_journals":  0,
+                                   "retention_expires":  "2027-01-27T06:59:59Z"
+                               },
+                               {
+                                   "artifact_id":  12879396760,
+                                   "run_id":  40832605233,
+                                   "run_attempt":  1,
+                                   "zip_sha256":  "d715fad5dfd3642070853024d02e984351b7bb07d854b8f3f9be9e915293c4b3",
+                                   "zip_bytes":  3679,
+                                   "compressed_search_journal_bytes":  0,
+                                   "search_journals":  0,
+                                   "retention_expires":  "2027-01-27T06:59:59Z"
+                               }
+                           ],
+    "historical_budgets_inherited":  false
+}
