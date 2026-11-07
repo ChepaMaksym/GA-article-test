@@ -1,12 +1,17 @@
 {
   "protocol_id": "GA-KNAPSACK-POPULATION-SIZE-V1",
-  "explicit_user_numeric_approval": false,
-  "execution_authorized": false,
-  "runner_minutes_ceiling": null,
-  "compressed_bytes_ceiling": null,
+  "explicit_user_numeric_approval": true,
+  "execution_authorized": true,
+  "runner_minutes_ceiling": 160,
+  "compressed_bytes_ceiling": 4294967296,
   "historical_budgets_reassigned": false,
-  "approved_phases": [],
+  "approved_phases": ["tests", "prepare-pilot", "pilot"],
   "tuning_authorized": false,
   "main_authorized": false,
-  "approval_record": null
+  "approval_record": {
+    "approved_at_utc": "2026-11-07T06:31:03Z",
+    "user_message": "Погоджую технічний етап до 160 хвилин і 4 GiB",
+    "runner_minutes_ceiling": 160,
+    "compressed_bytes_ceiling": 4294967296
+  }
 }
