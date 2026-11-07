@@ -1,0 +1,16 @@
+{
+  "status": "VERIFIED",
+  "phase": "prepare-pilot",
+  "run_id": 42348296666,
+  "run_attempt": 1,
+  "implementation_sha": "6947a8fbfe9500778b26b95003fd59916bc5fcd7",
+  "artifact_id": 13563844123,
+  "artifact_name": "population-size-inputs-42348296666-1",
+  "source_manifest_sha256": "cb948de06f6688db9e7b66cf5eedc36436c58d03a6a6074ed1c574882be47269",
+  "archive_sha256": "de52fc8c5e5982c210d9dd09fc6e80c931b3ccd4d37f1985252f439f776314ea",
+  "file_manifest_sha256": "f9486fa92bd1312d51a440a889ed28ad39d7488b46a2a39a744c547c9f2b0ed2",
+  "report_sha256": "307abd700202c4d47a8b987d2540d57340d7ddaab25c2c4d3b39a66e02220857",
+  "prepared_cases": 9,
+  "exact_oracles_per_case": 2,
+  "bank_size": 25000
+}
