@@ -1,0 +1,3 @@
+*.py text eol=lf
+data/** -text
+tests/references/** -text

@@ -1,0 +1,188 @@
+name: Knapsack population size
+
+on:
+  push:
+    branches: [research/masters-ga-diversity-crossover]
+  workflow_dispatch:
+    inputs:
+      phase:
+        description: Registered technical phase
+        required: true
+        type: choice
+        options: [tests, prepare-pilot, pilot]
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: knapsack-population-size
+  cancel-in-progress: false
+
+env:
+  EXPECTED_SHA: ${{ github.sha }}
+  COMMIT_MESSAGE: ${{ github.event.head_commit.message || '' }}
+  STUDY_PHASE: ${{ github.event_name == 'workflow_dispatch' && inputs.phase || contains(github.event.head_commit.message, '[population-size:tests]') && 'tests' || contains(github.event.head_commit.message, '[population-size:prepare-pilot]') && 'prepare-pilot' || contains(github.event.head_commit.message, '[population-size:pilot]') && 'pilot' || 'blocked' }}
+  GITHUB_TOKEN: ${{ github.token }}
+  PYTHONHASHSEED: '0'
+  PYTHONDONTWRITEBYTECODE: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  OMP_NUM_THREADS: '1'
+  MPLBACKEND: Agg
+
+jobs:
+  gate:
+    if: github.ref == 'refs/heads/research/masters-ga-diversity-crossover' && (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[population-size:'))
+    runs-on: ubuntu-24.04
+    timeout-minutes: 1
+    outputs:
+      phase: ${{ steps.permit.outputs.phase }}
+      worker_matrix: ${{ steps.permit.outputs.worker_matrix }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - id: permit
+        name: Exact source, fresh numeric grant and cumulative resource guard
+        run: python3 -m studies.knapsack_parameters.population_size_study.driver preflight --phase "$STUDY_PHASE" --output "$RUNNER_TEMP/population-size-permit"
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: population-size-permit-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/population-size-permit
+          retention-days: 90
+          if-no-files-found: warn
+
+  tests:
+    needs: gate
+    if: needs.gate.outputs.phase == 'tests'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - name: Hash-locked existing dependencies
+        run: python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: population-size-permit-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/permit
+      - name: Software fixtures, mathematical identities and retained reference replay
+        run: python -m studies.knapsack_parameters.population_size_study.driver tests --permit "$RUNNER_TEMP/permit" --output "$RUNNER_TEMP/population-size-tests"
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: population-size-tests-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/population-size-tests
+          retention-days: 90
+          if-no-files-found: warn
+
+  prepare:
+    needs: gate
+    if: needs.gate.outputs.phase == 'prepare-pilot'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - name: Hash-locked existing dependencies
+        run: python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: population-size-permit-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/permit
+      - name: Pinned bytes, nine shared banks and two independent exact references
+        run: python -m studies.knapsack_parameters.population_size_study.driver prepare --permit "$RUNNER_TEMP/permit" --output "$RUNNER_TEMP/population-size-inputs"
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: population-size-inputs-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/population-size-inputs
+          retention-days: 90
+          if-no-files-found: warn
+
+  worker:
+    name: pilot (${{ matrix.worker }})
+    needs: gate
+    if: needs.gate.outputs.phase == 'pilot'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix: ${{ fromJSON(needs.gate.outputs.worker_matrix) }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - name: Hash-locked existing dependencies
+        run: python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: population-size-permit-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/permit
+      - name: Two registered boundary populations and independent replay
+        env:
+          STUDY_WORKER: ${{ matrix.worker }}
+        run: python -m studies.knapsack_parameters.population_size_study.driver worker --worker "$STUDY_WORKER" --permit "$RUNNER_TEMP/permit" --output "$RUNNER_TEMP/population-size-worker"
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: population-size-worker-${{ matrix.worker }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/population-size-worker
+          retention-days: 90
+          if-no-files-found: warn
+
+  aggregate:
+    needs: [gate, worker]
+    if: always() && needs.gate.result == 'success' && needs.gate.outputs.phase == 'pilot'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - name: Hash-locked existing dependencies
+        run: python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: population-size-permit-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/permit
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          pattern: population-size-worker-*-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/workers
+          merge-multiple: false
+      - name: Exact completeness, measured costs and later-stage quote
+        run: python -m studies.knapsack_parameters.population_size_study.driver aggregate --workers "$RUNNER_TEMP/workers" --permit "$RUNNER_TEMP/permit" --output "$RUNNER_TEMP/population-size-summary"
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: population-size-summary-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/population-size-summary
+          retention-days: 90
+          if-no-files-found: warn
