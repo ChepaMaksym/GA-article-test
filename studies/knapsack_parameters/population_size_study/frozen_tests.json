@@ -1,0 +1,18 @@
+{
+  "status": "VERIFIED",
+  "phase": "tests",
+  "run_id": 42347569321,
+  "run_attempt": 1,
+  "implementation_sha": "16303fccef763e720676e71df9c089e2d4e588d6",
+  "artifact_id": 13564206695,
+  "artifact_name": "population-size-tests-42347569321-1",
+  "source_manifest_sha256": "db8201bef706c9841ccf7f8b2f702bcc2374c6330372c3fae2bf85e489d17f14",
+  "archive_sha256": "86d14ca63679e54d4274efbdea19cef92a0f7d8fb841f1a6db210f7dd875a53e",
+  "file_manifest_sha256": "75f6dbe4612c7735777657cea7e327b7125f497057ef25e18e8681532ad12f9c",
+  "report_sha256": "03d494076e050340788acc6a663c298afa363b92e7c3cf645ccda02363de4813",
+  "tests_run": 127,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "software_fixture_candidate_events_observed": 5327
+}
