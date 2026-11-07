@@ -1,0 +1,394 @@
+{
+    "schema":  "population-size-completed-resource-ledger-v1",
+    "protocol_id":  "GA-KNAPSACK-POPULATION-SIZE-V1",
+    "recorded_at_utc":  "2026-11-07T06:57:09.2594527+00:00",
+    "accounting":  "Completed non-skipped Linux job duration rounded upward per job; retained artifacts including preceding attempts",
+    "runner_minutes_ceiling":  160,
+    "compressed_bytes_ceiling":  4294967296,
+    "used_runner_minutes":  30,
+    "used_compressed_bytes":  156925100,
+    "known_artifact_ids":  [
+                               13565085287,
+                               13564762800,
+                               13564657437,
+                               13564602597,
+                               13564572880,
+                               13564497875,
+                               13564493478,
+                               13564433127,
+                               13564323045,
+                               13564203761,
+                               13564078720,
+                               13564696758,
+                               13563844123,
+                               13564950303,
+                               13564427061,
+                               13564560982,
+                               13564103777,
+                               13564236435,
+                               13564206695
+                           ],
+    "runs":  [
+                 {
+                     "run_id":  42348496174,
+                     "run_attempt":  1,
+                     "implementation_sha":  "fa0fdcca7c933432f6b65f7187ce1fd8b669f164",
+                     "conclusion":  "success",
+                     "runner_minutes":  21,
+                     "jobs":  [
+                                  {
+                                      "job_id":  128331356857,
+                                      "name":  "gate",
+                                      "conclusion":  "success",
+                                      "started_at":  "2026-11-07T06:46:55Z",
+                                      "completed_at":  "2026-11-07T06:47:09Z",
+                                      "runner_minutes":  1
+                                  },
+                                  {
+                                      "job_id":  128331412771,
+                                      "name":  "pilot (2)",
+                                      "conclusion":  "success",
+                                      "started_at":  "2026-11-07T06:47:11Z",
+                                      "completed_at":  "2026-11-07T06:48:56Z",
+                                      "runner_minutes":  2
+                                  },
+                                  {
+                                      "job_id":  128331412776,
+                                      "name":  "pilot (6)",
+                                      "conclusion":  "success",
+                                      "started_at":  "2026-11-07T06:48:57Z",
+                                      "completed_at":  "2026-11-07T06:50:57Z",
+                                      "runner_minutes":  2
+                                  },
+                                  {
+                                      "job_id":  128331412788,
+                                      "name":  "pilot (8)",
+                                      "conclusion":  "success",
+                                      "started_at":  "2026-11-07T06:49:58Z",
+                                      "completed_at":  "2026-11-07T06:52:33Z",
+                                      "runner_minutes":  3
+                                  },
+                                  {
+                                      "job_id":  128331412790,
+                                      "name":  "pilot (5)",
+                                      "conclusion":  "success",
+                                      "started_at":  "2026-11-07T06:48:46Z",
+                                      "completed_at":  "2026-11-07T06:50:41Z",
+                                      "runner_minutes":  2
+                                  },
+                                  {
+                                      "job_id":  128331412795,
+                                      "name":  "pilot (1)",
+                                      "conclusion":  "success",
+                                      "started_at":  "2026-11-07T06:47:11Z",
+                                      "completed_at":  "2026-11-07T06:48:44Z",
+                                      "runner_minutes":  2
+                                  },
+                                  {
+                                      "job_id":  128331412827,
+                                      "name":  "pilot (4)",
+                                      "conclusion":  "success",
+                                      "started_at":  "2026-11-07T06:48:21Z",
+                                      "completed_at":  "2026-11-07T06:49:56Z",
+                                      "runner_minutes":  2
+                                  },
+                                  {
+                                      "job_id":  128331412832,
+                                      "name":  "pilot (3)",
+                                      "conclusion":  "success",
+                                      "started_at":  "2026-11-07T06:47:11Z",
+                                      "completed_at":  "2026-11-07T06:49:06Z",
+                                      "runner_minutes":  2
+                                  },
+                                  {
+                                      "job_id":  128331412855,
+                                      "name":  "pilot (0)",
+                                      "conclusion":  "success",
+                                      "started_at":  "2026-11-07T06:47:11Z",
+                                      "completed_at":  "2026-11-07T06:48:19Z",
+                                      "runner_minutes":  2
+                                  },
+                                  {
+                                      "job_id":  128331412882,
+                                      "name":  "pilot (7)",
+                                      "conclusion":  "success",
+                                      "started_at":  "2026-11-07T06:49:08Z",
+                                      "completed_at":  "2026-11-07T06:51:01Z",
+                                      "runner_minutes":  2
+                                  },
+                                  {
+                                      "job_id":  128332546943,
+                                      "name":  "aggregate",
+                                      "conclusion":  "success",
+                                      "started_at":  "2026-11-07T06:52:36Z",
+                                      "completed_at":  "2026-11-07T06:53:12Z",
+                                      "runner_minutes":  1
+                                  }
+                              ]
+                 },
+                 {
+                     "run_id":  42348296666,
+                     "run_attempt":  1,
+                     "implementation_sha":  "6947a8fbfe9500778b26b95003fd59916bc5fcd7",
+                     "conclusion":  "success",
+                     "runner_minutes":  2,
+                     "jobs":  [
+                                  {
+                                      "job_id":  128330749457,
+                                      "name":  "gate",
+                                      "conclusion":  "success",
+                                      "started_at":  "2026-11-07T06:44:07Z",
+                                      "completed_at":  "2026-11-07T06:44:19Z",
+                                      "runner_minutes":  1
+                                  },
+                                  {
+                                      "job_id":  128330797859,
+                                      "name":  "prepare",
+                                      "conclusion":  "success",
+                                      "started_at":  "2026-11-07T06:44:21Z",
+                                      "completed_at":  "2026-11-07T06:45:19Z",
+                                      "runner_minutes":  1
+                                  }
+                              ]
+                 },
+                 {
+                     "run_id":  42348141862,
+                     "run_attempt":  1,
+                     "implementation_sha":  "cffbebb3c08eefabd98d24b09c759bf5ab7ff50b",
+                     "conclusion":  "success",
+                     "runner_minutes":  2,
+                     "jobs":  [
+                                  {
+                                      "job_id":  128330270403,
+                                      "name":  "gate",
+                                      "conclusion":  "success",
+                                      "started_at":  "2026-11-07T06:41:53Z",
+                                      "completed_at":  "2026-11-07T06:42:06Z",
+                                      "runner_minutes":  1
+                                  },
+                                  {
+                                      "job_id":  128330328761,
+                                      "name":  "tests",
+                                      "conclusion":  "success",
+                                      "started_at":  "2026-11-07T06:42:08Z",
+                                      "completed_at":  "2026-11-07T06:42:39Z",
+                                      "runner_minutes":  1
+                                  }
+                              ]
+                 },
+                 {
+                     "run_id":  42347717900,
+                     "run_attempt":  1,
+                     "implementation_sha":  "fbd674182a27a093d8feb8e2565ffcc32b0ce800",
+                     "conclusion":  "success",
+                     "runner_minutes":  3,
+                     "jobs":  [
+                                  {
+                                      "job_id":  128328970263,
+                                      "name":  "gate",
+                                      "conclusion":  "success",
+                                      "started_at":  "2026-11-07T06:35:50Z",
+                                      "completed_at":  "2026-11-07T06:36:02Z",
+                                      "runner_minutes":  1
+                                  },
+                                  {
+                                      "job_id":  128329024179,
+                                      "name":  "prepare",
+                                      "conclusion":  "success",
+                                      "started_at":  "2026-11-07T06:36:04Z",
+                                      "completed_at":  "2026-11-07T06:37:08Z",
+                                      "runner_minutes":  2
+                                  }
+                              ]
+                 },
+                 {
+                     "run_id":  42347569321,
+                     "run_attempt":  1,
+                     "implementation_sha":  "16303fccef763e720676e71df9c089e2d4e588d6",
+                     "conclusion":  "success",
+                     "runner_minutes":  2,
+                     "jobs":  [
+                                  {
+                                      "job_id":  128328518628,
+                                      "name":  "gate",
+                                      "conclusion":  "success",
+                                      "started_at":  "2026-11-07T06:33:51Z",
+                                      "completed_at":  "2026-11-07T06:34:02Z",
+                                      "runner_minutes":  1
+                                  },
+                                  {
+                                      "job_id":  128328566383,
+                                      "name":  "tests",
+                                      "conclusion":  "success",
+                                      "started_at":  "2026-11-07T06:34:04Z",
+                                      "completed_at":  "2026-11-07T06:34:32Z",
+                                      "runner_minutes":  1
+                                  }
+                              ]
+                 },
+                 {
+                     "run_id":  42347432323,
+                     "run_attempt":  1,
+                     "implementation_sha":  "5d9f13053c70785f65e54b7dc7bf887446f7ebc7",
+                     "conclusion":  "failure",
+                     "runner_minutes":  0,
+                     "jobs":  [
+
+                              ]
+                 }
+             ],
+    "artifacts":  [
+                      {
+                          "artifact_id":  13565085287,
+                          "run_id":  42348496174,
+                          "name":  "population-size-permit-42348496174-1",
+                          "compressed_bytes":  3559,
+                          "digest":  "sha256:669ccf657c4813c98a54027d462f666fcc4f26a78375d33e7fb83b75d11addb6",
+                          "expired":  false
+                      },
+                      {
+                          "artifact_id":  13564762800,
+                          "run_id":  42348496174,
+                          "name":  "population-size-worker-8-42348496174-1",
+                          "compressed_bytes":  17233463,
+                          "digest":  "sha256:8a14f7f210bb32429ce6763041548c1f54a3270c99a9068ab0bae834844d7b53",
+                          "expired":  false
+                      },
+                      {
+                          "artifact_id":  13564657437,
+                          "run_id":  42348496174,
+                          "name":  "population-size-worker-1-42348496174-1",
+                          "compressed_bytes":  12896963,
+                          "digest":  "sha256:2a58db93cb065ac0450dfccc2ec9b5f476b61fb63d25af440bb5055813a4c331",
+                          "expired":  false
+                      },
+                      {
+                          "artifact_id":  13564602597,
+                          "run_id":  42348496174,
+                          "name":  "population-size-worker-2-42348496174-1",
+                          "compressed_bytes":  13000409,
+                          "digest":  "sha256:f39500338ed7af18e1ce88ea511d465a13c66e6efade136f15c00594f7732cb4",
+                          "expired":  false
+                      },
+                      {
+                          "artifact_id":  13564572880,
+                          "run_id":  42348496174,
+                          "name":  "population-size-worker-6-42348496174-1",
+                          "compressed_bytes":  17284683,
+                          "digest":  "sha256:22e273c0888ef5cca143c62b05cf8d545191fa032b7673aafe7653701316f7cb",
+                          "expired":  false
+                      },
+                      {
+                          "artifact_id":  13564497875,
+                          "run_id":  42348496174,
+                          "name":  "population-size-worker-4-42348496174-1",
+                          "compressed_bytes":  14091301,
+                          "digest":  "sha256:67c2a6d56bde1addb6effa9c42af87c08945fa0c6f4ca85c8e84afa8e5c23786",
+                          "expired":  false
+                      },
+                      {
+                          "artifact_id":  13564493478,
+                          "run_id":  42348496174,
+                          "name":  "population-size-summary-42348496174-1",
+                          "compressed_bytes":  16623,
+                          "digest":  "sha256:84a2969f68dcc38d51190e267a4b3786d88b7cd01ffd6cb42faf82de0f2c8646",
+                          "expired":  false
+                      },
+                      {
+                          "artifact_id":  13564433127,
+                          "run_id":  42348496174,
+                          "name":  "population-size-worker-7-42348496174-1",
+                          "compressed_bytes":  17222389,
+                          "digest":  "sha256:b92cc1457bb6d98a277bd6a6814f0d9d17efac3a2ca54bd727f1fe4929d060d6",
+                          "expired":  false
+                      },
+                      {
+                          "artifact_id":  13564323045,
+                          "run_id":  42348496174,
+                          "name":  "population-size-worker-3-42348496174-1",
+                          "compressed_bytes":  14156499,
+                          "digest":  "sha256:7023c514a6142b390dc510f85389e937eb27c50c4c2a4f42f5851986d2aecbdd",
+                          "expired":  false
+                      },
+                      {
+                          "artifact_id":  13564203761,
+                          "run_id":  42348496174,
+                          "name":  "population-size-worker-5-42348496174-1",
+                          "compressed_bytes":  14066734,
+                          "digest":  "sha256:a18a40b71e38e2388c9fd1abf6bb0d16e4182b7d74969bc4160cd4a231534141",
+                          "expired":  false
+                      },
+                      {
+                          "artifact_id":  13564078720,
+                          "run_id":  42348496174,
+                          "name":  "population-size-worker-0-42348496174-1",
+                          "compressed_bytes":  12981420,
+                          "digest":  "sha256:2e3a5d24fddb62f7a48cd6a366b36621a8ef739c03d6e884ed221d00474282f2",
+                          "expired":  false
+                      },
+                      {
+                          "artifact_id":  13564696758,
+                          "run_id":  42348296666,
+                          "name":  "population-size-permit-42348296666-1",
+                          "compressed_bytes":  3443,
+                          "digest":  "sha256:497800df9941c242d170b8965b56c8fb245f7d56148074d65d87158ebf1b047a",
+                          "expired":  false
+                      },
+                      {
+                          "artifact_id":  13563844123,
+                          "run_id":  42348296666,
+                          "name":  "population-size-inputs-42348296666-1",
+                          "compressed_bytes":  11757756,
+                          "digest":  "sha256:de52fc8c5e5982c210d9dd09fc6e80c931b3ccd4d37f1985252f439f776314ea",
+                          "expired":  false
+                      },
+                      {
+                          "artifact_id":  13564950303,
+                          "run_id":  42348141862,
+                          "name":  "population-size-tests-42348141862-1",
+                          "compressed_bytes":  222008,
+                          "digest":  "sha256:1873dd64d8167f6204a403413b913c0f70a2025692dd01c9f36e36fa3f274bde",
+                          "expired":  false
+                      },
+                      {
+                          "artifact_id":  13564427061,
+                          "run_id":  42348141862,
+                          "name":  "population-size-permit-42348141862-1",
+                          "compressed_bytes":  3385,
+                          "digest":  "sha256:bb4154cd7454524f79310c52ae41a926a24836cfd728df663cd68661d6694053",
+                          "expired":  false
+                      },
+                      {
+                          "artifact_id":  13564560982,
+                          "run_id":  42347717900,
+                          "name":  "population-size-permit-42347717900-1",
+                          "compressed_bytes":  3214,
+                          "digest":  "sha256:5fc783e246da917a24c583d82a7886206e223042b9d73e6167cff7c4b727f85c",
+                          "expired":  false
+                      },
+                      {
+                          "artifact_id":  13564103777,
+                          "run_id":  42347717900,
+                          "name":  "population-size-inputs-42347717900-1",
+                          "compressed_bytes":  11756588,
+                          "digest":  "sha256:6a436257739023b6cd9ae1eac1aa6c5e14b3cc4a51e9822b5d044a2ea9f1dff0",
+                          "expired":  false
+                      },
+                      {
+                          "artifact_id":  13564236435,
+                          "run_id":  42347569321,
+                          "name":  "population-size-permit-42347569321-1",
+                          "compressed_bytes":  3016,
+                          "digest":  "sha256:1cc84fc40ec71f9e5fa397deb74c44b52465ac2ab77cbe4f6088454c3d8a87d4",
+                          "expired":  false
+                      },
+                      {
+                          "artifact_id":  13564206695,
+                          "run_id":  42347569321,
+                          "name":  "population-size-tests-42347569321-1",
+                          "compressed_bytes":  221647,
+                          "digest":  "sha256:86d14ca63679e54d4274efbdea19cef92a0f7d8fb841f1a6db210f7dd875a53e",
+                          "expired":  false
+                      }
+                  ]
+}

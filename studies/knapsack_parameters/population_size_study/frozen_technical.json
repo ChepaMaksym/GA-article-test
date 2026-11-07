@@ -1,0 +1,19 @@
+{
+  "status": "VERIFIED",
+  "phase": "pilot",
+  "run_id": 42348496174,
+  "run_attempt": 1,
+  "implementation_sha": "fa0fdcca7c933432f6b65f7187ce1fd8b669f164",
+  "artifact_id": 13564493478,
+  "artifact_name": "population-size-summary-42348496174-1",
+  "source_manifest_sha256": "cb948de06f6688db9e7b66cf5eedc36436c58d03a6a6074ed1c574882be47269",
+  "archive_sha256": "84a2969f68dcc38d51190e267a4b3786d88b7cd01ffd6cb42faf82de0f2c8646",
+  "file_manifest_sha256": "83025b4ecdeb158014a1443ffa7823f6a3b28d24d1c5be4a69b92cd969cae727",
+  "report_sha256": "ed924b13e6a48d66739aa6e6dfc884acda386d9516362e2c1f1904e5862b2d45",
+  "cost_quotes_sha256": "2ffccd90c0a1ae2ed6e765f861eb35880b27e586bfd9592a82a67a1e48a776d4",
+  "runs_verified": 18,
+  "logical_total_evaluations": 900000,
+  "population_selected": false,
+  "tuning_authorized": false,
+  "main_authorized": false
+}
