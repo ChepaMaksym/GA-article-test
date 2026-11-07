@@ -1,0 +1,12 @@
+{
+  "protocol_id": "GA-KNAPSACK-POPULATION-SIZE-V1",
+  "explicit_user_numeric_approval": false,
+  "execution_authorized": false,
+  "runner_minutes_ceiling": null,
+  "compressed_bytes_ceiling": null,
+  "historical_budgets_reassigned": false,
+  "approved_phases": [],
+  "tuning_authorized": false,
+  "main_authorized": false,
+  "approval_record": null
+}
