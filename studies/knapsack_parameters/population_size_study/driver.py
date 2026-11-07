@@ -248,14 +248,21 @@ def aggregate(workers, output, permit):
         receipts.append(receipt)
     a.require(identities == {(task_id, mu) for task_id in expected for mu in (2, 25000)}
               and len(input_identities) == 1, "Pilot coverage or shared input provenance differs")
+    from .costs import build_quotes
+    with tempfile.TemporaryDirectory(prefix="population-size-quote-") as temporary:
+        prepared = frozen_artifact("frozen_pilot.json", Path(temporary) / "inputs",
+                                   "prepare-pilot", "registry.json")
+        quotes = build_quotes(a.read_json(prepared / "registry.json"), receipts)
     output = Path(output)
     output.mkdir(parents=True, exist_ok=False)
     report = {"schema": "population-size-technical-summary-v1", "status": "VERIFIED_TECHNICAL_PILOT",
               "provenance": provenance, "runs_verified": len(identities), "logical_total_evaluations": 900000,
               "population_selection_performed": False, "tuning_authorized": False, "main_authorized": False,
-              "workers": receipts, "next_step": "Prepare separately approved measured tuning and validation quotes",
+              "workers": receipts, "cost_quotes": quotes,
+              "next_step": "Select a separately approved tuning scope before any calibration or final validation",
               "cost_limit": "Boundary pilot timings do not bound every intermediate population size"}
     a.write_json(output / "pilot_summary.json", report)
+    a.write_json(output / "cost_quotes.json", {"provenance": provenance, **quotes})
     write_manifest(output)
     return report
 
