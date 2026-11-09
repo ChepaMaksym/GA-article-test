@@ -1,0 +1,120 @@
+{
+  "files": [
+    {
+      "bytes": 4801,
+      "path": ".github/workflows/crossover-ci-handoff.yml",
+      "sha256": "ca23737be6e45fa75501fc87789bfed4fb27a99bed10b85169e283a2ab7e0492"
+    },
+    {
+      "bytes": 79,
+      "path": "studies/knapsack_parameters/crossover_population/__init__.py",
+      "sha256": "4b70df7d71c862b45671a070a018c77a783087ff2e9f497532227e6fddf90766"
+    },
+    {
+      "bytes": 12461,
+      "path": "studies/knapsack_parameters/crossover_population/observations.py",
+      "sha256": "28775551bf7d0f6c4469eb46b4d3b05f01acab06e8539ddd6dd4d17076752358"
+    },
+    {
+      "bytes": 65,
+      "path": "studies/knapsack_parameters/crossover_population/program/__init__.py",
+      "sha256": "0a969fb4eb640b8d21706770bbc21dd36cc4897c91c867b19ee0c105bfd92990"
+    },
+    {
+      "bytes": 2516,
+      "path": "studies/knapsack_parameters/crossover_population/program/ga_core/__init__.py",
+      "sha256": "692d2ecdd9396cc3a140ffb97b51a8a16d53cb6e2cacab3a448c3c407f0a0e62"
+    },
+    {
+      "bytes": 23091,
+      "path": "studies/knapsack_parameters/crossover_population/program/ga_core/controllers.py",
+      "sha256": "e6ce56c040d2cee91dd5f2486e32496fca6a5661337e38839c0f5a3a30fe8edc"
+    },
+    {
+      "bytes": 19987,
+      "path": "studies/knapsack_parameters/crossover_population/program/ga_core/engine.py",
+      "sha256": "c087d25b071e790a51c24fc821b43100458f2693cd14bb9462d81d58d98ea012"
+    },
+    {
+      "bytes": 1129,
+      "path": "studies/knapsack_parameters/crossover_population/program/ga_core/monitoring.py",
+      "sha256": "9e65809cdbae8de433ec221c137c9ef23e17ffa8c99ab31fdb5383945cc0efbe"
+    },
+    {
+      "bytes": 7491,
+      "path": "studies/knapsack_parameters/crossover_population/program/ga_core/operators.py",
+      "sha256": "980086bba2d2457dc31278b254d6eaca45fc2a06c1721a4a1412f230f597720a"
+    },
+    {
+      "bytes": 459,
+      "path": "studies/knapsack_parameters/crossover_population/program/ga_core/trace.py",
+      "sha256": "42b87d9e5907cfdfbd34689edeec66daa9ecf4f03ffe0697f1207c2cd8f5d2e9"
+    },
+    {
+      "bytes": 22145,
+      "path": "studies/knapsack_parameters/crossover_population/verification.py",
+      "sha256": "d84716f8949aeecb489eee51af1467dbc40421b50c403e2dbdebd3a798f6876b"
+    },
+    {
+      "bytes": 78,
+      "path": "studies/knapsack_parameters/crossover_population_refinement_ci/__init__.py",
+      "sha256": "f66f3e9744f819d72771b9119d64d2be50fcc397fd327f5a91453a6a23a138d7"
+    },
+    {
+      "bytes": 22141,
+      "path": "studies/knapsack_parameters/crossover_population_refinement_ci/ci_driver.py",
+      "sha256": "3f3b019005cc8dc1d7c16e195a3eefffcc82039b7a9b96800dad763089eab278"
+    },
+    {
+      "bytes": 3845,
+      "path": "studies/knapsack_parameters/crossover_population_refinement_ci/common.py",
+      "sha256": "9d621d8909ce0d3f40a425c708d64de531d495bef2a7338b5ac82bc1361102e5"
+    },
+    {
+      "bytes": 13,
+      "path": "studies/knapsack_parameters/crossover_population_refinement_ci/data/.gitattributes",
+      "sha256": "9e8f041ed812cb5288282cc6b187de804e96b688d56647fdae181c49fec71863"
+    },
+    {
+      "bytes": 156926,
+      "path": "studies/knapsack_parameters/crossover_population_refinement_ci/data/completed.json",
+      "sha256": "9e11d2545b47b08b41c191853cb78a40f8b5d2ba480102af09b443847cb30edf"
+    },
+    {
+      "bytes": 18026,
+      "path": "studies/knapsack_parameters/crossover_population_refinement_ci/data/n00500-SC-s005.json",
+      "sha256": "5f2ae96323fdf3cb794b1b3dbce0bb8c376333a4e6be36611e47fa44598461a2"
+    },
+    {
+      "bytes": 17986,
+      "path": "studies/knapsack_parameters/crossover_population_refinement_ci/data/n00500-UC-s000.json",
+      "sha256": "a4246dfa884292bbff4108a53616a80d4002a2f4c7f8220ff4ad4b3e7525beef"
+    },
+    {
+      "bytes": 17970,
+      "path": "studies/knapsack_parameters/crossover_population_refinement_ci/data/n00500-WC-s001.json",
+      "sha256": "cfdbbb36e55ff0f907e08d03f4371aab89c8e0fe909f902f2cefd8397978d081"
+    },
+    {
+      "bytes": 14106,
+      "path": "studies/knapsack_parameters/crossover_population_refinement_ci/data/plan.json",
+      "sha256": "61880ec542833ec271c41ae276e735e1a43f61095d1bc70fd3a761f3a7d76bb5"
+    },
+    {
+      "bytes": 4232,
+      "path": "studies/knapsack_parameters/crossover_population_refinement_ci/PROTOCOL_UK.md",
+      "sha256": "e7b597f9c6a69506d99b441c30193323aa6f23cfc126a706ff927c7ad18f0680"
+    },
+    {
+      "bytes": 8178,
+      "path": "studies/knapsack_parameters/crossover_population_refinement_ci/test_ci.py",
+      "sha256": "3c6419bd21826417004b7d12d38a67098232e4b927614330fe38f99851cd0e3e"
+    },
+    {
+      "bytes": 1116,
+      "path": "studies/knapsack_parameters/ga_study/dependencies/requirements.lock",
+      "sha256": "6818e0e12843daa10947f7554cb3edd573d9f7cdbc33e63f98f9f3a068869017"
+    }
+  ],
+  "status": "FROZEN"
+}

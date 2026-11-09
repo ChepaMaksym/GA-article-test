@@ -1,0 +1,727 @@
+{
+  "checkpoints": [
+    5000,
+    10000,
+    20000,
+    50000,
+    100000
+  ],
+  "ci_limits": {
+    "analysis_timeout_minutes": 12,
+    "artifact_retention_days": 30,
+    "combined_max_runner_minutes": 260,
+    "parallel_jobs": 4,
+    "per_job_timeout_minutes": 60,
+    "per_shard_bytes": 775946240,
+    "pilot_timeout_minutes": 8
+  },
+  "completed": {
+    "bytes": 156926,
+    "count": 37,
+    "file": "completed.json",
+    "sha256": "9e11d2545b47b08b41c191853cb78a40f8b5d2ba480102af09b443847cb30edf"
+  },
+  "crossovers": [
+    70,
+    80,
+    90,
+    100
+  ],
+  "datasets": [
+    {
+      "bytes": 18026,
+      "file": "n00500-SC-s005.json",
+      "sha256": "5f2ae96323fdf3cb794b1b3dbce0bb8c376333a4e6be36611e47fa44598461a2",
+      "task": "n00500-SC-s005"
+    },
+    {
+      "bytes": 17986,
+      "file": "n00500-UC-s000.json",
+      "sha256": "a4246dfa884292bbff4108a53616a80d4002a2f4c7f8220ff4ad4b3e7525beef",
+      "task": "n00500-UC-s000"
+    },
+    {
+      "bytes": 17970,
+      "file": "n00500-WC-s001.json",
+      "sha256": "cfdbbb36e55ff0f907e08d03f4371aab89c8e0fe909f902f2cefd8397978d081",
+      "task": "n00500-WC-s001"
+    }
+  ],
+  "elites": 1,
+  "handoff_snapshot_sha256": "e065b9a14c93a7bb7999ef970ac9cf47f0423eeb95c5f9a55545168b5cfb718f",
+  "item_count": 500,
+  "local_freeze_sha256": "a6389f9f230b0a79a117442783a2d3c6fbd90ac20802f86891f9cbf630bfa543",
+  "mutation": "1/500",
+  "parent_choice": "50/50",
+  "pilot": {
+    "expected_scientific_sha256": "fb40623ebf388ca35bf1c192caca54b69e69f3771d6e90d503443d22f9e5b742",
+    "mu": 25,
+    "pc_percent": 90,
+    "seed": 133001,
+    "source_log_sha256": "9a5154c98b6a0f9c19e4a7c638f4922deb6cba643f4b76b7d46c19a506b4e326",
+    "task": "n00500-UC-s000"
+  },
+  "populations": [
+    20,
+    25,
+    30,
+    35
+  ],
+  "protocol": "population-crossover-ci-continuation-v1",
+  "remaining": [
+    {
+      "mu": 25,
+      "pc_percent": 70,
+      "seed": 133001,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 25,
+      "pc_percent": 70,
+      "seed": 133001,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 25,
+      "pc_percent": 80,
+      "seed": 133001,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 25,
+      "pc_percent": 80,
+      "seed": 133001,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 25,
+      "pc_percent": 80,
+      "seed": 133001,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 25,
+      "pc_percent": 100,
+      "seed": 133001,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 25,
+      "pc_percent": 100,
+      "seed": 133001,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 25,
+      "pc_percent": 100,
+      "seed": 133001,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 30,
+      "pc_percent": 70,
+      "seed": 133001,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 30,
+      "pc_percent": 70,
+      "seed": 133001,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 30,
+      "pc_percent": 70,
+      "seed": 133001,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 30,
+      "pc_percent": 80,
+      "seed": 133001,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 30,
+      "pc_percent": 80,
+      "seed": 133001,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 30,
+      "pc_percent": 80,
+      "seed": 133001,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 30,
+      "pc_percent": 100,
+      "seed": 133001,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 30,
+      "pc_percent": 100,
+      "seed": 133001,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 30,
+      "pc_percent": 100,
+      "seed": 133001,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 70,
+      "seed": 133001,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 70,
+      "seed": 133001,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 70,
+      "seed": 133001,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 80,
+      "seed": 133001,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 80,
+      "seed": 133001,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 80,
+      "seed": 133001,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 90,
+      "seed": 133001,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 90,
+      "seed": 133001,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 90,
+      "seed": 133001,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 100,
+      "seed": 133001,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 100,
+      "seed": 133001,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 100,
+      "seed": 133001,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 20,
+      "pc_percent": 70,
+      "seed": 133002,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 20,
+      "pc_percent": 70,
+      "seed": 133002,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 20,
+      "pc_percent": 70,
+      "seed": 133002,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 20,
+      "pc_percent": 80,
+      "seed": 133002,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 20,
+      "pc_percent": 80,
+      "seed": 133002,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 20,
+      "pc_percent": 80,
+      "seed": 133002,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 20,
+      "pc_percent": 100,
+      "seed": 133002,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 20,
+      "pc_percent": 100,
+      "seed": 133002,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 20,
+      "pc_percent": 100,
+      "seed": 133002,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 25,
+      "pc_percent": 70,
+      "seed": 133002,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 25,
+      "pc_percent": 70,
+      "seed": 133002,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 25,
+      "pc_percent": 70,
+      "seed": 133002,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 25,
+      "pc_percent": 80,
+      "seed": 133002,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 25,
+      "pc_percent": 80,
+      "seed": 133002,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 25,
+      "pc_percent": 80,
+      "seed": 133002,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 25,
+      "pc_percent": 100,
+      "seed": 133002,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 25,
+      "pc_percent": 100,
+      "seed": 133002,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 25,
+      "pc_percent": 100,
+      "seed": 133002,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 30,
+      "pc_percent": 70,
+      "seed": 133002,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 30,
+      "pc_percent": 70,
+      "seed": 133002,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 30,
+      "pc_percent": 70,
+      "seed": 133002,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 30,
+      "pc_percent": 80,
+      "seed": 133002,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 30,
+      "pc_percent": 80,
+      "seed": 133002,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 30,
+      "pc_percent": 80,
+      "seed": 133002,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 30,
+      "pc_percent": 100,
+      "seed": 133002,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 30,
+      "pc_percent": 100,
+      "seed": 133002,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 30,
+      "pc_percent": 100,
+      "seed": 133002,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 70,
+      "seed": 133002,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 70,
+      "seed": 133002,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 70,
+      "seed": 133002,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 80,
+      "seed": 133002,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 80,
+      "seed": 133002,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 80,
+      "seed": 133002,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 90,
+      "seed": 133002,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 90,
+      "seed": 133002,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 90,
+      "seed": 133002,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 100,
+      "seed": 133002,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 100,
+      "seed": 133002,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 100,
+      "seed": 133002,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 20,
+      "pc_percent": 70,
+      "seed": 133003,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 20,
+      "pc_percent": 70,
+      "seed": 133003,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 20,
+      "pc_percent": 70,
+      "seed": 133003,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 20,
+      "pc_percent": 80,
+      "seed": 133003,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 20,
+      "pc_percent": 80,
+      "seed": 133003,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 20,
+      "pc_percent": 80,
+      "seed": 133003,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 20,
+      "pc_percent": 100,
+      "seed": 133003,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 20,
+      "pc_percent": 100,
+      "seed": 133003,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 20,
+      "pc_percent": 100,
+      "seed": 133003,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 25,
+      "pc_percent": 70,
+      "seed": 133003,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 25,
+      "pc_percent": 70,
+      "seed": 133003,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 25,
+      "pc_percent": 70,
+      "seed": 133003,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 25,
+      "pc_percent": 80,
+      "seed": 133003,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 25,
+      "pc_percent": 80,
+      "seed": 133003,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 25,
+      "pc_percent": 80,
+      "seed": 133003,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 25,
+      "pc_percent": 100,
+      "seed": 133003,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 25,
+      "pc_percent": 100,
+      "seed": 133003,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 25,
+      "pc_percent": 100,
+      "seed": 133003,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 30,
+      "pc_percent": 70,
+      "seed": 133003,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 30,
+      "pc_percent": 70,
+      "seed": 133003,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 30,
+      "pc_percent": 70,
+      "seed": 133003,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 30,
+      "pc_percent": 80,
+      "seed": 133003,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 30,
+      "pc_percent": 80,
+      "seed": 133003,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 30,
+      "pc_percent": 80,
+      "seed": 133003,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 30,
+      "pc_percent": 100,
+      "seed": 133003,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 30,
+      "pc_percent": 100,
+      "seed": 133003,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 30,
+      "pc_percent": 100,
+      "seed": 133003,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 70,
+      "seed": 133003,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 70,
+      "seed": 133003,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 70,
+      "seed": 133003,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 80,
+      "seed": 133003,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 80,
+      "seed": 133003,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 80,
+      "seed": 133003,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 90,
+      "seed": 133003,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 90,
+      "seed": 133003,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 90,
+      "seed": 133003,
+      "task": "n00500-WC-s001"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 100,
+      "seed": 133003,
+      "task": "n00500-SC-s005"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 100,
+      "seed": 133003,
+      "task": "n00500-UC-s000"
+    },
+    {
+      "mu": 35,
+      "pc_percent": 100,
+      "seed": 133003,
+      "task": "n00500-WC-s001"
+    }
+  ],
+  "targets": [
+    93,
+    95,
+    99
+  ],
+  "total_evaluations": 100000,
+  "tournament": 2,
+  "tuning_seeds": [
+    133001,
+    133002,
+    133003
+  ]
+}
