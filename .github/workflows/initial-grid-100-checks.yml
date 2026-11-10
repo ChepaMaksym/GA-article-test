@@ -32,7 +32,7 @@ jobs:
           python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
       - name: Verify prospective schedule and exact tie rules
         run: |
-          python -m unittest studies.knapsack_parameters.initial_grid_100.test_tuning -v
+          python -m unittest studies.knapsack_parameters.initial_grid_100.test_tuning studies.knapsack_parameters.initial_grid_100.test_run_tuning -v
       - name: Audit retained inputs and construct a non-executable schedule
         env:
           GH_TOKEN: ${{ github.token }}

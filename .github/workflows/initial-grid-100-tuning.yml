@@ -38,7 +38,7 @@ jobs:
           python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
       - name: Verify prospective tuning rules
         run: |
-          python -m unittest studies.knapsack_parameters.initial_grid_100.test_tuning -v
+          python -m unittest studies.knapsack_parameters.initial_grid_100.test_tuning studies.knapsack_parameters.initial_grid_100.test_run_tuning -v
       - name: Authenticate retained evidence and register missing cases
         id: grid
         env:
