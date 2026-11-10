@@ -1,6 +1,6 @@
 {
   "schema": "initial-grid-100-protocol-v1",
-  "status": "TECHNICAL_AUTHORIZED_MAIN_STAGES_PENDING",
+  "status": "TUNING_AUTHORIZED_VALIDATION_PENDING",
   "source_repository": "likr/kplib",
   "source_commit": "c5bea0df8169749caaba5ce7dfcf21437aa1ca5c",
   "configuration_contract": "population-crossover-v1",
@@ -170,7 +170,7 @@
   },
   "resources": {
     "technical_authorized": true,
-    "tuning_authorized": false,
+    "tuning_authorized": true,
     "validation_authorized": false,
     "inherit_previous_allowances": false
   },

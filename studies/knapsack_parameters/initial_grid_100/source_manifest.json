@@ -83,8 +83,8 @@
     },
     {
       "path": "studies/knapsack_parameters/initial_grid_100/protocol.json",
-      "bytes": 3962,
-      "sha256": "a7d171b9b5c222fc1b4f64b3216a9627aa372f142a972ab798684eb978bec5ad"
+      "bytes": 3957,
+      "sha256": "175d6ead9f2ef20fffce58df5fe6fb8113a4925cfd8e30a8ef27065794178362"
     },
     {
       "path": "studies/knapsack_parameters/initial_grid_100/README_UK.md",
@@ -143,8 +143,8 @@
     },
     {
       "path": "studies/knapsack_parameters/initial_grid_100/tuning_authorization.json",
-      "bytes": 308,
-      "sha256": "334b7790c7819a4c189c4dae1524eee512a11d71c3937820c9694f8b750f3795"
+      "bytes": 390,
+      "sha256": "f603511ac0dba44a9aa837768e17c6e0e55927374c0328d0880b8a95c4be116b"
     },
     {
       "path": "studies/knapsack_parameters/population_validation_100_main/source_manifest.json",
