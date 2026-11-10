@@ -1,0 +1,191 @@
+{
+  "schema": "initial-grid-100-protocol-v1",
+  "status": "TECHNICAL_AUTHORIZED_MAIN_STAGES_PENDING",
+  "source_repository": "likr/kplib",
+  "source_commit": "c5bea0df8169749caaba5ce7dfcf21437aa1ca5c",
+  "configuration_contract": "population-crossover-v1",
+  "item_count": 100,
+  "populations": [
+    10,
+    15,
+    20,
+    25
+  ],
+  "crossover_percentages": [
+    70,
+    80,
+    90,
+    100
+  ],
+  "fixed": {
+    "p_m": 0.01,
+    "tournament_size": 2,
+    "elite_count": 1,
+    "bit_inheritance_probability": 0.5
+  },
+  "total_evaluations_including_initial": 100000,
+  "checkpoints": [
+    5000,
+    10000,
+    20000,
+    50000,
+    100000
+  ],
+  "targets": [
+    93,
+    95,
+    99
+  ],
+  "tuning": {
+    "families": [
+      "s050",
+      "s051",
+      "s052",
+      "s053",
+      "s054",
+      "s055",
+      "s056",
+      "s057",
+      "s058",
+      "s059"
+    ],
+    "types": [
+      "UC",
+      "WC",
+      "SC"
+    ],
+    "seeds": [
+      150001,
+      150002,
+      150003
+    ],
+    "prepared_seed": 150000,
+    "task_index_range": [
+      3,
+      32
+    ],
+    "combinations": 16,
+    "results": 1440,
+    "reused_results": 180,
+    "new_runs": 1260,
+    "selection": [
+      "lowest_family_weighted_final_gap_exact_fraction",
+      "lowest_worst_family_mean_gap_exact_fraction",
+      "crossover_nearest_90_percent",
+      "smaller_population",
+      "smaller_crossover_percentage"
+    ],
+    "statistical_superiority_tests": false
+  },
+  "validation": {
+    "families": [
+      "s060",
+      "s061",
+      "s062",
+      "s063",
+      "s064",
+      "s065",
+      "s066",
+      "s067",
+      "s068",
+      "s069"
+    ],
+    "types": [
+      "UC",
+      "WC",
+      "SC"
+    ],
+    "seeds": [
+      160001,
+      160002,
+      160003,
+      160004,
+      160005,
+      160006,
+      160007,
+      160008,
+      160009,
+      160010
+    ],
+    "preparation_seed": 160000,
+    "task_index_range": [
+      33,
+      62
+    ],
+    "profiles": [
+      "frozen_selected_pair",
+      "mu10_pc90",
+      "mu20_pc90"
+    ],
+    "max_physical_runs": 900,
+    "deduplicate_identical_profiles": true,
+    "bootstrap_samples": 50000,
+    "statistical_seed": 160031,
+    "confidence_each": 0.975,
+    "contrasts": [
+      "gap_mu10_pc90_minus_gap_selected",
+      "gap_mu20_pc90_minus_gap_selected"
+    ]
+  },
+  "technical": {
+    "cases": [
+      "n00100-UC-s000",
+      "n00100-WC-s001",
+      "n00100-SC-s005"
+    ],
+    "populations": [
+      15,
+      25
+    ],
+    "crossover_percentages": [
+      70,
+      100
+    ],
+    "seed": 159999,
+    "preparation_seed": 159998,
+    "new_pilot_runs": 12,
+    "compatibility": {
+      "populations": [
+        10,
+        20
+      ],
+      "crossover_percentage": 90,
+      "seed": 149999,
+      "preparation_seed": 149998,
+      "runs": 6
+    },
+    "physical_search_runs": 18,
+    "proposed_runner_minutes": 45,
+    "proposed_artifact_bytes": 1073741824
+  },
+  "execution": {
+    "platform": "GitHub Actions only",
+    "max_parallel": 4,
+    "fail_fast": false,
+    "repeat_completed_cases": false,
+    "initial_evaluations_counted": true,
+    "incomplete_generation": "record_only_no_population_or_controller_update",
+    "optimum_visible_to_search": false,
+    "historical_source_modified": false
+  },
+  "resources": {
+    "technical_authorized": true,
+    "tuning_authorized": false,
+    "validation_authorized": false,
+    "inherit_previous_allowances": false
+  },
+  "retained_origins": {
+    "technical_run_id": 42780269269,
+    "main_run_id": 42813784277,
+    "completion_run_id": 42868065471,
+    "technical_commit": "c9c631243b287e7aefb58e59a01276ca4def77c7",
+    "main_commit": "653b7a3f9c5e66d31ec8ca93fb4e710bd0078ff8",
+    "completion_commit": "45d0e4fb6740e884d15f657ea7a76760774c80af",
+    "main_source_manifest_sha256": "ce799ba032c1178a988e8a608daaf1b44ee074c47e9e88f10671924e3565798a"
+  },
+  "fixed_example": {
+    "task": "n00100-UC-s060",
+    "seed": 160001
+  },
+  "maximum_new_main_runs": 2160
+}

@@ -1,0 +1,101 @@
+{
+  "schema": "initial-grid-100-source-v1",
+  "files": [
+    {
+      "path": ".github/workflows/initial-grid-100-technical.yml",
+      "bytes": 6502,
+      "sha256": "de5a7bd8ab2576b451e2e5f378c0d436fbcc163c2ff5f5450c1bacec9320e32c"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/.gitattributes",
+      "bytes": 8,
+      "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/__init__.py",
+      "bytes": 81,
+      "sha256": "d65c763b4a29c2b2d20d63d4564e5483489eb9782e5601328542cbcbbfe55ea5"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/common.py",
+      "bytes": 4386,
+      "sha256": "c583b163c1826a3f636147e7126f078542f816e167a37a5f9be4d7205dfe930c"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/data/compatibility_artifacts.json",
+      "bytes": 596,
+      "sha256": "06b9f96b35d76777d014ff3b6ecdb662a65ae3d9ad539b397b0b0d862ed29b8a"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/data/retained_inputs.zip",
+      "bytes": 70787,
+      "sha256": "1feb6f74fd0929f4e690a6a352f0c76e8ed41022c81df1109feab8f340a06ee5"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/data/source_registry.json",
+      "bytes": 60571,
+      "sha256": "bd7f03776abc33e63ca03b388c8f7f660124f199bbcf01d0ca791a462d212e8d"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/forecast.py",
+      "bytes": 5373,
+      "sha256": "b409853fba8fee8e5944691c9698cba8df1587bf4c167d28eb1cd32b65b5e93c"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/pilot.py",
+      "bytes": 9171,
+      "sha256": "5b68f6ec2766e364980a1785ea0c566937d99bf2e29773e649a9f949c14c75f9"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/preparation.py",
+      "bytes": 14168,
+      "sha256": "ca0e4357048b2a4438c3f04110d114be03c1e6a8258b095871f38759663a9efd"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/protocol.json",
+      "bytes": 3962,
+      "sha256": "a7d171b9b5c222fc1b4f64b3216a9627aa372f142a972ab798684eb978bec5ad"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/README_UK.md",
+      "bytes": 3148,
+      "sha256": "bcd3313666bdaf4bfb25547240d417af38bde311c8a20627d5537b457d2b3ebf"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/resource_authorization.json",
+      "bytes": 429,
+      "sha256": "b063b7519da9498cd97a88eb2c3a637e569f895ef95acc70d70bc42ff759e83e"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/retained.py",
+      "bytes": 3368,
+      "sha256": "56f06da8e25487573d69a505a3c8e10d67fcbe26e3edac29fc0a126329e4a995"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/seal.py",
+      "bytes": 1526,
+      "sha256": "b0ed894c1ab8cc2be91f52a3777981e436949aba959b08fe87f53790846641ae"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/search.py",
+      "bytes": 2898,
+      "sha256": "e1a7031c0a23c6b958ed94916b63b26697822526e6cf75b056c14b69b6b3390e"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/test_preparation.py",
+      "bytes": 2833,
+      "sha256": "ffe8b22cdc64810dee8696e193d1cd4dae6f98cf9ba9bcbad31e708cd1c1971b"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/test_search.py",
+      "bytes": 6415,
+      "sha256": "d02c17fcd39b8ed0f82ee3f988c97084466fc1517e438c1409ab62083c3006e5"
+    },
+    {
+      "path": "studies/knapsack_parameters/population_validation_100_main/source_manifest.json",
+      "bytes": 12546,
+      "sha256": "ce799ba032c1178a988e8a608daaf1b44ee074c47e9e88f10671924e3565798a"
+    }
+  ],
+  "scientific_calculations_performed": false
+}

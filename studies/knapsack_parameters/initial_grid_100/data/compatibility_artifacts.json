@@ -1,0 +1,21 @@
+{
+  "schema": "initial-grid-100-compatibility-artifacts-v1",
+  "run_id": 42780269269,
+  "commit": "c9c631243b287e7aefb58e59a01276ca4def77c7",
+  "artifacts": [
+    {
+      "id": 13746130572,
+      "name": "population100-pilot-mu20-42780269269",
+      "bytes": 22352532,
+      "sha256": "d499023df9fe17a6f459b091599c6a814392f8f41c09d95b2a161c67b3aa4f0f",
+      "mu": 20
+    },
+    {
+      "id": 13746120853,
+      "name": "population100-pilot-mu10-42780269269",
+      "bytes": 25176587,
+      "sha256": "a50023b874db84a3498ceb168f31ab591723117b687582c7de8b0d8d5b28d6eb",
+      "mu": 10
+    }
+  ]
+}

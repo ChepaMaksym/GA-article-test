@@ -1,0 +1,13 @@
+{
+  "schema": "initial-grid-100-authorization-v1",
+  "stage": "technical",
+  "status": "AUTHORIZED",
+  "runner_minutes": 45,
+  "artifact_bytes": 1073741824,
+  "approval": "Погоджую технічний етап до 45 хвилин і 1 GiB",
+  "proposed_runner_minutes": 45,
+  "proposed_artifact_bytes": 1073741824,
+  "tuning_authorized": false,
+  "validation_authorized": false,
+  "historical_budgets_inherited": false
+}
