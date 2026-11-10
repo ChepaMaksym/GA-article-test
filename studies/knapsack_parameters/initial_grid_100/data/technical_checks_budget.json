@@ -1,0 +1,11 @@
+{
+  "schema": "initial-grid-100-technical-checks-budget-v1",
+  "technical_run_id": 42876556319,
+  "previous_rounded_runner_minutes": 20,
+  "previous_artifact_bytes": 137803074,
+  "checks_timeout_minutes": 10,
+  "checks_artifact_cap": 536870912,
+  "parent_runner_cap": 45,
+  "parent_artifact_cap": 1073741824,
+  "additional_search_runs_authorized": 0
+}

@@ -13,7 +13,9 @@ def main():
         raw = (REPOSITORY / row["path"]).read_bytes()
         if len(raw) != row["bytes"] or sha256(raw).hexdigest() != row["sha256"]:
             raise ValueError("Historical source bytes differ: " + row["path"])
-    files = [original, REPOSITORY / ".github/workflows/initial-grid-100-technical.yml"]
+    files = [original, REPOSITORY / ".github/workflows/initial-grid-100-technical.yml",
+             REPOSITORY / ".github/workflows/initial-grid-100-tuning.yml",
+             REPOSITORY / ".github/workflows/initial-grid-100-checks.yml"]
     files += [p for p in HERE.rglob("*") if p.is_file() and "__pycache__" not in p.parts
               and p.name != "source_manifest.json"]
     entries = [{"path": p.relative_to(REPOSITORY).as_posix(), "bytes": p.stat().st_size,

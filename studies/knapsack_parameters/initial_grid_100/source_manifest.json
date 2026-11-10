@@ -2,9 +2,19 @@
   "schema": "initial-grid-100-source-v1",
   "files": [
     {
+      "path": ".github/workflows/initial-grid-100-checks.yml",
+      "bytes": 1822,
+      "sha256": "b770bf7fcc373735fe86fef0b9120619ebadd3ef97379f93bfe20f59bb93c666"
+    },
+    {
       "path": ".github/workflows/initial-grid-100-technical.yml",
       "bytes": 6502,
       "sha256": "de5a7bd8ab2576b451e2e5f378c0d436fbcc163c2ff5f5450c1bacec9320e32c"
+    },
+    {
+      "path": ".github/workflows/initial-grid-100-tuning.yml",
+      "bytes": 5171,
+      "sha256": "7c3101e932326c8e420349f1e102f2a2c96543a5e1bfbad3b823bac7db518ca4"
     },
     {
       "path": "studies/knapsack_parameters/initial_grid_100/.gitattributes",
@@ -17,9 +27,14 @@
       "sha256": "d65c763b4a29c2b2d20d63d4564e5483489eb9782e5601328542cbcbbfe55ea5"
     },
     {
+      "path": "studies/knapsack_parameters/initial_grid_100/analyze_tuning.py",
+      "bytes": 11589,
+      "sha256": "bea2a65c4535f84652758fd19bb43e94d93417c99fc014d10821be8cf594a2a9"
+    },
+    {
       "path": "studies/knapsack_parameters/initial_grid_100/common.py",
-      "bytes": 4386,
-      "sha256": "c583b163c1826a3f636147e7126f078542f816e167a37a5f9be4d7205dfe930c"
+      "bytes": 6729,
+      "sha256": "e2c74f4889b4bf096b91cbc2f399b78e43ec31765dc63360d7566ae7c24af463"
     },
     {
       "path": "studies/knapsack_parameters/initial_grid_100/data/compatibility_artifacts.json",
@@ -32,9 +47,19 @@
       "sha256": "1feb6f74fd0929f4e690a6a352f0c76e8ed41022c81df1109feab8f340a06ee5"
     },
     {
+      "path": "studies/knapsack_parameters/initial_grid_100/data/retained_tuning_registry.json",
+      "bytes": 6266,
+      "sha256": "8de279e05410a148bf5c573ed795eb90b1c56ee3fbea0898ac890baa80b71db3"
+    },
+    {
       "path": "studies/knapsack_parameters/initial_grid_100/data/source_registry.json",
       "bytes": 60571,
       "sha256": "bd7f03776abc33e63ca03b388c8f7f660124f199bbcf01d0ca791a462d212e8d"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/data/technical_checks_budget.json",
+      "bytes": 352,
+      "sha256": "db47597b64d5db528cc9b32fe9d359876b77bbc05e7cba81f323dda20b8c9516"
     },
     {
       "path": "studies/knapsack_parameters/initial_grid_100/forecast.py",
@@ -52,14 +77,19 @@
       "sha256": "ca0e4357048b2a4438c3f04110d114be03c1e6a8258b095871f38759663a9efd"
     },
     {
+      "path": "studies/knapsack_parameters/initial_grid_100/prepare_tuning.py",
+      "bytes": 8967,
+      "sha256": "2cd005e4be61fbed29d8ff33b2c9a77a02e7fc82321188842dc2ea237b284d65"
+    },
+    {
       "path": "studies/knapsack_parameters/initial_grid_100/protocol.json",
       "bytes": 3962,
       "sha256": "a7d171b9b5c222fc1b4f64b3216a9627aa372f142a972ab798684eb978bec5ad"
     },
     {
       "path": "studies/knapsack_parameters/initial_grid_100/README_UK.md",
-      "bytes": 3148,
-      "sha256": "bcd3313666bdaf4bfb25547240d417af38bde311c8a20627d5537b457d2b3ebf"
+      "bytes": 4252,
+      "sha256": "3b3f239b69f752ff5ce28d14f7bd062516c648f5c5c1a8b7adc44963ed71f793"
     },
     {
       "path": "studies/knapsack_parameters/initial_grid_100/resource_authorization.json",
@@ -72,9 +102,19 @@
       "sha256": "56f06da8e25487573d69a505a3c8e10d67fcbe26e3edac29fc0a126329e4a995"
     },
     {
+      "path": "studies/knapsack_parameters/initial_grid_100/retained_tuning.py",
+      "bytes": 3369,
+      "sha256": "8485b2930f1f8ecedb7266f48be8b42fa0337c1705c44090b6b1ee8817894dc9"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/run_tuning.py",
+      "bytes": 10089,
+      "sha256": "1813ad84c78d87b3f532560c01b74a097f6e154d2b3289358b8c47d103917ef0"
+    },
+    {
       "path": "studies/knapsack_parameters/initial_grid_100/seal.py",
-      "bytes": 1526,
-      "sha256": "b0ed894c1ab8cc2be91f52a3777981e436949aba959b08fe87f53790846641ae"
+      "bytes": 1676,
+      "sha256": "cdaa36c9a26dafd3653aa8b41a78d2c3f07238b3302288f37aee05d11613b5c5"
     },
     {
       "path": "studies/knapsack_parameters/initial_grid_100/search.py",
@@ -90,6 +130,16 @@
       "path": "studies/knapsack_parameters/initial_grid_100/test_search.py",
       "bytes": 6415,
       "sha256": "d02c17fcd39b8ed0f82ee3f988c97084466fc1517e438c1409ab62083c3006e5"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/test_tuning.py",
+      "bytes": 2216,
+      "sha256": "22532fcf37ea0d61625daae8b2000e31a6f611898ebb4be94c69575695bd00b4"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/tuning_authorization.json",
+      "bytes": 308,
+      "sha256": "334b7790c7819a4c189c4dae1524eee512a11d71c3937820c9694f8b750f3795"
     },
     {
       "path": "studies/knapsack_parameters/population_validation_100_main/source_manifest.json",

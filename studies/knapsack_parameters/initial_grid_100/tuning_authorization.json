@@ -1,0 +1,11 @@
+{
+  "schema": "initial-grid-100-authorization-v1",
+  "stage": "tuning",
+  "status": "PENDING_USER_APPROVAL",
+  "runner_minutes": 0,
+  "artifact_bytes": 0,
+  "proposed_runner_minutes": 1750,
+  "proposed_artifact_bytes": 17179869184,
+  "validation_authorized": false,
+  "historical_budgets_inherited": false
+}

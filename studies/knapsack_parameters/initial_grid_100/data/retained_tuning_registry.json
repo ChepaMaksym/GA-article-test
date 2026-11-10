@@ -1,0 +1,155 @@
+{
+  "archives": [
+    {
+      "bytes": 40022,
+      "id": 13771396034,
+      "name": "population100-main-compact-s059-mu10-42813784277",
+      "path": "compacts/population100-main-compact-s059-mu10-42813784277.zip",
+      "sha256": "614a64204f4eae3b49265e33c69d9b1ca3f46ea33f5cf4c7b5965568d7565c5e"
+    },
+    {
+      "bytes": 68493,
+      "id": 13771285622,
+      "name": "population100-main-compact-s059-mu20-42813784277",
+      "path": "compacts/population100-main-compact-s059-mu20-42813784277.zip",
+      "sha256": "6f2ecca834b512e5a7a4cfd511cbac43329b11945473b1a57e4a4c54051635c7"
+    },
+    {
+      "bytes": 43120,
+      "id": 13770551026,
+      "name": "population100-main-compact-s058-mu10-42813784277",
+      "path": "compacts/population100-main-compact-s058-mu10-42813784277.zip",
+      "sha256": "ceef6751a41be2210e34960151aee8d67c2db84f999eb7bead7bd016f985708d"
+    },
+    {
+      "bytes": 69154,
+      "id": 13769625823,
+      "name": "population100-main-compact-s057-mu10-42813784277",
+      "path": "compacts/population100-main-compact-s057-mu10-42813784277.zip",
+      "sha256": "9e093b3a1f8a0bd4695c6db37d23ef340c9fa43a4406d47ba2c8324626e6a7b2"
+    },
+    {
+      "bytes": 68647,
+      "id": 13769453925,
+      "name": "population100-main-compact-s058-mu20-42813784277",
+      "path": "compacts/population100-main-compact-s058-mu20-42813784277.zip",
+      "sha256": "a67a4532f5b0f72fd4e044b5f6552fa74d4d8a15d6238b4fb4142e9bf79ec305"
+    },
+    {
+      "bytes": 69877,
+      "id": 13769295075,
+      "name": "population100-main-compact-s056-mu10-42813784277",
+      "path": "compacts/population100-main-compact-s056-mu10-42813784277.zip",
+      "sha256": "64653213911143e860598614e09bbb3fe14ce56a01cc8e2b48308357be400259"
+    },
+    {
+      "bytes": 68544,
+      "id": 13768462630,
+      "name": "population100-main-compact-s057-mu20-42813784277",
+      "path": "compacts/population100-main-compact-s057-mu20-42813784277.zip",
+      "sha256": "f6112fbe5e83e6bedace58a9fb58d3b7cd2f91267cc3ae54cf6920448ac34c92"
+    },
+    {
+      "bytes": 69288,
+      "id": 13768412726,
+      "name": "population100-main-compact-s056-mu20-42813784277",
+      "path": "compacts/population100-main-compact-s056-mu20-42813784277.zip",
+      "sha256": "e8e35302c7eb6fbdf7f077fbb44fa9ce7654d51f957f08662600d2919eab3178"
+    },
+    {
+      "bytes": 68213,
+      "id": 13768017877,
+      "name": "population100-main-compact-s055-mu20-42813784277",
+      "path": "compacts/population100-main-compact-s055-mu20-42813784277.zip",
+      "sha256": "14093d1e597a4263cd589ffcf87e6f14e87a96f84a2e88e1dacb85d895611566"
+    },
+    {
+      "bytes": 39424,
+      "id": 13767183480,
+      "name": "population100-main-compact-s055-mu10-42813784277",
+      "path": "compacts/population100-main-compact-s055-mu10-42813784277.zip",
+      "sha256": "d73bdbaf04e8265f683269f7c0df37a752b0813d44f969e2dc7c6d66344d0344"
+    },
+    {
+      "bytes": 68503,
+      "id": 13767037697,
+      "name": "population100-main-compact-s054-mu20-42813784277",
+      "path": "compacts/population100-main-compact-s054-mu20-42813784277.zip",
+      "sha256": "621dbbc16b69ab0b23ba4b3ce47249e65315051fdcf1cca483f58ae22e269ebb"
+    },
+    {
+      "bytes": 69744,
+      "id": 13766726718,
+      "name": "population100-main-compact-s054-mu10-42813784277",
+      "path": "compacts/population100-main-compact-s054-mu10-42813784277.zip",
+      "sha256": "eedaa9f47800d3c8a0f34839ff41a7b024f3671b6aa558036b137790b79602d6"
+    },
+    {
+      "bytes": 68840,
+      "id": 13766068402,
+      "name": "population100-main-compact-s053-mu20-42813784277",
+      "path": "compacts/population100-main-compact-s053-mu20-42813784277.zip",
+      "sha256": "d92638d4f9720d2045bffa1805b514682ce2372ad1cf4f5c7d59cdca62d07b0d"
+    },
+    {
+      "bytes": 68699,
+      "id": 13765688364,
+      "name": "population100-main-compact-s052-mu20-42813784277",
+      "path": "compacts/population100-main-compact-s052-mu20-42813784277.zip",
+      "sha256": "40043cbbc5ea3f9122fcb4de8824e613eef184265ecdce975700c650bfa8845f"
+    },
+    {
+      "bytes": 69031,
+      "id": 13765626807,
+      "name": "population100-main-compact-s052-mu10-42813784277",
+      "path": "compacts/population100-main-compact-s052-mu10-42813784277.zip",
+      "sha256": "007cb551cc770f7f4e86a34dfc148615e0b66c3e94c4f28fd9b66bd5ab867a82"
+    },
+    {
+      "bytes": 68941,
+      "id": 13764589504,
+      "name": "population100-main-compact-s053-mu10-42813784277",
+      "path": "compacts/population100-main-compact-s053-mu10-42813784277.zip",
+      "sha256": "8a93bccd585595719ae2bec66e1c185239d8a1eacdd710e5a8f23b30674ad1b0"
+    },
+    {
+      "bytes": 40019,
+      "id": 13764456622,
+      "name": "population100-main-compact-s050-mu10-42813784277",
+      "path": "compacts/population100-main-compact-s050-mu10-42813784277.zip",
+      "sha256": "dd13ddd6e05af9053c8b2054bbdcbaea7927d3b28e12f995eb7b4faf73db00ad"
+    },
+    {
+      "bytes": 67312,
+      "id": 13764432733,
+      "name": "population100-main-compact-s051-mu20-42813784277",
+      "path": "compacts/population100-main-compact-s051-mu20-42813784277.zip",
+      "sha256": "88006f7782c116c8e336185d5f82e60579ba88bb3f4a2f095b6678f544f8978b"
+    },
+    {
+      "bytes": 68630,
+      "id": 13764327593,
+      "name": "population100-main-compact-s050-mu20-42813784277",
+      "path": "compacts/population100-main-compact-s050-mu20-42813784277.zip",
+      "sha256": "241b1760112cd3e01b7f0f27ab3e98b64848efee5d4c6d45b76155646b67f73b"
+    },
+    {
+      "bytes": 68986,
+      "id": 13763484485,
+      "name": "population100-main-compact-s051-mu10-42813784277",
+      "path": "compacts/population100-main-compact-s051-mu10-42813784277.zip",
+      "sha256": "cf7282884d776beaf8c04f5397c4ef817df96f7f6564fbdcd4d817d69c5aca73"
+    },
+    {
+      "bytes": 574487,
+      "id": 13762967913,
+      "name": "population100-main-prepared-42813784277",
+      "path": "prepared.zip",
+      "sha256": "ff19ca444ea38399bd30d913f18e6e56affa358f5a293bb84ddfb906092e75e7"
+    }
+  ],
+  "original_code_manifest_sha256": "ce799ba032c1178a988e8a608daaf1b44ee074c47e9e88f10671924e3565798a",
+  "original_commit": "653b7a3f9c5e66d31ec8ca93fb4e710bd0078ff8",
+  "original_run_id": 42813784277,
+  "schema": "initial-grid-100-retained-tuning-v1"
+}

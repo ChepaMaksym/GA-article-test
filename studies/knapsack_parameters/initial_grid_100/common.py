@@ -58,6 +58,10 @@ def guard_stage(stage):
                 and authorization.get("tuning_authorized") is False
                 and authorization.get("validation_authorized") is False,
                 "Technical authority must not enable tuning or validation")
+    if stage == "tuning":
+        require(authorization["runner_minutes"] == 1750 and authorization["artifact_bytes"] == 17179869184
+                and authorization.get("validation_authorized") is False,
+                "Tuning authority must match its separate cap and leave validation disabled")
     verify_source()
     protocol = read_json(HERE / "protocol.json")
     require(protocol.get("schema") == "initial-grid-100-protocol-v1"
@@ -70,4 +74,34 @@ def guard_stage(stage):
     require(protocol["tuning"]["seeds"] == [150001, 150002, 150003]
             and protocol["tuning"]["results"] == 1440 and protocol["tuning"]["new_runs"] == 1260
             and protocol["validation"]["seeds"] == list(range(160001, 160011)), "Registered repetition inventory differs")
+    require(protocol.get("resources", {}).get(stage + "_authorized") is True,
+            "The protocol has not recorded authorization for this stage")
+    return protocol
+
+
+def guard_checks():
+    """Permit only prospective tests and retained-input audit within the technical cap."""
+    require_ci()
+    require(os.environ.get("GITHUB_REPOSITORY") == "ChepaMaksym/GA-article-test"
+            and os.environ.get("GITHUB_REF") == "refs/heads/research/initial-grid100-checks-20261110"
+            and os.environ.get("GITHUB_RUN_ATTEMPT") == "1", "Unregistered checks-only execution")
+    import numpy as np
+    require(sys.version_info[:3] == (3, 12, 14) and np.__version__ == "2.2.6", "Frozen Python/NumPy versions differ")
+    technical = read_json(HERE / "resource_authorization.json")
+    tuning = read_json(HERE / "tuning_authorization.json")
+    require(technical.get("status") == "AUTHORIZED" and technical.get("runner_minutes") == 45
+            and technical.get("artifact_bytes") == 1073741824 and technical.get("historical_budgets_inherited") is False,
+            "The original technical-stage authority differs")
+    require(tuning.get("status") == "PENDING_USER_APPROVAL" and tuning.get("runner_minutes") == 0
+            and tuning.get("artifact_bytes") == 0, "Checks-only execution cannot enable the tuning search")
+    ledger = read_json(HERE / "data/technical_checks_budget.json")
+    require(ledger.get("previous_rounded_runner_minutes") == 20 and ledger.get("checks_timeout_minutes") == 10
+            and ledger.get("previous_artifact_bytes") == 137803074 and ledger.get("checks_artifact_cap") == 536870912
+            and 20 + 10 <= technical["runner_minutes"]
+            and 137803074 + 536870912 <= technical["artifact_bytes"],
+            "Prospective checks would exceed the approved technical resource ceiling")
+    verify_source()
+    protocol = read_json(HERE / "protocol.json")
+    require(protocol.get("resources", {}).get("tuning_authorized") is False,
+            "Checks-only execution cannot admit tuning")
     return protocol
