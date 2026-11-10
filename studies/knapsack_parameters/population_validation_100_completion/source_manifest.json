@@ -1,0 +1,65 @@
+{
+  "schema": "population-validation-100-completion-source-v1",
+  "files": [
+    {
+      "path": ".github/workflows/population-validation-100-completion.yml",
+      "bytes": 5558,
+      "sha256": "9187436838017152c799f08648164ea9f6f9a0f88a0fa97b20e3f22be49bd4b2"
+    },
+    {
+      "path": "studies/knapsack_parameters/population_validation_100_completion/.gitattributes",
+      "bytes": 8,
+      "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+    },
+    {
+      "path": "studies/knapsack_parameters/population_validation_100_completion/__init__.py",
+      "bytes": 82,
+      "sha256": "549119b2b9ddee21683665b6726e1a710cd8607bf86830004f2565f474a68357"
+    },
+    {
+      "path": "studies/knapsack_parameters/population_validation_100_completion/analysis.py",
+      "bytes": 10418,
+      "sha256": "18bfd7914660abde7d3a45bcd848dd4ff1f49d4bbadabbc6785cda6d966e24ae"
+    },
+    {
+      "path": "studies/knapsack_parameters/population_validation_100_completion/common.py",
+      "bytes": 3992,
+      "sha256": "bb4f9b0b1ab729eb8d865413d10407204f8a12e4d22ba3f80242a2755d6a34e8"
+    },
+    {
+      "path": "studies/knapsack_parameters/population_validation_100_completion/evidence.py",
+      "bytes": 4350,
+      "sha256": "bda76aa5a4c3ee436283033fb9e458bbb3c667d1d59a676a24a1d8dfe9c534e7"
+    },
+    {
+      "path": "studies/knapsack_parameters/population_validation_100_completion/protocol.json",
+      "bytes": 15519,
+      "sha256": "fdebdcbc878628798f361278604caf0328871a69b1f6d3b69a03a3ef86509797"
+    },
+    {
+      "path": "studies/knapsack_parameters/population_validation_100_completion/resource_authorization.json",
+      "bytes": 504,
+      "sha256": "790b3e57ec0bbf045407e75dd89d016bebcdd07f2bf36efa18f05b97c52b0b23"
+    },
+    {
+      "path": "studies/knapsack_parameters/population_validation_100_completion/runner.py",
+      "bytes": 21496,
+      "sha256": "9dc9844076bb014ab582c82c78f624bf6d853fb423574556d371d5967bc2401e"
+    },
+    {
+      "path": "studies/knapsack_parameters/population_validation_100_completion/seal.py",
+      "bytes": 1477,
+      "sha256": "4b1ff452f1ae4c32c2ac0a1964e3553250d4558e2487960732251dc25a6c9e7c"
+    },
+    {
+      "path": "studies/knapsack_parameters/population_validation_100_completion/test_completion.py",
+      "bytes": 1257,
+      "sha256": "970ba8d5b82285b6714366843ea5120acc526da418a1fffd54f79b35b3ab295e"
+    },
+    {
+      "path": "studies/knapsack_parameters/population_validation_100_main/source_manifest.json",
+      "bytes": 12546,
+      "sha256": "ce799ba032c1178a988e8a608daaf1b44ee074c47e9e88f10671924e3565798a"
+    }
+  ]
+}

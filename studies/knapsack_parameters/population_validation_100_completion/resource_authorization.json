@@ -1,0 +1,14 @@
+{
+  "schema": "population-validation-100-completion-authority-v1",
+  "status": "AUTHORIZED",
+  "stage": "completion",
+  "runner_minutes": 60,
+  "artifact_bytes": 322122547,
+  "parent_main_runner_minutes": 700,
+  "parent_main_artifact_bytes": 12884901888,
+  "approval": "Погоджую 900 запусків до 700 хвилин і 12 GiB",
+  "separate_new_budget": false,
+  "completed_runs_repeated": false,
+  "proposed_recovery_runner_ceiling": 60,
+  "proposed_recovery_artifact_ceiling": 322122547
+}
