@@ -1,9 +1,10 @@
 {
   "schema": "population-validation-100-authorization-v1",
   "stage": "main",
-  "status": "PENDING_USER_APPROVAL",
-  "runner_minutes": 0,
-  "artifact_bytes": 0,
+  "status": "AUTHORIZED",
+  "runner_minutes": 700,
+  "artifact_bytes": 12884901888,
+  "approval": "Погоджую 900 запусків до 700 хвилин і 12 GiB",
   "historical_budgets_inherited": false,
   "technical_run_id": 42780269269
 }

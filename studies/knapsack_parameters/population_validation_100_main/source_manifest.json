@@ -253,8 +253,8 @@
     },
     {
       "path": "studies/knapsack_parameters/population_validation_100_main/protocol.json",
-      "bytes": 1772,
-      "sha256": "ac527edee98d47c4ba5f59a0d1aaf9e098875bf972f30531ce68eb7951edb961"
+      "bytes": 1743,
+      "sha256": "b7946c86683e09ca130b047055be1ca137893f99048daa152e6e92304de04116"
     },
     {
       "path": "studies/knapsack_parameters/population_validation_100_main/README_RUNNER_UK.md",
@@ -263,8 +263,8 @@
     },
     {
       "path": "studies/knapsack_parameters/population_validation_100_main/resource_authorization.json",
-      "bytes": 239,
-      "sha256": "64a72422374ea721fe06dd48f93f36abf2da2b5772303d87b96926dc5e29addc"
+      "bytes": 327,
+      "sha256": "37b2c286fd4e25c0980a2b491228db044999556b00b65056be9798df4951043a"
     },
     {
       "path": "studies/knapsack_parameters/population_validation_100_main/runner.py",

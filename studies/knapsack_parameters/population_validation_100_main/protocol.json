@@ -1,6 +1,6 @@
 {
   "schema": "population-validation-100-main-v1",
-  "status": "PREPARED_AWAITING_RESOURCE_APPROVAL",
+  "status": "AUTHORIZED",
   "item_count": 100,
   "populations": [10, 20, 30],
   "candidate_population": 20,
@@ -26,7 +26,7 @@
   "certified_inputs_zip_sha256": "1feb6f74fd0929f4e690a6a352f0c76e8ed41022c81df1109feab8f340a06ee5",
   "shard_limits": {"seconds": 1140, "reserve_seconds": 60, "bytes": 408944640, "reserve_bytes": 83886080},
   "forecast": {"runner_minutes": 499.1056113065, "artifact_bytes": 9790124395, "reserve_factor": 1.35, "scope": "900 main runs plus 50 runner minutes setup and analysis allowance"},
-  "proposed_main_cap": {"runner_minutes": 700, "artifact_bytes": 12884901888, "status": "NOT_AUTHORIZED"},
+  "proposed_main_cap": {"runner_minutes": 700, "artifact_bytes": 12884901888, "status": "AUTHORIZED"},
   "contrasts": [{"control_mu": 10, "candidate_mu": 20}, {"control_mu": 30, "candidate_mu": 20}],
   "main_runs": 900,
   "source_interpretation": "100-item transfer comparison; no independent confirmation of the 500-item tuning result"
