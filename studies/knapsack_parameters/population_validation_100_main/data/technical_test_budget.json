@@ -1,0 +1,13 @@
+{
+  "schema": "population-validation-100-technical-budget-ledger-v1",
+  "technical_authorization_minutes": 30,
+  "technical_authorization_bytes": 1073741824,
+  "completed_run_id": 42780269269,
+  "completed_job_seconds": [58, 80, 112, 86, 35],
+  "completed_job_rounded_upper_minutes": 8,
+  "completed_artifact_bytes": 70073805,
+  "synthetic_test_job_timeout_minutes": 10,
+  "proposed_combined_upper_minutes": 18,
+  "main_stage_authorized": false,
+  "scope": "One CI-only synthetic-test job; no actual main-task GA search or real-result bootstrap."
+}

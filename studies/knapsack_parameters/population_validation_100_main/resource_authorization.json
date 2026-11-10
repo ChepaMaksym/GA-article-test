@@ -1,0 +1,9 @@
+{
+  "schema": "population-validation-100-authorization-v1",
+  "stage": "main",
+  "status": "PENDING_USER_APPROVAL",
+  "runner_minutes": 0,
+  "artifact_bytes": 0,
+  "historical_budgets_inherited": false,
+  "technical_run_id": 42780269269
+}
