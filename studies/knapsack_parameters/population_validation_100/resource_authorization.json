@@ -1,0 +1,11 @@
+{
+  "schema": "population-validation-100-authorization-v1",
+  "stage": "technical",
+  "status": "AUTHORIZED",
+  "runner_minutes": 30,
+  "artifact_bytes": 1073741824,
+  "approval_quote": "Погоджую до 30 runner-хвилин і 1 GiB",
+  "approval_scope": "tests, 30 new inputs and two exact references each, nine technical runs, independent verification, measured forecast; excludes 900 main runs",
+  "main_stage_authorized": false,
+  "historical_budgets_inherited": false
+}
