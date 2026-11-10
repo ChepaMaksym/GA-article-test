@@ -28,13 +28,13 @@
     },
     {
       "path": "studies/knapsack_parameters/initial_grid_100/analyze_tuning.py",
-      "bytes": 11589,
-      "sha256": "bea2a65c4535f84652758fd19bb43e94d93417c99fc014d10821be8cf594a2a9"
+      "bytes": 11887,
+      "sha256": "da6bfc9cfe397c2bf8db677a7340eca2d22c22bf8ef7ccbdb115c0056f11a43f"
     },
     {
       "path": "studies/knapsack_parameters/initial_grid_100/common.py",
       "bytes": 6729,
-      "sha256": "6d5042596ebb5000b2de99438bf0f5354f36d0a8c7a0cccc04086810feb0ed38"
+      "sha256": "9099838e735b0badaa1be9fb572aadbe041d2c31de168f6737396bac3b016954"
     },
     {
       "path": "studies/knapsack_parameters/initial_grid_100/data/compatibility_artifacts.json",
@@ -58,8 +58,8 @@
     },
     {
       "path": "studies/knapsack_parameters/initial_grid_100/data/technical_checks_budget.json",
-      "bytes": 393,
-      "sha256": "6f6fb5ec9b4e9f69dd74f99be0ea1fce42f4681ff9aa193b5826769178df5da5"
+      "bytes": 409,
+      "sha256": "818ab744473d68b9b6b21ee6cc2267b369b391ea6749f0275135f6c9dbec3993"
     },
     {
       "path": "studies/knapsack_parameters/initial_grid_100/forecast.py",

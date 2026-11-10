@@ -95,10 +95,10 @@ def guard_checks():
     require(tuning.get("status") == "PENDING_USER_APPROVAL" and tuning.get("runner_minutes") == 0
             and tuning.get("artifact_bytes") == 0, "Checks-only execution cannot enable the tuning search")
     ledger = read_json(HERE / "data/technical_checks_budget.json")
-    require(ledger.get("previous_rounded_runner_minutes") == 21 and ledger.get("checks_timeout_minutes") == 10
-            and ledger.get("previous_artifact_bytes") == 139878583 and ledger.get("checks_artifact_cap") == 536870912
-            and 21 + 10 <= technical["runner_minutes"]
-            and 139878583 + 536870912 <= technical["artifact_bytes"],
+    require(ledger.get("previous_rounded_runner_minutes") == 22 and ledger.get("checks_timeout_minutes") == 10
+            and ledger.get("previous_artifact_bytes") == 141954092 and ledger.get("checks_artifact_cap") == 536870912
+            and 22 + 10 <= technical["runner_minutes"]
+            and 141954092 + 536870912 <= technical["artifact_bytes"],
             "Prospective checks would exceed the approved technical resource ceiling")
     verify_source()
     protocol = read_json(HERE / "protocol.json")

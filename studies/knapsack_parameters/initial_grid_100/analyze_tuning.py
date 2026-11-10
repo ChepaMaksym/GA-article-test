@@ -7,6 +7,7 @@ import os
 
 from .common import HERE, guard_stage, read_json, require, sha, write_json
 from studies.knapsack_parameters.population_validation_100_main.analysis import validate_row
+from studies.knapsack_parameters.population_validation_100_main.runner import _used_bytes
 
 FAMILIES = tuple(f"s{i:03d}" for i in range(50, 60))
 TYPES = ("UC", "WC", "SC")
@@ -179,6 +180,7 @@ def main():
     write_json(args.out / "validated_records.json.gz", {"schema": "initial-grid-100-validated-tuning-v1",
                "status": "VERIFIED_1440", "runs": rows, "provenance": provenance,
                "retained_provenance": retained_provenance})
+    require(_used_bytes(args.out) <= 256 * 1024**2, "Tuning result artifact exceeds its reserved size")
     selection = {"schema": "initial-grid-100-selection-v1", "status": "SELECTED_BEFORE_VALIDATION",
                  "mu": chosen[0], "pc_percentage": chosen[1],
                  "source_tuning_inputs_sha256": sha(args.inputs / "stage_manifest.json"),
@@ -194,6 +196,7 @@ def main():
     write_json(args.out / "selection.json", selection)
     (args.out / "figures").mkdir()
     plot_heatmaps(metrics, args.out / "figures")
+    require(_used_bytes(args.out) <= 256 * 1024**2, "Tuning figures exceed the reserved artifact size")
     print("Validated 1440 cases and froze a descriptive selection; independent search not started.", flush=True)
 
 
