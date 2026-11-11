@@ -59,6 +59,10 @@ def guard_stage(stage):
                 and authority.get("tuning_authorized") is False
                 and authority.get("validation_authorized") is False,
                 "Technical permission cannot enable main stages")
+    if stage == "tuning":
+        require(authority["runner_minutes"] == 2000 and authority["artifact_bytes"] == 21474836480
+                and authority.get("validation_authorized") is False,
+                "Tuning permission must match its cap and must not enable validation")
     verify_source()
     protocol = read_json(HERE / "protocol.json")
     require(protocol.get("schema") == "mutation-grid-100-protocol-v1"

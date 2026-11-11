@@ -1,7 +1,7 @@
 {
   "schema": "mutation-grid-100-protocol-v1",
   "registered_date": "2026-11-11",
-  "status": "TECHNICAL_AUTHORIZED_TUNING_VALIDATION_PENDING",
+  "status": "TUNING_AUTHORIZED_VALIDATION_PENDING",
   "item_count": 100,
   "configuration_contract": "fixed-mutation-grid-v1",
   "populations": [10, 15, 20],
@@ -75,5 +75,5 @@
     "search_cache": false,
     "historical_sources_modified": false
   },
-  "resources": {"technical_authorized": true, "tuning_authorized": false, "validation_authorized": false, "inherit_previous_allowances": false}
+  "resources": {"technical_authorized": true, "tuning_authorized": true, "validation_authorized": false, "inherit_previous_allowances": false}
 }

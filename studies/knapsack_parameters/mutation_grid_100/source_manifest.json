@@ -33,8 +33,8 @@
     },
     {
       "path": "studies/knapsack_parameters/mutation_grid_100/common.py",
-      "bytes": 4114,
-      "sha256": "98ec54ff09447a5ea5d761f38c2a776b17c381a6d7b6860a1736cda636f21d0b"
+      "bytes": 4395,
+      "sha256": "60cb8c3a27ac5d6303fc831b7becfe70e49b57b91fa3475c2fceb556676fb276"
     },
     {
       "path": "studies/knapsack_parameters/mutation_grid_100/data/retained_registry.json",
@@ -108,13 +108,13 @@
     },
     {
       "path": "studies/knapsack_parameters/mutation_grid_100/protocol.json",
-      "bytes": 3652,
-      "sha256": "00f54c5a63bd8aa90f4247d3b293e89dd5b3378864d8f550c01823a00289d56f"
+      "bytes": 3641,
+      "sha256": "5b3580250d588dca985d678c3ce0663472b8fbb1899ca520624f06717f6324bc"
     },
     {
       "path": "studies/knapsack_parameters/mutation_grid_100/README_UK.md",
-      "bytes": 5005,
-      "sha256": "e94d72ab4867e4e3fcefa1fd64aff7624b997b798ca37eb61a787a30c75c281d"
+      "bytes": 5087,
+      "sha256": "a1d761bf57b667c659b36b7097fd30b29f33866e6f47236b132a93bbeae9e237"
     },
     {
       "path": "studies/knapsack_parameters/mutation_grid_100/resource_authorization.json",
@@ -160,6 +160,11 @@
       "path": "studies/knapsack_parameters/mutation_grid_100/source_manifest_before_preparation_audit.json",
       "bytes": 8341,
       "sha256": "da7f1447cff4dba77bbf1322d9a80f43b9fd7991fee5c43058ed63252e0464a7"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/source_manifest_before_tuning_authorization.json",
+      "bytes": 9687,
+      "sha256": "4c3f926fa7c272c7d08a3a4b5f2173b0506ec3852113db67b85a9b5656fd848b"
     },
     {
       "path": "studies/knapsack_parameters/mutation_grid_100/source_manifest_before_union_tests.json",
@@ -223,8 +228,8 @@
     },
     {
       "path": "studies/knapsack_parameters/mutation_grid_100/tuning_authorization.json",
-      "bytes": 415,
-      "sha256": "c7ea6aa8e8b935d31781ff352dd4e9e554d4616d7b70045274c76bcb19dcd6d6"
+      "bytes": 580,
+      "sha256": "22f17c6c35d692788daa41b4a44a8c65792d6c3c4c617823e2b55c4853ffd3b0"
     },
     {
       "path": "studies/knapsack_parameters/mutation_grid_100/verification.py",
