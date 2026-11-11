@@ -1,0 +1,15 @@
+{
+  "schema": "mutation-grid-100-authorization-v1",
+  "stage": "technical",
+  "status": "AUTHORIZED",
+  "runner_minutes": 60,
+  "artifact_bytes": 1073741824,
+  "proposed_runner_minutes": 60,
+  "proposed_artifact_bytes": 1073741824,
+  "approved_by": "user",
+  "approval_date": "2026-11-11",
+  "approval_scope": "CI tests, retained-input audit, 18 pilots, 9 compatibility cases and measured forecasts",
+  "historical_budgets_inherited": false,
+  "tuning_authorized": false,
+  "validation_authorized": false
+}

@@ -1,0 +1,134 @@
+name: Knapsack mutation grid 100 - technical stage only
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: mutation-grid100-technical-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  PYTHONHASHSEED: '0'
+  PYTHONDONTWRITEBYTECODE: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  OMP_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  MPLBACKEND: Agg
+
+# Sum of job timeout ceilings: 8 + 9*3 + 3*5 + 4 = 54 runner-minutes.
+# Search phases are sequential, so their separate matrices cannot exceed4 combined.
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {ref: '${{ github.sha }}', persist-credentials: false}
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with: {python-version: '3.12.14'}
+      - run: python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+      - name: Check distinct stage permission and frozen sources
+        run: python -c "from studies.knapsack_parameters.mutation_grid_100.common import guard_stage; guard_stage('technical')"
+      - name: Synthetic tests before any search
+        run: python -m unittest discover -s studies/knapsack_parameters/mutation_grid_100/tests -t . -v
+      - name: Authenticate historical inputs, banks and nine full references
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python -m studies.knapsack_parameters.mutation_grid_100.preparation --out "$RUNNER_TEMP/inputs"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: mutation-grid100-inputs-${{ github.run_id }}
+          path: ${{ runner.temp }}/inputs
+          retention-days: 30
+          if-no-files-found: warn
+
+  pilot:
+    needs: prepare
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    strategy:
+      max-parallel: 4
+      fail-fast: false
+      matrix:
+        case: [n00100-UC-s000, n00100-WC-s001, n00100-SC-s005]
+        mu: [10, 15, 20]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {ref: '${{ github.sha }}', persist-credentials: false}
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with: {python-version: '3.12.14'}
+      - run: python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: mutation-grid100-inputs-${{ github.run_id }}
+          path: ${{ runner.temp }}/inputs
+      - name: Two registered mutation rates
+        run: python -m studies.knapsack_parameters.mutation_grid_100.pilot --inputs "$RUNNER_TEMP/inputs" --case ${{ matrix.case }} --mu ${{ matrix.mu }} --out "$RUNNER_TEMP/output"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: mutation-grid100-technical-pilot-${{ matrix.case }}-mu${{ matrix.mu }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/output
+          retention-days: 30
+          if-no-files-found: warn
+
+  compatibility:
+    needs: [prepare, pilot]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    strategy:
+      max-parallel: 4
+      fail-fast: false
+      matrix:
+        case: [n00100-UC-s050, n00100-WC-s050, n00100-SC-s050]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {ref: '${{ github.sha }}', persist-credentials: false}
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with: {python-version: '3.12.14'}
+      - run: python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: mutation-grid100-inputs-${{ github.run_id }}
+          path: ${{ runner.temp }}/inputs
+      - name: Three populations against retained full journals
+        run: |
+          for mu in 10 15 20
+          do
+            python -m studies.knapsack_parameters.mutation_grid_100.pilot --inputs "$RUNNER_TEMP/inputs" --case ${{ matrix.case }} --mu "$mu" --compatibility --out "$RUNNER_TEMP/output/mu$mu"
+          done
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: mutation-grid100-technical-compatibility-${{ matrix.case }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/output
+          retention-days: 30
+          if-no-files-found: warn
+
+  forecast:
+    needs: [pilot, compatibility]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {ref: '${{ github.sha }}', persist-credentials: false}
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with: {python-version: '3.12.14'}
+      - run: python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          pattern: mutation-grid100-technical-*-${{ github.run_id }}
+          path: ${{ runner.temp }}/evidence
+      - name: Validate all27 receipts and forecast main stages
+        run: python -m studies.knapsack_parameters.mutation_grid_100.forecast --artifacts "$RUNNER_TEMP/evidence" --out "$RUNNER_TEMP/forecast"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: mutation-grid100-forecast-${{ github.run_id }}
+          path: ${{ runner.temp }}/forecast
+          retention-days: 30
+          if-no-files-found: error
