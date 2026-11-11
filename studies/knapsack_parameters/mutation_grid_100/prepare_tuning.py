@@ -5,7 +5,7 @@ import os
 from pathlib import Path
 import shutil
 
-from .analysis import OLD_CONFIGS, MUTATION_CONFIGS, normalize_retained, validate_union
+from .analysis import normalize_retained, validate_row
 from .common import HERE, guard_stage, read_json, require, sha, write_json
 from studies.knapsack_parameters.population_validation_100_main.runner import _verify_files, _used_bytes
 
@@ -44,6 +44,8 @@ def prepare(inputs, out, *, audit_only=False):
     require(retained.get("status") == "VERIFIED_1440_RETAINED" and len(retained.get("runs", [])) == 1440,
             "Retained 1440-case grid is absent")
     rows = [normalize_retained(row) for row in retained["runs"]]
+    for row in rows:
+        validate_row(row)
     reused = read_json(inputs / "reused_mutation.json.gz")
     require(reused.get("status") == "VERIFIED_270_RETAINED" and len(reused.get("runs", [])) == 270,
             "Retained 270-case mutation overlap is absent")
