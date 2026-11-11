@@ -2,6 +2,7 @@ name: Knapsack mutation grid 100 - registered tuning
 
 on:
   workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: read

@@ -8,6 +8,11 @@ on:
         required: true
         type: boolean
         default: false
+      run_tuning:
+        description: Run the separately authorized mutation tuning workflow
+        required: true
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -29,6 +34,7 @@ env:
 # Search phases are sequential, so their separate matrices cannot exceed4 combined.
 jobs:
   prepare:
+    if: ${{ inputs.run_tuning != true }}
     runs-on: ubuntu-24.04
     timeout-minutes: 8
     steps:
@@ -73,7 +79,7 @@ jobs:
           if-no-files-found: warn
 
   pilot:
-    if: ${{ inputs.checks_only != true }}
+    if: ${{ inputs.checks_only != true && inputs.run_tuning != true }}
     needs: prepare
     runs-on: ubuntu-24.04
     timeout-minutes: 3
@@ -105,7 +111,7 @@ jobs:
           if-no-files-found: warn
 
   compatibility:
-    if: ${{ inputs.checks_only != true }}
+    if: ${{ inputs.checks_only != true && inputs.run_tuning != true }}
     needs: [prepare, pilot]
     runs-on: ubuntu-24.04
     timeout-minutes: 5
@@ -140,7 +146,7 @@ jobs:
           if-no-files-found: warn
 
   forecast:
-    if: ${{ inputs.checks_only != true }}
+    if: ${{ inputs.checks_only != true && inputs.run_tuning != true }}
     needs: [pilot, compatibility]
     runs-on: ubuntu-24.04
     timeout-minutes: 4
@@ -163,3 +169,7 @@ jobs:
           path: ${{ runner.temp }}/forecast
           retention-days: 30
           if-no-files-found: error
+
+  tuning:
+    if: ${{ inputs.run_tuning == true && inputs.checks_only != true }}
+    uses: ./.github/workflows/mutation-grid-100-tuning.yml
