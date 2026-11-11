@@ -147,6 +147,11 @@
       "sha256": "e8858130209f1f7d1ae4d1b857a01dbb78134c848f8fdf1da7f8f40d6bb1f1c7"
     },
     {
+      "path": "studies/knapsack_parameters/mutation_grid_100/source_manifest_before_persistence_test.json",
+      "bytes": 9006,
+      "sha256": "9efcc1b1db6aea425f0b32ed5ad1ca3c5349f5ce02d8ee703c0530c3d17ab6db"
+    },
+    {
       "path": "studies/knapsack_parameters/mutation_grid_100/source_manifest_before_preparation_audit.json",
       "bytes": 8341,
       "sha256": "da7f1447cff4dba77bbf1322d9a80f43b9fd7991fee5c43058ed63252e0464a7"
@@ -200,6 +205,11 @@
       "path": "studies/knapsack_parameters/mutation_grid_100/tests/test_preparation.py",
       "bytes": 4231,
       "sha256": "916fd7d15cbc45fbce95d8c2220cac09d48ebafe1ef06f58739053cf9f7f4918"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/tests/test_tuning_persistence.py",
+      "bytes": 4463,
+      "sha256": "ff497dc4efde03fb5e5ad96c5883c0f515fb074fc58c3abcea30719f14fb1dcb"
     },
     {
       "path": "studies/knapsack_parameters/mutation_grid_100/tests/test_tuning_plan.py",
