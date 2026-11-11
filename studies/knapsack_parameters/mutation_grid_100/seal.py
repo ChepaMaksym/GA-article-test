@@ -16,6 +16,9 @@ def main():
         if len(data) != row["bytes"] or sha256(data).hexdigest() != row["sha256"]:
             raise ValueError("Historical source bytes differ: " + row["path"])
     files = [old, REPOSITORY / ".github/workflows/mutation-grid-100-technical.yml"]
+    tuning_workflow = REPOSITORY / ".github/workflows/mutation-grid-100-tuning.yml"
+    if tuning_workflow.is_file():
+        files.append(tuning_workflow)
     files += [p for p in HERE.rglob("*") if p.is_file() and "__pycache__" not in p.parts
               and p.name != "source_manifest.json"]
     output = HERE / "source_manifest.json"

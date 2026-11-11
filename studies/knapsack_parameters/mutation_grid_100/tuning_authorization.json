@@ -1,0 +1,12 @@
+{
+  "schema": "mutation-grid-100-authorization-v1",
+  "stage": "tuning",
+  "status": "PENDING_USER_APPROVAL",
+  "runner_minutes": 0,
+  "artifact_bytes": 0,
+  "historical_budgets_inherited": false,
+  "technical_run_id": 42988256361,
+  "technical_forecast_artifact_id": 13840239423,
+  "technical_forecast_sha256": "d7c92cd80fd4af1870cf9fe7b21aeec0a6497bb215a5076894b906835a6feb9b",
+  "validation_authorized": false
+}
