@@ -9,7 +9,7 @@ import time
 from .common import HERE, guard_stage
 from .retained import OUTPUT_LIMIT, REGISTRY, retrieve, validate_registry
 from studies.knapsack_parameters.population_validation_100.common import read_json, require, require_ci, sha, write_json
-from studies.knapsack_parameters.population_validation_100.preparation import make_bank
+from studies.knapsack_parameters.population_validation_100.preparation import make_bank, score
 from studies.knapsack_parameters.initial_grid_100.preparation import verify_certificate
 from studies.knapsack_parameters.initial_grid_100.analyze_tuning import verify_row
 from studies.knapsack_parameters.population_validation_100_main.runner import _safe_file, _verify_files
@@ -30,6 +30,15 @@ def authenticate_downloads(root):
             and origin.get("registry_sha256") == sha(REGISTRY) and origin.get("archives") == descriptors,
             "Retained downloader origin differs")
     _verify_files(root, origin.get("files"))
+    for entry in descriptors:
+        if entry["role"] == "compatibility":
+            continue
+        receipts = [row for row in origin["files"] if row.get("role") == entry["role"]]
+        require(len(receipts) == 1 and receipts[0].get("artifact_id") == entry["id"]
+                and receipts[0].get("path") == entry["role"] + ".zip"
+                and receipts[0].get("bytes") == entry["bytes"]
+                and receipts[0].get("sha256") == entry["sha256"],
+                "Retained archive receipt differs from its frozen descriptor")
     return origin
 
 
@@ -95,6 +104,32 @@ def authenticate_reference(reference, expected, task, mu):
             "Raw retained receipt provenance differs")
 
 
+def verify_legacy_certificate(problem, certificate, registered_problem_sha256):
+    """Verify older paired-input certificates whose hashes live in the input manifest.
+
+    The original certificate schema has no embedded input checksums. Its bytes,
+    the problem and source files have already passed the authenticated manifest.
+    Re-evaluate both witness masks without running either exact solver.
+    """
+    require(problem_sha256(problem) == registered_problem_sha256,
+            "Legacy exact certificate is paired with a different registered problem")
+    require(certificate.get("status") == "CERTIFIED_TWO_INDEPENDENT_EXACT_ORACLES"
+            and certificate.get("search_uses_optimum") is False,
+            "Legacy exact reference status differs")
+    optimum = certificate.get("optimum")
+    require(type(optimum) is int and optimum > 0, "Legacy exact optimum is absent")
+    methods = {"capacity_certificate": "capacity_max_profit_dp_packed_witness",
+               "profit_certificate": "profit_min_weight_dp_independent_packed_witness"}
+    for name, method in methods.items():
+        witness = certificate.get(name, {})
+        require(witness.get("method") == method and witness.get("optimum_profit") == optimum,
+                "Legacy exact oracle labels or optima differ")
+        measured = score(problem, witness.get("witness_mask"))
+        require(measured["feasible"] and measured["profit"] == optimum == witness.get("witness_profit")
+                and measured["weight"] == witness.get("witness_weight"),
+                "Legacy exact witness differs from its registered task")
+
+
 def _copy(source, destination):
     require(source.is_file() and not source.is_symlink() and not destination.exists(),
             "Missing source or existing output file")
@@ -155,7 +190,7 @@ def prepare(out, retained=None):
         problem = read_json(folder / "problem.json")
         require(problem == parse_kp_bytes((folder / "source.kp").read_bytes(), 100),
                 "Compatibility source and parsed problem differ")
-        verify_certificate(problem, read_json(folder / "certificate.json"), (folder / "source.kp").read_bytes())
+        verify_legacy_certificate(problem, read_json(folder / "certificate.json"), descriptor["problem_sha256"])
         bank_descriptor = next(b for b in descriptor["banks"] if b["seed"] == 150001)
         bank_path = _safe_file(paired, bank_descriptor["path"])
         bank = read_json(bank_path)

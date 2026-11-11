@@ -8,11 +8,29 @@ from zipfile import ZipFile, ZipInfo
 
 from ..common import HERE
 from ..retained import validate_members, validate_registry
-from ..preparation import authenticate_reference
+from ..preparation import authenticate_reference, verify_legacy_certificate
+from studies.knapsack_parameters.population_size_study.inputs import problem_sha256
 from studies.knapsack_parameters.population_validation_100.common import read_json, sha
 
 
 class RetainedPreparationTests(unittest.TestCase):
+    def test_legacy_certificate_binds_manifest_and_two_witnesses(self):
+        problem = {"n": 2, "weights": [1, 2], "profits": [2, 3], "capacity": 2}
+        certificate = {"status": "CERTIFIED_TWO_INDEPENDENT_EXACT_ORACLES", "search_uses_optimum": False,
+                       "optimum": 3,
+                       "capacity_certificate": {"method": "capacity_max_profit_dp_packed_witness",
+                                                "optimum_profit": 3, "witness_mask": "01",
+                                                "witness_profit": 3, "witness_weight": 2},
+                       "profit_certificate": {"method": "profit_min_weight_dp_independent_packed_witness",
+                                              "optimum_profit": 3, "witness_mask": "01",
+                                              "witness_profit": 3, "witness_weight": 2}}
+        verify_legacy_certificate(problem, certificate, problem_sha256(problem))
+        with self.assertRaises(ValueError):
+            verify_legacy_certificate(problem, certificate, "0" * 64)
+        certificate["profit_certificate"]["witness_mask"] = "10"
+        with self.assertRaises(ValueError):
+            verify_legacy_certificate(problem, certificate, problem_sha256(problem))
+
     def test_registered_reference_inventory_and_duplicate_identity(self):
         registry = read_json(HERE / "data/retained_registry.json")
         self.assertEqual(len(validate_registry(registry)), 9)

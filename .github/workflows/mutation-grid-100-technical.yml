@@ -36,10 +36,16 @@ jobs:
         run: python -c "from studies.knapsack_parameters.mutation_grid_100.common import guard_stage; guard_stage('technical')"
       - name: Synthetic tests before any search
         run: python -m unittest discover -s studies/knapsack_parameters/mutation_grid_100/tests -t . -v
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: mutation-grid100-inputs-42987648700
+          run-id: 42987648700
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/retained-attempt
       - name: Authenticate historical inputs, banks and nine full references
         env:
           GH_TOKEN: ${{ github.token }}
-        run: python -m studies.knapsack_parameters.mutation_grid_100.preparation --out "$RUNNER_TEMP/inputs"
+        run: python -m studies.knapsack_parameters.mutation_grid_100.preparation --retained "$RUNNER_TEMP/retained-attempt/retained" --out "$RUNNER_TEMP/inputs"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
