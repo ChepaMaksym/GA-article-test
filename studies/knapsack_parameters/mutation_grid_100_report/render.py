@@ -21,6 +21,8 @@ def main():
         require(sha(root / entry["path"]) == entry["sha256"], "Frozen presentation source differs")
     authority = read_json(HERE / "authorization.json")
     require(authority.get("status") == "WITHIN_APPROVED_TUNING_ALLOWANCE"
+            and authority.get("one_time_push_approved") is True
+            and authority.get("approved_branch") == "research/mutation-grid100-report-20261111"
             and authority["completed_tuning_runner_minutes"] + authority["report_timeout_minutes"]
             <= authority["total_runner_minutes_authorized"]
             and authority["completed_tuning_artifact_bytes"] + authority["report_output_cap_bytes"]

@@ -1,6 +1,9 @@
 {
   "schema": "mutation-grid-100-report-authorization-v1",
   "status": "WITHIN_APPROVED_TUNING_ALLOWANCE",
+  "one_time_push_approved": true,
+  "approved_branch": "research/mutation-grid100-report-20261111",
+  "approved_commit_message": "Render approved mutation report figures once",
   "total_runner_minutes_authorized": 2000,
   "total_artifact_bytes_authorized": 21474836480,
   "completed_tuning_runner_minutes": 921,
