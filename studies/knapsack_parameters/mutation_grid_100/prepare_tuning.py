@@ -26,8 +26,8 @@ def build_schedule(tasks):
     return [{"shard_id": f"{i // 6:03d}", "cases": cases[i:i + 6]} for i in range(0, len(cases), 6)]
 
 
-def prepare(inputs, out):
-    guard_stage("tuning")
+def prepare(inputs, out, *, audit_only=False):
+    guard_stage("technical" if audit_only else "tuning")
     inputs, out = Path(inputs), Path(out)
     require(not out.exists(), "Preserve prior or partial stage preparation")
     require(sha(inputs / "manifest.json") == "502886cc9b2ccbea5de2002d7f7182cd994c070604bfea3062dae3e79540d8c9",
@@ -75,7 +75,8 @@ def prepare(inputs, out):
     require(len(shards) == 225 and _used_bytes(out) <= 256 * 1024**2,
             "Tuning preparation exceeds its planned count or byte cap")
     write_json(out / "stage_manifest.json", {"schema": "mutation-grid-100-tuning-inputs-v1",
-               "status": "STAGE_INPUTS_PREPARED", "stage": "tuning", "new_case_count": 1350,
+               "status": "PREPARATION_AUDIT_ONLY" if audit_only else "STAGE_INPUTS_PREPARED",
+               "stage": "technical_audit" if audit_only else "tuning", "new_case_count": 1350,
                "retained_count": 1440, "overlap_count": 270,
                "technical_manifest_sha256": sha(inputs / "manifest.json"),
                "prepared_manifest_sha256": sha(out / "prepared/manifest.json"),
@@ -83,7 +84,7 @@ def prepare(inputs, out):
                "schedule_sha256": sha(out / "schedule.json"),
                "source_manifest_sha256": sha(HERE / "source_manifest.json"),
                "independent_validation_started": False})
-    if os.environ.get("GITHUB_OUTPUT"):
+    if not audit_only and os.environ.get("GITHUB_OUTPUT"):
         with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as stream:
             stream.write("shards=" + json.dumps([block["shard_id"] for block in shards], separators=(",", ":")) + "\n")
     print("Registered 1350 missing identities and authenticated 1440 retained cases.", flush=True)
@@ -93,8 +94,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--inputs", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--audit-only", action="store_true", help="Technical-stage input audit; no search is enabled")
     args = parser.parse_args()
-    prepare(args.inputs, args.out)
+    prepare(args.inputs, args.out, audit_only=args.audit_only)
 
 
 if __name__ == "__main__":

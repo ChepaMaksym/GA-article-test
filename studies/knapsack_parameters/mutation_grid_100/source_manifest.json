@@ -3,8 +3,8 @@
   "files": [
     {
       "path": ".github/workflows/mutation-grid-100-technical.yml",
-      "bytes": 6869,
-      "sha256": "f7c246eb09fbd7e480b1ccc1dd2dd496341a4f20deb6e6e639a527bd3d9cd229"
+      "bytes": 7515,
+      "sha256": "aa4f40abcd76bfb43d35b1ae4f2876d567b849f1987e67e6069e0002efc5ec8e"
     },
     {
       "path": ".github/workflows/mutation-grid-100-tuning.yml",
@@ -63,8 +63,8 @@
     },
     {
       "path": "studies/knapsack_parameters/mutation_grid_100/prepare_tuning.py",
-      "bytes": 5954,
-      "sha256": "3dcbe65ea8047eb2dec2dc55d3c64c7ec43811771a2614e2e86e0fa6d186b28b"
+      "bytes": 6268,
+      "sha256": "11780c5a9165a56101c4366d2e293c548417ef2d7909382c83038086d2bdcead"
     },
     {
       "path": "studies/knapsack_parameters/mutation_grid_100/program/__init__.py",
@@ -145,6 +145,11 @@
       "path": "studies/knapsack_parameters/mutation_grid_100/source_manifest_authorized_before_workflow_fix.json",
       "bytes": 6450,
       "sha256": "e8858130209f1f7d1ae4d1b857a01dbb78134c848f8fdf1da7f8f40d6bb1f1c7"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/source_manifest_before_preparation_audit.json",
+      "bytes": 8341,
+      "sha256": "da7f1447cff4dba77bbf1322d9a80f43b9fd7991fee5c43058ed63252e0464a7"
     },
     {
       "path": "studies/knapsack_parameters/mutation_grid_100/source_manifest_failed_prepare.json",

@@ -43,6 +43,16 @@ jobs:
       - name: Synthetic tests before any search
         run: python -m unittest discover -s studies/knapsack_parameters/mutation_grid_100/tests -t . -v
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        if: ${{ inputs.checks_only == true }}
+        with:
+          name: mutation-grid100-inputs-42988256361
+          run-id: 42988256361
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/completed-technical-inputs
+      - name: Audit retained records and planned mutation identities without search
+        if: ${{ inputs.checks_only == true }}
+        run: python -m studies.knapsack_parameters.mutation_grid_100.prepare_tuning --audit-only --inputs "$RUNNER_TEMP/completed-technical-inputs" --out "$RUNNER_TEMP/prospective-audit"
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         if: ${{ inputs.checks_only != true }}
         with:
           name: mutation-grid100-inputs-42987648700
