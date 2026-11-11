@@ -2,9 +2,6 @@ name: Mutation tuning - report figures only
 
 on:
   workflow_dispatch:
-  push:
-    branches: [research/mutation-grid100-report-20261111]
-    paths: [.github/workflows/mutation-grid-100-report.yml]
 
 permissions:
   contents: read
@@ -23,7 +20,8 @@ env:
 
 jobs:
   figures:
-    if: ${{ github.event_name == 'push' && github.event.head_commit.message == 'Render approved mutation report figures once' }}
+    # The approved single rendering run has completed; no further jobs are enabled.
+    if: ${{ false }}
     runs-on: ubuntu-24.04
     timeout-minutes: 4
     steps:

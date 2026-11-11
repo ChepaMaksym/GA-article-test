@@ -1,6 +1,10 @@
 {
   "schema": "mutation-grid-100-report-authorization-v1",
-  "status": "WITHIN_APPROVED_TUNING_ALLOWANCE",
+  "status": "ONE_TIME_RENDER_COMPLETED",
+  "completed_run_id": 43041707637,
+  "completed_runner_minutes": 1,
+  "completed_output_artifact_bytes": 404332,
+  "completed_output_zip_sha256": "2a5729877a3d9b4a2d8497861b47f5d6438fea141b775d1a0e7d4fece9726369",
   "one_time_push_approved": true,
   "approved_branch": "research/mutation-grid100-report-20261111",
   "approved_commit_message": "Render approved mutation report figures once",

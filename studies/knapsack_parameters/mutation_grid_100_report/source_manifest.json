@@ -1,5 +1,6 @@
 {
     "schema":  "mutation-grid-100-report-source-v1",
+    "status":  "ONE_TIME_RENDER_COMPLETED",
     "files":  [
                   {
                       "path":  "studies/knapsack_parameters/mutation_grid_100_report/render.py",
@@ -11,11 +12,15 @@
                   },
                   {
                       "path":  "studies/knapsack_parameters/mutation_grid_100_report/authorization.json",
-                      "sha256":  "3181602b62d5a6f79358d102fc9eb9d2f9915f3f2413de776334fc68ef4cfb39"
+                      "sha256":  "5ce8e6ce329869b9b67fb54452262c8daccad0fe030b8d9821fedd07418a3036"
+                  },
+                  {
+                      "path":  "studies/knapsack_parameters/mutation_grid_100_report/source_manifest_rendered.json",
+                      "sha256":  "a90230f16c323001ba881816e5a033b520fd1d287e3f663ae6142f4c901bea4c"
                   },
                   {
                       "path":  ".github/workflows/mutation-grid-100-report.yml",
-                      "sha256":  "0b0f7c69d25db9194f9ecd8dab6c8683fda67d923770ff8b9917a5c8273d2e69"
+                      "sha256":  "5407bf8e24b377b13ce760b30c6068e58d93340edd4feb798c1929719ff8aa8a"
                   }
               ]
 }
