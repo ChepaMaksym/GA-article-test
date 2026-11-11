@@ -1,0 +1,21 @@
+{
+    "schema":  "mutation-grid-100-report-source-v1",
+    "files":  [
+                  {
+                      "path":  "studies/knapsack_parameters/mutation_grid_100_report/render.py",
+                      "sha256":  "8c81ad756a1b2af1e0069e2eb2fa91558dd19ea71928678fd5814f3039300e78"
+                  },
+                  {
+                      "path":  "studies/knapsack_parameters/mutation_grid_100_report/__init__.py",
+                      "sha256":  "7a3a5fdb0fa06dc1d94978c9f1ae8e9aa29aa4d2e764664705d7ca62893b1ebe"
+                  },
+                  {
+                      "path":  "studies/knapsack_parameters/mutation_grid_100_report/authorization.json",
+                      "sha256":  "acd08d29ea6023b659748949914c713e4ace44a57adc302882cf031dddf504cf"
+                  },
+                  {
+                      "path":  ".github/workflows/mutation-grid-100-report.yml",
+                      "sha256":  "605de9202a7d81cd4f8d89331f8634fb790a94eec2a36c94b977bf63245c4581"
+                  }
+              ]
+}

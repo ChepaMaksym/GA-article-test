@@ -1,0 +1,14 @@
+{
+  "schema": "mutation-grid-100-report-authorization-v1",
+  "status": "WITHIN_APPROVED_TUNING_ALLOWANCE",
+  "total_runner_minutes_authorized": 2000,
+  "total_artifact_bytes_authorized": 21474836480,
+  "completed_tuning_runner_minutes": 921,
+  "completed_tuning_artifact_bytes": 9981863139,
+  "report_timeout_minutes": 4,
+  "report_output_cap_bytes": 16777216,
+  "new_search_runs": 0,
+  "new_statistical_tests": 0,
+  "upstream_result_artifact_id": 13855203458,
+  "upstream_result_zip_sha256": "f36aa022f4ba2fb5d65510a136118b0f204ebaec185df9c2e3d16730ce0f281c"
+}
