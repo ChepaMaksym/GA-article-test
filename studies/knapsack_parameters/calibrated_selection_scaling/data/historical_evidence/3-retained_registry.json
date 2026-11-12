@@ -1,0 +1,144 @@
+{
+  "schema": "mutation-grid-100-retained-registry-v1",
+  "source_manifest_sha256": "2ed212337b22706decd7123ab1111cbc4c62fbe357e29478c1c868acf3c2f44f",
+  "archives": [
+    {
+      "id": 13810740328,
+      "name": "initial-grid100-tuning-results-42886706730",
+      "bytes": 1434188,
+      "sha256": "4de51008ac16a045475183af019fe309adb1b19fa9e9659887ccc734f77ecbb0",
+      "original_run_id": 42886706730,
+      "original_commit": "3dc54a652a54c851653f16ce55507ac5c708bc8f",
+      "role": "results"
+    },
+    {
+      "id": 13795833622,
+      "name": "initial-grid100-tuning-inputs-42886706730",
+      "bytes": 2075488,
+      "sha256": "3ebef69e4d81315b9c9fc92c11550ea73028fc67b7dfc50d5ee8d236e669b176",
+      "original_run_id": 42886706730,
+      "original_commit": "3dc54a652a54c851653f16ce55507ac5c708bc8f",
+      "role": "tuning_inputs"
+    },
+    {
+      "id": 13792676347,
+      "name": "initial-grid100-inputs-42876556319",
+      "bytes": 186693,
+      "sha256": "a823648ea34cc4d8b84876f1fd5f12473341176984d02ee243428b5e34bac940",
+      "original_run_id": 42876556319,
+      "original_commit": "e84a90b670cecbe3cc151a5771ac62d1a0151ddb",
+      "role": "technical_inputs"
+    },
+    {
+      "id": 13798006529,
+      "name": "initial-grid100-tuning-raw-014-42886706730",
+      "bytes": 48201643,
+      "sha256": "fec43897a98a1aee31992fd4a90ec0d5089ad38e5c6c5f4d01447a138e4408a4",
+      "original_run_id": 42886706730,
+      "original_commit": "3dc54a652a54c851653f16ce55507ac5c708bc8f",
+      "role": "compatibility",
+      "selected": [
+        {
+          "task": "n00100-SC-s050",
+          "mu": 10,
+          "seed": 150001
+        }
+      ]
+    },
+    {
+      "id": 13797612383,
+      "name": "initial-grid100-tuning-raw-015-42886706730",
+      "bytes": 45241364,
+      "sha256": "cde4aebccc176c4b2df5dcb18a4ff20022ba842b3e126a4a17e5ed1ca26667da",
+      "original_run_id": 42886706730,
+      "original_commit": "3dc54a652a54c851653f16ce55507ac5c708bc8f",
+      "role": "compatibility",
+      "selected": [
+        {
+          "task": "n00100-SC-s050",
+          "mu": 15,
+          "seed": 150001
+        },
+        {
+          "task": "n00100-SC-s050",
+          "mu": 20,
+          "seed": 150001
+        }
+      ]
+    },
+    {
+      "id": 13797176245,
+      "name": "initial-grid100-tuning-raw-001-42886706730",
+      "bytes": 43013350,
+      "sha256": "29a392416c019d2bdf03a5e7da503b7733d5ce9fe71535d962061d225c0146bb",
+      "original_run_id": 42886706730,
+      "original_commit": "3dc54a652a54c851653f16ce55507ac5c708bc8f",
+      "role": "compatibility",
+      "selected": [
+        {
+          "task": "n00100-UC-s050",
+          "mu": 15,
+          "seed": 150001
+        },
+        {
+          "task": "n00100-UC-s050",
+          "mu": 20,
+          "seed": 150001
+        }
+      ]
+    },
+    {
+      "id": 13797092537,
+      "name": "initial-grid100-tuning-raw-007-42886706730",
+      "bytes": 48350633,
+      "sha256": "25dfa880a66b17fdfd9c502ea615a324f02dd465fad00ae7cc57f6aede3c939f",
+      "original_run_id": 42886706730,
+      "original_commit": "3dc54a652a54c851653f16ce55507ac5c708bc8f",
+      "role": "compatibility",
+      "selected": [
+        {
+          "task": "n00100-WC-s050",
+          "mu": 10,
+          "seed": 150001
+        }
+      ]
+    },
+    {
+      "id": 13797071502,
+      "name": "initial-grid100-tuning-raw-000-42886706730",
+      "bytes": 47178517,
+      "sha256": "7c764820420fd8ccff92e9016ae16138405fe5b73fa31f279e521285ee32d93e",
+      "original_run_id": 42886706730,
+      "original_commit": "3dc54a652a54c851653f16ce55507ac5c708bc8f",
+      "role": "compatibility",
+      "selected": [
+        {
+          "task": "n00100-UC-s050",
+          "mu": 10,
+          "seed": 150001
+        }
+      ]
+    },
+    {
+      "id": 13796638318,
+      "name": "initial-grid100-tuning-raw-008-42886706730",
+      "bytes": 45484818,
+      "sha256": "3d9066f78a57b78cebadfd58ca8721d88724d705a967ff411b95171e821eb534",
+      "original_run_id": 42886706730,
+      "original_commit": "3dc54a652a54c851653f16ce55507ac5c708bc8f",
+      "role": "compatibility",
+      "selected": [
+        {
+          "task": "n00100-WC-s050",
+          "mu": 15,
+          "seed": 150001
+        },
+        {
+          "task": "n00100-WC-s050",
+          "mu": 20,
+          "seed": 150001
+        }
+      ]
+    }
+  ]
+}

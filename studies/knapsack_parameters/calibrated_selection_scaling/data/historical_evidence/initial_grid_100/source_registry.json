@@ -1,0 +1,1938 @@
+{
+  "schema": "initial-grid-100-source-registry-v1",
+  "source_repository": "likr/kplib",
+  "source_commit": "c5bea0df8169749caaba5ce7dfcf21437aa1ca5c",
+  "source_base_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/",
+  "technical_cases": [
+    {
+      "task_id": "n00100-UC-s000",
+      "class_label": "UC",
+      "family": "s000",
+      "task_index": 0,
+      "source_path": "00Uncorrelated/n00100/R01000/s000.kp",
+      "git_blob_sha1": "119d7f6b8ed5fa94b623e847ce99e00810806c60",
+      "source_bytes": 794
+    },
+    {
+      "task_id": "n00100-WC-s001",
+      "class_label": "WC",
+      "family": "s001",
+      "task_index": 1,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s001.kp",
+      "git_blob_sha1": "3a5d6861d4666c196506d959090096505cfa8dc1",
+      "source_bytes": 791
+    },
+    {
+      "task_id": "n00100-SC-s005",
+      "class_label": "SC",
+      "family": "s005",
+      "task_index": 2,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s005.kp",
+      "git_blob_sha1": "ab62d8da5be6080bd0e76de6007836012ab0a046",
+      "source_bytes": 813
+    }
+  ],
+  "validation_cases": [
+    {
+      "task_id": "n00100-UC-s060",
+      "class_label": "UC",
+      "family": "s060",
+      "task_index": 33,
+      "source_path": "00Uncorrelated/n00100/R01000/s060.kp",
+      "git_blob_sha1": "d3003a89a3b1792da3c20377707aadd9f7d75e34",
+      "source_bytes": 790
+    },
+    {
+      "task_id": "n00100-WC-s060",
+      "class_label": "WC",
+      "family": "s060",
+      "task_index": 34,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s060.kp",
+      "git_blob_sha1": "f18a5fcb7b962d50ab59cd80be3abd8471919349",
+      "source_bytes": 793
+    },
+    {
+      "task_id": "n00100-SC-s060",
+      "class_label": "SC",
+      "family": "s060",
+      "task_index": 35,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s060.kp",
+      "git_blob_sha1": "5f5a3e8822a96001cf70d9b62c5285a6abad2c21",
+      "source_bytes": 811
+    },
+    {
+      "task_id": "n00100-UC-s061",
+      "class_label": "UC",
+      "family": "s061",
+      "task_index": 36,
+      "source_path": "00Uncorrelated/n00100/R01000/s061.kp",
+      "git_blob_sha1": "0b5239a6b33dc74cfa685234223eba288a1877aa",
+      "source_bytes": 796
+    },
+    {
+      "task_id": "n00100-WC-s061",
+      "class_label": "WC",
+      "family": "s061",
+      "task_index": 37,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s061.kp",
+      "git_blob_sha1": "602efcac3fd4f32201cc6bd01ff5a9bb59b92c50",
+      "source_bytes": 801
+    },
+    {
+      "task_id": "n00100-SC-s061",
+      "class_label": "SC",
+      "family": "s061",
+      "task_index": 38,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s061.kp",
+      "git_blob_sha1": "a58e005351a346fd27cbd8c078e10765c0d4c009",
+      "source_bytes": 814
+    },
+    {
+      "task_id": "n00100-UC-s062",
+      "class_label": "UC",
+      "family": "s062",
+      "task_index": 39,
+      "source_path": "00Uncorrelated/n00100/R01000/s062.kp",
+      "git_blob_sha1": "3a08e8d8544aa3f8a90f36e146c49c8cff251639",
+      "source_bytes": 795
+    },
+    {
+      "task_id": "n00100-WC-s062",
+      "class_label": "WC",
+      "family": "s062",
+      "task_index": 40,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s062.kp",
+      "git_blob_sha1": "d7ac9ec336a19c6e83eb6438532cda95a4206de5",
+      "source_bytes": 796
+    },
+    {
+      "task_id": "n00100-SC-s062",
+      "class_label": "SC",
+      "family": "s062",
+      "task_index": 41,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s062.kp",
+      "git_blob_sha1": "bc2ae0b8cff522e30b289ce9a6811ba727765e46",
+      "source_bytes": 818
+    },
+    {
+      "task_id": "n00100-UC-s063",
+      "class_label": "UC",
+      "family": "s063",
+      "task_index": 42,
+      "source_path": "00Uncorrelated/n00100/R01000/s063.kp",
+      "git_blob_sha1": "d26cbc47aa5324f5dc59a56a3e61e24e9d5c2ed7",
+      "source_bytes": 794
+    },
+    {
+      "task_id": "n00100-WC-s063",
+      "class_label": "WC",
+      "family": "s063",
+      "task_index": 43,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s063.kp",
+      "git_blob_sha1": "e23bd2a50fcfb1dc5ac27dd9276c50451b1fbf5d",
+      "source_bytes": 796
+    },
+    {
+      "task_id": "n00100-SC-s063",
+      "class_label": "SC",
+      "family": "s063",
+      "task_index": 44,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s063.kp",
+      "git_blob_sha1": "f97a79d6a53beeff0365db085de96a2ea120f674",
+      "source_bytes": 815
+    },
+    {
+      "task_id": "n00100-UC-s064",
+      "class_label": "UC",
+      "family": "s064",
+      "task_index": 45,
+      "source_path": "00Uncorrelated/n00100/R01000/s064.kp",
+      "git_blob_sha1": "a32df35dbf61ac15bee99f84a3f0f8a2fe94a7fd",
+      "source_bytes": 785
+    },
+    {
+      "task_id": "n00100-WC-s064",
+      "class_label": "WC",
+      "family": "s064",
+      "task_index": 46,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s064.kp",
+      "git_blob_sha1": "35d8c72e1ccbab0d3e2c797fa9d475c9e617ddcd",
+      "source_bytes": 792
+    },
+    {
+      "task_id": "n00100-SC-s064",
+      "class_label": "SC",
+      "family": "s064",
+      "task_index": 47,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s064.kp",
+      "git_blob_sha1": "cc5dab96a2bfed3c2d884c2fb883807885a117d9",
+      "source_bytes": 810
+    },
+    {
+      "task_id": "n00100-UC-s065",
+      "class_label": "UC",
+      "family": "s065",
+      "task_index": 48,
+      "source_path": "00Uncorrelated/n00100/R01000/s065.kp",
+      "git_blob_sha1": "25cbb2d2f47ffef78e680d5de7d42670f353fb20",
+      "source_bytes": 795
+    },
+    {
+      "task_id": "n00100-WC-s065",
+      "class_label": "WC",
+      "family": "s065",
+      "task_index": 49,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s065.kp",
+      "git_blob_sha1": "edc205e5cc8c699ef33a80e6d1f9f67c94051d2d",
+      "source_bytes": 803
+    },
+    {
+      "task_id": "n00100-SC-s065",
+      "class_label": "SC",
+      "family": "s065",
+      "task_index": 50,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s065.kp",
+      "git_blob_sha1": "08c0010f5809077ad2bdc579fb23db0baaaf7608",
+      "source_bytes": 815
+    },
+    {
+      "task_id": "n00100-UC-s066",
+      "class_label": "UC",
+      "family": "s066",
+      "task_index": 51,
+      "source_path": "00Uncorrelated/n00100/R01000/s066.kp",
+      "git_blob_sha1": "731e01e053696ee4bbd16e3ddbb66dc03b24f065",
+      "source_bytes": 796
+    },
+    {
+      "task_id": "n00100-WC-s066",
+      "class_label": "WC",
+      "family": "s066",
+      "task_index": 52,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s066.kp",
+      "git_blob_sha1": "2cf64e59be416cebcf989b2dd7bf9adb43476f9b",
+      "source_bytes": 796
+    },
+    {
+      "task_id": "n00100-SC-s066",
+      "class_label": "SC",
+      "family": "s066",
+      "task_index": 53,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s066.kp",
+      "git_blob_sha1": "b6b830284eabf0f25fda1323fc0a23f0d2deb27d",
+      "source_bytes": 814
+    },
+    {
+      "task_id": "n00100-UC-s067",
+      "class_label": "UC",
+      "family": "s067",
+      "task_index": 54,
+      "source_path": "00Uncorrelated/n00100/R01000/s067.kp",
+      "git_blob_sha1": "56228f071538c28da015150a88ac29b322042231",
+      "source_bytes": 780
+    },
+    {
+      "task_id": "n00100-WC-s067",
+      "class_label": "WC",
+      "family": "s067",
+      "task_index": 55,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s067.kp",
+      "git_blob_sha1": "29f96b697dfb5a205775fbe0b628ea22d60cc438",
+      "source_bytes": 784
+    },
+    {
+      "task_id": "n00100-SC-s067",
+      "class_label": "SC",
+      "family": "s067",
+      "task_index": 56,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s067.kp",
+      "git_blob_sha1": "fb29d1fcf2dcd91773e252be8da97b2c07bce796",
+      "source_bytes": 807
+    },
+    {
+      "task_id": "n00100-UC-s068",
+      "class_label": "UC",
+      "family": "s068",
+      "task_index": 57,
+      "source_path": "00Uncorrelated/n00100/R01000/s068.kp",
+      "git_blob_sha1": "2aa428b13d16de0a097292ba8aed825449a5c43f",
+      "source_bytes": 796
+    },
+    {
+      "task_id": "n00100-WC-s068",
+      "class_label": "WC",
+      "family": "s068",
+      "task_index": 58,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s068.kp",
+      "git_blob_sha1": "1a8e3e39f0894b35c0edb121938b9c772cc19647",
+      "source_bytes": 800
+    },
+    {
+      "task_id": "n00100-SC-s068",
+      "class_label": "SC",
+      "family": "s068",
+      "task_index": 59,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s068.kp",
+      "git_blob_sha1": "d40d576a1183dbc9e7fc9c2406941342a8ac8491",
+      "source_bytes": 812
+    },
+    {
+      "task_id": "n00100-UC-s069",
+      "class_label": "UC",
+      "family": "s069",
+      "task_index": 60,
+      "source_path": "00Uncorrelated/n00100/R01000/s069.kp",
+      "git_blob_sha1": "3ed3df0d11af3dc180f8350946d7d2314115a1b7",
+      "source_bytes": 794
+    },
+    {
+      "task_id": "n00100-WC-s069",
+      "class_label": "WC",
+      "family": "s069",
+      "task_index": 61,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s069.kp",
+      "git_blob_sha1": "9348587c9b46efa785fa20e3ee85dbb652b69e0c",
+      "source_bytes": 791
+    },
+    {
+      "task_id": "n00100-SC-s069",
+      "class_label": "SC",
+      "family": "s069",
+      "task_index": 62,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s069.kp",
+      "git_blob_sha1": "300e2a241b3c547b0a7e7513fd69aea395088c71",
+      "source_bytes": 809
+    }
+  ],
+  "historical_cases": [
+    {
+      "task_id": "n00100-UC-s000",
+      "class_label": "UC",
+      "family": "s000",
+      "task_index": 0,
+      "source_path": "00Uncorrelated/n00100/R01000/s000.kp",
+      "git_blob_sha1": "119d7f6b8ed5fa94b623e847ce99e00810806c60",
+      "source_bytes": 794
+    },
+    {
+      "task_id": "n00100-WC-s000",
+      "class_label": "WC",
+      "family": "s000",
+      "task_index": 1,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s000.kp",
+      "git_blob_sha1": "db8de06350f68d5d199d809bd3d9347370b792ee",
+      "source_bytes": 799
+    },
+    {
+      "task_id": "n00100-SC-s000",
+      "class_label": "SC",
+      "family": "s000",
+      "task_index": 2,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s000.kp",
+      "git_blob_sha1": "dc322a954582a3f6de293b22feb18abb971be468",
+      "source_bytes": 820
+    },
+    {
+      "task_id": "n00100-UC-s001",
+      "class_label": "UC",
+      "family": "s001",
+      "task_index": 3,
+      "source_path": "00Uncorrelated/n00100/R01000/s001.kp",
+      "git_blob_sha1": "1fb4b4ddfe9ce8ceadf142f0c5c1fb7f88f9977e",
+      "source_bytes": 786
+    },
+    {
+      "task_id": "n00100-WC-s001",
+      "class_label": "WC",
+      "family": "s001",
+      "task_index": 4,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s001.kp",
+      "git_blob_sha1": "3a5d6861d4666c196506d959090096505cfa8dc1",
+      "source_bytes": 791
+    },
+    {
+      "task_id": "n00100-SC-s001",
+      "class_label": "SC",
+      "family": "s001",
+      "task_index": 5,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s001.kp",
+      "git_blob_sha1": "41bcd0a8b83b2bad50a53e3b37f5019ae007dac6",
+      "source_bytes": 808
+    },
+    {
+      "task_id": "n00100-UC-s002",
+      "class_label": "UC",
+      "family": "s002",
+      "task_index": 6,
+      "source_path": "00Uncorrelated/n00100/R01000/s002.kp",
+      "git_blob_sha1": "1bc840c628c3e54f7e2419a9141442d33ea49754",
+      "source_bytes": 789
+    },
+    {
+      "task_id": "n00100-WC-s002",
+      "class_label": "WC",
+      "family": "s002",
+      "task_index": 7,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s002.kp",
+      "git_blob_sha1": "732d65a7fabd687af3d0f1323547b5e0cf52db49",
+      "source_bytes": 801
+    },
+    {
+      "task_id": "n00100-SC-s002",
+      "class_label": "SC",
+      "family": "s002",
+      "task_index": 8,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s002.kp",
+      "git_blob_sha1": "13c7886463d58d03c63840864860e3723cbea34f",
+      "source_bytes": 821
+    },
+    {
+      "task_id": "n00100-UC-s003",
+      "class_label": "UC",
+      "family": "s003",
+      "task_index": 9,
+      "source_path": "00Uncorrelated/n00100/R01000/s003.kp",
+      "git_blob_sha1": "9a0d2e1e7b8f3fd2e3a015b75bf16941ce5ca750",
+      "source_bytes": 791
+    },
+    {
+      "task_id": "n00100-WC-s003",
+      "class_label": "WC",
+      "family": "s003",
+      "task_index": 10,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s003.kp",
+      "git_blob_sha1": "e7e57c91388438e36904d915de49d1a567bec633",
+      "source_bytes": 794
+    },
+    {
+      "task_id": "n00100-SC-s003",
+      "class_label": "SC",
+      "family": "s003",
+      "task_index": 11,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s003.kp",
+      "git_blob_sha1": "a0623f7dcf19217d85aff03113676ca954c9cee3",
+      "source_bytes": 813
+    },
+    {
+      "task_id": "n00100-UC-s004",
+      "class_label": "UC",
+      "family": "s004",
+      "task_index": 12,
+      "source_path": "00Uncorrelated/n00100/R01000/s004.kp",
+      "git_blob_sha1": "cd0a42fe35422edd8a200b376ef896a3409a3122",
+      "source_bytes": 786
+    },
+    {
+      "task_id": "n00100-WC-s004",
+      "class_label": "WC",
+      "family": "s004",
+      "task_index": 13,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s004.kp",
+      "git_blob_sha1": "816b4568f59eb25ea4b111646f7463a54a64b180",
+      "source_bytes": 796
+    },
+    {
+      "task_id": "n00100-SC-s004",
+      "class_label": "SC",
+      "family": "s004",
+      "task_index": 14,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s004.kp",
+      "git_blob_sha1": "d65ca3871604ef6bee314672be1b02d85b78d929",
+      "source_bytes": 813
+    },
+    {
+      "task_id": "n00100-UC-s005",
+      "class_label": "UC",
+      "family": "s005",
+      "task_index": 15,
+      "source_path": "00Uncorrelated/n00100/R01000/s005.kp",
+      "git_blob_sha1": "bd259216f0e91174a21ee3706ada56c8e5768148",
+      "source_bytes": 792
+    },
+    {
+      "task_id": "n00100-WC-s005",
+      "class_label": "WC",
+      "family": "s005",
+      "task_index": 16,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s005.kp",
+      "git_blob_sha1": "c7579cd6c9777ff97eebbb866f59dd3825c8b506",
+      "source_bytes": 791
+    },
+    {
+      "task_id": "n00100-SC-s005",
+      "class_label": "SC",
+      "family": "s005",
+      "task_index": 17,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s005.kp",
+      "git_blob_sha1": "ab62d8da5be6080bd0e76de6007836012ab0a046",
+      "source_bytes": 813
+    },
+    {
+      "task_id": "n00100-UC-s006",
+      "class_label": "UC",
+      "family": "s006",
+      "task_index": 18,
+      "source_path": "00Uncorrelated/n00100/R01000/s006.kp",
+      "git_blob_sha1": "e0276b20fb992d124efe9b0272236398d9cd129a",
+      "source_bytes": 789
+    },
+    {
+      "task_id": "n00100-WC-s006",
+      "class_label": "WC",
+      "family": "s006",
+      "task_index": 19,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s006.kp",
+      "git_blob_sha1": "cfb8d5bc5fcb934a0ed0ea185c263d417d3faf82",
+      "source_bytes": 794
+    },
+    {
+      "task_id": "n00100-SC-s006",
+      "class_label": "SC",
+      "family": "s006",
+      "task_index": 20,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s006.kp",
+      "git_blob_sha1": "fd332812b9a097e1fe8c9e1e45beea2fb022272e",
+      "source_bytes": 810
+    },
+    {
+      "task_id": "n00100-UC-s007",
+      "class_label": "UC",
+      "family": "s007",
+      "task_index": 21,
+      "source_path": "00Uncorrelated/n00100/R01000/s007.kp",
+      "git_blob_sha1": "5d48f16d67fefa875ebcb32642e1b5663b7f0fdd",
+      "source_bytes": 785
+    },
+    {
+      "task_id": "n00100-WC-s007",
+      "class_label": "WC",
+      "family": "s007",
+      "task_index": 22,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s007.kp",
+      "git_blob_sha1": "e9e22ed1b3d2995f781a5418d62330f9f0ca9106",
+      "source_bytes": 786
+    },
+    {
+      "task_id": "n00100-SC-s007",
+      "class_label": "SC",
+      "family": "s007",
+      "task_index": 23,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s007.kp",
+      "git_blob_sha1": "18562aefce99224e71499debd3c660fc1d87ca77",
+      "source_bytes": 805
+    },
+    {
+      "task_id": "n00100-UC-s008",
+      "class_label": "UC",
+      "family": "s008",
+      "task_index": 24,
+      "source_path": "00Uncorrelated/n00100/R01000/s008.kp",
+      "git_blob_sha1": "4f141a375caa3d0def4cc5ec59b1be9e714d81c6",
+      "source_bytes": 791
+    },
+    {
+      "task_id": "n00100-WC-s008",
+      "class_label": "WC",
+      "family": "s008",
+      "task_index": 25,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s008.kp",
+      "git_blob_sha1": "596518e5a7979945498ab2d78a8271fcdbab836d",
+      "source_bytes": 794
+    },
+    {
+      "task_id": "n00100-SC-s008",
+      "class_label": "SC",
+      "family": "s008",
+      "task_index": 26,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s008.kp",
+      "git_blob_sha1": "abe460cc7ac5f5d07eda0682e2653bc404797b56",
+      "source_bytes": 812
+    },
+    {
+      "task_id": "n00100-UC-s009",
+      "class_label": "UC",
+      "family": "s009",
+      "task_index": 27,
+      "source_path": "00Uncorrelated/n00100/R01000/s009.kp",
+      "git_blob_sha1": "f14bc1849ed6c1dc1ae04f0481eb2a6d8b26806a",
+      "source_bytes": 780
+    },
+    {
+      "task_id": "n00100-WC-s009",
+      "class_label": "WC",
+      "family": "s009",
+      "task_index": 28,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s009.kp",
+      "git_blob_sha1": "cbdd40de977e1b1e7ca757e64cdabc436c9313b5",
+      "source_bytes": 779
+    },
+    {
+      "task_id": "n00100-SC-s009",
+      "class_label": "SC",
+      "family": "s009",
+      "task_index": 29,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s009.kp",
+      "git_blob_sha1": "b6b8e8fb0ef462a7bef32a8ce147d7afed9a2802",
+      "source_bytes": 802
+    },
+    {
+      "task_id": "n00100-UC-s010",
+      "class_label": "UC",
+      "family": "s010",
+      "task_index": 30,
+      "source_path": "00Uncorrelated/n00100/R01000/s010.kp",
+      "git_blob_sha1": "6f0eed7442d5ed9a01acf48fe9cde71c6b35dc98",
+      "source_bytes": 789
+    },
+    {
+      "task_id": "n00100-WC-s010",
+      "class_label": "WC",
+      "family": "s010",
+      "task_index": 31,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s010.kp",
+      "git_blob_sha1": "7dd0a0fc77bf837edf3674192fc438f12a6ca411",
+      "source_bytes": 796
+    },
+    {
+      "task_id": "n00100-SC-s010",
+      "class_label": "SC",
+      "family": "s010",
+      "task_index": 32,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s010.kp",
+      "git_blob_sha1": "a4288c25fa951d9427e1d0192fbe75db54c28957",
+      "source_bytes": 809
+    },
+    {
+      "task_id": "n00100-UC-s011",
+      "class_label": "UC",
+      "family": "s011",
+      "task_index": 33,
+      "source_path": "00Uncorrelated/n00100/R01000/s011.kp",
+      "git_blob_sha1": "823d5012b8e0fb4bd019d45b9bfc5c8e3a7a513d",
+      "source_bytes": 788
+    },
+    {
+      "task_id": "n00100-WC-s011",
+      "class_label": "WC",
+      "family": "s011",
+      "task_index": 34,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s011.kp",
+      "git_blob_sha1": "21aacc49f5be367156e321376a928131f32e0dac",
+      "source_bytes": 793
+    },
+    {
+      "task_id": "n00100-SC-s011",
+      "class_label": "SC",
+      "family": "s011",
+      "task_index": 35,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s011.kp",
+      "git_blob_sha1": "ffe890c8ccd2f224370bfeb5f319b94fd0910cea",
+      "source_bytes": 809
+    },
+    {
+      "task_id": "n00100-UC-s012",
+      "class_label": "UC",
+      "family": "s012",
+      "task_index": 36,
+      "source_path": "00Uncorrelated/n00100/R01000/s012.kp",
+      "git_blob_sha1": "a48e5b61deaa884dd585c3b60982e3bf0b39f9e4",
+      "source_bytes": 789
+    },
+    {
+      "task_id": "n00100-WC-s012",
+      "class_label": "WC",
+      "family": "s012",
+      "task_index": 37,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s012.kp",
+      "git_blob_sha1": "de0b1e1a4898c94dcaebc6f648671c016305202e",
+      "source_bytes": 786
+    },
+    {
+      "task_id": "n00100-SC-s012",
+      "class_label": "SC",
+      "family": "s012",
+      "task_index": 38,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s012.kp",
+      "git_blob_sha1": "9f99189c5442e936845932a56f9a26a828218ee7",
+      "source_bytes": 808
+    },
+    {
+      "task_id": "n00100-UC-s013",
+      "class_label": "UC",
+      "family": "s013",
+      "task_index": 39,
+      "source_path": "00Uncorrelated/n00100/R01000/s013.kp",
+      "git_blob_sha1": "b433e2d3abd6c93150e2b01aaf8d06dd9983ec03",
+      "source_bytes": 789
+    },
+    {
+      "task_id": "n00100-WC-s013",
+      "class_label": "WC",
+      "family": "s013",
+      "task_index": 40,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s013.kp",
+      "git_blob_sha1": "88d95020abdd0210e95f2762082b53e75c1c2c48",
+      "source_bytes": 803
+    },
+    {
+      "task_id": "n00100-SC-s013",
+      "class_label": "SC",
+      "family": "s013",
+      "task_index": 41,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s013.kp",
+      "git_blob_sha1": "bba76e9cd14cab19f9e88712933fc16e1d08987f",
+      "source_bytes": 812
+    },
+    {
+      "task_id": "n00100-UC-s014",
+      "class_label": "UC",
+      "family": "s014",
+      "task_index": 42,
+      "source_path": "00Uncorrelated/n00100/R01000/s014.kp",
+      "git_blob_sha1": "ef357ccace3c44f406e036c5be4a3b8ef6902e67",
+      "source_bytes": 793
+    },
+    {
+      "task_id": "n00100-WC-s014",
+      "class_label": "WC",
+      "family": "s014",
+      "task_index": 43,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s014.kp",
+      "git_blob_sha1": "99a094fd7050ca0d4c9c8b80cdab209e47bb9574",
+      "source_bytes": 792
+    },
+    {
+      "task_id": "n00100-SC-s014",
+      "class_label": "SC",
+      "family": "s014",
+      "task_index": 44,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s014.kp",
+      "git_blob_sha1": "539b3299b60bfa74a399074584c73381c20a9085",
+      "source_bytes": 811
+    },
+    {
+      "task_id": "n00100-UC-s015",
+      "class_label": "UC",
+      "family": "s015",
+      "task_index": 45,
+      "source_path": "00Uncorrelated/n00100/R01000/s015.kp",
+      "git_blob_sha1": "52cb5f100ca2e65ee875e858ab40bebf2320603d",
+      "source_bytes": 793
+    },
+    {
+      "task_id": "n00100-WC-s015",
+      "class_label": "WC",
+      "family": "s015",
+      "task_index": 46,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s015.kp",
+      "git_blob_sha1": "4da917c250740fcc65d5533c1dd409c568a99b6c",
+      "source_bytes": 794
+    },
+    {
+      "task_id": "n00100-SC-s015",
+      "class_label": "SC",
+      "family": "s015",
+      "task_index": 47,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s015.kp",
+      "git_blob_sha1": "e3b74fb445acace3e364e1822a307ec0d09fdcd0",
+      "source_bytes": 815
+    },
+    {
+      "task_id": "n00100-UC-s016",
+      "class_label": "UC",
+      "family": "s016",
+      "task_index": 48,
+      "source_path": "00Uncorrelated/n00100/R01000/s016.kp",
+      "git_blob_sha1": "269ed55550e1b81d547ed7e260c0568df1da9d6a",
+      "source_bytes": 790
+    },
+    {
+      "task_id": "n00100-WC-s016",
+      "class_label": "WC",
+      "family": "s016",
+      "task_index": 49,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s016.kp",
+      "git_blob_sha1": "9de135891edf93a70a0a7a9662312841c8912f76",
+      "source_bytes": 787
+    },
+    {
+      "task_id": "n00100-SC-s016",
+      "class_label": "SC",
+      "family": "s016",
+      "task_index": 50,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s016.kp",
+      "git_blob_sha1": "070a4c2310f41b9c382ee17edf2371cc0d7703b6",
+      "source_bytes": 809
+    },
+    {
+      "task_id": "n00100-UC-s017",
+      "class_label": "UC",
+      "family": "s017",
+      "task_index": 51,
+      "source_path": "00Uncorrelated/n00100/R01000/s017.kp",
+      "git_blob_sha1": "7baec18f88227074b8030e924c30c582d09755ec",
+      "source_bytes": 791
+    },
+    {
+      "task_id": "n00100-WC-s017",
+      "class_label": "WC",
+      "family": "s017",
+      "task_index": 52,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s017.kp",
+      "git_blob_sha1": "75ed27b9962f33df1165e82217b5d85abe9de9e4",
+      "source_bytes": 796
+    },
+    {
+      "task_id": "n00100-SC-s017",
+      "class_label": "SC",
+      "family": "s017",
+      "task_index": 53,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s017.kp",
+      "git_blob_sha1": "d68d808bcfb2b6deeff26cb013ad52a67a6624cd",
+      "source_bytes": 818
+    },
+    {
+      "task_id": "n00100-UC-s018",
+      "class_label": "UC",
+      "family": "s018",
+      "task_index": 54,
+      "source_path": "00Uncorrelated/n00100/R01000/s018.kp",
+      "git_blob_sha1": "19cfc0cb763287fcb9607bd3f4f626a386ba2536",
+      "source_bytes": 796
+    },
+    {
+      "task_id": "n00100-WC-s018",
+      "class_label": "WC",
+      "family": "s018",
+      "task_index": 55,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s018.kp",
+      "git_blob_sha1": "6d89443af5da9dfe79ea3c1a6a46c3f2c200b588",
+      "source_bytes": 803
+    },
+    {
+      "task_id": "n00100-SC-s018",
+      "class_label": "SC",
+      "family": "s018",
+      "task_index": 56,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s018.kp",
+      "git_blob_sha1": "594e5c3bc2ed2b2a8efb7723b56fe158313ed9a9",
+      "source_bytes": 813
+    },
+    {
+      "task_id": "n00100-UC-s019",
+      "class_label": "UC",
+      "family": "s019",
+      "task_index": 57,
+      "source_path": "00Uncorrelated/n00100/R01000/s019.kp",
+      "git_blob_sha1": "e5e933878f8a37fc2b09612c69495135b9727955",
+      "source_bytes": 793
+    },
+    {
+      "task_id": "n00100-WC-s019",
+      "class_label": "WC",
+      "family": "s019",
+      "task_index": 58,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s019.kp",
+      "git_blob_sha1": "d8998fbd83e5aa11f4fcddbdb57c9cf69a7c7b35",
+      "source_bytes": 788
+    },
+    {
+      "task_id": "n00100-SC-s019",
+      "class_label": "SC",
+      "family": "s019",
+      "task_index": 59,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s019.kp",
+      "git_blob_sha1": "2ebd5bc024181be575e06be9ee39ace72705d248",
+      "source_bytes": 806
+    },
+    {
+      "task_id": "n00100-UC-s020",
+      "class_label": "UC",
+      "family": "s020",
+      "task_index": 60,
+      "source_path": "00Uncorrelated/n00100/R01000/s020.kp",
+      "git_blob_sha1": "43d885284a56e207e27b78b330d7c13c3b78bcb5",
+      "source_bytes": 785
+    },
+    {
+      "task_id": "n00100-WC-s020",
+      "class_label": "WC",
+      "family": "s020",
+      "task_index": 61,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s020.kp",
+      "git_blob_sha1": "c5b888b6c9e3ee5147f19c58c4e1958647825503",
+      "source_bytes": 781
+    },
+    {
+      "task_id": "n00100-SC-s020",
+      "class_label": "SC",
+      "family": "s020",
+      "task_index": 62,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s020.kp",
+      "git_blob_sha1": "7469972f166702b498603904ac030c8d5098289a",
+      "source_bytes": 807
+    },
+    {
+      "task_id": "n00100-UC-s021",
+      "class_label": "UC",
+      "family": "s021",
+      "task_index": 63,
+      "source_path": "00Uncorrelated/n00100/R01000/s021.kp",
+      "git_blob_sha1": "0113bf395e7eca98b857db330367652ac2858e14",
+      "source_bytes": 786
+    },
+    {
+      "task_id": "n00100-WC-s021",
+      "class_label": "WC",
+      "family": "s021",
+      "task_index": 64,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s021.kp",
+      "git_blob_sha1": "c2d6a8c53378a0d77484e56b3e420cb0454f6b29",
+      "source_bytes": 798
+    },
+    {
+      "task_id": "n00100-SC-s021",
+      "class_label": "SC",
+      "family": "s021",
+      "task_index": 65,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s021.kp",
+      "git_blob_sha1": "5d379af49d7271fe4a1d5a968fdd641b674ed299",
+      "source_bytes": 813
+    },
+    {
+      "task_id": "n00100-UC-s022",
+      "class_label": "UC",
+      "family": "s022",
+      "task_index": 66,
+      "source_path": "00Uncorrelated/n00100/R01000/s022.kp",
+      "git_blob_sha1": "5ece2c534594c3a789472a7766d65a32012c63f1",
+      "source_bytes": 790
+    },
+    {
+      "task_id": "n00100-WC-s022",
+      "class_label": "WC",
+      "family": "s022",
+      "task_index": 67,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s022.kp",
+      "git_blob_sha1": "b0bfc6da5ebe07d4ba4b2fd8654c7937114eedc0",
+      "source_bytes": 802
+    },
+    {
+      "task_id": "n00100-SC-s022",
+      "class_label": "SC",
+      "family": "s022",
+      "task_index": 68,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s022.kp",
+      "git_blob_sha1": "d6defd58ee41a6c4ddfc77be3132d401df3b825f",
+      "source_bytes": 821
+    },
+    {
+      "task_id": "n00100-UC-s023",
+      "class_label": "UC",
+      "family": "s023",
+      "task_index": 69,
+      "source_path": "00Uncorrelated/n00100/R01000/s023.kp",
+      "git_blob_sha1": "9e0e9500b8cf8857390dcb468e927ad64e16edfa",
+      "source_bytes": 793
+    },
+    {
+      "task_id": "n00100-WC-s023",
+      "class_label": "WC",
+      "family": "s023",
+      "task_index": 70,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s023.kp",
+      "git_blob_sha1": "eacfba2aa771e6d849af34f7bae0b73d4f6aa25c",
+      "source_bytes": 796
+    },
+    {
+      "task_id": "n00100-SC-s023",
+      "class_label": "SC",
+      "family": "s023",
+      "task_index": 71,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s023.kp",
+      "git_blob_sha1": "ce5c19bee016a2d04131213e87bb3103e570f317",
+      "source_bytes": 815
+    },
+    {
+      "task_id": "n00100-UC-s024",
+      "class_label": "UC",
+      "family": "s024",
+      "task_index": 72,
+      "source_path": "00Uncorrelated/n00100/R01000/s024.kp",
+      "git_blob_sha1": "d0cb21806fdfc4a3a7c340e42356086b4fc16e3e",
+      "source_bytes": 795
+    },
+    {
+      "task_id": "n00100-WC-s024",
+      "class_label": "WC",
+      "family": "s024",
+      "task_index": 73,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s024.kp",
+      "git_blob_sha1": "e6a78f431729272a89464ca00d7d1a3e3b1f79dc",
+      "source_bytes": 799
+    },
+    {
+      "task_id": "n00100-SC-s024",
+      "class_label": "SC",
+      "family": "s024",
+      "task_index": 74,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s024.kp",
+      "git_blob_sha1": "634b35a2e0830b2f05e1866272c28785d08afdc2",
+      "source_bytes": 816
+    },
+    {
+      "task_id": "n00100-UC-s025",
+      "class_label": "UC",
+      "family": "s025",
+      "task_index": 75,
+      "source_path": "00Uncorrelated/n00100/R01000/s025.kp",
+      "git_blob_sha1": "27f5bcffc798f2944676745f06dc2f5eaee5ebd4",
+      "source_bytes": 787
+    },
+    {
+      "task_id": "n00100-WC-s025",
+      "class_label": "WC",
+      "family": "s025",
+      "task_index": 76,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s025.kp",
+      "git_blob_sha1": "e164eab3f001ceaae2bde4430788bba883a9fe6b",
+      "source_bytes": 795
+    },
+    {
+      "task_id": "n00100-SC-s025",
+      "class_label": "SC",
+      "family": "s025",
+      "task_index": 77,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s025.kp",
+      "git_blob_sha1": "3a5eaf0c21bb554c1d03d4e82374a7ee82ce1859",
+      "source_bytes": 808
+    },
+    {
+      "task_id": "n00100-UC-s026",
+      "class_label": "UC",
+      "family": "s026",
+      "task_index": 78,
+      "source_path": "00Uncorrelated/n00100/R01000/s026.kp",
+      "git_blob_sha1": "7f930bfddfa4b82b34fbd2f1c63ec7e4498d1d6c",
+      "source_bytes": 771
+    },
+    {
+      "task_id": "n00100-WC-s026",
+      "class_label": "WC",
+      "family": "s026",
+      "task_index": 79,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s026.kp",
+      "git_blob_sha1": "7eac74d42de2128d44cd9e4122ddbf85477561a8",
+      "source_bytes": 774
+    },
+    {
+      "task_id": "n00100-SC-s026",
+      "class_label": "SC",
+      "family": "s026",
+      "task_index": 80,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s026.kp",
+      "git_blob_sha1": "5e55e51b08322dff37d0f83a72c9851462261bd9",
+      "source_bytes": 803
+    },
+    {
+      "task_id": "n00100-UC-s027",
+      "class_label": "UC",
+      "family": "s027",
+      "task_index": 81,
+      "source_path": "00Uncorrelated/n00100/R01000/s027.kp",
+      "git_blob_sha1": "94a027cea6424008382684836234c314d3af6079",
+      "source_bytes": 791
+    },
+    {
+      "task_id": "n00100-WC-s027",
+      "class_label": "WC",
+      "family": "s027",
+      "task_index": 82,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s027.kp",
+      "git_blob_sha1": "0dd6c8d5152d924317919cd56f02190d0752d9b4",
+      "source_bytes": 791
+    },
+    {
+      "task_id": "n00100-SC-s027",
+      "class_label": "SC",
+      "family": "s027",
+      "task_index": 83,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s027.kp",
+      "git_blob_sha1": "6e0834b5016b118945bf254c8a67fe8d7d24cb58",
+      "source_bytes": 807
+    },
+    {
+      "task_id": "n00100-UC-s028",
+      "class_label": "UC",
+      "family": "s028",
+      "task_index": 84,
+      "source_path": "00Uncorrelated/n00100/R01000/s028.kp",
+      "git_blob_sha1": "ca3ddaca8d8cf86c26009fdd8edfc4936c16851b",
+      "source_bytes": 790
+    },
+    {
+      "task_id": "n00100-WC-s028",
+      "class_label": "WC",
+      "family": "s028",
+      "task_index": 85,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s028.kp",
+      "git_blob_sha1": "b77c4d8086bd49cc9b3087e597dba4f228aaf286",
+      "source_bytes": 796
+    },
+    {
+      "task_id": "n00100-SC-s028",
+      "class_label": "SC",
+      "family": "s028",
+      "task_index": 86,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s028.kp",
+      "git_blob_sha1": "9b8bf80e016d39225c51f81f163e5583264c79ae",
+      "source_bytes": 811
+    },
+    {
+      "task_id": "n00100-UC-s029",
+      "class_label": "UC",
+      "family": "s029",
+      "task_index": 87,
+      "source_path": "00Uncorrelated/n00100/R01000/s029.kp",
+      "git_blob_sha1": "910f690771ca55648bb51b7d5d6c7920fe1c2fff",
+      "source_bytes": 797
+    },
+    {
+      "task_id": "n00100-WC-s029",
+      "class_label": "WC",
+      "family": "s029",
+      "task_index": 88,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s029.kp",
+      "git_blob_sha1": "b11d2079c09c10981527311eaeaa9f3e627e21ee",
+      "source_bytes": 800
+    },
+    {
+      "task_id": "n00100-SC-s029",
+      "class_label": "SC",
+      "family": "s029",
+      "task_index": 89,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s029.kp",
+      "git_blob_sha1": "522c22ac32eb3be48c33095af0934c2b5108db75",
+      "source_bytes": 816
+    },
+    {
+      "task_id": "n00100-UC-s030",
+      "class_label": "UC",
+      "family": "s030",
+      "task_index": 90,
+      "source_path": "00Uncorrelated/n00100/R01000/s030.kp",
+      "git_blob_sha1": "0e6df10066b1e53deab4953f1a273732f1287a5d",
+      "source_bytes": 792
+    },
+    {
+      "task_id": "n00100-WC-s030",
+      "class_label": "WC",
+      "family": "s030",
+      "task_index": 91,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s030.kp",
+      "git_blob_sha1": "7181bf45ac50db2537b4073bf0e187e09423f4dd",
+      "source_bytes": 798
+    },
+    {
+      "task_id": "n00100-SC-s030",
+      "class_label": "SC",
+      "family": "s030",
+      "task_index": 92,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s030.kp",
+      "git_blob_sha1": "a2f6c9393fcd8ccfa7b32c6c6d7cedd04440a1e7",
+      "source_bytes": 812
+    },
+    {
+      "task_id": "n00100-UC-s031",
+      "class_label": "UC",
+      "family": "s031",
+      "task_index": 93,
+      "source_path": "00Uncorrelated/n00100/R01000/s031.kp",
+      "git_blob_sha1": "36eac2d0e45e24a6adda7338f89dc774e1428fa0",
+      "source_bytes": 792
+    },
+    {
+      "task_id": "n00100-WC-s031",
+      "class_label": "WC",
+      "family": "s031",
+      "task_index": 94,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s031.kp",
+      "git_blob_sha1": "c6461b6cf69df53d929283ada7633b065f483094",
+      "source_bytes": 797
+    },
+    {
+      "task_id": "n00100-SC-s031",
+      "class_label": "SC",
+      "family": "s031",
+      "task_index": 95,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s031.kp",
+      "git_blob_sha1": "7bbeb7598b2b2d1bca0c7d703ae5a17aa6554a5f",
+      "source_bytes": 817
+    },
+    {
+      "task_id": "n00100-UC-s032",
+      "class_label": "UC",
+      "family": "s032",
+      "task_index": 96,
+      "source_path": "00Uncorrelated/n00100/R01000/s032.kp",
+      "git_blob_sha1": "42f2c1aeb672f3cb9097c0d9e49d85cf1c99054e",
+      "source_bytes": 777
+    },
+    {
+      "task_id": "n00100-WC-s032",
+      "class_label": "WC",
+      "family": "s032",
+      "task_index": 97,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s032.kp",
+      "git_blob_sha1": "5de1ce1c7a316a1ce27a8af551ca29d15f70694e",
+      "source_bytes": 780
+    },
+    {
+      "task_id": "n00100-SC-s032",
+      "class_label": "SC",
+      "family": "s032",
+      "task_index": 98,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s032.kp",
+      "git_blob_sha1": "c1fb9832ffc938a059aae72282f8d79a9379653b",
+      "source_bytes": 806
+    },
+    {
+      "task_id": "n00100-UC-s033",
+      "class_label": "UC",
+      "family": "s033",
+      "task_index": 99,
+      "source_path": "00Uncorrelated/n00100/R01000/s033.kp",
+      "git_blob_sha1": "93bb9bcd6c09462f67e47a07c0eb3a56e8b4532e",
+      "source_bytes": 784
+    },
+    {
+      "task_id": "n00100-WC-s033",
+      "class_label": "WC",
+      "family": "s033",
+      "task_index": 100,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s033.kp",
+      "git_blob_sha1": "f4fbd312bc1ab10806413d6097f9a5978ee0b25a",
+      "source_bytes": 795
+    },
+    {
+      "task_id": "n00100-SC-s033",
+      "class_label": "SC",
+      "family": "s033",
+      "task_index": 101,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s033.kp",
+      "git_blob_sha1": "5f0b3c6b745df4402fcf6c875de5ebe3484a893d",
+      "source_bytes": 807
+    },
+    {
+      "task_id": "n00100-UC-s034",
+      "class_label": "UC",
+      "family": "s034",
+      "task_index": 102,
+      "source_path": "00Uncorrelated/n00100/R01000/s034.kp",
+      "git_blob_sha1": "5704cce96288e35ec55a68a51d012a7c192d6b27",
+      "source_bytes": 799
+    },
+    {
+      "task_id": "n00100-WC-s034",
+      "class_label": "WC",
+      "family": "s034",
+      "task_index": 103,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s034.kp",
+      "git_blob_sha1": "2eedcee5df143166bba1c6255e12005892c730be",
+      "source_bytes": 804
+    },
+    {
+      "task_id": "n00100-SC-s034",
+      "class_label": "SC",
+      "family": "s034",
+      "task_index": 104,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s034.kp",
+      "git_blob_sha1": "38b93c9d32f6b707f76d65f75aec2c21da1b2de9",
+      "source_bytes": 817
+    },
+    {
+      "task_id": "n00100-UC-s035",
+      "class_label": "UC",
+      "family": "s035",
+      "task_index": 105,
+      "source_path": "00Uncorrelated/n00100/R01000/s035.kp",
+      "git_blob_sha1": "398fc8914bf2d174275516739dba5c2beb8ab36e",
+      "source_bytes": 786
+    },
+    {
+      "task_id": "n00100-WC-s035",
+      "class_label": "WC",
+      "family": "s035",
+      "task_index": 106,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s035.kp",
+      "git_blob_sha1": "76a331d74d99b30c6abf542123fe6eae5747fb3b",
+      "source_bytes": 783
+    },
+    {
+      "task_id": "n00100-SC-s035",
+      "class_label": "SC",
+      "family": "s035",
+      "task_index": 107,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s035.kp",
+      "git_blob_sha1": "638bdf1e0c2ec8e9119b74fc709b8a4e9f0ec326",
+      "source_bytes": 805
+    },
+    {
+      "task_id": "n00100-UC-s036",
+      "class_label": "UC",
+      "family": "s036",
+      "task_index": 108,
+      "source_path": "00Uncorrelated/n00100/R01000/s036.kp",
+      "git_blob_sha1": "53c00be82d206276095229e97259fd0a4c37ae7a",
+      "source_bytes": 796
+    },
+    {
+      "task_id": "n00100-WC-s036",
+      "class_label": "WC",
+      "family": "s036",
+      "task_index": 109,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s036.kp",
+      "git_blob_sha1": "c346991300aeb0be9642cb760480a7951899118e",
+      "source_bytes": 797
+    },
+    {
+      "task_id": "n00100-SC-s036",
+      "class_label": "SC",
+      "family": "s036",
+      "task_index": 110,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s036.kp",
+      "git_blob_sha1": "e96ad6505133519d5aed742125e0493c5cb8dbbe",
+      "source_bytes": 817
+    },
+    {
+      "task_id": "n00100-UC-s037",
+      "class_label": "UC",
+      "family": "s037",
+      "task_index": 111,
+      "source_path": "00Uncorrelated/n00100/R01000/s037.kp",
+      "git_blob_sha1": "518227a90330037e9ecfc3747d9e26c9680e163c",
+      "source_bytes": 779
+    },
+    {
+      "task_id": "n00100-WC-s037",
+      "class_label": "WC",
+      "family": "s037",
+      "task_index": 112,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s037.kp",
+      "git_blob_sha1": "417c485d98719dfbcce19d39eb0d1d46327a4020",
+      "source_bytes": 785
+    },
+    {
+      "task_id": "n00100-SC-s037",
+      "class_label": "SC",
+      "family": "s037",
+      "task_index": 113,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s037.kp",
+      "git_blob_sha1": "9401e39bf03a01dccbd655a86c035147de3a8630",
+      "source_bytes": 803
+    },
+    {
+      "task_id": "n00100-UC-s038",
+      "class_label": "UC",
+      "family": "s038",
+      "task_index": 114,
+      "source_path": "00Uncorrelated/n00100/R01000/s038.kp",
+      "git_blob_sha1": "b1cc9a6ad8d3b45e417472e75bbd127d2779d126",
+      "source_bytes": 788
+    },
+    {
+      "task_id": "n00100-WC-s038",
+      "class_label": "WC",
+      "family": "s038",
+      "task_index": 115,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s038.kp",
+      "git_blob_sha1": "7482248a959e61762b1dd8fdeba621f7ac9c8cbe",
+      "source_bytes": 791
+    },
+    {
+      "task_id": "n00100-SC-s038",
+      "class_label": "SC",
+      "family": "s038",
+      "task_index": 116,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s038.kp",
+      "git_blob_sha1": "0c9cb557ba0a7ebe2d8e561ac451eb2e720a85d9",
+      "source_bytes": 806
+    },
+    {
+      "task_id": "n00100-UC-s039",
+      "class_label": "UC",
+      "family": "s039",
+      "task_index": 117,
+      "source_path": "00Uncorrelated/n00100/R01000/s039.kp",
+      "git_blob_sha1": "8cf11a3dc946e49c3e549fe592450ed31cf0a2dd",
+      "source_bytes": 784
+    },
+    {
+      "task_id": "n00100-WC-s039",
+      "class_label": "WC",
+      "family": "s039",
+      "task_index": 118,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s039.kp",
+      "git_blob_sha1": "c2019dceaae65f40816bbb750545320d3c9c02d3",
+      "source_bytes": 789
+    },
+    {
+      "task_id": "n00100-SC-s039",
+      "class_label": "SC",
+      "family": "s039",
+      "task_index": 119,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s039.kp",
+      "git_blob_sha1": "edca22b84fb5bf2515ca351405fca69a32680c36",
+      "source_bytes": 807
+    },
+    {
+      "task_id": "n00100-UC-s040",
+      "class_label": "UC",
+      "family": "s040",
+      "task_index": 120,
+      "source_path": "00Uncorrelated/n00100/R01000/s040.kp",
+      "git_blob_sha1": "601b4d7bf772f008e455a64828985cfa72436b93",
+      "source_bytes": 787
+    },
+    {
+      "task_id": "n00100-WC-s040",
+      "class_label": "WC",
+      "family": "s040",
+      "task_index": 121,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s040.kp",
+      "git_blob_sha1": "b7c6f50dc3bcdef912c3ec3babd7f92612d920ed",
+      "source_bytes": 793
+    },
+    {
+      "task_id": "n00100-SC-s040",
+      "class_label": "SC",
+      "family": "s040",
+      "task_index": 122,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s040.kp",
+      "git_blob_sha1": "9019eea04e8eb66b47012e265b2f95e7cf4efffc",
+      "source_bytes": 813
+    },
+    {
+      "task_id": "n00100-UC-s041",
+      "class_label": "UC",
+      "family": "s041",
+      "task_index": 123,
+      "source_path": "00Uncorrelated/n00100/R01000/s041.kp",
+      "git_blob_sha1": "7fedfb50da07de251ddd52a0a2e77648dc634414",
+      "source_bytes": 796
+    },
+    {
+      "task_id": "n00100-WC-s041",
+      "class_label": "WC",
+      "family": "s041",
+      "task_index": 124,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s041.kp",
+      "git_blob_sha1": "22d360b8758c588c3881d1147e150c5e47d3005e",
+      "source_bytes": 801
+    },
+    {
+      "task_id": "n00100-SC-s041",
+      "class_label": "SC",
+      "family": "s041",
+      "task_index": 125,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s041.kp",
+      "git_blob_sha1": "2d7bef9302c491fb7a39dd5e0dab9031dec0063e",
+      "source_bytes": 810
+    },
+    {
+      "task_id": "n00100-UC-s042",
+      "class_label": "UC",
+      "family": "s042",
+      "task_index": 126,
+      "source_path": "00Uncorrelated/n00100/R01000/s042.kp",
+      "git_blob_sha1": "16cf0b664f83acf441ca9b3ede0b1a4d1d080a89",
+      "source_bytes": 787
+    },
+    {
+      "task_id": "n00100-WC-s042",
+      "class_label": "WC",
+      "family": "s042",
+      "task_index": 127,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s042.kp",
+      "git_blob_sha1": "73af42816b1ceb555fa7f0b5cad51fa9c253557f",
+      "source_bytes": 789
+    },
+    {
+      "task_id": "n00100-SC-s042",
+      "class_label": "SC",
+      "family": "s042",
+      "task_index": 128,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s042.kp",
+      "git_blob_sha1": "e5cecedc8e3627a1c6bbe26ffe0f1dd89de55418",
+      "source_bytes": 807
+    },
+    {
+      "task_id": "n00100-UC-s043",
+      "class_label": "UC",
+      "family": "s043",
+      "task_index": 129,
+      "source_path": "00Uncorrelated/n00100/R01000/s043.kp",
+      "git_blob_sha1": "c467126fce54143d6615e50c42d642470f6775a7",
+      "source_bytes": 790
+    },
+    {
+      "task_id": "n00100-WC-s043",
+      "class_label": "WC",
+      "family": "s043",
+      "task_index": 130,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s043.kp",
+      "git_blob_sha1": "32f98c592d44223f3e222611e988e9ce783f3182",
+      "source_bytes": 789
+    },
+    {
+      "task_id": "n00100-SC-s043",
+      "class_label": "SC",
+      "family": "s043",
+      "task_index": 131,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s043.kp",
+      "git_blob_sha1": "2dcebf2d72da78adf44557c4f58f25839b762a84",
+      "source_bytes": 810
+    },
+    {
+      "task_id": "n00100-UC-s044",
+      "class_label": "UC",
+      "family": "s044",
+      "task_index": 132,
+      "source_path": "00Uncorrelated/n00100/R01000/s044.kp",
+      "git_blob_sha1": "7f4e5607e7fbcd4f8e7b05d90e4f4f05b7a0d796",
+      "source_bytes": 785
+    },
+    {
+      "task_id": "n00100-WC-s044",
+      "class_label": "WC",
+      "family": "s044",
+      "task_index": 133,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s044.kp",
+      "git_blob_sha1": "dd4c3a62b9c4ef7149f412c5de8bc2d1de3327bd",
+      "source_bytes": 786
+    },
+    {
+      "task_id": "n00100-SC-s044",
+      "class_label": "SC",
+      "family": "s044",
+      "task_index": 134,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s044.kp",
+      "git_blob_sha1": "d7c8d1e1d97d69c6f59bcd95358e78edab863f6d",
+      "source_bytes": 803
+    },
+    {
+      "task_id": "n00100-UC-s045",
+      "class_label": "UC",
+      "family": "s045",
+      "task_index": 135,
+      "source_path": "00Uncorrelated/n00100/R01000/s045.kp",
+      "git_blob_sha1": "1c45b185680b0468336a2b7fcb372b71eb6427a0",
+      "source_bytes": 787
+    },
+    {
+      "task_id": "n00100-WC-s045",
+      "class_label": "WC",
+      "family": "s045",
+      "task_index": 136,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s045.kp",
+      "git_blob_sha1": "d36aea31a35f29102c4d18628c10a7556ccbedc0",
+      "source_bytes": 785
+    },
+    {
+      "task_id": "n00100-SC-s045",
+      "class_label": "SC",
+      "family": "s045",
+      "task_index": 137,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s045.kp",
+      "git_blob_sha1": "baedfe0d8eb5ab19736c9104a6300fd4c8e27dd7",
+      "source_bytes": 803
+    },
+    {
+      "task_id": "n00100-UC-s046",
+      "class_label": "UC",
+      "family": "s046",
+      "task_index": 138,
+      "source_path": "00Uncorrelated/n00100/R01000/s046.kp",
+      "git_blob_sha1": "037dd631297a55e39579e9c9b3f238295fc60a6f",
+      "source_bytes": 782
+    },
+    {
+      "task_id": "n00100-WC-s046",
+      "class_label": "WC",
+      "family": "s046",
+      "task_index": 139,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s046.kp",
+      "git_blob_sha1": "579c00c827e833167378807552dbdb040af6c49e",
+      "source_bytes": 786
+    },
+    {
+      "task_id": "n00100-SC-s046",
+      "class_label": "SC",
+      "family": "s046",
+      "task_index": 140,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s046.kp",
+      "git_blob_sha1": "55c94201e083e6c1cf3837dd8cf799e319719efc",
+      "source_bytes": 805
+    },
+    {
+      "task_id": "n00100-UC-s047",
+      "class_label": "UC",
+      "family": "s047",
+      "task_index": 141,
+      "source_path": "00Uncorrelated/n00100/R01000/s047.kp",
+      "git_blob_sha1": "c2856563e2e02d464c32bc9e2e1e7718c4fa2bfd",
+      "source_bytes": 787
+    },
+    {
+      "task_id": "n00100-WC-s047",
+      "class_label": "WC",
+      "family": "s047",
+      "task_index": 142,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s047.kp",
+      "git_blob_sha1": "fe328debbde08bf77db7b8ac71bd7e25f5695432",
+      "source_bytes": 795
+    },
+    {
+      "task_id": "n00100-SC-s047",
+      "class_label": "SC",
+      "family": "s047",
+      "task_index": 143,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s047.kp",
+      "git_blob_sha1": "0fb1bed54e69417240034a87e8c2281191611b1e",
+      "source_bytes": 814
+    },
+    {
+      "task_id": "n00100-UC-s048",
+      "class_label": "UC",
+      "family": "s048",
+      "task_index": 144,
+      "source_path": "00Uncorrelated/n00100/R01000/s048.kp",
+      "git_blob_sha1": "7a51bcfe980f798e18d67c83e8ccbbab13ce2d14",
+      "source_bytes": 786
+    },
+    {
+      "task_id": "n00100-WC-s048",
+      "class_label": "WC",
+      "family": "s048",
+      "task_index": 145,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s048.kp",
+      "git_blob_sha1": "2b8226ad9dfdd6d27736c03986f9a6b1e0d675f4",
+      "source_bytes": 793
+    },
+    {
+      "task_id": "n00100-SC-s048",
+      "class_label": "SC",
+      "family": "s048",
+      "task_index": 146,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s048.kp",
+      "git_blob_sha1": "b80ec49f662d2d2bd924f19970b2dfc9dde0c313",
+      "source_bytes": 808
+    },
+    {
+      "task_id": "n00100-UC-s049",
+      "class_label": "UC",
+      "family": "s049",
+      "task_index": 147,
+      "source_path": "00Uncorrelated/n00100/R01000/s049.kp",
+      "git_blob_sha1": "57dc72cb24b6562c2e9242d2d832681ac0ecc740",
+      "source_bytes": 789
+    },
+    {
+      "task_id": "n00100-WC-s049",
+      "class_label": "WC",
+      "family": "s049",
+      "task_index": 148,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s049.kp",
+      "git_blob_sha1": "208c3066612c23f877123986cf5ee467f4d294a3",
+      "source_bytes": 797
+    },
+    {
+      "task_id": "n00100-SC-s049",
+      "class_label": "SC",
+      "family": "s049",
+      "task_index": 149,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s049.kp",
+      "git_blob_sha1": "ad3aac56090b6fcad4042933ae90933c90c1b073",
+      "source_bytes": 814
+    },
+    {
+      "task_id": "n00100-UC-s050",
+      "class_label": "UC",
+      "family": "s050",
+      "task_index": 150,
+      "source_path": "00Uncorrelated/n00100/R01000/s050.kp",
+      "git_blob_sha1": "36db8ecf711960d81da2f3a96a0203676a9606c3",
+      "source_bytes": 785
+    },
+    {
+      "task_id": "n00100-WC-s050",
+      "class_label": "WC",
+      "family": "s050",
+      "task_index": 151,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s050.kp",
+      "git_blob_sha1": "09852484df4451876fb006c8c6b1f85519816275",
+      "source_bytes": 788
+    },
+    {
+      "task_id": "n00100-SC-s050",
+      "class_label": "SC",
+      "family": "s050",
+      "task_index": 152,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s050.kp",
+      "git_blob_sha1": "27a423d342b52faf1f19339c99a388219ea4bd2e",
+      "source_bytes": 810
+    },
+    {
+      "task_id": "n00100-UC-s051",
+      "class_label": "UC",
+      "family": "s051",
+      "task_index": 153,
+      "source_path": "00Uncorrelated/n00100/R01000/s051.kp",
+      "git_blob_sha1": "4bbbe26fd4ca65e4abd863e2cb53dc8266033c01",
+      "source_bytes": 792
+    },
+    {
+      "task_id": "n00100-WC-s051",
+      "class_label": "WC",
+      "family": "s051",
+      "task_index": 154,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s051.kp",
+      "git_blob_sha1": "f2f9953b49d43577bf46f5d4403758cc34bfd4d6",
+      "source_bytes": 800
+    },
+    {
+      "task_id": "n00100-SC-s051",
+      "class_label": "SC",
+      "family": "s051",
+      "task_index": 155,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s051.kp",
+      "git_blob_sha1": "9c717d7bc657cd5f0d3547b1df8279d3a5c068b3",
+      "source_bytes": 823
+    },
+    {
+      "task_id": "n00100-UC-s052",
+      "class_label": "UC",
+      "family": "s052",
+      "task_index": 156,
+      "source_path": "00Uncorrelated/n00100/R01000/s052.kp",
+      "git_blob_sha1": "e45229639c381fb41b53738f5c88a66e120cae71",
+      "source_bytes": 792
+    },
+    {
+      "task_id": "n00100-WC-s052",
+      "class_label": "WC",
+      "family": "s052",
+      "task_index": 157,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s052.kp",
+      "git_blob_sha1": "500c3cc19a5b13a8bb9c1ea9990d904d57bdf374",
+      "source_bytes": 790
+    },
+    {
+      "task_id": "n00100-SC-s052",
+      "class_label": "SC",
+      "family": "s052",
+      "task_index": 158,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s052.kp",
+      "git_blob_sha1": "78b6e23b987683d202c32f56273c1d735e8ab3ba",
+      "source_bytes": 809
+    },
+    {
+      "task_id": "n00100-UC-s053",
+      "class_label": "UC",
+      "family": "s053",
+      "task_index": 159,
+      "source_path": "00Uncorrelated/n00100/R01000/s053.kp",
+      "git_blob_sha1": "75d3b947a63fbbce36f6e7a18ff06a61096c92f5",
+      "source_bytes": 795
+    },
+    {
+      "task_id": "n00100-WC-s053",
+      "class_label": "WC",
+      "family": "s053",
+      "task_index": 160,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s053.kp",
+      "git_blob_sha1": "ffac0f9562282c337a62a3b3e4325bbea156c872",
+      "source_bytes": 802
+    },
+    {
+      "task_id": "n00100-SC-s053",
+      "class_label": "SC",
+      "family": "s053",
+      "task_index": 161,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s053.kp",
+      "git_blob_sha1": "d60c586ac4e41b75b5bae026596be9968b07a6bf",
+      "source_bytes": 815
+    },
+    {
+      "task_id": "n00100-UC-s054",
+      "class_label": "UC",
+      "family": "s054",
+      "task_index": 162,
+      "source_path": "00Uncorrelated/n00100/R01000/s054.kp",
+      "git_blob_sha1": "68725bf0fada12390b279f666da31db888ae028c",
+      "source_bytes": 794
+    },
+    {
+      "task_id": "n00100-WC-s054",
+      "class_label": "WC",
+      "family": "s054",
+      "task_index": 163,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s054.kp",
+      "git_blob_sha1": "010ef007cabeb51282745f209d9641c861a4fd35",
+      "source_bytes": 798
+    },
+    {
+      "task_id": "n00100-SC-s054",
+      "class_label": "SC",
+      "family": "s054",
+      "task_index": 164,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s054.kp",
+      "git_blob_sha1": "dc2890922e82025135681b06fc302216ab9316f9",
+      "source_bytes": 817
+    },
+    {
+      "task_id": "n00100-UC-s055",
+      "class_label": "UC",
+      "family": "s055",
+      "task_index": 165,
+      "source_path": "00Uncorrelated/n00100/R01000/s055.kp",
+      "git_blob_sha1": "ef48948a450a1941fbd98938701848f62c011721",
+      "source_bytes": 794
+    },
+    {
+      "task_id": "n00100-WC-s055",
+      "class_label": "WC",
+      "family": "s055",
+      "task_index": 166,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s055.kp",
+      "git_blob_sha1": "3f65a34662582f2e664b7598d185769c814b3209",
+      "source_bytes": 802
+    },
+    {
+      "task_id": "n00100-SC-s055",
+      "class_label": "SC",
+      "family": "s055",
+      "task_index": 167,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s055.kp",
+      "git_blob_sha1": "f452c1b242b688cb123522224120498a992fc84d",
+      "source_bytes": 813
+    },
+    {
+      "task_id": "n00100-UC-s056",
+      "class_label": "UC",
+      "family": "s056",
+      "task_index": 168,
+      "source_path": "00Uncorrelated/n00100/R01000/s056.kp",
+      "git_blob_sha1": "4aad939e513f26aa2ddc4d2dcdafe2208acedbe0",
+      "source_bytes": 789
+    },
+    {
+      "task_id": "n00100-WC-s056",
+      "class_label": "WC",
+      "family": "s056",
+      "task_index": 169,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s056.kp",
+      "git_blob_sha1": "35ed4e67e32673e2d697fe8948a637a36299d780",
+      "source_bytes": 784
+    },
+    {
+      "task_id": "n00100-SC-s056",
+      "class_label": "SC",
+      "family": "s056",
+      "task_index": 170,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s056.kp",
+      "git_blob_sha1": "736fdb5d00cee6bace48a6360cf5ac4629001791",
+      "source_bytes": 805
+    },
+    {
+      "task_id": "n00100-UC-s057",
+      "class_label": "UC",
+      "family": "s057",
+      "task_index": 171,
+      "source_path": "00Uncorrelated/n00100/R01000/s057.kp",
+      "git_blob_sha1": "840d3758c15e7b6bfe9c45a864281c3d597077b8",
+      "source_bytes": 792
+    },
+    {
+      "task_id": "n00100-WC-s057",
+      "class_label": "WC",
+      "family": "s057",
+      "task_index": 172,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s057.kp",
+      "git_blob_sha1": "20310bbd0a48f71e8fbaf149502f1e4b6b880928",
+      "source_bytes": 793
+    },
+    {
+      "task_id": "n00100-SC-s057",
+      "class_label": "SC",
+      "family": "s057",
+      "task_index": 173,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s057.kp",
+      "git_blob_sha1": "0abccfc4ed82000b1b902b5f71475c62a2adb154",
+      "source_bytes": 813
+    },
+    {
+      "task_id": "n00100-UC-s058",
+      "class_label": "UC",
+      "family": "s058",
+      "task_index": 174,
+      "source_path": "00Uncorrelated/n00100/R01000/s058.kp",
+      "git_blob_sha1": "e947410644bcf8f62731999d43dbaae5048354b5",
+      "source_bytes": 795
+    },
+    {
+      "task_id": "n00100-WC-s058",
+      "class_label": "WC",
+      "family": "s058",
+      "task_index": 175,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s058.kp",
+      "git_blob_sha1": "027a0c92d86a9717b29b7313393dbbe91d066382",
+      "source_bytes": 794
+    },
+    {
+      "task_id": "n00100-SC-s058",
+      "class_label": "SC",
+      "family": "s058",
+      "task_index": 176,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s058.kp",
+      "git_blob_sha1": "3fa53d2043485b9e71e4253d701dcba07fcdeb19",
+      "source_bytes": 813
+    },
+    {
+      "task_id": "n00100-UC-s059",
+      "class_label": "UC",
+      "family": "s059",
+      "task_index": 177,
+      "source_path": "00Uncorrelated/n00100/R01000/s059.kp",
+      "git_blob_sha1": "8c5556b5da8d8843d4b7de24965817d9a033ac2d",
+      "source_bytes": 790
+    },
+    {
+      "task_id": "n00100-WC-s059",
+      "class_label": "WC",
+      "family": "s059",
+      "task_index": 178,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s059.kp",
+      "git_blob_sha1": "5d5aee94637dadb9ffbdf3dab7202482ae4c3f3e",
+      "source_bytes": 791
+    },
+    {
+      "task_id": "n00100-SC-s059",
+      "class_label": "SC",
+      "family": "s059",
+      "task_index": 179,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s059.kp",
+      "git_blob_sha1": "ba4bade97d2f1c6ebdd59207d0d9989bc5bc947e",
+      "source_bytes": 812
+    }
+  ],
+  "holdout_audit": {
+    "ga_results_found": false,
+    "basis": "Targeted local compact/record/summary/ledger identity and result filename inspection found no n00100 s060-s069 search results; CI repeats evidence inventory and duplicate checks. This does not exclude unknown external executions.",
+    "historical_task_identity_count": 180
+  },
+  "data_license": {
+    "identifier": "CC-BY-4.0",
+    "status": "RECHECK_PINNED_README_IN_CI"
+  }
+}

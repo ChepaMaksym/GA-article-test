@@ -1,0 +1,119 @@
+{
+  "schema": "calibrated-selection-protocol-v1",
+  "date": "2026-11-12",
+  "status": "TECHNICAL_READY_NOT_EXECUTED",
+  "configuration_contract": "calibrated-selection-v1",
+  "item_counts": [
+    100,
+    500
+  ],
+  "profiles": [
+    "k2",
+    "k3",
+    "adaptive"
+  ],
+  "total_evaluations_including_initial": 100000,
+  "baseline": {
+    "100": {
+      "target_mu": 15,
+      "p_c": 1.0,
+      "p_m": 0.01,
+      "elite_count": 1
+    },
+    "500": {
+      "target_mu": 20,
+      "p_c": 0.9,
+      "p_m": 0.002,
+      "elite_count": 1
+    }
+  },
+  "common_control": {
+    "target_mu": 20,
+    "p_c": 0.9,
+    "mutation": "1/n",
+    "tournament_size": 2,
+    "elite_count": 1,
+    "n500_alias": "k2"
+  },
+  "controller": {
+    "initial_k": 2,
+    "bounds": [
+      2,
+      5
+    ],
+    "strict_success_step": 1,
+    "failed_offspring_threshold": 145,
+    "stagnation_step": -1,
+    "reset_on_success_or_stagnation": true,
+    "partial_generation_update": false
+  },
+  "source_commit": "c5bea0df8169749caaba5ce7dfcf21437aa1ca5c",
+  "families": [
+    70,
+    71,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79
+  ],
+  "preparation_seed": 181000,
+  "search_seeds": [
+    181001
+  ],
+  "statistical_seed": 181031,
+  "primary_endpoints": [
+    "gap_at_100000",
+    "restricted_T93"
+  ],
+  "primary_contrasts": 0,
+  "bootstrap_family_samples": 0,
+  "nominal_interval_level": null,
+  "checkpoints": [
+    5000,
+    10000,
+    20000,
+    50000,
+    100000
+  ],
+  "targets": [
+    93,
+    95,
+    99
+  ],
+  "physical_main_cases": 210,
+  "pilot": {
+    "physical_cases": 21,
+    "seed": 180999,
+    "preparation_seed": 180998,
+    "total_evaluations": 100000
+  },
+  "compatibility": {
+    "physical_cases": 6,
+    "seed": 110001,
+    "start_index": 1,
+    "new_evaluations": 5000,
+    "initial_evaluations": 30
+  },
+  "resources": {
+    "technical_requested_minutes": 60,
+    "technical_requested_bytes": 2147483648,
+    "technical_authorized": true,
+    "main_authorized": false,
+    "historical_budgets_inherited": false,
+    "parallel_vms": 4,
+    "workers_per_vm": 2,
+    "host_cpu_fraction": 0.5,
+    "host_ram_fraction": 0.5,
+    "sum_job_timeout_minutes": 55
+  },
+  "descriptive_contrasts": 8,
+  "analysis_scope": "exploratory_one_repeat_per_task_no_new_significance_tests",
+  "execution_policy": "READY_FOR_TECHNICAL_RUN",
+  "amendment": "AMENDMENT_01.md",
+  "resumption_instruction": "User: зроби запуски та онови док",
+  "runtime_image": "python@sha256:392307d22300de8b5986851a12d9176dfc0fc073e65bf6523ebd7dcbeb23564e"
+}

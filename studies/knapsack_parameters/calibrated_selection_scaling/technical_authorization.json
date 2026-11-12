@@ -1,0 +1,14 @@
+{
+  "stage": "technical",
+  "status": "AUTHORIZED",
+  "requested_runner_minutes": 60,
+  "requested_artifact_bytes": 2147483648,
+  "historical_budgets_inherited": false,
+  "main_authorized": false,
+  "permission_source": "Explicit user reply: Погоджую технічний етап до 60 хвилин і 2 GiB",
+  "runner_minutes": 60,
+  "artifact_bytes": 2147483648,
+  "execution_state": "READY_FOR_SINGLE_TECHNICAL_RUN",
+  "used_runner_minutes": 0,
+  "resumption_instruction": "User: зроби запуски та онови док"
+}

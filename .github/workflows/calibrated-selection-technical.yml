@@ -1,0 +1,190 @@
+name: Calibrated selection technical stage
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [research/calibrated-selection-technical-20261112]
+    paths:
+      - '.github/workflows/calibrated-selection-technical.yml'
+      - 'studies/knapsack_parameters/calibrated_selection_scaling/**'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: calibrated-selection-technical
+  cancel-in-progress: false
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+  PYTHONHASHSEED: '0'
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  NUMEXPR_NUM_THREADS: '1'
+  MPLBACKEND: Agg
+  MODULE: studies.knapsack_parameters.calibrated_selection_scaling
+  LOCK: studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+  RUNTIME_IMAGE: python@sha256:392307d22300de8b5986851a12d9176dfc0fc073e65bf6523ebd7dcbeb23564e
+
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      image: ${{ steps.image.outputs.digest }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Check separate permission before acquiring the runtime
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python3 -m "$MODULE.admission" --output stage/meta/admission.json
+      - name: Freeze the Python image before numerical work
+        id: image
+        shell: bash
+        run: |
+          mkdir -p stage/meta
+          docker pull "$RUNTIME_IMAGE"
+          image="$RUNTIME_IMAGE"
+          [[ "$image" == *@sha256:* ]]
+          printf 'digest=%s\n' "$image" >> "$GITHUB_OUTPUT"
+          printf '%s\n' "$image" > stage/meta/runtime-image.txt
+      - name: Enclosed tests and input preparation
+        shell: bash
+        env:
+          IMAGE: ${{ steps.image.outputs.digest }}
+        run: |
+          python3 -m "$MODULE.resources" launch --workspace "$GITHUB_WORKSPACE" --image "$IMAGE" -- sh -ec '
+            python -m pip install --disable-pip-version-check --require-hashes -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+            python -m studies.knapsack_parameters.calibrated_selection_scaling.checks --output stage/meta/tests.json
+            python -m studies.knapsack_parameters.calibrated_selection_scaling.preparation --stage technical --output stage/inputs
+          '
+      - name: Preserve inputs and partial preparation evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: calibrated-technical-inputs
+          path: stage/inputs/
+          if-no-files-found: warn
+          retention-days: 90
+          compression-level: 6
+      - name: Preserve checks and runtime identity
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: calibrated-technical-meta
+          path: stage/meta/
+          if-no-files-found: warn
+          retention-days: 90
+
+  pilot:
+    needs: prepare
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        n: [100, 500]
+        class: [UC, WC, SC]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: calibrated-technical-inputs
+          path: stage/inputs
+      - name: Enclosed calibrated pilot shard
+        shell: bash
+        env:
+          IMAGE: ${{ needs.prepare.outputs.image }}
+          DIMENSION: ${{ matrix.n }}
+          CLASS_LABEL: ${{ matrix.class }}
+        run: |
+          python3 -m "$MODULE.resources" launch --workspace "$GITHUB_WORKSPACE" --image "$IMAGE" -- sh -ec '
+            python -m pip install --disable-pip-version-check --require-hashes -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+            python -m studies.knapsack_parameters.calibrated_selection_scaling.execution --stage technical --inputs stage/inputs --output stage/pilot --n "$1" --class-label "$2" --workers 2
+          ' sh "$DIMENSION" "$CLASS_LABEL"
+      - name: Preserve every completed case and failure
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: calibrated-pilot-${{ matrix.n }}-${{ matrix.class }}
+          path: stage/pilot/
+          if-no-files-found: warn
+          retention-days: 90
+          compression-level: 0
+
+  compatibility:
+    needs: [prepare, pilot]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Enclosed retained-log comparisons
+        shell: bash
+        env:
+          IMAGE: ${{ needs.prepare.outputs.image }}
+        run: |
+          python3 -m "$MODULE.resources" launch --workspace "$GITHUB_WORKSPACE" --image "$IMAGE" -- sh -ec '
+            python -m pip install --disable-pip-version-check --require-hashes -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+            python -m studies.knapsack_parameters.calibrated_selection_scaling.compatibility --output stage/compatibility
+          '
+      - name: Preserve comparisons and raw journals
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: calibrated-technical-compatibility
+          path: stage/compatibility/
+          if-no-files-found: warn
+          retention-days: 90
+          compression-level: 0
+
+  summary:
+    needs: [prepare, pilot, compatibility]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          pattern: calibrated-pilot-*
+          path: stage/pilots
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: calibrated-technical-meta
+          path: stage/meta
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: calibrated-technical-compatibility
+          path: stage/compatibility
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: calibrated-technical-inputs
+          path: stage/inputs
+      - name: Enclosed coverage check and measured estimate
+        shell: bash
+        env:
+          IMAGE: ${{ needs.prepare.outputs.image }}
+        run: |
+          python3 -m "$MODULE.resources" launch --workspace "$GITHUB_WORKSPACE" --image "$IMAGE" -- sh -ec '
+            python -m pip install --disable-pip-version-check --require-hashes -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+            python -m studies.knapsack_parameters.calibrated_selection_scaling.pilot_summary --pilot-root stage/pilots --meta-root stage/meta --compatibility-root stage/compatibility --inputs-root stage/inputs --output stage/summary
+          '
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: calibrated-technical-summary
+          path: stage/summary/
+          if-no-files-found: warn
+          retention-days: 90

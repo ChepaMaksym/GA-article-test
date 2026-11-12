@@ -1,0 +1,29 @@
+{
+  "scope": "selected retained compact summaries and input registries; immutable full pinned historical corpus audited separately in CI",
+  "files": [
+    {
+      "origin_path": "Магістерська_рюкзак/Частина_3/Мутація_та_базові_параметри/Підбір_результати/Дані_CI/validated_records.json.gz",
+      "copy": "0-validated_records.json.gz",
+      "bytes": 2406210,
+      "sha256": "70adbcca7b27e645f8a01b7f8662358d62c347bf02a4edb825996ebf62a1af32"
+    },
+    {
+      "origin_path": "Магістерська_рюкзак/Частина_3/Початкові_параметри_100/Підбір_результати/validated_records.json.gz",
+      "copy": "1-validated_records.json.gz",
+      "bytes": 1251098,
+      "sha256": "738ce80252bc6274ec9a74209578c759f4f5754471202e271bebf69456af6414"
+    },
+    {
+      "origin_path": "GA-diversity-crossover/studies/knapsack_parameters/initial_grid_100/data/source_registry.json",
+      "copy": "initial_grid_100/source_registry.json",
+      "bytes": 60571,
+      "sha256": "bd7f03776abc33e63ca03b388c8f7f660124f199bbcf01d0ca791a462d212e8d"
+    },
+    {
+      "origin_path": "GA-diversity-crossover/studies/knapsack_parameters/mutation_grid_100/data/retained_registry.json",
+      "copy": "3-retained_registry.json",
+      "bytes": 4339,
+      "sha256": "0f459d11d468eb540bf9648c61e408bcabec4790e9a746a8b06e94857fbe22df"
+    }
+  ]
+}
