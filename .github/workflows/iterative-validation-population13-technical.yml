@@ -235,7 +235,7 @@ jobs:
                      "artifact_cap_bytes": authorization["artifact_bytes"], "timeout_ceiling_runner_minutes": 30,
                      "job_times_status": "PROVISIONAL_WHILE_CONSOLIDATE_RUNNING", "final_job_times": False,
                      "final_runner_receipt_required_after_workflow_completion": True,
-                     "temporary_source_archive_bytes": 488348437, "full_source_archives_uploaded": False,
+                     "temporary_source_archive_bytes": 491214252, "full_source_archives_uploaded": False,
                      "artifacts": [{key: entry.get(key) for key in ("id", "name", "size_in_bytes", "digest", "expired")} for entry in artifacts["artifacts"]],
                      "jobs": [{key: entry.get(key) for key in ("id", "name", "status", "conclusion", "started_at", "completed_at")} for entry in jobs["jobs"]]}
           output = pathlib.Path("stage/summary")
