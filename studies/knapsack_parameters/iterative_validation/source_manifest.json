@@ -1,0 +1,114 @@
+{
+  "schema": "iterative-validation-source-manifest-v1",
+  "registered_date": "2026-11-17",
+  "status": "AUTHORIZED_AWAITING_CI",
+  "resource_authorization_excluded_from_seal": true,
+  "manifest_excludes_itself": true,
+  "files": [
+    {
+      "path": ".github/workflows/iterative-validation.yml",
+      "bytes": 3182,
+      "sha256": "4ef89a52e202ad3de63b36172e89ded6e3f93818fec2a19c6383ff19e5630fd3"
+    },
+    {
+      "path": "studies/knapsack_parameters/ga_study/dependencies/requirements.lock",
+      "bytes": 1116,
+      "sha256": "6818e0e12843daa10947f7554cb3edd573d9f7cdbc33e63f98f9f3a068869017"
+    },
+    {
+      "path": "studies/knapsack_parameters/iterative_validation/__init__.py",
+      "bytes": 152,
+      "sha256": "7937e10341f0250466b220d7a76ba94415003330ef5fee7921f9f5a2a82666ac"
+    },
+    {
+      "path": "studies/knapsack_parameters/iterative_validation/admission.py",
+      "bytes": 8925,
+      "sha256": "e9419f7c9d502fab4c729068f7197d6d73167fb03e6ea70c9945f3f94e10e5e1"
+    },
+    {
+      "path": "studies/knapsack_parameters/iterative_validation/analysis.py",
+      "bytes": 32683,
+      "sha256": "73933215fd075f23a0b8f44f9665a8208882e67fbdec09bfc524a8f2d630e7a9"
+    },
+    {
+      "path": "studies/knapsack_parameters/iterative_validation/data/all-configurations.csv",
+      "bytes": 8135,
+      "sha256": "d48cce39f7e4a7d28a17f4ac5565361c94b4006cd97a91099ad3c1a183c7e41b"
+    },
+    {
+      "path": "studies/knapsack_parameters/iterative_validation/data/historical_findings/parameter_dynamics_results.md",
+      "bytes": 4726,
+      "sha256": "3ace39eda9e0da4239d09b6109eeb5f03fdb03d6c66d76014fe30fc4f3af154a"
+    },
+    {
+      "path": "studies/knapsack_parameters/iterative_validation/data/historical_findings/tournament_feedback_results.md",
+      "bytes": 8373,
+      "sha256": "152e6e826f5ca719db568b42aa54c8e6395057fb764c795832ace8a94fb471f8"
+    },
+    {
+      "path": "studies/knapsack_parameters/iterative_validation/data/selection.json",
+      "bytes": 1049,
+      "sha256": "d913102c6eb6aaf1f3897b079526c148aef9d846f13f97d55c9d9863ea486f1a"
+    },
+    {
+      "path": "studies/knapsack_parameters/iterative_validation/data/validated_records.json.gz",
+      "bytes": 2406210,
+      "sha256": "70adbcca7b27e645f8a01b7f8662358d62c347bf02a4edb825996ebf62a1af32"
+    },
+    {
+      "path": "studies/knapsack_parameters/iterative_validation/EXECUTION_UK.md",
+      "bytes": 6724,
+      "sha256": "248cd32f61603bf182eb5c07829b5ef9f5ddf83743ee0c416c5f2d0d30c08468"
+    },
+    {
+      "path": "studies/knapsack_parameters/iterative_validation/historical_source_manifest.json",
+      "bytes": 21180,
+      "sha256": "7eb96d95011afd2bf1d70596c59bcd4b4cf22e35ffb390f7453c04548e273cd4"
+    },
+    {
+      "path": "studies/knapsack_parameters/iterative_validation/literature/source_registry.json",
+      "bytes": 11805,
+      "sha256": "27833ab36cd7c094c340e2a163a0d5de6e6c5bca0672b9c3ad3e5921c0a397df"
+    },
+    {
+      "path": "studies/knapsack_parameters/iterative_validation/literature/КОМІСІЯ_ПЕРЕД_ЗАПУСКОМ.md",
+      "bytes": 12550,
+      "sha256": "537c6a0935a686b6d83b2b3e82c2badaeaf41d3945698474ed363dd48d20bdb0"
+    },
+    {
+      "path": "studies/knapsack_parameters/iterative_validation/literature/НАУКОВИЙ_ВНЕСОК_UK.md",
+      "bytes": 13304,
+      "sha256": "de123826a53cee53b8d3f2a617294e32702e38cf78a3c1a898cb7d741c2e139a"
+    },
+    {
+      "path": "studies/knapsack_parameters/iterative_validation/literature/ПОРІВНЯННЯ_ЛІТЕРАТУРИ_UK.md",
+      "bytes": 13783,
+      "sha256": "84eb455b8a54e64d6c8b3b7ce76c95655e6cfc2683ed88d52e551ff7977ecc9a"
+    },
+    {
+      "path": "studies/knapsack_parameters/iterative_validation/protocol.json",
+      "bytes": 4694,
+      "sha256": "652795bd02590e1beb52f61976bcff7b737c37fec24fb2783745d26ff51f5a7d"
+    },
+    {
+      "path": "studies/knapsack_parameters/iterative_validation/PROTOCOL_UK.md",
+      "bytes": 16471,
+      "sha256": "683448344c363b8553c9eaf58a48ca90a72e6f427627e502e89714cae1a97bf3"
+    },
+    {
+      "path": "studies/knapsack_parameters/iterative_validation/README_UK.md",
+      "bytes": 4456,
+      "sha256": "ffa5e9840cae17db5552bfe734c61e094a4a7abc0203580543b1bb3a8c32e121"
+    },
+    {
+      "path": "studies/knapsack_parameters/iterative_validation/report.py",
+      "bytes": 24733,
+      "sha256": "1940d5cb0e730757c098828e57d90477b98cacd33d5a7eecf85a9b2e9a66ffaf"
+    },
+    {
+      "path": "studies/knapsack_parameters/iterative_validation/test_analysis.py",
+      "bytes": 15440,
+      "sha256": "7fc9d2733c182c3fb61cd436d7815e22c0dc309cfba79d5f57a5f24629ed427d"
+    }
+  ]
+}

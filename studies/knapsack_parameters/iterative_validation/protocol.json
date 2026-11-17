@@ -1,0 +1,184 @@
+{
+  "schema": "iterative-validation-protocol-v1",
+  "registered_date": "2026-11-17",
+  "phase": "first_analysis",
+  "status": "AUTHORIZED_AWAITING_CI",
+  "primary_endpoint": "family_weighted_final_gap_after_100000_total_evaluations",
+  "secondary_targets": [
+    93,
+    95,
+    99
+  ],
+  "source": {
+    "schema": "mutation-grid-100-validated-union-v1",
+    "status": "VERIFIED_2790",
+    "sha256": "70adbcca7b27e645f8a01b7f8662358d62c347bf02a4edb825996ebf62a1af32",
+    "unique_configurations": 31,
+    "runs": 2790,
+    "runs_per_configuration": 90,
+    "item_count": 100,
+    "families": [
+      "s050",
+      "s051",
+      "s052",
+      "s053",
+      "s054",
+      "s055",
+      "s056",
+      "s057",
+      "s058",
+      "s059"
+    ],
+    "types": [
+      "UC",
+      "WC",
+      "SC"
+    ],
+    "seeds": [
+      150001,
+      150002,
+      150003
+    ]
+  },
+  "selected_configurations": [
+    {
+      "mu": 10,
+      "pc_percentage": 90,
+      "mutation_basis_points": 100
+    },
+    {
+      "mu": 15,
+      "pc_percentage": 90,
+      "mutation_basis_points": 100
+    },
+    {
+      "mu": 15,
+      "pc_percentage": 100,
+      "mutation_basis_points": 100
+    },
+    {
+      "mu": 20,
+      "pc_percentage": 90,
+      "mutation_basis_points": 100
+    }
+  ],
+  "focused_pair": {
+    "a": {
+      "mu": 10,
+      "pc_percentage": 90,
+      "mutation_basis_points": 100
+    },
+    "b": {
+      "mu": 15,
+      "pc_percentage": 90,
+      "mutation_basis_points": 100
+    },
+    "effect_direction": "B_minus_A"
+  },
+  "analysis": {
+    "kind": "post_selection_descriptive",
+    "new_ga_runs": 0,
+    "new_search_evaluations": 0,
+    "total_evaluations_include_initial": 100000,
+    "initial_scale": "q=1..mu",
+    "nonattainment_value": 100000,
+    "aggregation": [
+      "repeats",
+      "tasks",
+      "families"
+    ],
+    "equal_family_weights": true,
+    "bootstrap_samples": 0,
+    "new_superiority_tests": false,
+    "equivalence_claims": false,
+    "historical_selection_replaced": false,
+    "gap_serialization_tolerance_percentage_points": 1e-12,
+    "time_serialization_tolerance_evaluations": 1e-09,
+    "leave_one_family_out": "influence_diagnostic_only",
+    "verification_scope": "retained_compact_records_not_new_full_journal_replay",
+    "subphase": "retained_quality_and_speed_diagnostic",
+    "fresh_operator_activity_audit": false,
+    "fresh_bank_content_hashing": false,
+    "fresh_exact_solving": false,
+    "full_phase_one_complete_from_this_report_alone": false
+  },
+  "next_stage": {
+    "name": "population_13",
+    "status": "BLOCKED_UNTIL_FIRST_REPORT_COMMISSION_AND_RESOURCE_APPROVAL",
+    "configuration": {
+      "mu": 13,
+      "pc_percentage": 90,
+      "mutation_basis_points": 100,
+      "tournament_size": 2,
+      "elite_count": 1
+    },
+    "item_count": 100,
+    "total_evaluations_including_initial": 100000,
+    "tasks": "UC/WC/SC s050..s059",
+    "seeds": [
+      150001,
+      150002,
+      150003
+    ],
+    "new_main_runs": 90,
+    "new_main_evaluations": 9000000,
+    "source_banks": "corresponding_existing_thirty_mask_banks_prefix13",
+    "configuration_contract": "population-crossover-v1",
+    "technical": {
+      "tasks": [
+        "n00100-UC-s000",
+        "n00100-WC-s001",
+        "n00100-SC-s005"
+      ],
+      "search_seed": 159999,
+      "preparation_seed": 159998,
+      "pilot_runs": 3,
+      "compatibility": [
+        {
+          "task": "n00100-UC-s050",
+          "mu": 10
+        },
+        {
+          "task": "n00100-WC-s050",
+          "mu": 15
+        },
+        {
+          "task": "n00100-SC-s050",
+          "mu": 20
+        }
+      ],
+      "compatibility_seed": 150001,
+      "compatibility_runs": 3
+    },
+    "combined_grid_after_verified_runs": {
+      "configurations": 32,
+      "records": 2880
+    },
+    "independent_validation": false
+  },
+  "later_stages": [
+    "independent_baseline_validation_after_audit",
+    "feedback_on_confirmed_baseline",
+    "single_trip_single_resource_parcel_selection"
+  ],
+  "execution": {
+    "platform": "GitHub Actions only",
+    "trigger": "workflow_dispatch",
+    "max_parallel": 4,
+    "first_analysis_jobs": 1,
+    "fail_fast": false,
+    "next_stage_automatic_start": false,
+    "main_ga_api_changed": false
+  },
+  "resources_proposal": {
+    "runner_minutes": 20,
+    "workflow_timeout_minutes": 15,
+    "artifact_bytes": 524288000,
+    "inherit_previous_allowances": false
+  },
+  "fixed_environment": {
+    "python": "3.12.14",
+    "numpy": "2.2.6",
+    "matplotlib": "3.10.3"
+  }
+}

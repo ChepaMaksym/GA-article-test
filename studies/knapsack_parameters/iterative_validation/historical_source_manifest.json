@@ -1,0 +1,516 @@
+{
+  "schema": "iterative-validation-historical-source-v1",
+  "purpose": "prove_unchanged_historical_python_sources",
+  "files": [
+    {
+      "path": "studies/knapsack_parameters/parameter_dynamics/__init__.py",
+      "bytes": 78,
+      "sha256": "f1b3c9a396231f61a44c8c1e8d6e30b290e9989914eadc687e89b827380406ce"
+    },
+    {
+      "path": "studies/knapsack_parameters/parameter_dynamics/analysis.py",
+      "bytes": 26179,
+      "sha256": "8355b718c8353991bcb93f464fd78b5e1d8fa132235d2a72cde56c65b5cf1203"
+    },
+    {
+      "path": "studies/knapsack_parameters/parameter_dynamics/authority.py",
+      "bytes": 19622,
+      "sha256": "cad7b57530b5ca5e9adb23cfcb22cb191a2242457169d49781b11214c4638858"
+    },
+    {
+      "path": "studies/knapsack_parameters/parameter_dynamics/banks.py",
+      "bytes": 20495,
+      "sha256": "42a16a3c563798f12e7c7276ca2608b2b2b021865a9adc543b60e43270d8d099"
+    },
+    {
+      "path": "studies/knapsack_parameters/parameter_dynamics/driver.py",
+      "bytes": 17296,
+      "sha256": "b55ae04512daa42ef2d3e748ae20fba4eab1a892937dfdcbed3e5a2ed4275c1b"
+    },
+    {
+      "path": "studies/knapsack_parameters/parameter_dynamics/engine.py",
+      "bytes": 17804,
+      "sha256": "ab02267cae2381564195ccf2b3beb71f28d14a34c19ee9717168a0b438726976"
+    },
+    {
+      "path": "studies/knapsack_parameters/parameter_dynamics/plots.py",
+      "bytes": 10056,
+      "sha256": "ba6a74f1d6a326bd5900d17bd659df38acb8aea181014a35caffe934635c80d6"
+    },
+    {
+      "path": "studies/knapsack_parameters/parameter_dynamics/tests/__init__.py",
+      "bytes": 69,
+      "sha256": "15b4a5e8e4f8dcc15d56b382d400bc15def3ca40d6dfe17e3a58cf00fa422954"
+    },
+    {
+      "path": "studies/knapsack_parameters/parameter_dynamics/tests/test_analysis.py",
+      "bytes": 6155,
+      "sha256": "99329ec990dc8d9bb35e9a1fe4578ffa057f22c575112d84ae04995a4c80c9f7"
+    },
+    {
+      "path": "studies/knapsack_parameters/parameter_dynamics/tests/test_engine.py",
+      "bytes": 20856,
+      "sha256": "97f1bdbff71c196d45a8728c4f470310b469bc9da068353149efb79b46ae70a2"
+    },
+    {
+      "path": "studies/knapsack_parameters/parameter_dynamics/tests/test_infrastructure.py",
+      "bytes": 7137,
+      "sha256": "28f4bf85bda5929f063293581e2f2b4302e18d7618582ac3859c57283561732d"
+    },
+    {
+      "path": "studies/knapsack_parameters/parameter_dynamics/tests/test_verifier.py",
+      "bytes": 20925,
+      "sha256": "f3d0cf3fcba8cd72af6d32f19bb1bb8180efad4fa36a462e3af2eb997ffa2f95"
+    },
+    {
+      "path": "studies/knapsack_parameters/parameter_dynamics/verifier.py",
+      "bytes": 21283,
+      "sha256": "7c9c4a19104202b171df3e26f5cab4a02618ee1e0a13879e3aa3c8173ad3c82a"
+    },
+    {
+      "path": "studies/knapsack_parameters/tournament_feedback/__init__.py",
+      "bytes": 74,
+      "sha256": "39a9a1f36d9dfa36a6ce0038c0c43fde5950fe37e56f03e2824fc701f9693077"
+    },
+    {
+      "path": "studies/knapsack_parameters/tournament_feedback/analysis.py",
+      "bytes": 36994,
+      "sha256": "97e9a7fd861805902b6159f284d670ce7bfe4cded1f6dd27b94d22abfb66a133"
+    },
+    {
+      "path": "studies/knapsack_parameters/tournament_feedback/authority.py",
+      "bytes": 22648,
+      "sha256": "adce4547340570f9ade3da9babaa7f38925144de8f8fd77e0efec02d1dea3007"
+    },
+    {
+      "path": "studies/knapsack_parameters/tournament_feedback/banks.py",
+      "bytes": 14491,
+      "sha256": "9c9fbb77c48e2ba40d20acafd420b1013f11cebecfd7496441eaf45c0f99bffd"
+    },
+    {
+      "path": "studies/knapsack_parameters/tournament_feedback/driver.py",
+      "bytes": 20511,
+      "sha256": "82f44a60c0026fad9434f42ad129c64b569e2a2092f3771fed71f549414dbb2d"
+    },
+    {
+      "path": "studies/knapsack_parameters/tournament_feedback/engine.py",
+      "bytes": 20404,
+      "sha256": "4c6f844174f3fe114785a69343622793193058af80f5c543293dd0b07e7f32f1"
+    },
+    {
+      "path": "studies/knapsack_parameters/tournament_feedback/tests/__init__.py",
+      "bytes": 68,
+      "sha256": "feea5edea1a3eb2c51f71c76c4515b97198cdabcffe359cab41671932628fd12"
+    },
+    {
+      "path": "studies/knapsack_parameters/tournament_feedback/tests/test_analysis.py",
+      "bytes": 10768,
+      "sha256": "a7f5833d63635c0c3430880f1b64b6c80ea263b75e105de7495266191fb8736b"
+    },
+    {
+      "path": "studies/knapsack_parameters/tournament_feedback/tests/test_authority.py",
+      "bytes": 10299,
+      "sha256": "67aefe6f242134d963b67507f93ff5586cedbd19a03704b6f2b8d0155b0d8227"
+    },
+    {
+      "path": "studies/knapsack_parameters/tournament_feedback/tests/test_engine.py",
+      "bytes": 13068,
+      "sha256": "b9322e71a913c11850df7381f34f7773ad00848813b8c60a9310593eac57ed01"
+    },
+    {
+      "path": "studies/knapsack_parameters/tournament_feedback/tests/test_resource_guard.py",
+      "bytes": 6082,
+      "sha256": "2ff653a062be0c19c74a7c0216f26dd735ade383ddfefbd2328f140b440e8471"
+    },
+    {
+      "path": "studies/knapsack_parameters/tournament_feedback/tests/test_verifier.py",
+      "bytes": 9020,
+      "sha256": "fdd93519ca05be38fa1fc1020b71f0c758db4df73b4f63639701f35f15ef6fc4"
+    },
+    {
+      "path": "studies/knapsack_parameters/tournament_feedback/verifier.py",
+      "bytes": 21798,
+      "sha256": "9036584605e9be5d1c4beca13cfe68c4a35ded99337c89d7aa8e00c0789e784e"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/__init__.py",
+      "bytes": 81,
+      "sha256": "d65c763b4a29c2b2d20d63d4564e5483489eb9782e5601328542cbcbbfe55ea5"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/analyze_tuning.py",
+      "bytes": 11887,
+      "sha256": "da6bfc9cfe397c2bf8db677a7340eca2d22c22bf8ef7ccbdb115c0056f11a43f"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/common.py",
+      "bytes": 6729,
+      "sha256": "9099838e735b0badaa1be9fb572aadbe041d2c31de168f6737396bac3b016954"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/forecast.py",
+      "bytes": 5373,
+      "sha256": "b409853fba8fee8e5944691c9698cba8df1587bf4c167d28eb1cd32b65b5e93c"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/pilot.py",
+      "bytes": 9171,
+      "sha256": "5b68f6ec2766e364980a1785ea0c566937d99bf2e29773e649a9f949c14c75f9"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/preparation.py",
+      "bytes": 14168,
+      "sha256": "ca0e4357048b2a4438c3f04110d114be03c1e6a8258b095871f38759663a9efd"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/prepare_tuning.py",
+      "bytes": 8967,
+      "sha256": "2cd005e4be61fbed29d8ff33b2c9a77a02e7fc82321188842dc2ea237b284d65"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/retained.py",
+      "bytes": 3368,
+      "sha256": "56f06da8e25487573d69a505a3c8e10d67fcbe26e3edac29fc0a126329e4a995"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/retained_tuning.py",
+      "bytes": 3369,
+      "sha256": "8485b2930f1f8ecedb7266f48be8b42fa0337c1705c44090b6b1ee8817894dc9"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/run_tuning.py",
+      "bytes": 10089,
+      "sha256": "1813ad84c78d87b3f532560c01b74a097f6e154d2b3289358b8c47d103917ef0"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/seal.py",
+      "bytes": 1676,
+      "sha256": "cdaa36c9a26dafd3653aa8b41a78d2c3f07238b3302288f37aee05d11613b5c5"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/search.py",
+      "bytes": 2898,
+      "sha256": "e1a7031c0a23c6b958ed94916b63b26697822526e6cf75b056c14b69b6b3390e"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/test_preparation.py",
+      "bytes": 2833,
+      "sha256": "ffe8b22cdc64810dee8696e193d1cd4dae6f98cf9ba9bcbad31e708cd1c1971b"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/test_run_tuning.py",
+      "bytes": 5631,
+      "sha256": "0e9f0f5612e546743a40e50ae4d1e0f55f9be8ec04dff09959acf257d6937326"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/test_search.py",
+      "bytes": 6415,
+      "sha256": "d02c17fcd39b8ed0f82ee3f988c97084466fc1517e438c1409ab62083c3006e5"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/test_tuning.py",
+      "bytes": 2216,
+      "sha256": "22532fcf37ea0d61625daae8b2000e31a6f611898ebb4be94c69575695bd00b4"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/__init__.py",
+      "bytes": 84,
+      "sha256": "da2ae8d2c31444501bd3c7a9015a43008a25eafbc73f017a6535c8baa38e266a"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/admit_tuning.py",
+      "bytes": 7526,
+      "sha256": "1a1f582b14d8385b31b86a6aa63adccd8f84b5ea989d6caa42d219499bf7e9e2"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/analysis.py",
+      "bytes": 25461,
+      "sha256": "64405e71e6df7359d0cd56f05d5e9852eebe623417cb25c785fe24eb30f15e36"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/common.py",
+      "bytes": 4395,
+      "sha256": "60cb8c3a27ac5d6303fc831b7becfe70e49b57b91fa3475c2fceb556676fb276"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/forecast.py",
+      "bytes": 5745,
+      "sha256": "2e7cd25a13d4d3aa2294f433f75d24f088889c985cbc89f323b97f89fe1a9b87"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/observations.py",
+      "bytes": 12892,
+      "sha256": "d55c99291ca1f002a734ecbc311ede0e98a68c6741c5fb8f34d36c39d053d398"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/pilot.py",
+      "bytes": 9153,
+      "sha256": "08b03c000d6347e1cb014f715ed0a60cbf2455856a0f8527d43961a6fee75ee4"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/preparation.py",
+      "bytes": 15060,
+      "sha256": "846772f4aadbff75696fb56720e29fbcc5a823a3f710550ed928299bdb0f48ab"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/prepare_tuning.py",
+      "bytes": 6282,
+      "sha256": "cd24b3d5152bfcf10e0bd15f40618f2b5c0a114f52a75cbd92b0260b1440491c"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/program/__init__.py",
+      "bytes": 65,
+      "sha256": "0a969fb4eb640b8d21706770bbc21dd36cc4897c91c867b19ee0c105bfd92990"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/program/ga_core/__init__.py",
+      "bytes": 2697,
+      "sha256": "9b3639ff16277c9f42290845f149d9be796c69758ab0302a58b18e35ac6b7a40"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/program/ga_core/controllers.py",
+      "bytes": 23526,
+      "sha256": "e02cddc66f49cdfac160996e92a71f461b16971b9ed5f16a22033648579ef92b"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/program/ga_core/engine.py",
+      "bytes": 20341,
+      "sha256": "d364e0e9f76b2a2ebc1f98901ce3a79ae54cc388c1809898257b7033efc53b61"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/program/ga_core/monitoring.py",
+      "bytes": 1129,
+      "sha256": "9e65809cdbae8de433ec221c137c9ef23e17ffa8c99ab31fdb5383945cc0efbe"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/program/ga_core/operators.py",
+      "bytes": 7491,
+      "sha256": "980086bba2d2457dc31278b254d6eaca45fc2a06c1721a4a1412f230f597720a"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/program/ga_core/trace.py",
+      "bytes": 459,
+      "sha256": "42b87d9e5907cfdfbd34689edeec66daa9ecf4f03ffe0697f1207c2cd8f5d2e9"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/retained.py",
+      "bytes": 8308,
+      "sha256": "33b85591a37e61a93bc4c9c1b0ad28b4b2881cc6c2b2277b6631d760661ab7b2"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/run_tuning.py",
+      "bytes": 9891,
+      "sha256": "2d35a9880a0da4683237c811f2cdbc24e44cbf119e5f15fa0e04e902e2b821f3"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/seal.py",
+      "bytes": 1814,
+      "sha256": "c15ac52f6684b3ac59bae86b93b2162ceb40cae2382829efecbf5b74a88ae983"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/search.py",
+      "bytes": 2001,
+      "sha256": "4db89265ba4533fedf317c5ec5a89024039057483a9ac6b0d17855c374a17259"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/tests/__init__.py",
+      "bytes": 69,
+      "sha256": "7d40a110ad8249441b38cfd670f97f307501479007535c4af6f90fd32292d5d2"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/tests/test_admission.py",
+      "bytes": 4805,
+      "sha256": "435f44e578ba843dde844adae70ea7ce4fdddfdd615e957b0bb20e3ebfb4733c"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/tests/test_analysis.py",
+      "bytes": 6079,
+      "sha256": "a61d1fa7308ee69defd31eb671af5b198c722c6ed05c63c55641c6dec242a7ab"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/tests/test_core.py",
+      "bytes": 13225,
+      "sha256": "1404ea4b89a0d8db8d4c7856fcbaf3170c0cf95c58cc1313433023539cda8154"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/tests/test_preparation.py",
+      "bytes": 4231,
+      "sha256": "916fd7d15cbc45fbce95d8c2220cac09d48ebafe1ef06f58739053cf9f7f4918"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/tests/test_tuning_persistence.py",
+      "bytes": 4463,
+      "sha256": "ff497dc4efde03fb5e5ad96c5883c0f515fb074fc58c3abcea30719f14fb1dcb"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/tests/test_tuning_plan.py",
+      "bytes": 1705,
+      "sha256": "bf655248bc32fe099ca1bccb3731a2715dac6855938875de3ff8521946bf8a37"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/validation/__init__.py",
+      "bytes": 79,
+      "sha256": "ccc95a23a96f49a5e5630969611c4799dde32e8f353332a81ef18e318480434e"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/validation/preparation.py",
+      "bytes": 10723,
+      "sha256": "8cbf843a0ad3160330885d64fa7c394f3d83a9a0538c75dc1ca61b3931605178"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/validation/search.py",
+      "bytes": 2043,
+      "sha256": "b64828743a42f92d5feca5858841bdd52a502a700ff2d64bc244137f7a3e0d23"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/verification.py",
+      "bytes": 21988,
+      "sha256": "be988254f0c9e048740aa7ba74f469d099b885a20029384bfad4885232ec88ee"
+    },
+    {
+      "path": "studies/knapsack_parameters/calibrated_selection_scaling/__init__.py",
+      "bytes": 83,
+      "sha256": "6c7ac0d1ab2dc548df2a96de786671c6fa43bed9ccc5e1c86aab844e7adc9834"
+    },
+    {
+      "path": "studies/knapsack_parameters/calibrated_selection_scaling/admission.py",
+      "bytes": 3380,
+      "sha256": "d829c5a7c86ca2ec333c9c4f189408af4b876ec740003c4a175c89ce2053d2d1"
+    },
+    {
+      "path": "studies/knapsack_parameters/calibrated_selection_scaling/checks.py",
+      "bytes": 1445,
+      "sha256": "fb500a803e808ee403248b0183e9ee9ad218412a9bf82be04b251550dde6197b"
+    },
+    {
+      "path": "studies/knapsack_parameters/calibrated_selection_scaling/common.py",
+      "bytes": 5730,
+      "sha256": "6cec10ba6d5e92231c3e525ed823b8509f85e1d0017f04198867bad7001de085"
+    },
+    {
+      "path": "studies/knapsack_parameters/calibrated_selection_scaling/compatibility.py",
+      "bytes": 4252,
+      "sha256": "0715605b41a51c490de1ea88986133ae1adc90b840a2dcfc7d82c9a39f80c9ad"
+    },
+    {
+      "path": "studies/knapsack_parameters/calibrated_selection_scaling/configuration.py",
+      "bytes": 4565,
+      "sha256": "b5b4c3505f548dae0f998d33cc9b59846927435d490d7b573dc6bd56173156d4"
+    },
+    {
+      "path": "studies/knapsack_parameters/calibrated_selection_scaling/execution.py",
+      "bytes": 18260,
+      "sha256": "11d06c6029808e0018a1ccf338748239b758f93476c8c100413d36483fd26c00"
+    },
+    {
+      "path": "studies/knapsack_parameters/calibrated_selection_scaling/observations.py",
+      "bytes": 12023,
+      "sha256": "66aba4c954eeb522daac52a92aa912c7a0cfa07b4a3f49f582c188aa5a49cfb7"
+    },
+    {
+      "path": "studies/knapsack_parameters/calibrated_selection_scaling/pilot_summary.py",
+      "bytes": 7981,
+      "sha256": "2f7e529c4fa027817d5c29420d559157f02bd31d6d016695e9a16044501bcb95"
+    },
+    {
+      "path": "studies/knapsack_parameters/calibrated_selection_scaling/preparation.py",
+      "bytes": 31415,
+      "sha256": "03619ca9ebb757e66f493cb6691b8026694dcff1c776e937e06ba801b1a57536"
+    },
+    {
+      "path": "studies/knapsack_parameters/calibrated_selection_scaling/program/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "studies/knapsack_parameters/calibrated_selection_scaling/program/ga_core/__init__.py",
+      "bytes": 3002,
+      "sha256": "d6c864c5a601aea093cb78c07ae7a788d554f352587e71b813c643dc108f1e02"
+    },
+    {
+      "path": "studies/knapsack_parameters/calibrated_selection_scaling/program/ga_core/controllers.py",
+      "bytes": 28159,
+      "sha256": "7a3b731f650a2f8cf9067f71217bfacd3dc27be2e9f2583a46fff1dedbce67a8"
+    },
+    {
+      "path": "studies/knapsack_parameters/calibrated_selection_scaling/program/ga_core/engine.py",
+      "bytes": 21669,
+      "sha256": "d3ffd92924b0db5eb7885e1dff9809a910c896a64b63d41a8c9071143d99ff0e"
+    },
+    {
+      "path": "studies/knapsack_parameters/calibrated_selection_scaling/program/ga_core/monitoring.py",
+      "bytes": 1129,
+      "sha256": "9e65809cdbae8de433ec221c137c9ef23e17ffa8c99ab31fdb5383945cc0efbe"
+    },
+    {
+      "path": "studies/knapsack_parameters/calibrated_selection_scaling/program/ga_core/operators.py",
+      "bytes": 7491,
+      "sha256": "980086bba2d2457dc31278b254d6eaca45fc2a06c1721a4a1412f230f597720a"
+    },
+    {
+      "path": "studies/knapsack_parameters/calibrated_selection_scaling/program/ga_core/trace.py",
+      "bytes": 459,
+      "sha256": "42b87d9e5907cfdfbd34689edeec66daa9ecf4f03ffe0697f1207c2cd8f5d2e9"
+    },
+    {
+      "path": "studies/knapsack_parameters/calibrated_selection_scaling/resources.py",
+      "bytes": 11604,
+      "sha256": "1951e4e2b859d4da88e43eefb3a7d33fe3a02259906e40bcec0dd13e39ea23e3"
+    },
+    {
+      "path": "studies/knapsack_parameters/calibrated_selection_scaling/seal.py",
+      "bytes": 2085,
+      "sha256": "928d1c4c20fa4c01c36347088053516d0a778b96cbec6def987670d81758bedb"
+    },
+    {
+      "path": "studies/knapsack_parameters/calibrated_selection_scaling/search.py",
+      "bytes": 1982,
+      "sha256": "7742290fbfe67fd3ca8b6eda955f16231568c7a5e64d85c1dab0a53b3776ccc1"
+    },
+    {
+      "path": "studies/knapsack_parameters/calibrated_selection_scaling/tests/__init__.py",
+      "bytes": 77,
+      "sha256": "ae7a0b5ec0bae3148d549228b5e6c233f663164a5b58f1ed96da3049ed5deb72"
+    },
+    {
+      "path": "studies/knapsack_parameters/calibrated_selection_scaling/tests/helpers.py",
+      "bytes": 2305,
+      "sha256": "8dcca48d21d75a2f1fdf447fcde942b4fd93e8893cd0ee297870ba2b091bfc40"
+    },
+    {
+      "path": "studies/knapsack_parameters/calibrated_selection_scaling/tests/test_contract_boundaries.py",
+      "bytes": 9018,
+      "sha256": "6e12ab3c91e16ab61ed6c3db998d60b181b6299f492ca7dab85650102dd20ad6"
+    },
+    {
+      "path": "studies/knapsack_parameters/calibrated_selection_scaling/tests/test_controller.py",
+      "bytes": 9563,
+      "sha256": "f086c2a37c75112085d1b6ad744b3b62b5927df2638983c6c0d3aae1e9b52bea"
+    },
+    {
+      "path": "studies/knapsack_parameters/calibrated_selection_scaling/tests/test_core.py",
+      "bytes": 16289,
+      "sha256": "5859356e56f1f831f906ed2290b3ba1d029b697ad89bee7195ab651e352eb353"
+    },
+    {
+      "path": "studies/knapsack_parameters/calibrated_selection_scaling/tests/test_preparation.py",
+      "bytes": 8606,
+      "sha256": "fa428ebe18eb01896fc142da2523b32cceb37441cfe39697a5f6ddb456adb459"
+    },
+    {
+      "path": "studies/knapsack_parameters/calibrated_selection_scaling/tests/test_resources.py",
+      "bytes": 6955,
+      "sha256": "55290a898447550d6636d0b09f1769287e5bd81cf608f5ea1d461a45f9a6879d"
+    },
+    {
+      "path": "studies/knapsack_parameters/calibrated_selection_scaling/tests/test_verification.py",
+      "bytes": 8427,
+      "sha256": "a137b6872673697971c929c9084253e9e2cdc368a91809a8373500af69ee38cd"
+    },
+    {
+      "path": "studies/knapsack_parameters/calibrated_selection_scaling/verification.py",
+      "bytes": 22574,
+      "sha256": "149e9e8c3eb5494fb9964e316db508d1435feadd66ca7268ab859cf972949132"
+    }
+  ]
+}

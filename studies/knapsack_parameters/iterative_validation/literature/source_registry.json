@@ -1,0 +1,120 @@
+{
+  "schema": "knapsack-iterative-validation-literature-v1",
+  "checked_on": "2026-11-17",
+  "status": "PRIMARY_TEXT_COMPARISON_PREPARED_NO_NEW_EXPERIMENTS",
+  "purpose": "Первинна літературна основа та межі емпіричного внеску окремого мікродослідження.",
+  "published_numerical_replication_claimed": false,
+  "new_algorithm_claimed": false,
+  "world_priority_claimed": false,
+  "scientific_computations_performed_in_this_preparation": false,
+  "new_ci_authorization_created": false,
+  "source_pdfs_redistributed": false,
+  "scientific_sources": [
+    {
+      "key": "eiben_smit_2011",
+      "authors": ["A. E. Eiben", "S. K. Smit"],
+      "year": 2011,
+      "title": "Parameter tuning for configuring and analyzing evolutionary algorithms",
+      "venue": "Swarm and Evolutionary Computation 1(1):19–31",
+      "doi": "10.1016/j.swevo.2011.02.001",
+      "primary_record": "https://doi.org/10.1016/j.swevo.2011.02.001",
+      "fulltext_url": "https://staff.fmi.uvt.ro/~daniela.zaharie/am2016/proiecte/tehnici/statistical_analysis/parameter_tuning.pdf",
+      "access_this_session": "Повний текст публікації на університетському сервері прочитано через web; перевірено вступ, розділи 3–5 та 8.",
+      "supported_claim": "Явно розрізняти задачу, алгоритм, налаштування, показник результату та область стійкості.",
+      "transfer_limit": "Не є джерелом власного контролера або доказом його успішності.",
+      "reuse": "Власний стислий переказ і посилання; PDF та рисунки не копіюються."
+    },
+    {
+      "key": "eiben_schut_dewilde_cec_2006",
+      "authors": ["A. E. Eiben", "M. C. Schut", "A. R. de Wilde"],
+      "year": 2006,
+      "title": "Boosting Genetic Algorithms with Self-Adaptive Selection",
+      "venue": "2006 IEEE Congress on Evolutionary Computation",
+      "doi": "10.1109/CEC.2006.1688348",
+      "primary_record": "https://research.vu.nl/en/publications/boosting-genetic-algorithms-with-self-adaptive-selection/",
+      "fulltext_url": "https://www.cs.vu.nl/~gusz/papers/CEC2006-selfad-selection.pdf",
+      "access_this_session": "Повний шестисторінковий авторський PDF прочитано через web; перевірено розділи II–III, таблицю I та визначення показників.",
+      "supported_claim": "Адаптація розміру турніру має попередника з агрегуванням голосів особин.",
+      "transfer_limit": "Steady-state, delete-worst-two, популяція 100, модельні 100-бітові ландшафти й контроль K=2 відрізняються від нашого поколіннєвого ГА для рюкзака.",
+      "metadata_note": "Університетський запис називає (self-) adaptive selection і сторінки 1584–1589, деякі індекси — 477–482. У новій бібліографії сторінки опущено. Не змішувати зі статтею PPSN 2006, DOI 10.1007/11844297_91.",
+      "reuse": "Посилання й переказ; авторський PDF не розповсюджується."
+    },
+    {
+      "key": "karafotias_hoogendoorn_eiben_cec_2013",
+      "authors": ["Giorgos Karafotias", "Mark Hoogendoorn", "A. E. Eiben"],
+      "year": 2013,
+      "title": "Why Parameter Control Mechanisms Should Be Benchmarked Against Random Variation",
+      "venue": "2013 IEEE Congress on Evolutionary Computation:349–355",
+      "doi": "10.1109/CEC.2013.6557590",
+      "primary_record": "https://doi.org/10.1109/CEC.2013.6557590",
+      "fulltext_url": "https://www.researchgate.net/publication/261109817_Why_parameter_control_mechanisms_should_be_benchmarked_against_random_variation",
+      "author_university_pdf": "https://www.cs.vu.nl/~gusz/papers/2013-Why%20Parameter%20Control%20Mechanisms%20Should%20Be%20Benchmarked%20Against%20Random%20Variation.pdf",
+      "access_this_session": "Прочитано текст самої статті, оприлюднений автором на ResearchGate; перевірено розділи III–V. Університетський URL через web повернув 403; нове завантаження або хеш PDF не заявляється.",
+      "supported_claim": "Контроль незалежної мінливості потрібен, щоб не приписувати весь виграш інформаційному сигналу.",
+      "transfer_limit": "(mu+lambda) ES, сім неперервних 10-вимірних функцій, випадкові варіації та синусоїда; це не наш донорський replay і не рюкзак.",
+      "identity_note": "Не підмінювати короткою іншою публікацією Parameter control: strategy or luck?, DOI 10.1145/2464576.2464686.",
+      "reuse": "Власний переказ тексту публікації; рисунки, повний текст і код не копіюються."
+    },
+    {
+      "key": "doerr_doerr_lengler_2021",
+      "authors": ["Benjamin Doerr", "Carola Doerr", "Johannes Lengler"],
+      "year": 2021,
+      "title": "Self-Adjusting Mutation Rates with Provably Optimal Success Rules",
+      "venue": "Algorithmica 83(10):3108–3147",
+      "doi": "10.1007/s00453-021-00854-3",
+      "primary_record": "https://researchportal.ip-paris.fr/en/publications/self-adjusting-mutation-rates-with-provably-optimal-success-rules/",
+      "fulltext_url": "https://arxiv.org/html/1902.02588v4",
+      "version_record": "https://arxiv.org/abs/1902.02588v4",
+      "access_this_session": "Повний авторський текст v4 прочитано через web; перевірено розділ 2, Algorithm 1 та обмеження асимптотичного аналізу. Журнальні реквізити звірено з університетським записом.",
+      "supported_claim": "Означення успіху й напрям оновлення є суттєвими частинами правила, а теоретична гарантія залежить від алгоритму та функції.",
+      "transfer_limit": "Успіх f(y)>=f(x), мутація збільшується за успіху; (1+1) EA на LeadingOnes не збігається з нашими евристиками та рюкзаком.",
+      "reuse": "Переказ і посилання; теорему не видають за гарантію для іншого алгоритму."
+    },
+    {
+      "key": "alcantara_aravena_acuna_porras_2025",
+      "authors": ["Gustavo Alcántara-Aravena", "Camilo Acuña-Porras"],
+      "year": 2025,
+      "title": "Evaluación del Rendimiento de un Algoritmo Genético según la Configuración de Parámetros en el Problema de la Mochila 0-1",
+      "venue": "Revista Gestión de las Personas y Tecnología 18(53)",
+      "doi": "10.35588/jyravv64",
+      "primary_record": "https://revistas.usach.cl/ojs/index.php/revistagpt/article/view/7192",
+      "fulltext_url": "https://www.scielo.cl/scielo.php?lang=es&pid=S0718-56932025000200071&script=sci_arttext",
+      "access_this_session": "Повний HTML публікації прочитано через web; перевірено авторів, розділи 2.4–3.1, дані, рівні мутації та турніру, текстовий опис функції оцінювання.",
+      "supported_claim": "Предметне дослідження параметрів ГА для 0–1 рюкзака вже є; загальна чутливість параметрів не є новою ідеєю.",
+      "verified_design": "Шість задач: n=10,20,23 та три n=100; p_m=0.05,0.10,0.20; k=2,3,4; у тексті зазначено 11 запусків з 11 ітераціями.",
+      "unresolved": "Формули 2–4 подано зображеннями й не реконструйовано; текст містить неузгоджені згадки random та tournament selection. Повноту придатного до виконання авторського коду, seeds і журналів не встановлено.",
+      "transfer_limit": "Не стверджувати тотожності контролера, відтворення опублікованих чисел або перенесення параметричних висновків.",
+      "metadata_note": "Два автори зі складеними прізвищами, а не чотири автори.",
+      "reuse": "Власний переказ і посилання; зображення формул не відтворюються."
+    }
+  ],
+  "future_application_data_sources": [
+    {
+      "key": "amazon_last_mile_2021_schema",
+      "title": "2021 Amazon Last Mile Routing Research Challenge Dataset",
+      "primary_registry": "https://registry.opendata.aws/amazon-last-mile-challenges/",
+      "primary_schema": "https://github.com/MIT-CAVE/rc-cli/blob/main/templates/data_structures.md",
+      "dataset_paper": "https://pubsonline.informs.org/doi/10.1287/trsc.2022.1173",
+      "access_this_session": "Прочитано офіційний AWS-реєстр і схему MIT-CAVE через GitHub connector. Повний набір не завантажувався; стаття про дані тут не прочитана.",
+      "verified_fields": ["dimensions.depth_cm", "dimensions.height_cm", "dimensions.width_cm", "executor_capacity_cm3", "planned_service_time_seconds", "time_window"],
+      "absent_in_provided_schema": ["commercial profit", "real package weight"],
+      "license_as_stated_by_registry": "CC BY-NC 4.0",
+      "scope": "Майбутнє перетворення маршрутизаційних даних на одноресурсний вибір посилок за об'ємом. Політика пріоритетів, джерело цінностей, нетривіальний пул надлишкового попиту та місткість ще мають бути визначені до експериментів.",
+      "not_claimed": ["розв'язання вихідної задачі маршрутизації", "геометричне 3D-пакування", "відомі комерційні прибутки", "впровадження Amazon"]
+    }
+  ],
+  "internal_provenance_not_formal_bibliography": [
+    "GA-diversity-crossover/studies/knapsack_parameters/parameter_dynamics/RESULTS_MAIN_UK.md",
+    "GA-diversity-crossover/studies/knapsack_parameters/parameter_dynamics/evidence/main-40205451045-1/",
+    "GA-diversity-crossover/studies/knapsack_parameters/tournament_feedback/README_UK.md",
+    "GA-diversity-crossover/studies/knapsack_parameters/tournament_feedback/PROTOCOL_UK.md",
+    "GA-diversity-crossover/studies/knapsack_parameters/tournament_feedback/evidence/main-40828926412-1/"
+  ],
+  "unperformed_work": [
+    "Нове виконання ГА або тестів",
+    "Новий розрахунок BCa, p-value або інший статистичний аналіз",
+    "Нова перевірка mu=13 на 90 запусках",
+    "Допуск незалежної когорти s060–s069",
+    "Прикладний експеримент на Amazon Last Mile"
+  ]
+}
