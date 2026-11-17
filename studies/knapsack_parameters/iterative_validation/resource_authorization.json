@@ -1,21 +1,27 @@
 {
   "schema": "iterative-validation-resource-authorization-v1",
-  "status": "AUTHORIZED",
+  "status": "PREPARED_NOT_AUTHORIZED",
   "phase": "first_analysis",
   "repository": "ChepaMaksym/GA-article-test",
   "ref": "refs/heads/research/iterative-validation-20261117",
   "runner_minutes": 20,
   "artifact_bytes": 524288000,
   "source_sha256": "70adbcca7b27e645f8a01b7f8662358d62c347bf02a4edb825996ebf62a1af32",
-  "protocol_sha256": "683448344c363b8553c9eaf58a48ca90a72e6f427627e502e89714cae1a97bf3",
-  "source_manifest_sha256": "add6f5497ecf8dd2cd55055acfa3c87f8b6b9b0901c57c0255acf2925f1b887e",
-  "authorization_id": "iterative-first-analysis-20261117-20m",
-  "fresh_approval": true,
+  "protocol_sha256": "1906df92d83f0a57e1c78d9485a125f07bb3dff78272deef1fdccb675bfbddcb",
+  "source_manifest_sha256": "237ecc1f4f5d1f99fff086f626d1ce17d6ad3d1ac270b5076a05920a4d14ca03",
+  "authorization_id": "iterative-first-analysis-20261117-retry1",
+  "fresh_approval": false,
   "new_search_evaluations": 0,
   "additional_dispatches_authorized": false,
   "inherit_previous_allowances": false,
   "approval_record": {
     "resource_answer": "Погоджую до 20 хвилин і 500 MiB",
-    "publication_answer": "Дозволяю публікацію зазначеного пакета"
-  }
+    "publication_answer": "Дозволяю публікацію зазначеного пакета",
+    "additional_dispatch_answer": "PENDING"
+  },
+  "parent_authorization_id": "iterative-first-analysis-20261117-20m",
+  "prior_run_id": 44057797206,
+  "prior_runner_minutes_reserved": 1,
+  "cumulative_runner_minutes_limit": 20,
+  "prior_artifact_bytes_uncompressed": 4932
 }

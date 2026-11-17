@@ -2,7 +2,7 @@
   "schema": "iterative-validation-protocol-v1",
   "registered_date": "2026-11-17",
   "phase": "first_analysis",
-  "status": "AUTHORIZED_AWAITING_CI",
+  "status": "CORRECTED_AWAITING_RETRY_CONSENT",
   "primary_endpoint": "family_weighted_final_gap_after_100000_total_evaluations",
   "secondary_targets": [
     93,
@@ -180,5 +180,16 @@
     "python": "3.12.14",
     "numpy": "2.2.6",
     "matplotlib": "3.10.3"
+  },
+  "previous_attempt": {
+    "run_id": 44057797206,
+    "commit": "ee1fde4b3f9d36968316dade235b0c71bfcb0b51",
+    "conclusion": "failure",
+    "tests_passed": 18,
+    "runner_seconds": 27,
+    "runner_minutes_reserved": 1,
+    "artifact_bytes_uncompressed": 4932,
+    "artifact_bytes_zip": 1819,
+    "reason": "Incorrect artifact-prefix requirement for retained historical controls"
   }
 }

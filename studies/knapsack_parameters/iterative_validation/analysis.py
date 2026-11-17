@@ -51,6 +51,12 @@ SELECTED_CONFIGS = ((10, 90, 100), (15, 90, 100), (15, 100, 100), (20, 90, 100))
 PRIMARY_PAIR = (SELECTED_CONFIGS[0], SELECTED_CONFIGS[1])
 RAW_FILES = frozenset(("journal.json.gz", "verification.json", "operator_bins.json",
                        "observations.json.gz", "record.json"))
+RETAINED_ORIGIN = {
+    "artifact_id": 13810740328,
+    "artifact_sha256": "4de51008ac16a045475183af019fe309adb1b19fa9e9659887ccc734f77ecbb0",
+    "commit": "3dc54a652a54c851653f16ce55507ac5c708bc8f",
+    "run_id": 42886706730,
+}
 METRICS = ("gap_100000_percent", "restricted_t93", "restricted_t95", "restricted_t99",
            "restricted_t100", *(f"gap_{q}_percent" for q in CHECKPOINTS[:-1]))
 
@@ -99,6 +105,37 @@ def _config(config: Sequence[int]) -> dict:
 
 def identity(row: Mapping) -> tuple:
     return row["task"], row["seed"], *configuration(row)
+
+
+def validate_artifact_prefix(row: Mapping) -> str:
+    """Bind each frozen historical/current POSIX layout to its run identity.
+
+    The historical population controls (mu=10 or 20, pc=90, mutation=1%)
+    retain task/seed paths without a configuration directory. Their pinned
+    retained origin and explicit row configuration identify those controls.
+    Other retained crossover rows include mu/pc, while new mutation rows
+    additionally include integer mutation basis points.
+    """
+    require(isinstance(row, Mapping), "artifact identity must be an object")
+    mu, pc, bp = config = configuration(row)
+    task, seed, prefix = row.get("task"), row.get("seed"), row.get("artifact_prefix")
+    require(config in CONFIGS and type(task) is str
+            and re.fullmatch(r"n00100-(?:UC|WC|SC)-s05[0-9]", task) is not None
+            and type(seed) is int and seed in SEEDS, "artifact task/seed/configuration differs")
+    require(type(prefix) is str and "\\" not in prefix and ":" not in prefix
+            and all(part not in ("", ".", "..") for part in prefix.split("/")),
+            "unsafe artifact prefix")
+    expected = f"{task}/seed-{seed}"
+    if bp == 100:
+        require(row.get("retained_origin") == RETAINED_ORIGIN,
+                "retained artifact origin differs")
+        if config not in ((10, 90, 100), (20, 90, 100)):
+            expected += f"/mu{mu}-pc{pc}"
+    else:
+        require(row.get("retained_origin") is None, "new mutation artifact has a retained origin")
+        expected += f"/mu{mu}-pc{pc}-pm{bp}bp"
+    require(prefix == expected, "artifact identity/path differs")
+    return prefix
 
 
 def mean(values: Iterable) -> Fraction:
@@ -240,10 +277,7 @@ def _validate_row(row: Mapping) -> None:
     hashes = row.get("artifact_hashes")
     require(type(hashes) is dict and set(hashes) == RAW_FILES
             and all(_digest(v) for v in hashes.values()), "raw artifact checksum inventory differs")
-    prefix = row.get("artifact_prefix")
-    require(type(prefix) is str and prefix.startswith(f'{row["task"]}/seed-{seed}/')
-            and ".." not in prefix.split("/") and "\\" not in prefix and ":" not in prefix,
-            "artifact identity/path differs")
+    validate_artifact_prefix(row)
     timing = row.get("timing")
     require(type(timing) is dict and type(timing.get("search_seconds")) in (int, float)
             and math.isfinite(timing["search_seconds"]) and timing["search_seconds"] >= 0,

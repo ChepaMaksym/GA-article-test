@@ -1,7 +1,7 @@
 {
   "schema": "iterative-validation-source-manifest-v1",
   "registered_date": "2026-11-17",
-  "status": "AUTHORIZED_AWAITING_CI",
+  "status": "CORRECTED_AWAITING_RETRY_CONSENT",
   "resource_authorization_excluded_from_seal": true,
   "manifest_excludes_itself": true,
   "files": [
@@ -27,8 +27,8 @@
     },
     {
       "path": "studies/knapsack_parameters/iterative_validation/analysis.py",
-      "bytes": 32683,
-      "sha256": "73933215fd075f23a0b8f44f9665a8208882e67fbdec09bfc524a8f2d630e7a9"
+      "bytes": 34317,
+      "sha256": "4cda7b7ca8ab95b745977650a963d39fa3c549ac3215a7e3de42ef4316c197a6"
     },
     {
       "path": "studies/knapsack_parameters/iterative_validation/data/all-configurations.csv",
@@ -57,8 +57,8 @@
     },
     {
       "path": "studies/knapsack_parameters/iterative_validation/EXECUTION_UK.md",
-      "bytes": 6724,
-      "sha256": "248cd32f61603bf182eb5c07829b5ef9f5ddf83743ee0c416c5f2d0d30c08468"
+      "bytes": 7231,
+      "sha256": "441ac6abcb2ee5b745de5080dd7502cefecc443c683742d68e0a4b2696bd6dee"
     },
     {
       "path": "studies/knapsack_parameters/iterative_validation/historical_source_manifest.json",
@@ -87,18 +87,23 @@
     },
     {
       "path": "studies/knapsack_parameters/iterative_validation/protocol.json",
-      "bytes": 4694,
-      "sha256": "652795bd02590e1beb52f61976bcff7b737c37fec24fb2783745d26ff51f5a7d"
+      "bytes": 5102,
+      "sha256": "58d65503d16130cf0abfca2a2c52ddb4d56e1cfcf613836884f04cc44a951360"
     },
     {
       "path": "studies/knapsack_parameters/iterative_validation/PROTOCOL_UK.md",
-      "bytes": 16471,
-      "sha256": "683448344c363b8553c9eaf58a48ca90a72e6f427627e502e89714cae1a97bf3"
+      "bytes": 16953,
+      "sha256": "1906df92d83f0a57e1c78d9485a125f07bb3dff78272deef1fdccb675bfbddcb"
     },
     {
       "path": "studies/knapsack_parameters/iterative_validation/README_UK.md",
-      "bytes": 4456,
-      "sha256": "ffa5e9840cae17db5552bfe734c61e094a4a7abc0203580543b1bb3a8c32e121"
+      "bytes": 4952,
+      "sha256": "ba32d095ff28e295e25f1685d9605a456d6873327666535bfba82e3c53692b9c"
+    },
+    {
+      "path": "studies/knapsack_parameters/iterative_validation/RECOVERY_UK.md",
+      "bytes": 3245,
+      "sha256": "2086a20f1fdd48e9574b84b1ffab531abce4a65c31f83c8dc821620c0627e1c0"
     },
     {
       "path": "studies/knapsack_parameters/iterative_validation/report.py",
@@ -107,8 +112,8 @@
     },
     {
       "path": "studies/knapsack_parameters/iterative_validation/test_analysis.py",
-      "bytes": 15440,
-      "sha256": "7fc9d2733c182c3fb61cd436d7815e22c0dc309cfba79d5f57a5f24629ed427d"
+      "bytes": 20339,
+      "sha256": "92ff88c6fd16390600fc607e91513a73ce9de43a8334a8ef2f3ddec72560bc0e"
     }
   ]
 }

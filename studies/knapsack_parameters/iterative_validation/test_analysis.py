@@ -81,7 +81,12 @@ def synthetic_row(config=(10, 90, 100), family="s050", kind="UC", seed=150001):
     """One invented trace; no retained scientific outcomes enter the tests."""
     mu, pc, bp = config
     task = f"n00100-{kind}-{family}"
-    return {
+    prefix = f"{task}/seed-{seed}"
+    if bp != 100:
+        prefix += f"/mu{mu}-pc{pc}-pm{bp}bp"
+    elif (mu, pc) not in ((10, 90), (20, 90)):
+        prefix += f"/mu{mu}-pc{pc}"
+    row = {
         "mu": mu, "pc_percentage": pc, "mutation_basis_points": bp,
         "task": task, "task_index": 3 + (int(family[1:]) - 50) * 3 + analysis.TYPES.index(kind),
         "family": family, "class_label": kind, "seed": seed,
@@ -97,8 +102,94 @@ def synthetic_row(config=(10, 90, 100), family="s050", kind="UC", seed=150001):
         "completed_generations": (100000 - mu) // (mu - 1), "duplicates": 0,
         "bank_sha256": "1" * 64, "certificate_sha256": "2" * 64,
         "artifact_hashes": {name: "3" * 64 for name in analysis.RAW_FILES},
-        "artifact_prefix": f"{task}/seed-{seed}/synthetic", "timing": {"search_seconds": 0},
+        "artifact_prefix": prefix, "timing": {"search_seconds": 0},
     }
+    if bp == 100:
+        # Only the historical transport identity is shared with real evidence;
+        # this fixture's scores, timings and all artifact hashes remain invented.
+        row["retained_origin"] = dict(analysis.RETAINED_ORIGIN)
+    return row
+
+
+class ArtifactPrefixChecks(CIOnlyChecks):
+    def test_exact_legacy_initial_grid_and_mutation_grid_layouts(self):
+        cases = (
+            ((10, 90, 100), "n00100-UC-s050/seed-150001"),
+            ((20, 90, 100), "n00100-UC-s050/seed-150001"),
+            ((15, 90, 100), "n00100-UC-s050/seed-150001/mu15-pc90"),
+            ((15, 100, 100), "n00100-UC-s050/seed-150001/mu15-pc100"),
+            ((25, 70, 100), "n00100-UC-s050/seed-150001/mu25-pc70"),
+            ((10, 100, 25), "n00100-UC-s050/seed-150001/mu10-pc100-pm25bp"),
+            ((15, 100, 50), "n00100-UC-s050/seed-150001/mu15-pc100-pm50bp"),
+            ((20, 100, 200), "n00100-UC-s050/seed-150001/mu20-pc100-pm200bp"),
+        )
+        for config, prefix in cases:
+            row = synthetic_row(config)
+            with self.subTest(config=config):
+                self.assertEqual(row["artifact_prefix"], prefix)
+                self.assertEqual(analysis.validate_artifact_prefix(row), prefix)
+                analysis._validate_row(row)
+
+    def test_artifact_path_rejects_unsafe_or_noncanonical_components(self):
+        row = synthetic_row((15, 90, 100))
+        prefix = row["artifact_prefix"]
+        invalid = (
+            "", "/" + prefix, "./" + prefix, "C:/" + prefix,
+            prefix.replace("/", "\\"), prefix.replace("/", "//", 1),
+            prefix.replace("/seed-", "/./seed-"), prefix.replace("/seed-", "/../seed-"),
+            prefix + "/", prefix + "/journal.json.gz", prefix + "/../other",
+            "https://example.invalid/" + prefix,
+        )
+        for damaged_prefix in invalid:
+            changed = {**row, "artifact_prefix": damaged_prefix}
+            with self.subTest(prefix=damaged_prefix), self.assertRaises(ValueError):
+                analysis.validate_artifact_prefix(changed)
+
+    def test_artifact_path_binds_task_seed_and_each_encoded_parameter(self):
+        initial = synthetic_row((15, 90, 100))
+        mutation = synthetic_row((15, 100, 25))
+        cases = (
+            (initial, "n00100-WC-s050/seed-150001/mu15-pc90"),
+            (initial, "n00100-UC-s051/seed-150001/mu15-pc90"),
+            (initial, "n00100-UC-s050/seed-150002/mu15-pc90"),
+            (initial, "n00100-UC-s050/seed-150001/mu20-pc90"),
+            (initial, "n00100-UC-s050/seed-150001/mu15-pc80"),
+            (initial, "n00100-UC-s050/seed-150001/mu15-pc90-pm100bp"),
+            (initial, "n00100-UC-s050/seed-150001"),
+            (mutation, "n00100-UC-s050/seed-150001/mu15-pc100-pm50bp"),
+            (mutation, "n00100-UC-s050/seed-150001/mu15-pc100"),
+        )
+        for row, damaged_prefix in cases:
+            with self.subTest(prefix=damaged_prefix), self.assertRaises(ValueError):
+                analysis.validate_artifact_prefix({**row, "artifact_prefix": damaged_prefix})
+        for row, field, value in ((initial, "mu", 25), (initial, "pc_percentage", 100),
+                                  (mutation, "mutation_basis_points", 50)):
+            with self.subTest(field=field, value=value), self.assertRaises(ValueError):
+                analysis.validate_artifact_prefix({**row, field: value})
+
+    def test_legacy_path_does_not_admit_an_unregistered_configuration(self):
+        row = synthetic_row()
+        for field, value in (("mu", 15), ("pc_percentage", 80), ("mutation_basis_points", 25),
+                             ("mu", True), ("seed", 150004), ("task", "n00500-UC-s050")):
+            with self.subTest(field=field, value=value), self.assertRaises(ValueError):
+                analysis.validate_artifact_prefix({**row, field: value})
+
+    def test_retained_transport_identity_matches_the_prefix_generation(self):
+        initial = synthetic_row((15, 90, 100))
+        missing_origin = dict(initial)
+        del missing_origin["retained_origin"]
+        with self.assertRaises(ValueError):
+            analysis.validate_artifact_prefix(missing_origin)
+        for field, value in (("artifact_id", 1), ("artifact_sha256", "f" * 64),
+                             ("commit", "e" * 40), ("run_id", 1)):
+            changed = deepcopy(initial)
+            changed["retained_origin"][field] = value
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                analysis.validate_artifact_prefix(changed)
+        mutation = synthetic_row((15, 100, 25))
+        mutation["retained_origin"] = dict(analysis.RETAINED_ORIGIN)
+        with self.assertRaises(ValueError):
+            analysis.validate_artifact_prefix(mutation)
 
 
 class SourceIntegrityChecks(CIOnlyChecks):
