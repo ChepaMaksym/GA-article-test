@@ -49,7 +49,8 @@ jobs:
         with:
           python-version: '3.12.14'
       - name: Install immutable locked dependencies
-        run: python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r "$LOCK"
+        run: |
+          python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r "$LOCK"
       - name: Admit the fresh technical grant before tests or input access
         id: admission
         run: |
@@ -131,7 +132,8 @@ jobs:
         with:
           python-version: '3.12.14'
       - name: Install immutable locked dependencies
-        run: python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r "$LOCK"
+        run: |
+          python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r "$LOCK"
       - name: Admit the fresh grant before accessing prepared inputs
         id: admission
         run: python -m "$MODULE.common" --authorization-id "$POPULATION13_AUTHORIZATION_ID"
@@ -178,7 +180,8 @@ jobs:
         with:
           python-version: '3.12.14'
       - name: Install immutable locked dependencies
-        run: python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r "$LOCK"
+        run: |
+          python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r "$LOCK"
       - name: Admit the same fresh technical grant
         id: admission
         run: python -m "$MODULE.common" --authorization-id "$POPULATION13_AUTHORIZATION_ID"
