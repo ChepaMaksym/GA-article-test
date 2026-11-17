@@ -1,6 +1,6 @@
 {
   "schema": "iterative-validation-resource-authorization-v1",
-  "status": "AUTHORIZED",
+  "status": "CONSUMED_SUCCESS",
   "phase": "first_analysis",
   "repository": "ChepaMaksym/GA-article-test",
   "ref": "refs/heads/research/iterative-validation-20261117",
@@ -10,7 +10,7 @@
   "protocol_sha256": "1906df92d83f0a57e1c78d9485a125f07bb3dff78272deef1fdccb675bfbddcb",
   "source_manifest_sha256": "237ecc1f4f5d1f99fff086f626d1ce17d6ad3d1ac270b5076a05920a4d14ca03",
   "authorization_id": "iterative-first-analysis-20261117-retry1",
-  "fresh_approval": true,
+  "fresh_approval": false,
   "new_search_evaluations": 0,
   "additional_dispatches_authorized": false,
   "inherit_previous_allowances": false,
@@ -23,5 +23,9 @@
   "prior_run_id": 44057797206,
   "prior_runner_minutes_reserved": 1,
   "cumulative_runner_minutes_limit": 20,
-  "prior_artifact_bytes_uncompressed": 4932
+  "prior_artifact_bytes_uncompressed": 4932,
+  "completed_run_id": 44061384030,
+  "cumulative_runner_seconds": 55,
+  "cumulative_runner_minutes_reserved": 2,
+  "cumulative_artifact_bytes_uncompressed": 1914138
 }
