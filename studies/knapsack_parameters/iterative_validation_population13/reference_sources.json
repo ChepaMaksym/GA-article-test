@@ -1,0 +1,459 @@
+{
+  "schema": "iterative-validation-population13-reference-sources-v1",
+  "created_on": "2026-11-17",
+  "status": "PINNED_REFERENCE_PLAN_WITH_PENDING_CI_RETRIEVAL",
+  "purpose": "Source provenance for three complete-journal compatibility cases and three prospective mu13 pilot cases. This registry grants no execution authority.",
+  "work_performed": {
+    "metadata_inspection_only": true,
+    "ga_runs": 0,
+    "tests_run": 0,
+    "plots_generated": 0,
+    "statistical_analysis_run": false,
+    "large_raw_archives_downloaded": false,
+    "small_prepared_archive_authenticated_in_memory": true
+  },
+  "source_repository": {
+    "repository": "likr/kplib",
+    "commit": "c5bea0df8169749caaba5ce7dfcf21437aa1ca5c",
+    "base_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/"
+  },
+  "local_input_archive": {
+    "path": "studies/knapsack_parameters/initial_grid_100/data/retained_inputs.zip",
+    "bytes": 70787,
+    "sha256": "1feb6f74fd0929f4e690a6a352f0c76e8ed41022c81df1109feab8f340a06ee5",
+    "inspection": "Member names, byte lengths, and SHA-256 inspected locally without extraction.",
+    "main_bank_members_present": false,
+    "pilot_bank_identity": {
+      "search_seed": 149999,
+      "preparation_seed": 149998,
+      "usable_for_new_pilot": false
+    },
+    "note": "Archive member hashes differ from local technical JSON hashes because their serialized bytes differ. Preserve selected member bytes."
+  },
+  "metadata_sources": [
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/data/source_registry.json",
+      "bytes": 60571,
+      "sha256": "bd7f03776abc33e63ca03b388c8f7f660124f199bbcf01d0ca791a462d212e8d"
+    },
+    {
+      "path": "studies/knapsack_parameters/initial_grid_100/data/retained_tuning_registry.json",
+      "bytes": 6266,
+      "sha256": "8de279e05410a148bf5c573ed795eb90b1c56ee3fbea0898ac890baa80b71db3"
+    },
+    {
+      "path": "studies/knapsack_parameters/mutation_grid_100/data/retained_registry.json",
+      "bytes": 4339,
+      "sha256": "0f459d11d468eb540bf9648c61e408bcabec4790e9a746a8b06e94857fbe22df"
+    },
+    {
+      "path": "studies/knapsack_parameters/population_validation_100_completion/protocol.json",
+      "bytes": 15519,
+      "sha256": "fdebdcbc878628798f361278604caf0328871a69b1f6d3b69a03a3ef86509797"
+    },
+    {
+      "path": "studies/knapsack_parameters/iterative_validation/data/validated_records.json.gz",
+      "bytes": 2406210,
+      "sha256": "70adbcca7b27e645f8a01b7f8662358d62c347bf02a4edb825996ebf62a1af32",
+      "status": "VERIFIED_2790",
+      "use": "Read only identity/hash fields from exactly the three selected pc90, pm1%, seed150001 rows."
+    }
+  ],
+  "inputs": [
+    {
+      "task": "n00100-UC-s000",
+      "task_index": 0,
+      "problem": {
+        "path": "local_inputs/n00100-UC-s000/problem.json",
+        "archive_member": "n00100-UC-s000/problem.json",
+        "bytes": 832,
+        "sha256": "38240ec67caf875363686a8280a8bc8841ef7573f39ec527aab88dffc9212c4f"
+      },
+      "certificate": {
+        "path": "local_inputs/n00100-UC-s000/certificate.json",
+        "archive_member": "n00100-UC-s000/certificate.json",
+        "bytes": 1587,
+        "sha256": "c5b06d63fb0262628bebba0692576c91f8a47c571252e4647f9e7cf20e3a97d8"
+      },
+      "source": {
+        "path": "local_inputs/n00100-UC-s000/source.kp",
+        "source_record_path": "studies/knapsack_parameters/population_validation_100/data/technical/n00100-UC-s000.source.json",
+        "source_record_field": "raw_base64",
+        "archive_member": null,
+        "bytes": 794,
+        "sha256": "e05b24ea5b60e90ad38a2e4b46c87a73f197a5828b06b8bb298c9668ecfafed5",
+        "source_path": "00Uncorrelated/n00100/R01000/s000.kp"
+      },
+      "mode": "pilot"
+    },
+    {
+      "task": "n00100-WC-s001",
+      "task_index": 1,
+      "problem": {
+        "path": "local_inputs/n00100-WC-s001/problem.json",
+        "archive_member": "n00100-WC-s001/problem.json",
+        "bytes": 829,
+        "sha256": "503dbddac4620309d178027b44ecd048f389bd5546d39b5b94ae7fe68e55cfd1"
+      },
+      "certificate": {
+        "path": "local_inputs/n00100-WC-s001/certificate.json",
+        "archive_member": "n00100-WC-s001/certificate.json",
+        "bytes": 1587,
+        "sha256": "e657fd65452c570c986bc01c599c554cfedcbdbeabaefff7f7969cf7552233e3"
+      },
+      "source": {
+        "path": "local_inputs/n00100-WC-s001/source.kp",
+        "source_record_path": "studies/knapsack_parameters/population_validation_100/data/technical/n00100-WC-s001.source.json",
+        "source_record_field": "raw_base64",
+        "archive_member": null,
+        "bytes": 791,
+        "sha256": "871d6ad9afddff417b1253c9e27fd2464bddc552bb9cbf7ceec93ac66ab6721d",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s001.kp"
+      },
+      "mode": "pilot"
+    },
+    {
+      "task": "n00100-SC-s005",
+      "task_index": 2,
+      "problem": {
+        "path": "local_inputs/n00100-SC-s005/problem.json",
+        "archive_member": "n00100-SC-s005/problem.json",
+        "bytes": 851,
+        "sha256": "c10e4a25816db6ab2e36cf02973bb32bbbaf58ae5b0b1f369088fb73ca330f4c"
+      },
+      "certificate": {
+        "path": "local_inputs/n00100-SC-s005/certificate.json",
+        "archive_member": "n00100-SC-s005/certificate.json",
+        "bytes": 1587,
+        "sha256": "f476129f9bbc4e169531c14932d0b4d03514a02d7e99f4379b926324bba2e897"
+      },
+      "source": {
+        "path": "local_inputs/n00100-SC-s005/source.kp",
+        "source_record_path": "studies/knapsack_parameters/population_validation_100/data/technical/n00100-SC-s005.source.json",
+        "source_record_field": "raw_base64",
+        "archive_member": null,
+        "bytes": 813,
+        "sha256": "ceb5ace09ae6407396c48aeafd90fea2b20cb75d1883ec60b549314fdf90ce8b",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s005.kp"
+      },
+      "mode": "pilot"
+    },
+    {
+      "task": "n00100-UC-s050",
+      "task_index": 3,
+      "problem": {
+        "path": "local_inputs/n00100-UC-s050/problem.json",
+        "archive_member": "n00100-UC-s050/problem.json",
+        "bytes": 823,
+        "sha256": "39f215cda425c49556137375d6cdd9dc8ca6a30a0afccd8ab5be4de286f55fe1"
+      },
+      "certificate": {
+        "path": "local_inputs/n00100-UC-s050/certificate.json",
+        "archive_member": "n00100-UC-s050/certificate.json",
+        "bytes": 1420,
+        "sha256": "4e0390595f85a048a0b3a3a476c0510ae2334be3abc1c4776916cc29b6438173"
+      },
+      "source": {
+        "path": "local_inputs/n00100-UC-s050/source.kp",
+        "archive_member": "n00100-UC-s050/source.kp",
+        "bytes": 785,
+        "sha256": "8a7b766774086f70999e00b1cb58b051445413a5593a8e0d75ae84776d7c45f2",
+        "source_path": "00Uncorrelated/n00100/R01000/s050.kp"
+      },
+      "mode": "compatibility"
+    },
+    {
+      "task": "n00100-WC-s050",
+      "task_index": 4,
+      "problem": {
+        "path": "local_inputs/n00100-WC-s050/problem.json",
+        "archive_member": "n00100-WC-s050/problem.json",
+        "bytes": 826,
+        "sha256": "af58e3f1a9da7faf56649aab43aa07caef4dc6e8e11878d0dcd5d75715f2effa"
+      },
+      "certificate": {
+        "path": "local_inputs/n00100-WC-s050/certificate.json",
+        "archive_member": "n00100-WC-s050/certificate.json",
+        "bytes": 1420,
+        "sha256": "a673c4c0365f055c8274f193275316a4e86f0c4496bb22965df5fcbbf4fcf02b"
+      },
+      "source": {
+        "path": "local_inputs/n00100-WC-s050/source.kp",
+        "archive_member": "n00100-WC-s050/source.kp",
+        "bytes": 788,
+        "sha256": "42883e7c73b90b7fa47fc3bc92a8ac4ac28172a4a070b80b71c54e85f5751032",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s050.kp"
+      },
+      "mode": "compatibility"
+    },
+    {
+      "task": "n00100-SC-s050",
+      "task_index": 5,
+      "problem": {
+        "path": "local_inputs/n00100-SC-s050/problem.json",
+        "archive_member": "n00100-SC-s050/problem.json",
+        "bytes": 848,
+        "sha256": "d4b596880d0b4abdb34a5b6d8cbb8ea7b8dbe03e933717312c6fa1f0f7a7712f"
+      },
+      "certificate": {
+        "path": "local_inputs/n00100-SC-s050/certificate.json",
+        "archive_member": "n00100-SC-s050/certificate.json",
+        "bytes": 1420,
+        "sha256": "089a52578be5dbf91b086a758b3254c427fdb6eabf7971f7c5f303a8a4274f53"
+      },
+      "source": {
+        "path": "local_inputs/n00100-SC-s050/source.kp",
+        "archive_member": "n00100-SC-s050/source.kp",
+        "bytes": 810,
+        "sha256": "9f5e858eca751aff047425eb75ce7b353927820a86bea1797c123573254407ed",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s050.kp"
+      },
+      "mode": "compatibility"
+    }
+  ],
+  "pilot_bank_preparation_rule": {
+    "module": "studies.knapsack_parameters.population_validation_100.preparation",
+    "function": "make_bank",
+    "source_path": "studies/knapsack_parameters/population_validation_100/preparation.py",
+    "source_bytes": 10671,
+    "source_sha256": "c616a2fc00e36363146839c928d08928f528f4a470d3f6b1edd91a2c79680b8a",
+    "search_seed": 159999,
+    "preparation_seed": 159998,
+    "task_indices": [
+      0,
+      1,
+      2
+    ],
+    "mask_count": 30,
+    "physical_initial_score_checks": 30,
+    "first_mask": "all zero",
+    "remaining_masks": 29,
+    "preparation_rng": "numpy.random.Generator(PCG64(SeedSequence([preparation_seed, task_index, search_seed])))",
+    "search_rng_factory": "studies.knapsack_parameters.crossover_population.program.ga_core.create_random_generators(search_seed, task_index, 0)",
+    "prefix_rule": "Use the first mu masks of the same bank. Prepare no new banks in this metadata audit.",
+    "generation_status": "NOT_EXECUTED"
+  },
+  "remote_artifacts": [
+    {
+      "id": 13764860849,
+      "name": "population100-main-raw-s050-mu10-42813784277",
+      "bytes": 218240712,
+      "sha256": "ae8475d53e47c9edf86eddc1c1ac52755d2f3390d00f678245985859ea9215ec",
+      "run_id": 42813784277,
+      "commit": "653b7a3f9c5e66d31ec8ca93fb4e710bd0078ff8",
+      "metadata_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/13764860849",
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/13764860849/zip",
+      "expired": false,
+      "expires_at": "2026-12-10T12:31:38Z",
+      "metadata_checked_on": "2026-11-17",
+      "content_inspected": false
+    },
+    {
+      "id": 13764640242,
+      "name": "population100-main-raw-s050-mu20-42813784277",
+      "bytes": 224048420,
+      "sha256": "e8290f90b17e110d7431bc658d00211d92fa9b2f96192ad1ba5d46656f96f3bd",
+      "run_id": 42813784277,
+      "commit": "653b7a3f9c5e66d31ec8ca93fb4e710bd0078ff8",
+      "metadata_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/13764640242",
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/13764640242/zip",
+      "expired": false,
+      "expires_at": "2026-12-10T12:25:52Z",
+      "metadata_checked_on": "2026-11-17",
+      "content_inspected": false
+    },
+    {
+      "id": 13796638318,
+      "name": "initial-grid100-tuning-raw-008-42886706730",
+      "bytes": 45484818,
+      "sha256": "3d9066f78a57b78cebadfd58ca8721d88724d705a967ff411b95171e821eb534",
+      "run_id": 42886706730,
+      "commit": "3dc54a652a54c851653f16ce55507ac5c708bc8f",
+      "metadata_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/13796638318",
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/13796638318/zip",
+      "expired": false,
+      "expires_at": "2026-12-10T19:45:16Z",
+      "metadata_checked_on": "2026-11-17",
+      "content_inspected": false
+    },
+    {
+      "id": 13762967913,
+      "name": "population100-main-prepared-42813784277",
+      "bytes": 574487,
+      "sha256": "ff19ca444ea38399bd30d913f18e6e56affa358f5a293bb84ddfb906092e75e7",
+      "run_id": 42813784277,
+      "commit": "653b7a3f9c5e66d31ec8ca93fb4e710bd0078ff8",
+      "metadata_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/13762967913",
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/13762967913/zip",
+      "expired": false,
+      "expires_at": "2026-12-10T12:13:00Z",
+      "metadata_checked_on": "2026-11-17",
+      "content_inspected": true
+    }
+  ],
+  "compatibility_references": [
+    {
+      "task": "n00100-UC-s050",
+      "task_index": 3,
+      "mu": 10,
+      "pc_percentage": 90,
+      "mutation_basis_points": 100,
+      "seed": 150001,
+      "preparation_seed": 150000,
+      "bank": {
+        "path": "original_prepared/n00100-UC-s050/banks/seed-150001.json",
+        "artifact_id": 13762967913,
+        "archive_member": "n00100-UC-s050/banks/seed-150001.json",
+        "bytes": 5877,
+        "sha256": "019909ae99a1881e6086911a81046e6aa980f9fed348a624466d6dd44f455aea",
+        "mask_count": 30,
+        "physical_initial_score_checks": 30,
+        "inspection": "Authenticated full ZIP length/hash; selected bank length/hash and identity inspected in memory. No masks generated."
+      },
+      "reference_journal": {
+        "path": "references/n00100-UC-s050/mu10/journal.json.gz",
+        "artifact_id": 13764860849,
+        "archive_member": "n00100-UC-s050/seed-150001/journal.json.gz",
+        "bytes": null,
+        "sha256": "630a11423f7c07c490d172ca479bf80041789741b9e35a9de8669a56c1990137",
+        "byte_length_status": "BLOCKED_PENDING_AUTHENTICATED_CI_RETRIEVAL",
+        "comparison_scope": "complete_journal_except_timing_ns"
+      },
+      "origin": {
+        "run_id": 42813784277,
+        "commit": "653b7a3f9c5e66d31ec8ca93fb4e710bd0078ff8",
+        "raw_artifact_name": "population100-main-raw-s050-mu10-42813784277",
+        "raw_artifact_sha256": "ae8475d53e47c9edf86eddc1c1ac52755d2f3390d00f678245985859ea9215ec",
+        "comparison_scope": "complete_journal_except_timing_ns"
+      },
+      "summary_lineage": {
+        "artifact_id": 13810740328,
+        "run_id": 42886706730,
+        "commit": "3dc54a652a54c851653f16ce55507ac5c708bc8f",
+        "sha256": "4de51008ac16a045475183af019fe309adb1b19fa9e9659887ccc734f77ecbb0",
+        "role": "Retained verified summary provenance; not the full-journal transport."
+      }
+    },
+    {
+      "task": "n00100-WC-s050",
+      "task_index": 4,
+      "mu": 15,
+      "pc_percentage": 90,
+      "mutation_basis_points": 100,
+      "seed": 150001,
+      "preparation_seed": 150000,
+      "bank": {
+        "path": "original_prepared/n00100-WC-s050/banks/seed-150001.json",
+        "artifact_id": 13762967913,
+        "archive_member": "n00100-WC-s050/banks/seed-150001.json",
+        "bytes": 5873,
+        "sha256": "45f804a3ff72d7e945b2c4c8d6edf00645374eac12bae8d4b294bd8ccae816f1",
+        "mask_count": 30,
+        "physical_initial_score_checks": 30,
+        "inspection": "Authenticated full ZIP length/hash; selected bank length/hash and identity inspected in memory. No masks generated."
+      },
+      "reference_journal": {
+        "path": "references/n00100-WC-s050/mu15/journal.json.gz",
+        "artifact_id": 13796638318,
+        "archive_member": "n00100-WC-s050/seed-150001/mu15-pc90/journal.json.gz",
+        "bytes": null,
+        "sha256": "8845a01d0895113e300d6286e6be9405f8ab74f8d954a1b5d5ff462ded1161e1",
+        "byte_length_status": "BLOCKED_PENDING_AUTHENTICATED_CI_RETRIEVAL",
+        "comparison_scope": "complete_journal_except_timing_ns"
+      },
+      "origin": {
+        "run_id": 42886706730,
+        "commit": "3dc54a652a54c851653f16ce55507ac5c708bc8f",
+        "raw_artifact_name": "initial-grid100-tuning-raw-008-42886706730",
+        "raw_artifact_sha256": "3d9066f78a57b78cebadfd58ca8721d88724d705a967ff411b95171e821eb534",
+        "comparison_scope": "complete_journal_except_timing_ns"
+      },
+      "summary_lineage": {
+        "artifact_id": 13810740328,
+        "run_id": 42886706730,
+        "commit": "3dc54a652a54c851653f16ce55507ac5c708bc8f",
+        "sha256": "4de51008ac16a045475183af019fe309adb1b19fa9e9659887ccc734f77ecbb0",
+        "role": "Retained verified summary provenance; not the full-journal transport."
+      }
+    },
+    {
+      "task": "n00100-SC-s050",
+      "task_index": 5,
+      "mu": 20,
+      "pc_percentage": 90,
+      "mutation_basis_points": 100,
+      "seed": 150001,
+      "preparation_seed": 150000,
+      "bank": {
+        "path": "original_prepared/n00100-SC-s050/banks/seed-150001.json",
+        "artifact_id": 13762967913,
+        "archive_member": "n00100-SC-s050/banks/seed-150001.json",
+        "bytes": 5877,
+        "sha256": "079e2c7ea122b8b8480a329edef8af1e77a35c0b3767f0f2ef792cc667d9b534",
+        "mask_count": 30,
+        "physical_initial_score_checks": 30,
+        "inspection": "Authenticated full ZIP length/hash; selected bank length/hash and identity inspected in memory. No masks generated."
+      },
+      "reference_journal": {
+        "path": "references/n00100-SC-s050/mu20/journal.json.gz",
+        "artifact_id": 13764640242,
+        "archive_member": "n00100-SC-s050/seed-150001/journal.json.gz",
+        "bytes": null,
+        "sha256": "4a61acc5650f690d65dc5dbf6c672e9a0f1a5fa3206a34d4f75c434c1730837b",
+        "byte_length_status": "BLOCKED_PENDING_AUTHENTICATED_CI_RETRIEVAL",
+        "comparison_scope": "complete_journal_except_timing_ns"
+      },
+      "origin": {
+        "run_id": 42813784277,
+        "commit": "653b7a3f9c5e66d31ec8ca93fb4e710bd0078ff8",
+        "raw_artifact_name": "population100-main-raw-s050-mu20-42813784277",
+        "raw_artifact_sha256": "e8290f90b17e110d7431bc658d00211d92fa9b2f96192ad1ba5d46656f96f3bd",
+        "comparison_scope": "complete_journal_except_timing_ns"
+      },
+      "summary_lineage": {
+        "artifact_id": 13810740328,
+        "run_id": 42886706730,
+        "commit": "3dc54a652a54c851653f16ce55507ac5c708bc8f",
+        "sha256": "4de51008ac16a045475183af019fe309adb1b19fa9e9659887ccc734f77ecbb0",
+        "role": "Retained verified summary provenance; not the full-journal transport."
+      }
+    }
+  ],
+  "provenance_correction": {
+    "source": "studies/knapsack_parameters/initial_grid_100/prepare_tuning.py:tuning_schedule",
+    "rule": "Initial tuning excludes (mu10,pc90) and (mu20,pc90) and reuses their rows from population main run42813784277. Their raw complete journals therefore reside in the original population main artifacts.",
+    "rejected_substitutes": [
+      "Mutation retained registry compatibility members mu10-pc100, mu15-pc100, mu20-pc100 do not match the requested pc90 profiles.",
+      "Compact summary artifacts do not replace complete journal references.",
+      "New seed159999 pilot banks must not use old pilot seed149999 banks."
+    ]
+  },
+  "transport_budget": {
+    "all_required_remote_archive_bytes": 488348437,
+    "required_artifact_ids": [
+      13764860849,
+      13764640242,
+      13796638318,
+      13762967913
+    ],
+    "contents_not_included_in_archive_sum": [
+      "selected extracted members",
+      "new journals",
+      "test receipts",
+      "manifests"
+    ],
+    "authorization_required": "New technical execution authority and an output/transport resource cap must be supplied separately; old permits do not carry over."
+  },
+  "blocked_items": [
+    {
+      "item": "Three full-journal member byte lengths",
+      "status": "BLOCKED_PENDING_AUTHENTICATED_CI_RETRIEVAL",
+      "reason": "The three original raw archives were not downloaded locally. Journal SHA-256 values and archive origins are pinned; lengths must be measured during authenticated retrieval, with exact SHA-256 matching and bounded extraction before replay."
+    },
+    {
+      "item": "Reference journals and original banks installed in canonical input transport",
+      "status": "BLOCKED_PENDING_AUTHENTICATED_CI_RETRIEVAL",
+      "reason": "Metadata inspection did not create or install retained input files. Retrieve the pinned sources in the separately authorized CI preparation stage."
+    }
+  ]
+}

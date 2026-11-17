@@ -1,0 +1,26 @@
+{
+  "schema": "population13-technical-resource-authorization-v1",
+  "status": "AUTHORIZED",
+  "stage": "population13_technical",
+  "repository": "ChepaMaksym/GA-article-test",
+  "ref": "refs/heads/research/iterative-validation-population13-technical-20261117",
+  "authorization_id": "population13-technical-20261117-40m",
+  "fresh_approval": true,
+  "runner_minutes": 40,
+  "artifact_bytes": 1073741824,
+  "proposed_runner_minutes": 40,
+  "proposed_artifact_bytes": 1073741824,
+  "historical_budgets_inherited": false,
+  "main_runs_authorized": false,
+  "additional_dispatches_authorized": false,
+  "retained_source_sha256": "70adbcca7b27e645f8a01b7f8662358d62c347bf02a4edb825996ebf62a1af32",
+  "source_manifest_sha256": "34856566883711ba3f22d06ac776e40744d4b814fed76ca7973bdc2622a7d009",
+  "protocol_sha256": "f70a535b75bf47ac032b9e4fa420d5f17a7530099f139922648707641d63b0f0",
+  "protocol_document_sha256": "e91c1e48a40d76ffec23e6648dea9ef6ea71ef7e7bce8b55d460559896ecb9e4",
+  "retained_input_plan_sha256": "2a2ef158b32e166fc8121583a03cceca97f221ac17003cbc0e8403bd069f986e",
+  "approval_record": {
+    "answer": "Погоджую 40 хвилин, 1 GiB і публікацію",
+    "scope": "six_full_technical_cases_and_checks_no_90_main_runs",
+    "public_repository": "ChepaMaksym/GA-article-test"
+  }
+}

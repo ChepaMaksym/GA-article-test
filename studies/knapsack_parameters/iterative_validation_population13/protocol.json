@@ -1,0 +1,125 @@
+{
+  "schema": "population13-technical-protocol-v1",
+  "registered_date": "2026-11-17",
+  "status": "PREPARED_PENDING_SOURCE_SEAL_AND_FRESH_RESOURCE_APPROVAL",
+  "stage": "population13_technical",
+  "parent_registration": "iterative_validation/PROTOCOL_UK.md#3-and-4;protocol.json.next_stage",
+  "accepted_diagnostic_run_id": 44061384030,
+  "accepted_diagnostic_scope": "retained_quality_and_speed_only",
+  "retained_source_sha256": "70adbcca7b27e645f8a01b7f8662358d62c347bf02a4edb825996ebf62a1af32",
+  "interpretation": "exploratory_intermediate_population_no_predicted_winner",
+  "item_count": 100,
+  "technical_runs": 6,
+  "total_evaluations_including_initial": 100000,
+  "technical_total_evaluations": 600000,
+  "technical_initial_evaluations": 84,
+  "technical_new_offspring_evaluations": 599916,
+  "configuration_contract": "population-crossover-v1",
+  "fixed": {
+    "pc_percentage": 90,
+    "mutation_basis_points": 100,
+    "tournament_size": 2,
+    "elite_count": 1
+  },
+  "pilot": {
+    "tasks": [
+      "n00100-UC-s000",
+      "n00100-WC-s001",
+      "n00100-SC-s005"
+    ],
+    "task_indices": [
+      0,
+      1,
+      2
+    ],
+    "mu": 13,
+    "search_seed": 159999,
+    "preparation_seed": 159998,
+    "bank_size": 30,
+    "bank_rule": "population_validation_100.preparation.make_bank_then_prefix13",
+    "new_bank_score_evaluations": 90,
+    "full_generations_per_run": 8332,
+    "terminal_partial_children_per_run": 3
+  },
+  "compatibility": {
+    "cases": [
+      {
+        "task": "n00100-UC-s050",
+        "mu": 10,
+        "task_index": 3
+      },
+      {
+        "task": "n00100-WC-s050",
+        "mu": 15,
+        "task_index": 4
+      },
+      {
+        "task": "n00100-SC-s050",
+        "mu": 20,
+        "task_index": 5
+      }
+    ],
+    "search_seed": 150001,
+    "preparation_seed": 150000,
+    "bank_rule": "copy_original_thirty_mask_bank_bytes_and_select_registered_prefix",
+    "rng_rule": "all_six_original_initial_states_must_equal_seed_task_index_start_index_zero",
+    "comparison_scope": "complete_journal_except_timing_ns",
+    "new_bank_generation_allowed": false,
+    "compact_only_comparison_allowed": false
+  },
+  "checkpoints": [
+    5000,
+    10000,
+    20000,
+    50000,
+    100000
+  ],
+  "terminal_partial_rule": "evaluate_every_remaining_child_allow_best_so_far_update_keep_population_and_controller_unchanged",
+  "optimum_boundary": "certificates_and_optimum_only_in_preparation_and_postsearch_observations_never_search",
+  "independent_verifier": "crossover_population.verification.verify_log",
+  "search_engine": "unchanged_public_crossover_population.program.ga_core.run_ga",
+  "historical_cores_changed": false,
+  "old_cli_guards_changed_or_bypassed": false,
+  "main_runs_authorized": false,
+  "main_90_runs_in_scope": false,
+  "historical_union_status": "unchanged_31_configurations_2790_records",
+  "local_execution": {
+    "tests": false,
+    "ga": false,
+    "numerical_analysis": false,
+    "plots": false
+  },
+  "execution": {
+    "platform": "GitHub Actions only",
+    "trigger": "workflow_dispatch",
+    "repository": "ChepaMaksym/GA-article-test",
+    "ref": "refs/heads/research/iterative-validation-population13-technical-20261117",
+    "max_parallel": 4,
+    "fail_fast": false,
+    "attempt": 1,
+    "automatic_next_stage": false,
+    "hidden_retries": false,
+    "transport_resolution_before_any_ga": true
+  },
+  "limits": {
+    "per_case_artifact_bytes": 33554432,
+    "preparation_artifact_bytes": 134217728,
+    "summary_artifact_bytes": 4194304,
+    "reference_journal_max_bytes": 33554432
+  },
+  "resources_proposal": {
+    "status": "PENDING_USER_APPROVAL",
+    "runner_minutes": 40,
+    "artifact_bytes": 1073741824,
+    "historical_budgets_inherited": false,
+    "basis": "Eight jobs with timeout sum30minutes plus10minutes setup/rounding reserve; six full technical cases and about488MB pinned transport",
+    "requires_actual_runner_and_artifact_receipt": true,
+    "job_timeout_sum_minutes": 30,
+    "runner_setup_and_rounding_reserve_minutes": 10
+  },
+  "fixed_environment": {
+    "python": "3.12.14",
+    "numpy": "2.2.6",
+    "matplotlib": "3.10.3"
+  }
+}

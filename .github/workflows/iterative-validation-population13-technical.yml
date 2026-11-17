@@ -1,0 +1,266 @@
+name: Population 13 technical stage only
+
+on:
+  workflow_dispatch:
+    inputs:
+      authorization_id:
+        description: Exact identity of the fresh population-thirteen technical grant
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: knapsack-population13-technical
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+  PYTHONHASHSEED: '0'
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  NUMEXPR_NUM_THREADS: '1'
+  MPLBACKEND: Agg
+  MODULE: studies.knapsack_parameters.iterative_validation_population13
+  LOCK: studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+  POPULATION13_AUTHORIZATION_ID: ${{ inputs.authorization_id }}
+
+# One preparation job, six independent full-budget cases, one consolidation.
+# Sum of job timeout ceilings: 4 + 6*4 + 2 = 30 minutes.
+# The separate 40 runner-minute proposal adds 10 minutes for setup and rounding.
+# Only selected inputs are uploaded; the 488,348,437 source-ZIP bytes are temporary.
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - name: Install immutable locked dependencies
+        run: python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r "$LOCK"
+      - name: Admit the fresh technical grant before tests or input access
+        id: admission
+        run: |
+          set -euo pipefail
+          mkdir -p stage/meta
+          python -m "$MODULE.common" --authorization-id "$POPULATION13_AUTHORIZATION_ID" | tee stage/meta/admission.json
+      - name: Check admission, synthetic transport, accounting, and summary cases
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s studies/knapsack_parameters/iterative_validation_population13 -t . -p 'test*.py' -v 2>&1 | tee stage/meta/tests.txt
+      - name: Authenticate four pinned archives and retain only selected members
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -m "$MODULE.transport" --out stage/retained --authorization-id "$POPULATION13_AUTHORIZATION_ID"
+      - name: Resolve all reference lengths and prepare the three registered banks
+        id: preparation
+        run: python -m "$MODULE.preparation" --retained-root stage/retained --out stage/prepared --authorization-id "$POPULATION13_AUTHORIZATION_ID"
+      - name: Prove bounded preparation and retain transport failure metadata
+        id: artifact-budget
+        if: ${{ always() && steps.admission.outcome == 'success' }}
+        run: |
+          python - <<'PY'
+          import pathlib, shutil
+          from studies.knapsack_parameters.iterative_validation_population13.common import guard_technical
+          protocol, authorization = guard_technical()
+          for name in ("transport_manifest.json", "transport_failure.json"):
+              source = pathlib.Path("stage/retained") / name
+              if source.is_file():
+                  shutil.copyfile(source, pathlib.Path("stage/meta") / name)
+          def size(root):
+              return sum(path.stat().st_size for path in pathlib.Path(root).rglob("*") if path.is_file())
+          prepared, metadata = size("stage/prepared"), size("stage/meta")
+          if prepared > protocol["limits"]["preparation_artifact_bytes"] or metadata > 2 * 1024**2:
+              raise ValueError("Preparation or metadata upload cap exceeded")
+          print(f"Prepared input bytes: {prepared}; metadata bytes: {metadata}")
+          PY
+      - name: Upload one bounded prepared-input artifact for the six cases
+        if: ${{ success() && steps.preparation.outcome == 'success' && steps.artifact-budget.outcome == 'success' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: population13-technical-inputs-${{ github.run_id }}
+          path: stage/prepared/
+          retention-days: 30
+          compression-level: 0
+          if-no-files-found: error
+      - name: Preserve technical checks and source transport receipts
+        if: ${{ always() && steps.admission.outcome == 'success' && steps.artifact-budget.outcome == 'success' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: population13-technical-preparation-${{ github.run_id }}
+          path: stage/meta/
+          retention-days: 30
+          compression-level: 6
+          if-no-files-found: error
+
+  cases:
+    needs: prepare
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+    strategy:
+      max-parallel: 4
+      fail-fast: false
+      matrix:
+        case_id:
+          - pilot-n00100-UC-s000
+          - pilot-n00100-WC-s001
+          - pilot-n00100-SC-s005
+          - compatibility-n00100-UC-s050
+          - compatibility-n00100-WC-s050
+          - compatibility-n00100-SC-s050
+    env:
+      CASE_ID: ${{ matrix.case_id }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - name: Install immutable locked dependencies
+        run: python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r "$LOCK"
+      - name: Admit the fresh grant before accessing prepared inputs
+        id: admission
+        run: python -m "$MODULE.common" --authorization-id "$POPULATION13_AUTHORIZATION_ID"
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: population13-technical-inputs-${{ github.run_id }}
+          path: stage/prepared/
+      - name: Run one registered full-budget technical case
+        run: python -m "$MODULE.pilot" --inputs stage/prepared --case-id "$CASE_ID" --out stage/output --authorization-id "$POPULATION13_AUTHORIZATION_ID"
+      - name: Prove the immediate per-case upload bound
+        id: artifact-budget
+        if: ${{ always() && steps.admission.outcome == 'success' }}
+        run: |
+          python - <<'PY'
+          import pathlib
+          from studies.knapsack_parameters.iterative_validation_population13.common import guard_technical
+          protocol, authorization = guard_technical()
+          size = sum(path.stat().st_size for path in pathlib.Path("stage/output").rglob("*") if path.is_file())
+          if size > protocol["limits"]["per_case_artifact_bytes"]:
+              raise ValueError("Immediate technical case upload cap exceeded")
+          print(f"Technical case artifact bytes: {size}")
+          PY
+      - name: Preserve the complete or interrupted case immediately
+        if: ${{ always() && steps.admission.outcome == 'success' && steps.artifact-budget.outcome == 'success' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: population13-technical-case-${{ matrix.case_id }}-${{ github.run_id }}
+          path: stage/output/
+          retention-days: 30
+          compression-level: 0
+          if-no-files-found: warn
+
+  consolidate:
+    if: ${{ always() }}
+    needs: [prepare, cases]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - name: Install immutable locked dependencies
+        run: python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r "$LOCK"
+      - name: Admit the same fresh technical grant
+        id: admission
+        run: python -m "$MODULE.common" --authorization-id "$POPULATION13_AUTHORIZATION_ID"
+      - name: Collect available case evidence while preserving missing-case status
+        continue-on-error: true
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          pattern: population13-technical-case-*-${{ github.run_id }}
+          path: stage/results/
+      - name: Consolidate all six receipts or record incomplete status
+        run: |
+          mkdir -p stage/results
+          python -m "$MODULE.summarize" --results stage/results --output stage/summary --authorization-id "$POPULATION13_AUTHORIZATION_ID"
+      - name: Record current resource metadata and enforce the aggregate upload cap
+        id: remote-resource-budget
+        if: ${{ always() && steps.admission.outcome == 'success' }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          from urllib.request import Request, build_opener
+          from studies.knapsack_parameters.iterative_validation_population13.common import guard_technical, REPOSITORY
+          from studies.knapsack_parameters.iterative_validation_population13.transport import NoRedirect
+          protocol, authorization = guard_technical()
+          run_id = os.environ["GITHUB_RUN_ID"]
+          prefix = "https://api.github.com/repos/" + REPOSITORY + "/actions/runs/" + run_id
+          opener = build_opener(NoRedirect())
+          def read_metadata(suffix):
+              url = prefix + suffix
+              request = Request(url, headers={"Authorization": "Bearer " + os.environ["GITHUB_TOKEN"],
+                                "Accept": "application/vnd.github+json", "User-Agent": "population13-resource-receipt"})
+              with opener.open(request, timeout=30) as response:
+                  if response.getcode() != 200 or response.geturl() != url:
+                      raise ValueError("Current-run metadata endpoint redirected or failed")
+                  raw = response.read(2 * 1024**2 + 1)
+              if len(raw) > 2 * 1024**2:
+                  raise ValueError("Current-run metadata response exceeds its byte cap")
+              return json.loads(raw)
+          artifacts = read_metadata("/artifacts?per_page=100")
+          jobs = read_metadata("/jobs?filter=all&per_page=100")
+          if artifacts.get("total_count") != len(artifacts.get("artifacts", [])) or jobs.get("total_count") != len(jobs.get("jobs", [])):
+              raise ValueError("Current-run metadata pagination would omit resource entries")
+          current_bytes = sum(entry["size_in_bytes"] for entry in artifacts["artifacts"])
+          reserve = protocol["limits"]["summary_artifact_bytes"]
+          if reserve != 4 * 1024**2 or current_bytes + reserve > authorization["artifact_bytes"]:
+              raise ValueError("Current artifacts plus summary reserve exceed the fresh 1 GiB cap")
+          receipt = {"schema": "population13-current-resource-receipt-v1", "workflow_run_id": run_id,
+                     "workflow_commit": os.environ["GITHUB_SHA"], "authorization_id": authorization["authorization_id"],
+                     "artifact_bytes_before_summary": current_bytes, "summary_reserve_bytes": reserve,
+                     "artifact_cap_bytes": authorization["artifact_bytes"], "timeout_ceiling_runner_minutes": 30,
+                     "job_times_status": "PROVISIONAL_WHILE_CONSOLIDATE_RUNNING", "final_job_times": False,
+                     "final_runner_receipt_required_after_workflow_completion": True,
+                     "temporary_source_archive_bytes": 488348437, "full_source_archives_uploaded": False,
+                     "artifacts": [{key: entry.get(key) for key in ("id", "name", "size_in_bytes", "digest", "expired")} for entry in artifacts["artifacts"]],
+                     "jobs": [{key: entry.get(key) for key in ("id", "name", "status", "conclusion", "started_at", "completed_at")} for entry in jobs["jobs"]]}
+          output = pathlib.Path("stage/summary")
+          output.mkdir(parents=True, exist_ok=True)
+          with (output / "remote_resource_receipt.json").open("x", encoding="utf-8") as stream:
+              json.dump(receipt, stream, sort_keys=True, indent=2)
+              stream.write("\n")
+          PY
+      - name: Prove the bounded summary upload
+        id: artifact-budget
+        if: ${{ always() && steps.admission.outcome == 'success' }}
+        run: |
+          python - <<'PY'
+          import pathlib
+          from studies.knapsack_parameters.iterative_validation_population13.common import guard_technical
+          protocol, authorization = guard_technical()
+          size = sum(path.stat().st_size for path in pathlib.Path("stage/summary").rglob("*") if path.is_file())
+          if size > protocol["limits"]["summary_artifact_bytes"]:
+              raise ValueError("Technical summary upload cap exceeded")
+          print(f"Technical summary artifact bytes: {size}")
+          PY
+      - name: Preserve technical status without dispatching any next stage
+        if: ${{ always() && steps.admission.outcome == 'success' && steps.remote-resource-budget.outcome == 'success' && steps.artifact-budget.outcome == 'success' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: population13-technical-summary-${{ github.run_id }}
+          path: stage/summary/
+          retention-days: 30
+          compression-level: 6
+          if-no-files-found: warn
+
