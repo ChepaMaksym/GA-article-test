@@ -23,8 +23,8 @@ from .common import HERE, ROOT, REPOSITORY, guard_technical, validate_plan
 from studies.knapsack_parameters.population_validation_100.common import read_json, require, sha
 
 API_ROOT = "https://api.github.com/repos/" + REPOSITORY + "/actions/artifacts/"
-EXPECTED_IDS = {13764860849, 13764640242, 13796638318, 13762967913}
-EXPECTED_ARCHIVE_BYTES = 488348437
+EXPECTED_IDS = {13764860849, 13764640242, 13797092537, 13762967913}
+EXPECTED_ARCHIVE_BYTES = 491214252
 PREPARED_ID = 13762967913
 LOCAL_ID = "committed-retained-inputs"
 CHUNK = 1024 * 1024
@@ -201,16 +201,20 @@ def download_archive(entry, token, target, *, api_opener=None, unsigned_opener=N
             "sha256": digest.hexdigest(), "run_id": entry["run_id"], "commit": entry["commit"]}
 
 
-def retain_members(archive_path, selections, output, budget):
+def retain_members(archive_path, selections, output, budget, *, failure_context=None):
     """Stream only selected members, checking their pinned full-file hashes."""
     receipts = []
     with ZipFile(archive_path) as archive:
         members = validate_members(archive)
         for selection in selections:
+            if failure_context is not None:
+                failure_context["requested_member"] = None
             entry = selection["descriptor"]
             bound = _validate_descriptor(entry)
             name = selection["source_member"]
             safe_relative(name)
+            if failure_context is not None:
+                failure_context["requested_member"] = name
             require(name in members and not members[name].is_dir(), "Required original retained member is absent")
             member = members[name]
             require(0 < member.file_size <= bound
@@ -318,17 +322,23 @@ def retrieve(out, authorization_id=None):
     output.mkdir(parents=True, exist_ok=False)
     budget = {"used": 0, "limit": protocol["limits"]["preparation_artifact_bytes"]}
     receipts, archives = [], []
+    failure_context = {"artifact_id": LOCAL_ID, "requested_member": None}
     try:
-        receipts.extend(retain_members(ROOT / local["path"], selections[LOCAL_ID], output, budget))
+        receipts.extend(retain_members(ROOT / local["path"], selections[LOCAL_ID], output, budget,
+                                       failure_context=failure_context))
+        failure_context["requested_member"] = None
         receipts.extend(_retain_pilot_sources(registry, plan, output, budget))
         archives.append({"id": LOCAL_ID, "path": local["path"], "bytes": local["bytes"], "sha256": local["sha256"]})
         # Original source ZIPs stay outside the retained root and are never uploaded.
         with tempfile.TemporaryDirectory(prefix="population13-transport-") as temporary:
             for entry in sorted(entries, key=lambda item: item["id"]):
+                failure_context.update(artifact_id=entry["id"], requested_member=None)
                 archive = Path(temporary) / (str(entry["id"]) + ".zip")
                 origin = download_archive(entry, token, archive)
                 archives.append(origin)
-                receipts.extend(retain_members(archive, selections[entry["id"]], output, budget))
+                receipts.extend(retain_members(archive, selections[entry["id"]], output, budget,
+                                               failure_context=failure_context))
+                failure_context["requested_member"] = None
                 archive.unlink()
         require(len(receipts) == 24 and len({entry["path"] for entry in receipts}) == 24,
                 "The retained transport must contain exactly twenty-four selected files")
@@ -348,6 +358,7 @@ def retrieve(out, authorization_id=None):
         return manifest
     except Exception as error:
         failure = {"status": "RETAINED_TRANSPORT_INCOMPLETE", "error_type": type(error).__name__,
+                   **failure_context,
                    "authenticated_selected_files": len(receipts), "selected_file_bytes": budget["used"],
                    "authorization_id": authorization["authorization_id"], "ga_runs": 0}
         with (output / "transport_failure.json").open("x", encoding="utf-8") as stream:

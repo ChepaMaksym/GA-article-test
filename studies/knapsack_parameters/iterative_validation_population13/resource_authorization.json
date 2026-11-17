@@ -1,27 +1,27 @@
 {
   "schema": "population13-technical-resource-authorization-v1",
-  "status": "AUTHORIZED",
+  "status": "PENDING_EXPLICIT_RETRY_DECISION",
   "stage": "population13_technical",
   "repository": "ChepaMaksym/GA-article-test",
   "ref": "refs/heads/research/iterative-validation-population13-technical-20261117",
-  "authorization_id": "population13-technical-20261117-40m",
-  "fresh_approval": true,
-  "runner_minutes": 40,
-  "artifact_bytes": 1073741824,
-  "proposed_runner_minutes": 40,
+  "authorization_id": "population13-technical-retry1-20261117-within40m",
+  "fresh_approval": false,
+  "runner_minutes": 0,
+  "artifact_bytes": 0,
+  "proposed_runner_minutes": 37,
   "proposed_artifact_bytes": 1073741824,
   "historical_budgets_inherited": false,
   "main_runs_authorized": false,
   "additional_dispatches_authorized": false,
   "retained_source_sha256": "70adbcca7b27e645f8a01b7f8662358d62c347bf02a4edb825996ebf62a1af32",
-  "source_manifest_sha256": "c8d7e4da05facd6972b99881018ce435a1b1999ad37c1f1dfc811fcb90d5a430",
-  "protocol_sha256": "f70a535b75bf47ac032b9e4fa420d5f17a7530099f139922648707641d63b0f0",
-  "protocol_document_sha256": "e91c1e48a40d76ffec23e6648dea9ef6ea71ef7e7bce8b55d460559896ecb9e4",
-  "retained_input_plan_sha256": "2a2ef158b32e166fc8121583a03cceca97f221ac17003cbc0e8403bd069f986e",
+  "source_manifest_sha256": "063c4c51d30b651971ecafa8b797ec0c3c603eadbaec9fcf3ebe6615f684b3ce",
+  "protocol_sha256": "cce56de6ffb8db9eb1a8564d00feba804492eddf321b0375f4d91aace59de2a7",
+  "protocol_document_sha256": "3ecd6eb6a63b1f88cfd4557b3a182aa377cdbe3aa765e4a59763501a3ce174b3",
+  "retained_input_plan_sha256": "5407eee82015bfba2f9908baf473b2d8d09e853e9ae856e06c8671b15ebe0943",
   "approval_record": {
-    "answer": "Погоджую 40 хвилин, 1 GiB і публікацію",
-    "scope": "six_full_technical_cases_and_checks_no_90_main_runs",
-    "public_repository": "ChepaMaksym/GA-article-test"
+    "status": "PENDING_REPEAT_DECISION",
+    "original_answer": "Погоджую 40 хвилин, 1 GiB і публікацію",
+    "publication_remains_authorized": true
   },
   "pre_execution_workflow_validation": {
     "run_id": 44157647909,
@@ -29,5 +29,9 @@
     "dispatch_http_status": 422,
     "fix": "YAML literal blocks for three dependency-install commands",
     "search_code_or_inputs_changed": false
-  }
+  },
+  "prior_run_id": 44159046021,
+  "prior_reserved_runner_minutes": 3,
+  "overall_approved_runner_minutes": 40,
+  "prior_artifact_zip_bytes": 3676
 }

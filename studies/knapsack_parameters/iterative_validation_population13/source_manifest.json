@@ -126,23 +126,23 @@
     },
     {
       "path": "studies/knapsack_parameters/iterative_validation_population13/protocol.json",
-      "bytes": 4261,
-      "sha256": "f70a535b75bf47ac032b9e4fa420d5f17a7530099f139922648707641d63b0f0"
+      "bytes": 4507,
+      "sha256": "cce56de6ffb8db9eb1a8564d00feba804492eddf321b0375f4d91aace59de2a7"
     },
     {
       "path": "studies/knapsack_parameters/iterative_validation_population13/PROTOCOL_UK.md",
-      "bytes": 9513,
-      "sha256": "e91c1e48a40d76ffec23e6648dea9ef6ea71ef7e7bce8b55d460559896ecb9e4"
+      "bytes": 11010,
+      "sha256": "3ecd6eb6a63b1f88cfd4557b3a182aa377cdbe3aa765e4a59763501a3ce174b3"
     },
     {
       "path": "studies/knapsack_parameters/iterative_validation_population13/reference_sources.json",
-      "bytes": 20064,
-      "sha256": "a3df7b8602395e2a234e127f74a7dde332d2912b8a9966acc483fdcad996deb9"
+      "bytes": 21185,
+      "sha256": "42e985d27e83021244d0b8f61961d3957f872bcc8d4dc64c2888b910a9520e2a"
     },
     {
       "path": "studies/knapsack_parameters/iterative_validation_population13/retained_input_plan.json",
-      "bytes": 23866,
-      "sha256": "2a2ef158b32e166fc8121583a03cceca97f221ac17003cbc0e8403bd069f986e"
+      "bytes": 14907,
+      "sha256": "5407eee82015bfba2f9908baf473b2d8d09e853e9ae856e06c8671b15ebe0943"
     },
     {
       "path": "studies/knapsack_parameters/iterative_validation_population13/search.py",
@@ -166,13 +166,13 @@
     },
     {
       "path": "studies/knapsack_parameters/iterative_validation_population13/tests_transport.py",
-      "bytes": 11266,
-      "sha256": "9767fb367428e3a3408e8db1874783912b8e149af9ee3bbcb06bc6c649f91532"
+      "bytes": 15840,
+      "sha256": "dee3816665602fb3f2d159a6326ba11e81abea999060c2ea494e4cccb0e9fb7c"
     },
     {
       "path": "studies/knapsack_parameters/iterative_validation_population13/transport.py",
-      "bytes": 19836,
-      "sha256": "000fc10db7e7fa16b6f471753e17094b5a443a9020f2711c9ed91e206544c54a"
+      "bytes": 20909,
+      "sha256": "07f7711ae625c1235a0e45ef12106c4299f5159b55b0da5b0a2279f9e2969e30"
     },
     {
       "path": "studies/knapsack_parameters/population_size_study/__init__.py",

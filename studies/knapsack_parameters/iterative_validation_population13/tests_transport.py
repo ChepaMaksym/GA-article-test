@@ -54,6 +54,75 @@ class TransportTests(unittest.TestCase):
         return {"descriptor": descriptor, "source_member": "task/member.bin",
                 "artifact_id": 1, "task": "synthetic", "role": "reference_journal"}
 
+    def failed_retrieval(self, *, download_error=None):
+        """Exercise failure receipts with synthetic archives and no network."""
+        content = b"synthetic retained input"
+        local_raw = zip_bytes([("local/member.bin", content)])
+        remote_raw = zip_bytes([("task/alternative.bin", content)])
+        artifact = {"id": 13797092537}
+        local_selection = self.selection(content)
+        local_selection.update(source_member="local/member.bin", artifact_id=transport.LOCAL_ID)
+        local_selection["descriptor"]["path"] = "selected/local/member.bin"
+        remote_selection = self.selection(content)
+        remote_selection["artifact_id"] = artifact["id"]
+        selections = {transport.LOCAL_ID: [local_selection], artifact["id"]: [remote_selection]}
+        local_path = "studies/knapsack_parameters/initial_grid_100/data/retained_inputs.zip"
+        registry = {"local_input_archive": {"path": local_path, "bytes": len(local_raw),
+                                            "sha256": sha256(local_raw).hexdigest()}}
+
+        def download(entry, token, target):
+            if download_error is not None:
+                raise download_error
+            Path(target).write_bytes(remote_raw)
+            return {"id": entry["id"]}
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / local_path
+            source.parent.mkdir(parents=True)
+            source.write_bytes(local_raw)
+            output = root / "retained"
+            with (
+                patch.object(transport, "ROOT", root),
+                patch.object(transport, "guard_technical", return_value=(
+                    {"limits": {"preparation_artifact_bytes": 1024**2}},
+                    {"authorization_id": "synthetic-grant"})),
+                patch.object(transport, "read_json", side_effect=[registry, {}]),
+                patch.object(transport, "validate_registry", return_value=[artifact]),
+                patch.object(transport, "_selections", return_value=selections),
+                patch.object(transport, "_retain_pilot_sources", return_value=[]),
+                patch.object(transport, "download_archive", side_effect=download),
+                patch.dict(transport.os.environ, {"GITHUB_TOKEN": "synthetic-secret-token"}),
+            ):
+                with self.assertRaises((ValueError, RuntimeError)) as caught:
+                    transport.retrieve(output, "synthetic-grant")
+            failure = json.loads((output / "transport_failure.json").read_text(encoding="utf-8"))
+            retained = {path.relative_to(output).as_posix() for path in output.rglob("*") if path.is_file()}
+            return failure, retained, caught.exception
+
+    def test_missing_member_receipt_identifies_artifact_and_requested_path_without_fallback(self):
+        failure, retained, error = self.failed_retrieval()
+        self.assertEqual(str(error), "Required original retained member is absent")
+        self.assertEqual(failure["artifact_id"], 13797092537)
+        self.assertEqual(failure["requested_member"], "task/member.bin")
+        self.assertEqual(failure["authenticated_selected_files"], 1)
+        self.assertEqual(failure["selected_file_bytes"], len(b"synthetic retained input"))
+        self.assertEqual(failure["ga_runs"], 0)
+        self.assertEqual(retained, {"selected/local/member.bin", "transport_failure.json"})
+        self.assertNotIn("synthetic-secret-token", json.dumps(failure))
+
+    def test_download_failure_receipt_clears_previous_member_and_excludes_exception_details(self):
+        secret_url = "https://synthetic.invalid/archive?signature=synthetic-secret-token"
+        failure, retained, error = self.failed_retrieval(download_error=RuntimeError(secret_url))
+        self.assertIsInstance(error, RuntimeError)
+        self.assertEqual(failure["artifact_id"], 13797092537)
+        self.assertIsNone(failure["requested_member"])
+        self.assertEqual(failure["authenticated_selected_files"], 1)
+        self.assertEqual(retained, {"selected/local/member.bin", "transport_failure.json"})
+        serialized = json.dumps(failure)
+        for private in (secret_url, "synthetic-secret-token", "signature", "https://"):
+            self.assertNotIn(private, serialized)
+
     def test_canonical_posix_paths_only(self):
         for name in ("../escape", "/absolute", "a/../escape", "a//b", "./a",
                      "C:/drive", "a\\b", "a/", "a/./b", "a\x00b", "a\nb"):

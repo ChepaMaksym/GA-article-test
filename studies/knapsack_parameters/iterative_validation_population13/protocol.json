@@ -108,14 +108,17 @@
     "reference_journal_max_bytes": 33554432
   },
   "resources_proposal": {
-    "status": "PENDING_USER_APPROVAL",
-    "runner_minutes": 40,
+    "status": "RETRY_PENDING_EXPLICIT_DECISION_WITHIN_ORIGINAL_40_MINUTES",
+    "runner_minutes": 37,
     "artifact_bytes": 1073741824,
     "historical_budgets_inherited": false,
-    "basis": "Eight jobs with timeout sum30minutes plus10minutes setup/rounding reserve; six full technical cases and about488MB pinned transport",
+    "basis": "Eight jobs with timeout sum30minutes plus7minutes setup/rounding reserve;3runner-minutes conservatively charged to the first failed attempt; overall ceiling40minutes remains unchanged;491214252bytes pinned source transport",
     "requires_actual_runner_and_artifact_receipt": true,
     "job_timeout_sum_minutes": 30,
-    "runner_setup_and_rounding_reserve_minutes": 10
+    "runner_setup_and_rounding_reserve_minutes": 7,
+    "overall_approved_runner_minutes": 40,
+    "prior_reserved_runner_minutes": 3,
+    "prior_run_id": 44159046021
   },
   "fixed_environment": {
     "python": "3.12.14",

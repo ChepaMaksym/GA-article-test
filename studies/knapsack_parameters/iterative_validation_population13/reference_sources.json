@@ -9,8 +9,9 @@
     "tests_run": 0,
     "plots_generated": 0,
     "statistical_analysis_run": false,
-    "large_raw_archives_downloaded": false,
-    "small_prepared_archive_authenticated_in_memory": true
+    "large_raw_archives_downloaded": true,
+    "small_prepared_archive_authenticated_in_memory": true,
+    "journal_content_parsed": false
   },
   "source_repository": {
     "repository": "likr/kplib",
@@ -263,18 +264,18 @@
       "content_inspected": false
     },
     {
-      "id": 13796638318,
-      "name": "initial-grid100-tuning-raw-008-42886706730",
-      "bytes": 45484818,
-      "sha256": "3d9066f78a57b78cebadfd58ca8721d88724d705a967ff411b95171e821eb534",
+      "id": 13797092537,
+      "name": "initial-grid100-tuning-raw-007-42886706730",
+      "bytes": 48350633,
+      "sha256": "25dfa880a66b17fdfd9c502ea615a324f02dd465fad00ae7cc57f6aede3c939f",
       "run_id": 42886706730,
       "commit": "3dc54a652a54c851653f16ce55507ac5c708bc8f",
-      "metadata_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/13796638318",
-      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/13796638318/zip",
+      "metadata_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/13797092537",
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/13797092537/zip",
       "expired": false,
-      "expires_at": "2026-12-10T19:45:16Z",
+      "expires_at": "2026-12-10T19:43:26Z",
       "metadata_checked_on": "2026-11-17",
-      "content_inspected": false
+      "content_inspected": true
     },
     {
       "id": 13762967913,
@@ -354,7 +355,7 @@
       },
       "reference_journal": {
         "path": "references/n00100-WC-s050/mu15/journal.json.gz",
-        "artifact_id": 13796638318,
+        "artifact_id": 13797092537,
         "archive_member": "n00100-WC-s050/seed-150001/mu15-pc90/journal.json.gz",
         "bytes": null,
         "sha256": "8845a01d0895113e300d6286e6be9405f8ab74f8d954a1b5d5ff462ded1161e1",
@@ -364,8 +365,8 @@
       "origin": {
         "run_id": 42886706730,
         "commit": "3dc54a652a54c851653f16ce55507ac5c708bc8f",
-        "raw_artifact_name": "initial-grid100-tuning-raw-008-42886706730",
-        "raw_artifact_sha256": "3d9066f78a57b78cebadfd58ca8721d88724d705a967ff411b95171e821eb534",
+        "raw_artifact_name": "initial-grid100-tuning-raw-007-42886706730",
+        "raw_artifact_sha256": "25dfa880a66b17fdfd9c502ea615a324f02dd465fad00ae7cc57f6aede3c939f",
         "comparison_scope": "complete_journal_except_timing_ns"
       },
       "summary_lineage": {
@@ -429,11 +430,11 @@
     ]
   },
   "transport_budget": {
-    "all_required_remote_archive_bytes": 488348437,
+    "all_required_remote_archive_bytes": 491214252,
     "required_artifact_ids": [
       13764860849,
       13764640242,
-      13796638318,
+      13797092537,
       13762967913
     ],
     "contents_not_included_in_archive_sum": [
@@ -455,5 +456,14 @@
       "status": "BLOCKED_PENDING_AUTHENTICATED_CI_RETRIEVAL",
       "reason": "Metadata inspection did not create or install retained input files. Retrieve the pinned sources in the separately authorized CI preparation stage."
     }
-  ]
+  ],
+  "transport_correction": {
+    "failed_run_id": 44159046021,
+    "original_wrong_transport_artifact_id": 13796638318,
+    "corrected_transport_artifact_id": 13797092537,
+    "reason": "The originally registered neighboring ZIP contains mu15-pc100, not the required mu15-pc90 member. The original full-journal SHA256 remains unchanged.",
+    "original_member_sha256": "8845a01d0895113e300d6286e6be9405f8ab74f8d954a1b5d5ff462ded1161e1",
+    "corrected_member_bytes": 7564876,
+    "inspection": "Exact ZIP/member byte hashes and central-directory names inspected; no journal parsed, GA or tests executed locally."
+  }
 }

@@ -1,337 +1,337 @@
 {
-    "schema":  "population13-retained-input-plan-v1",
-    "source_sha256":  "70adbcca7b27e645f8a01b7f8662358d62c347bf02a4edb825996ebf62a1af32",
-    "transport_status":  "PINNED_HASHES_PENDING_CI_MEMBER_LENGTHS",
-    "reference_registry":  "reference_sources.json",
-    "local_input_archive":  {
-                                "path":  "studies/knapsack_parameters/initial_grid_100/data/retained_inputs.zip",
-                                "bytes":  70787,
-                                "sha256":  "1feb6f74fd0929f4e690a6a352f0c76e8ed41022c81df1109feab8f340a06ee5",
-                                "inspection":  "Member names, byte lengths, and SHA-256 inspected locally without extraction.",
-                                "main_bank_members_present":  false,
-                                "pilot_bank_identity":  {
-                                                            "search_seed":  149999,
-                                                            "preparation_seed":  149998,
-                                                            "usable_for_new_pilot":  false
-                                                        },
-                                "note":  "Archive member hashes differ from local technical JSON hashes because their serialized bytes differ. Preserve selected member bytes."
-                            },
-    "remote_artifacts":  [
-                             {
-                                 "id":  13764860849,
-                                 "name":  "population100-main-raw-s050-mu10-42813784277",
-                                 "bytes":  218240712,
-                                 "sha256":  "ae8475d53e47c9edf86eddc1c1ac52755d2f3390d00f678245985859ea9215ec",
-                                 "run_id":  42813784277,
-                                 "commit":  "653b7a3f9c5e66d31ec8ca93fb4e710bd0078ff8",
-                                 "metadata_url":  "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/13764860849",
-                                 "archive_download_url":  "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/13764860849/zip",
-                                 "expired":  false,
-                                 "expires_at":  "2026-12-10T12:31:38Z",
-                                 "metadata_checked_on":  "2026-11-17",
-                                 "content_inspected":  false
-                             },
-                             {
-                                 "id":  13764640242,
-                                 "name":  "population100-main-raw-s050-mu20-42813784277",
-                                 "bytes":  224048420,
-                                 "sha256":  "e8290f90b17e110d7431bc658d00211d92fa9b2f96192ad1ba5d46656f96f3bd",
-                                 "run_id":  42813784277,
-                                 "commit":  "653b7a3f9c5e66d31ec8ca93fb4e710bd0078ff8",
-                                 "metadata_url":  "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/13764640242",
-                                 "archive_download_url":  "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/13764640242/zip",
-                                 "expired":  false,
-                                 "expires_at":  "2026-12-10T12:25:52Z",
-                                 "metadata_checked_on":  "2026-11-17",
-                                 "content_inspected":  false
-                             },
-                             {
-                                 "id":  13796638318,
-                                 "name":  "initial-grid100-tuning-raw-008-42886706730",
-                                 "bytes":  45484818,
-                                 "sha256":  "3d9066f78a57b78cebadfd58ca8721d88724d705a967ff411b95171e821eb534",
-                                 "run_id":  42886706730,
-                                 "commit":  "3dc54a652a54c851653f16ce55507ac5c708bc8f",
-                                 "metadata_url":  "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/13796638318",
-                                 "archive_download_url":  "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/13796638318/zip",
-                                 "expired":  false,
-                                 "expires_at":  "2026-12-10T19:45:16Z",
-                                 "metadata_checked_on":  "2026-11-17",
-                                 "content_inspected":  false
-                             },
-                             {
-                                 "id":  13762967913,
-                                 "name":  "population100-main-prepared-42813784277",
-                                 "bytes":  574487,
-                                 "sha256":  "ff19ca444ea38399bd30d913f18e6e56affa358f5a293bb84ddfb906092e75e7",
-                                 "run_id":  42813784277,
-                                 "commit":  "653b7a3f9c5e66d31ec8ca93fb4e710bd0078ff8",
-                                 "metadata_url":  "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/13762967913",
-                                 "archive_download_url":  "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/13762967913/zip",
-                                 "expired":  false,
-                                 "expires_at":  "2026-12-10T12:13:00Z",
-                                 "metadata_checked_on":  "2026-11-17",
-                                 "content_inspected":  true
-                             }
-                         ],
-    "remote_archive_bytes":  488348437,
-    "cases":  [
-                  {
-                      "case_id":  "pilot-n00100-UC-s000",
-                      "task":  "n00100-UC-s000",
-                      "task_index":  0,
-                      "mode":  "pilot",
-                      "mu":  13,
-                      "seed":  159999,
-                      "preparation_seed":  159998,
-                      "problem":  {
-                                      "path":  "local_inputs/n00100-UC-s000/problem.json",
-                                      "archive_member":  "n00100-UC-s000/problem.json",
-                                      "bytes":  832,
-                                      "sha256":  "38240ec67caf875363686a8280a8bc8841ef7573f39ec527aab88dffc9212c4f"
-                                  },
-                      "certificate":  {
-                                          "path":  "local_inputs/n00100-UC-s000/certificate.json",
-                                          "archive_member":  "n00100-UC-s000/certificate.json",
-                                          "bytes":  1587,
-                                          "sha256":  "c5b06d63fb0262628bebba0692576c91f8a47c571252e4647f9e7cf20e3a97d8"
-                                      },
-                      "source":  {
-                                     "path":  "local_inputs/n00100-UC-s000/source.kp",
-                                     "source_record_path":  "studies/knapsack_parameters/population_validation_100/data/technical/n00100-UC-s000.source.json",
-                                     "source_record_field":  "raw_base64",
-                                     "archive_member":  null,
-                                     "bytes":  794,
-                                     "sha256":  "e05b24ea5b60e90ad38a2e4b46c87a73f197a5828b06b8bb298c9668ecfafed5",
-                                     "source_path":  "00Uncorrelated/n00100/R01000/s000.kp"
-                                 }
-                  },
-                  {
-                      "case_id":  "pilot-n00100-WC-s001",
-                      "task":  "n00100-WC-s001",
-                      "task_index":  1,
-                      "mode":  "pilot",
-                      "mu":  13,
-                      "seed":  159999,
-                      "preparation_seed":  159998,
-                      "problem":  {
-                                      "path":  "local_inputs/n00100-WC-s001/problem.json",
-                                      "archive_member":  "n00100-WC-s001/problem.json",
-                                      "bytes":  829,
-                                      "sha256":  "503dbddac4620309d178027b44ecd048f389bd5546d39b5b94ae7fe68e55cfd1"
-                                  },
-                      "certificate":  {
-                                          "path":  "local_inputs/n00100-WC-s001/certificate.json",
-                                          "archive_member":  "n00100-WC-s001/certificate.json",
-                                          "bytes":  1587,
-                                          "sha256":  "e657fd65452c570c986bc01c599c554cfedcbdbeabaefff7f7969cf7552233e3"
-                                      },
-                      "source":  {
-                                     "path":  "local_inputs/n00100-WC-s001/source.kp",
-                                     "source_record_path":  "studies/knapsack_parameters/population_validation_100/data/technical/n00100-WC-s001.source.json",
-                                     "source_record_field":  "raw_base64",
-                                     "archive_member":  null,
-                                     "bytes":  791,
-                                     "sha256":  "871d6ad9afddff417b1253c9e27fd2464bddc552bb9cbf7ceec93ac66ab6721d",
-                                     "source_path":  "01WeaklyCorrelated/n00100/R01000/s001.kp"
-                                 }
-                  },
-                  {
-                      "case_id":  "pilot-n00100-SC-s005",
-                      "task":  "n00100-SC-s005",
-                      "task_index":  2,
-                      "mode":  "pilot",
-                      "mu":  13,
-                      "seed":  159999,
-                      "preparation_seed":  159998,
-                      "problem":  {
-                                      "path":  "local_inputs/n00100-SC-s005/problem.json",
-                                      "archive_member":  "n00100-SC-s005/problem.json",
-                                      "bytes":  851,
-                                      "sha256":  "c10e4a25816db6ab2e36cf02973bb32bbbaf58ae5b0b1f369088fb73ca330f4c"
-                                  },
-                      "certificate":  {
-                                          "path":  "local_inputs/n00100-SC-s005/certificate.json",
-                                          "archive_member":  "n00100-SC-s005/certificate.json",
-                                          "bytes":  1587,
-                                          "sha256":  "f476129f9bbc4e169531c14932d0b4d03514a02d7e99f4379b926324bba2e897"
-                                      },
-                      "source":  {
-                                     "path":  "local_inputs/n00100-SC-s005/source.kp",
-                                     "source_record_path":  "studies/knapsack_parameters/population_validation_100/data/technical/n00100-SC-s005.source.json",
-                                     "source_record_field":  "raw_base64",
-                                     "archive_member":  null,
-                                     "bytes":  813,
-                                     "sha256":  "ceb5ace09ae6407396c48aeafd90fea2b20cb75d1883ec60b549314fdf90ce8b",
-                                     "source_path":  "02StronglyCorrelated/n00100/R01000/s005.kp"
-                                 }
-                  },
-                  {
-                      "case_id":  "compatibility-n00100-UC-s050",
-                      "task":  "n00100-UC-s050",
-                      "task_index":  3,
-                      "mode":  "compatibility",
-                      "mu":  10,
-                      "seed":  150001,
-                      "preparation_seed":  150000,
-                      "problem":  {
-                                      "path":  "local_inputs/n00100-UC-s050/problem.json",
-                                      "archive_member":  "n00100-UC-s050/problem.json",
-                                      "bytes":  823,
-                                      "sha256":  "39f215cda425c49556137375d6cdd9dc8ca6a30a0afccd8ab5be4de286f55fe1"
-                                  },
-                      "certificate":  {
-                                          "path":  "local_inputs/n00100-UC-s050/certificate.json",
-                                          "archive_member":  "n00100-UC-s050/certificate.json",
-                                          "bytes":  1420,
-                                          "sha256":  "4e0390595f85a048a0b3a3a476c0510ae2334be3abc1c4776916cc29b6438173"
-                                      },
-                      "source":  {
-                                     "path":  "local_inputs/n00100-UC-s050/source.kp",
-                                     "archive_member":  "n00100-UC-s050/source.kp",
-                                     "bytes":  785,
-                                     "sha256":  "8a7b766774086f70999e00b1cb58b051445413a5593a8e0d75ae84776d7c45f2",
-                                     "source_path":  "00Uncorrelated/n00100/R01000/s050.kp"
-                                 },
-                      "bank":  {
-                                   "path":  "original_prepared/n00100-UC-s050/banks/seed-150001.json",
-                                   "artifact_id":  13762967913,
-                                   "archive_member":  "n00100-UC-s050/banks/seed-150001.json",
-                                   "bytes":  5877,
-                                   "sha256":  "019909ae99a1881e6086911a81046e6aa980f9fed348a624466d6dd44f455aea",
-                                   "mask_count":  30,
-                                   "physical_initial_score_checks":  30,
-                                   "inspection":  "Authenticated full ZIP length/hash; selected bank length/hash and identity inspected in memory. No masks generated."
-                               },
-                      "reference_journal":  {
-                                                "path":  "references/n00100-UC-s050/mu10/journal.json.gz",
-                                                "artifact_id":  13764860849,
-                                                "archive_member":  "n00100-UC-s050/seed-150001/journal.json.gz",
-                                                "bytes":  null,
-                                                "sha256":  "630a11423f7c07c490d172ca479bf80041789741b9e35a9de8669a56c1990137",
-                                                "byte_length_status":  "BLOCKED_PENDING_AUTHENTICATED_CI_RETRIEVAL",
-                                                "comparison_scope":  "complete_journal_except_timing_ns",
-                                                "max_bytes":  33554432
-                                            },
-                      "origin":  {
-                                     "run_id":  42813784277,
-                                     "commit":  "653b7a3f9c5e66d31ec8ca93fb4e710bd0078ff8",
-                                     "raw_artifact_name":  "population100-main-raw-s050-mu10-42813784277",
-                                     "raw_artifact_sha256":  "ae8475d53e47c9edf86eddc1c1ac52755d2f3390d00f678245985859ea9215ec",
-                                     "comparison_scope":  "complete_journal_except_timing_ns"
-                                 }
-                  },
-                  {
-                      "case_id":  "compatibility-n00100-WC-s050",
-                      "task":  "n00100-WC-s050",
-                      "task_index":  4,
-                      "mode":  "compatibility",
-                      "mu":  15,
-                      "seed":  150001,
-                      "preparation_seed":  150000,
-                      "problem":  {
-                                      "path":  "local_inputs/n00100-WC-s050/problem.json",
-                                      "archive_member":  "n00100-WC-s050/problem.json",
-                                      "bytes":  826,
-                                      "sha256":  "af58e3f1a9da7faf56649aab43aa07caef4dc6e8e11878d0dcd5d75715f2effa"
-                                  },
-                      "certificate":  {
-                                          "path":  "local_inputs/n00100-WC-s050/certificate.json",
-                                          "archive_member":  "n00100-WC-s050/certificate.json",
-                                          "bytes":  1420,
-                                          "sha256":  "a673c4c0365f055c8274f193275316a4e86f0c4496bb22965df5fcbbf4fcf02b"
-                                      },
-                      "source":  {
-                                     "path":  "local_inputs/n00100-WC-s050/source.kp",
-                                     "archive_member":  "n00100-WC-s050/source.kp",
-                                     "bytes":  788,
-                                     "sha256":  "42883e7c73b90b7fa47fc3bc92a8ac4ac28172a4a070b80b71c54e85f5751032",
-                                     "source_path":  "01WeaklyCorrelated/n00100/R01000/s050.kp"
-                                 },
-                      "bank":  {
-                                   "path":  "original_prepared/n00100-WC-s050/banks/seed-150001.json",
-                                   "artifact_id":  13762967913,
-                                   "archive_member":  "n00100-WC-s050/banks/seed-150001.json",
-                                   "bytes":  5873,
-                                   "sha256":  "45f804a3ff72d7e945b2c4c8d6edf00645374eac12bae8d4b294bd8ccae816f1",
-                                   "mask_count":  30,
-                                   "physical_initial_score_checks":  30,
-                                   "inspection":  "Authenticated full ZIP length/hash; selected bank length/hash and identity inspected in memory. No masks generated."
-                               },
-                      "reference_journal":  {
-                                                "path":  "references/n00100-WC-s050/mu15/journal.json.gz",
-                                                "artifact_id":  13796638318,
-                                                "archive_member":  "n00100-WC-s050/seed-150001/mu15-pc90/journal.json.gz",
-                                                "bytes":  null,
-                                                "sha256":  "8845a01d0895113e300d6286e6be9405f8ab74f8d954a1b5d5ff462ded1161e1",
-                                                "byte_length_status":  "BLOCKED_PENDING_AUTHENTICATED_CI_RETRIEVAL",
-                                                "comparison_scope":  "complete_journal_except_timing_ns",
-                                                "max_bytes":  33554432
-                                            },
-                      "origin":  {
-                                     "run_id":  42886706730,
-                                     "commit":  "3dc54a652a54c851653f16ce55507ac5c708bc8f",
-                                     "raw_artifact_name":  "initial-grid100-tuning-raw-008-42886706730",
-                                     "raw_artifact_sha256":  "3d9066f78a57b78cebadfd58ca8721d88724d705a967ff411b95171e821eb534",
-                                     "comparison_scope":  "complete_journal_except_timing_ns"
-                                 }
-                  },
-                  {
-                      "case_id":  "compatibility-n00100-SC-s050",
-                      "task":  "n00100-SC-s050",
-                      "task_index":  5,
-                      "mode":  "compatibility",
-                      "mu":  20,
-                      "seed":  150001,
-                      "preparation_seed":  150000,
-                      "problem":  {
-                                      "path":  "local_inputs/n00100-SC-s050/problem.json",
-                                      "archive_member":  "n00100-SC-s050/problem.json",
-                                      "bytes":  848,
-                                      "sha256":  "d4b596880d0b4abdb34a5b6d8cbb8ea7b8dbe03e933717312c6fa1f0f7a7712f"
-                                  },
-                      "certificate":  {
-                                          "path":  "local_inputs/n00100-SC-s050/certificate.json",
-                                          "archive_member":  "n00100-SC-s050/certificate.json",
-                                          "bytes":  1420,
-                                          "sha256":  "089a52578be5dbf91b086a758b3254c427fdb6eabf7971f7c5f303a8a4274f53"
-                                      },
-                      "source":  {
-                                     "path":  "local_inputs/n00100-SC-s050/source.kp",
-                                     "archive_member":  "n00100-SC-s050/source.kp",
-                                     "bytes":  810,
-                                     "sha256":  "9f5e858eca751aff047425eb75ce7b353927820a86bea1797c123573254407ed",
-                                     "source_path":  "02StronglyCorrelated/n00100/R01000/s050.kp"
-                                 },
-                      "bank":  {
-                                   "path":  "original_prepared/n00100-SC-s050/banks/seed-150001.json",
-                                   "artifact_id":  13762967913,
-                                   "archive_member":  "n00100-SC-s050/banks/seed-150001.json",
-                                   "bytes":  5877,
-                                   "sha256":  "079e2c7ea122b8b8480a329edef8af1e77a35c0b3767f0f2ef792cc667d9b534",
-                                   "mask_count":  30,
-                                   "physical_initial_score_checks":  30,
-                                   "inspection":  "Authenticated full ZIP length/hash; selected bank length/hash and identity inspected in memory. No masks generated."
-                               },
-                      "reference_journal":  {
-                                                "path":  "references/n00100-SC-s050/mu20/journal.json.gz",
-                                                "artifact_id":  13764640242,
-                                                "archive_member":  "n00100-SC-s050/seed-150001/journal.json.gz",
-                                                "bytes":  null,
-                                                "sha256":  "4a61acc5650f690d65dc5dbf6c672e9a0f1a5fa3206a34d4f75c434c1730837b",
-                                                "byte_length_status":  "BLOCKED_PENDING_AUTHENTICATED_CI_RETRIEVAL",
-                                                "comparison_scope":  "complete_journal_except_timing_ns",
-                                                "max_bytes":  33554432
-                                            },
-                      "origin":  {
-                                     "run_id":  42813784277,
-                                     "commit":  "653b7a3f9c5e66d31ec8ca93fb4e710bd0078ff8",
-                                     "raw_artifact_name":  "population100-main-raw-s050-mu20-42813784277",
-                                     "raw_artifact_sha256":  "e8290f90b17e110d7431bc658d00211d92fa9b2f96192ad1ba5d46656f96f3bd",
-                                     "comparison_scope":  "complete_journal_except_timing_ns"
-                                 }
-                  }
-              ],
-    "ga_runs":  0,
-    "local_numeric_preparation_performed":  false
+  "schema": "population13-retained-input-plan-v1",
+  "source_sha256": "70adbcca7b27e645f8a01b7f8662358d62c347bf02a4edb825996ebf62a1af32",
+  "transport_status": "PINNED_HASHES_PENDING_CI_MEMBER_LENGTHS",
+  "reference_registry": "reference_sources.json",
+  "local_input_archive": {
+    "path": "studies/knapsack_parameters/initial_grid_100/data/retained_inputs.zip",
+    "bytes": 70787,
+    "sha256": "1feb6f74fd0929f4e690a6a352f0c76e8ed41022c81df1109feab8f340a06ee5",
+    "inspection": "Member names, byte lengths, and SHA-256 inspected locally without extraction.",
+    "main_bank_members_present": false,
+    "pilot_bank_identity": {
+      "search_seed": 149999,
+      "preparation_seed": 149998,
+      "usable_for_new_pilot": false
+    },
+    "note": "Archive member hashes differ from local technical JSON hashes because their serialized bytes differ. Preserve selected member bytes."
+  },
+  "remote_artifacts": [
+    {
+      "id": 13764860849,
+      "name": "population100-main-raw-s050-mu10-42813784277",
+      "bytes": 218240712,
+      "sha256": "ae8475d53e47c9edf86eddc1c1ac52755d2f3390d00f678245985859ea9215ec",
+      "run_id": 42813784277,
+      "commit": "653b7a3f9c5e66d31ec8ca93fb4e710bd0078ff8",
+      "metadata_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/13764860849",
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/13764860849/zip",
+      "expired": false,
+      "expires_at": "2026-12-10T12:31:38Z",
+      "metadata_checked_on": "2026-11-17",
+      "content_inspected": false
+    },
+    {
+      "id": 13764640242,
+      "name": "population100-main-raw-s050-mu20-42813784277",
+      "bytes": 224048420,
+      "sha256": "e8290f90b17e110d7431bc658d00211d92fa9b2f96192ad1ba5d46656f96f3bd",
+      "run_id": 42813784277,
+      "commit": "653b7a3f9c5e66d31ec8ca93fb4e710bd0078ff8",
+      "metadata_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/13764640242",
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/13764640242/zip",
+      "expired": false,
+      "expires_at": "2026-12-10T12:25:52Z",
+      "metadata_checked_on": "2026-11-17",
+      "content_inspected": false
+    },
+    {
+      "id": 13797092537,
+      "name": "initial-grid100-tuning-raw-007-42886706730",
+      "bytes": 48350633,
+      "sha256": "25dfa880a66b17fdfd9c502ea615a324f02dd465fad00ae7cc57f6aede3c939f",
+      "run_id": 42886706730,
+      "commit": "3dc54a652a54c851653f16ce55507ac5c708bc8f",
+      "metadata_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/13797092537",
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/13797092537/zip",
+      "expired": false,
+      "expires_at": "2026-12-10T19:43:26Z",
+      "metadata_checked_on": "2026-11-17",
+      "content_inspected": true
+    },
+    {
+      "id": 13762967913,
+      "name": "population100-main-prepared-42813784277",
+      "bytes": 574487,
+      "sha256": "ff19ca444ea38399bd30d913f18e6e56affa358f5a293bb84ddfb906092e75e7",
+      "run_id": 42813784277,
+      "commit": "653b7a3f9c5e66d31ec8ca93fb4e710bd0078ff8",
+      "metadata_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/13762967913",
+      "archive_download_url": "https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/artifacts/13762967913/zip",
+      "expired": false,
+      "expires_at": "2026-12-10T12:13:00Z",
+      "metadata_checked_on": "2026-11-17",
+      "content_inspected": true
+    }
+  ],
+  "remote_archive_bytes": 491214252,
+  "cases": [
+    {
+      "case_id": "pilot-n00100-UC-s000",
+      "task": "n00100-UC-s000",
+      "task_index": 0,
+      "mode": "pilot",
+      "mu": 13,
+      "seed": 159999,
+      "preparation_seed": 159998,
+      "problem": {
+        "path": "local_inputs/n00100-UC-s000/problem.json",
+        "archive_member": "n00100-UC-s000/problem.json",
+        "bytes": 832,
+        "sha256": "38240ec67caf875363686a8280a8bc8841ef7573f39ec527aab88dffc9212c4f"
+      },
+      "certificate": {
+        "path": "local_inputs/n00100-UC-s000/certificate.json",
+        "archive_member": "n00100-UC-s000/certificate.json",
+        "bytes": 1587,
+        "sha256": "c5b06d63fb0262628bebba0692576c91f8a47c571252e4647f9e7cf20e3a97d8"
+      },
+      "source": {
+        "path": "local_inputs/n00100-UC-s000/source.kp",
+        "source_record_path": "studies/knapsack_parameters/population_validation_100/data/technical/n00100-UC-s000.source.json",
+        "source_record_field": "raw_base64",
+        "archive_member": null,
+        "bytes": 794,
+        "sha256": "e05b24ea5b60e90ad38a2e4b46c87a73f197a5828b06b8bb298c9668ecfafed5",
+        "source_path": "00Uncorrelated/n00100/R01000/s000.kp"
+      }
+    },
+    {
+      "case_id": "pilot-n00100-WC-s001",
+      "task": "n00100-WC-s001",
+      "task_index": 1,
+      "mode": "pilot",
+      "mu": 13,
+      "seed": 159999,
+      "preparation_seed": 159998,
+      "problem": {
+        "path": "local_inputs/n00100-WC-s001/problem.json",
+        "archive_member": "n00100-WC-s001/problem.json",
+        "bytes": 829,
+        "sha256": "503dbddac4620309d178027b44ecd048f389bd5546d39b5b94ae7fe68e55cfd1"
+      },
+      "certificate": {
+        "path": "local_inputs/n00100-WC-s001/certificate.json",
+        "archive_member": "n00100-WC-s001/certificate.json",
+        "bytes": 1587,
+        "sha256": "e657fd65452c570c986bc01c599c554cfedcbdbeabaefff7f7969cf7552233e3"
+      },
+      "source": {
+        "path": "local_inputs/n00100-WC-s001/source.kp",
+        "source_record_path": "studies/knapsack_parameters/population_validation_100/data/technical/n00100-WC-s001.source.json",
+        "source_record_field": "raw_base64",
+        "archive_member": null,
+        "bytes": 791,
+        "sha256": "871d6ad9afddff417b1253c9e27fd2464bddc552bb9cbf7ceec93ac66ab6721d",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s001.kp"
+      }
+    },
+    {
+      "case_id": "pilot-n00100-SC-s005",
+      "task": "n00100-SC-s005",
+      "task_index": 2,
+      "mode": "pilot",
+      "mu": 13,
+      "seed": 159999,
+      "preparation_seed": 159998,
+      "problem": {
+        "path": "local_inputs/n00100-SC-s005/problem.json",
+        "archive_member": "n00100-SC-s005/problem.json",
+        "bytes": 851,
+        "sha256": "c10e4a25816db6ab2e36cf02973bb32bbbaf58ae5b0b1f369088fb73ca330f4c"
+      },
+      "certificate": {
+        "path": "local_inputs/n00100-SC-s005/certificate.json",
+        "archive_member": "n00100-SC-s005/certificate.json",
+        "bytes": 1587,
+        "sha256": "f476129f9bbc4e169531c14932d0b4d03514a02d7e99f4379b926324bba2e897"
+      },
+      "source": {
+        "path": "local_inputs/n00100-SC-s005/source.kp",
+        "source_record_path": "studies/knapsack_parameters/population_validation_100/data/technical/n00100-SC-s005.source.json",
+        "source_record_field": "raw_base64",
+        "archive_member": null,
+        "bytes": 813,
+        "sha256": "ceb5ace09ae6407396c48aeafd90fea2b20cb75d1883ec60b549314fdf90ce8b",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s005.kp"
+      }
+    },
+    {
+      "case_id": "compatibility-n00100-UC-s050",
+      "task": "n00100-UC-s050",
+      "task_index": 3,
+      "mode": "compatibility",
+      "mu": 10,
+      "seed": 150001,
+      "preparation_seed": 150000,
+      "problem": {
+        "path": "local_inputs/n00100-UC-s050/problem.json",
+        "archive_member": "n00100-UC-s050/problem.json",
+        "bytes": 823,
+        "sha256": "39f215cda425c49556137375d6cdd9dc8ca6a30a0afccd8ab5be4de286f55fe1"
+      },
+      "certificate": {
+        "path": "local_inputs/n00100-UC-s050/certificate.json",
+        "archive_member": "n00100-UC-s050/certificate.json",
+        "bytes": 1420,
+        "sha256": "4e0390595f85a048a0b3a3a476c0510ae2334be3abc1c4776916cc29b6438173"
+      },
+      "source": {
+        "path": "local_inputs/n00100-UC-s050/source.kp",
+        "archive_member": "n00100-UC-s050/source.kp",
+        "bytes": 785,
+        "sha256": "8a7b766774086f70999e00b1cb58b051445413a5593a8e0d75ae84776d7c45f2",
+        "source_path": "00Uncorrelated/n00100/R01000/s050.kp"
+      },
+      "bank": {
+        "path": "original_prepared/n00100-UC-s050/banks/seed-150001.json",
+        "artifact_id": 13762967913,
+        "archive_member": "n00100-UC-s050/banks/seed-150001.json",
+        "bytes": 5877,
+        "sha256": "019909ae99a1881e6086911a81046e6aa980f9fed348a624466d6dd44f455aea",
+        "mask_count": 30,
+        "physical_initial_score_checks": 30,
+        "inspection": "Authenticated full ZIP length/hash; selected bank length/hash and identity inspected in memory. No masks generated."
+      },
+      "reference_journal": {
+        "path": "references/n00100-UC-s050/mu10/journal.json.gz",
+        "artifact_id": 13764860849,
+        "archive_member": "n00100-UC-s050/seed-150001/journal.json.gz",
+        "bytes": null,
+        "sha256": "630a11423f7c07c490d172ca479bf80041789741b9e35a9de8669a56c1990137",
+        "byte_length_status": "BLOCKED_PENDING_AUTHENTICATED_CI_RETRIEVAL",
+        "comparison_scope": "complete_journal_except_timing_ns",
+        "max_bytes": 33554432
+      },
+      "origin": {
+        "run_id": 42813784277,
+        "commit": "653b7a3f9c5e66d31ec8ca93fb4e710bd0078ff8",
+        "raw_artifact_name": "population100-main-raw-s050-mu10-42813784277",
+        "raw_artifact_sha256": "ae8475d53e47c9edf86eddc1c1ac52755d2f3390d00f678245985859ea9215ec",
+        "comparison_scope": "complete_journal_except_timing_ns"
+      }
+    },
+    {
+      "case_id": "compatibility-n00100-WC-s050",
+      "task": "n00100-WC-s050",
+      "task_index": 4,
+      "mode": "compatibility",
+      "mu": 15,
+      "seed": 150001,
+      "preparation_seed": 150000,
+      "problem": {
+        "path": "local_inputs/n00100-WC-s050/problem.json",
+        "archive_member": "n00100-WC-s050/problem.json",
+        "bytes": 826,
+        "sha256": "af58e3f1a9da7faf56649aab43aa07caef4dc6e8e11878d0dcd5d75715f2effa"
+      },
+      "certificate": {
+        "path": "local_inputs/n00100-WC-s050/certificate.json",
+        "archive_member": "n00100-WC-s050/certificate.json",
+        "bytes": 1420,
+        "sha256": "a673c4c0365f055c8274f193275316a4e86f0c4496bb22965df5fcbbf4fcf02b"
+      },
+      "source": {
+        "path": "local_inputs/n00100-WC-s050/source.kp",
+        "archive_member": "n00100-WC-s050/source.kp",
+        "bytes": 788,
+        "sha256": "42883e7c73b90b7fa47fc3bc92a8ac4ac28172a4a070b80b71c54e85f5751032",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s050.kp"
+      },
+      "bank": {
+        "path": "original_prepared/n00100-WC-s050/banks/seed-150001.json",
+        "artifact_id": 13762967913,
+        "archive_member": "n00100-WC-s050/banks/seed-150001.json",
+        "bytes": 5873,
+        "sha256": "45f804a3ff72d7e945b2c4c8d6edf00645374eac12bae8d4b294bd8ccae816f1",
+        "mask_count": 30,
+        "physical_initial_score_checks": 30,
+        "inspection": "Authenticated full ZIP length/hash; selected bank length/hash and identity inspected in memory. No masks generated."
+      },
+      "reference_journal": {
+        "path": "references/n00100-WC-s050/mu15/journal.json.gz",
+        "artifact_id": 13797092537,
+        "archive_member": "n00100-WC-s050/seed-150001/mu15-pc90/journal.json.gz",
+        "bytes": null,
+        "sha256": "8845a01d0895113e300d6286e6be9405f8ab74f8d954a1b5d5ff462ded1161e1",
+        "byte_length_status": "BLOCKED_PENDING_AUTHENTICATED_CI_RETRIEVAL",
+        "comparison_scope": "complete_journal_except_timing_ns",
+        "max_bytes": 33554432
+      },
+      "origin": {
+        "run_id": 42886706730,
+        "commit": "3dc54a652a54c851653f16ce55507ac5c708bc8f",
+        "raw_artifact_name": "initial-grid100-tuning-raw-007-42886706730",
+        "raw_artifact_sha256": "25dfa880a66b17fdfd9c502ea615a324f02dd465fad00ae7cc57f6aede3c939f",
+        "comparison_scope": "complete_journal_except_timing_ns"
+      }
+    },
+    {
+      "case_id": "compatibility-n00100-SC-s050",
+      "task": "n00100-SC-s050",
+      "task_index": 5,
+      "mode": "compatibility",
+      "mu": 20,
+      "seed": 150001,
+      "preparation_seed": 150000,
+      "problem": {
+        "path": "local_inputs/n00100-SC-s050/problem.json",
+        "archive_member": "n00100-SC-s050/problem.json",
+        "bytes": 848,
+        "sha256": "d4b596880d0b4abdb34a5b6d8cbb8ea7b8dbe03e933717312c6fa1f0f7a7712f"
+      },
+      "certificate": {
+        "path": "local_inputs/n00100-SC-s050/certificate.json",
+        "archive_member": "n00100-SC-s050/certificate.json",
+        "bytes": 1420,
+        "sha256": "089a52578be5dbf91b086a758b3254c427fdb6eabf7971f7c5f303a8a4274f53"
+      },
+      "source": {
+        "path": "local_inputs/n00100-SC-s050/source.kp",
+        "archive_member": "n00100-SC-s050/source.kp",
+        "bytes": 810,
+        "sha256": "9f5e858eca751aff047425eb75ce7b353927820a86bea1797c123573254407ed",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s050.kp"
+      },
+      "bank": {
+        "path": "original_prepared/n00100-SC-s050/banks/seed-150001.json",
+        "artifact_id": 13762967913,
+        "archive_member": "n00100-SC-s050/banks/seed-150001.json",
+        "bytes": 5877,
+        "sha256": "079e2c7ea122b8b8480a329edef8af1e77a35c0b3767f0f2ef792cc667d9b534",
+        "mask_count": 30,
+        "physical_initial_score_checks": 30,
+        "inspection": "Authenticated full ZIP length/hash; selected bank length/hash and identity inspected in memory. No masks generated."
+      },
+      "reference_journal": {
+        "path": "references/n00100-SC-s050/mu20/journal.json.gz",
+        "artifact_id": 13764640242,
+        "archive_member": "n00100-SC-s050/seed-150001/journal.json.gz",
+        "bytes": null,
+        "sha256": "4a61acc5650f690d65dc5dbf6c672e9a0f1a5fa3206a34d4f75c434c1730837b",
+        "byte_length_status": "BLOCKED_PENDING_AUTHENTICATED_CI_RETRIEVAL",
+        "comparison_scope": "complete_journal_except_timing_ns",
+        "max_bytes": 33554432
+      },
+      "origin": {
+        "run_id": 42813784277,
+        "commit": "653b7a3f9c5e66d31ec8ca93fb4e710bd0078ff8",
+        "raw_artifact_name": "population100-main-raw-s050-mu20-42813784277",
+        "raw_artifact_sha256": "e8290f90b17e110d7431bc658d00211d92fa9b2f96192ad1ba5d46656f96f3bd",
+        "comparison_scope": "complete_journal_except_timing_ns"
+      }
+    }
+  ],
+  "ga_runs": 0,
+  "local_numeric_preparation_performed": false
 }
