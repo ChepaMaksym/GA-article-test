@@ -35,7 +35,7 @@ env:
 # One preparation job, six independent full-budget cases, one consolidation.
 # Sum of job timeout ceilings: 4 + 6*4 + 2 = 30 minutes.
 # The separate 40 runner-minute proposal adds 10 minutes for setup and rounding.
-# Only selected inputs are uploaded; the 488,348,437 source-ZIP bytes are temporary.
+# Only selected inputs are uploaded; the 491,214,252 source-ZIP bytes are temporary.
 jobs:
   prepare:
     runs-on: ubuntu-24.04
