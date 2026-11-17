@@ -1,6 +1,6 @@
 {
   "schema": "iterative-validation-resource-authorization-v1",
-  "status": "PREPARED_NOT_AUTHORIZED",
+  "status": "AUTHORIZED",
   "phase": "first_analysis",
   "repository": "ChepaMaksym/GA-article-test",
   "ref": "refs/heads/research/iterative-validation-20261117",
@@ -10,14 +10,14 @@
   "protocol_sha256": "1906df92d83f0a57e1c78d9485a125f07bb3dff78272deef1fdccb675bfbddcb",
   "source_manifest_sha256": "237ecc1f4f5d1f99fff086f626d1ce17d6ad3d1ac270b5076a05920a4d14ca03",
   "authorization_id": "iterative-first-analysis-20261117-retry1",
-  "fresh_approval": false,
+  "fresh_approval": true,
   "new_search_evaluations": 0,
   "additional_dispatches_authorized": false,
   "inherit_previous_allowances": false,
   "approval_record": {
     "resource_answer": "Погоджую до 20 хвилин і 500 MiB",
     "publication_answer": "Дозволяю публікацію зазначеного пакета",
-    "additional_dispatch_answer": "PENDING"
+    "additional_dispatch_answer": "Погоджую один повтор у межах 20 хвилин і 500 MiB"
   },
   "parent_authorization_id": "iterative-first-analysis-20261117-20m",
   "prior_run_id": 44057797206,
