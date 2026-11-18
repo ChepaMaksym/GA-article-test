@@ -126,13 +126,13 @@
     },
     {
       "path": "studies/knapsack_parameters/iterative_validation_population13/protocol.json",
-      "bytes": 4507,
-      "sha256": "cce56de6ffb8db9eb1a8564d00feba804492eddf321b0375f4d91aace59de2a7"
+      "bytes": 4598,
+      "sha256": "1b2be91846f0a30c9541b5e4df7c15c2c2b6db098fb4ec9325366d80cb7e2354"
     },
     {
       "path": "studies/knapsack_parameters/iterative_validation_population13/PROTOCOL_UK.md",
-      "bytes": 11010,
-      "sha256": "3ecd6eb6a63b1f88cfd4557b3a182aa377cdbe3aa765e4a59763501a3ce174b3"
+      "bytes": 12931,
+      "sha256": "0130c1ac5f2485f922c28c69e741b8784b2b7c26a162ba458e0f36025c255d46"
     },
     {
       "path": "studies/knapsack_parameters/iterative_validation_population13/reference_sources.json",
@@ -243,6 +243,12 @@
       "path": "studies/knapsack_parameters/population_validation_100_main/runner.py",
       "bytes": 24178,
       "sha256": "8bb5348ef9c09f7acf3e4ee9762c6c5aae1b07f2fb5d886f285d96f9cc8d1617"
+    },
+    {
+      "path": "studies/knapsack_parameters/iterative_validation_population13/.gitattributes",
+      "bytes": 59,
+      "sha256": "d17db047121b7d3ff66e3d4b094ed532fa152bb6659c6ec64708330cb34e9f90"
     }
-  ]
+  ],
+  "publication_contract": "Frozen byte payload; package-local -text; remote Git blob byte identity and manifest SHA256 checked before dispatch."
 }

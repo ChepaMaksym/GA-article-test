@@ -108,21 +108,26 @@
     "reference_journal_max_bytes": 33554432
   },
   "resources_proposal": {
-    "status": "RETRY_PENDING_EXPLICIT_DECISION_WITHIN_ORIGINAL_40_MINUTES",
-    "runner_minutes": 37,
+    "status": "BYTE_EXACT_REPEAT_PENDING_EXPLICIT_DECISION",
+    "runner_minutes": 35,
     "artifact_bytes": 1073741824,
     "historical_budgets_inherited": false,
-    "basis": "Eight jobs with timeout sum30minutes plus7minutes setup/rounding reserve;3runner-minutes conservatively charged to the first failed attempt; overall ceiling40minutes remains unchanged;491214252bytes pinned source transport",
+    "basis": "Thirty job-timeout minutes plus5minutes setup/rounding reserve;5minutes conservatively charged to two failed attempts;overall40minutes and1GiB unchanged",
     "requires_actual_runner_and_artifact_receipt": true,
     "job_timeout_sum_minutes": 30,
-    "runner_setup_and_rounding_reserve_minutes": 7,
+    "runner_setup_and_rounding_reserve_minutes": 5,
     "overall_approved_runner_minutes": 40,
-    "prior_reserved_runner_minutes": 3,
-    "prior_run_id": 44159046021
+    "prior_reserved_runner_minutes": 5,
+    "prior_run_id": 44159046021,
+    "prior_run_ids": [
+      44159046021,
+      44253659558
+    ]
   },
   "fixed_environment": {
     "python": "3.12.14",
     "numpy": "2.2.6",
     "matplotlib": "3.10.3"
-  }
+  },
+  "publication_contract": "Publish exact read_bytes decoded as UTF8, never universal-newline read_text; compare all published blob identities and source-manifest bytes before dispatch; package-local attributes disable text conversion."
 }
