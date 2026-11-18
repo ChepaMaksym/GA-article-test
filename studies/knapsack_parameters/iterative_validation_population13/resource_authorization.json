@@ -1,13 +1,13 @@
 {
   "schema": "population13-technical-resource-authorization-v1",
-  "status": "AUTHORIZED",
+  "status": "CONSUMED_SUCCESS",
   "stage": "population13_technical",
   "repository": "ChepaMaksym/GA-article-test",
   "ref": "refs/heads/research/iterative-validation-population13-technical-20261117",
   "authorization_id": "population13-technical-retry2-20261118-within40m",
-  "fresh_approval": true,
-  "runner_minutes": 35,
-  "artifact_bytes": 1073741824,
+  "fresh_approval": false,
+  "runner_minutes": 0,
+  "artifact_bytes": 0,
   "proposed_runner_minutes": 35,
   "proposed_artifact_bytes": 1073741824,
   "historical_budgets_inherited": false,
@@ -19,7 +19,7 @@
   "protocol_document_sha256": "0130c1ac5f2485f922c28c69e741b8784b2b7c26a162ba458e0f36025c255d46",
   "retained_input_plan_sha256": "5407eee82015bfba2f9908baf473b2d8d09e853e9ae856e06c8671b15ebe0943",
   "approval_record": {
-    "status": "EXPLICIT_NEXT_ATTEMPT_APPROVED",
+    "status": "CONSUMED_SUCCESS",
     "original_answer": "Погоджую 40 хвилин, 1 GiB і публікацію",
     "consumed_repeat_answer": "Погоджую один повтор у межах загальних 40 хвилин і 1 GiB",
     "publication_remains_authorized": true,
@@ -45,5 +45,20 @@
   "prior_run_ids": [
     44159046021,
     44253659558
-  ]
+  ],
+  "completion": {
+    "run_id": 44256243990,
+    "commit": "be5005f593446cdddd04c3196f520256b37f7f7f",
+    "date": "2026-11-18",
+    "tests_passed": 29,
+    "technical_cases_verified": 6,
+    "compatibility_cases_verified": 3,
+    "successful_attempt_runner_seconds": 387,
+    "successful_attempt_reserved_runner_minutes": 8,
+    "cumulative_reserved_runner_minutes": 13,
+    "overall_runner_minutes": 40,
+    "main_runs_started": 0,
+    "main_runs_authorized": false,
+    "further_technical_dispatches_authorized": false
+  }
 }

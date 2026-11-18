@@ -1,0 +1,79 @@
+{
+  "schema": "population13-retained-artifacts-v1",
+  "run_id": 44256243990,
+  "artifacts": [
+    {
+      "id": 14406565381,
+      "name": "population13-technical-case-compatibility-n00100-SC-s050-44256243990",
+      "bytes": 7613216,
+      "sha256": "cc8164237bcdd9f828ac5758917177b5f6f64ebb25cb082720c5a00482727145",
+      "expanded_bytes": 7612572,
+      "member_count": 5
+    },
+    {
+      "id": 14405983132,
+      "name": "population13-technical-case-pilot-n00100-WC-s001-44256243990",
+      "bytes": 7999788,
+      "sha256": "c8eb46e6ba4b1c0d27481ca5e2264d8dda42b186c26cb9c4ca8116f1262eb005",
+      "expanded_bytes": 7999144,
+      "member_count": 5
+    },
+    {
+      "id": 14405549145,
+      "name": "population13-technical-case-compatibility-n00100-UC-s050-44256243990",
+      "bytes": 8401849,
+      "sha256": "867e8c58f5583086a9c453980aa37055fdfd6c90600fda8c28bbaf5793d1d3e2",
+      "expanded_bytes": 8401205,
+      "member_count": 5
+    },
+    {
+      "id": 14405328628,
+      "name": "population13-technical-case-pilot-n00100-SC-s005-44256243990",
+      "bytes": 7962770,
+      "sha256": "4fea447c0232b7926c1c1a528f4d0c4e49fb29a5a1101d0bff1bee321ebbcc62",
+      "expanded_bytes": 7962126,
+      "member_count": 5
+    },
+    {
+      "id": 14405324812,
+      "name": "population13-technical-case-compatibility-n00100-WC-s050-44256243990",
+      "bytes": 7837669,
+      "sha256": "7ec12f03273681d8b4b6f3d352d06ab8daa65e8550534cc3a522f8f43030ec84",
+      "expanded_bytes": 7837025,
+      "member_count": 5
+    },
+    {
+      "id": 14405274664,
+      "name": "population13-technical-case-pilot-n00100-UC-s000-44256243990",
+      "bytes": 7754689,
+      "sha256": "1e801cf8992e071b7bf4aa66a880d1fa9fc0d42662bf8cbfb6300c9a1c264aec",
+      "expanded_bytes": 7754045,
+      "member_count": 5
+    },
+    {
+      "id": 14405183559,
+      "name": "population13-technical-preparation-44256243990",
+      "bytes": 4071,
+      "sha256": "39d37a89936cb4d8a731705c24b137143f8b0957d2ceb300e9615f63ec6d6dfe",
+      "expanded_bytes": 15089,
+      "member_count": 3
+    },
+    {
+      "id": 14405153920,
+      "name": "population13-technical-inputs-44256243990",
+      "bytes": 23038649,
+      "sha256": "10bdb63a2ccf16dab74992a5f2182897675f53003b0a07ff6b552ed3d9b691ca",
+      "expanded_bytes": 23033811,
+      "member_count": 29
+    },
+    {
+      "id": 14406052392,
+      "name": "population13-technical-summary-44256243990",
+      "bytes": 6346,
+      "sha256": "87ed1cdd2932a8da1397e740e2800cf5b80170745aa3d5862f46556fd71e4df1",
+      "expanded_bytes": 19990,
+      "member_count": 4
+    }
+  ],
+  "no_scientific_code_executed": true
+}

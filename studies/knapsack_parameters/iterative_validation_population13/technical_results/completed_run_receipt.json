@@ -1,0 +1,167 @@
+{
+  "schema": "population13-completed-attempt-receipt-v1",
+  "run_id": 44256243990,
+  "commit": "be5005f593446cdddd04c3196f520256b37f7f7f",
+  "status": "completed",
+  "conclusion": "success",
+  "run_url": "https://github.com/ChepaMaksym/GA-article-test/actions/runs/44256243990",
+  "jobs": [
+    {
+      "id": 134638510382,
+      "name": "prepare",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-18T07:06:04Z",
+      "completed_at": "2026-11-18T07:06:36Z",
+      "wall_seconds": 32.0,
+      "reserved_rounded_runner_minutes": 1
+    },
+    {
+      "id": 134638743345,
+      "name": "cases (compatibility-n00100-WC-s050)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-18T07:07:27Z",
+      "completed_at": "2026-11-18T07:08:27Z",
+      "wall_seconds": 60.0,
+      "reserved_rounded_runner_minutes": 1
+    },
+    {
+      "id": 134638743401,
+      "name": "cases (compatibility-n00100-UC-s050)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-18T07:06:39Z",
+      "completed_at": "2026-11-18T07:07:34Z",
+      "wall_seconds": 55.0,
+      "reserved_rounded_runner_minutes": 1
+    },
+    {
+      "id": 134638743430,
+      "name": "cases (compatibility-n00100-SC-s050)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-18T07:07:31Z",
+      "completed_at": "2026-11-18T07:08:24Z",
+      "wall_seconds": 53.0,
+      "reserved_rounded_runner_minutes": 1
+    },
+    {
+      "id": 134638743445,
+      "name": "cases (pilot-n00100-UC-s000)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-18T07:06:37Z",
+      "completed_at": "2026-11-18T07:07:26Z",
+      "wall_seconds": 49.0,
+      "reserved_rounded_runner_minutes": 1
+    },
+    {
+      "id": 134638743469,
+      "name": "cases (pilot-n00100-SC-s005)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-18T07:06:38Z",
+      "completed_at": "2026-11-18T07:07:29Z",
+      "wall_seconds": 51.0,
+      "reserved_rounded_runner_minutes": 1
+    },
+    {
+      "id": 134638743523,
+      "name": "cases (pilot-n00100-WC-s001)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-18T07:06:38Z",
+      "completed_at": "2026-11-18T07:07:30Z",
+      "wall_seconds": 52.0,
+      "reserved_rounded_runner_minutes": 1
+    },
+    {
+      "id": 134639514013,
+      "name": "consolidate",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-18T07:08:30Z",
+      "completed_at": "2026-11-18T07:09:05Z",
+      "wall_seconds": 35.0,
+      "reserved_rounded_runner_minutes": 1
+    }
+  ],
+  "tests_passed": 29,
+  "full_ga_cases": 6,
+  "main_ga_runs": 0,
+  "prior_reserved_runner_minutes": 5,
+  "overall_authorization_runner_minutes": 40,
+  "overall_authorization_artifact_bytes": 1073741824,
+  "additional_dispatch_authorized": false,
+  "runner_seconds": 387.0,
+  "reserved_rounded_runner_minutes": 8,
+  "cumulative_reserved_runner_minutes": 13,
+  "remaining_runner_minutes_reserve": 27,
+  "artifacts": [
+    {
+      "id": 14406565381,
+      "name": "population13-technical-case-compatibility-n00100-SC-s050-44256243990",
+      "size_in_bytes": 7613216,
+      "digest": "sha256:cc8164237bcdd9f828ac5758917177b5f6f64ebb25cb082720c5a00482727145",
+      "expired": false
+    },
+    {
+      "id": 14406052392,
+      "name": "population13-technical-summary-44256243990",
+      "size_in_bytes": 6346,
+      "digest": "sha256:87ed1cdd2932a8da1397e740e2800cf5b80170745aa3d5862f46556fd71e4df1",
+      "expired": false
+    },
+    {
+      "id": 14405983132,
+      "name": "population13-technical-case-pilot-n00100-WC-s001-44256243990",
+      "size_in_bytes": 7999788,
+      "digest": "sha256:c8eb46e6ba4b1c0d27481ca5e2264d8dda42b186c26cb9c4ca8116f1262eb005",
+      "expired": false
+    },
+    {
+      "id": 14405549145,
+      "name": "population13-technical-case-compatibility-n00100-UC-s050-44256243990",
+      "size_in_bytes": 8401849,
+      "digest": "sha256:867e8c58f5583086a9c453980aa37055fdfd6c90600fda8c28bbaf5793d1d3e2",
+      "expired": false
+    },
+    {
+      "id": 14405328628,
+      "name": "population13-technical-case-pilot-n00100-SC-s005-44256243990",
+      "size_in_bytes": 7962770,
+      "digest": "sha256:4fea447c0232b7926c1c1a528f4d0c4e49fb29a5a1101d0bff1bee321ebbcc62",
+      "expired": false
+    },
+    {
+      "id": 14405324812,
+      "name": "population13-technical-case-compatibility-n00100-WC-s050-44256243990",
+      "size_in_bytes": 7837669,
+      "digest": "sha256:7ec12f03273681d8b4b6f3d352d06ab8daa65e8550534cc3a522f8f43030ec84",
+      "expired": false
+    },
+    {
+      "id": 14405274664,
+      "name": "population13-technical-case-pilot-n00100-UC-s000-44256243990",
+      "size_in_bytes": 7754689,
+      "digest": "sha256:1e801cf8992e071b7bf4aa66a880d1fa9fc0d42662bf8cbfb6300c9a1c264aec",
+      "expired": false
+    },
+    {
+      "id": 14405183559,
+      "name": "population13-technical-preparation-44256243990",
+      "size_in_bytes": 4071,
+      "digest": "sha256:39d37a89936cb4d8a731705c24b137143f8b0957d2ceb300e9615f63ec6d6dfe",
+      "expired": false
+    },
+    {
+      "id": 14405153920,
+      "name": "population13-technical-inputs-44256243990",
+      "size_in_bytes": 23038649,
+      "digest": "sha256:10bdb63a2ccf16dab74992a5f2182897675f53003b0a07ff6b552ed3d9b691ca",
+      "expired": false
+    }
+  ],
+  "artifact_zip_bytes": 70619047
+}
