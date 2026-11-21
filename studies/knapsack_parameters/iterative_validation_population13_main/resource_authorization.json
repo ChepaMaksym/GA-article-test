@@ -1,0 +1,32 @@
+{
+  "schema": "population13-main-resource-authorization-v1",
+  "status": "AUTHORIZED",
+  "repository": "ChepaMaksym/GA-article-test",
+  "ref": "refs/heads/research/iterative-validation-population13-main-20261118",
+  "authorization_id": "population13-main-20261118-150m",
+  "fresh_approval": true,
+  "public_release_approved": true,
+  "runner_minutes": 150,
+  "artifact_bytes": 2147483648,
+  "proposed_runner_minutes": 150,
+  "proposed_artifact_bytes": 2147483648,
+  "remaining_runner_minutes": 150,
+  "maximum_shards_this_dispatch": 30,
+  "historical_budgets_inherited": false,
+  "allowed_resume_runs": [],
+  "automatic_dispatch": false,
+  "preparation_retries_and_missing_case_resume_within_ceiling": true,
+  "source_manifest_sha256": "f737917aead09fbdfa11ef5ca0cf8415f8330906bcf3f3df186a5e21715a1648",
+  "protocol_sha256": "56ac453e0d1b44e95bb32bc6777474b5b68c72d3f069f047a7be9320c2082c24",
+  "protocol_document_sha256": "b7f1c20cb6ec1a29c9d9d6093b5bf46f0dd303d57c095bf36d4eaa3c073a8954",
+  "approval_record": {
+    "status": "USER_RESPONSE_TO_PUBLIC_RELEASE_REQUEST",
+    "date": "2026-11-21",
+    "basis": "The user's response to the preceding prompt naming the payload, its public visibility and its repository was: дай права. Applied to the population-13 main study only.",
+    "scope": "Public main package and results in ChepaMaksym/GA-article-test; CI checks, search, replay, analysis and within-ceiling recovery.",
+    "technical_permission_consumed": true
+  },
+  "charged_prior_run_ids": [],
+  "registered_successful_identity_limit": 90,
+  "failed_physical_attempts_charged_separately_within_same_ceiling": true
+}

@@ -1,0 +1,2326 @@
+{
+  "schema": "ga-knapsack-population-validation-100-source-registry-v1",
+  "source_repository": "likr/kplib",
+  "source_commit": "c5bea0df8169749caaba5ce7dfcf21437aa1ca5c",
+  "source_base_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/",
+  "n": 100,
+  "data_license": {
+    "identifier": "CC-BY-4.0",
+    "status": "TO_RECHECK_AGAINST_PINNED_README_IN_CI"
+  },
+  "source_tree_manifest": {
+    "path": "studies/knapsack_parameters/population_size_study/source_tree_manifest.json",
+    "bytes": 29818,
+    "sha256": "b20225c17ad31e05a51c06cb52217b3250c49e0ce24bdce449f0a6ce00b45722"
+  },
+  "technical_origin_archive": {
+    "archive_name": "inputs-42348296666.zip",
+    "sha256": "de52fc8c5e5982c210d9dd09fc6e80c931b3ccd4d37f1985252f439f776314ea",
+    "run_id": 42348296666
+  },
+  "technical_cases": [
+    {
+      "task_id": "n00100-UC-s000",
+      "n": 100,
+      "class_label": "UC",
+      "family": "s000",
+      "index": 0,
+      "task_index": 0,
+      "source_path": "00Uncorrelated/n00100/R01000/s000.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/00Uncorrelated/n00100/R01000/s000.kp",
+      "git_blob_sha1": "119d7f6b8ed5fa94b623e847ce99e00810806c60",
+      "source_bytes": 794,
+      "problem_file": {
+        "path": "data/technical/n00100-UC-s000.problem.json",
+        "bytes": 833,
+        "sha256": "3f8ec2e52be3c4ad040aa98db06bf67a605aa2e10ecc16bb410da38a6a9ca4de"
+      },
+      "certificate_file": {
+        "path": "data/technical/n00100-UC-s000.certificate.json",
+        "bytes": 1588,
+        "sha256": "56d20658f64989f9230c2377977c828bd2a1d89d17ac627b52ee15228953f141"
+      },
+      "source_file": {
+        "path": "data/technical/n00100-UC-s000.source.json",
+        "bytes": 1767,
+        "sha256": "c4ac866524942b5d50df0215b3b7f10b67eccb653b950f1ac60bfc7f1247760e"
+      },
+      "source_sha256": "e05b24ea5b60e90ad38a2e4b46c87a73f197a5828b06b8bb298c9668ecfafed5",
+      "problem_sha256": "38240ec67caf875363686a8280a8bc8841ef7573f39ec527aab88dffc9212c4f",
+      "status": "RETAINED_TWO_ORACLE_TECHNICAL_INPUT",
+      "search_result_used": false
+    },
+    {
+      "task_id": "n00100-WC-s001",
+      "n": 100,
+      "class_label": "WC",
+      "family": "s001",
+      "index": 1,
+      "task_index": 1,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s001.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/01WeaklyCorrelated/n00100/R01000/s001.kp",
+      "git_blob_sha1": "3a5d6861d4666c196506d959090096505cfa8dc1",
+      "source_bytes": 791,
+      "problem_file": {
+        "path": "data/technical/n00100-WC-s001.problem.json",
+        "bytes": 830,
+        "sha256": "374349f0d5f812df869e162beee8b5d55e9325560f9e207fe50863f076fc3729"
+      },
+      "certificate_file": {
+        "path": "data/technical/n00100-WC-s001.certificate.json",
+        "bytes": 1588,
+        "sha256": "7bf943f297e6063e8de479b34bc8c9dbc25ddea5e53c6c0f8661dc5e4fd87c0b"
+      },
+      "source_file": {
+        "path": "data/technical/n00100-WC-s001.source.json",
+        "bytes": 1775,
+        "sha256": "b0cf6f831f36d138344ac591c1c66d64c3d30f75279bac7d200c3fa89d5e75e9"
+      },
+      "source_sha256": "871d6ad9afddff417b1253c9e27fd2464bddc552bb9cbf7ceec93ac66ab6721d",
+      "problem_sha256": "503dbddac4620309d178027b44ecd048f389bd5546d39b5b94ae7fe68e55cfd1",
+      "status": "RETAINED_TWO_ORACLE_TECHNICAL_INPUT",
+      "search_result_used": false
+    },
+    {
+      "task_id": "n00100-SC-s005",
+      "n": 100,
+      "class_label": "SC",
+      "family": "s005",
+      "index": 5,
+      "task_index": 2,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s005.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/02StronglyCorrelated/n00100/R01000/s005.kp",
+      "git_blob_sha1": "ab62d8da5be6080bd0e76de6007836012ab0a046",
+      "source_bytes": 813,
+      "problem_file": {
+        "path": "data/technical/n00100-SC-s005.problem.json",
+        "bytes": 852,
+        "sha256": "80347c725decd7c5231ac96a53b8fad719446d39cf9b3a2d1e43eae66455851a"
+      },
+      "certificate_file": {
+        "path": "data/technical/n00100-SC-s005.certificate.json",
+        "bytes": 1588,
+        "sha256": "5e41d6973e62b079d439a2ce665767aacca6ae17fc278adcff41ef05d45edd3b"
+      },
+      "source_file": {
+        "path": "data/technical/n00100-SC-s005.source.json",
+        "bytes": 1809,
+        "sha256": "c7ae62c793410d04f4f1b0965432f9b1adf5cfa383da195f2cd086c6c219787d"
+      },
+      "source_sha256": "ceb5ace09ae6407396c48aeafd90fea2b20cb75d1883ec60b549314fdf90ce8b",
+      "problem_sha256": "c10e4a25816db6ab2e36cf02973bb32bbbaf58ae5b0b1f369088fb73ca330f4c",
+      "status": "RETAINED_TWO_ORACLE_TECHNICAL_INPUT",
+      "search_result_used": false
+    }
+  ],
+  "main_cases": [
+    {
+      "task_id": "n00100-UC-s050",
+      "n": 100,
+      "class_label": "UC",
+      "family": "s050",
+      "index": 50,
+      "task_index": 3,
+      "source_path": "00Uncorrelated/n00100/R01000/s050.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/00Uncorrelated/n00100/R01000/s050.kp",
+      "git_blob_sha1": "36db8ecf711960d81da2f3a96a0203676a9606c3",
+      "source_bytes": 785,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    },
+    {
+      "task_id": "n00100-WC-s050",
+      "n": 100,
+      "class_label": "WC",
+      "family": "s050",
+      "index": 50,
+      "task_index": 4,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s050.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/01WeaklyCorrelated/n00100/R01000/s050.kp",
+      "git_blob_sha1": "09852484df4451876fb006c8c6b1f85519816275",
+      "source_bytes": 788,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    },
+    {
+      "task_id": "n00100-SC-s050",
+      "n": 100,
+      "class_label": "SC",
+      "family": "s050",
+      "index": 50,
+      "task_index": 5,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s050.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/02StronglyCorrelated/n00100/R01000/s050.kp",
+      "git_blob_sha1": "27a423d342b52faf1f19339c99a388219ea4bd2e",
+      "source_bytes": 810,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    },
+    {
+      "task_id": "n00100-UC-s051",
+      "n": 100,
+      "class_label": "UC",
+      "family": "s051",
+      "index": 51,
+      "task_index": 6,
+      "source_path": "00Uncorrelated/n00100/R01000/s051.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/00Uncorrelated/n00100/R01000/s051.kp",
+      "git_blob_sha1": "4bbbe26fd4ca65e4abd863e2cb53dc8266033c01",
+      "source_bytes": 792,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    },
+    {
+      "task_id": "n00100-WC-s051",
+      "n": 100,
+      "class_label": "WC",
+      "family": "s051",
+      "index": 51,
+      "task_index": 7,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s051.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/01WeaklyCorrelated/n00100/R01000/s051.kp",
+      "git_blob_sha1": "f2f9953b49d43577bf46f5d4403758cc34bfd4d6",
+      "source_bytes": 800,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    },
+    {
+      "task_id": "n00100-SC-s051",
+      "n": 100,
+      "class_label": "SC",
+      "family": "s051",
+      "index": 51,
+      "task_index": 8,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s051.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/02StronglyCorrelated/n00100/R01000/s051.kp",
+      "git_blob_sha1": "9c717d7bc657cd5f0d3547b1df8279d3a5c068b3",
+      "source_bytes": 823,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    },
+    {
+      "task_id": "n00100-UC-s052",
+      "n": 100,
+      "class_label": "UC",
+      "family": "s052",
+      "index": 52,
+      "task_index": 9,
+      "source_path": "00Uncorrelated/n00100/R01000/s052.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/00Uncorrelated/n00100/R01000/s052.kp",
+      "git_blob_sha1": "e45229639c381fb41b53738f5c88a66e120cae71",
+      "source_bytes": 792,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    },
+    {
+      "task_id": "n00100-WC-s052",
+      "n": 100,
+      "class_label": "WC",
+      "family": "s052",
+      "index": 52,
+      "task_index": 10,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s052.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/01WeaklyCorrelated/n00100/R01000/s052.kp",
+      "git_blob_sha1": "500c3cc19a5b13a8bb9c1ea9990d904d57bdf374",
+      "source_bytes": 790,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    },
+    {
+      "task_id": "n00100-SC-s052",
+      "n": 100,
+      "class_label": "SC",
+      "family": "s052",
+      "index": 52,
+      "task_index": 11,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s052.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/02StronglyCorrelated/n00100/R01000/s052.kp",
+      "git_blob_sha1": "78b6e23b987683d202c32f56273c1d735e8ab3ba",
+      "source_bytes": 809,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    },
+    {
+      "task_id": "n00100-UC-s053",
+      "n": 100,
+      "class_label": "UC",
+      "family": "s053",
+      "index": 53,
+      "task_index": 12,
+      "source_path": "00Uncorrelated/n00100/R01000/s053.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/00Uncorrelated/n00100/R01000/s053.kp",
+      "git_blob_sha1": "75d3b947a63fbbce36f6e7a18ff06a61096c92f5",
+      "source_bytes": 795,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    },
+    {
+      "task_id": "n00100-WC-s053",
+      "n": 100,
+      "class_label": "WC",
+      "family": "s053",
+      "index": 53,
+      "task_index": 13,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s053.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/01WeaklyCorrelated/n00100/R01000/s053.kp",
+      "git_blob_sha1": "ffac0f9562282c337a62a3b3e4325bbea156c872",
+      "source_bytes": 802,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    },
+    {
+      "task_id": "n00100-SC-s053",
+      "n": 100,
+      "class_label": "SC",
+      "family": "s053",
+      "index": 53,
+      "task_index": 14,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s053.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/02StronglyCorrelated/n00100/R01000/s053.kp",
+      "git_blob_sha1": "d60c586ac4e41b75b5bae026596be9968b07a6bf",
+      "source_bytes": 815,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    },
+    {
+      "task_id": "n00100-UC-s054",
+      "n": 100,
+      "class_label": "UC",
+      "family": "s054",
+      "index": 54,
+      "task_index": 15,
+      "source_path": "00Uncorrelated/n00100/R01000/s054.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/00Uncorrelated/n00100/R01000/s054.kp",
+      "git_blob_sha1": "68725bf0fada12390b279f666da31db888ae028c",
+      "source_bytes": 794,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    },
+    {
+      "task_id": "n00100-WC-s054",
+      "n": 100,
+      "class_label": "WC",
+      "family": "s054",
+      "index": 54,
+      "task_index": 16,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s054.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/01WeaklyCorrelated/n00100/R01000/s054.kp",
+      "git_blob_sha1": "010ef007cabeb51282745f209d9641c861a4fd35",
+      "source_bytes": 798,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    },
+    {
+      "task_id": "n00100-SC-s054",
+      "n": 100,
+      "class_label": "SC",
+      "family": "s054",
+      "index": 54,
+      "task_index": 17,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s054.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/02StronglyCorrelated/n00100/R01000/s054.kp",
+      "git_blob_sha1": "dc2890922e82025135681b06fc302216ab9316f9",
+      "source_bytes": 817,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    },
+    {
+      "task_id": "n00100-UC-s055",
+      "n": 100,
+      "class_label": "UC",
+      "family": "s055",
+      "index": 55,
+      "task_index": 18,
+      "source_path": "00Uncorrelated/n00100/R01000/s055.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/00Uncorrelated/n00100/R01000/s055.kp",
+      "git_blob_sha1": "ef48948a450a1941fbd98938701848f62c011721",
+      "source_bytes": 794,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    },
+    {
+      "task_id": "n00100-WC-s055",
+      "n": 100,
+      "class_label": "WC",
+      "family": "s055",
+      "index": 55,
+      "task_index": 19,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s055.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/01WeaklyCorrelated/n00100/R01000/s055.kp",
+      "git_blob_sha1": "3f65a34662582f2e664b7598d185769c814b3209",
+      "source_bytes": 802,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    },
+    {
+      "task_id": "n00100-SC-s055",
+      "n": 100,
+      "class_label": "SC",
+      "family": "s055",
+      "index": 55,
+      "task_index": 20,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s055.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/02StronglyCorrelated/n00100/R01000/s055.kp",
+      "git_blob_sha1": "f452c1b242b688cb123522224120498a992fc84d",
+      "source_bytes": 813,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    },
+    {
+      "task_id": "n00100-UC-s056",
+      "n": 100,
+      "class_label": "UC",
+      "family": "s056",
+      "index": 56,
+      "task_index": 21,
+      "source_path": "00Uncorrelated/n00100/R01000/s056.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/00Uncorrelated/n00100/R01000/s056.kp",
+      "git_blob_sha1": "4aad939e513f26aa2ddc4d2dcdafe2208acedbe0",
+      "source_bytes": 789,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    },
+    {
+      "task_id": "n00100-WC-s056",
+      "n": 100,
+      "class_label": "WC",
+      "family": "s056",
+      "index": 56,
+      "task_index": 22,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s056.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/01WeaklyCorrelated/n00100/R01000/s056.kp",
+      "git_blob_sha1": "35ed4e67e32673e2d697fe8948a637a36299d780",
+      "source_bytes": 784,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    },
+    {
+      "task_id": "n00100-SC-s056",
+      "n": 100,
+      "class_label": "SC",
+      "family": "s056",
+      "index": 56,
+      "task_index": 23,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s056.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/02StronglyCorrelated/n00100/R01000/s056.kp",
+      "git_blob_sha1": "736fdb5d00cee6bace48a6360cf5ac4629001791",
+      "source_bytes": 805,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    },
+    {
+      "task_id": "n00100-UC-s057",
+      "n": 100,
+      "class_label": "UC",
+      "family": "s057",
+      "index": 57,
+      "task_index": 24,
+      "source_path": "00Uncorrelated/n00100/R01000/s057.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/00Uncorrelated/n00100/R01000/s057.kp",
+      "git_blob_sha1": "840d3758c15e7b6bfe9c45a864281c3d597077b8",
+      "source_bytes": 792,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    },
+    {
+      "task_id": "n00100-WC-s057",
+      "n": 100,
+      "class_label": "WC",
+      "family": "s057",
+      "index": 57,
+      "task_index": 25,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s057.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/01WeaklyCorrelated/n00100/R01000/s057.kp",
+      "git_blob_sha1": "20310bbd0a48f71e8fbaf149502f1e4b6b880928",
+      "source_bytes": 793,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    },
+    {
+      "task_id": "n00100-SC-s057",
+      "n": 100,
+      "class_label": "SC",
+      "family": "s057",
+      "index": 57,
+      "task_index": 26,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s057.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/02StronglyCorrelated/n00100/R01000/s057.kp",
+      "git_blob_sha1": "0abccfc4ed82000b1b902b5f71475c62a2adb154",
+      "source_bytes": 813,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    },
+    {
+      "task_id": "n00100-UC-s058",
+      "n": 100,
+      "class_label": "UC",
+      "family": "s058",
+      "index": 58,
+      "task_index": 27,
+      "source_path": "00Uncorrelated/n00100/R01000/s058.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/00Uncorrelated/n00100/R01000/s058.kp",
+      "git_blob_sha1": "e947410644bcf8f62731999d43dbaae5048354b5",
+      "source_bytes": 795,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    },
+    {
+      "task_id": "n00100-WC-s058",
+      "n": 100,
+      "class_label": "WC",
+      "family": "s058",
+      "index": 58,
+      "task_index": 28,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s058.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/01WeaklyCorrelated/n00100/R01000/s058.kp",
+      "git_blob_sha1": "027a0c92d86a9717b29b7313393dbbe91d066382",
+      "source_bytes": 794,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    },
+    {
+      "task_id": "n00100-SC-s058",
+      "n": 100,
+      "class_label": "SC",
+      "family": "s058",
+      "index": 58,
+      "task_index": 29,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s058.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/02StronglyCorrelated/n00100/R01000/s058.kp",
+      "git_blob_sha1": "3fa53d2043485b9e71e4253d701dcba07fcdeb19",
+      "source_bytes": 813,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    },
+    {
+      "task_id": "n00100-UC-s059",
+      "n": 100,
+      "class_label": "UC",
+      "family": "s059",
+      "index": 59,
+      "task_index": 30,
+      "source_path": "00Uncorrelated/n00100/R01000/s059.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/00Uncorrelated/n00100/R01000/s059.kp",
+      "git_blob_sha1": "8c5556b5da8d8843d4b7de24965817d9a033ac2d",
+      "source_bytes": 790,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    },
+    {
+      "task_id": "n00100-WC-s059",
+      "n": 100,
+      "class_label": "WC",
+      "family": "s059",
+      "index": 59,
+      "task_index": 31,
+      "source_path": "01WeaklyCorrelated/n00100/R01000/s059.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/01WeaklyCorrelated/n00100/R01000/s059.kp",
+      "git_blob_sha1": "5d5aee94637dadb9ffbdf3dab7202482ae4c3f3e",
+      "source_bytes": 791,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    },
+    {
+      "task_id": "n00100-SC-s059",
+      "n": 100,
+      "class_label": "SC",
+      "family": "s059",
+      "index": 59,
+      "task_index": 32,
+      "source_path": "02StronglyCorrelated/n00100/R01000/s059.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/c5bea0df8169749caaba5ce7dfcf21437aa1ca5c/02StronglyCorrelated/n00100/R01000/s059.kp",
+      "git_blob_sha1": "ba4bade97d2f1c6ebdd59207d0d9989bc5bc947e",
+      "source_bytes": 812,
+      "status": "PINNED_GIT_TREE_METADATA_ONLY",
+      "source_sha256": null,
+      "exact_certificate_status": "NOT_PREPARED",
+      "ga_search_status": "NO_RESULT_FOUND_IN_LOCAL_INVENTORY_AUDIT"
+    }
+  ],
+  "historical_duplicate_inventory": {
+    "scope": "Known local source inputs n00100 s000-s049; source presence is not evidence of GA use",
+    "status": "INCOMPLETE_BLOCK_MAIN_ADMISSION",
+    "expected_cases": 150,
+    "found_cases": 120,
+    "missing_source_paths": [
+      "00Uncorrelated/n00100/R01000/s030.kp",
+      "00Uncorrelated/n00100/R01000/s031.kp",
+      "00Uncorrelated/n00100/R01000/s032.kp",
+      "00Uncorrelated/n00100/R01000/s033.kp",
+      "00Uncorrelated/n00100/R01000/s034.kp",
+      "00Uncorrelated/n00100/R01000/s035.kp",
+      "00Uncorrelated/n00100/R01000/s036.kp",
+      "00Uncorrelated/n00100/R01000/s037.kp",
+      "00Uncorrelated/n00100/R01000/s038.kp",
+      "00Uncorrelated/n00100/R01000/s039.kp",
+      "01WeaklyCorrelated/n00100/R01000/s030.kp",
+      "01WeaklyCorrelated/n00100/R01000/s031.kp",
+      "01WeaklyCorrelated/n00100/R01000/s032.kp",
+      "01WeaklyCorrelated/n00100/R01000/s033.kp",
+      "01WeaklyCorrelated/n00100/R01000/s034.kp",
+      "01WeaklyCorrelated/n00100/R01000/s035.kp",
+      "01WeaklyCorrelated/n00100/R01000/s036.kp",
+      "01WeaklyCorrelated/n00100/R01000/s037.kp",
+      "01WeaklyCorrelated/n00100/R01000/s038.kp",
+      "01WeaklyCorrelated/n00100/R01000/s039.kp",
+      "02StronglyCorrelated/n00100/R01000/s030.kp",
+      "02StronglyCorrelated/n00100/R01000/s031.kp",
+      "02StronglyCorrelated/n00100/R01000/s032.kp",
+      "02StronglyCorrelated/n00100/R01000/s033.kp",
+      "02StronglyCorrelated/n00100/R01000/s034.kp",
+      "02StronglyCorrelated/n00100/R01000/s035.kp",
+      "02StronglyCorrelated/n00100/R01000/s036.kp",
+      "02StronglyCorrelated/n00100/R01000/s037.kp",
+      "02StronglyCorrelated/n00100/R01000/s038.kp",
+      "02StronglyCorrelated/n00100/R01000/s039.kp"
+    ],
+    "cases": [
+      {
+        "task_id": "n00100-UC-s000",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s000",
+        "source_path": "00Uncorrelated/n00100/R01000/s000.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/00Uncorrelated/n00100/R01000/s000.kp",
+            "sha256": "e05b24ea5b60e90ad38a2e4b46c87a73f197a5828b06b8bb298c9668ecfafed5",
+            "bytes": 794
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s001",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s001",
+        "source_path": "00Uncorrelated/n00100/R01000/s001.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/00Uncorrelated/n00100/R01000/s001.kp",
+            "sha256": "9b01e394f26a1bb1842c15aca9e81465bcc5355e950f48fa251f1cfaddaf6dd1",
+            "bytes": 786
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s002",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s002",
+        "source_path": "00Uncorrelated/n00100/R01000/s002.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/00Uncorrelated/n00100/R01000/s002.kp",
+            "sha256": "81ae3c04034a413f9aaa66efb9b0113a91512500e19d0c7d4ea86a5ba4324389",
+            "bytes": 789
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s003",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s003",
+        "source_path": "00Uncorrelated/n00100/R01000/s003.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/00Uncorrelated/n00100/R01000/s003.kp",
+            "sha256": "722322336d55c12c66575441f0066b10682388004a29d3944269ed8e978ad3f0",
+            "bytes": 791
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s004",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s004",
+        "source_path": "00Uncorrelated/n00100/R01000/s004.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/00Uncorrelated/n00100/R01000/s004.kp",
+            "sha256": "ee0ae1cede84d12279e4411e9da405f56f4dc374d516372a85dba35b01e44495",
+            "bytes": 786
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s005",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s005",
+        "source_path": "00Uncorrelated/n00100/R01000/s005.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/00Uncorrelated/n00100/R01000/s005.kp",
+            "sha256": "4eb5686d45a1ce6d3e04e4e9c8d265911c890ddc7cdc6b6e4d62891b6f21e68c",
+            "bytes": 792
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s006",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s006",
+        "source_path": "00Uncorrelated/n00100/R01000/s006.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/00Uncorrelated/n00100/R01000/s006.kp",
+            "sha256": "ce7f96cf9aea5f798be5590137ae67e591094c7b7e002785223950cfaea459d4",
+            "bytes": 789
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s007",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s007",
+        "source_path": "00Uncorrelated/n00100/R01000/s007.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/00Uncorrelated/n00100/R01000/s007.kp",
+            "sha256": "f8f778b9f266d9bd53a4f841c1fb8ccc7ee300ea994c2bb5561e827b0f8764e8",
+            "bytes": 785
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s008",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s008",
+        "source_path": "00Uncorrelated/n00100/R01000/s008.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/00Uncorrelated/n00100/R01000/s008.kp",
+            "sha256": "02ab99616ffd8ddc44e90889fa73ebd9d4f67dd27b84261ded6f721c42c2ce46",
+            "bytes": 791
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s009",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s009",
+        "source_path": "00Uncorrelated/n00100/R01000/s009.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/00Uncorrelated/n00100/R01000/s009.kp",
+            "sha256": "e90c1b3017295e9fd71c76c491770d0c4a0fe27d400f304c15701d0e5b6ed42f",
+            "bytes": 780
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s010",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s010",
+        "source_path": "00Uncorrelated/n00100/R01000/s010.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/00Uncorrelated/n00100/R01000/s010.kp",
+            "sha256": "4c5c042d3ecae204c7558e3f6cb9848a1b4b9d8c921b08ce7637c8293067df11",
+            "bytes": 789
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s011",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s011",
+        "source_path": "00Uncorrelated/n00100/R01000/s011.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/00Uncorrelated/n00100/R01000/s011.kp",
+            "sha256": "fe72dfd0bc07181c093b51f9bc67661e2ba7d94c90071ce66ad2925758b9f198",
+            "bytes": 788
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s012",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s012",
+        "source_path": "00Uncorrelated/n00100/R01000/s012.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/00Uncorrelated/n00100/R01000/s012.kp",
+            "sha256": "b733371b3c96326aad9b1e2ab759276eb952312499c818c43c4f2e103cb0976d",
+            "bytes": 789
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s013",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s013",
+        "source_path": "00Uncorrelated/n00100/R01000/s013.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/00Uncorrelated/n00100/R01000/s013.kp",
+            "sha256": "ec45b864be1201caf44ad970df4cd4250f9c5c67cb440a0adba594046f9a16e9",
+            "bytes": 789
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s014",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s014",
+        "source_path": "00Uncorrelated/n00100/R01000/s014.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/00Uncorrelated/n00100/R01000/s014.kp",
+            "sha256": "fef5c90cadce49cfb4ec8587dab2c43a87730b0de07d16a823d1eb9a8e5a86c7",
+            "bytes": 793
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s015",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s015",
+        "source_path": "00Uncorrelated/n00100/R01000/s015.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/00Uncorrelated/n00100/R01000/s015.kp",
+            "sha256": "17f8c3512bbf7277b65d19c16935f7da6027065edc780b119f949a118695ce05",
+            "bytes": 793
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s016",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s016",
+        "source_path": "00Uncorrelated/n00100/R01000/s016.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/00Uncorrelated/n00100/R01000/s016.kp",
+            "sha256": "73912d2c94b858ca988635d15a6bfa5b2f0f94a49c7ad0a6e320f6473d6a6e72",
+            "bytes": 790
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s017",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s017",
+        "source_path": "00Uncorrelated/n00100/R01000/s017.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/00Uncorrelated/n00100/R01000/s017.kp",
+            "sha256": "00bc14724c0205f2e088d59407d2164db7c39cd0af254944501efad1b32ce3ae",
+            "bytes": 791
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s018",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s018",
+        "source_path": "00Uncorrelated/n00100/R01000/s018.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/00Uncorrelated/n00100/R01000/s018.kp",
+            "sha256": "9f90a61b1d18dbb074fea2a2ea26ec03b2a6f0deb388b920207e8bdc4af131d4",
+            "bytes": 796
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s019",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s019",
+        "source_path": "00Uncorrelated/n00100/R01000/s019.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/00Uncorrelated/n00100/R01000/s019.kp",
+            "sha256": "1393d2624e02df33eaafa12f510969b5c7d36d234033ca2a4c9b643429a8ec33",
+            "bytes": 793
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s020",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s020",
+        "source_path": "00Uncorrelated/n00100/R01000/s020.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/00Uncorrelated/n00100/R01000/s020.kp",
+            "sha256": "2693ce539fa66c64da62f2083a3f2d6468613d60795d92967e7de5670eb52534",
+            "bytes": 785
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s021",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s021",
+        "source_path": "00Uncorrelated/n00100/R01000/s021.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/00Uncorrelated/n00100/R01000/s021.kp",
+            "sha256": "9edecb28766213db9113760f1957cbc2523fbb60860df4a42f4b3a63b3b85528",
+            "bytes": 786
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s022",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s022",
+        "source_path": "00Uncorrelated/n00100/R01000/s022.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/00Uncorrelated/n00100/R01000/s022.kp",
+            "sha256": "8132cb6d5ced8822f9146ba73e695fe84a5a01a4d80c4a3b7c82cd62c4b56f62",
+            "bytes": 790
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s023",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s023",
+        "source_path": "00Uncorrelated/n00100/R01000/s023.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/00Uncorrelated/n00100/R01000/s023.kp",
+            "sha256": "4c779891aedd3a6a59e2f965ff17410bda13ff13c6c9e7a3ff91d5e3357cc0c2",
+            "bytes": 793
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s024",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s024",
+        "source_path": "00Uncorrelated/n00100/R01000/s024.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/00Uncorrelated/n00100/R01000/s024.kp",
+            "sha256": "e35779f037be51244ddc87455d94a44c1de8e31e07025061d995005d8c3c9471",
+            "bytes": 795
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s025",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s025",
+        "source_path": "00Uncorrelated/n00100/R01000/s025.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/00Uncorrelated/n00100/R01000/s025.kp",
+            "sha256": "9684db084795f70ca3c99787841467a90f9ee9807013a8a62eaab466e8354a52",
+            "bytes": 787
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s026",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s026",
+        "source_path": "00Uncorrelated/n00100/R01000/s026.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/00Uncorrelated/n00100/R01000/s026.kp",
+            "sha256": "dbc7b5ff2854db6840f779d47693d7cde5218161e2ca23e8398e7fb78895e338",
+            "bytes": 771
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s027",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s027",
+        "source_path": "00Uncorrelated/n00100/R01000/s027.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/00Uncorrelated/n00100/R01000/s027.kp",
+            "sha256": "7a02007935a57f644052294bac96a3abc33d1eb9668dcaa5e2964465bf5a1b04",
+            "bytes": 791
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s028",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s028",
+        "source_path": "00Uncorrelated/n00100/R01000/s028.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/00Uncorrelated/n00100/R01000/s028.kp",
+            "sha256": "b4b3eae6ca71e2078e582ad2982b9b844d128e43a3955121af1b78b43f3e7347",
+            "bytes": 790
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s029",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s029",
+        "source_path": "00Uncorrelated/n00100/R01000/s029.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/00Uncorrelated/n00100/R01000/s029.kp",
+            "sha256": "c0f0e026f5f462655020a64c2bba713af81761c354f4b8bfea842a16f9025e0e",
+            "bytes": 797
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s040",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s040",
+        "source_path": "00Uncorrelated/n00100/R01000/s040.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/00Uncorrelated/n00100/R01000/s040.kp",
+            "sha256": "dfa0c459e08d24826889852b4233484f61cb019b011c783286e0277bdbcffcef",
+            "bytes": 787
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s041",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s041",
+        "source_path": "00Uncorrelated/n00100/R01000/s041.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/00Uncorrelated/n00100/R01000/s041.kp",
+            "sha256": "d31f38c4d3c25903ad49d91b9dca65dcb4567fd83df0b83656095b5b099a999d",
+            "bytes": 796
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s042",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s042",
+        "source_path": "00Uncorrelated/n00100/R01000/s042.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/00Uncorrelated/n00100/R01000/s042.kp",
+            "sha256": "a104fa60aa0d5b6da609a7d66f9d4cd16b8c7b34b5f1b44e92f96f389f10902b",
+            "bytes": 787
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s043",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s043",
+        "source_path": "00Uncorrelated/n00100/R01000/s043.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/00Uncorrelated/n00100/R01000/s043.kp",
+            "sha256": "386eab6763668254a57beb083d35c0af17dc5583af53f7db11480a6e36ee917f",
+            "bytes": 790
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s044",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s044",
+        "source_path": "00Uncorrelated/n00100/R01000/s044.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/00Uncorrelated/n00100/R01000/s044.kp",
+            "sha256": "d820de0a5b82c574a5b1fd1816dc51ce22cb0de196d3f9a2466a5c8406ce3a75",
+            "bytes": 785
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s045",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s045",
+        "source_path": "00Uncorrelated/n00100/R01000/s045.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/00Uncorrelated/n00100/R01000/s045.kp",
+            "sha256": "51efa73d0c31456fe507f7a9f2ae490e19bbebc6259965d1f12912484f3134c1",
+            "bytes": 787
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s046",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s046",
+        "source_path": "00Uncorrelated/n00100/R01000/s046.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/00Uncorrelated/n00100/R01000/s046.kp",
+            "sha256": "f88becbf97139c24f5e41a66afcb8036c37c8698c7c25b91ef6f6529651dbf8d",
+            "bytes": 782
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s047",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s047",
+        "source_path": "00Uncorrelated/n00100/R01000/s047.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/00Uncorrelated/n00100/R01000/s047.kp",
+            "sha256": "132eff927fe1db1b26665ace0550e7dd3b281b3cc9628d3e54d371a68e9da707",
+            "bytes": 787
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s048",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s048",
+        "source_path": "00Uncorrelated/n00100/R01000/s048.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/00Uncorrelated/n00100/R01000/s048.kp",
+            "sha256": "f42deaf100a4e80af0b778f27d946535a2c0a7cedaadcb2a75d79dd8a9f53bea",
+            "bytes": 786
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-UC-s049",
+        "n": 100,
+        "class_label": "UC",
+        "family": "s049",
+        "source_path": "00Uncorrelated/n00100/R01000/s049.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/00Uncorrelated/n00100/R01000/s049.kp",
+            "sha256": "f84d8337d3a2f9f22a5a17320e93a91ee9f83e2c9b5438e7cfed447e654bda65",
+            "bytes": 789
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s000",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s000",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s000.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/01WeaklyCorrelated/n00100/R01000/s000.kp",
+            "sha256": "8ea58441d86fdb3be8cb4c14f5950b19b1a5ee5642a682afcb44835892471b40",
+            "bytes": 799
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s001",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s001",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s001.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/01WeaklyCorrelated/n00100/R01000/s001.kp",
+            "sha256": "871d6ad9afddff417b1253c9e27fd2464bddc552bb9cbf7ceec93ac66ab6721d",
+            "bytes": 791
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s002",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s002",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s002.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/01WeaklyCorrelated/n00100/R01000/s002.kp",
+            "sha256": "0990c1da25c8635d91d1e97e5b1eb3a8322406a849f0b6d579e4fd2360dad995",
+            "bytes": 801
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s003",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s003",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s003.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/01WeaklyCorrelated/n00100/R01000/s003.kp",
+            "sha256": "d781506c8f4b895ad3a6e64e27dd40376c26710da4110abf7b704cfbc36d48e1",
+            "bytes": 794
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s004",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s004",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s004.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/01WeaklyCorrelated/n00100/R01000/s004.kp",
+            "sha256": "f23af8d6616163f774ae0933ba35eb0fb609dff0d1df8307ac1a8ce0e6d3804e",
+            "bytes": 796
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s005",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s005",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s005.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/01WeaklyCorrelated/n00100/R01000/s005.kp",
+            "sha256": "9adecea7744f3eff7ea71b7f4f07a019b9087806ad64c3980481e345662afc9d",
+            "bytes": 791
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s006",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s006",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s006.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/01WeaklyCorrelated/n00100/R01000/s006.kp",
+            "sha256": "e9e8698afd0f2c6896852a4838d53e63790d7a372df2977fff413d4ec4d54906",
+            "bytes": 794
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s007",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s007",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s007.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/01WeaklyCorrelated/n00100/R01000/s007.kp",
+            "sha256": "a72df7a783780872ead1bfd8c28eccfcd24879f55b9882a9c5c43dd0edec41e2",
+            "bytes": 786
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s008",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s008",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s008.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/01WeaklyCorrelated/n00100/R01000/s008.kp",
+            "sha256": "d0ff2bcc7b2feffc21e3fb857518360ee2544153572b55d575a4e031ae767c3d",
+            "bytes": 794
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s009",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s009",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s009.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/01WeaklyCorrelated/n00100/R01000/s009.kp",
+            "sha256": "235df9882d260a95eb0eba9ddaa826a5101344d35f2ce5507629128fa0e49d7c",
+            "bytes": 779
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s010",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s010",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s010.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/01WeaklyCorrelated/n00100/R01000/s010.kp",
+            "sha256": "dea59b919272c93bef4a8c833cdb5ad2d81a388bb61629c838ea728318a01cdd",
+            "bytes": 796
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s011",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s011",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s011.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/01WeaklyCorrelated/n00100/R01000/s011.kp",
+            "sha256": "71af95fde1777870c924cf843fa86ccecb6ea986954018afaac69df212e4a293",
+            "bytes": 793
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s012",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s012",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s012.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/01WeaklyCorrelated/n00100/R01000/s012.kp",
+            "sha256": "3526a30098efa26004ed9a02bdfa840c885f5ce5f9a8779caf782911d1a48ed6",
+            "bytes": 786
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s013",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s013",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s013.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/01WeaklyCorrelated/n00100/R01000/s013.kp",
+            "sha256": "fdccc247d0a487f420308226d94f6683217677d60c12a99bb5cb715a1dfce187",
+            "bytes": 803
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s014",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s014",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s014.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/01WeaklyCorrelated/n00100/R01000/s014.kp",
+            "sha256": "4256b082f92413242c28ffd77460e4d94ee4ecc0f9b7c35bd86002a3110e3157",
+            "bytes": 792
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s015",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s015",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s015.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/01WeaklyCorrelated/n00100/R01000/s015.kp",
+            "sha256": "55ac5e81d8827727391ea3d20465841d47a4f0b8fa1070c2c0aff85bbafb4c73",
+            "bytes": 794
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s016",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s016",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s016.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/01WeaklyCorrelated/n00100/R01000/s016.kp",
+            "sha256": "9454048692f36b86ebc7322d0c7e445b00a805d169f8eed2a5b86823f5d183f4",
+            "bytes": 787
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s017",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s017",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s017.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/01WeaklyCorrelated/n00100/R01000/s017.kp",
+            "sha256": "770efb01ccb19d08b5cae14b737333497dd9f5305b404497a69270c4c2754fef",
+            "bytes": 796
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s018",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s018",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s018.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/01WeaklyCorrelated/n00100/R01000/s018.kp",
+            "sha256": "45aedde1a889674e1a7aec0cec9105c83804365013fde0a6d701f0aa84637a99",
+            "bytes": 803
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s019",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s019",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s019.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/01WeaklyCorrelated/n00100/R01000/s019.kp",
+            "sha256": "937c7856cb1241d88aa507fe623214221341dccbd1e9a2f9d5c273cc4aa10fda",
+            "bytes": 788
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s020",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s020",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s020.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/01WeaklyCorrelated/n00100/R01000/s020.kp",
+            "sha256": "b9979d8fdd133673f504270e559f9acd7a78c49126cce1bbb07c3811b23cccb1",
+            "bytes": 781
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s021",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s021",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s021.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/01WeaklyCorrelated/n00100/R01000/s021.kp",
+            "sha256": "b95d4f396dca92662bff5e438d173dccc8b758a9eb1c9c7145e2812b80d56a2f",
+            "bytes": 798
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s022",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s022",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s022.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/01WeaklyCorrelated/n00100/R01000/s022.kp",
+            "sha256": "11e0201efb982027587528fbddb8d9472efaac3c10ced069ad047de8eedbda54",
+            "bytes": 802
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s023",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s023",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s023.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/01WeaklyCorrelated/n00100/R01000/s023.kp",
+            "sha256": "1142955077f9e9d3e20eca82992aead5586d2ef4bd0848102dd7df44aaecdb47",
+            "bytes": 796
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s024",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s024",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s024.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/01WeaklyCorrelated/n00100/R01000/s024.kp",
+            "sha256": "ad93cf7aadcd2bfa661edb22cc90c5a27f1bcf346b9c6d6456f355798c7ae75c",
+            "bytes": 799
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s025",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s025",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s025.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/01WeaklyCorrelated/n00100/R01000/s025.kp",
+            "sha256": "2294b2bff86a83b138e6a8c69f0079ba1def677c777d0ff35245c181dbd134a5",
+            "bytes": 795
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s026",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s026",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s026.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/01WeaklyCorrelated/n00100/R01000/s026.kp",
+            "sha256": "a2b11cced29ae0a66755b2502e5ccf4d667246839bf1add92a858d2a466a273c",
+            "bytes": 774
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s027",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s027",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s027.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/01WeaklyCorrelated/n00100/R01000/s027.kp",
+            "sha256": "9c770e997d9079bbae9d27b92fc7521bd6c9a364b11a765d0a66429a3a1cb389",
+            "bytes": 791
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s028",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s028",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s028.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/01WeaklyCorrelated/n00100/R01000/s028.kp",
+            "sha256": "23358c65226c7fab59c29043fe77ddd5e04f4e664d3118a76b377d2e820d54da",
+            "bytes": 796
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s029",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s029",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s029.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/01WeaklyCorrelated/n00100/R01000/s029.kp",
+            "sha256": "a18d43c0bf7b0752ce4c7e9a179bef593b4e6bfde58fca0da36219885a9839a0",
+            "bytes": 800
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s040",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s040",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s040.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/01WeaklyCorrelated/n00100/R01000/s040.kp",
+            "sha256": "ccf0d98139f875853bfa8473aebd58b82f8e3e74d5a936503e4a548f384964e8",
+            "bytes": 793
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s041",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s041",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s041.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/01WeaklyCorrelated/n00100/R01000/s041.kp",
+            "sha256": "c50630e59f88d8ac2672b10b05060ea42dd7046378f1a2aed3bf3ad098e795ff",
+            "bytes": 801
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s042",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s042",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s042.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/01WeaklyCorrelated/n00100/R01000/s042.kp",
+            "sha256": "113de2a43662ffd18e7ba709083730c087672a33695e7f0b31549560bb9447a7",
+            "bytes": 789
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s043",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s043",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s043.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/01WeaklyCorrelated/n00100/R01000/s043.kp",
+            "sha256": "876f37a42845fa0f284f8b5dcdfc45a746c879b290491aa589aefbf01639d1dc",
+            "bytes": 789
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s044",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s044",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s044.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/01WeaklyCorrelated/n00100/R01000/s044.kp",
+            "sha256": "c60c0ba8af0c6632dfbaed851fe9876366af14dfac878b6c3395f8a6f70e79d4",
+            "bytes": 786
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s045",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s045",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s045.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/01WeaklyCorrelated/n00100/R01000/s045.kp",
+            "sha256": "2ce1653db71442d3fa102a844c16012dff78b7bdcf48da4e41e586ca732b1368",
+            "bytes": 785
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s046",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s046",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s046.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/01WeaklyCorrelated/n00100/R01000/s046.kp",
+            "sha256": "dc5bc6575f5b030a5e925ed4b24e4d6a8d3c5c365b49ad10353fecaaf4e5d386",
+            "bytes": 786
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s047",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s047",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s047.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/01WeaklyCorrelated/n00100/R01000/s047.kp",
+            "sha256": "49f8206a5a04df7ff87e53f60d64429ee8f8e7a64b3b3b1ef3b06e2aaed1ef4e",
+            "bytes": 795
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s048",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s048",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s048.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/01WeaklyCorrelated/n00100/R01000/s048.kp",
+            "sha256": "23b36f9991f1ac84bb4436ecfe5c8cab7122c203afdc1813a699b00bf6e257b7",
+            "bytes": 793
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-WC-s049",
+        "n": 100,
+        "class_label": "WC",
+        "family": "s049",
+        "source_path": "01WeaklyCorrelated/n00100/R01000/s049.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/01WeaklyCorrelated/n00100/R01000/s049.kp",
+            "sha256": "9e187e4e74e9a4d67c234e5c73d2301d77214813dbffcedf656e2597cf87f75f",
+            "bytes": 797
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s000",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s000",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s000.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/02StronglyCorrelated/n00100/R01000/s000.kp",
+            "sha256": "a496027b76d6d559f423bb5041fe9b4e6d8aa220e5cee483ee0424b7540a3627",
+            "bytes": 820
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s001",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s001",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s001.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/02StronglyCorrelated/n00100/R01000/s001.kp",
+            "sha256": "dd5ad922044a1fa17fb794013689e8773a2e0af428ff0cbfc70c54030a662639",
+            "bytes": 808
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s002",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s002",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s002.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/02StronglyCorrelated/n00100/R01000/s002.kp",
+            "sha256": "f2097abbd8ebf77faeb6021de91236d032f3b251a5f3447d71f765dbd8b73d06",
+            "bytes": 821
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s003",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s003",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s003.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/02StronglyCorrelated/n00100/R01000/s003.kp",
+            "sha256": "23ff06127f54e2e421d7dc1273391612f062d4e7a915cfc6b4f4107f3e44d495",
+            "bytes": 813
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s004",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s004",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s004.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/02StronglyCorrelated/n00100/R01000/s004.kp",
+            "sha256": "e1c9dba909283fa81ec09235d23a98948630eb98a211c05c8669b7d46f419ca6",
+            "bytes": 813
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s005",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s005",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s005.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/02StronglyCorrelated/n00100/R01000/s005.kp",
+            "sha256": "ceb5ace09ae6407396c48aeafd90fea2b20cb75d1883ec60b549314fdf90ce8b",
+            "bytes": 813
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s006",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s006",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s006.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/02StronglyCorrelated/n00100/R01000/s006.kp",
+            "sha256": "4078c6f46e1049207f90467b0e660d42ac702f61189c41a63e575749af755bb8",
+            "bytes": 810
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s007",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s007",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s007.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/02StronglyCorrelated/n00100/R01000/s007.kp",
+            "sha256": "03d15615f54bbb558b2996663fbf51b958e5bc6112ab05aaf9d66bceac0e2c68",
+            "bytes": 805
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s008",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s008",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s008.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/02StronglyCorrelated/n00100/R01000/s008.kp",
+            "sha256": "3dfa196594052765ad9c63082d63fab355346164287c156e9b1d28e17e5231ce",
+            "bytes": 812
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s009",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s009",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s009.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/inputs/source/02StronglyCorrelated/n00100/R01000/s009.kp",
+            "sha256": "c2f7a5b4f64adc6fe7e70d99ea9364be810a65de88e0594f7229c2d8541d8d51",
+            "bytes": 802
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s010",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s010",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s010.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/02StronglyCorrelated/n00100/R01000/s010.kp",
+            "sha256": "962fd316f7af838fac6dccb7102dd7e3987f8564a2386f112980d5ec7628f645",
+            "bytes": 809
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s011",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s011",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s011.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/02StronglyCorrelated/n00100/R01000/s011.kp",
+            "sha256": "ecbb754530f6fe1a63d2a04c7117fecfff0addca0472409215ef8f595fdd0948",
+            "bytes": 809
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s012",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s012",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s012.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/02StronglyCorrelated/n00100/R01000/s012.kp",
+            "sha256": "2de7f9a425c38d950ff717c18f59a1c869543e8911bbe38be547b9e2bfe8219e",
+            "bytes": 808
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s013",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s013",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s013.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/02StronglyCorrelated/n00100/R01000/s013.kp",
+            "sha256": "04aba2df0954ea2cc97ee8d4c8fc2ab8102ef46a09069c06dbd29b3e1a5d2b0c",
+            "bytes": 812
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s014",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s014",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s014.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/02StronglyCorrelated/n00100/R01000/s014.kp",
+            "sha256": "ac938b92ed6cf35ad2c0ad9a3cb0b8852567ed5653852a577731f2f856254405",
+            "bytes": 811
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s015",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s015",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s015.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/02StronglyCorrelated/n00100/R01000/s015.kp",
+            "sha256": "7d35c82cfbd6ccb56d31543f0be5e594977d39672004fa30bc81f9c7fb98e8ea",
+            "bytes": 815
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s016",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s016",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s016.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/02StronglyCorrelated/n00100/R01000/s016.kp",
+            "sha256": "23518c59e9189f03c1e9a419725a63e7f9260b69214800caaa9b9484598a1c4c",
+            "bytes": 809
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s017",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s017",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s017.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/02StronglyCorrelated/n00100/R01000/s017.kp",
+            "sha256": "2ab57eb0cf24041de96fce350a4342c8bc811ce342e1d3bdf846cd719fe12fa4",
+            "bytes": 818
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s018",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s018",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s018.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/02StronglyCorrelated/n00100/R01000/s018.kp",
+            "sha256": "c29a8b4eafc2341c36b893d168a4bff41776d0d65441be4efe5af12ab23af038",
+            "bytes": 813
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s019",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s019",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s019.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/basic_parameters/inputs/holdout/source/02StronglyCorrelated/n00100/R01000/s019.kp",
+            "sha256": "ae99928f77b7f92a4a7dab19a504eb09b5d10546889c88037a759d50fc946b59",
+            "bytes": 806
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s020",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s020",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s020.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/02StronglyCorrelated/n00100/R01000/s020.kp",
+            "sha256": "462e7788acdfa1469a27fde7e14c51bcd70c31326f641caa5998904870eeb111",
+            "bytes": 807
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s021",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s021",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s021.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/02StronglyCorrelated/n00100/R01000/s021.kp",
+            "sha256": "31afd68fcc8f5c28fa1be450f69899ce87664b34e0ba9ae6cbb1845b82e59549",
+            "bytes": 813
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s022",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s022",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s022.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/02StronglyCorrelated/n00100/R01000/s022.kp",
+            "sha256": "669d30847a217bf127c30f9bc249890b82913730dd3fe1bf42eebfe1317d4ae5",
+            "bytes": 821
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s023",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s023",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s023.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/02StronglyCorrelated/n00100/R01000/s023.kp",
+            "sha256": "a81ad05191fec323e1b1fc56c6c4eb793af9092aa9b32dce1f0af8280b3b5daf",
+            "bytes": 815
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s024",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s024",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s024.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/02StronglyCorrelated/n00100/R01000/s024.kp",
+            "sha256": "43e13c2fed6c52b4fbfb49b6fd446906a48417b9aa36568503438aec74600dd0",
+            "bytes": 816
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s025",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s025",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s025.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/02StronglyCorrelated/n00100/R01000/s025.kp",
+            "sha256": "6cbc200f08d4c2ebee04c0dded1fb4ad2e3cd899a77a010bc683d4cd7c1b4fb1",
+            "bytes": 808
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s026",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s026",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s026.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/02StronglyCorrelated/n00100/R01000/s026.kp",
+            "sha256": "460b3449a0174226ad89a87eb2cca3418805decf988e75f7334c1f381bc6decc",
+            "bytes": 803
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s027",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s027",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s027.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/02StronglyCorrelated/n00100/R01000/s027.kp",
+            "sha256": "fbfbc796639ed247c84008d164b6f12eea628227a94a5b8b1d37adbe6b10a213",
+            "bytes": 807
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s028",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s028",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s028.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/02StronglyCorrelated/n00100/R01000/s028.kp",
+            "sha256": "979d222e50c246eecf13e3670733c3cba8a8cee1cdb271d6ee6ec476c6d36ed1",
+            "bytes": 811
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s029",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s029",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s029.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/parameter_dynamics/inputs/main/source/02StronglyCorrelated/n00100/R01000/s029.kp",
+            "sha256": "f819d093624afac9a2a1745107b16a8a3d224a08a2ef56920970e3a575b97bc7",
+            "bytes": 816
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s040",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s040",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s040.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/02StronglyCorrelated/n00100/R01000/s040.kp",
+            "sha256": "25338e9f141b996840470911fd0a42f8f5a8e5a271cf9bd876f07c3a24d00a54",
+            "bytes": 813
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s041",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s041",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s041.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/02StronglyCorrelated/n00100/R01000/s041.kp",
+            "sha256": "d192174046c935fa448420876d2e226649f930d625b1173cf7917b4f36523864",
+            "bytes": 810
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s042",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s042",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s042.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/02StronglyCorrelated/n00100/R01000/s042.kp",
+            "sha256": "a87a0ad3ee727596d1f7f9192602003a8703655b9606c7b3940a83d5545caa8a",
+            "bytes": 807
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s043",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s043",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s043.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/02StronglyCorrelated/n00100/R01000/s043.kp",
+            "sha256": "696123202e8ce70f47a75980fccc56006032e705495f86248ca9e94586c1d888",
+            "bytes": 810
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s044",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s044",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s044.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/02StronglyCorrelated/n00100/R01000/s044.kp",
+            "sha256": "c04d9327e24e1cd4c14c0b775c2e8aa8abcd07644fad44a33330303d7e473494",
+            "bytes": 803
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s045",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s045",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s045.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/02StronglyCorrelated/n00100/R01000/s045.kp",
+            "sha256": "20ea58cf11c1495cf2f07451d2cef9406ed42f7ee60a25838abda20055933ba0",
+            "bytes": 803
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s046",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s046",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s046.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/02StronglyCorrelated/n00100/R01000/s046.kp",
+            "sha256": "b55086be43bb19c7ab99fef4e8fb59d474d2a3ade1b69126e5efc8daa55cabe7",
+            "bytes": 805
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s047",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s047",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s047.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/02StronglyCorrelated/n00100/R01000/s047.kp",
+            "sha256": "bf89f3337de13b1a3e6e3557d7a946bae7bfa85369d81a8abbafd2ef0c7daac3",
+            "bytes": 814
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s048",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s048",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s048.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/02StronglyCorrelated/n00100/R01000/s048.kp",
+            "sha256": "d0ea647877487958b101bb82a06426c5b0fb23a0c2726b917278d14a44d5174d",
+            "bytes": 808
+          }
+        ]
+      },
+      {
+        "task_id": "n00100-SC-s049",
+        "n": 100,
+        "class_label": "SC",
+        "family": "s049",
+        "source_path": "02StronglyCorrelated/n00100/R01000/s049.kp",
+        "local_sources": [
+          {
+            "repository_relative_path": "studies/knapsack_parameters/tournament_feedback/inputs/main/source/02StronglyCorrelated/n00100/R01000/s049.kp",
+            "sha256": "6899413ce33767daf37b23c7de0916337dcb31ae321e7376d63199823b0675f1",
+            "bytes": 814
+          }
+        ]
+      }
+    ],
+    "comparison_status": "NOT_COMPARED_LOCALLY; CI will parse raw inputs and compute ordered/unordered identities"
+  },
+  "holdout_audit": {
+    "scope": "Workspace file names and text identities in available repository/documents; no new search results inspected",
+    "ga_results_found": false,
+    "raw_holdout_source_files_found": false,
+    "limitation": "Local audit does not prove the absence of external or unindexed prior runs"
+  },
+  "main_admission_status": "BLOCKED_PENDING_PINNED_BYTES_DUPLICATE_AUDIT_AND_TWO_EXACT_ORACLES"
+}

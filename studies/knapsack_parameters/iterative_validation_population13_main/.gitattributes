@@ -1,0 +1,2 @@
+# Freeze exact source and registration bytes on every platform.
+* -text

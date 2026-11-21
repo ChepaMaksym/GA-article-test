@@ -1,0 +1,258 @@
+name: Population 13 main descriptive comparison
+
+on:
+  workflow_dispatch:
+    inputs:
+      authorization_id:
+        description: Exact identity of the separate main-series resource grant
+        required: true
+        type: string
+      resume_run_id:
+        description: Empty initially; an explicitly admitted completed main run for resumption
+        required: false
+        default: ''
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: knapsack-population13-main
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+  PYTHONHASHSEED: '0'
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  NUMEXPR_NUM_THREADS: '1'
+  MPLBACKEND: Agg
+  MODULE: studies.knapsack_parameters.iterative_validation_population13_main
+  LOCK: studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+  POPULATION13_MAIN_AUTHORIZATION_ID: ${{ inputs.authorization_id }}
+
+# Timeout sum: 5 + 30*4 + 10 = 135 minutes; a separate 15-minute reserve
+# keeps the proposed total at 150 runner-minutes. No push/PR trigger exists.
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      has_cases: ${{ steps.plan.outputs.has_cases }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: 3.12.14
+      - name: Install immutable dependencies
+        run: |
+          python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r "$LOCK"
+      - name: Admit the separately approved main stage
+        id: admit
+        run: |
+          mkdir -p stage/meta
+          python -m "$MODULE.common" --authorization-id "$POPULATION13_MAIN_AUTHORIZATION_ID" | tee stage/meta/admission.json
+      - name: Authenticate remaining resources before tests or input preparation
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python -m "$MODULE.evidence" admit --out stage/meta/budget.json --authorization-id "$POPULATION13_MAIN_AUTHORIZATION_ID"
+      - name: Run CI-only admission, preparation, runner, analysis and resume tests
+        run: |
+          python -m unittest discover -s studies/knapsack_parameters/iterative_validation_population13_main -t . -p 'test*.py' -v 2>&1 | tee stage/meta/tests.txt
+      - name: Authenticate original tasks and copy the ninety retained banks
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python -m "$MODULE.preparation" --out stage/inputs --authorization-id "$POPULATION13_MAIN_AUTHORIZATION_ID"
+      - name: Plan only missing registered identities
+        id: plan
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          RESUME_RUN_ID: ${{ inputs.resume_run_id }}
+        run: |
+          python -m "$MODULE.dispatch" plan --inputs stage/inputs --out stage/dispatch --resume-run-id "$RESUME_RUN_ID" --authorization-id "$POPULATION13_MAIN_AUTHORIZATION_ID"
+          python -m "$MODULE.evidence" plan --plan stage/dispatch/dispatch.json --receipt stage/meta/budget.json --authorization-id "$POPULATION13_MAIN_AUTHORIZATION_ID"
+      - name: Bound prepared input upload
+        id: input_cap
+        if: ${{ always() && steps.admit.outcome == 'success' }}
+        run: |
+          python -m "$MODULE.evidence" cap --kind inputs --root stage/inputs --authorization-id "$POPULATION13_MAIN_AUTHORIZATION_ID"
+      - name: Bound the combined dispatch and preparation metadata upload
+        id: meta_cap
+        if: ${{ always() && steps.admit.outcome == 'success' }}
+        run: |
+          python - <<'PY'
+          from studies.knapsack_parameters.iterative_validation_population13_main.common import guard_main
+          from studies.knapsack_parameters.iterative_validation_population13_main.evidence import directory_bytes
+          protocol, _ = guard_main()
+          size = directory_bytes("stage/meta") + directory_bytes("stage/dispatch")
+          if size > protocol["limits"]["preparation_metadata_artifact_bytes"]:
+              raise ValueError("Combined preparation metadata exceeds its upload cap")
+          print({"metadata_bytes": size})
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: ${{ always() && steps.input_cap.outcome == 'success' }}
+        with:
+          name: population13-main-inputs-${{ github.run_id }}
+          path: stage/inputs/
+          retention-days: 30
+          compression-level: 6
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: ${{ always() && steps.meta_cap.outcome == 'success' }}
+        with:
+          name: population13-main-dispatch-${{ github.run_id }}
+          path: |
+            stage/dispatch/
+            stage/meta/
+          retention-days: 30
+          compression-level: 6
+          if-no-files-found: error
+
+  cases:
+    needs: prepare
+    if: ${{ needs.prepare.result == 'success' && needs.prepare.outputs.has_cases == 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+    strategy:
+      max-parallel: 4
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: 3.12.14
+      - name: Install immutable dependencies
+        run: |
+          python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r "$LOCK"
+      - name: Admit this registered shard
+        id: admit
+        run: |
+          python -m "$MODULE.common" --authorization-id "$POPULATION13_MAIN_AUTHORIZATION_ID"
+          mkdir -p stage/results
+          python - <<'PY'
+          from pathlib import Path
+          import json, os
+          Path("stage/results/worker_status.json").write_bytes((json.dumps({
+              "status": "WORKER_ADMITTED_BEFORE_SEARCH", "run_id": os.environ["GITHUB_RUN_ID"],
+              "commit": os.environ["GITHUB_SHA"], "search_started_by_admission": False}) + "\n").encode("utf-8"))
+          PY
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: population13-main-inputs-${{ github.run_id }}
+          path: stage/inputs
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: population13-main-dispatch-${{ github.run_id }}
+          path: stage/metadata
+      - name: Restore only this shard's explicitly admitted prior archive
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          SHARD_ID: ${{ matrix.shard_id }}
+        run: |
+          python -m "$MODULE.dispatch" restore --plan stage/metadata/dispatch/dispatch.json --shard-id "$SHARD_ID" --out stage/restored --authorization-id "$POPULATION13_MAIN_AUTHORIZATION_ID"
+      - name: Execute three sequential cases with immediate independent verification
+        env:
+          SHARD_ID: ${{ matrix.shard_id }}
+        run: |
+          python -m "$MODULE.runner" --inputs stage/inputs --shard-id "$SHARD_ID" --out stage/results --retained-root stage/restored --authorization-id "$POPULATION13_MAIN_AUTHORIZATION_ID"
+      - name: Index verified completions even when another case failed
+        id: index
+        if: ${{ always() && steps.admit.outcome == 'success' }}
+        env:
+          SHARD_ID: ${{ matrix.shard_id }}
+        run: |
+          python -m "$MODULE.dispatch" index --raw stage/results --shard-id "$SHARD_ID" --out stage/index --authorization-id "$POPULATION13_MAIN_AUTHORIZATION_ID"
+      - name: Bound the raw evidence upload
+        id: raw_cap
+        if: ${{ always() && steps.admit.outcome == 'success' }}
+        run: |
+          python -m "$MODULE.evidence" cap --kind raw --root stage/results --authorization-id "$POPULATION13_MAIN_AUTHORIZATION_ID"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: ${{ always() && steps.raw_cap.outcome == 'success' }}
+        with:
+          name: population13-main-raw-${{ matrix.shard_id }}-${{ github.run_id }}
+          path: stage/results/
+          retention-days: 30
+          compression-level: 6
+          if-no-files-found: error
+      - name: Bound the completion index upload
+        id: index_cap
+        if: ${{ always() && steps.index.outcome == 'success' }}
+        run: |
+          python -m "$MODULE.evidence" cap --kind index --root stage/index --authorization-id "$POPULATION13_MAIN_AUTHORIZATION_ID"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: ${{ always() && steps.index_cap.outcome == 'success' }}
+        with:
+          name: population13-main-index-${{ matrix.shard_id }}-${{ github.run_id }}
+          path: stage/index/
+          retention-days: 30
+          compression-level: 6
+          if-no-files-found: error
+
+  analyze:
+    needs: [prepare, cases]
+    if: ${{ always() && needs.prepare.result == 'success' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: 3.12.14
+      - name: Install immutable dependencies
+        run: |
+          python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r "$LOCK"
+      - name: Admit descriptive analysis
+        id: admit
+        run: |
+          python -m "$MODULE.common" --authorization-id "$POPULATION13_MAIN_AUTHORIZATION_ID"
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: population13-main-inputs-${{ github.run_id }}
+          path: stage/inputs
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: population13-main-dispatch-${{ github.run_id }}
+          path: stage/metadata
+      - name: Collect authenticated current and retained raw evidence without duplication
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python -m "$MODULE.dispatch" collect --plan stage/metadata/dispatch/dispatch.json --out stage/results --authorization-id "$POPULATION13_MAIN_AUTHORIZATION_ID"
+      - name: Verify all ninety results and build descriptive tables and figures
+        run: |
+          python -m "$MODULE.analysis" --results stage/results --inputs stage/inputs --out stage/analysis --authorization-id "$POPULATION13_MAIN_AUTHORIZATION_ID"
+      - name: Preserve resource and incomplete-analysis status
+        id: final
+        if: ${{ always() && steps.admit.outcome == 'success' }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python -m "$MODULE.evidence" final --root stage/analysis --authorization-id "$POPULATION13_MAIN_AUTHORIZATION_ID"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: ${{ always() && steps.final.outcome == 'success' }}
+        with:
+          name: population13-main-analysis-${{ github.run_id }}
+          path: stage/analysis/
+          retention-days: 30
+          compression-level: 6
+          if-no-files-found: error

@@ -1,0 +1,181 @@
+{
+  "schema": "population13-main-protocol-v1",
+  "registered_date": "2026-11-18",
+  "status": "PREPARED_PENDING_RESOURCE_AND_PUBLICATION_APPROVAL",
+  "research_question": "How does fixed population13 compare with four retained configurations in speed to93percent and final quality?",
+  "interpretation": "post_selection_descriptive_extension_on_known_tasks_not_independent_validation",
+  "configuration": {
+    "mu": 13,
+    "pc_percentage": 90,
+    "mutation_basis_points": 100,
+    "tournament_size": 2,
+    "elite_count": 1
+  },
+  "item_count": 100,
+  "total_evaluations": 100000,
+  "initial_evaluations_in_total": true,
+  "main_runs": 90,
+  "search_evaluations_including_initial": 9000000,
+  "families": [
+    "s050",
+    "s051",
+    "s052",
+    "s053",
+    "s054",
+    "s055",
+    "s056",
+    "s057",
+    "s058",
+    "s059"
+  ],
+  "types": [
+    "UC",
+    "WC",
+    "SC"
+  ],
+  "seeds": [
+    150001,
+    150002,
+    150003
+  ],
+  "preparation_seed": 150000,
+  "bank_rule": "exact_existing_thirty_mask_bank_bytes_prefix13",
+  "bank_generation_allowed": false,
+  "exact_solver_calls_allowed": false,
+  "repair_restart_or_search_cache_allowed": false,
+  "independent_validation": false,
+  "technical_summary": {
+    "path": "studies/knapsack_parameters/iterative_validation_population13/technical_results/summary.json",
+    "bytes": 13288,
+    "sha256": "d689be669d0721c9b9972e5a33db49ecfedd1684eb5516c19bc28954a1425121"
+  },
+  "technical_passed_run_id": 44256243990,
+  "technical_passed_commit": "be5005f593446cdddd04c3196f520256b37f7f7f",
+  "technical_cases_verified": 6,
+  "historical_source": {
+    "path": "studies/knapsack_parameters/iterative_validation/data/validated_records.json.gz",
+    "sha256": "70adbcca7b27e645f8a01b7f8662358d62c347bf02a4edb825996ebf62a1af32",
+    "configurations": 31,
+    "records": 2790
+  },
+  "retained_comparisons": [
+    {
+      "mu": 10,
+      "pc_percentage": 90,
+      "mutation_basis_points": 100
+    },
+    {
+      "mu": 15,
+      "pc_percentage": 90,
+      "mutation_basis_points": 100
+    },
+    {
+      "mu": 15,
+      "pc_percentage": 100,
+      "mutation_basis_points": 100
+    },
+    {
+      "mu": 20,
+      "pc_percentage": 90,
+      "mutation_basis_points": 100
+    }
+  ],
+  "combined_grid_after_verified_runs": {
+    "configurations": 32,
+    "records": 2880
+  },
+  "checkpoints": [
+    5000,
+    10000,
+    20000,
+    50000,
+    100000
+  ],
+  "targets": [
+    93,
+    95,
+    99
+  ],
+  "nonattainment_value": 100000,
+  "aggregation": [
+    "repeats",
+    "tasks",
+    "families"
+  ],
+  "equal_family_weights": true,
+  "effect_direction": "retained_control_minus_population13",
+  "new_significance_tests": false,
+  "bootstrap_samples": 0,
+  "equivalence_claims": false,
+  "historical_selection_overwritten": false,
+  "family_and_leave_one_family_out": "descriptive_influence_diagnostics_only",
+  "figures": {
+    "full_attainment_range": [
+      0,
+      100000
+    ],
+    "fixed_zoom_93_95_range": [
+      0,
+      2500
+    ],
+    "captions_below_figures": true,
+    "separate_targets": true
+  },
+  "execution": {
+    "platform": "GitHub Actions only",
+    "trigger": "workflow_dispatch",
+    "max_parallel": 4,
+    "fail_fast": false,
+    "shards": 30,
+    "cases_per_shard": 3,
+    "single_evolution_loop": true,
+    "automatic_dispatch": false,
+    "next_stage_automatic_start": false,
+    "resume_only_missing_registered_identities": true,
+    "preparation_retries_within_approved_total_ceiling": true,
+    "native_GitHub_job_attempts_above_one_allowed": false
+  },
+  "limits": {
+    "per_case_artifact_bytes": 16777216,
+    "shard_artifact_bytes": 51380224,
+    "index_artifact_bytes": 1048576,
+    "preparation_artifact_bytes": 16777216,
+    "preparation_metadata_artifact_bytes": 4194304,
+    "analysis_artifact_bytes": 50331648,
+    "temporary_extraction_bytes": 2147483648,
+    "shard_seconds": 190,
+    "shard_reserve_seconds": 45
+  },
+  "resources_proposal": {
+    "status": "PENDING_APPROVAL",
+    "runner_minutes": 150,
+    "artifact_bytes": 2147483648,
+    "measured_forecast": {
+      "artifact_multiplier": 1.5,
+      "artifact_setup_analysis_allowance_bytes": 134217728,
+      "largest_measured_case_bytes_before_receipt": 8399085,
+      "limitations": "Three pilot instances do not establish timing for every instance; measured case timers exclude runner setup and final receipt writing, covered by explicit reserves. No main-series permission is inferred.",
+      "main_runs": 90,
+      "proposed_artifact_bytes": 1268094203,
+      "proposed_runner_minutes": 121,
+      "runner_setup_analysis_allowance_minutes": 10,
+      "runtime_multiplier": 2.0,
+      "slowest_measured_case_seconds": 36.717021495,
+      "status": "PROJECTION_REQUIRING_SEPARATE_APPROVAL",
+      "total_evaluations_including_initial": 9000000
+    },
+    "maximum_job_timeout_sum_minutes": 135,
+    "setup_and_rounding_reserve_minutes": 15,
+    "preparation_timeout_minutes": 5,
+    "shard_timeout_minutes": 4,
+    "analysis_timeout_minutes": 10,
+    "maximum_saved_artifact_bound_mib": 1568,
+    "historical_budgets_inherited": false
+  },
+  "fixed_environment": {
+    "python": "3.12.14",
+    "numpy": "2.2.6",
+    "matplotlib": "3.10.3"
+  },
+  "publication_contract": "Read exact bytes, never universal-newline text; compare all published Git blob identities, then exact manifest/authorization bytes and SHA256 bindings before dispatch."
+}
