@@ -1,0 +1,126 @@
+{
+  "schema": "independent-validation100-protocol-v1",
+  "registered": "2026-11-22",
+  "initial_audit": 42876556319,
+  "prior_study": 44905742087,
+  "task_count": 30,
+  "families": [
+    "s060",
+    "s061",
+    "s062",
+    "s063",
+    "s064",
+    "s065",
+    "s066",
+    "s067",
+    "s068",
+    "s069"
+  ],
+  "classes": [
+    "UC",
+    "WC",
+    "SC"
+  ],
+  "first_task_index": 33,
+  "last_task_index": 62,
+  "configurations": [
+    [
+      15,
+      100,
+      100
+    ],
+    [
+      10,
+      90,
+      100
+    ],
+    [
+      20,
+      90,
+      100
+    ],
+    [
+      15,
+      90,
+      100
+    ]
+  ],
+  "search_seeds": [
+    160001,
+    160002,
+    160003,
+    160004,
+    160005,
+    160006,
+    160007,
+    160008,
+    160009,
+    160010
+  ],
+  "preparation_seed": 160000,
+  "statistics_seed": 160031,
+  "bank_size": 30,
+  "mu_prefix": true,
+  "selection_size": 2,
+  "with_replacement": true,
+  "elite": 1,
+  "n": 100,
+  "mutation_probability": 0.01,
+  "inheritance": 0.5,
+  "total_including_initial": 100000,
+  "physical_runs": 1200,
+  "targets": [
+    93,
+    95,
+    99
+  ],
+  "primary": {
+    "quality": [
+      15,
+      100,
+      100
+    ],
+    "speed": [
+      10,
+      90,
+      100
+    ],
+    "controls": [
+      [
+        15,
+        100,
+        100
+      ],
+      [
+        10,
+        90,
+        100
+      ],
+      [
+        20,
+        90,
+        100
+      ]
+    ],
+    "direction": "control_minus_candidate",
+    "identical_contrasts": 2,
+    "bca_draws": 50000,
+    "confidence": [
+      119,
+      120
+    ],
+    "require_two_positive_lower_bounds_for_quality_base": true
+  },
+  "secondary": "paired T93(15/90/1) minus T93(10/90/1); descriptive, no equivalence margin",
+  "limits": {
+    "runner_minutes": 1600,
+    "artifact_bytes": 21474836480,
+    "parallel": 4,
+    "prepare_minutes": 15,
+    "worker_minutes": 7,
+    "analysis_minutes": 25,
+    "shards": 200,
+    "cases_per_shard": 6,
+    "benchmark_cases": 4
+  }
+}

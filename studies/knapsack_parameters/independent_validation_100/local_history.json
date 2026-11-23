@@ -1,0 +1,18 @@
+{
+  "status": "ELIGIBLE_WITHIN_PROJECT_EVIDENCE",
+  "scope": "Project study identities and inspected subsequent Actions metadata; no claim about external or unrecorded executions.",
+  "original_input_audit": 42876556319,
+  "counts": {
+    "all_dates_member_or_result_names": 33732,
+    "recent_container_or_data_files": 403,
+    "archive_containers": 130,
+    "archive_members": 11599,
+    "result_metadata_files_read": 5705,
+    "detailed_streams_classified_by_path": 134
+  },
+  "workflow_count": 30,
+  "candidate_input_and_certificate_entries": 180,
+  "unclassified_result_hits": 0,
+  "additional_searched_problem_keys": [],
+  "detailed_local_review_sha256": "be6f8be16bd86fb2beb3db23ebc45cebfa5e2a99eb9f7fd52735ed4204e38b3b"
+}

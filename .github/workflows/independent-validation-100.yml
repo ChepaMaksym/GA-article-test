@@ -1,0 +1,170 @@
+name: Independent validation on 100-item tasks
+on:
+  workflow_dispatch:
+    inputs:
+      authorization_id:
+        required: true
+        type: string
+      resume_run_id:
+        required: false
+        type: string
+        default: ''
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: independent-validation-100
+  cancel-in-progress: false
+env:
+  M: studies.knapsack_parameters.independent_validation_100
+  GITHUB_TOKEN: ${{ github.token }}
+  IV_AUTH: ${{ inputs.authorization_id }}
+  RESUME: ${{ inputs.resume_run_id }}
+  PYTHONDONTWRITEBYTECODE: '1'
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  MPLBACKEND: Agg
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    outputs:
+      prior: ${{ steps.enroll.outputs.prior }}
+      matrix: ${{ steps.plan.outputs.matrix }}
+      has_cases: ${{ steps.plan.outputs.has_cases }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - name: Install frozen environment
+        run: |
+          python -m pip install --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+      - id: enroll
+        run: python -m "$M.common" --resume-run-id "$RESUME"
+      - name: Test admission, pairing, endpoints, statistics and recovery
+        run: python -m unittest discover -s studies/knapsack_parameters/independent_validation_100 -t . -p 'test_*.py' -v
+      - name: Audit subsequent search history
+        run: python -m "$M.history" --out stage/history.json
+      - name: Authenticate certified tasks and prepare paired banks
+        run: python -m "$M.preparation" --audit stage/history.json --out stage/inputs
+      - name: Reproduce four historical cases and measure costs
+        run: python -m "$M.benchmark" --out stage/benchmark
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: ${{ always() }}
+        with:
+          name: iv100-benchmark-${{ github.run_id }}
+          path: stage/benchmark
+          if-no-files-found: warn
+          retention-days: 30
+      - id: plan
+        run: python -m "$M.continuation" plan --inputs stage/inputs --benchmark stage/benchmark/benchmark.json --out stage/plan.json --resume-run-id "$RESUME"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: iv100-inputs-${{ github.run_id }}
+          path: stage/inputs
+          if-no-files-found: error
+          retention-days: 30
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: iv100-plan-${{ github.run_id }}
+          path: stage/plan.json
+          if-no-files-found: error
+          retention-days: 30
+  cases:
+    needs: prepare
+    if: ${{ needs.prepare.outputs.has_cases == 'true' }}
+    strategy:
+      max-parallel: 4
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    env:
+      IV_PRIOR_RUN_IDS: ${{ needs.prepare.outputs.prior }}
+      SHARD: ${{ matrix.shard }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - name: Install frozen environment
+        run: |
+          python -m pip install --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: iv100-inputs-${{ github.run_id }}
+          path: stage/inputs
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: iv100-plan-${{ github.run_id }}
+          path: stage
+      - id: retained
+        run: python -m "$M.continuation" restore --plan stage/plan.json --shard "$SHARD" --out stage/retained
+      - name: Execute independently verified cases
+        env:
+          OLD_RUN: ${{ steps.retained.outputs.run_id }}
+          OLD_SHA: ${{ steps.retained.outputs.commit }}
+        run: |
+          args=()
+          if [[ -n "$OLD_RUN" ]]; then args+=(--retained stage/retained --retained-run-id "$OLD_RUN" --retained-commit "$OLD_SHA"); fi
+          python -m "$M.runner" --inputs stage/inputs --shard "$SHARD" --raw stage/raw --compact stage/compact "${args[@]}"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: ${{ always() }}
+        with:
+          name: iv100-raw-${{ matrix.shard }}-${{ github.run_id }}
+          path: stage/raw
+          if-no-files-found: warn
+          retention-days: 30
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: ${{ always() }}
+        with:
+          name: iv100-compact-${{ matrix.shard }}-${{ github.run_id }}
+          path: stage/compact
+          if-no-files-found: warn
+          retention-days: 30
+  analyze:
+    needs: [prepare,cases]
+    if: ${{ always() && needs.prepare.result == 'success' && (needs.cases.result == 'success' || needs.cases.result == 'skipped') }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      IV_PRIOR_RUN_IDS: ${{ needs.prepare.outputs.prior }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - name: Install frozen environment
+        run: |
+          python -m pip install --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: iv100-inputs-${{ github.run_id }}
+          path: stage/inputs
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: iv100-plan-${{ github.run_id }}
+          path: stage
+      - name: Collect authenticated case receipts
+        run: python -m "$M.continuation" collect --plan stage/plan.json --out stage/compact
+      - name: Install document renderers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends pandoc libreoffice-writer poppler-utils
+      - name: Compare registered endpoints and render the report
+        run: python -m "$M.analysis" --compacts stage/compact --inputs stage/inputs --out stage/report --authorization-id "$IV_AUTH"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: ${{ always() }}
+        with:
+          name: iv100-results-${{ github.run_id }}
+          path: stage/report
+          if-no-files-found: warn
+          retention-days: 30

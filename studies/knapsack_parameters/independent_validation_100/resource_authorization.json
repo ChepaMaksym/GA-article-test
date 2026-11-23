@@ -1,0 +1,13 @@
+{
+  "status": "AUTHORIZED",
+  "authorization_id": "independent-100-1200-20261122",
+  "fresh_approval": true,
+  "public_release_approved": true,
+  "repository": "ChepaMaksym/GA-article-test",
+  "ref": "refs/heads/research/independent-validation-100",
+  "runner_minutes": 1600,
+  "artifact_bytes": 21474836480,
+  "source_manifest_sha256": "dd5faf4a255be7ab3bb0c754a9a265b4893665861a0e5b3e431a98123fe555d9",
+  "charged_prior_run_ids": [],
+  "scope": "Implement the user's four-profile validation plan. Main search is conditional on measured admission."
+}
