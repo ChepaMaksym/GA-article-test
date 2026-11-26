@@ -1,0 +1,20 @@
+{
+  "pilot_run": 45897824930,
+  "pilot_commit": "6714aec02ba65defa6a55f1075ce0130196219ed",
+  "cases": 3780,
+  "parallel_limit": 4,
+  "shards": 180,
+  "timeout_per_shard_minutes": 18,
+  "raw_retention_days": 2,
+  "compact_retention_days": 30,
+  "frozen_files": {
+    "registered.json": "8bd29b022826143ef8facc3eb37d078089ee2c3b4575091df930e61ad9802db9",
+    "engine.py": "8269188d1c27c5d3c8902053b010365a6f7cd76c4baeb9368d705af164f649a9",
+    "verification.py": "33cc5224395484a99eb436b12de08cb8c50728a567985bb1de183b60ba7c4388",
+    "design.py": "2cbc08c867ad2bd5c70f96131f970d2f727bda9f26cecdd82d2643f4637e0bd2",
+    "study.py": "51bf1dced97f42075bf080f7ddc3d300cfbc3d4b830178ac51429b4824cd9d24",
+    "analysis.py": "cee2837d9ac47a8816b2503f0cf0db5edf2ea16534a7140247af64f1c4722577",
+    "PROTOCOL_UK.md": "4f6fcd143c8a0fd751b6c9f410487d911613735af50f5e6e6c2903afee457d8c",
+    "test_pilot.py": "ae6a11ba9a05e72518b50483b9aa876eb9e8b80f3692b214d6b3863035b94710"
+  }
+}
