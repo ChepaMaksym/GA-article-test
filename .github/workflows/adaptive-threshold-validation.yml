@@ -32,7 +32,8 @@ jobs:
         with:
           python-version: '3.12.14'
       - name: Install frozen dependencies
-        run: python -m pip install --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+        run: |
+          python -m pip install --require-hashes --only-binary=:all: -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
       - name: Verify registration and run compatibility checks
         run: |
           python -m "$STUDY.study" freeze > registered.json
