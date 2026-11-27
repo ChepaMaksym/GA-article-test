@@ -1,0 +1,7 @@
+{
+  "screening_run": 45899446917,
+  "followup_run": 45947756159,
+  "required_followup_artifact": "followup-report",
+  "followup_cases": 1710,
+  "operation": "freeze_roles_and_certify_holdout_inputs"
+}
