@@ -1,0 +1,15 @@
+{
+  "audit_sha256": "e572869455d26136d282e28ba8d63d11dcc7e4bcf0a1de1197d18d2838d7f59f",
+  "recipient_runs": 4200,
+  "donor_runs": 1200,
+  "blocks": 150,
+  "max_parallel": 4,
+  "forecast_runner_minutes": 2179,
+  "forecast_raw_GiB": 45.57,
+  "preparation_seed": 196000,
+  "search_seeds": [
+    196001,
+    196010
+  ],
+  "statistics_seed": 196031
+}
