@@ -33,7 +33,7 @@ def inventory():
     require(len(physical)==14,"Role inventory differs")
     return roles,physical
 
-def run_case(task,seed,config_id,bank,problem,optimum,physical,*,donor=False,schedule=None):
+def run_case(task,seed,config_id,bank,problem,optimum,physical,*,donor=False,schedule=None,parcels=None):
     item=json.loads(config_id)
     cfg=item[1:] if item[0]=="donor" else item
     idx=physical.index(config_id)
@@ -54,7 +54,18 @@ def run_case(task,seed,config_id,bank,problem,optimum,physical,*,donor=False,sch
             require(sha256(raw).hexdigest()==row["schedule_sha256"],"Restored donor changed")
             schedule=json.loads(raw)
     else:
-        log,checked=evaluate(problem,bank,cfg,stream_group=int(donor),schedule=schedule)
+        cargo={}
+        if parcels is None:
+            log,checked=evaluate(problem,bank,cfg,stream_group=int(donor),schedule=schedule)
+        else:
+            from time import perf_counter_ns
+            from .parcel_final import load_cargo
+            def returned(mask):
+                cargo.update(load_cargo(parcels,mask))
+                cargo["solution_ns"]=perf_counter_ns()-start
+            start=perf_counter_ns()
+            log,checked=evaluate(problem,bank,cfg,stream_group=int(donor),schedule=schedule,on_solution=returned)
+            require(cargo["points"]==checked["record_profit"]<=optimum,"Cargo record mismatch")
         if donor:
             schedule=[g["parameters_before"] for g in log["generations"]]
         raw=key(schedule).encode()
@@ -66,6 +77,7 @@ def run_case(task,seed,config_id,bank,problem,optimum,physical,*,donor=False,sch
                  best=checked["record_profit"],hits=thresholds(log,optimum),donor_source=donor,
                  schedule_sha256=sha256(raw).hexdigest() if schedule is not None else None,
                  commit=os.environ["GITHUB_SHA"],sha256=sha256((dest/"log.json.gz").read_bytes()).hexdigest())
+        row.update(cargo)
         (dest/"receipt.json").write_text(json.dumps(row),encoding="utf8")
     if schedule is not None:
         require(sha256(key(schedule).encode()).hexdigest()==row["schedule_sha256"],"Recipient schedule differs")

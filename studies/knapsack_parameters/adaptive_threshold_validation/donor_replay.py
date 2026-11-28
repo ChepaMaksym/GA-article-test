@@ -6,7 +6,7 @@ from . import design, engine, verification
 from .study import require
 
 
-def evaluate(problem, bank, config, *, stream_group=0, schedule=None, total=design.TOTAL):
+def evaluate(problem, bank, config, *, stream_group=0, schedule=None, total=design.TOTAL, on_solution=None):
     pc, role, mu, k, elites, threshold, dynamic = config
     require(role in ("A4","A5","fixed"), "Unexpected finalist mechanism")
     initial = dict(target_mu=mu,p_c=pc/100,p_m=.01,tournament_size=k,elite_count=elites)
@@ -20,6 +20,8 @@ def evaluate(problem, bank, config, *, stream_group=0, schedule=None, total=desi
     args = dict(initial=initial,threshold=threshold,dynamic_h=dynamic,schedule=schedule)
     log = engine.run_search(problem,bank["masks"][:mu],bank["scores"][:mu],
                             design.BITS.get(role,0),streams,total-mu,**args)
+    if on_solution is not None:
+        on_solution(log["summary"]["best_mask"])
     checked = verification.verify_log(log,**args)
     require(checked["verification_status"]=="VERIFIED" and checked["new_calls"]+mu==total,
             "Incomplete replay")

@@ -1,0 +1,14 @@
+{
+  "completed_independent_run": 46023771761,
+  "frozen_roles_run": 45966006101,
+  "manifest_generator": "parcel_transfer.study.manifest",
+  "trip_ids_inclusive": [7, 36],
+  "search_seeds_inclusive": [197001, 197010],
+  "preparation_seed": 197000,
+  "recipient_runs": 4500,
+  "donor_runs": 1200,
+  "timed_exact_runs": 300,
+  "timing": "Sequential same-worker elapsed time from available problem and shared initial bank through return of selected cargo IDs, mass and points. GA includes instrumented search; excludes independent replay, serialization and common input preparation. Exact DP includes reconstruction and cargo return. Donor time reported separately.",
+  "primary_family": "20 registered roles, 50000 paired manifest resamples, confidence 0.9975",
+  "max_parallel": 4
+}
