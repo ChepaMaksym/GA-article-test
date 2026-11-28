@@ -1,0 +1,143 @@
+name: Resume parcel comparison with 16 workers
+on:
+  push:
+    branches: [research/adaptive-threshold-validation]
+    paths: [.github/workflows/adaptive-threshold-parcels-16.yml]
+permissions:
+  actions: read
+  contents: read
+env:
+  STUDY: studies.knapsack_parameters.adaptive_threshold_validation
+  OPENBLAS_NUM_THREADS: '1'
+  OMP_NUM_THREADS: '1'
+jobs:
+  admit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      blocks: ${{ steps.admit.outputs.blocks }}
+    steps:
+      - id: admit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json,os,re,time
+          from urllib.request import Request,urlopen
+          api='https://api.github.com/repos/ChepaMaksym/GA-article-test/actions/runs/46130902548'
+          def get(s=''):
+              with urlopen(Request(api+s,headers={'Authorization':'Bearer '+os.environ['GH_TOKEN']}),timeout=30) as r:
+                  return json.load(r)
+          for _ in range(100):
+              prior=get()
+              if prior['head_sha']!='6e6b2ee253760840585765ae1dda19a89df066cb': raise ValueError('Wrong source revision')
+              if prior['status']=='completed':break
+              time.sleep(5)
+          if prior['status']!='completed': raise ValueError('Original run still active')
+          jobs=get('/jobs?per_page=100')['jobs']+get('/jobs?per_page=100&page=2')['jobs']
+          done={int(m[1]) for j in jobs if (m:=re.fullmatch(r'paired \((\d+)\)',j['name'])) and j['conclusion']=='success'}
+          left=sorted(set(range(150))-done)
+          print('Completed blocks retained:',len(done),'remaining:',len(left))
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f: print('blocks='+json.dumps(left),file=f)
+          PY
+  paired:
+    needs: admit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      max-parallel: 16
+      matrix:
+        block: ${{ fromJSON(needs.admit.outputs.blocks) }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 6e6b2ee253760840585765ae1dda19a89df066cb
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - run: python -m pip install --require-hashes -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          github-token: ${{ github.token }}
+          run-id: 45966006101
+          name: frozen-finalists
+          path: roles
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          github-token: ${{ github.token }}
+          run-id: 46130902548
+          name: manifests
+          path: manifests
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          github-token: ${{ github.token }}
+          run-id: 46130902548
+          pattern: parcel-raw-${{ matrix.block }}-*
+          path: restored/original
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        if: github.run_attempt != '1'
+        with:
+          pattern: parcel-raw-${{ matrix.block }}-*
+          path: restored
+      - run: env GITHUB_SHA="$(git rev-parse HEAD)" python -m "$STUDY.parcel_final" run --shard ${{ matrix.block }}
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: parcel-raw-${{ matrix.block }}-${{ github.run_attempt }}
+          path: raw/
+          compression-level: 0
+          retention-days: 2
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: parcel-summary-${{ matrix.block }}
+          path: compact/
+          overwrite: true
+  compare:
+    needs: paired
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 6e6b2ee253760840585765ae1dda19a89df066cb
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.14'
+      - run: python -m pip install --require-hashes -r studies/knapsack_parameters/ga_study/dependencies/requirements.lock
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          github-token: ${{ github.token }}
+          run-id: 45966006101
+          name: frozen-finalists
+          path: roles
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          pattern: parcel-summary-*
+          path: collected
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          github-token: ${{ github.token }}
+          run-id: 46130902548
+          pattern: parcel-summary-*
+          path: original
+      - name: Bring forward complete original blocks
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import shutil
+          for folder in Path('original').glob('parcel-summary-*'):
+              target = Path('collected')/folder.name
+              if not target.exists():
+                  if len(list(folder.glob('*.json'))) != 40:
+                      raise ValueError('Incomplete original block '+folder.name)
+                  shutil.copytree(folder,target)
+          PY
+      - run: env GITHUB_SHA="$(git rev-parse HEAD)" python -m "$STUDY.parcel_final" summarize
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: parcel-confirmatory-report
+          path: |
+            parcel-comparisons.json
+            cargo-summary.csv
+            collected/
